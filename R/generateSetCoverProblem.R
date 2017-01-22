@@ -264,19 +264,6 @@ clean_up (timepoints_df, cur_timepoint_num, parameters, emulatingTzar,
 
 }
 
-gen_set_cover_problem (parameters)
-
-    #  If you were echoing console output to a temp file,
-    #  stop echoing and close the temp file.
-    #  That echoing is currently initiated by a sink() call in
-    #  external_startup_code.R (Dec 14, 2016).
-
-if (echoConsoleToTempFile)
-    {
-    sink ()
-    close (tempConsoleOutFile)
-    }
-
 #===============================================================================
 
 
