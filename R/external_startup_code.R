@@ -30,7 +30,6 @@
 source (paste0 (sourceCodeLocationWithSlash, "BDProb.R"))
 
 source (paste0 (sourceCodeLocationWithSlash, "biodivprobgen_utilities.R"))
-source (paste0 (sourceCodeLocationWithSlash, "biodivprobgen_initialization.R"))
 source (paste0 (sourceCodeLocationWithSlash, "gen_bdprob.R"))
 source (paste0 (sourceCodeLocationWithSlash, "add_error_to_spp_occupancy_data.R"))
 source (paste0 (sourceCodeLocationWithSlash, "testing_bdpg_functions.R"))
