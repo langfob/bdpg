@@ -34,19 +34,19 @@ options (warn=2)
 #  tell what still needs doing to be able to finish conversion for a library.
 #===============================================================================
 
-library (plyr)    #  For count() and arrange()
-library (marxan)
+#####library (plyr)    #  For count() and arrange()
+#####library (marxan)
 
-library (methods)    #  bipartite needs this if run before igraph under RScript
-cat ("\n\nAbout to load bipartite library.")
-library (bipartite)
+#####library (methods)    #  bipartite needs this if run before igraph under RScript
+#####cat ("\n\nAbout to load bipartite library.")
+#####library (bipartite)
 
-library (assertthat)    #  For unit testing.
-library (stringr)   #  For str_replace_all.
+#####library (assertthat)    #  For unit testing.
+#####library (stringr)   #  For str_replace_all.
 
-library (igraph)
+#####library (igraph)
 
-library (marxan)    #  Need to rename this library (i.e., my marxan library) to allow use of UQ library that has same name.
+#####library (marxan)    #  Need to rename this library (i.e., my marxan library) to allow use of UQ library that has same name.
 
 #===============================================================================
 
