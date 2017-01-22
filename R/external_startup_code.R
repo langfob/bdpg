@@ -1,30 +1,7 @@
 #===============================================================================
+#
 #                       external_startup_code.R
-#===============================================================================
 #
-#  This file contains all of the startup code that will not be part of
-#  running things as a package.  In particular, it includes:
-#
-#   - some global variables for debugging
-#   - code for controlling printing of timepoints
-#   - code related to using tzar and tzar emulation
-#
-#===============================================================================
-#          Global variables not to be included in package.
-#===============================================================================
-
-cat ("\n\nSTARTING generateSetCoverProblem.R at ", date(), "\n\n")
-
-#===============================================================================
-
-    #  debugging level: 0 means don't output debugging write statements.
-    #  Having this as an integer instead of binary so that I can have
-    #  multiple levels of detail if I want to.
-DEBUG_LEVEL = 0
-
-    #  Turn all R warnings into errors.
-options (warn=2)
-
 #===============================================================================
 #                       Load function definitions.
 #===============================================================================
