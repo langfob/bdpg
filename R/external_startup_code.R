@@ -27,9 +27,6 @@
 
 #===============================================================================
 
-source (paste0 (sourceCodeLocationWithSlash, "gscp_16_clean_up_run.R"))
-source (paste0 (sourceCodeLocationWithSlash, "timepoints.R"))
-
 source (paste0 (sourceCodeLocationWithSlash, "BDProb.R"))
 
 source (paste0 (sourceCodeLocationWithSlash, "biodivprobgen_utilities.R"))
@@ -66,48 +63,8 @@ source (paste0 (sourceCodeLocationWithSlash, "gen_lognormal_overlay.R"))
     #  into testing conventions.
 #===============================================================================
 
-    #--------------------------------------------------------------------
-    #  Set up to record timepoints during the run.
-    #
-    #  NOTE:  This has to come AFTER tzar emulation or other method of
-    #         creation of parameters variable since it uses parameters.
-    #--------------------------------------------------------------------
-
-        #  This variable could be specified somewhere else as well, e.g.,
-        #  in the tzar parameters file.
-timepoints_df_default_length = 20
-
 run_ID = parameters$run_id
 runset_name = parameters$runset_name
-
-timepoints_df =
-    data.frame (timepoint_num = 1:timepoints_df_default_length,
-                timepoint_name = rep (NA, timepoints_df_default_length),
-                prev_chunk_elapsed_user = rep (NA, timepoints_df_default_length),
-                tot_elapsed_user = rep (NA, timepoints_df_default_length),
-                prev_chunk_elapsed_system = rep (NA, timepoints_df_default_length),
-                tot_elapsed_system = rep (NA, timepoints_df_default_length),
-                cur_time_user = rep (NA, timepoints_df_default_length),
-                cur_time_system = rep (NA, timepoints_df_default_length),
-                cur_time_wall_clock = rep (NA, timepoints_df_default_length),
-                run_ID = run_ID,
-                runset_name = runset_name
-                )
-
-    #  First time, intialization.
-    #  NOTE that these two values are updated all over the place using the
-    #  global assignment operator "<<-" in the call to timepoint().
-    #  The timepoints dataframe is updated by returning it from the
-    #  timepoint() call.
-    #  *** However, does that still work when it's called inside of a function?
-    #  If it's not returned from the function, then I don't think it will get
-    #  updated.
-cur_timepoint_num = 0
-prev_time = start_time = proc.time()
-
-    #  Each time...
-
-timepoints_df = timepoint (timepoints_df, "start", "Run start...")
 
 #===============================================================================
 
