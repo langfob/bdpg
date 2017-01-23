@@ -1,5 +1,3 @@
-library (uuid)    #  For UUIDgenerate.
-
 #===============================================================================
 #       Generate a problem, i.e, create the Xu graph nodes and edge_list.
 #===============================================================================
@@ -292,7 +290,7 @@ gen_single_bdprob = function (read_Xu_problem_from_Xu_file,
         #  confusing.
         #---------------------------------------------------------------
 
-    Xu_bdprob@UUID = UUIDgenerate()
+    Xu_bdprob@UUID = uuid::UUIDgenerate()
 
     Xu_bdprob@prob_is_ok = TRUE
     Xu_bdprob@bpm = bpm
@@ -890,7 +888,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
           #  were combined or used as a base when provenance might get
           #  confusing.
 
-      UUID = UUIDgenerate()    #  ***  Need to generate this for Xu too in another routine.  ***  #
+      UUID = uuid::UUIDgenerate()    #  ***  Need to generate this for Xu too in another routine.  ***  #
 
       #---------------------------------------------------------------------------
 
