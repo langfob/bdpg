@@ -11,8 +11,6 @@
 #'
 #' FUNCTION_DESCRIPTION
 #'
-#' @param  DESCRIPTION.
-#'
 #' @return RETURN_DESCRIPTION
 #' @examples
 #' # ADD_EXAMPLES_HERE

@@ -6,9 +6,6 @@
 \usage{
 do_sanity_checks()
 }
-\arguments{
-\item{DESCRIPTION.}{}
-}
 \value{
 RETURN_DESCRIPTION
 }
