@@ -22,6 +22,15 @@
     #  it generates have been provided by replacing this call with calls
     #  to the new functions.
 
+#' Title
+#'
+#' @param parameters list of parameters (normally read from project.yaml)
+#'
+#' @return derived_bdpg_parameters
+#' @export
+#'
+#' @examples
+
 initialize_and_derive_parameters = function (parameters)
     {
         #  Structure to hold values that used to be global variables

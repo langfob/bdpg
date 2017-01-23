@@ -486,16 +486,16 @@ EF = function (seed_value,
 #'          the target value (target_max_abundance_ct), but never exceed
 #'          the given max value (max_max_abundance).
 #'
-#' @param seed_value
-#' @param num_spp_to_generate
-#' @param min_num_spp_on_2_PUs
-#' @param max_max_abundance
-#' @param target_max_abundance_ct
-#' @param initial_meanlog
-#' @param initial_sdlog
-#' @param max_iterations
-#' @param add_one_to_abundances
-#' @param outfile
+#' @param seed_value random seed to pass to optim function
+#' @param num_spp_to_generate number of species to generate in distribution
+#' @param min_num_spp_on_2_PUs minimum number of species that occur on exactly 2 patches in distribution
+#' @param max_max_abundance largest maximum abundance allowed in distribution
+#' @param target_max_abundance_ct desired maximum abundance in distribution
+#' @param initial_meanlog initial value of lognormal's meanlog in search for distribution
+#' @param initial_sdlog initial value of lognormal's sdlog in search for distribution
+#' @param max_iterations maximum number of iterations allowed for search
+#' @param add_one_to_abundances boolean flag to indicate whether to add 1 to all abundances
+#' @param outfile output file
 #'
 #' @return
 #'  The function returns the best lognormal found in the given maximum number
