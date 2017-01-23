@@ -27,8 +27,6 @@
 #'
 #' @return returns nothing
 #'
-#' @export
-#'
 #' @examples \dontrun{
 #' old_gen_set_cover_problem (parameters)
 #'}
