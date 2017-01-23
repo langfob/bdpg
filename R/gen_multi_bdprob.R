@@ -142,7 +142,7 @@ remove_base_spp_abundances_from_wrapping_distribution <-
                             }
 
         #  Count the number of occurrences of each species in the base problem.
-    base_abund_by_spp = count (Xu_PU_spp_table [,spp_col_name])
+    base_abund_by_spp = plyr::count (Xu_PU_spp_table [,spp_col_name])
                         if (verbose_remove_base)
                             {
                             cat ("\n\n    base_abund_by_spp = \n")
@@ -151,7 +151,7 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 
         #  Count how many times each number of occurrences appears in that set
         #  (e.g., how many species occur on 2 patches, on 3 patches, etc.).
-    base_abund_hist         = count (base_abund_by_spp [,"freq"])
+    base_abund_hist         = plyr::count (base_abund_by_spp [,"freq"])
                         if (verbose_remove_base)
                             {
                             cat ("\n\n    base_abund_hist = \n")
@@ -163,7 +163,7 @@ remove_base_spp_abundances_from_wrapping_distribution <-
         #  species in the wrapping distribution, but unlike the base problem
         #  abundances, no species ID has been assigned yet to these wrapping
         #  counts.
-    wrapping_abund_hist     = count (trimmed_rounded_abund_per_spp)
+    wrapping_abund_hist     = plyr::count (trimmed_rounded_abund_per_spp)
                         if (verbose_remove_base)
                             {
                             cat ("\n\n    wrapping_abund_hist = \n")
