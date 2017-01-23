@@ -11,6 +11,7 @@
 #' @param integerize DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
+#' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
 gen_bdprob  = function (parameters, bdpg_error_codes, integerize)

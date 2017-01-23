@@ -427,6 +427,7 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 #' @param tot_num_PUs_in_landscape DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
+#' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
 wrap_abundance_dist_around_Xu_problem = function (rounded_abundances,
@@ -647,6 +648,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 #' @param integerize DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
+#' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
 combine_2_bdprobs = function (bdprob_1, bdprob_2,
@@ -679,6 +681,7 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
 #' @param integerize DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
+#' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
 gen_multi_bdprob = function (wrap_lognormal_dist_around_Xu, read_Xu_problem_from_Xu_file, infile_name, given_correct_solution_cost, max_allowed_num_spp, bdpg_error_codes, integerize)  #parameters, bdpg_error_codes, integerize)

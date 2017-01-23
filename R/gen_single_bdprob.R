@@ -12,6 +12,7 @@
 #' @param given_correct_solution_cost DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
+#' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
 read_Xu_problem_from_Xu_file <- function (infile_name, given_correct_solution_cost)
@@ -65,6 +66,7 @@ read_Xu_problem_from_Xu_file <- function (infile_name, given_correct_solution_co
 #' @param DEBUG_LEVEL DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
+#' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
 create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
@@ -206,6 +208,7 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' @param integerize DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
+#' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
 gen_single_bdprob = function (read_Xu_problem_from_Xu_file,
