@@ -115,9 +115,10 @@ get_current_os <- function ()
 
 #===============================================================================
 
-get_integerize_function <- function (parameters)
+get_integerize_function <- function (integerize_string)
     {
-    switch (parameters$integerize_string,
+#    switch (parameters$integerize_string,
+    switch (integerize_string,
             round=round,
             ceiling=ceiling,
             floor=floor,
