@@ -8,41 +8,41 @@
 
 #-------------------------------------------------------------------------------
 
-write_network_to_marxan_files = 
+write_network_to_marxan_files =
         function (PU_spp_pair_indices,
     PU_IDs, #####!!!!!#####
     spp_IDs,  #####!!!!!#####
-                  PU_col_name, 
-                  spp_col_name, 
-                  parameters, 
-#                  num_spp, 
-#                  PU_IDs, 
-#                  spp_IDs, 
-                  marxan_input_dir, 
+                  PU_col_name,
+                  spp_col_name,
+                  parameters,
+#                  num_spp,
+#                  PU_IDs,
+#                  spp_IDs,
+                  marxan_input_dir,
                   marxan_output_dir
-                  ) 
+                  )
     {
-    
+
     cat ("\n\n--------------------  Writing out the data as Marxan input files.\n")
-    
+
     sppAmount = 1
-    
+
     #  Wasn't this value (num_PU_spp_pairs) already set earlier?
     #  Is this measuring the same thing and therefore, should not be reset here?
-    
+
     num_PU_spp_pairs = length (PU_spp_pair_indices [,PU_col_name])
-    
+
 #####!!!!!#####    PU_IDs = unique (PU_spp_pair_indices [,PU_col_name])
     num_PUs = length (PU_IDs)
-    
+
 #####!!!!!#####    spp_IDs = unique (PU_spp_pair_indices [,spp_col_name])
     num_spp = length (spp_IDs)
-    
+
     spp_PU_amount_table =
         data.frame (species = PU_spp_pair_indices [,spp_col_name],
                     pu      = PU_spp_pair_indices [,PU_col_name],
                     amount  = rep (sppAmount, num_PU_spp_pairs))
-    
+
     #----------------------------------------------------------------------
     #  Sort the table in ascending order by species within planning unit.
     #  Taken from Wickham comment in:
@@ -50,27 +50,27 @@ write_network_to_marxan_files =
     #
     #  BTL - 2014 11 28
     #
-    #  Note that Marxan doesn't work correctly if the table is not sorted 
-    #  by planning unit ID (e.g., it can't find satisfying solutions).  
-    #  Ascelin said that the Marxan manual shows a picture of the values 
+    #  Note that Marxan doesn't work correctly if the table is not sorted
+    #  by planning unit ID (e.g., it can't find satisfying solutions).
+    #  Ascelin said that the Marxan manual shows a picture of the values
     #  sorted incorrectly, i.e., by species.
     #
-    #  I should probably move this arrange() call into the code that 
-    #  writes the table as a Marxan input file.  That would make sure 
-    #  that no one can write the table out incorrectly if they use that 
+    #  I should probably move this arrange() call into the code that
+    #  writes the table as a Marxan input file.  That would make sure
+    #  that no one can write the table out incorrectly if they use that
     #  call.
     #----------------------------------------------------------------------
 
-    spp_PU_amount_table = arrange (spp_PU_amount_table, pu, species)
-    
+    spp_PU_amount_table = plyr::arrange (spp_PU_amount_table, pu, species)
+
     #-------------------------------------------------------------------------------
-    
+
     #  Choosing spf values
     #  Taken from pp. 38-39 of Marxan_User_Manual_2008.pdf.
     #  Particularly note the second paragraph, titled "Getting Started".
-    
+
     # 3.2.2.4 Conservation Feature Penalty Factor
-    
+
     # Variable – ‘spf’ Required: Yes
     # Description: The letters ‘spf’ stands for Species Penalty Factor. This
     # variable is more correctly referred to as the Conservation Feature
@@ -92,7 +92,7 @@ write_network_to_marxan_files =
     # Marxan’s ability to find good solutions will be impaired (i.e. it will
     # sacrifice other system properties such as lower cost and greater
     # compactness in an effort to fully meet the conservation feature targets).
-    
+
     # Getting Started: It will often require some experimentation to determine
     # appropriate SPFs. This should be done in an iterative fashion. A good
     # place to start is to choose the lowest value that is of the same order
@@ -102,8 +102,8 @@ write_network_to_marxan_files =
     # the solutions. If not all targets are being met try increasing the SPF
     # by a factor of two and doing the repeat runs again. When you get to a
     # point where all targets are being met, decrease the SPFs slightly and
-    # see if they are still being met. 
-    
+    # see if they are still being met.
+
     # After test runs are sorted out, then
     # differing relative values can be applied, based on considerations such
     # as rarity, ecological significance, etc., as outlined above.
@@ -116,72 +116,72 @@ write_network_to_marxan_files =
     # missed even when all other features are adequately represented , it may
     # be appropriate to raise the SPF for these features. Once again, see the
     # MGPH for more detail on setting SPFs.
-    
+
     if (parameters$marxan_spf_rule == "POWER_OF_10")
       {
       spf_const_power_of_10 = 10 ^ (floor (log10 (num_spp)))
-          #  Marxan manual (quoted above) says to back off slightly 
-          #  from the power of 10.  
+          #  Marxan manual (quoted above) says to back off slightly
+          #  from the power of 10.
           #  Not sure what "slightly" means, but I'll try decreasing by 5%.
       spf_const = round (0.95 * spf_const_power_of_10)    #  "decrease the SPFs slightly"
-      
+
       } else if (parameters$marxan_spf_rule == "CONSTANT")
       {
       spf_const = parameters$marxan_spf_const
-      } else 
+      } else
       {
-      stop (paste0 ("\n\nERROR: marxan_spf_rule = '", 
-                    parameters$marxan_spf_rule, "'", 
+      stop (paste0 ("\n\nERROR: marxan_spf_rule = '",
+                    parameters$marxan_spf_rule, "'",
            "\nMust be one of: POWER_OF_10 or CONSTANT.\n\n"))
       }
-    
+
     #-------------------------------------------------------------------------------
-    
-      #***  Need to modify the write_all...() function to prepend the 
-      #***  name of the directory to put the results in (but can  
+
+      #***  Need to modify the write_all...() function to prepend the
+      #***  name of the directory to put the results in (but can
       #***  default to writing in "." instead?).
-      #***  Will do this later because it's not a big deal to do the copies 
-      #***  below and when I make this change I will have to rebuild the 
-      #***  marxan package and move copies to the R library and the nectar 
+      #***  Will do this later because it's not a big deal to do the copies
+      #***  below and when I make this change I will have to rebuild the
+      #***  marxan package and move copies to the R library and the nectar
       #***  machines.
-    
+
     #marxan_input_dir = parameters$marxan_input_dir    #  "/Users/bill/D/Marxan/input/"
-    
-    write_all_marxan_input_files (PU_IDs, spp_IDs, spp_PU_amount_table, 
+
+    write_all_marxan_input_files (PU_IDs, spp_IDs, spp_PU_amount_table,
                                 spf_const)
     #                               spf_const = spf_const)
-    # write_all_marxan_input_files (PU_IDs, spp_IDs, spp_PU_amount_table, 
-    #                                          spf_const = 1, 
-    #                                          target_const = 1, 
-    #                                          cost_const = 1, 
+    # write_all_marxan_input_files (PU_IDs, spp_IDs, spp_PU_amount_table,
+    #                                          spf_const = 1,
+    #                                          target_const = 1,
+    #                                          cost_const = 1,
     #                                          status_const = 0)
-    
-    
+
+
     cat ("\n\n>>>>>  marxan_input_dir = ", marxan_input_dir)
     cat ("\n>>>>>  marxan_output_dir = ", marxan_output_dir)
-    
-    
+
+
     #system ("cp ./pu.dat /Users/bill/D/Marxan/input")
     #pu_dat_file_to_cp = paste0 (parameters$marxan_pu_file_name, " ", parameters$marxan_input_dir)
     pu_dat_file_to_cp = paste0 (parameters$marxan_pu_file_name, " ", marxan_input_dir)
     system (paste0 ("cp ./", pu_dat_file_to_cp))
     cat ("\n>>>>>  pu_dat_file_to_cp = ", pu_dat_file_to_cp, "\n")
-    
+
     #system ("cp ./spec.dat /Users/bill/D/Marxan/input")
     #spec_file_to_cp = paste0 (parameters$marxan_spec_file_name, " ", parameters$marxan_input_dir)
     spec_file_to_cp = paste0 (parameters$marxan_spec_file_name, " ", marxan_input_dir)
     system (paste0 ("cp ./", spec_file_to_cp))
     cat ("\n>>>>>  spec_file_to_cp = ", spec_file_to_cp, "\n")
-          
+
     #system ("cp ./puvspr.dat /Users/bill/D/Marxan/input")
     #puvspr_file_to_cp = paste0 (parameters$marxan_puvspr_file_name, " ", parameters$marxan_input_dir)
     puvspr_file_to_cp = paste0 (parameters$marxan_puvspr_file_name, " ", marxan_input_dir)
     system (paste0 ("cp ./", puvspr_file_to_cp))
     cat ("\n>>>>>  puvspr_file_to_cp = ", puvspr_file_to_cp, "\n")
-    
+
 #    return (spf_const=spf_const)    #  This looks vestigial from a list.  2016 03 29 - BTL
     return (spf_const)
     }
-        
+
 #===============================================================================
 
