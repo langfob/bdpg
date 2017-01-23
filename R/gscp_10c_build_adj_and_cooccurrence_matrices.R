@@ -27,7 +27,8 @@ verify_that_generated_solution_really_is_a_solution =
                   num_PUs,
             PU_costs,
                   bdpg_error_codes,
-                  emulatingTzar = FALSE
+                  emulatingTzar = FALSE,
+                  DEBUG_LEVEL
                   )
     {
     spp_rep_targets = rep (1, num_spp)
@@ -151,7 +152,8 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
               dependent_node_IDs,
               correct_solution_vector_is_known,
               bdpg_error_codes,
-              emulatingTzar = FALSE
+              emulatingTzar = FALSE,
+              DEBUG_LEVEL
               )
 
     {
@@ -206,7 +208,8 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
                                                         num_PUs,  #  num_PU_cols?
                                             PU_costs,
                                                         bdpg_error_codes,
-                                                        emulatingTzar)
+                                                        emulatingTzar,
+                                                        DEBUG_LEVEL)
         }
 
     return (bpm)

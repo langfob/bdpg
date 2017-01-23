@@ -4,7 +4,7 @@
 \alias{gen_bdprob}
 \title{FUNCTION_TITLE}
 \usage{
-gen_bdprob(parameters, bdpg_error_codes, integerize)
+gen_bdprob(parameters, bdpg_error_codes, integerize, DEBUG_LEVEL)
 }
 \arguments{
 \item{parameters}{DESCRIPTION.}
@@ -12,6 +12,8 @@ gen_bdprob(parameters, bdpg_error_codes, integerize)
 \item{bdpg_error_codes}{DESCRIPTION.}
 
 \item{integerize}{DESCRIPTION.}
+
+\item{DEBUG_LEVEL}{DESCRIPTION.}
 }
 \value{
 RETURN_DESCRIPTION

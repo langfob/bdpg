@@ -5,7 +5,7 @@
 \title{FUNCTION_TITLE}
 \usage{
 wrap_abundance_dist_around_Xu_problem(rounded_abundances, Xu_bdprob,
-  dep_set_PUs_eligible, tot_num_PUs_in_landscape)
+  dep_set_PUs_eligible, tot_num_PUs_in_landscape, DEBUG_LEVEL)
 }
 \arguments{
 \item{rounded_abundances}{DESCRIPTION.}
@@ -15,14 +15,13 @@ wrap_abundance_dist_around_Xu_problem(rounded_abundances, Xu_bdprob,
 \item{dep_set_PUs_eligible}{DESCRIPTION.}
 
 \item{tot_num_PUs_in_landscape}{DESCRIPTION.}
+
+\item{DEBUG_LEVEL}{DESCRIPTION.}
 }
 \value{
 RETURN_DESCRIPTION
 }
 \description{
 FUNCTION_DESCRIPTION
-}
-\examples{
-# ADD_EXAMPLES_HERE
 }
 

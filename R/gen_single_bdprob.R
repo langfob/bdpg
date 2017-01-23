@@ -206,6 +206,7 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' @param max_allowed_num_spp DESCRIPTION.
 #' @param bdpg_error_codes DESCRIPTION.
 #' @param integerize DESCRIPTION.
+#' @param DEBUG_LEVEL DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
 #' @export
@@ -216,7 +217,8 @@ gen_single_bdprob = function (read_Xu_problem_from_Xu_file,
                               given_correct_solution_cost,
                               max_allowed_num_spp,
                               bdpg_error_codes,
-                              integerize)
+                              integerize,
+                              DEBUG_LEVEL)
     {
     if (read_Xu_problem_from_Xu_file)
         {
@@ -276,7 +278,8 @@ gen_single_bdprob = function (read_Xu_problem_from_Xu_file,
                                                     PU_spp_pair_info@dependent_node_IDs,
                                                     PU_spp_pair_info@correct_solution_vector_is_known,
                                                     bdpg_error_codes,
-                                                    emulatingTzar)
+                                                    emulatingTzar,
+                                                    DEBUG_LEVEL)
 
         #-------------------------------------------------------------
         #  Quit if there are any duplicate edges/spp in the problem.

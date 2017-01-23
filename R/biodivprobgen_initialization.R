@@ -28,8 +28,6 @@
 #'
 #' @return derived_bdpg_parameters
 #' @export
-#'
-#' @examples
 
 initialize_and_derive_parameters = function (parameters)
     {
