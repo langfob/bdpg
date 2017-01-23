@@ -30,16 +30,10 @@
 #' @export
 #'
 #' @examples \dontrun{
-#' gen_set_cover_problem (parameters)
+#' old_gen_set_cover_problem (parameters)
 #'}
 
-gen_set_cover_problem = function (parameters)
-{
-}
-
-#===============================================================================
-
-dummy = function (parameters)
+old_gen_set_cover_problem = function (parameters)
 {
 #===============================================================================
 #       Initialize.
