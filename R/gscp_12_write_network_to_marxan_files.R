@@ -15,9 +15,6 @@ write_network_to_marxan_files =
                   PU_col_name,
                   spp_col_name,
                   parameters,
-#                  num_spp,
-#                  PU_IDs,
-#                  spp_IDs,
                   marxan_input_dir,
                   marxan_output_dir
                   )
@@ -145,41 +142,21 @@ write_network_to_marxan_files =
       #***  marxan package and move copies to the R library and the nectar
       #***  machines.
 
-    #marxan_input_dir = parameters$marxan_input_dir    #  "/Users/bill/D/Marxan/input/"
-
     write_all_marxan_input_files (PU_IDs, spp_IDs, spp_PU_amount_table,
                                 spf_const)
-    #                               spf_const = spf_const)
-    # write_all_marxan_input_files (PU_IDs, spp_IDs, spp_PU_amount_table,
-    #                                          spf_const = 1,
-    #                                          target_const = 1,
-    #                                          cost_const = 1,
-    #                                          status_const = 0)
 
-
-    cat ("\n\n>>>>>  marxan_input_dir = ", marxan_input_dir)
-    cat ("\n>>>>>  marxan_output_dir = ", marxan_output_dir)
-
-
-    #system ("cp ./pu.dat /Users/bill/D/Marxan/input")
-    #pu_dat_file_to_cp = paste0 (parameters$marxan_pu_file_name, " ", parameters$marxan_input_dir)
+        #  Write pu.dat file.
     pu_dat_file_to_cp = paste0 (parameters$marxan_pu_file_name, " ", marxan_input_dir)
     system (paste0 ("cp ./", pu_dat_file_to_cp))
-    cat ("\n>>>>>  pu_dat_file_to_cp = ", pu_dat_file_to_cp, "\n")
 
-    #system ("cp ./spec.dat /Users/bill/D/Marxan/input")
-    #spec_file_to_cp = paste0 (parameters$marxan_spec_file_name, " ", parameters$marxan_input_dir)
+        #  Write spec file.
     spec_file_to_cp = paste0 (parameters$marxan_spec_file_name, " ", marxan_input_dir)
     system (paste0 ("cp ./", spec_file_to_cp))
-    cat ("\n>>>>>  spec_file_to_cp = ", spec_file_to_cp, "\n")
 
-    #system ("cp ./puvspr.dat /Users/bill/D/Marxan/input")
-    #puvspr_file_to_cp = paste0 (parameters$marxan_puvspr_file_name, " ", parameters$marxan_input_dir)
+        #  Write puvspr file.
     puvspr_file_to_cp = paste0 (parameters$marxan_puvspr_file_name, " ", marxan_input_dir)
     system (paste0 ("cp ./", puvspr_file_to_cp))
-    cat ("\n>>>>>  puvspr_file_to_cp = ", puvspr_file_to_cp, "\n")
 
-#    return (spf_const=spf_const)    #  This looks vestigial from a list.  2016 03 29 - BTL
     return (spf_const)
     }
 
