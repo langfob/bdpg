@@ -85,11 +85,11 @@ create_PU_spp_pair_indices = function (edge_list,
 
     PU_spp_pair_info <- new ("PU_spp_pair_info")
 
-    PU_spp_pair_info@PU_spp_pair_indices <- PU_spp_pair_indices
-    PU_spp_pair_info@PU_col_name <- PU_col_name
-    PU_spp_pair_info@spp_col_name <- spp_col_name
-    PU_spp_pair_info@num_PUs <- num_PUs
-    PU_spp_pair_info@num_spp <- get_num_edge_list (edge_list)
+    PU_spp_pair_info@PU_spp_pair_indices   <- PU_spp_pair_indices
+    PU_spp_pair_info@PU_col_name           <- PU_col_name
+    PU_spp_pair_info@spp_col_name          <- spp_col_name
+    PU_spp_pair_info@num_PUs               <- num_PUs
+    PU_spp_pair_info@num_spp               <- get_num_edge_list (edge_list)
     PU_spp_pair_info@correct_solution_cost <- correct_solution_cost
 
     return (PU_spp_pair_info)

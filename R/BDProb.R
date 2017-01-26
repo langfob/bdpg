@@ -61,8 +61,8 @@ setClass ("Xu_bdpg_extended_params",
                             integerize                                                 = "function"
                             ),
           prototype (
-                          num_independent_nodes_per_group                              = 1,
-                          integerize                                                   = round
+                          num_independent_nodes_per_group = 1,
+                          integerize                      = round
                     )
 
             )
@@ -126,7 +126,7 @@ setClass ("Xu_bd_problem",
                           read_Xu_problem_from_Xu_file     = "logical",
                           infile_name                      = "character",
 
-            control_params                   = "list",
+            control_params                   = "list",    #  2017 01 27 - BTL - NOT USED ANYMORE?
 #                          derived_Xu_params                = "Xu_derived_params",
                           Xu_parameters                    = "Xu_params",
 
