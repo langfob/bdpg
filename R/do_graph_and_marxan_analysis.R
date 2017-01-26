@@ -10,42 +10,44 @@
 create_dir_structure <- function (cor_or_app_subdir_name     #  e.g., "cor" or "app/app.1"
                                   )
     {
-
+        #  Build base name of parent directory with slash at end.
     cor_or_app_subdir_name_with_slash = paste0 (cor_or_app_subdir_name,
                                                 .Platform$file.sep)
 
+        #  Create list of directory names.
     derived_bdpg_dir_names = list()
 
-    derived_bdpg_dir_names$plot_output_dir = paste0 (parameters$fullOutputDirWithSlash,
-                                                      cor_or_app_subdir_name_with_slash, "Plots")
+        #  Create PLOT OUTPUT directory.
+    derived_bdpg_dir_names$plot_output_dir =
+        paste0 (parameters$fullOutputDirWithSlash, cor_or_app_subdir_name_with_slash, "Plots")
     dir.create (derived_bdpg_dir_names$plot_output_dir,
                 showWarnings = TRUE,
                 recursive = TRUE)    #  FALSE)
 
-    derived_bdpg_dir_names$network_output_dir = paste0 (parameters$fullOutputDirWithSlash,
-                                                         cor_or_app_subdir_name_with_slash, "Networks")
+        #  Create NETWORK OUTPUT directory.
+    derived_bdpg_dir_names$network_output_dir =
+        paste0 (parameters$fullOutputDirWithSlash, cor_or_app_subdir_name_with_slash, "Networks")
     dir.create (derived_bdpg_dir_names$network_output_dir,
                 showWarnings = TRUE,
                 recursive = TRUE)    #  FALSE)
 
-    # derived_bdpg_dir_names$result_tables_output_dir = paste0 (parameters$fullOutputDirWithSlash,
-    #                                                            cor_or_app_subdir_name_with_slash, "Results")
-    # dir.create (derived_bdpg_dir_names$result_tables_output_dir,
-    #             showWarnings = TRUE,
-    #             recursive = TRUE)    #  FALSE)
-
-    derived_bdpg_dir_names$marxan_IO_dir = paste0 (parameters$fullOutputDirWithSlash,
-                                                      cor_or_app_subdir_name_with_slash, "Marxan_IO")
+        #  Create MARXAN IO directory.
+    derived_bdpg_dir_names$marxan_IO_dir =
+        paste0 (parameters$fullOutputDirWithSlash, cor_or_app_subdir_name_with_slash, "Marxan_IO")
     dir.create (derived_bdpg_dir_names$marxan_IO_dir,
                 showWarnings = TRUE,
                 recursive = TRUE)    #  FALSE)
 
-    derived_bdpg_dir_names$marxan_input_dir = paste0 (derived_bdpg_dir_names$marxan_IO_dir, .Platform$file.sep, "input")
+        #  Create plot MARXAN INPUT directory.
+    derived_bdpg_dir_names$marxan_input_dir =
+        paste0 (derived_bdpg_dir_names$marxan_IO_dir, .Platform$file.sep, "input")
     dir.create (derived_bdpg_dir_names$marxan_input_dir,
                 showWarnings = TRUE,
                 recursive = TRUE)    #  FALSE)
 
-    derived_bdpg_dir_names$marxan_output_dir = paste0 (derived_bdpg_dir_names$marxan_IO_dir, .Platform$file.sep, "output")
+        #  Create plot MARXAN OUTPUT directory.
+    derived_bdpg_dir_names$marxan_output_dir =
+        paste0 (derived_bdpg_dir_names$marxan_IO_dir, .Platform$file.sep, "output")
     dir.create (derived_bdpg_dir_names$marxan_output_dir,
                 showWarnings = TRUE,
                 recursive = TRUE)    #  FALSE)
