@@ -224,7 +224,7 @@ load_Xu_problem_from_Xu_file =
     PU_col_name = names (PU_spp_pair_indices)[1]
     spp_col_name = names (PU_spp_pair_indices)[2]
 
-    PU_spp_pair_info <- new ("PU_spp_pair_info")
+    PU_spp_pair_info <- new ("PU_spp_pair_info_class")
 
     PU_spp_pair_info@PU_spp_pair_indices <- PU_spp_pair_indices
     PU_spp_pair_info@PU_col_name <- PU_col_name

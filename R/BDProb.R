@@ -192,7 +192,7 @@ setClass ("Xu_wrapped_bd_problem",
 
     #  PU_spp_pair_info class.
 
-setClass ("PU_spp_pair_info",
+setClass ("PU_spp_pair_info_class",
           representation (
                             PU_spp_pair_indices              = "data.frame",
                             PU_col_name                      = "character",

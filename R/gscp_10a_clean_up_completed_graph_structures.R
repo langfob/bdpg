@@ -83,7 +83,7 @@ create_PU_spp_pair_indices = function (edge_list,
 
     #-----------------------------------------------------------------
 
-    PU_spp_pair_info <- new ("PU_spp_pair_info")
+    PU_spp_pair_info <- new ("PU_spp_pair_info_class")
 
     PU_spp_pair_info@PU_spp_pair_indices   <- PU_spp_pair_indices
     PU_spp_pair_info@PU_col_name           <- PU_col_name
