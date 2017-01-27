@@ -733,9 +733,9 @@ gen_multi_bdprob = function (wrap_lognormal_dist_around_Xu,
                                 #  first (i.e., mandatory) occurrence
                                 #  of the species.
             dep_set_PUs_eligible       = FALSE
-                                #  ***  This still needs a bit of work so that the path  ***  #
-                                #  ***  can be derived from the tzar directories.        ***  #
-            search_outfile_name             = paste0 (parameters$fullOutputDirWithSlash, "outfile.csv")    #"/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R/outfile.csv"
+
+            search_outfile_name = paste0 (parameters$fullOutputDirWithSlash,
+                                          "outfile.csv")
 
             add_one_to_lognormal_abundances = FALSE
 
