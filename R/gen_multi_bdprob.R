@@ -47,34 +47,6 @@ create_eligible_PU_set <- function (Xu_dep_set,
 
 #===============================================================================
 
-# remove_Xu_base_spp_from_wrapping_distribution = function (extra_abundances,
-#                                                           num_base_spp)
-#     {
-#         #  Not necessary to sort these, but it helps with debugging to make
-#         #  sure the code is working right.
-#     sorted_indices_of_all_spp_on_exactly_2_PUs = sort (which (extra_abundances == 2))
-#     tot_num_spp_on_exactly_2_PUs = length (sorted_indices_of_all_spp_on_exactly_2_PUs)
-#
-#         #  Make sure that the Xu problem's species fit inside the wrapping
-#         #  distribution's set of species on exactly 2 patches.
-#     if (tot_num_spp_on_exactly_2_PUs < num_base_spp)
-#         {
-#         stop (paste0 ("\n\nERROR in remove_Xu_base_spp_from_wrapping_distribution():",
-#                       "\n        tot_num_spp_on_exactly_2_PUs in wrapped distribution = ",
-#                       tot_num_spp_on_exactly_2_PUs,
-#                       "\n        < num_base_spp = ", num_base_spp, ".",
-#                       "\n        Must be > or =.\n\n"))
-#         }
-#
-#         #  Remove original number of Xu species from distribution.
-#     extra_abundances =
-#         extra_abundances [-(sorted_indices_of_all_spp_on_exactly_2_PUs [1:num_base_spp])]
-#
-#     return (extra_abundances)
-#     }
-#
-#===============================================================================
-
     #  Remove species from an abundance distribution if they fall on either
     #  too many or too few patches.
     #  This is primarily to get rid of species that occur on
