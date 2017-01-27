@@ -254,17 +254,19 @@ load_Xu_problem_from_Xu_file =
 #'
 #' FUNCTION_DESCRIPTION
 #'
-#' @param infile_name DESCRIPTION.
-#' @param given_correct_solution_cost DESCRIPTION.
+#' @param infile_name File path describing a Xu problem
+#' @param correct_solution_cost Numeric value of cost of solution (since
+#'     problems read from one of Xu's benchmark files have their cost given
+#'     somewhere other than in the file)
 #'
 #' @return RETURN_DESCRIPTION
 #' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
-read_Xu_problem_from_Xu_file <- function (infile_name, given_correct_solution_cost)
+read_Xu_problem_from_Xu_file <- function (infile_name, correct_solution_cost)
     {
     PU_spp_pair_info =
-        load_Xu_problem_from_Xu_file (infile_name, given_correct_solution_cost)
+        load_Xu_problem_from_Xu_file (infile_name, correct_solution_cost)
 
     PU_spp_pair_info@Xu_parameters                    = NULL
     PU_spp_pair_info@correct_solution_vector_is_known = FALSE
