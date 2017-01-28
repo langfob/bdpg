@@ -32,11 +32,11 @@ Compute final PU and species counts and plot degree and abundance distributions.
 }
 \details{
 Count the number of species on each PU.
- If a PU has no species on it, it won't necessarily be in the 
- PU_spp_pair_indices table, so this routine adds the PU back into the table 
+ If a PU has no species on it, it won't necessarily be in the
+ PU_spp_pair_indices table, so this routine adds the PU back into the table
  with a zero count.
 
- This means that even though PU_spp_pair_indices could be either a correct 
+ This means that even though PU_spp_pair_indices could be either a correct
  or an apparent set of PU-spp pairs, all_correct_node_IDs HAS
 }
 \examples{
@@ -44,12 +44,12 @@ Count the number of species on each PU.
 tot_num_nodes = 6
 PU_spp_pair_indices = data.frame (PU_ID=1:tot_num_nodes, spp_ID=c(1,1,2,2))
 all_correct_node_IDs = 1:tot_num_nodes
-final_link_counts = 
-    clean_up_final_link_counts_for_each_node (PU_spp_pair_indices, 
-                                              all_correct_node_IDs, 
-                                              "PU_ID", 
+final_link_counts =
+    clean_up_final_link_counts_for_each_node (PU_spp_pair_indices,
+                                              all_correct_node_IDs,
+                                              "PU_ID",
                                               "freq")
          }
-         
+
 }
 
