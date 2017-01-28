@@ -143,8 +143,8 @@ write_marxan_spec.dat_input_file = function (spp_IDs,
 #' "pu", and "amount".  Marxan requires this table to be sorted in increasing
 #' order on the planning unit column.  I don't think the order within planning
 #' unit matters on the
-#' other columns.  See source code for the function
-#' \code{\link{gen_random_spp_PU_amount_table}} for an example of creating
+#' other columns.  See source code for the test function
+#' \code{gen_random_spp_PU_amount_table} for an example of creating
 #' this table.
 #' @examples
 #' \dontrun{
@@ -182,8 +182,8 @@ write_marxan_puvspr.dat_input_file = function (spp_PU_amount_table)
 #' "pu", and "amount".  Marxan requires this table to be sorted in increasing
 #' order on the planning unit column.  I don't think the order within planning
 #' unit matters on the
-#' other columns.  See source code for the function
-#' \code{\link{gen_random_spp_PU_amount_table}} for an example of creating
+#' other columns.  See source code for the test function
+#' \code{gen_random_spp_PU_amount_table} for an example of creating
 #' this table.
 #' @examples
 #' \dontrun{
@@ -233,8 +233,8 @@ write_all_marxan_input_files = function (PU_IDs, spp_IDs, spp_PU_amount_table,
 #' "pu", and "amount".  Marxan requires this table to be sorted in increasing
 #' order on the planning unit column.  I don't think the order within planning
 #' unit matters on the
-#' other columns.  See source code for the function
-#' \code{\link{gen_random_spp_PU_amount_table}} for an example of creating
+#' other columns.  See source code for the test function
+#' \code{gen_random_spp_PU_amount_table} for an example of creating
 #' this table.
 #' @examples
 #' \dontrun{

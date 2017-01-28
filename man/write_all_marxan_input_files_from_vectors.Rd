@@ -34,8 +34,8 @@ right order) "species",
 "pu", and "amount".  Marxan requires this table to be sorted in increasing
 order on the planning unit column.  I don't think the order within planning
 unit matters on the
-other columns.  See source code for the function
-\code{\link{gen_random_spp_PU_amount_table}} for an example of creating
+other columns.  See source code for the test function
+\code{gen_random_spp_PU_amount_table} for an example of creating
 this table.
 }
 \examples{
