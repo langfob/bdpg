@@ -13,7 +13,8 @@ LazyData: true
 Imports:
     uuid,
     plyr,
-    stringr
+    stringr, 
+    methods
 Suggests:
     knitr,
     rmarkdown,
