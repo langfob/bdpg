@@ -12,7 +12,8 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     uuid,
-    plyr
+    plyr,
+    stringr
 Suggests:
     knitr,
     rmarkdown,
