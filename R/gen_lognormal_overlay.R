@@ -445,7 +445,9 @@ EF = function (seed_value,
         #  Doing this through a global variable since it's hard or impossible
         #  to update its value on each EF call inside the generic R optimizer
         #  function.
-    EF_num <<- EF_num + 1
+#    EF_num <<- EF_num + 1
+    EF_num = getOption ("bdpg.EF_num") + 1
+    options (bdpg.EF_num = EF_num)
 
         #  If echoing EF value to an output file, do it now.
     if (! is.null (outfile))
@@ -740,7 +742,8 @@ find_lognormal_to_wrap_around_Xu = function (Xu_bdprob, parameters,
         #  Ready to search for a useful lognormal distribution, i.e.,
         #  one that approximately fits the desired attributes passed in.
 
-    EF_num <<- 0
+#    EF_num <<- 0
+    options (bdpg.EF_num = 0)
 
     lognormal_search_results =
         search_for_approximating_lognormal (seed_value_for_search,
