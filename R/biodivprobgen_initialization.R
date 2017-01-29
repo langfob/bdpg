@@ -86,6 +86,13 @@ initialize_and_derive_parameters = function (parameters)
 #===============================================================================
 #===============================================================================
 
+#' Builds the error codes returned by errors in bdpg package
+#'
+#' @return list of integer error codes
+#' @export
+#' @examples
+#' get_bdpg_error_codes ()
+
 get_bdpg_error_codes <- function ()
     {
         #----------------------------------------------------------------
@@ -106,6 +113,16 @@ get_bdpg_error_codes <- function ()
 
 #===============================================================================
 
+#' Look up a specific bdpg error code given its name
+#'
+#' @param bdpg_error_name string containing name of error code to look up in list of error codes
+#'
+#' @return integer error code for the given error name
+#' @export
+#'
+#' @examples
+#' get_bdpg_error_code ("ERROR_STATUS_unknown_spp_occ_FP_error_type")
+#'
 get_bdpg_error_code <- function (bdpg_error_name)
     {
     bdpg_error_codes = get_bdpg_error_codes ()
@@ -115,6 +132,17 @@ get_bdpg_error_code <- function (bdpg_error_name)
 
 #===============================================================================
 
+#' Get name and version number of current operating system as a string
+#'
+#' This function is only here as a convenience because I can never remember
+#' where the current operating system is stored.
+#'
+#' @return string containing name and version of current operating system
+#' @export
+#'
+#' @examples
+#' get_current_os ()
+#'
 get_current_os <- function ()
     {
     sessionInfo()$R.version$os
@@ -122,6 +150,23 @@ get_current_os <- function ()
 
 #===============================================================================
 
+#' Get function to use when converting numeric values to integers
+#'
+#' Many computations return floating point numbers that need to be passed
+#' to other routines as integers.  The method used to convert them to integers
+#' may affect the outcome of the downstream operation, so this function
+#' looks up which function to use based on the user's specification in the
+#' parameter inputs.
+#'
+#' @param integerize_string string containing name of the function to use to
+#'     convert floats to integers
+#'
+#' @return function to use to convert floats to integers
+#' @export
+#'
+#' @examples
+#' get_integerize_function ("ceiling")
+#'
 get_integerize_function <- function (integerize_string)
     {
 #    switch (parameters$integerize_string,
