@@ -73,7 +73,4 @@ Function to search for a lognormal that comes close to meeting the
          the target value (target_max_abundance_ct), but never exceed
          the given max value (max_max_abundance).
 }
-\examples{
-
-}
 
