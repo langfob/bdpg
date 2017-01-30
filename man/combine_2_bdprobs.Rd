@@ -4,8 +4,7 @@
 \alias{combine_2_bdprobs}
 \title{FUNCTION_TITLE}
 \usage{
-combine_2_bdprobs(bdprob_1, bdprob_2, parameters, bdpg_error_codes, integerize,
-  DEBUG_LEVEL)
+combine_2_bdprobs(bdprob_1, bdprob_2, parameters, bdpg_error_codes, integerize)
 }
 \arguments{
 \item{bdprob_1}{DESCRIPTION.}
@@ -17,8 +16,6 @@ combine_2_bdprobs(bdprob_1, bdprob_2, parameters, bdpg_error_codes, integerize,
 \item{bdpg_error_codes}{DESCRIPTION.}
 
 \item{integerize}{DESCRIPTION.}
-
-\item{DEBUG_LEVEL}{DESCRIPTION.}
 }
 \value{
 RETURN_DESCRIPTION

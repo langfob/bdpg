@@ -395,7 +395,6 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 #' @param Xu_bdprob DESCRIPTION.
 #' @param dep_set_PUs_eligible DESCRIPTION.
 #' @param tot_num_PUs_in_landscape DESCRIPTION.
-#' @param DEBUG_LEVEL DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
 #' @export
@@ -403,8 +402,7 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 wrap_abundance_dist_around_Xu_problem = function (rounded_abundances,
                                                   Xu_bdprob,
                                                   dep_set_PUs_eligible,
-                                                  tot_num_PUs_in_landscape,
-                                                  DEBUG_LEVEL
+                                                  tot_num_PUs_in_landscape
                                                   )
     {
     Xu_nodes = Xu_bdprob@nodes
@@ -550,8 +548,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
                                     Xu_bdprob@PU_col_name,
                                     Xu_dep_set,
                                     Xu_bdprob@correct_solution_vector_is_known,
-                                    Xu_bdprob@bdpg_error_codes,
-                                    DEBUG_LEVEL
+                                    Xu_bdprob@bdpg_error_codes
                                     )
 
       #---------------------------------------------------------------------------
@@ -617,14 +614,12 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 #' @param parameters DESCRIPTION.
 #' @param bdpg_error_codes DESCRIPTION.
 #' @param integerize DESCRIPTION.
-#' @param DEBUG_LEVEL DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
 #' @export
 
 combine_2_bdprobs = function (bdprob_1, bdprob_2,
-                              parameters, bdpg_error_codes, integerize,
-                              DEBUG_LEVEL)
+                              parameters, bdpg_error_codes, integerize)
     {
     warning ("\n\ncombine_2_bdprobs() is returning a DUMMY VALUE, i.e., it's first argument.\n\n")
     combined_bdprob = bdprob_1    #  DUMMY VALUE for initial testing
@@ -651,7 +646,6 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
 #' @param max_allowed_num_spp DESCRIPTION.
 #' @param bdpg_error_codes DESCRIPTION.
 #' @param integerize DESCRIPTION.
-#' @param DEBUG_LEVEL DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
 #' @export
@@ -663,8 +657,7 @@ gen_multi_bdprob = function (parameters,
                              given_correct_solution_cost,
                              max_allowed_num_spp,
                              bdpg_error_codes,
-                             integerize,
-                             DEBUG_LEVEL)  #parameters, bdpg_error_codes, integerize)
+                             integerize)  #parameters, bdpg_error_codes, integerize)
     {
     if (wrap_lognormal_dist_around_Xu &   #(parameters$wrap_lognormal_around_Xu &
         read_Xu_problem_from_Xu_file)   # parameters$read_Xu_problem_from_Xu_file)
@@ -685,8 +678,7 @@ gen_multi_bdprob = function (parameters,
                                   given_correct_solution_cost,
                                   max_allowed_num_spp,
                                   bdpg_error_codes,
-                                  integerize,
-                                  DEBUG_LEVEL)  #parameters, bdpg_error_codes, integerize)
+                                  integerize)  #parameters, bdpg_error_codes, integerize)
 
     if (bdprob_1@prob_is_ok)
         {
@@ -741,8 +733,7 @@ gen_multi_bdprob = function (parameters,
                 wrap_abundance_dist_around_Xu_problem (rounded_abundances,
                                                        bdprob_1,
                                                        dep_set_PUs_eligible,
-                                                       tot_num_PUs_in_landscape,
-                                                       DEBUG_LEVEL)
+                                                       tot_num_PUs_in_landscape)
 
             } else    #  Don't wrap lognormal around Xu.  Combine 2 Xu instead.
             {
@@ -754,8 +745,7 @@ gen_multi_bdprob = function (parameters,
                                           given_correct_solution_cost,
                                           max_allowed_num_spp,
                                           bdpg_error_codes,
-                                          integerize,
-                                          DEBUG_LEVEL)  #parameters, bdpg_error_codes, integerize)
+                                          integerize)  #parameters, bdpg_error_codes, integerize)
 
             cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  ABOUT TO combine_2_bdprobs()  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
 
@@ -763,8 +753,7 @@ gen_multi_bdprob = function (parameters,
                 {
                 combined_bdprob = combine_2_bdprobs (bdprob_1, bdprob_2,
                                                      parameters, bdpg_error_codes,
-                                                     integerize,
-                                                     DEBUG_LEVEL)
+                                                     integerize)
                 cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  DONE WITH combine_2_bdprobs()  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
 
                 } else  #  bad bdprob_2

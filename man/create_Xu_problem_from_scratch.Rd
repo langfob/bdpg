@@ -5,7 +5,7 @@
 \title{FUNCTION_TITLE}
 \usage{
 create_Xu_problem_from_scratch(max_allowed_num_spp, parameters,
-  bdpg_error_codes, integerize, DEBUG_LEVEL)
+  bdpg_error_codes, integerize)
 }
 \arguments{
 \item{max_allowed_num_spp}{DESCRIPTION.}
@@ -15,8 +15,6 @@ create_Xu_problem_from_scratch(max_allowed_num_spp, parameters,
 \item{bdpg_error_codes}{DESCRIPTION.}
 
 \item{integerize}{DESCRIPTION.}
-
-\item{DEBUG_LEVEL}{DESCRIPTION.}
 }
 \value{
 RETURN_DESCRIPTION

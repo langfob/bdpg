@@ -148,10 +148,11 @@ create_Xu_graph = function (num_nodes_per_group,
                             max_possible_tot_num_links,
                             target_num_links_between_2_groups_per_round,
                             num_rounds_of_linking_between_groups,
-                            DEBUG_LEVEL,
                             duplicate_links_allowed=FALSE
                             )
     {
+    DEBUG_LEVEL = getOption ("bdpg.DEBUG_LEVEL", default=0)
+
     edge_list = matrix (NA,
                         nrow = max_possible_tot_num_links,
                         ncol = 2,
@@ -170,7 +171,6 @@ create_Xu_graph = function (num_nodes_per_group,
                                   n__num_groups,
                                   nodes,
                                   edge_list,
-                                  DEBUG_LEVEL,
                                   bdpg_error_codes)
 
     #---------------------------------------------------------------------------
@@ -187,8 +187,7 @@ create_Xu_graph = function (num_nodes_per_group,
                                    n__num_groups,
                                    nodes,
                                    edge_list_and_cur_row$edge_list,
-                                   edge_list_and_cur_row$cur_row,
-                                   DEBUG_LEVEL)
+                                   edge_list_and_cur_row$cur_row)
 
     #---------------------------------------------------------------------------
 

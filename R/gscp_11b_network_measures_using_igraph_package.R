@@ -215,7 +215,6 @@ compute_igraph_related_network_measures <-
               PU_spp_pair_indices,
 
 #####              PU_spp_pair_names,
-              DEBUG_LEVEL,
               network_output_dir,
                     #  Added 2016 03 29 - BTL.
                     #  May not need the num_spp, num_PUs args up above if
@@ -291,7 +290,8 @@ compute_igraph_related_network_measures <-
     cat ("\n\n=====>  Under igraph, is.bipartite (bg) = ", is.bipartite (bg), "\n")
     #Echo results...
 
-    if (getOption ("bdpg.emulatingTzar", default=FALSE) & (DEBUG_LEVEL > 0))
+    if (getOption ("bdpg.emulatingTzar", default=FALSE) &
+        (getOption ("bdpg.DEBUG_LEVEL", default=0) > 0))
         {
         print(bg)
 

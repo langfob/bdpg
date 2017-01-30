@@ -8,7 +8,6 @@
 #' @param parameters DESCRIPTION.
 #' @param bdpg_error_codes DESCRIPTION.
 #' @param integerize DESCRIPTION.
-#' @param DEBUG_LEVEL DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
 #' @export
@@ -16,8 +15,7 @@
 create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
                                             parameters,
                                             bdpg_error_codes,
-                                            integerize,
-                                            DEBUG_LEVEL)
+                                            integerize)
     {
         #----------------------------------------------------------
         #  The 4 basic Xu parameters describe problem attributes
@@ -56,8 +54,7 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
                        nodes,
                        derived_Xu_params@max_possible_tot_num_links,
                        derived_Xu_params@target_num_links_between_2_groups_per_round,
-                       derived_Xu_params@num_rounds_of_linking_between_groups,
-                       DEBUG_LEVEL
+                       derived_Xu_params@num_rounds_of_linking_between_groups
                        )
 
     dependent_node_IDs = get_dependent_node_IDs (nodes)
@@ -148,7 +145,6 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' @param max_allowed_num_spp DESCRIPTION.
 #' @param bdpg_error_codes DESCRIPTION.
 #' @param integerize DESCRIPTION.
-#' @param DEBUG_LEVEL DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
 #' @export
@@ -160,8 +156,7 @@ gen_single_bdprob = function (parameters,
                               given_correct_solution_cost,
                               max_allowed_num_spp,
                               bdpg_error_codes,
-                              integerize,
-                              DEBUG_LEVEL)
+                              integerize)
     {
     if (read_Xu_problem_from_Xu_file)
         {
@@ -175,8 +170,7 @@ gen_single_bdprob = function (parameters,
             create_Xu_problem_from_scratch (max_allowed_num_spp,
                                             parameters,
                                             bdpg_error_codes,
-                                            integerize,
-                                            DEBUG_LEVEL)
+                                            integerize)
         }  #  end - create Xu problem from scratch
 
     #===============================================================================
@@ -219,8 +213,7 @@ gen_single_bdprob = function (parameters,
                                                     Xu_bdprob@PU_col_name,
                                                     PU_spp_pair_info@dependent_node_IDs,
                                                     PU_spp_pair_info@correct_solution_vector_is_known,
-                                                    bdpg_error_codes,
-                                                    DEBUG_LEVEL)
+                                                    bdpg_error_codes)
 
         #-------------------------------------------------------------
         #  Quit if there are any duplicate edges/spp in the problem.

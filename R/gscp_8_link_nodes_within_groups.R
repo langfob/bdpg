@@ -9,7 +9,6 @@ link_nodes_within_groups =
               n__num_groups,
               nodes,
               edge_list,
-              DEBUG_LEVEL,
               bdpg_error_codes
               )
     {
@@ -68,7 +67,7 @@ link_nodes_within_groups =
             }
         }
 
-    if (DEBUG_LEVEL > 0)
+    if (getOption ("bdpg.DEBUG_LEVEL", default=0) > 0)
         {
         cat ("\n\nedge_list (with last lines NA to hold intergroup links to be loaded in next step):\n\n")
         print (edge_list)

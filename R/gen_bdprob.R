@@ -9,13 +9,12 @@
 #' @param parameters DESCRIPTION.
 #' @param bdpg_error_codes DESCRIPTION.
 #' @param integerize DESCRIPTION.
-#' @param DEBUG_LEVEL DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
 #' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
-gen_bdprob  = function (parameters, bdpg_error_codes, integerize, DEBUG_LEVEL)
+gen_bdprob  = function (parameters, bdpg_error_codes, integerize)
     {
         #  May need to test these parameters to see if they even exist
         #  and if they don't for this particular run, then set them to
@@ -39,8 +38,7 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize, DEBUG_LEVEL)
                                    given_correct_solution_cost,
                                    max_allowed_num_spp,
                                    bdpg_error_codes,
-                                   integerize,
-                                   DEBUG_LEVEL)
+                                   integerize)
 
         } else
         {
@@ -50,8 +48,7 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize, DEBUG_LEVEL)
                                     given_correct_solution_cost,
                                     max_allowed_num_spp,
                                     bdpg_error_codes,
-                                    integerize,
-                                    DEBUG_LEVEL)
+                                    integerize)
         }
 
     return (bdprob)

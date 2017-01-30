@@ -6,7 +6,7 @@
 \usage{
 gen_multi_bdprob(parameters, wrap_lognormal_dist_around_Xu,
   read_Xu_problem_from_Xu_file, infile_name, given_correct_solution_cost,
-  max_allowed_num_spp, bdpg_error_codes, integerize, DEBUG_LEVEL)
+  max_allowed_num_spp, bdpg_error_codes, integerize)
 }
 \arguments{
 \item{wrap_lognormal_dist_around_Xu}{DESCRIPTION.}
@@ -22,8 +22,6 @@ gen_multi_bdprob(parameters, wrap_lognormal_dist_around_Xu,
 \item{bdpg_error_codes}{DESCRIPTION.}
 
 \item{integerize}{DESCRIPTION.}
-
-\item{DEBUG_LEVEL}{DESCRIPTION.}
 }
 \value{
 RETURN_DESCRIPTION

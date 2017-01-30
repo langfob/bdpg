@@ -6,7 +6,7 @@
 \usage{
 gen_single_bdprob(parameters, read_Xu_problem_from_Xu_file, infile_name,
   given_correct_solution_cost, max_allowed_num_spp, bdpg_error_codes,
-  integerize, DEBUG_LEVEL)
+  integerize)
 }
 \arguments{
 \item{read_Xu_problem_from_Xu_file}{boolean TRUE if problem is to be
@@ -22,8 +22,6 @@ scratch.}
 \item{bdpg_error_codes}{DESCRIPTION.}
 
 \item{integerize}{DESCRIPTION.}
-
-\item{DEBUG_LEVEL}{DESCRIPTION.}
 }
 \value{
 RETURN_DESCRIPTION

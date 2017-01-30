@@ -68,7 +68,6 @@ do_graph_and_marxan_analysis <- function (cor_or_app_subdir_name,
 
                                             #  input parameters
                                           parameters,
-                                          DEBUG_LEVEL,
 
                                           current_os,   #### derived_bdpg_parameters$current_os
                                           #derived_bdpg_parameters,  # only used to get dirs and current_os, so should separate those out !!
@@ -157,7 +156,6 @@ cat("\njust after app summarize_and_plot_graph_and_distribution_structure_inform
 ###                                    app_num_spp,
 ###                                    app_num_PUs,
                                     app_PU_spp_pair_indices,
-                                    DEBUG_LEVEL,
                     derived_bdpg_dir_names$network_output_dir,
                                     PU_col_name,
                                     spp_col_name
@@ -196,7 +194,6 @@ cat("\njust after set_up_for_and_run_marxan()")
                 derived_bdpg_dir_names$marxan_output_dir,
 
                                           cor_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
-                                          DEBUG_LEVEL,
 
                                   #  These used to say just num_spp and num_PUs.
                                   #  For the moment, I'm going to make them cor_...
@@ -252,7 +249,6 @@ cat("\njust after read_marxan_output_files()")
 
                           cor_final_link_counts_for_each_node,
                           app_bpm,
-                          DEBUG_LEVEL,
                           cor_bpm,
                           parameters,
                           add_error,

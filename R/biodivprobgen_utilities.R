@@ -212,7 +212,6 @@ compute_frac_spp_covered =
         find_indices_of_spp_with_unmet_rep (spp_occ_matrix,
                                             candidate_solution_PU_IDs,
                                             num_spp,
-                                            DEBUG_LEVEL,
                                             spp_rep_targets
                                             )
 

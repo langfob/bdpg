@@ -26,14 +26,12 @@ verify_that_generated_solution_really_is_a_solution =
                   num_spp,
                   num_PUs,
             PU_costs,
-                  bdpg_error_codes,
-                  DEBUG_LEVEL
+                  bdpg_error_codes
                   )
     {
     spp_rep_targets = rep (1, num_spp)
     spp_rep_fracs = compute_rep_fraction (bpm,
                                             dependent_node_IDs,
-                                            DEBUG_LEVEL,
                                             spp_rep_targets)
 
     unmet_spp_rep_frac_indices = which (spp_rep_fracs < 1)
@@ -150,8 +148,7 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
               PU_col_name,
               dependent_node_IDs,
               correct_solution_vector_is_known,
-              bdpg_error_codes,
-              DEBUG_LEVEL
+              bdpg_error_codes
               )
 
     {
@@ -205,8 +202,7 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
                                                         num_spp,  #  num_spp_rows?
                                                         num_PUs,  #  num_PU_cols?
                                             PU_costs,
-                                                        bdpg_error_codes,
-                                                        DEBUG_LEVEL)
+                                                        bdpg_error_codes)
         }
 
     return (bpm)

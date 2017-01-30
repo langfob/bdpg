@@ -21,7 +21,6 @@ dist_between_marxan_solutions = function (solution_1, solution_2)
 
 compute_marxan_solution_scores <- function (spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
                                             marxan_solution_PU_IDs,
-                                            DEBUG_LEVEL,
                                             targets,
                                             num_spp,
                                             marxan_solutions_matrix,
@@ -34,7 +33,6 @@ compute_marxan_solution_scores <- function (spp_rows_by_PU_cols_matrix_of_spp_ct
     cur_rep_fractions =
         compute_rep_fraction (spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
                               marxan_solution_PU_IDs,
-                              DEBUG_LEVEL,
                               targets)
     cur_frac_of_all_spp_meeting_their_target = sum (cur_rep_fractions >= 1.0) / num_spp    #  How best to give a tolerance here?
     marxan_solution_scores [cur_solution_num, "representation"] = cur_frac_of_all_spp_meeting_their_target
@@ -90,10 +88,10 @@ plot_incremental_marxan_summed_solution_representations =
               bpm,
               cor_app_prefix_string,
               num_spp,
-              plot_output_dir,
-              DEBUG_LEVEL
+              plot_output_dir
               )
     {
+    DEBUG_LEVEL = getOption ("bdpg.DEBUG_LEVEL", default=0)
 
     marxan_ssoln_PUs_ranked_by_votes_df = plyr::arrange (marxan_ssoln_df, desc (number))
 
@@ -130,7 +128,6 @@ plot_incremental_marxan_summed_solution_representations =
 
         cur_rep_fractions = compute_rep_fraction (bpm,
                                         cur_solution_PUs,
-                                        DEBUG_LEVEL,
                                         rep (1, num_spp))
         cur_num_spp_meeting_their_target = sum (cur_rep_fractions >= 1.0)  #  How best to give a tolerance here?
         cur_frac_of_all_spp_meeting_their_target =
@@ -309,7 +306,6 @@ plot_incremental_marxan_summed_solution_representations =
 
 read_marxan_output_files <- function (marxan_output_dir,
                                       all_correct_node_IDs,
-                                      DEBUG_LEVEL,
                                       num_PUs,
                                       num_spp,
                                       cor_bpm,
@@ -322,6 +318,8 @@ read_marxan_output_files <- function (marxan_output_dir,
                                       app_optimum_cost
                                       )
     {
+    DEBUG_LEVEL = getOption ("bdpg.DEBUG_LEVEL", default=0)
+
         #  Read various marxan outputs into this program.
             #  Should include these in the marxan package.
             #  Marxan's best solution.
@@ -535,7 +533,6 @@ cat("\njust before compute_marxan_solution_scores() for cur_solution_num = ", cu
 
     cor_marxan_solution_scores = compute_marxan_solution_scores (cor_bpm,
                                                                cur_marxan_solution_PU_IDs,
-                                                               DEBUG_LEVEL,
                                                                targets,
                                                                num_spp,
                                                                marxan_solutions_matrix,
@@ -546,7 +543,6 @@ cat("\njust before compute_marxan_solution_scores() for cur_solution_num = ", cu
 
     app_marxan_solution_scores = compute_marxan_solution_scores (app_bpm,
                                                                cur_marxan_solution_PU_IDs,
-                                                               DEBUG_LEVEL,
                                                                targets,
                                                                num_spp,
                                                                marxan_solutions_matrix,
