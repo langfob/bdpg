@@ -186,13 +186,11 @@ build_PU_spp_pair_indices_from_occ_matrix = function (occ_matrix,
 find_indices_of_spp_with_unmet_rep = function (spp_occ_matrix,
                                                candidate_solution_PU_IDs,
                                                num_spp,
-                                               DEBUG_LEVEL,
                                                spp_rep_targets
                                                )
     {
     spp_rep_fracs = compute_rep_fraction (spp_occ_matrix,
                                           candidate_solution_PU_IDs,
-                                          DEBUG_LEVEL,
                                           spp_rep_targets
                                           )
 
