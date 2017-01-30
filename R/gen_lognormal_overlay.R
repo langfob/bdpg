@@ -522,8 +522,6 @@ EF = function (seed_value,
 #'                                              e.g., 28
 #' @export
 #'
-#' @examples
-#'
 #-------------------------------------------------------------------------------
 #  Other search algorithm possibilities:
 #
