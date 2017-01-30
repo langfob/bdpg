@@ -148,7 +148,8 @@ create_Xu_graph = function (num_nodes_per_group,
                             max_possible_tot_num_links,
                             target_num_links_between_2_groups_per_round,
                             num_rounds_of_linking_between_groups,
-                            duplicate_links_allowed=FALSE
+                            duplicate_links_allowed=FALSE,
+                            bdpg_error_codes
                             )
     {
     DEBUG_LEVEL = getOption ("bdpg.DEBUG_LEVEL", default=0)

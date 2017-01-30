@@ -54,7 +54,9 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
                        nodes,
                        derived_Xu_params@max_possible_tot_num_links,
                        derived_Xu_params@target_num_links_between_2_groups_per_round,
-                       derived_Xu_params@num_rounds_of_linking_between_groups
+                       derived_Xu_params@num_rounds_of_linking_between_groups,
+                       duplicate_links_allowed=FALSE,
+                       bdpg_error_codes
                        )
 
     dependent_node_IDs = get_dependent_node_IDs (nodes)
