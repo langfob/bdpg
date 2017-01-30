@@ -7,7 +7,8 @@
 #
 #===============================================================================
 
-create_dir_structure <- function (cor_or_app_subdir_name     #  e.g., "cor" or "app/app.1"
+create_dir_structure <- function (parameters,
+                                  cor_or_app_subdir_name     #  e.g., "cor" or "app/app.1"
                                   )
     {
         #  Build base name of parent directory with slash at end.
@@ -112,7 +113,8 @@ do_graph_and_marxan_analysis <- function (cor_or_app_subdir_name,
                                           original_FN_const_rate
                                           )
 {
-derived_bdpg_dir_names = create_dir_structure (cor_or_app_subdir_name)
+derived_bdpg_dir_names = create_dir_structure (parameters,
+                                               cor_or_app_subdir_name)
 
 #===============================================================================
 #       Summarize and plot graph and distribution structure information.
