@@ -92,7 +92,8 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 
     if (PU_spp_pair_info@num_spp > max_allowed_num_spp)
         {
-        cat ("\n\nQuitting:  num_spp (", num_spp, ") > maximum allowed (",
+        cat ("\n\nQuitting:  PU_spp_pair_info@num_spp (",
+             PU_spp_pair_info@num_spp, ") > maximum allowed (",
              max_allowed_num_spp, ").\n\n")  #parameters$max_allowed_num_spp, ").\n\n")
 
             #------------------------------------------------------------------
