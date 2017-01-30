@@ -199,7 +199,7 @@ load_Xu_problem_from_Xu_file_into_PU_spp_pair_indices =
 
 #load_Xu_problem_from_file_into_PU_spp_pair_indices_sextet =
 load_Xu_problem_from_Xu_file =
-        function (input_file_name,
+        function (infile_name,
                   correct_solution_cost)
     {
     parsed_Xu_file_triple =
