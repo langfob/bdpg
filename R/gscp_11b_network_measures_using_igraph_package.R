@@ -16,9 +16,8 @@
 #' @param bg not sure
 #'
 #' @return not sure
-#' @importFrom igraph V V<- vcount get.adjlist bipartite.projection get.edgelist
-#'     list.vertex.attributes E
 #'
+#' @import igraph
 ccBip <- function (bg)
     {
     if (! "name" %in% list.vertex.attributes (bg))
@@ -51,6 +50,7 @@ ccBip <- function (bg)
             )
     }
 
+#' @import igraph
 ccLowDot <- function (bg)
     {
     if (! "name" %in% list.vertex.attributes(bg))
@@ -81,6 +81,7 @@ ccLowDot <- function (bg)
             )
     }
 
+#' @import igraph
 ccTopDot <- function (bg)
     {
     if (! "name" %in% list.vertex.attributes(bg))
@@ -132,6 +133,7 @@ ccTopDot <- function (bg)
 
 #===============================================================================
 
+#' @import igraph
 redundancy <- function (g
                             #  Added by BTL since this only seemed to do bottom.
                         , top_bottom_vertex_type=FALSE
@@ -183,6 +185,7 @@ redundancy <- function (g
 
 #===============================================================================
 
+#' @import igraph
 compute_igraph_related_network_measures <-
                     #  2016 03 29 - BTL.
                     #  Trying to make this routine more generic so that it

@@ -8,6 +8,8 @@
 
 #===============================================================================
 
+
+#' @import bipartite
 compute_network_measures_using_bipartite_package = function (bpm)
     {
     cat ("\n\nAbout to create all_except_slow_indices.")
