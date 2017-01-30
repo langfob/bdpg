@@ -155,41 +155,6 @@ setClass ("Xu_bd_problem",
 #            }
 #           )
 
-#-------------------------------------------------------------------------------
-#  2017 01 30 - BTL
-#  Looks like this was the start of trying to build something that has never
-#  been used and is no longer in synch with the way things are stored in the
-#  Xu_bd_problem class.  For example, there is no longer a sextet; it has
-#  been replaced by PU_spp_pair_info and all of the values in that class
-#  are pulled out one by one and inserted into Xu_bd_problem slots.
-#  It looks like the PU_spp_pair_info object is only used as a temporary
-#  container for passing values back from the low level routines that decode
-#  a problem from a file, etc.
-#
-#  So, I think that get_problem_from_Xu_file() can be removed, especially
-#  since it's never called anywhere.
-#-------------------------------------------------------------------------------
-
-# setGeneric (name = "get_problem_from_Xu_file",
-#             def = function (object, input_file_name,
-#                             given_correct_solution_cost)
-#                 {standardGeneric ("get_problem_from_Xu_file")}
-#             )
-#
-# setMethod ("get_problem_from_Xu_file",
-#            signature (object = "Xu_bd_problem"),
-#            function (object, input_file_name, given_correct_solution_cost)
-#                {
-#                 object@infile_name = input_file_name
-#
-#                 object@PU_spp_pair_indices_sextet =
-#                     load_Xu_problem_from_file_into_PU_spp_pair_indices_sextet (object@infile_name,
-#                                                     given_correct_solution_cost)
-#
-#                 object@dependent_node_IDs = NULL
-#                 }
-#           )
-
 #===============================================================================
 
     #  Xu_wrapped_bd_problem class.
