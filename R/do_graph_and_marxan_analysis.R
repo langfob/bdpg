@@ -68,7 +68,6 @@ do_graph_and_marxan_analysis <- function (cor_or_app_subdir_name,
 
                                             #  input parameters
                                           parameters,
-                                          emulatingTzar,
                                           DEBUG_LEVEL,
 
                                           current_os,   #### derived_bdpg_parameters$current_os
@@ -158,7 +157,6 @@ cat("\njust after app summarize_and_plot_graph_and_distribution_structure_inform
 ###                                    app_num_spp,
 ###                                    app_num_PUs,
                                     app_PU_spp_pair_indices,
-                                    emulatingTzar,
                                     DEBUG_LEVEL,
                     derived_bdpg_dir_names$network_output_dir,
                                     PU_col_name,

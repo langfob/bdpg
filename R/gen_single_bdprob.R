@@ -6,18 +6,15 @@
 #'
 #' @param max_allowed_num_spp DESCRIPTION.
 #' @param parameters DESCRIPTION.
-#' @param emulatingTzar DESCRIPTION.
 #' @param bdpg_error_codes DESCRIPTION.
 #' @param integerize DESCRIPTION.
 #' @param DEBUG_LEVEL DESCRIPTION.
 #'
 #' @return RETURN_DESCRIPTION
 #' @export
-#' @examples
-#' # ADD_EXAMPLES_HERE
+
 create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
                                             parameters,
-                                            emulatingTzar,
                                             bdpg_error_codes,
                                             integerize,
                                             DEBUG_LEVEL)
@@ -34,7 +31,6 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 
     Xu_parameters =
       derive_Xu_control_parameters (parameters,
-                                    emulatingTzar,
                                     bdpg_error_codes,
                                     integerize)
 
@@ -178,10 +174,9 @@ gen_single_bdprob = function (parameters,
         PU_spp_pair_info =
             create_Xu_problem_from_scratch (max_allowed_num_spp,
                                             parameters,
-                                                    emulatingTzar,
-                                                    bdpg_error_codes,
-                                                    integerize,
-                                                    DEBUG_LEVEL)
+                                            bdpg_error_codes,
+                                            integerize,
+                                            DEBUG_LEVEL)
         }  #  end - create Xu problem from scratch
 
     #===============================================================================

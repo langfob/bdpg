@@ -27,7 +27,6 @@ verify_that_generated_solution_really_is_a_solution =
                   num_PUs,
             PU_costs,
                   bdpg_error_codes,
-                  emulatingTzar = FALSE,
                   DEBUG_LEVEL
                   )
     {
@@ -52,7 +51,7 @@ verify_that_generated_solution_really_is_a_solution =
         cat ("\n\nbpm = \n")
         print (bpm)
 
-        if (emulatingTzar)  browser ()
+        if (getOption ("bdpg.emulatingTzar", default=FALSE))  browser ()
         quit (save="no", status=bdpg_error_codes$ERROR_STATUS_optimal_solution_is_not_optimal)
         }
 
@@ -152,7 +151,6 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
               dependent_node_IDs,
               correct_solution_vector_is_known,
               bdpg_error_codes,
-              emulatingTzar = FALSE,
               DEBUG_LEVEL
               )
 
@@ -208,7 +206,6 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
                                                         num_PUs,  #  num_PU_cols?
                                             PU_costs,
                                                         bdpg_error_codes,
-                                                        emulatingTzar,
                                                         DEBUG_LEVEL)
         }
 

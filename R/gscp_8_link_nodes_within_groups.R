@@ -4,59 +4,59 @@
 
 #===============================================================================
 
-link_nodes_within_groups = 
-    function (num_nodes_per_group, 
-              n__num_groups, 
-              nodes, 
-              edge_list, 
-              DEBUG_LEVEL, 
-              bdpg_error_codes 
-              ) 
+link_nodes_within_groups =
+    function (num_nodes_per_group,
+              n__num_groups,
+              nodes,
+              edge_list,
+              DEBUG_LEVEL,
+              bdpg_error_codes
+              )
     {
     cat ("\n\n--------------------  Linking nodes WITHIN each group.\n")
-    
+
     if (num_nodes_per_group < 2)
         {
-        cat ("\n\n***  num_nodes_per_group (", num_nodes_per_group, 
+        cat ("\n\n***  num_nodes_per_group (", num_nodes_per_group,
              ") must be at least 2.\n\n")
-        
-        if (emulatingTzar)  browser ()
-        
+
+        if (getOption ("bdpg.emulatingTzar", default=FALSE))  browser ()
+
         quit (save="no", status=bdpg_error_codes$ERROR_STATUS_num_nodes_per_group_must_be_at_least_2)
         }
-    
+
     num_nodes_per_group_minus_1 = num_nodes_per_group - 1
     cur_row = 1
-    
+
     for (cur_group_ID in 1:n__num_groups)
         {
-            #  NOTE:  I think that the ordering of the node IDs within 
-            #           each pair is important later on.  That is, when  
-            #           trying to identify duplicated links, the unique()  
-            #           call that is used will only work if the pairs are 
-            #           ordered within pair, i.e., if all "from" nodes 
+            #  NOTE:  I think that the ordering of the node IDs within
+            #           each pair is important later on.  That is, when
+            #           trying to identify duplicated links, the unique()
+            #           call that is used will only work if the pairs are
+            #           ordered within pair, i.e., if all "from" nodes
             #           have a value less than or equal to the "to" value.
-            #           That wouldn't be necessary if these were directed links, 
-            #           but undirected, you couldn't recognize duplicates if 
-            #           the order was allowed to occur both ways, i.e., (3,5) and 
+            #           That wouldn't be necessary if these were directed links,
+            #           but undirected, you couldn't recognize duplicates if
+            #           the order was allowed to occur both ways, i.e., (3,5) and
             #           (5,3) would not be flagged as being duplicates.
-        
-        
-            #  NOTE:  The code in this loop assumes the group nodes are sorted.  
-            #         These group nodes are probably already sorted, 
-            #         but this just makes sure, as a safeguard against 
+
+
+            #  NOTE:  The code in this loop assumes the group nodes are sorted.
+            #         These group nodes are probably already sorted,
+            #         but this just makes sure, as a safeguard against
             #         some future change.
-        cur_group_nodes_sorted = 
+        cur_group_nodes_sorted =
             sort (nodes [nodes$group_ID == cur_group_ID, "node_ID"])
         cat ("\n\ncur_group_nodes_sorted for group ", cur_group_ID, " = ")
         print (cur_group_nodes_sorted)
-        
-            #  Link each node in the group to all nodes with a higher node ID in 
-            #  the same group.  
-            #  Doing it this way insures that all nodes in the group are linked to 
-            #  all other nodes in the group but that the linking action is only done 
+
+            #  Link each node in the group to all nodes with a higher node ID in
+            #  the same group.
+            #  Doing it this way insures that all nodes in the group are linked to
+            #  all other nodes in the group but that the linking action is only done
             #  once for each pair.
-        
+
         for (cur_idx in 1:num_nodes_per_group_minus_1)
             {
             for (other_node_idx in (cur_idx+1):num_nodes_per_group)
@@ -67,27 +67,27 @@ link_nodes_within_groups =
                 }
             }
         }
-    
+
     if (DEBUG_LEVEL > 0)
         {
         cat ("\n\nedge_list (with last lines NA to hold intergroup links to be loaded in next step):\n\n")
         print (edge_list)
         cat ("\n\n")
         }
-    
+
     return (list (edge_list=edge_list, cur_row=cur_row))
     }
 
 #===============================================================================
 
     #  edge_list gives the edge list.
-        #  However, can't use it until it's completely finished, i.e., 
+        #  However, can't use it until it's completely finished, i.e.,
         #  close to when it's handed to Marxan.
     #  igraph needs an edge list.
     #  The row number is also the edge/link ID.
     #  The two columns are the nodes that are connected.
     #  This is the edge list the igraph needs, I think.
-    #  However, I need more than one graph.  
+    #  However, I need more than one graph.
 
 #===============================================================================
 

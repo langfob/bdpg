@@ -4,15 +4,13 @@
 \alias{create_Xu_problem_from_scratch}
 \title{FUNCTION_TITLE}
 \usage{
-create_Xu_problem_from_scratch(max_allowed_num_spp, parameters, emulatingTzar,
+create_Xu_problem_from_scratch(max_allowed_num_spp, parameters,
   bdpg_error_codes, integerize, DEBUG_LEVEL)
 }
 \arguments{
 \item{max_allowed_num_spp}{DESCRIPTION.}
 
 \item{parameters}{DESCRIPTION.}
-
-\item{emulatingTzar}{DESCRIPTION.}
 
 \item{bdpg_error_codes}{DESCRIPTION.}
 
@@ -25,8 +23,5 @@ RETURN_DESCRIPTION
 }
 \description{
 FUNCTION_DESCRIPTION
-}
-\examples{
-# ADD_EXAMPLES_HERE
 }
 
