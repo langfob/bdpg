@@ -282,7 +282,7 @@ read_Xu_problem_from_Xu_file <- function (infile_name, correct_solution_cost)
         #  just before now.
         #-------------------------------------------------------------------
 
-    PU_spp_pair_info@PU_costs = get_PU_costs (num_PUs)
+    PU_spp_pair_info@PU_costs = get_PU_costs (PU_spp_pair_info@num_PUs)
 
         #-----------------------------------------------------------------------
         #  Downstream attempts to predict socres based on generator parameters
