@@ -471,7 +471,7 @@ largest_PU_ID = max (Xu_nodes$node_ID)
                              Xu_bdprob@num_PUs, ").\n\n"))
             } else
             {
-            error (paste0 ("\nlowest missing PU_ID (", min (missing_PU_IDs),
+            stop (paste0 ("\nlowest missing PU_ID (", min (missing_PU_IDs),
                              " is <= highest PU_ID in base problem (",
                              Xu_bdprob@num_PUs, ").\n\n"))
             }
