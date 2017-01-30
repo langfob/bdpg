@@ -1,10 +1,10 @@
 Package: bdpg
-Title: A Test Package For Initializing R Packages On Github
+Title: Package For Building and Testing Biodiversity Problem Generators 
 Version: 0.0.0.9000
 Authors@R: 'Bill Langford <bill.langford@rmit.edu.au> [aut, cre]'
-Description: This package is a dummy placeholder generated to fill in
-    example values for what
-    would be generated for a new package.
+Description: This package provides functions for generating biodiversity 
+    problems (particularly reserve selection) with known solutions and 
+    testing algorithms for attempting to generate optimal solutions.
 Depends:
     R (>= 3.3.2)
 License: MIT + file LICENSE

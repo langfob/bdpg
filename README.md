@@ -2,8 +2,7 @@
 bdpg
 ====
 
-This package is a dummy placeholder generated to fill in example values for what would be generated for a new package.
-- (A paragraph that describes the high-level purpose of the package.)
+This package provides functions for generating biodiversity problems (particularly reserve selection) with known solutions and testing algorithms for attempting to generate optimal solutions.
 
 Installation
 ------------
@@ -15,8 +14,8 @@ You can install bdpg from github with:
 devtools::install_github ("langfob/bdpg")
 ```
 
-Example
--------
+Example (still boilerplate)
+---------------------------
 
 This is a basic example which shows you how to solve a common problem:
 - (An example that shows how to use the package to solve a simple problem.)
@@ -25,7 +24,7 @@ This is a basic example which shows you how to solve a common problem:
 ...
 ```
 
-Overview
---------
+Overview (still boilerplate)
+----------------------------
 
 -   (An overview that describes the main components of the package. For more complex packages, this will point to vignettes for more details.)
