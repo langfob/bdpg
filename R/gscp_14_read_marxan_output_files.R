@@ -733,8 +733,7 @@ cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_soluti
                                                         cor_bpm,
                                                         "cor",
                                                               num_spp,
-                                                              plot_output_dir,
-                                                              DEBUG_LEVEL)
+                                                              plot_output_dir)
 
         #  Using apparent scores...
     plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
