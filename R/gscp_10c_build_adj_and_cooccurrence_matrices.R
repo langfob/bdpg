@@ -113,19 +113,19 @@ create_PU_spp_pair_names =
 
 #    PU_vertex_indices = 1:cor_num_PUs    #  I think this has to always be cor_
     PU_vertex_indices = sort(unique(PU_spp_pair_indices[,PU_col_name]))
-    PU_vertex_names = str_c ("p", PU_vertex_indices)
+    PU_vertex_names = stringr::str_c ("p", PU_vertex_indices)
 
 #    spp_vertex_indices = 1:cor_num_spp    #  I think this has to always be cor_
     spp_vertex_indices = sort(unique(PU_spp_pair_indices[,spp_col_name]))
-    spp_vertex_names = str_c ("s", spp_vertex_indices)
+    spp_vertex_names = stringr::str_c ("s", spp_vertex_indices)
 
         #  Now, create a near copy of the PU_spp_pair_indices table
         #  but using the names of the PUs and species instead of their
         #  indices.
 
     PU_spp_pair_names =
-        data.frame (PU_ID = str_c ("p", PU_spp_pair_indices [,PU_col_name]),
-                    spp_ID = str_c ("s", PU_spp_pair_indices [,spp_col_name]),
+        data.frame (PU_ID = stringr::str_c ("p", PU_spp_pair_indices [,PU_col_name]),
+                    spp_ID = stringr::str_c ("s", PU_spp_pair_indices [,spp_col_name]),
                     stringsAsFactors = FALSE)
 
     return (list (PU_spp_pair_names=PU_spp_pair_names,

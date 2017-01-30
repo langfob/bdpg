@@ -6,7 +6,7 @@
 
 convert_name_str_to_ID_num = function (str, lead_str="P")
     {
-    return (as.numeric (str_replace (str, lead_str, "")))
+    return (as.numeric (stringr::str_replace (str, lead_str, "")))
     }
 
 #-------------------------------------------------------------------------------
