@@ -9,6 +9,8 @@ gen_multi_bdprob(parameters, wrap_lognormal_dist_around_Xu,
   max_allowed_num_spp, bdpg_error_codes, integerize)
 }
 \arguments{
+\item{parameters}{named list of all parameters, generally from project.yaml file}
+
 \item{wrap_lognormal_dist_around_Xu}{DESCRIPTION.}
 
 \item{read_Xu_problem_from_Xu_file}{DESCRIPTION.}

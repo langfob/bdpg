@@ -137,6 +137,7 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' Read a Xu problem from files of ones already created by Xu or
 #' create one from scratch.
 #'
+#' @param parameters named list of all parameters, generally from project.yaml file
 #' @param read_Xu_problem_from_Xu_file boolean TRUE if problem is to be
 #'     read from a file created by Xu; FALSE if problem is to be created from
 #'     scratch.

@@ -9,6 +9,8 @@ gen_single_bdprob(parameters, read_Xu_problem_from_Xu_file, infile_name,
   integerize)
 }
 \arguments{
+\item{parameters}{named list of all parameters, generally from project.yaml file}
+
 \item{read_Xu_problem_from_Xu_file}{boolean TRUE if problem is to be
 read from a file created by Xu; FALSE if problem is to be created from
 scratch.}

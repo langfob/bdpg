@@ -639,6 +639,7 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
 #'
 #' FUNCTION_DESCRIPTION
 #'
+#' @param parameters named list of all parameters, generally from project.yaml file
 #' @param wrap_lognormal_dist_around_Xu DESCRIPTION.
 #' @param read_Xu_problem_from_Xu_file DESCRIPTION.
 #' @param infile_name DESCRIPTION.
