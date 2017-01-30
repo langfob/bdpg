@@ -17,6 +17,7 @@
 #'
 #' @return not sure
 #' @importFrom igraph V V<- vcount get.adjlist bipartite.projection get.edgelist
+#'     list.vertex.attributes E
 #'
 ccBip <- function (bg)
     {
