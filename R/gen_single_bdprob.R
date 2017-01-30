@@ -158,7 +158,8 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
-gen_single_bdprob = function (read_Xu_problem_from_Xu_file,
+gen_single_bdprob = function (parameters,
+                              read_Xu_problem_from_Xu_file,
                               infile_name,
                               given_correct_solution_cost,
                               max_allowed_num_spp,
@@ -224,7 +225,6 @@ gen_single_bdprob = function (read_Xu_problem_from_Xu_file,
                                                     PU_spp_pair_info@dependent_node_IDs,
                                                     PU_spp_pair_info@correct_solution_vector_is_known,
                                                     bdpg_error_codes,
-                                                    emulatingTzar,
                                                     DEBUG_LEVEL)
 
         #-------------------------------------------------------------

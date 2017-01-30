@@ -4,7 +4,7 @@
 \alias{gen_single_bdprob}
 \title{Generate a single biodiversity problem}
 \usage{
-gen_single_bdprob(read_Xu_problem_from_Xu_file, infile_name,
+gen_single_bdprob(parameters, read_Xu_problem_from_Xu_file, infile_name,
   given_correct_solution_cost, max_allowed_num_spp, bdpg_error_codes,
   integerize, DEBUG_LEVEL)
 }

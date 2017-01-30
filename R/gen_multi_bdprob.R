@@ -551,7 +551,6 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
                                     Xu_dep_set,
                                     Xu_bdprob@correct_solution_vector_is_known,
                                     Xu_bdprob@bdpg_error_codes,
-                                    Xu_bdprob@emulatingTzar,
                                     DEBUG_LEVEL
                                     )
 
@@ -657,7 +656,8 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
 #' @return RETURN_DESCRIPTION
 #' @export
 
-gen_multi_bdprob = function (wrap_lognormal_dist_around_Xu,
+gen_multi_bdprob = function (parameters,
+                             wrap_lognormal_dist_around_Xu,
                              read_Xu_problem_from_Xu_file,
                              infile_name,
                              given_correct_solution_cost,
@@ -748,7 +748,8 @@ gen_multi_bdprob = function (wrap_lognormal_dist_around_Xu,
             {
                 #  Dummy 2nd problem for initial testing.
             cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  ABOUT TO gen_single_bdprob() NUMBER 2  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
-            bdprob_2 = gen_single_bdprob (read_Xu_problem_from_Xu_file,
+            bdprob_2 = gen_single_bdprob (parameters,
+                                          read_Xu_problem_from_Xu_file,
                                           infile_name,
                                           given_correct_solution_cost,
                                           max_allowed_num_spp,

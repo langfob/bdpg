@@ -32,7 +32,8 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize, DEBUG_LEVEL)
 
     if (parameters$gen_multi_bdproblem)
         {
-        bdprob = gen_multi_bdprob (wrap_lognormal_dist_around_Xu,
+        bdprob = gen_multi_bdprob (parameters,
+                                   wrap_lognormal_dist_around_Xu,
                                    read_Xu_problem_from_Xu_file,
                                    infile_name,
                                    given_correct_solution_cost,
@@ -43,7 +44,8 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize, DEBUG_LEVEL)
 
         } else
         {
-        bdprob = gen_single_bdprob (read_Xu_problem_from_Xu_file,
+        bdprob = gen_single_bdprob (parameters,
+                                    read_Xu_problem_from_Xu_file,
                                     infile_name,
                                     given_correct_solution_cost,
                                     max_allowed_num_spp,
