@@ -10,8 +10,6 @@
 #' Do sanity checks on parameters for wrapping a biodiversity problem
 #'
 #' Currently just a placeholder...
-#'
-#' @return nothing
 
 do_sanity_checks <- function ()
     {
@@ -638,22 +636,20 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 #'
 #' FUNCTION_DESCRIPTION
 #'
-#' @param bdprob_1 DESCRIPTION.
-#' @param bdprob_2 DESCRIPTION.
-#' @param parameters DESCRIPTION.
-#' @param bdpg_error_codes DESCRIPTION.
-#' @param integerize DESCRIPTION.
-#'
-#' @return RETURN_DESCRIPTION
-#' @export
+#' @param bdprob_1 a BD_Prob to be combined
+#' @param bdprob_2 a BD_Prob to be combined
+#' @param parameters list of control parameters, generally from project.yaml
+#' @param bdpg_error_codes list of error names and corresponding error codes
+#' @param integerize function to use in converting floats to ints
 
 combine_2_bdprobs = function (bdprob_1, bdprob_2,
                               parameters, bdpg_error_codes, integerize)
     {
-    warning ("\n\ncombine_2_bdprobs() is returning a DUMMY VALUE, i.e., it's first argument.\n\n")
-    combined_bdprob = bdprob_1    #  DUMMY VALUE for initial testing
-
-    return (combined_bdprob)
+    stop ("\n\ncombine_2_bdprobs() is NOT IMPLEMENTED yet.\n\n")
+    # warning ("\n\ncombine_2_bdprobs() is returning a DUMMY VALUE, i.e., it's first argument.\n\n")
+    # combined_bdprob = bdprob_1    #  DUMMY VALUE for initial testing
+    #
+    # return (combined_bdprob)
     }
 
 #===============================================================================
