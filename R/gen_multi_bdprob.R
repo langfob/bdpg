@@ -705,7 +705,12 @@ gen_multi_bdprob = function (parameters,
               )
         }
 
-    cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  ABOUT TO gen_single_bdprob() NUMBER 1  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
+        #--------------------------------------------------------------------
+        #  Base problem is not a Xu benchmark read from a file, so go ahead
+        #  and generate the problem.
+        #--------------------------------------------------------------------
+
+    cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  ABOUT TO base Xu problem for multi-problem  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
     bdprob_1 = gen_single_bdprob (read_Xu_problem_from_Xu_file,
                                   infile_name,
                                   given_correct_solution_cost,
@@ -713,36 +718,41 @@ gen_multi_bdprob = function (parameters,
                                   bdpg_error_codes,
                                   integerize)  #parameters, bdpg_error_codes, integerize)
 
-    if (bdprob_1@prob_is_ok)
+    if (! bdprob_1@prob_is_ok)
+        {
+        stop ("\n\nGenerating base BD_Problem failed.\n\n")
+
+                #--------------------------------------------------------------
+        } else  #  Base problem generation worked, so build multiproblem now.
+                #--------------------------------------------------------------
         {
          if (wrap_lognormal_dist_around_Xu)  #parameters$wrap_lognormal_around_Xu)
             {
-            #---------------------------------------------------------------------------
-                #  Control parameters.
-                #  Should be either passed in as arguments or read from yaml file.
-                #  Hard-coding for the moment just to get things working.
+    #*************************************************************
+    #  Control parameters.
+    #  Should be either passed in as arguments or read from yaml
+    #  file.
+    #  Hard-coding for the moment just to get things working.
+    #*************************************************************
+wrap_lognormal_dist_around_Xu    = TRUE
+gen_multi_bdproblem              = TRUE
+desired_Xu_spp_frac_of_all_spp  = 0.5
+solution_frac_of_landscape      = 0.3
+desired_max_abundance_frac      = 0.7
+dep_set_PUs_eligible            = FALSE
+add_one_to_lognormal_abundances = FALSE
+seed_value_for_search           = 11
+max_search_iterations           = 500
 
-            desired_Xu_spp_frac_of_all_spp  = 0.5
-            solution_frac_of_landscape = 0.3
-            desired_max_abundance_frac = 0.7
-                                #  Whether to allow wrapped spp on the
-                                #  Xu dependent set other than the
-                                #  first (i.e., mandatory) occurrence
-                                #  of the species.
-            dep_set_PUs_eligible       = FALSE
-
-            search_outfile_name = paste0 (parameters$fullOutputDirWithSlash,
-                                          "outfile.csv")
-
-            add_one_to_lognormal_abundances = FALSE
-
-            seed_value_for_search           = 11
-            max_search_iterations           = 500
+            #-------------------------------------------------------------------
 
                 #  Derived parameters.
-            tot_num_PUs_in_landscape = round (get_num_nodes (bdprob_1@nodes) / solution_frac_of_landscape)
+            tot_num_PUs_in_landscape = round (get_num_nodes (bdprob_1@nodes) /
+                                              solution_frac_of_landscape)
+            search_outfile_name      = paste0 (parameters$fullOutputDirWithSlash,
+                                               "outfile.csv")
 
-            #---------------------------------------------------------------------------
+            #-------------------------------------------------------------------
 
             rounded_abundances =
                 find_lognormal_to_wrap_around_Xu (bdprob_1, parameters,
