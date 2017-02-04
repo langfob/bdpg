@@ -7,13 +7,12 @@
     #
     #  Just a dummy placeholder routine until I know what needs checking.
 
-#' FUNCTION_TITLE
+#' Do sanity checks on parameters for wrapping a biodiversity problem
 #'
-#' FUNCTION_DESCRIPTION
+#' Currently just a placeholder...
 #'
-#' @return RETURN_DESCRIPTION
-#' @examples
-#' # ADD_EXAMPLES_HERE
+#' @return nothing
+
 do_sanity_checks <- function ()
     {
     cat ("\n\nDummy sanity check for wrap_...().\n\n")
@@ -21,17 +20,30 @@ do_sanity_checks <- function ()
 
 #===============================================================================
 
-#' FUNCTION_TITLE
+#' Create set of planning units eligible for adding species into
 #'
-#' FUNCTION_DESCRIPTION
+#' When wrapping a species distribution around a Xu biodiversity problem,
+#' the first instance of any new species is added to the solution set of the
+#' original Xu problem that is being wrapped.  However, if more than one
+#' instance of the new species is being added in the wrapped problem, the
+#' extra instances could go in a) just the new planning units outside the
+#' original Xu problem added for the wrapper, or b) in both the original
+#' solution set and the newly added planning units.  This function builds
+#' that target set of planning units based on the value of the
+#' dep_set_PUs_eligible flag passed to it.
 #'
-#' @param Xu_dep_set DESCRIPTION.
-#' @param extra_PUs DESCRIPTION.
-#' @param dep_set_PUs_eligible DESCRIPTION.
+#' @param Xu_dep_set integer vector of planning unit IDs for the solution set
+#'     of the original Xu problem being wrapped around
+#' @param extra_PUs integer vector of plannning unit IDs being added to the
+#'     original Xu problem to make the wrapped problem
+#' @param dep_set_PUs_eligible boolean indicating whether new species instances
+#'     can be added to the original Xu problem's solution set in addition to
+#'     the adding them to the newly added planning units; TRUE implies new
+#'     species instances can be added to both sets; FALSE implies new species
+#'     instances can only be added to the newly added planning units
 #'
-#' @return RETURN_DESCRIPTION
-#' @examples
-#' # ADD_EXAMPLES_HERE
+#' @return set of planning unit IDs where new species can be placed
+
 create_eligible_PU_set <- function (Xu_dep_set,
                                     extra_PUs,
                                     dep_set_PUs_eligible
@@ -47,29 +59,34 @@ create_eligible_PU_set <- function (Xu_dep_set,
 
 #===============================================================================
 
-    #  Remove species from an abundance distribution if they fall on either
-    #  too many or too few patches.
-    #  This is primarily to get rid of species that occur on
-    #  only 0 or 1 patches, however, some distribution generator might also
-    #  generate species that are too common as well, so this routine will
-    #  axe those too.
-    #  This doesn't really need to be a function since it's only one line
-    #  long, but I built an earlier version that was more verbose so that
-    #  I could monitor how many things were being cut out.
-    #  That version is in the git repository in case it needs to be
-    #  resurrected for some reason.
 
-#' FUNCTION_TITLE
+#'  Remove species from an abundance distribution if they fall on either
+#'  too many or too few patches.
 #'
-#' FUNCTION_DESCRIPTION
+#'  This function is primarily to get rid of species that occur on
+#'  only 0 or 1 patches, however, some distribution generator might also
+#'  generate species that are too common as well, so this routine will
+#'  axe those too.
 #'
-#' @param rounded_abundances DESCRIPTION.
-#' @param min_abund DESCRIPTION.
-#' @param max_abund DESCRIPTION.
+#'  Abundances are expressed here as a vector of count values where each value
+#'  is the count of the number of patches a particular species occurs on.
+#'  For example, [1 1 1 2 6 6] would represent 3 species that occur
+#'  on exactly one patch, 1 species that occurs on 2 patches, and 2 species
+#'  that occur on 6 patches each.  Calling this routine with a min_abund of 2
+#'  and a max_abund of 5 would return a 1 element vector, i.e., the vector [2].
 #'
-#' @return RETURN_DESCRIPTION
-#' @examples
-#' # ADD_EXAMPLES_HERE
+#'  This doesn't really need to be a function since it's only one line
+#'  long, but I built an earlier version that was more verbose so that
+#'  I could monitor how many things were being cut out.
+#'  That version is in the git repository in case it needs to be
+#'  resurrected for some reason.
+#'
+#' @param rounded_abundances vector of abundances to be trimmed
+#' @param min_abund lowest abundance to allow in the trimmed set
+#' @param max_abund largest abundance to allow in the trimmed set
+#'
+#' @return vector of abundances whose values lie in the specified range
+
 trim_abundances = function (rounded_abundances,
                             min_abund=2,
                             max_abund=.Machine$double.xmax
@@ -83,17 +100,29 @@ trim_abundances = function (rounded_abundances,
 
 #  New version:
 
-#' FUNCTION_TITLE
+#' Remove base problem's species from the wrapping problems set of species to
+#' be distributed over the planning units
 #'
-#' FUNCTION_DESCRIPTION
+#' When wrapping one distribution around another, the outside distribution
+#' needs to contain the inside distribution as a proper subset, however,
+#' when it's time to distribute the wrapping distribution over the landscape,
+#' the inside distribution has already been distributed.  That means that the
+#' inside distribution needs to be removed from full wrapping distribution
+#' before its instances are spread across the landscape.  This function
+#' strips that inside distribution out of the full wrapped distribution and
+#' returns a set of abundances ready for spreading.
 #'
-#' @param Xu_PU_spp_table DESCRIPTION.
-#' @param trimmed_rounded_abund_per_spp DESCRIPTION.
-#' @param spp_col_name DESCRIPTION.
+#' @param Xu_PU_spp_table PU_spp table for original Xu problem being wrapped
+#'     around
+#' @param trimmed_rounded_abund_per_spp vector of abundances of all species in
+#'     the full wrapped distribution, i.e., including the original Xu problem
+#'     abundances
+#' @param spp_col_name string containing the name of the column in the PU_spp
+#'     table that contains the species IDs
 #'
-#' @return RETURN_DESCRIPTION
-#' @examples
-#' # ADD_EXAMPLES_HERE
+#' @return vector of abundances in the wrapping abundance distribution that are
+#'     not also in the original Xu problem
+
 remove_base_spp_abundances_from_wrapping_distribution <-
     function (Xu_PU_spp_table,
               trimmed_rounded_abund_per_spp,
