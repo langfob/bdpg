@@ -728,31 +728,31 @@ gen_multi_bdprob = function (parameters,
         {
          if (wrap_lognormal_dist_around_Xu)  #parameters$wrap_lognormal_around_Xu)
             {
-    #*************************************************************
-    #  Control parameters.
-    #  Should be either passed in as arguments or read from yaml
-    #  file.
-    #  Hard-coding for the moment just to get things working.
-    #*************************************************************
-wrap_lognormal_dist_around_Xu    = TRUE
-gen_multi_bdproblem              = TRUE
-desired_Xu_spp_frac_of_all_spp  = 0.5
-solution_frac_of_landscape      = 0.3
-desired_max_abundance_frac      = 0.7
-dep_set_PUs_eligible            = FALSE
-add_one_to_lognormal_abundances = FALSE
-seed_value_for_search           = 11
-max_search_iterations           = 500
+                #---------------------------------
+                #  Control parameters from user.
+                #---------------------------------
 
-            #-------------------------------------------------------------------
+            desired_Xu_spp_frac_of_all_spp  = parameters$desired_Xu_spp_frac_of_all_spp
+            solution_frac_of_landscape      = parameters$solution_frac_of_landscape
+            desired_max_abundance_frac      = parameters$desired_max_abundance_frac
+            dep_set_PUs_eligible            = parameters$dep_set_PUs_eligible
+            add_one_to_lognormal_abundances = parameters$add_one_to_lognormal_abundances
+            seed_value_for_search           = parameters$seed_value_for_search
+            max_search_iterations           = parameters$max_search_iterations
 
+                #-----------------------
                 #  Derived parameters.
+                #-----------------------
+
             tot_num_PUs_in_landscape = round (get_num_nodes (bdprob_1@nodes) /
                                               solution_frac_of_landscape)
             search_outfile_name      = paste0 (parameters$fullOutputDirWithSlash,
                                                "outfile.csv")
 
-            #-------------------------------------------------------------------
+                #-----------------------------------------------------------
+                #  Search for a set of lognormal parameters that fit the
+                #  user's constraints while including the base Xu problem.
+                #-----------------------------------------------------------
 
             rounded_abundances =
                 find_lognormal_to_wrap_around_Xu (bdprob_1, parameters,
@@ -767,13 +767,17 @@ max_search_iterations           = 500
 
                 #--------------------------------------------------------------
                 #  Wrap the generated lognormal around the Xu base problem.
+                #
                 #  Note that the wrap_abundance_dist_around_Xu_problem()
                 #  function doesn't care where you got the abundances, i.e.,
                 #  they don't have to have come from the lognormal generator.
+                #
                 #  It can be any abundance set that you want, as long as it
                 #  contains at least as many species sitting on exactly
                 #  2 patches as the base Xu problem has.
-                #  It can have more than the Xu problem, but not less.
+                #
+                #  It can have more species that sit on exactly 2 patches
+                #  than the base Xu problem, but not less.
                 #--------------------------------------------------------------
 
             combined_bdprob =
