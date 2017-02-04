@@ -8,8 +8,6 @@
 
 #===============================================================================
 
-
-#' @import bipartite
 compute_network_measures_using_bipartite_package = function (bpm)
     {
     cat ("\n\nAbout to create all_except_slow_indices.")
@@ -65,7 +63,7 @@ compute_network_measures_using_bipartite_package = function (bpm)
                   #  networks show this is too slow, then can revert to
                   #  using all_except_slow_indices.
     #         t (networklevel (bpm, index=all_except_slow_indices))
-          t (networklevel (bpm, index="ALLBUTDD"))
+          t (bipartite::networklevel (bpm, index="ALLBUTDD"))
 
     cat ("\n\nbipartite_metrics_from_bipartite_package = \n")
     print (bipartite_metrics_from_bipartite_package)
