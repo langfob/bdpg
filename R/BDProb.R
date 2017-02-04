@@ -106,6 +106,27 @@ setClass ("Xu_params",
 
 #===============================================================================
 
+    #  PU_spp_pair_info class.
+
+setClass ("PU_spp_pair_info_class",
+          representation (
+                            PU_spp_pair_indices              = "data.frame",
+                            PU_col_name                      = "character",
+                            spp_col_name                     = "character",
+                            num_PUs                          = "numeric",
+                            num_spp                          = "numeric",
+                            correct_solution_cost            = "numeric",
+                            Xu_parameters                    = "Xu_params",
+                            correct_solution_vector_is_known = "logical",
+                            dependent_node_IDs               = "vector",
+                            nodes                            = "data.frame",
+                            PU_costs                         = "vector",
+                            prob_generator_params_known      = "logical"
+                            )
+        )
+
+#===============================================================================
+
     #  Xu_bd_problem class.
 
 setClass ("Xu_bd_problem",
@@ -164,27 +185,6 @@ setClass ("Xu_wrapped_bd_problem",
                             base_bd_prob                 = "Xu_bd_problem"
                             ),
           contains = "Xu_bd_problem"
-        )
-
-#===============================================================================
-
-    #  PU_spp_pair_info class.
-
-setClass ("PU_spp_pair_info_class",
-          representation (
-                            PU_spp_pair_indices              = "data.frame",
-                            PU_col_name                      = "character",
-                            spp_col_name                     = "character",
-                            num_PUs                          = "numeric",
-                            num_spp                          = "numeric",
-                            correct_solution_cost            = "numeric",
-                            Xu_parameters                    = "Xu_params",
-                            correct_solution_vector_is_known = "logical",
-                            dependent_node_IDs               = "vector",
-                            nodes                            = "data.frame",
-                            PU_costs                         = "vector",
-                            prob_generator_params_known      = "logical"
-                            )
         )
 
 #===============================================================================
