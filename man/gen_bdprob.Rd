@@ -2,24 +2,21 @@
 % Please edit documentation in R/gen_bdprob.R
 \name{gen_bdprob}
 \alias{gen_bdprob}
-\title{FUNCTION_TITLE}
+\title{Generate a biodiversity problem}
 \usage{
 gen_bdprob(parameters, bdpg_error_codes, integerize)
 }
 \arguments{
-\item{parameters}{DESCRIPTION.}
+\item{parameters}{parameter list, generally from project.yaml}
 
-\item{bdpg_error_codes}{DESCRIPTION.}
+\item{bdpg_error_codes}{list of error codes and corresponding error numbers}
 
-\item{integerize}{DESCRIPTION.}
+\item{integerize}{function to use in converting floats to integers}
 }
 \value{
-RETURN_DESCRIPTION
+biodiversity problems
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\examples{
-# ADD_EXAMPLES_HERE
+Generate a biodiversity problem
 }
 

@@ -2,7 +2,8 @@
 % Please edit documentation in R/gen_multi_bdprob.R
 \name{gen_multi_bdprob}
 \alias{gen_multi_bdprob}
-\title{FUNCTION_TITLE}
+\title{Generate a new biodiversity problem by modifying or combining existing
+problem(s)}
 \usage{
 gen_multi_bdprob(parameters, wrap_lognormal_dist_around_Xu,
   read_Xu_problem_from_Xu_file, infile_name, given_correct_solution_cost,
@@ -11,24 +12,51 @@ gen_multi_bdprob(parameters, wrap_lognormal_dist_around_Xu,
 \arguments{
 \item{parameters}{named list of all parameters, generally from project.yaml file}
 
-\item{wrap_lognormal_dist_around_Xu}{DESCRIPTION.}
+\item{wrap_lognormal_dist_around_Xu}{boolean indicating whether to wrap a
+lognormal distribution around a base Xu problem; TRUE implies wrapping
+should be done; FALSE implies not}
 
-\item{read_Xu_problem_from_Xu_file}{DESCRIPTION.}
+\item{read_Xu_problem_from_Xu_file}{boolean indicating whether to read a
+Xu problem from one of Xu's benchmark problem files; TRUE implies that
+the problem should be read from one of those files; FALSE implies that
+the problem should be generated from scratch}
 
-\item{infile_name}{DESCRIPTION.}
+\item{infile_name}{string containing the name of the Xu benchmark file to
+read a problem from if reading from a Xu benchmark file}
 
-\item{given_correct_solution_cost}{DESCRIPTION.}
+\item{given_correct_solution_cost}{boolean indicating whether the correct
+cost of the correct optimum solution is known; TRUE implies that it is
+known}
 
-\item{max_allowed_num_spp}{DESCRIPTION.}
+\item{max_allowed_num_spp}{maximum number of species allowed in generating
+a problem from scratch (particularly of use when trying to do smaller,
+faster tests in development)}
 
-\item{bdpg_error_codes}{DESCRIPTION.}
+\item{bdpg_error_codes}{named list of error codes and their corresponding
+numeric return values}
 
-\item{integerize}{DESCRIPTION.}
+\item{integerize}{function to use when converting floats to integers}
 }
 \value{
-RETURN_DESCRIPTION
+a multi-BD_Prob
 }
 \description{
-FUNCTION_DESCRIPTION
+Sometimes it may be useful to combine 2 or more bd problems into
+ one bigger problem since it may have the potential to produce a
+ more difficult compound problem.
+ If nothing else, it bears some resemblance to having a larger
+ landscape with subregion characteristics.
+}
+\details{
+This function is intended to allow either wrapping a distribution around
+ an existing problem or combining two problems.  However, at the moment,
+ it only allows wrapping.  Combining two problems is pretty straightforward
+ but has not been implemented yet and probably won't be implemented unless
+ there is a demand for it.
+
+Dummy code that was in here to demonstrate high-level parts of that
+ combination (i.e., combine_2_bdprobs()) have been removed but can be
+ found in github versions of the code up until around commit 1c0fbba6
+ on Feb 4, 2017.
 }
 

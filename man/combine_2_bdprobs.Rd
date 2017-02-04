@@ -7,18 +7,15 @@
 combine_2_bdprobs(bdprob_1, bdprob_2, parameters, bdpg_error_codes, integerize)
 }
 \arguments{
-\item{bdprob_1}{DESCRIPTION.}
+\item{bdprob_1}{a BD_Prob to be combined}
 
-\item{bdprob_2}{DESCRIPTION.}
+\item{bdprob_2}{a BD_Prob to be combined}
 
-\item{parameters}{DESCRIPTION.}
+\item{parameters}{list of control parameters, generally from project.yaml}
 
-\item{bdpg_error_codes}{DESCRIPTION.}
+\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
-\item{integerize}{DESCRIPTION.}
-}
-\value{
-RETURN_DESCRIPTION
+\item{integerize}{function to use in converting floats to ints}
 }
 \description{
 FUNCTION_DESCRIPTION

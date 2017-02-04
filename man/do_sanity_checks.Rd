@@ -2,17 +2,11 @@
 % Please edit documentation in R/gen_multi_bdprob.R
 \name{do_sanity_checks}
 \alias{do_sanity_checks}
-\title{FUNCTION_TITLE}
+\title{Do sanity checks on parameters for wrapping a biodiversity problem}
 \usage{
 do_sanity_checks()
 }
-\value{
-RETURN_DESCRIPTION
-}
 \description{
-FUNCTION_DESCRIPTION
-}
-\examples{
-# ADD_EXAMPLES_HERE
+Currently just a placeholder...
 }
 

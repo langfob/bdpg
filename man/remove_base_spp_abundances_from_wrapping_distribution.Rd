@@ -2,25 +2,35 @@
 % Please edit documentation in R/gen_multi_bdprob.R
 \name{remove_base_spp_abundances_from_wrapping_distribution}
 \alias{remove_base_spp_abundances_from_wrapping_distribution}
-\title{FUNCTION_TITLE}
+\title{Remove base problem's species from the wrapping problems set of species to
+be distributed over the planning units}
 \usage{
 remove_base_spp_abundances_from_wrapping_distribution(Xu_PU_spp_table,
   trimmed_rounded_abund_per_spp, spp_col_name)
 }
 \arguments{
-\item{Xu_PU_spp_table}{DESCRIPTION.}
+\item{Xu_PU_spp_table}{PU_spp table for original Xu problem being wrapped
+around}
 
-\item{trimmed_rounded_abund_per_spp}{DESCRIPTION.}
+\item{trimmed_rounded_abund_per_spp}{vector of abundances of all species in
+the full wrapped distribution, i.e., including the original Xu problem
+abundances}
 
-\item{spp_col_name}{DESCRIPTION.}
+\item{spp_col_name}{string containing the name of the column in the PU_spp
+table that contains the species IDs}
 }
 \value{
-RETURN_DESCRIPTION
+vector of abundances in the wrapping abundance distribution that are
+    not also in the original Xu problem
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\examples{
-# ADD_EXAMPLES_HERE
+When wrapping one distribution around another, the outside distribution
+needs to contain the inside distribution as a proper subset, however,
+when it's time to distribute the wrapping distribution over the landscape,
+the inside distribution has already been distributed.  That means that the
+inside distribution needs to be removed from full wrapping distribution
+before its instances are spread across the landscape.  This function
+strips that inside distribution out of the full wrapped distribution and
+returns a set of abundances ready for spreading.
 }
 
