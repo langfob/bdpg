@@ -756,7 +756,8 @@ gen_multi_bdprob = function (parameters,
                 #-----------------------------------------------------------
 
             rounded_abundances =
-                find_lognormal_to_wrap_around_Xu (bdprob_1, parameters,
+                find_lognormal_to_wrap_around_Xu (bdprob_1,
+                                                  parameters,
                                                   desired_Xu_spp_frac_of_all_spp,
                                                   solution_frac_of_landscape,
                                                   desired_max_abundance_frac,
@@ -787,41 +788,6 @@ gen_multi_bdprob = function (parameters,
                                                        dep_set_PUs_eligible,
                                                        tot_num_PUs_in_landscape)
 
-                    #----------------------------------------------------------
-            } else  #  Don't wrap lognormal around Xu.  Combine 2 Xu instead.
-                    #----------------------------------------------------------
-            {
-                    #----------------------------------------------------------
-                    #  NOT IMPLEMENTING combine_2_bdprobs() until it's needed.
-                    #  However, I had already prototyped the higher level code
-                    #  for it, so I'll leave it here in case it's useful later.
-                    #----------------------------------------------------------
-
-            stop ("\n\ncombine_2_bdprobs() is NOT IMPLEMENTED yet.\n\n")
-
-                #  Dummy 2nd problem for initial testing.
-            cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  ABOUT TO gen_single_bdprob() NUMBER 2  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
-            bdprob_2 = gen_single_bdprob (parameters,
-                                          read_Xu_problem_from_Xu_file,
-                                          infile_name,
-                                          given_correct_solution_cost,
-                                          max_allowed_num_spp,
-                                          bdpg_error_codes,
-                                          integerize)  #parameters, bdpg_error_codes, integerize)
-
-            cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  ABOUT TO combine_2_bdprobs()  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
-
-            if (bdprob_2@prob_is_ok)
-                {
-                combined_bdprob = combine_2_bdprobs (bdprob_1, bdprob_2,
-                                                     parameters, bdpg_error_codes,
-                                                     integerize)
-                cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  DONE WITH combine_2_bdprobs()  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
-
-                } else  #  bad bdprob_2
-                {
-                combined_bdprob = bdprob_2    #  SHOULD THROW ERROR INSTEAD?
-                }
             }
         }
 
