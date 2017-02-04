@@ -685,6 +685,13 @@ gen_multi_bdprob = function (parameters,
                              bdpg_error_codes,
                              integerize)  #parameters, bdpg_error_codes, integerize)
     {
+        #----------------------------------------------------------------------
+        #  Make sure that the base problem for the multiproblem is not one of
+        #  Xu's benchmark problems read in from a file, since they do not
+        #  contain the correct solution set.  They only contain the correct
+        #  solution cost.
+        #----------------------------------------------------------------------
+
     if (wrap_lognormal_dist_around_Xu &   #(parameters$wrap_lognormal_around_Xu &
         read_Xu_problem_from_Xu_file)   # parameters$read_Xu_problem_from_Xu_file)
         {
@@ -747,13 +754,17 @@ gen_multi_bdprob = function (parameters,
                                                   add_one_to_lognormal_abundances,
                                                   search_outfile_name)
 
+
+                #--------------------------------------------------------------
                 #  Wrap the generated lognormal around the Xu base problem.
                 #  Note that the wrap_abundance_dist_around_Xu_problem()
-                #  function doesn't care where you got the abundances,
-                #  i.e., they don't have to have come from the lognormal generator.
-                #  It can be any abundance set that you want, as long as it contains
-                #  at least as many species sitting on exactly 2 patches as the base
-                #  Xu problem has.  It can have more than the Xu problem, but not less.
+                #  function doesn't care where you got the abundances, i.e.,
+                #  they don't have to have come from the lognormal generator.
+                #  It can be any abundance set that you want, as long as it
+                #  contains at least as many species sitting on exactly
+                #  2 patches as the base Xu problem has.
+                #  It can have more than the Xu problem, but not less.
+                #--------------------------------------------------------------
 
             combined_bdprob =
                 wrap_abundance_dist_around_Xu_problem (rounded_abundances,
@@ -761,8 +772,18 @@ gen_multi_bdprob = function (parameters,
                                                        dep_set_PUs_eligible,
                                                        tot_num_PUs_in_landscape)
 
-            } else    #  Don't wrap lognormal around Xu.  Combine 2 Xu instead.
+                    #----------------------------------------------------------
+            } else  #  Don't wrap lognormal around Xu.  Combine 2 Xu instead.
+                    #----------------------------------------------------------
             {
+                    #----------------------------------------------------------
+                    #  NOT IMPLEMENTING combine_2_bdprobs() until it's needed.
+                    #  However, I had already prototyped the higher level code
+                    #  for it, so I'll leave it here in case it's useful later.
+                    #----------------------------------------------------------
+
+            stop ("\n\ncombine_2_bdprobs() is NOT IMPLEMENTED yet.\n\n")
+
                 #  Dummy 2nd problem for initial testing.
             cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  ABOUT TO gen_single_bdprob() NUMBER 2  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
             bdprob_2 = gen_single_bdprob (parameters,
@@ -787,9 +808,6 @@ gen_multi_bdprob = function (parameters,
                 combined_bdprob = bdprob_2    #  SHOULD THROW ERROR INSTEAD?
                 }
             }
-        } else  #  bad bdprob_1
-        {
-        combined_bdprob = bdprob_1
         }
 
     return (combined_bdprob)
