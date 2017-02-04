@@ -22,11 +22,13 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize)
     given_correct_solution_cost    = parameters$given_correct_solution_cost
     max_allowed_num_spp            = parameters$max_allowed_num_spp
 
-    wrap_lognormal_dist_around_Xu    = TRUE    #  temp for testing only...
+##    wrap_lognormal_dist_around_Xu    = TRUE    #  temp for testing only...
+    wrap_lognormal_dist_around_Xu  = parameters$wrap_lognormal_dist_around_Xu
 
-    parameters$gen_multi_bdproblem      = TRUE    #  temp for testing only...
+##    parameters$gen_multi_bdproblem      = TRUE    #  temp for testing only...
+    gen_multi_bdproblem            = parameters$gen_multi_bdproblem
 
-    if (parameters$gen_multi_bdproblem)
+    if (gen_multi_bdproblem)
         {
         bdprob = gen_multi_bdprob (parameters,
                                    wrap_lognormal_dist_around_Xu,
