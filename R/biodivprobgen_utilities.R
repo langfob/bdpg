@@ -314,7 +314,7 @@ clean_up_final_link_counts_for_each_node <- function (PU_spp_pair_indices,
 #' @param PU_col_name Character string giving column name for PU IDs in PU_spp_pair_indices
 #' @param presences_col_name Character string giving column name for species counts in returned final_link_counts_for_each_node
 #' @export
-#' @return 2 column data frame of PU_IDs vs. number of species on corresponding PU
+#' @return species count for each node, i.e., 2 column data frame of PU_IDs vs. number of species on corresponding PU
 #' @details
 #'  Count the number of species on each PU.
 #'  If a PU has no species on it, it won't necessarily be in the
