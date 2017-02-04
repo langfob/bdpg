@@ -132,7 +132,7 @@ derived_bdpg_dir_names = create_dir_structure (parameters,
                   )
 cat("\njust after cor summarize_and_plot_graph_and_distribution_structure_information()")
 
-  app_final_link_counts_for_each_node =
+#  app_final_link_counts_for_each_node =    #  return value is never used, right?  only doing this for side effects
       summarize_and_plot_graph_and_distribution_structure_information (
                   app_PU_spp_pair_indices,
                   "app",
