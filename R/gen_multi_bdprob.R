@@ -646,34 +646,51 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
                               parameters, bdpg_error_codes, integerize)
     {
     stop ("\n\ncombine_2_bdprobs() is NOT IMPLEMENTED yet.\n\n")
-    # warning ("\n\ncombine_2_bdprobs() is returning a DUMMY VALUE, i.e., it's first argument.\n\n")
-    # combined_bdprob = bdprob_1    #  DUMMY VALUE for initial testing
-    #
-    # return (combined_bdprob)
     }
 
 #===============================================================================
 
-    #  Sometimes it may be useful to combine 2 or more bd problems into
-    #  one bigger problem since it may have the potential to produce a
-    #  more difficult compound problem.
-    #  If nothing else, it bears some resemblance to having a larger
-    #  landscape with subregion characteristics.
-
-#' FUNCTION_TITLE
+#' Generate a new biodiversity problem by modifying or combining existing
+#' problem(s)
 #'
-#' FUNCTION_DESCRIPTION
+#'  Sometimes it may be useful to combine 2 or more bd problems into
+#'  one bigger problem since it may have the potential to produce a
+#'  more difficult compound problem.
+#'  If nothing else, it bears some resemblance to having a larger
+#'  landscape with subregion characteristics.
+#'
+#'  This function is intended to allow either wrapping a distribution around
+#'  an existing problem or combining two problems.  However, at the moment,
+#'  it only allows wrapping.  Combining two problems is pretty straightforward
+#'  but has not been implemented yet and probably won't be implemented unless
+#'  there is a demand for it.
+#'
+#'  Dummy code that was in here to demonstrate high-level parts of that
+#'  combination (i.e., combine_2_bdprobs()) have been removed but can be
+#'  found in github versions of the code up until around commit 1c0fbba6
+#'  on Feb 4, 2017.
 #'
 #' @param parameters named list of all parameters, generally from project.yaml file
-#' @param wrap_lognormal_dist_around_Xu DESCRIPTION.
-#' @param read_Xu_problem_from_Xu_file DESCRIPTION.
-#' @param infile_name DESCRIPTION.
-#' @param given_correct_solution_cost DESCRIPTION.
-#' @param max_allowed_num_spp DESCRIPTION.
-#' @param bdpg_error_codes DESCRIPTION.
-#' @param integerize DESCRIPTION.
+#' @param wrap_lognormal_dist_around_Xu boolean indicating whether to wrap a
+#'     lognormal distribution around a base Xu problem; TRUE implies wrapping
+#'     should be done; FALSE implies not
+#' @param read_Xu_problem_from_Xu_file boolean indicating whether to read a
+#'     Xu problem from one of Xu's benchmark problem files; TRUE implies that
+#'     the problem should be read from one of those files; FALSE implies that
+#'     the problem should be generated from scratch
+#' @param infile_name string containing the name of the Xu benchmark file to
+#'     read a problem from if reading from a Xu benchmark file
+#' @param given_correct_solution_cost boolean indicating whether the correct
+#'     cost of the correct optimum solution is known; TRUE implies that it is
+#'     known
+#' @param max_allowed_num_spp maximum number of species allowed in generating
+#'     a problem from scratch (particularly of use when trying to do smaller,
+#'     faster tests in development)
+#' @param bdpg_error_codes named list of error codes and their corresponding
+#'     numeric return values
+#' @param integerize function to use when converting floats to integers
 #'
-#' @return RETURN_DESCRIPTION
+#' @return a multi-BD_Prob
 #' @export
 
 gen_multi_bdprob = function (parameters,
