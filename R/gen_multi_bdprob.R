@@ -711,22 +711,23 @@ gen_multi_bdprob = function (parameters,
         #--------------------------------------------------------------------
 
     cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  ABOUT TO base Xu problem for multi-problem  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
-    bdprob_1 = gen_single_bdprob (read_Xu_problem_from_Xu_file,
+    bdprob_1 = gen_single_bdprob (parameters,
+                                  read_Xu_problem_from_Xu_file,
                                   infile_name,
                                   given_correct_solution_cost,
                                   max_allowed_num_spp,
                                   bdpg_error_codes,
-                                  integerize)  #parameters, bdpg_error_codes, integerize)
+                                  integerize)
 
     if (! bdprob_1@prob_is_ok)
         {
-        stop ("\n\nGenerating base BD_Problem failed.\n\n")
+        stop ("\n\nGenerating base BD_Problem for multi-problem failed.\n\n")
 
                 #--------------------------------------------------------------
         } else  #  Base problem generation worked, so build multiproblem now.
                 #--------------------------------------------------------------
         {
-         if (wrap_lognormal_dist_around_Xu)  #parameters$wrap_lognormal_around_Xu)
+        if (wrap_lognormal_dist_around_Xu)  #parameters$wrap_lognormal_around_Xu)
             {
                 #---------------------------------
                 #  Control parameters from user.
