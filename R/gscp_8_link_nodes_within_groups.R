@@ -47,8 +47,8 @@ link_nodes_within_groups =
             #         some future change.
         cur_group_nodes_sorted =
             sort (nodes [nodes$group_ID == cur_group_ID, "node_ID"])
-        cat ("\n\ncur_group_nodes_sorted for group ", cur_group_ID, " = ")
-        print (cur_group_nodes_sorted)
+#        cat ("\n\ncur_group_nodes_sorted for group ", cur_group_ID, " = ")
+#        print (cur_group_nodes_sorted)
 
             #  Link each node in the group to all nodes with a higher node ID in
             #  the same group.
