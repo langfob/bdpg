@@ -2,18 +2,15 @@
 #                   Generate a biodiversity problem.
 #===============================================================================
 
-#' FUNCTION_TITLE
+#' Generate a biodiversity problem
 #'
-#' FUNCTION_DESCRIPTION
+#' @param parameters parameter list, generally from project.yaml
+#' @param bdpg_error_codes list of error codes and corresponding error numbers
+#' @param integerize function to use in converting floats to integers
 #'
-#' @param parameters DESCRIPTION.
-#' @param bdpg_error_codes DESCRIPTION.
-#' @param integerize DESCRIPTION.
-#'
-#' @return RETURN_DESCRIPTION
+#' @return biodiversity problems
 #' @export
-#' @examples
-#' # ADD_EXAMPLES_HERE
+
 gen_bdprob  = function (parameters, bdpg_error_codes, integerize)
     {
         #  May need to test these parameters to see if they even exist
