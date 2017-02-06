@@ -87,12 +87,13 @@ create_multiple_res_sel_dir_structures <- function (res_sel_dir_names,
         #                       are even known, so that it doesn't try to learn
         #                       something from missing data.
 
-do_graph_and_marxan_analysis <- function (cor_or_app_subdir_name,
+do_graph_and_marxan_analysis <- function (
+#XXX 2017 02 06    cor_or_app_subdir_name,
 
                                             #  input parameters
                                           parameters,
 
-                                          current_os,   #### derived_bdpg_parameters$current_os
+#XXX 2017 02 06    current_os,   #### derived_bdpg_parameters$current_os
                                           #derived_bdpg_parameters,  # only used to get dirs and current_os, so should separate those out !!
 
                                             #  parameters from gen prob.
@@ -152,7 +153,7 @@ derived_bdpg_dir_names
     cor_spp_IDs,  #####!!!!!#####
                                                       PU_col_name,
                                                       spp_col_name,
-                                                      current_os,    #  derived_bdpg_parameters$current_os,
+#XXX 2017 02 06    current_os,    #  derived_bdpg_parameters$current_os,
                                                       derived_bdpg_dir_names$marxan_input_dir,
         derived_bdpg_dir_names$marxan_output_dir,
                                                       parameters,
