@@ -7,6 +7,81 @@
 #
 #===============================================================================
 
+create_base_dir_structure <- function (base_outdir = ".",
+                                       cor_or_app_subdir_name = "cor")
+    {
+        #  Create list of directory names.
+    derived_bdpg_dir_names = list()
+
+        #  Clean up base_outdir into usable path if necessary,
+        #  e.g., change "." or "~somebody/x" into fully qualified path name.
+    base_outdir = normalizePath (base_outdir)
+
+        #  Create PLOT OUTPUT directory.
+    derived_bdpg_dir_names$plot_output_dir =
+                file.path (base_outdir, cor_or_app_subdir_name, "plots")
+    dir.create (derived_bdpg_dir_names$plot_output_dir,
+                showWarnings = TRUE, recursive = TRUE)
+
+        #  Create NETWORK OUTPUT directory.
+    derived_bdpg_dir_names$network_output_dir =
+                file.path (base_outdir, cor_or_app_subdir_name,
+                           "networks")
+    dir.create (derived_bdpg_dir_names$network_output_dir,
+                showWarnings = TRUE, recursive = TRUE)
+
+        #  Create RES_SEL directory.
+    derived_bdpg_dir_names$res_sel_dir =
+                file.path (base_outdir, cor_or_app_subdir_name, "res_sel")
+    dir.create (derived_bdpg_dir_names$res_sel_dir,
+                showWarnings = TRUE, recursive = TRUE)
+
+    return (derived_bdpg_dir_names)
+    }
+
+#===============================================================================
+
+create_one_res_sel_dir_structure <- function (res_sel_dir_name = "marxan",
+                                              base_outdir = ".")
+    {
+    res_sel_dir_names = vector ("list", 2)
+    names (res_sel_dir_names) <- c("input_dir", "output_dir")
+
+        #  Clean up base_outdir into usable path if necessary,
+        #  e.g., change "." or "~somebody/x" into fully qualified path name.
+    base_outdir = normalizePath (base_outdir)
+
+        #  Create reserve selector INPUT directory.
+    res_sel_dir_names$input_dir = file.path (base_outdir, "input")
+    dir.create (res_sel_dir_names$input_dir,
+                showWarnings = TRUE, recursive = TRUE)
+
+        #  Create reserve selector OUTPUT directory.
+    res_sel_dir_names$output_dir = file.path (base_outdir, "output")
+    dir.create (res_sel_dir_names$output_dir,
+                showWarnings = TRUE, recursive = TRUE)
+
+    return (res_sel_dir_names)
+    }
+
+#===============================================================================
+
+create_multiple_res_sel_dir_structures <- function (res_sel_dir_names,
+                                                    base_outdir)
+    {
+    res_sel_dir_structures <- lapply (res_sel_dir_names,
+                                      create_one_res_sel_dir_structure,
+                                      base_outdir)
+
+    names (res_sel_dir_structures) <- res_sel_dir_names
+
+    return (res_sel_dir_structures)
+    }
+
+#===============================================================================
+
+#  This is about to become deprecated since I've added the routines above.
+
 create_dir_structure <- function (parameters,
                                   cor_or_app_subdir_name     #  e.g., "cor" or "app/app.1"
                                   )
