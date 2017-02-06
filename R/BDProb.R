@@ -168,13 +168,6 @@ setClass ("Xu_bd_problem",
           prototype (
                           PU_col_name                      = "PU_ID",
                           spp_col_name                     = "spp_ID",
-                                #  2017 02 06 - Adding this because it doesn't seem to be set anywhere.
-                                #  Looks like it might have been hard-coded at one point and then mistakenly
-                                #  replaced with a variable in an argument list without having ever set its
-                                #  value anywhere.
-                                #  I'm just guessing here and adding a variable to the class, based on
-                                #  a comment in the arg list for do_graph_and_marxan_analysis(), which says:
-                                #      presences_col_name, #  hard-coded as "freq"
                           presences_col_name               = "freq",
 
                           bipartite_metrics_from_bipartite_package = NULL,
