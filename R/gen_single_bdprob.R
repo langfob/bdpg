@@ -365,6 +365,10 @@ gen_single_bdprob_COR = function (parameters,
     saveRDS (Xu_bdprob_cor, Xu_bdprob_cor@full_saved_bdprob_path)
 #    reloaded_bdprob = readRDS (saved_bdprob_filename)    #  testing only
 
+    cat ("\n\n>>>>> Xu_bdprob_cor saved to: \n    '",
+         Xu_bdprob_cor@full_saved_bdprob_path, "'",
+         "\nTo reload problem, use readRDS ()\n\n", sep='')
+
     return (Xu_bdprob_cor)
     }
 
