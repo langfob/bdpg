@@ -356,10 +356,13 @@ gen_single_bdprob_COR = function (parameters,
         #--------------------------------------------------------------
 
     Xu_bdprob_cor@prob_is_ok = TRUE
-    saved_bdprob_filename =
-        file.path (normalizePath (parameters$fullOutputDirWithSlash),
-                   "saved_bdprob.rds")
-    saveRDS (Xu_bdprob_cor, saved_bdprob_filename)
+    saved_bdprob_filename = paste0 ("saved_bdprob.",
+                                    Xu_bdprob_cor@UUID,
+                                    ".COR.rds")
+    Xu_bdprob_cor@full_saved_bdprob_path =
+        file.path (Xu_bdprob_cor@base_outdir, saved_bdprob_filename)
+
+    saveRDS (Xu_bdprob_cor, Xu_bdprob_cor@full_saved_bdprob_path)
 #    reloaded_bdprob = readRDS (saved_bdprob_filename)    #  testing only
 
     return (Xu_bdprob_cor)
