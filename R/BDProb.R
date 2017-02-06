@@ -180,7 +180,7 @@ setClass ("Xu_bd_problem",
 
 setClass ("Xu_wrapped_bd_problem",
           representation (
-                            base_bd_prob                 = "Xu_bd_problem"
+                            UUID_of_base_problem_that_is_wrapped = "character"  #  UUID string
                             ),
           contains = "Xu_bd_problem"
         )

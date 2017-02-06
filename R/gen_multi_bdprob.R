@@ -595,7 +595,8 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
     wrapped_bdprob = new ("Xu_wrapped_bd_problem")
 
-    wrapped_bdprob@base_bd_prob                 = Xu_bdprob
+#    wrapped_bdprob@base_bd_prob                 = Xu_bdprob
+    wrapped_bdprob@UUID_of_base_problem_that_is_wrapped = Xu_bdprob@UUID
 
     wrapped_bdprob@UUID                         = UUID
     wrapped_bdprob@read_Xu_problem_from_Xu_file = Xu_bdprob@read_Xu_problem_from_Xu_file
