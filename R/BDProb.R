@@ -162,7 +162,7 @@ setClass ("Xu_bd_problem",
 
                           bpm                              = "matrix",
 
-                          bipartite_metrics_from_bipartite_package = "data.frame",  # may be wrong data type
+                          bipartite_metrics_from_bipartite_package = "matrix",
                           bipartite_metrics_from_igraph_package_df = "data.frame"
                           ),
           prototype (
