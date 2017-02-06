@@ -152,9 +152,8 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #'
 #' @return RETURN_DESCRIPTION
 #' @export
-#' @examples
-#' # ADD_EXAMPLES_HERE
-gen_single_bdprob_cor = function (parameters,
+
+gen_single_bdprob_COR = function (parameters,
                               read_Xu_problem_from_Xu_file,
                               infile_name,
                               given_correct_solution_cost,
@@ -183,50 +182,9 @@ gen_single_bdprob_cor = function (parameters,
         #  Save data known so far for the newly created Xu problem.
         #------------------------------------------------------------
 
-    Xu_bdprob = new ("Xu_bd_problem")
-
-    Xu_bdprob@prob_is_ok                       = FALSE
-    Xu_bdprob@read_Xu_problem_from_Xu_file     = read_Xu_problem_from_Xu_file
-    Xu_bdprob@prob_generator_params_known      = PU_spp_pair_info@prob_generator_params_known
-    Xu_bdprob@correct_solution_vector_is_known = PU_spp_pair_info@correct_solution_vector_is_known
-
-    Xu_bdprob@PU_spp_pair_indices       = PU_spp_pair_info@PU_spp_pair_indices
-    Xu_bdprob@all_PU_IDs                = 1:PU_spp_pair_info@num_PUs
-    Xu_bdprob@all_spp_IDs               = 1:PU_spp_pair_info@num_spp
-
-    Xu_bdprob@PU_col_name               = PU_spp_pair_info@PU_col_name
-    Xu_bdprob@spp_col_name              = PU_spp_pair_info@spp_col_name
-    Xu_bdprob@num_PUs                   = PU_spp_pair_info@num_PUs
-    Xu_bdprob@num_spp                   = PU_spp_pair_info@num_spp
-    Xu_bdprob@cor_optimum_cost          = PU_spp_pair_info@correct_solution_cost
-    Xu_bdprob@PU_costs                  = PU_spp_pair_info@PU_costs
-    Xu_bdprob@Xu_parameters             = PU_spp_pair_info@Xu_parameters
-    Xu_bdprob@nodes                     = PU_spp_pair_info@nodes
-
-        #-----------------------------------------------------------
-        #  Convert PU/spp data structure into other formats needed
-        #  downstream.
-        #-----------------------------------------------------------
-
-    bpm =
-        create_adj_matrix_with_spp_rows_vs_PU_cols (Xu_bdprob@num_spp,
-                                                    Xu_bdprob@num_PUs,
-                                                    Xu_bdprob@PU_spp_pair_indices,
-                                            Xu_bdprob@PU_costs,
-                                                    Xu_bdprob@spp_col_name,
-                                                    Xu_bdprob@PU_col_name,
-                                                    PU_spp_pair_info@dependent_node_IDs,
-                                                    PU_spp_pair_info@correct_solution_vector_is_known,
-                                                    bdpg_error_codes)
-
-        #-------------------------------------------------------------
-        #  Quit if there are any duplicate edges/spp in the problem.
-        #-------------------------------------------------------------
-
-    see_if_there_are_any_duplicate_links (bpm, Xu_bdprob@num_spp, bdpg_error_codes)
+    Xu_bdprob_cor = new ("Xu_bd_problem")
 
         #---------------------------------------------------------------
-        #  No duplicates found.
         #  Assign a unique identifier to this newly generated problem.
         #  These IDs are useful when combining or adding error to
         #  problems so that you can identify exactly which problems
@@ -234,12 +192,109 @@ gen_single_bdprob_cor = function (parameters,
         #  confusing.
         #---------------------------------------------------------------
 
-    Xu_bdprob@UUID = uuid::UUIDgenerate()
+    Xu_bdprob_cor@UUID = uuid::UUIDgenerate()
 
-    Xu_bdprob@prob_is_ok = TRUE
-    Xu_bdprob@bpm = bpm
 
-    return (Xu_bdprob)
+    Xu_bdprob_cor@prob_is_ok                       = FALSE
+    Xu_bdprob_cor@read_Xu_problem_from_Xu_file     = read_Xu_problem_from_Xu_file
+    Xu_bdprob_cor@prob_generator_params_known      = PU_spp_pair_info@prob_generator_params_known
+    Xu_bdprob_cor@correct_solution_vector_is_known = PU_spp_pair_info@correct_solution_vector_is_known
+
+    Xu_bdprob_cor@PU_spp_pair_indices       = PU_spp_pair_info@PU_spp_pair_indices
+    Xu_bdprob_cor@all_PU_IDs                = 1:PU_spp_pair_info@num_PUs
+    Xu_bdprob_cor@all_spp_IDs               = 1:PU_spp_pair_info@num_spp
+
+    Xu_bdprob_cor@PU_col_name               = PU_spp_pair_info@PU_col_name
+    Xu_bdprob_cor@spp_col_name              = PU_spp_pair_info@spp_col_name
+    Xu_bdprob_cor@num_PUs                   = PU_spp_pair_info@num_PUs
+    Xu_bdprob_cor@num_spp                   = PU_spp_pair_info@num_spp
+    Xu_bdprob_cor@cor_optimum_cost          = PU_spp_pair_info@correct_solution_cost
+    Xu_bdprob_cor@PU_costs                  = PU_spp_pair_info@PU_costs
+    Xu_bdprob_cor@Xu_parameters             = PU_spp_pair_info@Xu_parameters
+    Xu_bdprob_cor@nodes                     = PU_spp_pair_info@nodes
+
+        #-----------------------------------------------------------
+        #  Convert PU/spp data structure into other formats needed
+        #  downstream.
+        #-----------------------------------------------------------
+
+    bpm =
+        create_adj_matrix_with_spp_rows_vs_PU_cols (Xu_bdprob_cor@num_spp,
+                                                    Xu_bdprob_cor@num_PUs,
+                                                    Xu_bdprob_cor@PU_spp_pair_indices,
+                                            Xu_bdprob_cor@PU_costs,
+                                                    Xu_bdprob_cor@spp_col_name,
+                                                    Xu_bdprob_cor@PU_col_name,
+                                                    PU_spp_pair_info@dependent_node_IDs,
+                                                    PU_spp_pair_info@correct_solution_vector_is_known,
+                                                    bdpg_error_codes)
+
+    Xu_bdprob_cor@bpm = bpm
+
+        #-------------------------------------------------------------
+        #  Quit if there are any duplicate edges/spp in the problem.
+        #-------------------------------------------------------------
+
+    see_if_there_are_any_duplicate_links (bpm, Xu_bdprob_cor@num_spp, bdpg_error_codes)
+
+        #-----------------------------------------------------------
+        #  No duplicates found.
+        #  Create the basic set of directories for problem output.
+        #-----------------------------------------------------------
+
+    derived_bdpg_dir_names =
+        create_base_dir_structure (parameters$fullOutputDirWithSlash, "cor")
+    # derived_bdpg_dir_names = create_dir_structure (parameters,
+    #                                                cor_or_app_subdir_name)
+
+        #-----------------------------------------------------------------
+        #  Compute and save the distribution and network metrics for the
+        #  problem.
+        #-----------------------------------------------------------------
+
+        #  Summarize and plot graph and distribution structure information.
+    Xu_bdprob_cor@final_link_counts_for_each_node =
+        summarize_and_plot_graph_and_distribution_structure_information (
+                  Xu_bdprob_cor@PU_spp_pair_indices,
+                  "cor",
+                  Xu_bdprob_cor@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
+                  derived_bdpg_dir_names$plot_output_dir,
+                  Xu_bdprob_cor@spp_col_name,
+                  Xu_bdprob_cor@PU_col_name,
+                  Xu_bdprob_cor@presences_col_name
+                  )
+
+        #  Compute network metrics.
+    if (parameters$compute_network_metrics)
+        {
+        Xu_bdprob_cor@bipartite_metrics_from_bipartite_package =
+          compute_network_measures_using_bipartite_package (bpm)
+
+        Xu_bdprob_cor@bipartite_metrics_from_igraph_package_df =
+          compute_igraph_related_network_measures (
+                                    Xu_bdprob_cor@PU_spp_pair_indices,
+                                    derived_bdpg_dir_names$network_output_dir,
+                                    Xu_bdprob_cor@PU_col_name,
+                                    Xu_bdprob_cor@spp_col_name
+                                                    )
+        }
+
+        #--------------------------------------------------------------
+        #  Everything seems to have worked.
+        #  Save the bdprob to disk as a test for how I might archive
+        #  and retrieve problems in general.
+        #  This particular bit of code may disappear later on, once I
+        #  decide how to archive.
+        #--------------------------------------------------------------
+
+    Xu_bdprob_cor@prob_is_ok = TRUE
+    saved_bdprob_filename =
+        file.path (normalizePath (parameters$fullOutputDirWithSlash),
+                   "saved_bdprob.rds")
+    saveRDS (bdprob, saved_bdprob_filename)
+#    reloaded_bdprob = readRDS (saved_bdprob_filename)    #  testing only
+
+    return (Xu_bdprob_cor)
     }
 
 #===============================================================================

@@ -41,7 +41,7 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize)
 
         } else
         {
-        bdprob = gen_single_bdprob_cor (parameters,
+        bdprob = gen_single_bdprob_COR (parameters,
                                     read_Xu_problem_from_Xu_file,
                                     infile_name,
                                     given_correct_solution_cost,

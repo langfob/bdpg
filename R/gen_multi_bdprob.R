@@ -729,7 +729,7 @@ gen_multi_bdprob = function (parameters,
         #--------------------------------------------------------------------
 
     cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  ABOUT TO base Xu problem for multi-problem  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
-    bdprob_1 = gen_single_bdprob_cor (parameters,
+    bdprob_1 = gen_single_bdprob_COR (parameters,
                                   read_Xu_problem_from_Xu_file,
                                   infile_name,
                                   given_correct_solution_cost,
