@@ -157,7 +157,8 @@ setClass ("Xu_bd_problem",
                           all_spp_IDs                      = "numeric",
 
                           nodes                            = "data.frame",
-            dependent_node_IDs               = "numeric",
+                dependent_node_IDs               = "numeric",
+                          final_link_counts_for_each_node  = "data.frame",
 
                           bpm                              = "matrix"
                           ),
