@@ -191,7 +191,8 @@ setClass ("Xu_wrapped_bd_problem",
 
 setClass ("Xu_bd_problem_app",
           representation (
-                            UUID_of_base_problem_that_has_err_added = "character"  #  UUID string
+                            UUID_of_base_problem_that_has_err_added = "character",  #  UUID string
+                            ret_vals_from_add_errors = "list"
                             ),
           contains = "Xu_bd_problem"
         )
