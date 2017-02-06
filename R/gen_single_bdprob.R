@@ -1,31 +1,23 @@
 #===============================================================================
 
-create_base_dir_structure <- function (base_outdir = ".",
-                                       cor_or_app_subdir_name = "cor")
+create_base_dir_structure <- function (base_outdir)
     {
         #  Create list of directory names.
     derived_bdpg_dir_names = list()
 
-        #  Clean up base_outdir into usable path if necessary,
-        #  e.g., change "." or "~somebody/x" into fully qualified path name.
-    base_outdir = normalizePath (base_outdir)
-
         #  Create PLOT OUTPUT directory.
-    derived_bdpg_dir_names$plot_output_dir =
-                file.path (base_outdir, cor_or_app_subdir_name, "plots")
+    derived_bdpg_dir_names$plot_output_dir = file.path (base_outdir, "plots")
     dir.create (derived_bdpg_dir_names$plot_output_dir,
                 showWarnings = TRUE, recursive = TRUE)
 
         #  Create NETWORK OUTPUT directory.
-    derived_bdpg_dir_names$network_output_dir =
-                file.path (base_outdir, cor_or_app_subdir_name,
-                           "networks")
+    derived_bdpg_dir_names$network_output_dir = file.path (base_outdir,
+                                                           "networks")
     dir.create (derived_bdpg_dir_names$network_output_dir,
                 showWarnings = TRUE, recursive = TRUE)
 
         #  Create RES_SEL directory.
-    derived_bdpg_dir_names$res_sel_dir =
-                file.path (base_outdir, cor_or_app_subdir_name, "res_sel")
+    derived_bdpg_dir_names$res_sel_dir = file.path (base_outdir, "res_sel")
     dir.create (derived_bdpg_dir_names$res_sel_dir,
                 showWarnings = TRUE, recursive = TRUE)
 
@@ -315,10 +307,13 @@ gen_single_bdprob_COR = function (parameters,
         #  Create the basic set of directories for problem output.
         #-----------------------------------------------------------
 
-    derived_bdpg_dir_names =
-        create_base_dir_structure (parameters$fullOutputDirWithSlash, "cor")
-    # derived_bdpg_dir_names = create_dir_structure (parameters,
-    #                                                cor_or_app_subdir_name)
+    Xu_bdprob_cor@base_outdir =
+        file.path (normalizePath (parameters$fullOutputDirWithSlash), "cor")
+    dir.create (Xu_bdprob_cor@base_outdir, showWarnings = TRUE,
+                recursive = TRUE)
+
+    Xu_bdprob_cor@derived_bdpg_dir_names =
+        create_base_dir_structure (Xu_bdprob_cor@base_outdir)
 
         #-----------------------------------------------------------------
         #  Compute and save the distribution and network metrics for the
@@ -331,7 +326,7 @@ gen_single_bdprob_COR = function (parameters,
                   Xu_bdprob_cor@PU_spp_pair_indices,
                   "cor",
                   Xu_bdprob_cor@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
-                  derived_bdpg_dir_names$plot_output_dir,
+                  Xu_bdprob_cor@derived_bdpg_dir_names$plot_output_dir,
                   Xu_bdprob_cor@spp_col_name,
                   Xu_bdprob_cor@PU_col_name,
                   Xu_bdprob_cor@presences_col_name
@@ -346,7 +341,7 @@ gen_single_bdprob_COR = function (parameters,
         Xu_bdprob_cor@bipartite_metrics_from_igraph_package_df =
           compute_igraph_related_network_measures (
                                     Xu_bdprob_cor@PU_spp_pair_indices,
-                                    derived_bdpg_dir_names$network_output_dir,
+                                    Xu_bdprob_cor@derived_bdpg_dir_names$network_output_dir,
                                     Xu_bdprob_cor@PU_col_name,
                                     Xu_bdprob_cor@spp_col_name
                                                     )

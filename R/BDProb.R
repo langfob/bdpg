@@ -162,6 +162,9 @@ setClass ("Xu_bd_problem",
 
                           bpm                              = "matrix",
 
+                          base_outdir                      = "character",
+                          derived_bdpg_dir_names           = "character",
+
                           bipartite_metrics_from_bipartite_package = "matrix",
                           bipartite_metrics_from_igraph_package_df = "data.frame"
                           ),
