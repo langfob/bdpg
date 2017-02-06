@@ -347,33 +347,19 @@ gen_single_bdprob_COR = function (parameters,
                                                     )
         }
 
-        #--------------------------------------------------------------
+        #------------------------------------------------------------
         #  Everything seems to have worked.
-        #  Save the bdprob to disk as a test for how I might archive
+        #  Save the bdprob to disk as a first cut at how to archive
         #  and retrieve problems in general.
-        #  This particular bit of code may disappear later on, once I
-        #  decide how to archive.
-        #--------------------------------------------------------------
+        #  This particular bit of code may disappear later on, once
+        #  it's clearer how to archive.
+        #------------------------------------------------------------
 
     Xu_bdprob_cor@prob_is_ok = TRUE
 
     Xu_bdprob_cor@full_saved_bdprob_path =
-        save_bdprob ("basic", "COR", Xu_bdprob_cor@UUID,
+        save_bdprob ("BASIC", "COR", Xu_bdprob_cor@UUID,
                      Xu_bdprob_cor@base_outdir, Xu_bdprob_cor)
-
-
-#     saved_bdprob_filename = paste0 ("saved_basic_bdprob.",
-#                                     Xu_bdprob_cor@UUID,
-#                                     ".COR.rds")
-#     Xu_bdprob_cor@full_saved_bdprob_path =
-#         file.path (Xu_bdprob_cor@base_outdir, saved_bdprob_filename)
-#
-#     saveRDS (Xu_bdprob_cor, Xu_bdprob_cor@full_saved_bdprob_path)
-# #    reloaded_bdprob = readRDS (saved_bdprob_filename)    #  testing only
-#
-#     cat ("\n\n>>>>> Xu_bdprob_cor saved to: \n    '",
-#          Xu_bdprob_cor@full_saved_bdprob_path, "'",
-#          "\nTo reload problem, use readRDS ()\n\n", sep='')
 
     return (Xu_bdprob_cor)
     }
