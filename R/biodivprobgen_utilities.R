@@ -385,4 +385,56 @@ cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 
 #===============================================================================
 
+#' Save bd problem to disk
+#'
+#' @param bdprob_type character string indicating problem type, either "basic" or "wrapped" (could eventually also be "combined")
+#' @param app_vs_cor character string indicating whether it's a correct or apparent problem, either "COR" or "APP"
+#' @param uuid character string indicating the UUID of the problem being saved
+#' @param base_outdir character sting giving the full path to the directory where the problem will be saved
+#' @param bdprob a Xu_bd_problem to write to disk (subclasses of Xu_bd_problem allowed)
+#'
+#' @return full_saved_bdprob_path character string giving the full path (including file name) to file where problem is saved on disk
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' Xu_bdprob_cor@full_saved_bdprob_path =
+#'     save_bdprob ("basic", "COR", Xu_bdprob_cor@UUID, Xu_bdprob_cor@base_outdir,
+#'                  Xu_bdprob_cor)
+#' Xu_bdprob_app@full_saved_bdprob_path =
+#'     save_bdprob ("basic", "APP", Xu_bdprob_app@UUID, Xu_bdprob_app@base_outdir,
+#'                  Xu_bdprob_app)
+#'
+#' Xu_bdprob_cor@full_saved_bdprob_path =
+#'     save_bdprob ("wrapped", "COR", Xu_bdprob_cor@UUID, Xu_bdprob_cor@base_outdir,
+#'                  Xu_bdprob_cor)
+#' Xu_bdprob_app@full_saved_bdprob_path =
+#'     save_bdprob ("wrapped", "APP", Xu_bdprob_app@UUID, Xu_bdprob_app@base_outdir,
+#'                  Xu_bdprob_app)
+#' }
+
+save_bdprob <- function (bdprob_type = "basic",
+                         app_vs_cor = "COR",
+                         uuid,
+                         base_outdir,
+                         bdprob
+                         )
+    {
+    saved_bdprob_filename = paste0 ("saved_", bdprob_type, "_bdprob.",
+                                    uuid,
+                                    ".", app_vs_cor, ".rds")
+
+    full_saved_bdprob_path = file.path (base_outdir, saved_bdprob_filename)
+
+    saveRDS (bdprob, full_saved_bdprob_path)
+#    reloaded_bdprob = readRDS (full_saved_bdprob_path)    #  testing only
+
+    cat ("\n\n>>>>> bdprob saved to: \n    '", full_saved_bdprob_path, "'",
+         "\nTo reload problem, use readRDS ()\n\n", sep='')
+
+    return (full_saved_bdprob_path)
+    }
+
+#===============================================================================
+
 
