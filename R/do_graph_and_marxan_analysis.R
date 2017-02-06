@@ -80,59 +80,6 @@ create_multiple_res_sel_dir_structures <- function (res_sel_dir_names,
 
 #===============================================================================
 
-#  This is about to become deprecated since I've added the routines above.
-
-create_dir_structure <- function (parameters,
-                                  cor_or_app_subdir_name     #  e.g., "cor" or "app/app.1"
-                                  )
-    {
-        #  Build base name of parent directory with slash at end.
-    cor_or_app_subdir_name_with_slash = paste0 (cor_or_app_subdir_name,
-                                                .Platform$file.sep)
-
-        #  Create list of directory names.
-    derived_bdpg_dir_names = list()
-
-        #  Create PLOT OUTPUT directory.
-    derived_bdpg_dir_names$plot_output_dir =
-        paste0 (parameters$fullOutputDirWithSlash, cor_or_app_subdir_name_with_slash, "Plots")
-    dir.create (derived_bdpg_dir_names$plot_output_dir,
-                showWarnings = TRUE,
-                recursive = TRUE)    #  FALSE)
-
-        #  Create NETWORK OUTPUT directory.
-    derived_bdpg_dir_names$network_output_dir =
-        paste0 (parameters$fullOutputDirWithSlash, cor_or_app_subdir_name_with_slash, "Networks")
-    dir.create (derived_bdpg_dir_names$network_output_dir,
-                showWarnings = TRUE,
-                recursive = TRUE)    #  FALSE)
-
-        #  Create MARXAN IO directory.
-    derived_bdpg_dir_names$marxan_IO_dir =
-        paste0 (parameters$fullOutputDirWithSlash, cor_or_app_subdir_name_with_slash, "Marxan_IO")
-    dir.create (derived_bdpg_dir_names$marxan_IO_dir,
-                showWarnings = TRUE,
-                recursive = TRUE)    #  FALSE)
-
-        #  Create plot MARXAN INPUT directory.
-    derived_bdpg_dir_names$marxan_input_dir =
-        paste0 (derived_bdpg_dir_names$marxan_IO_dir, .Platform$file.sep, "input")
-    dir.create (derived_bdpg_dir_names$marxan_input_dir,
-                showWarnings = TRUE,
-                recursive = TRUE)    #  FALSE)
-
-        #  Create plot MARXAN OUTPUT directory.
-    derived_bdpg_dir_names$marxan_output_dir =
-        paste0 (derived_bdpg_dir_names$marxan_IO_dir, .Platform$file.sep, "output")
-    dir.create (derived_bdpg_dir_names$marxan_output_dir,
-                showWarnings = TRUE,
-                recursive = TRUE)    #  FALSE)
-
-    return (derived_bdpg_dir_names)
-    }
-
-#===============================================================================
-
         #  NOTE:  2016 06 12 - Need to add writing of flags resulting from
         #                       reading Xu file, e.g., prob_generator_params_known.
         #                       This is because learning alg downstream needs to
