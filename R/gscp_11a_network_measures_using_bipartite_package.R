@@ -80,7 +80,10 @@ compute_network_measures_using_bipartite_package = function (bpm)
 
 cat ("\n>>>>>  class of return from bipartite::networklevel = ")
 print (class (bipartite_metrics_from_bipartite_package))
-browser()
+cat ("\n>>>>>  dim (bipartite_metrics_from_bipartite_package) = ")
+print (bipartite_metrics_from_bipartite_package)
+cat ("\n\n")
+#browser()
 
       #  Clean up metric names...
       #
