@@ -25,7 +25,7 @@
 \item{presences_col_name}{Character string giving column name for species counts in returned final_link_counts_for_each_node}
 }
 \value{
-2 column data frame of PU_IDs vs. number of species on corresponding PU
+species count for each node, i.e., 2 column data frame of PU_IDs vs. number of species on corresponding PU
 }
 \description{
 Compute final PU and species counts and plot degree and abundance distributions.
