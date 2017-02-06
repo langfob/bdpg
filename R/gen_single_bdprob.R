@@ -154,7 +154,7 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
-gen_single_bdprob = function (parameters,
+gen_single_bdprob_cor = function (parameters,
                               read_Xu_problem_from_Xu_file,
                               infile_name,
                               given_correct_solution_cost,
