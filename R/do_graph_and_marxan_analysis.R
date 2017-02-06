@@ -48,10 +48,10 @@ do_graph_and_marxan_analysis <- function (
 #####!!!!!#####                                          all_correct_node_IDs,
 
                                             #  Results of adding error.
-                                            app_num_spp,
-                                            app_num_PUs,
-                                          app_PU_spp_pair_indices,
-                                          app_bpm,
+                                        app_num_spp,
+                                        app_num_PUs,
+                                        app_PU_spp_pair_indices,
+                                        app_bpm,
 
                                             #  input parameters for error model.
                                             #  Only used to create master output structure?
@@ -61,7 +61,6 @@ do_graph_and_marxan_analysis <- function (
                                           FN_const_rate,
                                           original_FP_const_rate,
                                           original_FN_const_rate,
-
 
 derived_bdpg_dir_names
                                           )
