@@ -627,7 +627,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
       #---------------------------------------------------------------------------
 
-    return (wrapped_bdprob)  #  end function - wrap
+    return (wrapped_bdprob)  #  end function - wrap_abundance_dist_around_Xu_problem
     }
 
 #===============================================================================

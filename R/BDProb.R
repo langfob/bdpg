@@ -147,8 +147,6 @@ setClass ("Xu_bd_problem",
                           read_Xu_problem_from_Xu_file     = "logical",
                           infile_name                      = "character",
 
-            control_params                   = "list",    #  2017 01 27 - BTL - NOT USED ANYMORE?
-#                          derived_Xu_params                = "Xu_derived_params",
                           Xu_parameters                    = "Xu_params",
 
                           num_spp                          = "numeric",
