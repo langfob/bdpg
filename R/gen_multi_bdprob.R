@@ -766,7 +766,7 @@ gen_multi_bdprob = function (parameters,
             tot_num_PUs_in_landscape = round (get_num_nodes (bdprob_1@nodes) /
                                               solution_frac_of_landscape)
             search_outfile_name      = paste0 (parameters$fullOutputDirWithSlash,
-                                               "outfile.csv")
+                                               "wrap_search_outfile.csv")
 
                 #-----------------------------------------------------------
                 #  Search for a set of lognormal parameters that fit the
