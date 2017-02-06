@@ -63,10 +63,24 @@ compute_network_measures_using_bipartite_package = function (bpm)
                   #  networks show this is too slow, then can revert to
                   #  using all_except_slow_indices.
     #         t (networklevel (bpm, index=all_except_slow_indices))
+
+
           t (bipartite::networklevel (bpm, index="ALLBUTDD"))
 
     cat ("\n\nbipartite_metrics_from_bipartite_package = \n")
     print (bipartite_metrics_from_bipartite_package)
+
+#  BTL - 2017 02 06 - POSSIBLE BUG
+#  Documentation for networklevel() says that it returns:
+#      "Depending on the selected indices, some or all of the
+#       below (returned as vector if “degree distribution” was
+#       not requested, otherwise as list):"
+#  So, when I have index="ALLBUTDD", shouldn't it be returning a vector and
+#  all of this stuff about column names should be failing?
+
+cat ("\n>>>>>  class of return from bipartite::networklevel = ")
+print (class (bipartite_metrics_from_bipartite_package))
+browser()
 
       #  Clean up metric names...
       #
