@@ -267,9 +267,9 @@ add_error_to_spp_occupancy_data =
 
 #===============================================================================
 
-    #---------------------------------------------------
-    #  Read an APPARENT Xu problem from a CORRECT one.
-    #---------------------------------------------------
+    #-------------------------------------------------------
+    #  Generate an APPARENT Xu problem from a CORRECT one.
+    #-------------------------------------------------------
 
 #' Generate a single biodiversity problem with error added to it
 #'
