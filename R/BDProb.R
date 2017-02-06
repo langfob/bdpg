@@ -160,7 +160,10 @@ setClass ("Xu_bd_problem",
                 dependent_node_IDs               = "numeric",
                           final_link_counts_for_each_node  = "data.frame",
 
-                          bpm                              = "matrix"
+                          bpm                              = "matrix",
+
+                          bipartite_metrics_from_bipartite_package = "data.frame",  # may be wrong data type
+                          bipartite_metrics_from_igraph_package_df = "data.frame"
                           ),
           prototype (
                           PU_col_name                      = "PU_ID",
@@ -172,7 +175,10 @@ setClass ("Xu_bd_problem",
                                 #  I'm just guessing here and adding a variable to the class, based on
                                 #  a comment in the arg list for do_graph_and_marxan_analysis(), which says:
                                 #      presences_col_name, #  hard-coded as "freq"
-                          presences_col_name               = "freq"
+                          presences_col_name               = "freq",
+
+                          bipartite_metrics_from_bipartite_package = NULL,
+                          bipartite_metrics_from_igraph_package_df = NULL
                     )
          )
 
