@@ -132,61 +132,12 @@ do_graph_and_marxan_analysis <- function (cor_or_app_subdir_name,
                                           FP_const_rate,
                                           FN_const_rate,
                                           original_FP_const_rate,
-                                          original_FN_const_rate
+                                          original_FN_const_rate,
+
+
+derived_bdpg_dir_names
                                           )
 {
-derived_bdpg_dir_names = create_dir_structure (parameters,
-                                               cor_or_app_subdir_name)
-
-#===============================================================================
-#       Summarize and plot graph and distribution structure information.
-#===============================================================================
-
-  cor_final_link_counts_for_each_node =
-      summarize_and_plot_graph_and_distribution_structure_information (
-                  cor_PU_spp_pair_indices,
-                  "cor",
-                  cor_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
-                  derived_bdpg_dir_names$plot_output_dir,
-                  spp_col_name,
-                  PU_col_name,
-                  presences_col_name
-                  )
-cat("\njust after cor summarize_and_plot_graph_and_distribution_structure_information()")
-
-#  app_final_link_counts_for_each_node =    #  return value is never used, right?  only doing this for side effects
-      summarize_and_plot_graph_and_distribution_structure_information (
-                  app_PU_spp_pair_indices,
-                  "app",
-                  cor_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
-                  derived_bdpg_dir_names$plot_output_dir,
-                  spp_col_name,
-                  PU_col_name,
-                  presences_col_name)
-cat("\njust after app summarize_and_plot_graph_and_distribution_structure_information()")
-
-#===============================================================================
-#                       Compute network metrics.
-#===============================================================================
-
-    if (parameters$compute_network_metrics)
-#  if (TRUE)
-      {
-      app_bipartite_metrics_from_bipartite_package =
-          compute_network_measures_using_bipartite_package (app_bpm)
-
-      app_bipartite_metrics_from_igraph_package_df =
-          compute_igraph_related_network_measures (
-###                                    app_num_spp,
-###                                    app_num_PUs,
-                                    app_PU_spp_pair_indices,
-                    derived_bdpg_dir_names$network_output_dir,
-                                    PU_col_name,
-                                    spp_col_name
-                                                    )
-      }
-cat("\njust after compute_igraph_related_network_measures()")
-
 #===============================================================================
 #                                   Run marxan.
 #===============================================================================
