@@ -205,6 +205,7 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' Read a Xu problem from files of ones already created by Xu or
 #' create one from scratch.
 #'
+#' @param starting_dir character string giving path to directory where problem will be built
 #' @param parameters named list of all parameters, generally from project.yaml file
 #' @param read_Xu_problem_from_Xu_file boolean TRUE if problem is to be
 #'     read from a file created by Xu; FALSE if problem is to be created from
@@ -218,13 +219,14 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' @return RETURN_DESCRIPTION
 #' @export
 
-gen_single_bdprob_COR = function (parameters,
-                              read_Xu_problem_from_Xu_file,
-                              infile_name,
-                              given_correct_solution_cost,
-                              max_allowed_num_spp,
-                              bdpg_error_codes,
-                              integerize)
+gen_single_bdprob_COR = function (starting_dir,
+                                  parameters,
+                                  read_Xu_problem_from_Xu_file,
+                                  infile_name,
+                                  given_correct_solution_cost,
+                                  max_allowed_num_spp,
+                                  bdpg_error_codes,
+                                  integerize)
     {
     if (read_Xu_problem_from_Xu_file)
         {
@@ -307,8 +309,8 @@ gen_single_bdprob_COR = function (parameters,
         #  Create the basic set of directories for problem output.
         #-----------------------------------------------------------
 
-    Xu_bdprob_cor@base_outdir =
-        file.path (normalizePath (parameters$fullOutputDirWithSlash), "cor")
+    Xu_bdprob_cor@starting_dir = starting_dir
+    Xu_bdprob_cor@base_outdir = file.path (normalizePath (starting_dir), "cor")
     dir.create (Xu_bdprob_cor@base_outdir, showWarnings = TRUE,
                 recursive = TRUE)
 

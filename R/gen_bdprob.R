@@ -41,13 +41,17 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize)
 
         } else
         {
-        bdprob = gen_single_bdprob_COR (parameters,
-                                    read_Xu_problem_from_Xu_file,
-                                    infile_name,
-                                    given_correct_solution_cost,
-                                    max_allowed_num_spp,
-                                    bdpg_error_codes,
-                                    integerize)
+        starting_dir =
+            file.path (normalizePath (parameters$fullOutputDirWithSlash),
+                       "base_prob.1")
+        bdprob = gen_single_bdprob_COR (starting_dir,
+                                        parameters,
+                                        read_Xu_problem_from_Xu_file,
+                                        infile_name,
+                                        given_correct_solution_cost,
+                                        max_allowed_num_spp,
+                                        bdpg_error_codes,
+                                        integerize)
         }
 
     return (bdprob)

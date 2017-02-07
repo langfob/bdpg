@@ -4,11 +4,13 @@
 \alias{gen_single_bdprob_COR}
 \title{Generate a single biodiversity problem}
 \usage{
-gen_single_bdprob_COR(parameters, read_Xu_problem_from_Xu_file, infile_name,
-  given_correct_solution_cost, max_allowed_num_spp, bdpg_error_codes,
-  integerize)
+gen_single_bdprob_COR(starting_dir, parameters, read_Xu_problem_from_Xu_file,
+  infile_name, given_correct_solution_cost, max_allowed_num_spp,
+  bdpg_error_codes, integerize)
 }
 \arguments{
+\item{starting_dir}{character string giving path to directory where problem will be built}
+
 \item{parameters}{named list of all parameters, generally from project.yaml file}
 
 \item{read_Xu_problem_from_Xu_file}{boolean TRUE if problem is to be

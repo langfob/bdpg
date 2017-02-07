@@ -162,6 +162,7 @@ setClass ("Xu_bd_problem",
 
                           bpm                              = "matrix",
 
+                          starting_dir                     = "character",
                           base_outdir                      = "character",
                           derived_bdpg_dir_names           = "list",
                           full_saved_bdprob_path           = "character",
