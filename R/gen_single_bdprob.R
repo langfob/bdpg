@@ -1,46 +1,32 @@
 #===============================================================================
 
-create_base_dir_structure <- function (base_outdir)
-    {
-        #  Create list of directory names.
-    derived_bdpg_dir_names = list()
-
-        #  Create PLOT OUTPUT directory.
-    derived_bdpg_dir_names$plot_output_dir = file.path (base_outdir, "plots")
-    dir.create (derived_bdpg_dir_names$plot_output_dir,
-                showWarnings = TRUE, recursive = TRUE)
-
-        #  Create NETWORK OUTPUT directory.
-    derived_bdpg_dir_names$network_output_dir = file.path (base_outdir,
-                                                           "networks")
-    dir.create (derived_bdpg_dir_names$network_output_dir,
-                showWarnings = TRUE, recursive = TRUE)
-
-        #  Create RES_SEL directory.
-    derived_bdpg_dir_names$res_sel_dir = file.path (base_outdir, "res_sel")
-    dir.create (derived_bdpg_dir_names$res_sel_dir,
-                showWarnings = TRUE, recursive = TRUE)
-
-    return (derived_bdpg_dir_names)
-    }
-
-#===============================================================================
-
 create_one_res_sel_dir_structure <- function (res_sel_dir_name = "marxan",
                                               base_outdir = ".")
     {
-    res_sel_dir_names = vector ("list", 2)
-    names (res_sel_dir_names) <- c("input_dir", "output_dir")
+    base_outdir = file.path (normalizePath (base_outdir, mustWork=FALSE),
+                             res_sel_dir_name)
+
+    IO_dir_name = paste0 (res_sel_dir_name, "_IO")
+
+    res_sel_dir_names = vector ("list", 3)
+    names (res_sel_dir_names) <- c(IO_dir_name, "input_dir", "output_dir")
+
+        #  Create reserve selector IO directory
+        #  i.e., parent dir of the input and output dirs.
+    res_sel_IO_dir = file.path (base_outdir, IO_dir_name)
+    res_sel_dir_names[[IO_dir_name]] = res_sel_IO_dir
+    # dir.create (res_sel_dir_names$res_sel_IO_dir,
+    #             showWarnings = TRUE, recursive = TRUE)
 
         #  Create reserve selector INPUT directory.
-    res_sel_dir_names$input_dir = file.path (base_outdir, "input")
-    dir.create (res_sel_dir_names$input_dir,
-                showWarnings = TRUE, recursive = TRUE)
+    res_sel_dir_names$input_dir = file.path (res_sel_IO_dir, "input")
+    # dir.create (res_sel_dir_names$input_dir,
+    #             showWarnings = TRUE, recursive = TRUE)
 
         #  Create reserve selector OUTPUT directory.
-    res_sel_dir_names$output_dir = file.path (base_outdir, "output")
-    dir.create (res_sel_dir_names$output_dir,
-                showWarnings = TRUE, recursive = TRUE)
+    res_sel_dir_names$output_dir = file.path (res_sel_IO_dir, "output")
+    # dir.create (res_sel_dir_names$output_dir,
+    #             showWarnings = TRUE, recursive = TRUE)
 
     return (res_sel_dir_names)
     }
@@ -57,6 +43,46 @@ create_multiple_res_sel_dir_structures <- function (res_sel_dir_names,
     names (res_sel_dir_structures) <- res_sel_dir_names
 
     return (res_sel_dir_structures)
+    }
+
+#===============================================================================
+
+create_base_dir_structure <- function (base_outdir)
+    {
+        #  Create list of directory names.
+    derived_bdpg_dir_names = list()
+
+        #  Create PLOT OUTPUT directory.
+    derived_bdpg_dir_names$plot_output_dir = file.path (base_outdir, "plots")
+    # dir.create (derived_bdpg_dir_names$plot_output_dir,
+    #             showWarnings = TRUE, recursive = TRUE)
+
+        #  Create NETWORK OUTPUT directory.
+    derived_bdpg_dir_names$network_output_dir = file.path (base_outdir,
+                                                           "networks")
+    # dir.create (derived_bdpg_dir_names$network_output_dir,
+    #             showWarnings = TRUE, recursive = TRUE)
+
+        #  Create RES_SEL directory.
+    derived_bdpg_dir_names$res_sel_dir = file.path (base_outdir, "res_sel")
+    # dir.create (derived_bdpg_dir_names$res_sel_dir,
+    #             showWarnings = TRUE, recursive = TRUE)
+
+
+#  2017 02 07 5:46 pm - BTL
+#  PROBABLY WANT TO MOVE THIS OUT SOMEWHERE ELSE CLOSER TO DOING RUNS OF
+#  RESERVE SELECTORS.
+
+    # cur_res_sel_name = "marxan"
+    # derived_bdpg_dir_names$res_sel_dir_names [[cur_res_sel_name]] =
+    #     create_one_res_sel_dir_structure (cur_res_sel_name,
+    #                                       derived_bdpg_dir_names$res_sel_dir)
+    res_sel_dir_names = c("marxan")
+    derived_bdpg_dir_names$res_sel_dir_names =
+        create_multiple_res_sel_dir_structures (res_sel_dir_names,
+                                                derived_bdpg_dir_names$res_sel_dir)
+
+    return (derived_bdpg_dir_names)
     }
 
 #===============================================================================
