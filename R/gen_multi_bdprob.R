@@ -645,7 +645,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
         #         generating them now.
         #-------------------------------------------------------------
 
-    see_if_there_are_any_duplicate_links (bpm,
+    see_if_there_are_any_duplicate_links (wrapped_bpm,
                                           wrapped_bdprob@num_spp,
                                           bdpg_error_codes)
 
@@ -655,7 +655,8 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
         #-----------------------------------------------------------
 
     wrapped_bdprob@starting_dir = starting_dir
-    wrapped_bdprob@base_outdir = file.path (normalizePath (starting_dir), "cor")
+    wrapped_bdprob@base_outdir =
+        file.path (normalizePath (starting_dir, mustWork=FALSE), "cor")
     dir.create (wrapped_bdprob@base_outdir, showWarnings = TRUE,
                 recursive = TRUE)
 
