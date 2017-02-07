@@ -5,7 +5,7 @@
 \title{Title}
 \usage{
 set_up_for_and_run_marxan(PU_spp_pair_indices, PU_IDs, spp_IDs, PU_col_name,
-  spp_col_name, marxan_input_dir, marxan_output_dir, parameters, marxan_IO_dir)
+  spp_col_name, marxan_input_dir, marxan_output_dir, marxan_IO_dir, parameters)
 }
 \arguments{
 \item{marxan_IO_dir}{}

@@ -115,8 +115,8 @@ run_marxan = function (marxan_dir, marxan_executable_name)
 
 set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
                                                 marxan_output_dir,
-                                                parameters,
-                                                marxan_IO_dir
+                                                marxan_IO_dir,
+                                                parameters
                                                )
     {
         #-----------------------------------------------------------------------
@@ -413,10 +413,12 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
 
                                       PU_col_name,
                                       spp_col_name,
+
                                       marxan_input_dir,
                                       marxan_output_dir,
-                                      parameters,
-                                      marxan_IO_dir
+                                      marxan_IO_dir,
+
+                                      parameters
                                      )
     {
     spf_const =
@@ -436,8 +438,8 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
     marxan_control_values =
         set_marxan_controls_and_run_marxan (marxan_input_dir,
                                             marxan_output_dir,
-                                            parameters,
-                                            marxan_IO_dir
+                                            marxan_IO_dir,
+                                            parameters
                                            )
 
         #  Document what spf_const value was computed before the run of marxan

@@ -53,6 +53,12 @@ do_graph_and_marxan_analysis <- function (parameters,
                                           original_FP_const_rate,
                                           original_FN_const_rate,
 
+
+
+                        #  THESE MARXAN DIRECTORIES NEED TO BE CREATED AND
+                        #  STORED USING THE WAY OF ALLOCATING DIRECTORIES
+                        #  TO A RESERVE SELECTOR.
+
                                           derived_bdpg_dir_names
                                          )
 {
@@ -67,10 +73,16 @@ do_graph_and_marxan_analysis <- function (parameters,
 
                                      PU_col_name,
                                      spp_col_name,
+
+                        #  THESE MARXAN DIRECTORIES NEED TO BE CREATED AND
+                        #  STORED USING THE WAY OF ALLOCATING DIRECTORIES
+                        #  TO A RESERVE SELECTOR.
+
                                      derived_bdpg_dir_names$marxan_input_dir,
                                      derived_bdpg_dir_names$marxan_output_dir,
-                                     parameters,
-                                     derived_bdpg_dir_names$marxan_IO_dir
+                                     derived_bdpg_dir_names$marxan_IO_dir,
+
+                                     parameters
                                     )
 
     cat("\njust after set_up_for_and_run_marxan()")
@@ -80,9 +92,17 @@ do_graph_and_marxan_analysis <- function (parameters,
     app_marxan_output_values =
         read_marxan_output_files (
 
+                        #  THESE MARXAN DIRECTORIES NEED TO BE CREATED AND
+                        #  STORED USING THE WAY OF ALLOCATING DIRECTORIES
+                        #  TO A RESERVE SELECTOR.
+
                                         #  This directory may need to change if there is more than
                                         #  one run of marxan, i.e., a cor_ and an app_.
                                     derived_bdpg_dir_names$marxan_output_dir,
+
+
+
+
 
                                     cor_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
 
@@ -103,8 +123,7 @@ do_graph_and_marxan_analysis <- function (parameters,
                                     cor_PU_costs,  #  May also need to pass cor_ and app_PU_costs.
                                     cor_optimum_cost,
                                     cor_optimum_cost  #  Should probably be app_optimum_cost, but doesn't exist at the moment so just passing cor_ to get it to run.
-
-                                        )
+                                   )
 
     cat("\njust after read_marxan_output_files()")
 
