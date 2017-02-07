@@ -72,6 +72,25 @@ create_base_dir_structure <- function (base_outdir)
 #  2017 02 07 5:46 pm - BTL
 #  PROBABLY WANT TO MOVE THIS OUT SOMEWHERE ELSE CLOSER TO DOING RUNS OF
 #  RESERVE SELECTORS.
+#           CURRENTLY IN THE MIDDLE OF TRYING TO FIGURE OUT HOW TO GET
+#           THE MARXAN CODE TO LINK UP CORRECTLY WITH ALL THE NEW CODE.
+#           NEED TO:
+#           - FIRST
+#               - UNCOMMENT ALL THE DIRECTORY CREATIONS HERE
+#               - FIGURE OUT WHERE I WANT TO DO THE MARXAN DIR CREATIONS
+#               - HANG THE RESULTING LIST ONTO THE derived_bdpg_dir_names LIST.
+#           - SECOND
+#               - INTEGRATE THESE DIRECTORY LOCATIONS INTO THE VARIOUS MARXAN CALLS
+#           - THIRD
+#               - FIGURE OUT HOW I WANT TO MAKE THESE CALLS FROM THE MAINLINE,
+#                 I.E., SPLIT THE MARXAN CALLS AWAY FROM BUILDING THE OUTPUT
+#                 STRUCTURES (I.E., A) READ MARXAN OUTPUT AND B) WRITE MASTER OUTPUT STRUCTURE)
+#               - FIGURE OUT WHICH ARGUMENTS TO CALLS NEED COR VS. APP VALUES
+#           - FOURTH
+#               - BUILD CODE FOR GENERATING APPARENT PROBLEMS
+#           - FIFTH
+#               - CLEAN UP THE WHOLE MASTER OUTPUT MESS (BIG JOB)
+
 
     # cur_res_sel_name = "marxan"
     # derived_bdpg_dir_names$res_sel_dir_names [[cur_res_sel_name]] =
