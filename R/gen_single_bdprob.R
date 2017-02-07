@@ -32,10 +32,6 @@ create_one_res_sel_dir_structure <- function (res_sel_dir_name = "marxan",
     res_sel_dir_names = vector ("list", 2)
     names (res_sel_dir_names) <- c("input_dir", "output_dir")
 
-        #  Clean up base_outdir into usable path if necessary,
-        #  e.g., change "." or "~somebody/x" into fully qualified path name.
-    base_outdir = normalizePath (base_outdir)
-
         #  Create reserve selector INPUT directory.
     res_sel_dir_names$input_dir = file.path (base_outdir, "input")
     dir.create (res_sel_dir_names$input_dir,
@@ -310,7 +306,8 @@ gen_single_bdprob_COR = function (starting_dir,
         #-----------------------------------------------------------
 
     Xu_bdprob_cor@starting_dir = starting_dir
-    Xu_bdprob_cor@base_outdir = file.path (normalizePath (starting_dir), "cor")
+    Xu_bdprob_cor@base_outdir =
+        file.path (normalizePath (starting_dir, mustWork=FALSE), "cor")
     dir.create (Xu_bdprob_cor@base_outdir, showWarnings = TRUE,
                 recursive = TRUE)
 
