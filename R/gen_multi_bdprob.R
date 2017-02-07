@@ -272,14 +272,14 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 #' @examples
 #' # ADD_EXAMPLES_HERE
 wrap_abundances_around_eligible_set <- function (dep_set,
-                                                    eligible_set,
-                                                    rounded_abund_per_spp,
-                                                    num_base_spp,
-                                                    Xu_PU_spp_table,
-                                                    min_allowed_abundance = 2,
-                                                    PU_col_name = "PU_ID",
-                                                    spp_col_name = "spp_ID"
-                                                   )
+                                                 eligible_set,
+                                                 rounded_abund_per_spp,
+                                                 num_base_spp,
+                                                 Xu_PU_spp_table,
+                                                 min_allowed_abundance = 2,
+                                                 PU_col_name = "PU_ID",
+                                                 spp_col_name = "spp_ID"
+                                                )
     {
     cat ("\n\nStarting wrap_abundances_around_eligible_set()\n", sep='')
 
@@ -418,6 +418,7 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 #'
 #' FUNCTION_DESCRIPTION
 #'
+#' @param starting_dir DESCRIPTION.
 #' @param rounded_abundances DESCRIPTION.
 #' @param Xu_bdprob DESCRIPTION.
 #' @param dep_set_PUs_eligible DESCRIPTION.
@@ -426,10 +427,12 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 #' @return RETURN_DESCRIPTION
 #' @export
 
-wrap_abundance_dist_around_Xu_problem = function (rounded_abundances,
+wrap_abundance_dist_around_Xu_problem = function (starting_dir,
+                                                  rounded_abundances,
                                                   Xu_bdprob,
                                                   dep_set_PUs_eligible,
-                                                  tot_num_PUs_in_landscape
+                                                  tot_num_PUs_in_landscape,
+                                                  bdpg_error_codes
                                                   )
     {
     Xu_nodes = Xu_bdprob@nodes
@@ -580,26 +583,27 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
       #---------------------------------------------------------------------------
 
-          #  Assign a unique identifier to this newly generated problem.
-          #  These IDs are useful when combining or adding error to
-          #  problems so that you can identify exactly which problems
-          #  were combined or used as a base when provenance might get
-          #  confusing.
-
-      UUID = uuid::UUIDgenerate()    #  ***  Need to generate this for Xu too in another routine.  ***  #
-
-      #---------------------------------------------------------------------------
-
           #  Now have a completed problem, so build the structure describing it
           #  for return to the caller.
 
     wrapped_bdprob = new ("Xu_wrapped_bd_problem")
 
-#    wrapped_bdprob@base_bd_prob                 = Xu_bdprob
+        #------------------------------------------------------------------
+        #  Assign a unique identifier to this newly generated problem.
+        #  These IDs are useful when combining or adding error to
+        #  problems so that you can identify exactly which problems
+        #  were combined or used as a base when provenance might get
+        #  confusing.
+        #  Also save the UUID of the problem that's being wrapped around.
+        #------------------------------------------------------------------
+
+    wrapped_bdprob@UUID                                 = uuid::UUIDgenerate()
     wrapped_bdprob@UUID_of_base_problem_that_is_wrapped = Xu_bdprob@UUID
 
-    wrapped_bdprob@UUID                         = UUID
-    wrapped_bdprob@read_Xu_problem_from_Xu_file = Xu_bdprob@read_Xu_problem_from_Xu_file
+    wrapped_bdprob@prob_is_ok                           = FALSE
+    wrapped_bdprob@read_Xu_problem_from_Xu_file         = Xu_bdprob@read_Xu_problem_from_Xu_file
+    wrapped_bdprob@prob_generator_params_known          = Xu_bdprob@prob_generator_params_known
+    wrapped_bdprob@correct_solution_vector_is_known     = Xu_bdprob@correct_solution_vector_is_known
 
     wrapped_bdprob@PU_spp_pair_indices          = wrapped_PU_spp_indices
     wrapped_bdprob@all_PU_IDs                   = all_PU_IDs
@@ -609,13 +613,6 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob@spp_col_name                 = Xu_bdprob@spp_col_name
     wrapped_bdprob@num_PUs                      = wrapped_num_PUs
     wrapped_bdprob@num_spp                      = wrapped_num_spp
-    wrapped_bdprob@PU_costs                     = wrapped_PU_costs    #get_PU_costs (wrapped_num_PUs)
-
-    wrapped_bdprob@Xu_parameters                = Xu_bdprob@Xu_parameters
-    wrapped_bdprob@prob_is_ok                   = TRUE
-
-    wrapped_bdprob@nodes                        = wrapped_nodes
-    wrapped_bdprob@bpm                          = wrapped_bpm
 
           #  Since the problem is wrapped around the Xu problem,
           #  the correct optimum cost is the same as for the Xu problem.
@@ -626,9 +623,174 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
     wrapped_bdprob@cor_optimum_cost             = Xu_bdprob@cor_optimum_cost  #correct_solution_cost
 
-      #---------------------------------------------------------------------------
+    wrapped_bdprob@PU_costs                     = wrapped_PU_costs    #get_PU_costs (wrapped_num_PUs)
+    wrapped_bdprob@Xu_parameters                = Xu_bdprob@Xu_parameters
+    wrapped_bdprob@nodes                        = wrapped_nodes
+
+    wrapped_bdprob@bpm                          = wrapped_bpm
+
+        #-------------------------------------------------------------
+        #  Quit if there are any duplicate edges/spp in the problem.
+        #
+        #  NOTE:  2017 02 07 - BTL
+        #         This was done for the basic Xu problem, but should
+        #         it still be done for the wrapped problem.
+        #         I don't think it was necessary for correctness
+        #         in the base problem, more likely for increasing
+        #         the difficulty.
+        #         I'll leave the check in here for now, but may want
+        #         to change this later or else change the underlying
+        #         algorithm that generates the wrapping so that it
+        #         doesn't generate any duplicates if it is
+        #         generating them now.
+        #-------------------------------------------------------------
+
+    see_if_there_are_any_duplicate_links (bpm,
+                                          wrapped_bdprob@num_spp,
+                                          bdpg_error_codes)
+
+        #-----------------------------------------------------------
+        #  No duplicates found.
+        #  Create the basic set of directories for problem output.
+        #-----------------------------------------------------------
+
+    wrapped_bdprob@starting_dir = starting_dir
+    wrapped_bdprob@base_outdir = file.path (normalizePath (starting_dir), "cor")
+    dir.create (wrapped_bdprob@base_outdir, showWarnings = TRUE,
+                recursive = TRUE)
+
+    wrapped_bdprob@derived_bdpg_dir_names =
+        create_base_dir_structure (wrapped_bdprob@base_outdir)
+
+        #-----------------------------------------------------------------
+        #  Compute and save the distribution and network metrics for the
+        #  problem.
+        #-----------------------------------------------------------------
+
+        #  Summarize and plot graph and distribution structure information.
+    wrapped_bdprob@final_link_counts_for_each_node =
+        summarize_and_plot_graph_and_distribution_structure_information (
+                  wrapped_bdprob@PU_spp_pair_indices,
+                  "cor",
+                  wrapped_bdprob@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
+                  wrapped_bdprob@derived_bdpg_dir_names$plot_output_dir,
+                  wrapped_bdprob@spp_col_name,
+                  wrapped_bdprob@PU_col_name,
+                  wrapped_bdprob@presences_col_name
+                  )
+
+        #  Compute network metrics.
+    if (parameters$compute_network_metrics)    #  POSSIBLE PROBLEM:  could want this flag on for wrap but off for base...
+        {
+        wrapped_bdprob@bipartite_metrics_from_bipartite_package =
+          compute_network_measures_using_bipartite_package (bpm)
+
+        wrapped_bdprob@bipartite_metrics_from_igraph_package_df =
+          compute_igraph_related_network_measures (
+                                    wrapped_bdprob@PU_spp_pair_indices,
+                                    wrapped_bdprob@derived_bdpg_dir_names$network_output_dir,
+                                    wrapped_bdprob@PU_col_name,
+                                    wrapped_bdprob@spp_col_name
+                                                    )
+        }
+
+        #------------------------------------------------------------
+        #  Everything seems to have worked.
+        #  Save the bdprob to disk as a first cut at how to archive
+        #  and retrieve problems in general.
+        #  This particular bit of code may disappear later on, once
+        #  it's clearer how to archive.
+        #------------------------------------------------------------
+
+    wrapped_bdprob@prob_is_ok                   = TRUE
+
+    wrapped_bdprob@full_saved_bdprob_path =
+        save_bdprob ("WRAPPED", "COR", wrapped_bdprob@UUID,
+                     wrapped_bdprob@base_outdir, wrapped_bdprob)
 
     return (wrapped_bdprob)  #  end function - wrap_abundance_dist_around_Xu_problem
+    }
+
+#===============================================================================
+
+gen_wrapped_bdprob_COR <- function (starting_dir,
+                                    parameters,
+                                    base_bdprob,
+                                    bdpg_error_codes)
+    {
+    if (parameters$wrap_lognormal_dist_around_Xu)
+        {
+            #---------------------------------
+            #  Control parameters from user.
+            #---------------------------------
+
+        desired_Xu_spp_frac_of_all_spp  = parameters$desired_Xu_spp_frac_of_all_spp
+        solution_frac_of_landscape      = parameters$solution_frac_of_landscape
+        desired_max_abundance_frac      = parameters$desired_max_abundance_frac
+        dep_set_PUs_eligible            = parameters$dep_set_PUs_eligible
+        add_one_to_lognormal_abundances = parameters$add_one_to_lognormal_abundances
+        seed_value_for_search           = parameters$seed_value_for_search
+        max_search_iterations           = parameters$max_search_iterations
+
+            #-----------------------
+            #  Derived parameters.
+            #-----------------------
+
+        tot_num_PUs_in_landscape = round (get_num_nodes (base_bdprob@nodes) /
+                                          solution_frac_of_landscape)
+        search_outfile_name      = paste0 (parameters$fullOutputDirWithSlash,
+                                           "wrap_search_outfile.csv")
+
+            #-----------------------------------------------------------
+            #  Search for a set of lognormal parameters that fit the
+            #  user's constraints while including the base Xu problem.
+            #-----------------------------------------------------------
+
+        rounded_abundances =
+            find_lognormal_to_wrap_around_Xu (base_bdprob,
+                                              parameters,
+                                              desired_Xu_spp_frac_of_all_spp,
+                                              solution_frac_of_landscape,
+                                              desired_max_abundance_frac,
+                                              seed_value_for_search,
+                                              max_search_iterations,
+                                              add_one_to_lognormal_abundances,
+                                              search_outfile_name)
+
+
+            #--------------------------------------------------------------
+            #  Wrap the generated lognormal around the Xu base problem.
+            #
+            #  Note that the wrap_abundance_dist_around_Xu_problem()
+            #  function doesn't care where you got the abundances, i.e.,
+            #  they don't have to have come from the lognormal generator.
+            #
+            #  It can be any abundance set that you want, as long as it
+            #  contains at least as many species sitting on exactly
+            #  2 patches as the base Xu problem has.
+            #
+            #  It can have more species that sit on exactly 2 patches
+            #  than the base Xu problem, but not less.
+            #--------------------------------------------------------------
+
+        wrapped_bdprob_COR =
+            wrap_abundance_dist_around_Xu_problem (starting_dir,
+                                                   rounded_abundances,
+                                                   base_bdprob,
+                                                   dep_set_PUs_eligible,
+                                                   tot_num_PUs_in_landscape,
+                                                   bdpg_error_codes)
+
+        } else  #  lognormal wrap not chosen and that's the only kind allowed
+        {       #  at the moment, so quit
+
+        stop (paste0 ("\n\nIn gen_wrapped_bdprob_COR():  ",
+                      "parameters$wrap_lognormal_dist_around_Xu == FALSE\n",
+                      "    Currently, the only type of wrapping done is ",
+                      "wrapping lognormal around Xu.\n\n"))
+        }
+
+    return (wrapped_bdprob_COR)
     }
 
 #===============================================================================
@@ -752,64 +914,73 @@ gen_multi_bdprob = function (parameters,
         {
         if (wrap_lognormal_dist_around_Xu)  #parameters$wrap_lognormal_around_Xu)
             {
-                #---------------------------------
-                #  Control parameters from user.
-                #---------------------------------
+            starting_dir =
+                file.path (normalizePath (parameters$fullOutputDirWithSlash),
+                           "wrap_prob.1")
 
-            desired_Xu_spp_frac_of_all_spp  = parameters$desired_Xu_spp_frac_of_all_spp
-            solution_frac_of_landscape      = parameters$solution_frac_of_landscape
-            desired_max_abundance_frac      = parameters$desired_max_abundance_frac
-            dep_set_PUs_eligible            = parameters$dep_set_PUs_eligible
-            add_one_to_lognormal_abundances = parameters$add_one_to_lognormal_abundances
-            seed_value_for_search           = parameters$seed_value_for_search
-            max_search_iterations           = parameters$max_search_iterations
+            combined_bdprob = gen_wrapped_bdprob_COR (starting_dir,
+                                                      parameters,
+                                                      bdprob_1,
+                                                      bdpg_error_codes)
 
-                #-----------------------
-                #  Derived parameters.
-                #-----------------------
-
-            tot_num_PUs_in_landscape = round (get_num_nodes (bdprob_1@nodes) /
-                                              solution_frac_of_landscape)
-            search_outfile_name      = paste0 (parameters$fullOutputDirWithSlash,
-                                               "wrap_search_outfile.csv")
-
-                #-----------------------------------------------------------
-                #  Search for a set of lognormal parameters that fit the
-                #  user's constraints while including the base Xu problem.
-                #-----------------------------------------------------------
-
-            rounded_abundances =
-                find_lognormal_to_wrap_around_Xu (bdprob_1,
-                                                  parameters,
-                                                  desired_Xu_spp_frac_of_all_spp,
-                                                  solution_frac_of_landscape,
-                                                  desired_max_abundance_frac,
-                                                  seed_value_for_search,
-                                                  max_search_iterations,
-                                                  add_one_to_lognormal_abundances,
-                                                  search_outfile_name)
-
-
-                #--------------------------------------------------------------
-                #  Wrap the generated lognormal around the Xu base problem.
-                #
-                #  Note that the wrap_abundance_dist_around_Xu_problem()
-                #  function doesn't care where you got the abundances, i.e.,
-                #  they don't have to have come from the lognormal generator.
-                #
-                #  It can be any abundance set that you want, as long as it
-                #  contains at least as many species sitting on exactly
-                #  2 patches as the base Xu problem has.
-                #
-                #  It can have more species that sit on exactly 2 patches
-                #  than the base Xu problem, but not less.
-                #--------------------------------------------------------------
-
-            combined_bdprob =
-                wrap_abundance_dist_around_Xu_problem (rounded_abundances,
-                                                       bdprob_1,
-                                                       dep_set_PUs_eligible,
-                                                       tot_num_PUs_in_landscape)
+            #     #---------------------------------
+            #     #  Control parameters from user.
+            #     #---------------------------------
+            #
+            # desired_Xu_spp_frac_of_all_spp  = parameters$desired_Xu_spp_frac_of_all_spp
+            # solution_frac_of_landscape      = parameters$solution_frac_of_landscape
+            # desired_max_abundance_frac      = parameters$desired_max_abundance_frac
+            # dep_set_PUs_eligible            = parameters$dep_set_PUs_eligible
+            # add_one_to_lognormal_abundances = parameters$add_one_to_lognormal_abundances
+            # seed_value_for_search           = parameters$seed_value_for_search
+            # max_search_iterations           = parameters$max_search_iterations
+            #
+            #     #-----------------------
+            #     #  Derived parameters.
+            #     #-----------------------
+            #
+            # tot_num_PUs_in_landscape = round (get_num_nodes (bdprob_1@nodes) /
+            #                                   solution_frac_of_landscape)
+            # search_outfile_name      = paste0 (parameters$fullOutputDirWithSlash,
+            #                                    "wrap_search_outfile.csv")
+            #
+            #     #-----------------------------------------------------------
+            #     #  Search for a set of lognormal parameters that fit the
+            #     #  user's constraints while including the base Xu problem.
+            #     #-----------------------------------------------------------
+            #
+            # rounded_abundances =
+            #     find_lognormal_to_wrap_around_Xu (bdprob_1,
+            #                                       parameters,
+            #                                       desired_Xu_spp_frac_of_all_spp,
+            #                                       solution_frac_of_landscape,
+            #                                       desired_max_abundance_frac,
+            #                                       seed_value_for_search,
+            #                                       max_search_iterations,
+            #                                       add_one_to_lognormal_abundances,
+            #                                       search_outfile_name)
+            #
+            #
+            #     #--------------------------------------------------------------
+            #     #  Wrap the generated lognormal around the Xu base problem.
+            #     #
+            #     #  Note that the wrap_abundance_dist_around_Xu_problem()
+            #     #  function doesn't care where you got the abundances, i.e.,
+            #     #  they don't have to have come from the lognormal generator.
+            #     #
+            #     #  It can be any abundance set that you want, as long as it
+            #     #  contains at least as many species sitting on exactly
+            #     #  2 patches as the base Xu problem has.
+            #     #
+            #     #  It can have more species that sit on exactly 2 patches
+            #     #  than the base Xu problem, but not less.
+            #     #--------------------------------------------------------------
+            #
+            # combined_bdprob =
+            #     wrap_abundance_dist_around_Xu_problem (rounded_abundances,
+            #                                            bdprob_1,
+            #                                            dep_set_PUs_eligible,
+            #                                            tot_num_PUs_in_landscape)
 
             }
         }
@@ -818,5 +989,4 @@ gen_multi_bdprob = function (parameters,
     }
 
 #===============================================================================
-
 

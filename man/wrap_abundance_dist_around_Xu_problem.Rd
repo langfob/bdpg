@@ -4,10 +4,12 @@
 \alias{wrap_abundance_dist_around_Xu_problem}
 \title{FUNCTION_TITLE}
 \usage{
-wrap_abundance_dist_around_Xu_problem(rounded_abundances, Xu_bdprob,
-  dep_set_PUs_eligible, tot_num_PUs_in_landscape)
+wrap_abundance_dist_around_Xu_problem(starting_dir, rounded_abundances,
+  Xu_bdprob, dep_set_PUs_eligible, tot_num_PUs_in_landscape, bdpg_error_codes)
 }
 \arguments{
+\item{starting_dir}{DESCRIPTION.}
+
 \item{rounded_abundances}{DESCRIPTION.}
 
 \item{Xu_bdprob}{DESCRIPTION.}
