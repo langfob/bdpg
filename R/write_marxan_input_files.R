@@ -203,7 +203,10 @@ write_marxan_puvspr.dat_input_file = function (spp_PU_amount_table)
 #' write_marxan_puvspr.dat_input_file (spp_PU_amount_table)
 #'          }
 
-write_all_marxan_input_files = function (PU_IDs, spp_IDs, spp_PU_amount_table,
+write_all_marxan_input_files = function (PU_IDs,
+                                         spp_IDs,
+                                         spp_PU_amount_table,
+
                                          spf_const = 1,
                                          target_const = 1,
                                          cost_const = 1,
@@ -260,10 +263,14 @@ write_all_marxan_input_files = function (PU_IDs, spp_IDs, spp_PU_amount_table,
 #' write_marxan_puvspr.dat_input_file (spp_PU_amount_table)
 #'          }
 
-write_all_marxan_input_files_from_vectors =
-    function (PU_IDs, spp_IDs, spp_PU_amount_table,
-              spf_values, target_values,
-              cost_values, status_values)
+write_all_marxan_input_files_from_vectors = function (PU_IDs,
+                                                      spp_IDs,
+                                                      spp_PU_amount_table,
+                                                      spf_values,
+                                                      target_values,
+                                                      cost_values,
+                                                      status_values
+                                                     )
     {
     write_marxan_pu.dat_input_file_from_vectors (PU_IDs, cost_values, status_values)
     write_marxan_spec.dat_input_file_from_vectors (spp_IDs, spf_values, target_values)

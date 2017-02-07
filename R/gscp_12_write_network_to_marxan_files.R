@@ -8,16 +8,30 @@
 
 #-------------------------------------------------------------------------------
 
-write_network_to_marxan_files =
-        function (PU_spp_pair_indices,
-    PU_IDs, #####!!!!!#####
-    spp_IDs,  #####!!!!!#####
-                  PU_col_name,
-                  spp_col_name,
-                  parameters,
-                  marxan_input_dir,
-                  marxan_output_dir
-                  )
+#' Title
+#'
+#' @param PU_spp_pair_indices
+#' @param PU_IDs
+#' @param spp_IDs
+#' @param PU_col_name
+#' @param spp_col_name
+#' @param parameters
+#' @param marxan_input_dir
+#' @param marxan_output_dir
+#'
+#' @return
+#' @export
+
+write_network_to_marxan_files = function (PU_spp_pair_indices,       #  app values if running on app
+                                          PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?
+                                          spp_IDs,  #####!!!!!#####  #  All values, i.e., cor values?
+
+                                          PU_col_name,
+                                          spp_col_name,
+                                          parameters,
+                                          marxan_input_dir,
+                                          marxan_output_dir
+                                          )
     {
 
     cat ("\n\n--------------------  Writing out the data as Marxan input files.\n")

@@ -51,8 +51,13 @@
 
 #===============================================================================
 
-    #  Run marxan.
-        #  Should include this in the marxan package.
+#' Title
+#'
+#' @param marxan_dir
+#' @param marxan_executable_name
+#'
+#' @return
+#' @export
 
 run_marxan = function (marxan_dir, marxan_executable_name)
     {
@@ -98,13 +103,21 @@ run_marxan = function (marxan_dir, marxan_executable_name)
 
 #===============================================================================
 
-set_marxan_controls_and_run_marxan <-
-    function (
-#XXX 2017 02 06    current_os,    #  derived_bdpg_parameters$current_os,
-        marxan_input_dir,
-        marxan_output_dir,
-        parameters,
-        marxan_IO_dir)
+#' Title
+#'
+#' @param marxan_input_dir
+#' @param marxan_output_dir
+#' @param parameters
+#' @param marxan_IO_dir
+#'
+#' @return
+#' @export
+
+set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
+                                                marxan_output_dir,
+                                                parameters,
+                                                marxan_IO_dir
+                                               )
     {
         #-----------------------------------------------------------------------
         #  Set the marxan executable name to default to the mac,
@@ -379,48 +392,63 @@ set_marxan_controls_and_run_marxan <-
 
 #===============================================================================
 
-set_up_for_and_run_marxan = function (
-                #  This routine doesn't care whether it's
-                #  a cor_ or app_ problem.
-                #                            app_PU_spp_pair_indices,
-                PU_spp_pair_indices,
-    PU_IDs, #####!!!!!#####
-    spp_IDs,  #####!!!!!#####
-                            PU_col_name,
-                            spp_col_name,
-#XXX 2017 02 06    current_os,    #  derived_bdpg_parameters$current_os,
-                marxan_input_dir,
-                marxan_output_dir,
-                            parameters,
-                marxan_IO_dir
-                            )
+#' Title
+#'
+#' @param PU_spp_pair_indices
+#' @param PU_IDs
+#' @param spp_IDs
+#' @param PU_col_name
+#' @param spp_col_name
+#' @param marxan_input_dir
+#' @param marxan_output_dir
+#' @param parameters
+#' @param marxan_IO_dir
+#'
+#' @return
+#' @export
+
+set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values if running on app
+                                      PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?
+                                      spp_IDs,  #####!!!!!#####  #  All values, i.e., cor values?
+
+                                      PU_col_name,
+                                      spp_col_name,
+                                      marxan_input_dir,
+                                      marxan_output_dir,
+                                      parameters,
+                                      marxan_IO_dir
+                                     )
     {
     spf_const =
-        write_network_to_marxan_files (PU_spp_pair_indices,
-    PU_IDs, #####!!!!!#####
-    spp_IDs,  #####!!!!!#####
-                                                              PU_col_name,
-                                                              spp_col_name,
-                                                              parameters,
-                                        marxan_input_dir,
-                                        marxan_output_dir
-                                                        )
+        write_network_to_marxan_files (PU_spp_pair_indices,       #  app values if running on app
+                                       PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?
+                                       spp_IDs,  #####!!!!!#####  #  All values, i.e., cor values?
+
+                                       PU_col_name,
+                                       spp_col_name,
+                                       parameters,
+                                       marxan_input_dir,
+                                       marxan_output_dir
+                                      )
 
     #--------------------
 
     marxan_control_values =
-        set_marxan_controls_and_run_marxan (
-#XXX 2017 02 06    current_os,    #  derived_bdpg_parameters$current_os,
-                                            marxan_input_dir,
-                                marxan_output_dir,
+        set_marxan_controls_and_run_marxan (marxan_input_dir,
+                                            marxan_output_dir,
                                             parameters,
-                                marxan_IO_dir
-                                            )
+                                            marxan_IO_dir
+                                           )
+
+        #  Document what spf_const value was computed before the run of marxan
+        #  (above) and then used in the run of marxan by reading it from one
+        #  of the input files.
+        #  Want to document the value in case it is useful as an input feature
+        #  when trying to learn to predict error.
 
     marxan_control_values$spf_const = spf_const
 
     #--------------------
-
 
     return (marxan_control_values)
     }
