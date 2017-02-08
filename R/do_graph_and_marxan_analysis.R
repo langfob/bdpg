@@ -94,7 +94,7 @@
 #
 #===============================================================================
 
-do_COR_graph_and_marxan_analysis <- function (COR_bd_prob, parameters)
+do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters)
     {
 #===============================================================================
 #                                   Run marxan.
@@ -136,7 +136,7 @@ do_COR_graph_and_marxan_analysis <- function (COR_bd_prob, parameters)
         #                       are even known, so that it doesn't try to learn
         #                       something from missing data.
 
-do_APP_graph_and_marxan_analysis <- function (parameters,
+do_APP_marxan_analysis_and_output <- function (parameters,
                                                 #  parameters from gen prob.
                                                 #  They're only used in creating
                                                 #  the master output structure.
