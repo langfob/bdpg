@@ -122,14 +122,16 @@ do_COR_graph_and_marxan_analysis <- function (COR_bd_prob, parameters)
 #                   Dump all of the different kinds of results.
 #===============================================================================
 
-    COR_marxan_output_values =
+    marxan_output_values =
         read_COR_marxan_output_files (COR_bd_prob, parameters)
 
     cat("\njust after read_marxan_output_files()")
 
   #---------------------------------------------------------------------------
 
-    create_COR_master_output_structure (COR_bd_prob)
+    create_COR_master_output_structure (COR_bd_prob,
+                                        marxan_control_values,
+                                        marxan_output_values)
 
     }  #  end function - do_graph_and_marxan_analysis
 
