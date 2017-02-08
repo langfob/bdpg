@@ -280,8 +280,6 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
             { marxan_HEURTYPE  = parameters$marxan_heurtype }
         }
 
-    #browser()
-
     #-------------------
 
     #marxan_input_parameters_file_name = "/Users/bill/D/Marxan/input.dat"
@@ -399,28 +397,34 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 #' @param spp_IDs
 #' @param PU_col_name
 #' @param spp_col_name
-#' @param marxan_input_dir
-#' @param marxan_output_dir
+#' @param bdpg_dir_names
 #' @param parameters
-#' @param marxan_IO_dir
 #'
-#' @return
+#' @return return_values list containing marxan_control_values and bdpg_dir_names
+
 #' @export
 
 set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values if running on app
                                       PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?
                                       spp_IDs,  #####!!!!!#####  #  All values, i.e., cor values?
-
                                       PU_col_name,
                                       spp_col_name,
-
-                                      marxan_input_dir,
-                                      marxan_output_dir,
-                                      marxan_IO_dir,
-
+                                      bdpg_dir_names,
                                       parameters
-                                     )
+                                      )
     {
+    dir_names = create_new_res_sel_replicate_subtree (bdpg_dir_names,
+                                                      "marxan",
+                                                      bdpg_dir_names$res_sel_dir,
+                                                      create_dirs = TRUE)
+    marxan_IO_dir     = dir_names$IO_dir
+    marxan_input_dir  = dir_names$input_dir
+    marxan_output_dir = dir_names$output_dir
+
+    bdpg_dir_names    = dir_names$bdpg_dir_names
+
+    #--------------------
+
     spf_const =
         write_network_to_marxan_files (PU_spp_pair_indices,       #  app values if running on app
                                        PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?
@@ -452,7 +456,11 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
 
     #--------------------
 
-    return (marxan_control_values)
+    return_values = list (marxan_control_values = marxan_control_values,
+                          bdpg_dir_names        = bdpg_dir_names)
+
+#    return (marxan_control_values)
+    return (return_values)
     }
 
 #===============================================================================

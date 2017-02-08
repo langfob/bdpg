@@ -66,24 +66,18 @@ do_graph_and_marxan_analysis <- function (parameters,
 #                                   Run marxan.
 #===============================================================================
 
-    marxan_control_values =
-        set_up_for_and_run_marxan (app_PU_spp_pair_indices,
-                                     cor_PU_IDs, #####!!!!!#####
-                                     cor_spp_IDs,  #####!!!!!#####
+    set_up_and_run_return_values =
+        bdpg::set_up_for_and_run_marxan (app_PU_spp_pair_indices,
+                                            cor_PU_IDs, #####!!!!!#####
+                                            cor_spp_IDs,  #####!!!!!#####
+                                            PU_col_name,
+                                            spp_col_name,
+                                            derived_bdpg_dir_names,
+                                            parameters
+                                            )
 
-                                     PU_col_name,
-                                     spp_col_name,
-
-                        #  THESE MARXAN DIRECTORIES NEED TO BE CREATED AND
-                        #  STORED USING THE WAY OF ALLOCATING DIRECTORIES
-                        #  TO A RESERVE SELECTOR.
-
-                                     derived_bdpg_dir_names$marxan_input_dir,
-                                     derived_bdpg_dir_names$marxan_output_dir,
-                                     derived_bdpg_dir_names$marxan_IO_dir,
-
-                                     parameters
-                                    )
+    marxan_control_values  = set_up_and_run_return_values$marxan_control_values
+    derived_bdpg_dir_names = set_up_and_run_return_values$bdpg_dir_names
 
     cat("\njust after set_up_for_and_run_marxan()")
 
