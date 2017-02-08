@@ -108,6 +108,9 @@ setClass ("Xu_params",
 
     #  PU_spp_pair_info class.
 
+            #  SHOULD JUST BE A LIST, NOT BE A CLASS, SINCE IT'S ONLY USED TO BUNDLE A
+            #  BUNCH OF RETURN VALUES?  (is that true?)
+
 setClass ("PU_spp_pair_info_class",
           representation (
                             PU_spp_pair_indices              = "data.frame",
@@ -116,135 +119,150 @@ setClass ("PU_spp_pair_info_class",
                             num_PUs                          = "numeric",
                             num_spp                          = "numeric",
                             correct_solution_cost            = "numeric",
-                            Xu_parameters                    = "Xu_params",
+                            Xu_parameters                    = "Xu_params",    #  Xu only
                             correct_solution_vector_is_known = "logical",
-                            dependent_node_IDs               = "vector",
-                            nodes                            = "data.frame",
+                            dependent_node_IDs               = "vector",    #  Xu only?  or at least rename?
+                            nodes                            = "data.frame",    #  Xu only?  or at least rename?
                             PU_costs                         = "vector",
-                            prob_generator_params_known      = "logical"
+                            prob_generator_params_known      = "logical"    #  Doesn't belong in this structure?
                             )
         )
 
 #===============================================================================
 
-# Seems like there is a lot of possible overlap between species distribution
-# modelling and reserve selection data structures, e.g., all of the data about
-# planning units.  However, sdm doesn't generally call them planning units and
-# they're more often at the pixel level, so the representation is more likely
-# to be a map than a list or a data frame.
-#
-# So, it probably doesn't make sense to share data structures via inheritance,
-# but I'll just keep this commit around to save the information.
-
-
-    #  Spp_Dist_problem class.        2017 02 29 - BTL - JUST TRYING THIS OUT FOR A MOMENT TO SEE IF THERE IS OVERLAP BETWEEN SD AND RES SEL DATA STRUCTURES TO KEEP IN MIND.
-
-setClass ("Spp_Dist_problem",
-          representation (
-                          UUID                             = "character",                  #  both
-
-                                #  Known for all Xu problems, by definition.
-cor_optimum_cost                 = "numeric",                  #  bd_prob
-                          PU_costs                         = "vector",   #  of numeric   #  both
-
-                          PU_col_name                      = "character",                  #  both
-            spp_col_name                     = "character",                  #  both MAYBE, e.g., if using joint distributions to predict
-                          presences_col_name               = "character",                  #  both
-
-                          correct_solution_vector_is_known = "logical",                  #  both
-                          prob_generator_params_known      = "logical",                  #  both
-
-                          prob_is_ok                       = "logical",                  #  both
-
-read_Xu_problem_from_Xu_file     = "logical",                  #  XU only
-infile_name                      = "character",                  #  Xu only
-
-Xu_parameters                    = "Xu_params",                  #  XU only
-
-num_spp                          = "numeric",                  #  bd_prob
-                          num_PUs                          = "numeric",                  #  both
-            PU_spp_pair_indices              = "data.frame",                  #  both? - but may be different forms
-                          all_PU_IDs                       = "numeric",                  #  both
-            all_spp_IDs                      = "numeric",                  #  both MAYBE, e.g., if using joint distributions to predict
-
-nodes                            = "data.frame",                  #  not sure - XU only or is this just the list of planning units?
-dependent_node_IDs               = "numeric",                  #  XU only?  or, this is named wrong and should be "solution set if known"
-final_link_counts_for_each_node  = "data.frame",                  #  XU only
-
-            bpm                              = "matrix",                  #  both MAYBE, e.g., if using joint distributions to predict
-
-            starting_dir                     = "character",                  #  both?
-            base_outdir                      = "character",                  #  both?
-            derived_bdpg_dir_names           = "list",                  #  both?
-            full_saved_bdprob_path           = "character",                  #  both?
-
-bipartite_metrics_from_bipartite_package = "matrix",                  #  bd_prob
-bipartite_metrics_from_igraph_package_df = "data.frame"                  #  bd_prob
-                          ),
-          prototype (
-                          PU_col_name                      = "PU_ID",
-                          spp_col_name                     = "spp_ID",
-                          presences_col_name               = "freq",
-
-                          bipartite_metrics_from_bipartite_package = NULL,
-                          bipartite_metrics_from_igraph_package_df = NULL
-                    )
-         )
-
-# setMethod ("show", "Xu_bd_problem",
-#            function (object)
-#                {
-#                cat ("Xu_bd_problem = ",
-#                     " \n ")
-#            }
-#           )
-
-#===============================================================================
-
     #  Xu_bd_problem class.
+                            #  WHAT ELSE NEEDS TO BE INCLUDED TO BE MORE GENERAL,
+                            #  E.G., TO DESCRIBE ILP PROBLEMS AND PROBLEMS WITH
+                            #  BOUNDARY LENGTHS, ETC.?
+
+                            #  NEED TO WALK THROUGH THE WHOLE PROCESS AS IF
+                            #  USING ILP AND MORE COMPLEX MARXAN (E.G., WITH
+                            #  BOUNDARY LENGTHS, SPP WEIGHTS, ETC.) AND
+                            #  SIMPLE RICHNESS AND ZONATION TO SEE IF THEY
+                            #  WILL WORK OR FORCE CHANGES.
+
+                            #  SHOULD THERE JUST BE A PLANNING UNIT DATA CLASS
+                            #  THAT CAN BE SUBCLASSED TO HOLD ALL THE VARIANTS
+                            #  LIKE BOUNDARY LENGTHS, ETC WHEN NECESSARY?
+
+                            #  SAME IDEA FOR RESERVE SELECTORS?
 
 setClass ("Xu_bd_problem",
           representation (
-                          UUID                             = "character",                  #  bd_prob
+                                #-----------------------
+                                #  General information
+                                #-----------------------
 
-                                #  Known for all Xu problems, by definition.
-                          cor_optimum_cost                 = "numeric",                  #  bd_prob (only known sometimes) - should this not be COR?, i.e., apparents may have what they perceive to be the opt cost
-                          PU_costs                         = "vector",   #  of numeric   #  bd_prob
+                            UUID                             = "character",                  #  bd_prob
+                            prob_is_ok                       = "logical",                    #  bd_prob
 
-                          PU_col_name                      = "character",                  #  bd_prob
-                          spp_col_name                     = "character",                  #  bd_prob
-                          presences_col_name               = "character",                  #  bd_prob
 
-                          correct_solution_vector_is_known = "logical",                  #  bd_prob
-                          prob_generator_params_known      = "logical",                  #  bd_prob
+    #---------------------
+    #  Problem generator
+    #---------------------
 
-                          prob_is_ok                       = "logical",                  #  bd_prob
+prob_generator_params_known      = "logical",                   #  bd_prob [COR and APP values? i.e., ERROR MODEL params too? Or, just change this cor_prob_gen_params_known?]
+#prob_type,                                                     #  Add this to allow having a pointer to problem-specific information in prob_gen_info?
+#prob_gen_info,                                                 #  Add this to point to Xu-specific info or something else if different problem source or generator?
+                    #-----------
+                    #  Xu only
+                    #-----------
+                read_Xu_problem_from_Xu_file     = "logical",                    #  XU only
+                infile_name                      = "character",                  #  Xu only
+                Xu_parameters                    = "Xu_params",                  #  XU only
 
-read_Xu_problem_from_Xu_file     = "logical",                  #  XU only
-infile_name                      = "character",                  #  Xu only
+    #---------------------
+    #  Apparent problem
+    #---------------------
 
-Xu_parameters                    = "Xu_params",                  #  XU only
+#APP_info,      #  Add this to point to all apparent information if this is an apparent problem?
 
-                          num_spp                          = "numeric",                  #  bd_prob
-                          num_PUs                          = "numeric",                  #  bd_prob
-PU_spp_pair_indices              = "data.frame",                  #  bd_prob - but may be different forms
-                          all_PU_IDs                       = "numeric",                  #  bd_prob
-                          all_spp_IDs                      = "numeric",                  #  bd_prob
+                                #-----------------------------
+                                #  Column naming information
+                                #-----------------------------
 
-nodes                            = "data.frame",                  #  not sure - XU only or is this just the list of planning units?
-dependent_node_IDs               = "numeric",                  #  XU only?  or, this is named wrong and should be "solution set if known"
-final_link_counts_for_each_node  = "data.frame",                  #  XU only
+                            PU_col_name                      = "character",                  #  bd_prob
+                            spp_col_name                     = "character",                  #  bd_prob
+                            presences_col_name               = "character",                  #  bd_prob
 
-                          bpm                              = "matrix",                  #  bd_prob - but could be integer or float, depending on problem
+                                #------------------------
+                                #  Solution information
+                                #------------------------
+                                                                            #  possible problem:  "cost" may need to be "EF_value", since cost is going to be something other than just sum of pu costs when using boundary lengths in EF, etc.  Maybe not though, since there's always the financial cost, which may or may not be the same as the EF.  In that case, you might want to have separate entries for EF_cost and Financial_cost.
+                            cor_optimum_cost                 = "numeric",     #  bd_prob (only known sometimes) - should this not be COR?, i.e., apparents may have what they perceive to be the opt cost
+#correct_solution_cost_is_known = "logical",                  #  bd_prob   #  Add this?  Would it ever be used or is it enough to just have NA for dependent_node_IDs/cor_solution_PU_IDs?
 
-                          starting_dir                     = "character",                  #  bd_prob
-                          base_outdir                      = "character",                  #  bd_prob
-                          derived_bdpg_dir_names           = "list",                  #  bd_prob
-                          full_saved_bdprob_path           = "character",                  #  bd_prob
+                            correct_solution_vector_is_known = "logical",                  #  bd_prob
+                            dependent_node_IDs               = "numeric",                  #  XU only?  OR, IS THIS JUST NAMED POORLY AND SHOULD BE "cor_solution_PU_IDs"
+                                                                                           #  integer vector (sorted?) of IDs of nodes in the dependent set
+                                                                                           #  CAN BE DERIVED, SO MAKE IT A FUNCTION?
+                                #-----------------------
+                                #  Species information
+                                #-----------------------
 
-                          bipartite_metrics_from_bipartite_package = "matrix",                  #  bd_prob
-                          bipartite_metrics_from_igraph_package_df = "data.frame"                  #  bd_prob
-                          ),
+                            num_spp                          = "numeric",                  #  bd_prob  #  CAN BE DERIVED, SO MAKE IT A FUNCTION?
+                            all_spp_IDs                      = "numeric",                  #  bd_prob  #  CAN BE DERIVED, SO MAKE IT A FUNCTION?
+                                                                                           #  SHOULD EITHER BE A TABLE WITH MORE IN IT OR THAT TABLE SHOULD ALSO EXIST SEPARATELY.
+                                                                                           #  TABLE SHOULD CONTAIN ONE ROW PER SPECIES AND THE FOLLOWING COLUMNS:
+                                                                                           #        SPP_ID, SPP_NAME, TOT_SPP_OCCUPANCY, SPP_TARGET, SPP_WEIGHT, SPP_BASE_PROB_UUID, SPP_ID_IN_BASE_PROB, (spp_name_in_base_prob-could be looked up)
+                                                                                           #  TOT_SPP_OCCUPANCY means SUM OF PUs or abundances, etc. - to use in rank abundance plots.
+                                                                                           #  The TOT_SPP_OCCUPANCY values would be different for COR and APP.
+
+                                #-----------------------------
+                                #  Planning unit information
+                                #-----------------------------
+
+                            num_PUs                          = "numeric",                  #  bd_prob  #  CAN BE DERIVED, SO MAKE IT A FUNCTION?
+                            all_PU_IDs                       = "numeric",                  #  bd_prob  #  CAN BE DERIVED, SO MAKE IT A FUNCTION?
+
+                            PU_costs                         = "vector",   #  of numeric   #  bd_prob [COR and APP values]
+
+                                        #  ???  Xu only, or just in need of renaming  ???
+                            nodes                            = "data.frame",                  #  not sure - XU only or is this just the list of planning units?
+                                                                                              #  Should be renamed and rebuilt as a general table of PU info, with one row for each PU:
+                                                                                              #      PU_ID, PU_NAME, NUM_SPP_ON_PU, IN_SOL_SET, PU_AREA, PU_BOUNDARY_LENGTH, PU_WEIGHT, PU_BASE_PROB_UUID, PU_ID_IN_BASE_PROB, (pu_name_in_base_prob-could be looked up), PU_IN_EXTRA_SET, PU_IN_IND_SET, PU_GROUP_ID
+                                                                                              #  CURRENTLY, COLS ARE: node_ID, group_ID, dependent_set_member
+                                                                                              #  MIGHT ALSO WANT TO INCLUDE A COLUMN INDICATING WHETHER NODE IS A)SOLUTION B)INDSET C)EXTRA
+                                                                                              #  HOWEVER, THAT'S NOT A GENERALIZED PROBLEM CHARACTERISTIC; IT'S PART OF BOTH XU AND PROBLEM COMBINING/WRAPPING.
+                                                                                              #  STILL, ARE WRAPPING AND COMBINING only ALLOWABLE WHEN YOU KNOW THE XU SETUP?
+                                                                                              #  OR, CAN YOU DO COMBINING AND WRAPPING WHENEVER YOU KNOW A BASE PROBLEM AND ITS SOLUTION SET
+                                                                                              #  BY JUST NOT STEPPING ON ANY BASE PROBLEM PU OTHER THAN THE SOLUTION SET.
+
+                            final_link_counts_for_each_node  = "data.frame",                  #  not XU only?  CREATED LONG AFTER XU GENERATION?
+                                                                                              #  SHOULD BE RENAMED TO final_spp_cts_for_each_PU ?
+                                                                                              #  SHOULD BE A COLUMN IN THE PU INFO TABLE INSTEAD OF A SEPARATE DATA FRAME?
+                                                                                              #  cols are: PU_ID, freq
+                                                                                              #  data frame with one column of unique PU IDs (both empty and non-empty) and a second column containing the number of species occurring on the corresponding PU
+                                #-------------------------
+                                #  Occupancy information
+                                #-------------------------
+
+                            PU_spp_pair_indices              = "data.frame",            #  bd_prob - but may be different forms [COR and APP values]  {DOES THIS ALSO (NEED TO) REFLECT ABUNDANCE/DENSITY/PROBABILITY/LIKELIHOOD(A LA MAXENT)?}
+                                                                                        #  THIS SHOULD INCLUDE "ABUNDANCE/DENSITY/PROBABILITY/LIKELIHOOD(A LA MAXENT)" AS ANOTHER COLUMN
+                                                                                        #  Table has one row for each PU/SPP pair where the spp occurs on the PU (where "occurs" means non-zero value for ABUND... above)
+                            bpm                              = "matrix",                  #  bd_prob  [COR and APP values]
+
+                                #-------------------------
+                                #  Directory information
+                                #-------------------------
+
+                            starting_dir                     = "character",                  #  bd_prob [COR and APP values]
+                            base_outdir                      = "character",                  #  bd_prob [COR and APP values]
+                            derived_bdpg_dir_names           = "list",                  #  bd_prob [COR and APP values]
+                            full_saved_bdprob_path           = "character",                  #  bd_prob [COR and APP values]
+
+                                #---------------------------------------
+                                #  Problem attributes/measures/metrics
+                                #---------------------------------------
+
+                                        #  Post-generation measures
+                            bipartite_metrics_from_bipartite_package = "matrix",                  #  bd_prob [COR and APP values]
+                            bipartite_metrics_from_igraph_package_df = "data.frame"                  #  bd_prob [COR and APP values]
+
+                     ),
+
+          #-----------------------------------------------------------------
+
           prototype (
                           PU_col_name                      = "PU_ID",
                           spp_col_name                     = "spp_ID",
