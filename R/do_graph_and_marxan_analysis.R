@@ -123,39 +123,6 @@ do_COR_graph_and_marxan_analysis <- function (COR_bd_prob, parameters)
     COR_marxan_output_values =
         read_COR_marxan_output_files (COR_bd_prob, parameters)
 
-                        # #  THESE MARXAN DIRECTORIES NEED TO BE CREATED AND
-                        # #  STORED USING THE WAY OF ALLOCATING DIRECTORIES
-                        # #  TO A RESERVE SELECTOR.
-                        #
-                        #                 #  This directory may need to change if there is more than
-                        #                 #  one run of marxan, i.e., a cor_ and an app_.
-                        #             derived_bdpg_dir_names$marxan_output_dir,
-                        #
-                        #
-                        #
-                        #
-                        #
-                        #             cor_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
-                        #
-                        #                 #  These used to say just num_spp and num_PUs.
-                        #                 #  For the moment, I'm going to make them cor_...
-                        #                 #  since there is neither num_spp nor app_num_spp, etc.
-                        #                 #  This needs fixing though.
-                        #                         #num_PUs,  #  cor_num_PUs?  app_num_PUs?
-                        #                         #num_spp,  #  cor_num_spp?  app_num_spp?
-                        #             cor_num_PUs,  #  cor_num_PUs?  app_num_PUs?
-                        #             cor_num_spp,  #  cor_num_spp?  app_num_spp?
-                        #
-                        #             cor_bpm,
-                        #             derived_bdpg_dir_names$plot_output_dir,
-                        #             parameters,
-                        #             app_bpm,
-                        #
-                        #             cor_PU_costs,  #  May also need to pass cor_ and app_PU_costs.
-                        #             cor_optimum_cost,
-                        #             cor_optimum_cost  #  Should probably be app_optimum_cost, but doesn't exist at the moment so just passing cor_ to get it to run.
-                        #            )
-
     cat("\njust after read_marxan_output_files()")
 
 #===============================================================================
