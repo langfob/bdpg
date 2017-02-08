@@ -17,6 +17,10 @@
 #    hint: its remote counterpart. Integrate the remote changes (e.g.
 #    hint: 'git pull ...') before pushing again.
 #    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+#  Later:  Just did a forced push and that seems to have fixed the problem.
+
+
 #
 #  2017 02 08 6:39 pm - BTL
 #
