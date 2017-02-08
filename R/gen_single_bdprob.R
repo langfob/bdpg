@@ -105,27 +105,6 @@ create_new_res_sel_replicate_subtree <- function (bdpg_dir_names,
 
 #===============================================================================
 
-test_create_res_sel_replicate_dirs <- function ()
-    {
-    create_dirs=FALSE
-    base_outdir = file.path (normalizePath ("."), "res_sel")  # For some reason, normalizePath("./res_sel", mustWork=FALSE) fails in that it just returns "./res_sel", even though it works correctly if res_sel does exist.
-    bdpg_dir_names=list()
-
-    for (iii in 1:3)
-        {
-        bdpg_dir_names = create_new_res_sel_replicate_subtree (bdpg_dir_names, "simpleRichness", base_outdir, create_dirs)
-        }
-
-    for (iii in 1:2)
-        {
-        bdpg_dir_names = create_new_res_sel_replicate_subtree (bdpg_dir_names, "marxan", base_outdir, create_dirs)
-        }
-
-    return (bdpg_dir_names)
-    }
-
-#===============================================================================
-
 create_base_dir_structure <- function (base_outdir, create_dirs=TRUE)
     {
     base_outdir = normalizePath (base_outdir, mustWork=FALSE)
@@ -150,90 +129,6 @@ create_base_dir_structure <- function (base_outdir, create_dirs=TRUE)
         dir.create (derived_bdpg_dir_names$res_sel_dir,
                     showWarnings = TRUE, recursive = TRUE)
         }
-
-    return (derived_bdpg_dir_names)
-    }
-
-#===============================================================================
-
-blah <- function (derived_bdpg_dir_names)
-    {
-    # base_outdir = "."
-    # derived_bdpg_dir_names = create_base_dir_structure (base_outdir,
-    #                                                     create_dirs=FALSE)
-
-    cur_res_sel_name = "marxan"
-    if (is.null (derived_bdpg_dir_names$res_sel_dir_names [[cur_res_sel_name]]))
-        derived_bdpg_dir_names$res_sel_dir_names [[cur_res_sel_name]] = list()
-
-    return (derived_bdpg_dir_names)
-    }
-
-#===============================================================================
-
-xxx <- function (cur_res_sel_ct=1)
-    {
-        #  This function is meant to deal with the fact that for a given
-        #  reserve selection problem (whether correct or apparent, wrapped
-        #  or simple, etc.), we may want to run a given reserve selector
-        #  multiple times, e.g., with a different set of parameters each time.
-        #  A good example of this would be running marxan on the same problem
-        #  with different numbers of iterations allowed, to get some idea
-        #  of run time or problem difficulty.  For example, you might want
-        #  to run it the first time only allowing 1000 iterations to get an
-        #  idea of how long that takes and how good is the solution.
-        #  You might also want to run it allowing 1 million iterations to
-        #  get a better solution when you have more run time available.
-        #  Both of these runs might be done inside the same tzar run or they
-        #  might be done in separate tzar runs.  In the case of doing both
-        #  marxan runs inside the same tzar run, you'd like to have the
-        #  directory structure under res_sel/marxan allow for
-        #  marxan.1 and marxan.2, etc.  One way to do this is to have the
-        #  code check for the largest marxan directory number in the current
-        #  tzar run whenever it calls the marxan code and then create a new
-        #  subdirectory tree with a higher number for the new run.
-        #  (Note that you don't have to be running tzar here.  I'm only using
-        #  the phrase "tzar run" as a convenient term for the whole big run
-        #  as opposed to just one call to marxan inside the whole big run.)
-
-        #  Create a dir tree for this reserve selector parameterization and run.
-        #  For example, if the reserve selector is marxan and this is the
-        #  first paramterization and run of marxan for this problem
-
-
-    # first time:  no marxan dir
-    # second time:  marxan dir but no marxan.1
-    # third time:  marxan and marxan.1 => create marxan.2
-    # fourth time:  marxan, marxan.1, marxan.2 => create marxan.3
-
-
-
-        create the marxan directory
-        initialize marxan run counter to 1
-
-    find all existing directories in the marxan directory
-    collect their run numbers
-    determine the highest run number
-    add 1 to it
-    create marxan.n+1
-
-x = list()
-x$res_sel = 0
-
-    cur_res_sel_name = "marxan"
-    if (is.null (derived_bdpg_dir_names$res_sel_dir_names [[cur_res_sel_name]]))
-        derived_bdpg_dir_names$res_sel_dir_names [[cur_res_sel_name]] = list()
-
-    return (derived_bdpg_dir_names)
-    }
-
-#===============================================================================
-
-test_create_base_dir_structure <- function ()
-    {
-    base_outdir = "."
-    derived_bdpg_dir_names = create_base_dir_structure (base_outdir,
-                                                        create_dirs=FALSE)
 
     return (derived_bdpg_dir_names)
     }
