@@ -1,74 +1,5 @@
 #===============================================================================
 
-create_one_res_sel_dir_structure <- function (res_sel_dir_name = "marxan",
-                                              base_outdir = ".")
-    {
-    base_outdir = file.path (normalizePath (base_outdir, mustWork=FALSE),
-                             res_sel_dir_name)
-
-    IO_dir_name = paste0 (res_sel_dir_name, "_IO")
-
-    res_sel_dir_names = vector ("list", 3)
-    names (res_sel_dir_names) <- c(IO_dir_name, "input_dir", "output_dir")
-
-        #  Create reserve selector IO directory
-        #  i.e., parent dir of the input and output dirs.
-    res_sel_IO_dir = file.path (base_outdir, IO_dir_name)
-    res_sel_dir_names[[IO_dir_name]] = res_sel_IO_dir
-    # dir.create (res_sel_dir_names$res_sel_IO_dir,
-    #             showWarnings = TRUE, recursive = TRUE)
-
-        #  Create reserve selector INPUT directory.
-    res_sel_dir_names$input_dir = file.path (res_sel_IO_dir, "input")
-    # dir.create (res_sel_dir_names$input_dir,
-    #             showWarnings = TRUE, recursive = TRUE)
-
-        #  Create reserve selector OUTPUT directory.
-    res_sel_dir_names$output_dir = file.path (res_sel_IO_dir, "output")
-    # dir.create (res_sel_dir_names$output_dir,
-    #             showWarnings = TRUE, recursive = TRUE)
-
-    return (res_sel_dir_names)
-    }
-
-#===============================================================================
-
-create_multiple_res_sel_dir_structures <- function (res_sel_dir_names,
-                                                    base_outdir)
-    {
-    res_sel_dir_structures <- lapply (res_sel_dir_names,
-                                      create_one_res_sel_dir_structure,
-                                      base_outdir)
-
-    names (res_sel_dir_structures) <- res_sel_dir_names
-
-    return (res_sel_dir_structures)
-    }
-
-#===============================================================================
-
-create_base_dir_structure <- function (base_outdir)
-    {
-        #  Create list of directory names.
-    derived_bdpg_dir_names = list()
-
-        #  Create PLOT OUTPUT directory.
-    derived_bdpg_dir_names$plot_output_dir = file.path (base_outdir, "plots")
-    # dir.create (derived_bdpg_dir_names$plot_output_dir,
-    #             showWarnings = TRUE, recursive = TRUE)
-
-        #  Create NETWORK OUTPUT directory.
-    derived_bdpg_dir_names$network_output_dir = file.path (base_outdir,
-                                                           "networks")
-    # dir.create (derived_bdpg_dir_names$network_output_dir,
-    #             showWarnings = TRUE, recursive = TRUE)
-
-        #  Create RES_SEL directory.
-    derived_bdpg_dir_names$res_sel_dir = file.path (base_outdir, "res_sel")
-    # dir.create (derived_bdpg_dir_names$res_sel_dir,
-    #             showWarnings = TRUE, recursive = TRUE)
-
-
 #  2017 02 07 5:46 pm - BTL
 #  PROBABLY WANT TO MOVE THIS OUT SOMEWHERE ELSE CLOSER TO DOING RUNS OF
 #  RESERVE SELECTORS.
@@ -76,7 +7,6 @@ create_base_dir_structure <- function (base_outdir)
 #           THE MARXAN CODE TO LINK UP CORRECTLY WITH ALL THE NEW CODE.
 #           NEED TO:
 #           - FIRST
-#               - UNCOMMENT ALL THE DIRECTORY CREATIONS HERE
 #               - FIGURE OUT WHERE I WANT TO DO THE MARXAN DIR CREATIONS
 #               - HANG THE RESULTING LIST ONTO THE derived_bdpg_dir_names LIST.
 #           - SECOND
@@ -91,15 +21,281 @@ create_base_dir_structure <- function (base_outdir)
 #           - FIFTH
 #               - CLEAN UP THE WHOLE MASTER OUTPUT MESS (BIG JOB)
 
+#===============================================================================
 
-    # cur_res_sel_name = "marxan"
-    # derived_bdpg_dir_names$res_sel_dir_names [[cur_res_sel_name]] =
-    #     create_one_res_sel_dir_structure (cur_res_sel_name,
-    #                                       derived_bdpg_dir_names$res_sel_dir)
+create_one_res_sel_dir_structure <- function (res_sel_dir_name = "marxan",
+                                              base_outdir = ".",
+                                              create_dirs=TRUE)
+    {
+    res_sel_dir_names = vector ("list", 2)
+    names (res_sel_dir_names) <- c("input_dir", "output_dir")
+
+    res_sel_dir_names$input_dir = file.path (base_outdir, "input")
+    res_sel_dir_names$output_dir = file.path (base_outdir, "output")
+
+    if (create_dirs)
+        {
+            #  Create reserve selector INPUT directory.
+        dir.create (res_sel_dir_names$input_dir,
+                    showWarnings = TRUE, recursive = TRUE)
+
+            #  Create reserve selector OUTPUT directory.
+        dir.create (res_sel_dir_names$output_dir,
+                    showWarnings = TRUE, recursive = TRUE)
+        }
+
+    return (res_sel_dir_names)
+    }
+
+#===============================================================================
+
+create_new_replicate_dirs <- function (bdpg_dir_names,
+                                    rep = 1,
+                                    res_sel_name = "marxan",
+                                    base_outdir = ".",
+                                    create_dirs = TRUE)
+    {
+    top_dir_name = stringr::str_c (res_sel_name, ".", rep)
+    top_dir_base_outdir = file.path (normalizePath (base_outdir, mustWork=FALSE),
+                                       res_sel_name,
+                                       top_dir_name)
+
+    bdpg_dir_names$res_sel[[res_sel_name]][[top_dir_name]] =
+        create_one_res_sel_dir_structure (res_sel_dir_name = res_sel_name,
+                                          base_outdir = top_dir_base_outdir,
+                                          create_dirs=create_dirs
+                                          )
+
+    return (bdpg_dir_names)
+    }
+
+#===============================================================================
+
+create_new_res_sel_replicate_subtree <- function (bdpg_dir_names,
+                                    res_sel_name = "marxan",
+                                    base_outdir = ".",
+                                    create_dirs = TRUE)
+    {
+        #  Does all of this assume that the res_sel directory already exists
+        #  to hold all reserve selectors?
+
+    base_outdir = normalizePath (base_outdir, mustWork=FALSE)
+
+    existing_res_sel_list = bdpg_dir_names$res_sel[[res_sel_name]]
+    if (is.null (existing_res_sel_list))
+        {
+            #  No reserve selector has been added yet.
+            #  Do the whole startup bit for a new reserve selector.
+
+        bdpg_dir_names = create_new_replicate_dirs (bdpg_dir_names, 1, res_sel_name, base_outdir, create_dirs)
+
+        } else  #  This reserve selector has already been added.
+        {       #  Add new replicate dir structure, e.g., marxan.2.
+
+        num_of_existing_replicates = length (existing_res_sel_list)
+        bdpg_dir_names = create_new_replicate_dirs (bdpg_dir_names,
+                                  num_of_existing_replicates+1,
+                                  res_sel_name,
+                                  base_outdir,
+                                  create_dirs)
+        }
+
+    return (bdpg_dir_names)
+    }
+
+#===============================================================================
+
+test_create_res_sel_replicate_dirs <- function ()
+    {
+    create_dirs=FALSE
+    base_outdir = file.path (normalizePath ("."), "res_sel")  # For some reason, normalizePath("./res_sel", mustWork=FALSE) fails in that it just returns "./res_sel", even though it works correctly if res_sel does exist.
+    bdpg_dir_names=list()
+
+    for (iii in 1:3)
+        {
+        bdpg_dir_names = create_new_res_sel_replicate_subtree (bdpg_dir_names, "simpleRichness", base_outdir, create_dirs)
+        }
+
+    for (iii in 1:2)
+        {
+        bdpg_dir_names = create_new_res_sel_replicate_subtree (bdpg_dir_names, "marxan", base_outdir, create_dirs)
+        }
+
+    return (bdpg_dir_names)
+    }
+
+#===============================================================================
+
+OLD_create_one_res_sel_dir_structure <- function (res_sel_dir_name = "marxan",
+                                              base_outdir = ".",
+                                              create_dirs=TRUE)
+    {
+    browser()
+    # base_outdir = file.path (normalizePath (base_outdir, mustWork=FALSE),
+    #                          res_sel_dir_name)
+
+    IO_dir_name = paste0 (res_sel_dir_name, "_IO")
+
+    res_sel_dir_names = vector ("list", 3)
+    names (res_sel_dir_names) <- c(IO_dir_name, "input_dir", "output_dir")
+
+    res_sel_IO_dir = file.path (base_outdir, IO_dir_name)
+    res_sel_dir_names[[IO_dir_name]] = res_sel_IO_dir
+
+    res_sel_dir_names$input_dir = file.path (res_sel_IO_dir, "input")
+    res_sel_dir_names$output_dir = file.path (res_sel_IO_dir, "output")
+
+    if (create_dirs)
+        {
+            #  Create reserve selector IO directory
+            #  i.e., parent dir of the input and output dirs.
+        dir.create (res_sel_dir_names$res_sel_IO_dir,
+                    showWarnings = TRUE, recursive = TRUE)
+
+            #  Create reserve selector INPUT directory.
+        dir.create (res_sel_dir_names$input_dir,
+                    showWarnings = TRUE, recursive = TRUE)
+
+            #  Create reserve selector OUTPUT directory.
+        dir.create (res_sel_dir_names$output_dir,
+                    showWarnings = TRUE, recursive = TRUE)
+        }
+
+    return (res_sel_dir_names)
+    }
+
+#===============================================================================
+
+create_multiple_res_sel_dir_structures <- function (res_sel_dir_names,
+                                                    base_outdir,
+                                                    create_dirs=TRUE)
+    {
+    res_sel_dir_structures <- lapply (res_sel_dir_names,
+                                      create_one_res_sel_dir_structure,
+                                      base_outdir,
+                                      create_dirs)
+
+    names (res_sel_dir_structures) <- res_sel_dir_names
+
+    return (res_sel_dir_structures)
+    }
+
+#===============================================================================
+
+create_base_dir_structure <- function (base_outdir, create_dirs=TRUE)
+    {
+    base_outdir = normalizePath (base_outdir, mustWork=FALSE)
+
+        #  Create list of directory names.
+    derived_bdpg_dir_names = list()
+    derived_bdpg_dir_names$plot_output_dir    = file.path (base_outdir, "plots")
+    derived_bdpg_dir_names$network_output_dir = file.path (base_outdir, "networks")
+    derived_bdpg_dir_names$res_sel_dir        = file.path (base_outdir, "res_sel")
+
+    if (create_dirs)
+        {
+            #  Create PLOT OUTPUT directory.
+        dir.create (derived_bdpg_dir_names$plot_output_dir,
+                    showWarnings = TRUE, recursive = TRUE)
+
+            #  Create NETWORK OUTPUT directory.
+        dir.create (derived_bdpg_dir_names$network_output_dir,
+                    showWarnings = TRUE, recursive = TRUE)
+
+            #  Create RES_SEL directory.
+        dir.create (derived_bdpg_dir_names$res_sel_dir,
+                    showWarnings = TRUE, recursive = TRUE)
+        }
+
     res_sel_dir_names = c("marxan")
-    derived_bdpg_dir_names$res_sel_dir_names =
+    derived_bdpg_dir_names$res_sel_dir_names  =
         create_multiple_res_sel_dir_structures (res_sel_dir_names,
-                                                derived_bdpg_dir_names$res_sel_dir)
+                                                derived_bdpg_dir_names$res_sel_dir,
+                                                create_dirs)
+
+    return (derived_bdpg_dir_names)
+    }
+
+#===============================================================================
+
+blah <- function (derived_bdpg_dir_names)
+    {
+    # base_outdir = "."
+    # derived_bdpg_dir_names = create_base_dir_structure (base_outdir,
+    #                                                     create_dirs=FALSE)
+
+    cur_res_sel_name = "marxan"
+    if (is.null (derived_bdpg_dir_names$res_sel_dir_names [[cur_res_sel_name]]))
+        derived_bdpg_dir_names$res_sel_dir_names [[cur_res_sel_name]] = list()
+
+    return (derived_bdpg_dir_names)
+    }
+
+#===============================================================================
+
+xxx <- function (cur_res_sel_ct=1)
+    {
+        #  This function is meant to deal with the fact that for a given
+        #  reserve selection problem (whether correct or apparent, wrapped
+        #  or simple, etc.), we may want to run a given reserve selector
+        #  multiple times, e.g., with a different set of parameters each time.
+        #  A good example of this would be running marxan on the same problem
+        #  with different numbers of iterations allowed, to get some idea
+        #  of run time or problem difficulty.  For example, you might want
+        #  to run it the first time only allowing 1000 iterations to get an
+        #  idea of how long that takes and how good is the solution.
+        #  You might also want to run it allowing 1 million iterations to
+        #  get a better solution when you have more run time available.
+        #  Both of these runs might be done inside the same tzar run or they
+        #  might be done in separate tzar runs.  In the case of doing both
+        #  marxan runs inside the same tzar run, you'd like to have the
+        #  directory structure under res_sel/marxan allow for
+        #  marxan.1 and marxan.2, etc.  One way to do this is to have the
+        #  code check for the largest marxan directory number in the current
+        #  tzar run whenever it calls the marxan code and then create a new
+        #  subdirectory tree with a higher number for the new run.
+        #  (Note that you don't have to be running tzar here.  I'm only using
+        #  the phrase "tzar run" as a convenient term for the whole big run
+        #  as opposed to just one call to marxan inside the whole big run.)
+
+        #  Create a dir tree for this reserve selector parameterization and run.
+        #  For example, if the reserve selector is marxan and this is the
+        #  first paramterization and run of marxan for this problem
+
+
+    # first time:  no marxan dir
+    # second time:  marxan dir but no marxan.1
+    # third time:  marxan and marxan.1 => create marxan.2
+    # fourth time:  marxan, marxan.1, marxan.2 => create marxan.3
+
+
+
+        create the marxan directory
+        initialize marxan run counter to 1
+
+    find all existing directories in the marxan directory
+    collect their run numbers
+    determine the highest run number
+    add 1 to it
+    create marxan.n+1
+
+x = list()
+x$res_sel = 0
+
+    cur_res_sel_name = "marxan"
+    if (is.null (derived_bdpg_dir_names$res_sel_dir_names [[cur_res_sel_name]]))
+        derived_bdpg_dir_names$res_sel_dir_names [[cur_res_sel_name]] = list()
+
+    return (derived_bdpg_dir_names)
+    }
+
+#===============================================================================
+
+test_create_base_dir_structure <- function ()
+    {
+    base_outdir = "."
+    derived_bdpg_dir_names = create_base_dir_structure (base_outdir,
+                                                        create_dirs=FALSE)
 
     return (derived_bdpg_dir_names)
     }
