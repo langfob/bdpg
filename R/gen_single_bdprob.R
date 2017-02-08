@@ -126,46 +126,6 @@ test_create_res_sel_replicate_dirs <- function ()
 
 #===============================================================================
 
-OLD_create_one_res_sel_dir_structure <- function (res_sel_dir_name = "marxan",
-                                              base_outdir = ".",
-                                              create_dirs=TRUE)
-    {
-    browser()
-    # base_outdir = file.path (normalizePath (base_outdir, mustWork=FALSE),
-    #                          res_sel_dir_name)
-
-    IO_dir_name = paste0 (res_sel_dir_name, "_IO")
-
-    res_sel_dir_names = vector ("list", 3)
-    names (res_sel_dir_names) <- c(IO_dir_name, "input_dir", "output_dir")
-
-    res_sel_IO_dir = file.path (base_outdir, IO_dir_name)
-    res_sel_dir_names[[IO_dir_name]] = res_sel_IO_dir
-
-    res_sel_dir_names$input_dir = file.path (res_sel_IO_dir, "input")
-    res_sel_dir_names$output_dir = file.path (res_sel_IO_dir, "output")
-
-    if (create_dirs)
-        {
-            #  Create reserve selector IO directory
-            #  i.e., parent dir of the input and output dirs.
-        dir.create (res_sel_dir_names$res_sel_IO_dir,
-                    showWarnings = TRUE, recursive = TRUE)
-
-            #  Create reserve selector INPUT directory.
-        dir.create (res_sel_dir_names$input_dir,
-                    showWarnings = TRUE, recursive = TRUE)
-
-            #  Create reserve selector OUTPUT directory.
-        dir.create (res_sel_dir_names$output_dir,
-                    showWarnings = TRUE, recursive = TRUE)
-        }
-
-    return (res_sel_dir_names)
-    }
-
-#===============================================================================
-
 create_multiple_res_sel_dir_structures <- function (res_sel_dir_names,
                                                     base_outdir,
                                                     create_dirs=TRUE)
