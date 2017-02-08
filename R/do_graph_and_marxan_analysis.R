@@ -118,83 +118,23 @@ do_COR_graph_and_marxan_analysis <- function (COR_bd_prob, parameters)
 
     cat("\njust after set_up_for_and_run_marxan_COR()")
 
-  #---------------------------------------------------------------------------
+#===============================================================================
+#                   Dump all of the different kinds of results.
+#===============================================================================
 
     COR_marxan_output_values =
         read_COR_marxan_output_files (COR_bd_prob, parameters)
 
     cat("\njust after read_marxan_output_files()")
 
-#===============================================================================
-#                   Dump all of the different kinds of results.
-#===============================================================================
-
-        #  NOTE:  2016 06 12 - Need to add writing of flags resulting from
-        #                       reading Xu file, e.g., prob_generator_params_known.
-        #                       This is because learning alg downstream needs to
-        #                       know things like whether the generator's params
-        #                       are even known, so that it doesn't try to learn
-        #                       something from missing data.
+  #---------------------------------------------------------------------------
 
     create_COR_master_output_structure (COR_bd_prob)
 
-                                   #  read_Xu_problem_from_Xu_file,
-                                   #  Xu_parameters,
-                                   #
-                                   #      #  These used to say just num_spp and num_PUs.
-                                   #      #  For the moment, I'm going to make them cor_...
-                                   #      #  since there is neither num_spp nor app_num_spp, etc.
-                                   #      #  This needs fixing though.
-                                   #              #num_PUs,  #  cor_num_PUs?  app_num_PUs?
-                                   #              #num_spp,  #  cor_num_spp?  app_num_spp?
-                                   #  cor_num_PUs,  #  cor_num_PUs?  app_num_PUs?
-                                   #  cor_num_spp,  #  cor_num_spp?  app_num_spp?
-                                   #
-                                   #  cor_optimum_cost,
-                                   #
-                                   #      #  Using cor_nodes for now
-                                   #            #nodes,  #  cor_nodes?  app_nodes?
-                                   #  cor_nodes,
-                                   #
-                                   #  cor_final_link_counts_for_each_node,
-                                   #  app_bpm,
-                                   #  cor_bpm,
-                                   #  parameters,
-                                   #  add_error,
-                                   #  match_error_counts,
-                                   #  FP_const_rate,
-                                   #  FN_const_rate,
-                                   #  original_FP_const_rate,
-                                   #  original_FN_const_rate,
-                                   #
-                                   #  marxan_control_values$spf_const,
-                                   #  #                        spf_const,
-                                   #
-                                   #  app_bipartite_metrics_from_bipartite_package,
-                                   #  app_bipartite_metrics_from_igraph_package_df,
-                                   #
-                                   #  app_marxan_output_values$marxan_best_df_sorted,
-                                   #  app_marxan_output_values$marxan_ssoln_df,
-                                   #  app_marxan_output_values$marxan_mvbest_df,
-                                   #
-                                   #  marxan_control_values$marxan_PROP,
-                                   #  marxan_control_values$marxan_RANDSEED,
-                                   #  marxan_control_values$marxan_NUMREPS,
-                                   #  marxan_control_values$marxan_NUMITNS,
-                                   #  marxan_control_values$marxan_STARTTEMP,
-                                   #  marxan_control_values$marxan_NUMTEMP,
-                                   #  marxan_control_values$marxan_COSTTHRESH,
-                                   #  marxan_control_values$marxan_THRESHPEN1,
-                                   #  marxan_control_values$marxan_THRESHPEN2,
-                                   #  marxan_control_values$marxan_RUNMODE,
-                                   #  marxan_control_values$marxan_MISSLEVEL,
-                                   #  marxan_control_values$marxan_ITIMPTYPE,
-                                   #  marxan_control_values$marxan_HEURTYPE,
-                                   #  marxan_control_values$marxan_CLUMPTYPE
-                                   # )
-
     }  #  end function - do_graph_and_marxan_analysis
 
+#===============================================================================
+#===============================================================================
 #===============================================================================
 
         #  NOTE:  2016 06 12 - Need to add writing of flags resulting from
@@ -379,6 +319,9 @@ do_APP_graph_and_marxan_analysis <- function (parameters,
 
     }  #  end function - do_graph_and_marxan_analysis
 
+#===============================================================================
+#===============================================================================
+#===============================================================================
 #===============================================================================
 
         #  NOTE:  2016 06 12 - Need to add writing of flags resulting from
