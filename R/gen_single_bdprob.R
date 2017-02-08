@@ -126,22 +126,6 @@ test_create_res_sel_replicate_dirs <- function ()
 
 #===============================================================================
 
-create_multiple_res_sel_dir_structures <- function (res_sel_dir_names,
-                                                    base_outdir,
-                                                    create_dirs=TRUE)
-    {
-    res_sel_dir_structures <- lapply (res_sel_dir_names,
-                                      create_one_res_sel_dir_structure,
-                                      base_outdir,
-                                      create_dirs)
-
-    names (res_sel_dir_structures) <- res_sel_dir_names
-
-    return (res_sel_dir_structures)
-    }
-
-#===============================================================================
-
 create_base_dir_structure <- function (base_outdir, create_dirs=TRUE)
     {
     base_outdir = normalizePath (base_outdir, mustWork=FALSE)
@@ -166,12 +150,6 @@ create_base_dir_structure <- function (base_outdir, create_dirs=TRUE)
         dir.create (derived_bdpg_dir_names$res_sel_dir,
                     showWarnings = TRUE, recursive = TRUE)
         }
-
-    res_sel_dir_names = c("marxan")
-    derived_bdpg_dir_names$res_sel_dir_names  =
-        create_multiple_res_sel_dir_structures (res_sel_dir_names,
-                                                derived_bdpg_dir_names$res_sel_dir,
-                                                create_dirs)
 
     return (derived_bdpg_dir_names)
     }
