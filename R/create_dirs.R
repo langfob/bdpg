@@ -4,24 +4,6 @@
 
 #===============================================================================
 
-#  2017 02 07 5:46 pm - BTL
-#  PROBABLY WANT TO MOVE THIS OUT SOMEWHERE ELSE CLOSER TO DOING RUNS OF
-#  RESERVE SELECTORS.
-#           CURRENTLY IN THE MIDDLE OF TRYING TO FIGURE OUT HOW TO GET
-#           THE MARXAN CODE TO LINK UP CORRECTLY WITH ALL THE NEW CODE.
-#           NEED TO:
-#           - THIRD
-#               - FIGURE OUT HOW I WANT TO MAKE THESE CALLS FROM THE MAINLINE,
-#                 I.E., SPLIT THE MARXAN CALLS AWAY FROM BUILDING THE OUTPUT
-#                 STRUCTURES (I.E., A) READ MARXAN OUTPUT AND B) WRITE MASTER OUTPUT STRUCTURE)
-#               - FIGURE OUT WHICH ARGUMENTS TO CALLS NEED COR VS. APP VALUES
-#           - FOURTH
-#               - BUILD CODE FOR GENERATING APPARENT PROBLEMS
-#           - FIFTH
-#               - CLEAN UP THE WHOLE MASTER OUTPUT MESS (BIG JOB)
-
-#===============================================================================
-
 create_one_res_sel_dir_structure <- function (res_sel_dir_name = "marxan",
                                               base_outdir = ".",
                                               create_dirs=TRUE)
