@@ -136,60 +136,62 @@ do_COR_graph_and_marxan_analysis <- function (COR_bd_prob, parameters)
         #                       are even known, so that it doesn't try to learn
         #                       something from missing data.
 
-    create_master_output_structure (read_Xu_problem_from_Xu_file,
-                                    Xu_parameters,
+    create_COR_master_output_structure (COR_bd_prob)
 
-                                        #  These used to say just num_spp and num_PUs.
-                                        #  For the moment, I'm going to make them cor_...
-                                        #  since there is neither num_spp nor app_num_spp, etc.
-                                        #  This needs fixing though.
-                                                #num_PUs,  #  cor_num_PUs?  app_num_PUs?
-                                                #num_spp,  #  cor_num_spp?  app_num_spp?
-                                    cor_num_PUs,  #  cor_num_PUs?  app_num_PUs?
-                                    cor_num_spp,  #  cor_num_spp?  app_num_spp?
-
-                                    cor_optimum_cost,
-
-                                        #  Using cor_nodes for now
-                                              #nodes,  #  cor_nodes?  app_nodes?
-                                    cor_nodes,
-
-                                    cor_final_link_counts_for_each_node,
-                                    app_bpm,
-                                    cor_bpm,
-                                    parameters,
-                                    add_error,
-                                    match_error_counts,
-                                    FP_const_rate,
-                                    FN_const_rate,
-                                    original_FP_const_rate,
-                                    original_FN_const_rate,
-
-                                    marxan_control_values$spf_const,
-                                    #                        spf_const,
-
-                                    app_bipartite_metrics_from_bipartite_package,
-                                    app_bipartite_metrics_from_igraph_package_df,
-
-                                    app_marxan_output_values$marxan_best_df_sorted,
-                                    app_marxan_output_values$marxan_ssoln_df,
-                                    app_marxan_output_values$marxan_mvbest_df,
-
-                                    marxan_control_values$marxan_PROP,
-                                    marxan_control_values$marxan_RANDSEED,
-                                    marxan_control_values$marxan_NUMREPS,
-                                    marxan_control_values$marxan_NUMITNS,
-                                    marxan_control_values$marxan_STARTTEMP,
-                                    marxan_control_values$marxan_NUMTEMP,
-                                    marxan_control_values$marxan_COSTTHRESH,
-                                    marxan_control_values$marxan_THRESHPEN1,
-                                    marxan_control_values$marxan_THRESHPEN2,
-                                    marxan_control_values$marxan_RUNMODE,
-                                    marxan_control_values$marxan_MISSLEVEL,
-                                    marxan_control_values$marxan_ITIMPTYPE,
-                                    marxan_control_values$marxan_HEURTYPE,
-                                    marxan_control_values$marxan_CLUMPTYPE
-                                   )
+                                   #  read_Xu_problem_from_Xu_file,
+                                   #  Xu_parameters,
+                                   #
+                                   #      #  These used to say just num_spp and num_PUs.
+                                   #      #  For the moment, I'm going to make them cor_...
+                                   #      #  since there is neither num_spp nor app_num_spp, etc.
+                                   #      #  This needs fixing though.
+                                   #              #num_PUs,  #  cor_num_PUs?  app_num_PUs?
+                                   #              #num_spp,  #  cor_num_spp?  app_num_spp?
+                                   #  cor_num_PUs,  #  cor_num_PUs?  app_num_PUs?
+                                   #  cor_num_spp,  #  cor_num_spp?  app_num_spp?
+                                   #
+                                   #  cor_optimum_cost,
+                                   #
+                                   #      #  Using cor_nodes for now
+                                   #            #nodes,  #  cor_nodes?  app_nodes?
+                                   #  cor_nodes,
+                                   #
+                                   #  cor_final_link_counts_for_each_node,
+                                   #  app_bpm,
+                                   #  cor_bpm,
+                                   #  parameters,
+                                   #  add_error,
+                                   #  match_error_counts,
+                                   #  FP_const_rate,
+                                   #  FN_const_rate,
+                                   #  original_FP_const_rate,
+                                   #  original_FN_const_rate,
+                                   #
+                                   #  marxan_control_values$spf_const,
+                                   #  #                        spf_const,
+                                   #
+                                   #  app_bipartite_metrics_from_bipartite_package,
+                                   #  app_bipartite_metrics_from_igraph_package_df,
+                                   #
+                                   #  app_marxan_output_values$marxan_best_df_sorted,
+                                   #  app_marxan_output_values$marxan_ssoln_df,
+                                   #  app_marxan_output_values$marxan_mvbest_df,
+                                   #
+                                   #  marxan_control_values$marxan_PROP,
+                                   #  marxan_control_values$marxan_RANDSEED,
+                                   #  marxan_control_values$marxan_NUMREPS,
+                                   #  marxan_control_values$marxan_NUMITNS,
+                                   #  marxan_control_values$marxan_STARTTEMP,
+                                   #  marxan_control_values$marxan_NUMTEMP,
+                                   #  marxan_control_values$marxan_COSTTHRESH,
+                                   #  marxan_control_values$marxan_THRESHPEN1,
+                                   #  marxan_control_values$marxan_THRESHPEN2,
+                                   #  marxan_control_values$marxan_RUNMODE,
+                                   #  marxan_control_values$marxan_MISSLEVEL,
+                                   #  marxan_control_values$marxan_ITIMPTYPE,
+                                   #  marxan_control_values$marxan_HEURTYPE,
+                                   #  marxan_control_values$marxan_CLUMPTYPE
+                                   # )
 
     }  #  end function - do_graph_and_marxan_analysis
 
