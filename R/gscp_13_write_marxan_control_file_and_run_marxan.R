@@ -390,6 +390,84 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 
 #===============================================================================
 
+#' Convenience function to call set_up_for_and_run_marxan with correct arguments for a correct Xu_bd_problem
+#'
+#' @param COR_bd_prob a correct Xu_bd_problem (or subclass)
+#' @param parameters parameters list for the run, usually derived from project.yaml
+#'
+#' @return list containing marxan_control_values and updated COR_bd_prob
+#' @export
+
+set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
+                                           parameters)
+    {
+    set_up_and_run_return_COR_values =
+        set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
+                                    COR_bd_prob@all_PU_IDs,
+                                    COR_bd_prob@all_spp_IDs,
+                                    COR_bd_prob@PU_col_name,
+                                    COR_bd_prob@spp_col_name,
+                                    COR_bd_prob@derived_bdpg_dir_names,
+                                    parameters
+                                    )
+
+        #  Update the CORRECT prob with the newly created directory structure.
+    COR_bd_prob@derived_bdpg_dir_names =
+        set_up_and_run_return_COR_values$bdpg_dir_names
+
+        #  Caller needs to know the marxan control values and the
+        #  updated version of the CORRECT bd problem object.
+    return (list (marxan_control_values =
+                        set_up_and_run_return_COR_values$marxan_control_values,
+                  COR_bd_prob           = COR_bd_prob
+                  )
+            )
+    }
+
+#===============================================================================
+
+#' Convenience function to call set_up_for_and_run_marxan with correct arguments for an apparent Xu_bd_problem
+#'
+#' @param APP_bd_prob an apparent Xu_bd_problem (or subclass)
+#' @param COR_bd_prob the correct Xu_bd_problem (or subclass) that the apparent problem is derived from
+#' @param parameters parameters list for the run, usually derived from project.yaml
+#'
+#' @return list containing marxan_control_values and updated APP_bd_prob
+#' @export
+
+set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
+                                           COR_bd_prob,
+                                           parameters)
+    {
+    set_up_and_run_return_APP_values =
+        set_up_for_and_run_marxan (APP_bd_prob@PU_spp_pair_indices,
+
+                                        COR_bd_prob@all_PU_IDs,
+                                        COR_bd_prob@all_spp_IDs,
+                                        COR_bd_prob@PU_col_name,
+                                        COR_bd_prob@spp_col_name,
+
+                                    APP_bd_prob@derived_bdpg_dir_names,
+                                        parameters
+                                    )
+
+        #  Update the APPARENT prob with the newly created directory structure.
+    APP_bd_prob@derived_bdpg_dir_names =
+        set_up_and_run_return_APP_values$bdpg_dir_names
+
+        #  Caller needs to know the marxan control values and the
+        #  updated version of the APPARENT bd problem object.
+        #  No changes have been made to the CORRECT problem, so
+        #  no return of that value is necessary.
+    return (list (marxan_control_values =
+                        set_up_and_run_return_APP_values$marxan_control_values,
+                  APP_bd_prob           = APP_bd_prob
+                  )
+            )
+    }
+
+#===============================================================================
+
 #' Title
 #'
 #' @param PU_spp_pair_indices
@@ -400,8 +478,7 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 #' @param bdpg_dir_names
 #' @param parameters
 #'
-#' @return return_values list containing marxan_control_values and bdpg_dir_names
-
+#' @return list containing marxan_control_values and bdpg_dir_names
 #' @export
 
 set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values if running on app
@@ -456,11 +533,10 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
 
     #--------------------
 
-    return_values = list (marxan_control_values = marxan_control_values,
-                          bdpg_dir_names        = bdpg_dir_names)
-
-#    return (marxan_control_values)
-    return (return_values)
+    return (list (marxan_control_values = marxan_control_values,
+                          bdpg_dir_names        = bdpg_dir_names
+                  )
+            )
     }
 
 #===============================================================================
