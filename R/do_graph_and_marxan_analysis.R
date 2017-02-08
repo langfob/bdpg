@@ -94,55 +94,7 @@
 #
 #===============================================================================
 
-do_COR_graph_and_marxan_analysis <- function (COR_bd_prob,  #  NEWLY ADDED TO ARG LIST
-                                              parameters
-                        #                       ,
-                        #                         #  parameters from gen prob.
-                        #                         #  They're only used in creating
-                        #                         #  the master output structure.
-                        #                   Xu_parameters,
-                        #                   read_Xu_problem_from_Xu_file,
-                        #
-                        #                         #  From bdprob structure, i.e.,
-                        #                         #  results of gen prob routine
-                        #                   cor_num_spp,
-                        #                   cor_num_PUs,
-                        #                   cor_PU_spp_pair_indices,
-                        #                   cor_PU_IDs, #####!!!!!#####
-                        #                   cor_spp_IDs,  #####!!!!!#####
-                        #                   cor_bpm,
-                        #
-                        #                   cor_PU_costs,
-                        #                   cor_optimum_cost,
-                        #                   cor_nodes,
-                        #                   spp_col_name,
-                        #                   PU_col_name,
-                        #
-                        #                   presences_col_name, #  hard-coded as "freq"
-                        #
-                        #                         #  Results of adding error.
-                        #                   app_num_spp,
-                        #                   app_num_PUs,
-                        #                   app_PU_spp_pair_indices,
-                        #                   app_bpm,
-                        #
-                        #                         #  input parameters for error model.
-                        #                         #  Only used to create master output structure?
-                        #                   add_error,
-                        #                   match_error_counts,
-                        #                   FP_const_rate,
-                        #                   FN_const_rate,
-                        #                   original_FP_const_rate,
-                        #                   original_FN_const_rate,
-                        #
-                        #
-                        #
-                        # #  THESE MARXAN DIRECTORIES NEED TO BE CREATED AND
-                        # #  STORED USING THE WAY OF ALLOCATING DIRECTORIES
-                        # #  TO A RESERVE SELECTOR.
-                        #
-                        #                   derived_bdpg_dir_names
-                                         )
+do_COR_graph_and_marxan_analysis <- function (COR_bd_prob, parameters)
     {
 #===============================================================================
 #                                   Run marxan.
