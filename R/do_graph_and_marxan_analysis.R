@@ -103,16 +103,6 @@ do_COR_graph_and_marxan_analysis <- function (COR_bd_prob, parameters)
     set_up_and_run_return_COR_values =
         set_up_for_and_run_marxan_COR (COR_bd_prob, parameters)
 
-        # set_up_and_run_return_values =
-        # bdpg::set_up_for_and_run_marxan (app_PU_spp_pair_indices,
-        #                                     cor_PU_IDs, #####!!!!!#####
-        #                                     cor_spp_IDs,  #####!!!!!#####
-        #                                     PU_col_name,
-        #                                     spp_col_name,
-        #                                     derived_bdpg_dir_names,
-        #                                     parameters
-        #                                     )
-
     marxan_control_values  = set_up_and_run_return_COR_values$marxan_control_values
     COR_bd_prob            = set_up_and_run_return_COR_values$COR_bd_prob
 
