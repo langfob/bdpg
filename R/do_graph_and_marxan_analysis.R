@@ -7,21 +7,6 @@
 #
 #===============================================================================
 #
-#  Problem pushing this stuff to github now.  I think it's because I've
-#  continued to amend the same last commit that I had already pushed to github.
-#  Here's the message:
-#    To https://github.com/langfob/bdpg.git
-#     ! [rejected]        master -> master (non-fast-forward)
-#    error: failed to push some refs to 'https://github.com/langfob/bdpg.git'
-#    hint: Updates were rejected because the tip of your current branch is behind
-#    hint: its remote counterpart. Integrate the remote changes (e.g.
-#    hint: 'git pull ...') before pushing again.
-#    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-
-#  Later:  Just did a forced push and that seems to have fixed the problem.
-
-
-#
 #  2017 02 08 6:39 pm - BTL
 #
 #---------------------------
