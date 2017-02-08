@@ -5,10 +5,13 @@
 \title{Title}
 \usage{
 set_up_for_and_run_marxan(PU_spp_pair_indices, PU_IDs, spp_IDs, PU_col_name,
-  spp_col_name, marxan_input_dir, marxan_output_dir, marxan_IO_dir, parameters)
+  spp_col_name, bdpg_dir_names, parameters)
 }
 \arguments{
-\item{marxan_IO_dir}{}
+\item{parameters}{}
+}
+\value{
+return_values list containing marxan_control_values and bdpg_dir_names
 }
 \description{
 Title
