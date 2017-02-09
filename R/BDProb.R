@@ -138,8 +138,10 @@ setClass ("Xu_prob_gen_info_class",
                             infile_name                      = "character",
                             Xu_parameters                    = "Xu_params"
                             )
-          # ,
-          #
+          # ,  #  Dropping prototype for now since it was causing crashes.
+          #    #  May already have fixed the problem though with testing
+          #    #  of infile_name for NULL and replacing that with "".
+          #    #  May want to try reinstating this.  BTL - 2017 02 09.
           # #-----------------------------------------------------------------
           #
           # prototype (
