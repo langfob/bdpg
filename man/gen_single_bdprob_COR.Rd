@@ -34,4 +34,9 @@ RETURN_DESCRIPTION
 Read a Xu problem from files of ones already created by Xu or
 create one from scratch.
 }
+\details{
+**NOTE that if other kinds of problems are created, this routine will have
+to be replaced or cloned into something appropriate for the new problem
+type.**
+}
 
