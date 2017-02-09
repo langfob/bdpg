@@ -130,6 +130,18 @@ setClass ("PU_spp_pair_info_class",
 
 #===============================================================================
 
+    #  Xu_prob_gen_info class.
+
+setClass ("Xu_prob_gen_info",
+          representation (
+                            read_Xu_problem_from_Xu_file     = "logical",
+                            infile_name                      = "character",
+                            Xu_parameters                    = "Xu_params"
+                            )
+        )
+
+#===============================================================================
+
     #  Xu_bd_problem class.
                             #  WHAT ELSE NEEDS TO BE INCLUDED TO BE MORE GENERAL,
                             #  E.G., TO DESCRIBE ILP PROBLEMS AND PROBLEMS WITH
@@ -157,19 +169,23 @@ setClass ("Xu_bd_problem",
                             prob_is_ok                       = "logical",                    #  bd_prob
 
 
-    #---------------------
-    #  Problem generator
-    #---------------------
+    #---------------------------------
+    #  Problem generator information
+    #---------------------------------
 
 prob_generator_params_known      = "logical",                   #  bd_prob [COR and APP values? i.e., ERROR MODEL params too? Or, just change this cor_prob_gen_params_known?]
-#prob_type,                                                     #  Add this to allow having a pointer to problem-specific information in prob_gen_info?
-#prob_gen_info,                                                 #  Add this to point to Xu-specific info or something else if different problem source or generator?
-                    #-----------
-                    #  Xu only
-                    #-----------
-                read_Xu_problem_from_Xu_file     = "logical",                    #  XU only
-                infile_name                      = "character",                  #  Xu only
-                Xu_parameters                    = "Xu_params",                  #  XU only
+
+prob_type                        = "character",                 #  Add this to allow having a pointer to problem-specific information in prob_gen_info?
+prob_gen_info                    = "ANY",                       #  Add this to point to Xu-specific info or something else if different problem source or generator?
+                                                                #  Can't find exactly what to put as the value for a slot whose type you don't want to specify, but on page:
+                                                                #      https://stat.ethz.ch/R-manual/R-patched/library/methods/html/setClass.html
+                                                                #  in the slots section, it mentions "ANY" in a backhanded sort of way, so I'm going to try it here...
+                #     #-----------
+                #     #  Xu only        MOVING INTO NEW prob_gen_info element...
+                #     #-----------
+                # read_Xu_problem_from_Xu_file     = "logical",                    #  XU only
+                # infile_name                      = "character",                  #  Xu only
+                # Xu_parameters                    = "Xu_params",                  #  XU only
 
     #---------------------
     #  Apparent problem
