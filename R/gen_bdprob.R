@@ -19,6 +19,7 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize)
 
     read_Xu_problem_from_Xu_file   = parameters$read_Xu_problem_from_Xu_file
     infile_name                    = parameters$infile_name
+    if (is.null (infile_name)) infile_name = ""
     given_correct_solution_cost    = parameters$given_correct_solution_cost
     max_allowed_num_spp            = parameters$max_allowed_num_spp
 
