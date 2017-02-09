@@ -622,7 +622,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 #    wrapped_bdprob@Xu_parameters                = Xu_bdprob@Xu_parameters
 
     wrapped_bdprob@prob_type     = "Xu_prob_gen_info_class"
-    wrapped_bdprob@prob_gen_info = Xu_bdprob@Xu_prob_gen_info
+    wrapped_bdprob@prob_gen_info = Xu_bdprob@prob_gen_info
 
 #*****************************************************************************************
 
