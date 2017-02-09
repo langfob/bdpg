@@ -157,15 +157,15 @@ setClass ("Xu_prob_gen_info_class",
 
 setClass ("APP_prob_info_class",
           representation (
-                            original_FP_const_rate = "float",  #  ret_vals_from_apply_errors$original_FP_const_rate
-                            original_FN_const_rate = "float",  #  ret_vals_from_apply_errors$original_FN_const_rate
+                            original_FP_const_rate = "numeric",  #  ret_vals_from_apply_errors$original_FP_const_rate
+                            original_FN_const_rate = "numeric",  #  ret_vals_from_apply_errors$original_FN_const_rate
                             match_error_counts     = "logical",  #  ret_vals_from_apply_errors$match_error_counts
-                            FP_const_rate          = "float",  #  ret_vals_from_apply_errors$FP_const_rate
-                            FN_const_rate          = "float",  #  ret_vals_from_apply_errors$FN_const_rate
+                            FP_const_rate          = "numeric",  #  ret_vals_from_apply_errors$FP_const_rate
+                            FN_const_rate          = "numeric",  #  ret_vals_from_apply_errors$FN_const_rate
 
-                            app_num_spp = "float",  #  ret_vals_from_apply_errors$app_num_spp
-                            app_num_PUs = "float",  #  ret_vals_from_apply_errors$app_num_PUs
-                            app_PU_spp_pair_indices = "float"  #  ret_vals_from_apply_errors$app_PU_spp_pair_indices
+                            app_num_spp = "numeric",  #  ret_vals_from_apply_errors$app_num_spp
+                            app_num_PUs = "numeric",  #  ret_vals_from_apply_errors$app_num_PUs
+                            app_PU_spp_pair_indices = "numeric"  #  ret_vals_from_apply_errors$app_PU_spp_pair_indices
                             )
 
           # #-----------------------------------------------------------------
