@@ -153,6 +153,32 @@ setClass ("Xu_prob_gen_info_class",
 
 #===============================================================================
 
+    #  APP_prob_info_class class definition.
+
+setClass ("APP_prob_info_class",
+          representation (
+                            original_FP_const_rate = "float",  #  ret_vals_from_add_errors$original_FP_const_rate
+                            original_FN_const_rate = "float",  #  ret_vals_from_add_errors$original_FN_const_rate
+                            match_error_counts     = "logical",  #  ret_vals_from_add_errors$match_error_counts
+                            FP_const_rate          = "float",  #  ret_vals_from_add_errors$FP_const_rate
+                            FN_const_rate          = "float",  #  ret_vals_from_add_errors$FN_const_rate
+
+                            app_num_spp = "float",  #  ret_vals_from_add_errors$app_num_spp
+                            app_num_PUs = "float",  #  ret_vals_from_add_errors$app_num_PUs
+                            app_PU_spp_pair_indices = "float"  #  ret_vals_from_add_errors$app_PU_spp_pair_indices
+                            )
+
+          # #-----------------------------------------------------------------
+          #
+          # prototype (
+          #               read_Xu_problem_from_Xu_file     = FALSE,
+          #               infile_name                      = NA_character_,
+          #               Xu_parameters                    = NULL    #  Don't know what else to put here.  It won't accept NA.
+          #           )
+        )
+
+#===============================================================================
+
     #  Xu_bd_problem class.
                             #  WHAT ELSE NEEDS TO BE INCLUDED TO BE MORE GENERAL,
                             #  E.G., TO DESCRIBE ILP PROBLEMS AND PROBLEMS WITH
@@ -180,29 +206,22 @@ setClass ("Xu_bd_problem",
                             prob_is_ok                       = "logical",                    #  bd_prob
 
 
-    #---------------------------------
-    #  Problem generator information
-    #---------------------------------
+                                #---------------------------------
+                                #  Problem generator information
+                                #---------------------------------
 
-prob_generator_params_known      = "logical",                   #  bd_prob [COR and APP values? i.e., ERROR MODEL params too? Or, just change this cor_prob_gen_params_known?]
+                            prob_generator_params_known      = "logical",                   #  bd_prob [COR and APP values? i.e., ERROR MODEL params too? Or, just change this cor_prob_gen_params_known?]
 
-prob_type                        = "character",                 #  Add this to allow having a pointer to problem-specific information in prob_gen_info?
-prob_gen_info                    = "ANY",                       #  Add this to point to Xu-specific info or something else if different problem source or generator?
-                                                                #  Can't find exactly what to put as the value for a slot whose type you don't want to specify, but on page:
-                                                                #      https://stat.ethz.ch/R-manual/R-patched/library/methods/html/setClass.html
-                                                                #  in the slots section, it mentions "ANY" in a backhanded sort of way, so I'm going to try it here...
-                #     #-----------
-                #     #  Xu only        MOVING INTO NEW prob_gen_info element...
-                #     #-----------
-                # read_Xu_problem_from_Xu_file     = "logical",                    #  XU only
-                # infile_name                      = "character",                  #  Xu only
-                # Xu_parameters                    = "Xu_params",                  #  XU only
+                            prob_type                        = "character",                 #  Add this to allow having a pointer to problem-specific information in prob_gen_info?
+                            prob_gen_info                    = "ANY",                       #  Add this to point to Xu-specific info or something else if different problem source or generator?
+                                                                                            #  Can't find exactly what to put as the value for a slot whose type you don't want to specify, but on page:
+                                                                                            #      https://stat.ethz.ch/R-manual/R-patched/library/methods/html/setClass.html
+                                                                                            #  in the slots section, it mentions "ANY" in a backhanded sort of way, so I'm going to try it here...
+                                #--------------------------------
+                                #  Apparent problem information
+                                #--------------------------------
 
-    #---------------------
-    #  Apparent problem
-    #---------------------
-
-#APP_info,      #  Add this to point to all apparent information if this is an apparent problem?
+                            APP_prob_info                     = "ANY",
 
                                 #-----------------------------
                                 #  Column naming information

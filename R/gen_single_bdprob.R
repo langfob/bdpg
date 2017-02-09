@@ -218,15 +218,13 @@ gen_single_bdprob_COR = function (starting_dir,
     Xu_bdprob_cor@UUID = uuid::UUIDgenerate()
     Xu_bdprob_cor@prob_is_ok                       = FALSE
 
-    #----------
+        #------------------------------------------------------------------
+        #  Save whatever information is known about the problem generator
+        #  that produced this problem.
+        #------------------------------------------------------------------
 
-            #  Replace old Xu information with an indirection.
-#    Xu_bdprob_cor@read_Xu_problem_from_Xu_file     = read_Xu_problem_from_Xu_file
-#    Xu_bdprob_cor@Xu_parameters             = PU_spp_pair_info@Xu_parameters
     Xu_bdprob_cor@prob_type = "Xu_prob_gen_info_class"
     Xu_bdprob_cor@prob_gen_info = Xu_prob_gen_info
-
-    #----------
 
     Xu_bdprob_cor@prob_generator_params_known      = PU_spp_pair_info@prob_generator_params_known
     Xu_bdprob_cor@correct_solution_vector_is_known = PU_spp_pair_info@correct_solution_vector_is_known
@@ -241,6 +239,8 @@ gen_single_bdprob_COR = function (starting_dir,
     Xu_bdprob_cor@num_spp                   = PU_spp_pair_info@num_spp
     Xu_bdprob_cor@cor_optimum_cost          = PU_spp_pair_info@correct_solution_cost
     Xu_bdprob_cor@PU_costs                  = PU_spp_pair_info@PU_costs
+    
+    
     Xu_bdprob_cor@nodes                     = PU_spp_pair_info@nodes
 
         #-----------------------------------------------------------
@@ -290,7 +290,7 @@ gen_single_bdprob_COR = function (starting_dir,
     Xu_bdprob_cor@final_link_counts_for_each_node =
         summarize_and_plot_graph_and_distribution_structure_information (
                   Xu_bdprob_cor@PU_spp_pair_indices,
-                  "cor",
+                  "COR",
                   Xu_bdprob_cor@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
                   Xu_bdprob_cor@derived_bdpg_dir_names$plot_output_dir,
                   Xu_bdprob_cor@spp_col_name,
