@@ -49,7 +49,7 @@ create_master_output_structure <- function (read_Xu_problem_from_Xu_file,
                                             bpm,
                                             cor_bpm,
                                             parameters,
-                                            add_error,
+                                            apply_error,
                                             match_error_counts,
                                             FP_const_rate,
                                             FN_const_rate,
@@ -426,7 +426,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
                   app_solution_FRAC_spp_covered__fromMarxan = rep (NA, num_runs),
 
                       #  Error generation parameters
-                  add_error = rep (NA, num_runs),
+                  apply_error = rep (NA, num_runs),
                   FP_const_rate = rep (NA, num_runs),
                   FN_const_rate = rep (NA, num_runs),
                   match_error_counts = rep (NA, num_runs),
@@ -567,7 +567,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
     results_df$app_solution_FRAC_spp_covered__fromMarxan [cur_result_row]        = app_solution_FRAC_spp_covered__fromMarxan
 
         #  Error generation parameters
-    results_df$add_error [cur_result_row]                                       = add_error
+    results_df$apply_error [cur_result_row]                                       = apply_error
     results_df$FP_const_rate [cur_result_row]                                   = FP_const_rate
     results_df$FN_const_rate [cur_result_row]                                   = FN_const_rate
     results_df$match_error_counts [cur_result_row]                              = match_error_counts

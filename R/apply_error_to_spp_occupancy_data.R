@@ -1,6 +1,6 @@
 #===============================================================================
 
-                #  source ("add_error_to_spp_occupancy_data.R")
+                #  source ("apply_error_to_spp_occupancy_data.R")
 
 #===============================================================================
 
@@ -18,14 +18,14 @@
     #  flipped.  Update PU_spp_pair_indices at the end so that you don't
     #  have to constantly resize this big array as you go along.
 
-add_const_error_to_spp_occupancy_data =
+apply_const_error_to_spp_occupancy_data =
         function (bpm, FP_rates, FN_rates, num_PUs, num_spp,
                   random_values,   #  passing these in to make it easier to test
                                    #  in a reproducible way
                   bdpg_error_codes
                   )
     {
-    cat ("\nStarting add_const_error_to_spp_occupancy_data loop.\n\n")
+    cat ("\nStarting apply_const_error_to_spp_occupancy_data loop.\n\n")
 
     for (cur_spp_row in 1:num_spp)
         {
@@ -187,7 +187,7 @@ match_FP_and_FN_counts_to_smaller_of_the_two = function (num_TPs, num_TNs,
 
 #===============================================================================
 
-add_error_to_spp_occupancy_data =
+apply_error_to_spp_occupancy_data =
         function (parameters, bpm, num_PU_spp_pairs, num_PUs, num_spp,
                   bdpg_error_codes)
     {
@@ -231,7 +231,7 @@ add_error_to_spp_occupancy_data =
                             byrow=TRUE)
 
     app_spp_occupancy_data =
-        add_const_error_to_spp_occupancy_data (bpm,
+        apply_const_error_to_spp_occupancy_data (bpm,
                                                 FP_rates, FN_rates,
                                                 num_PUs, num_spp,
                                                 random_values,
@@ -354,8 +354,8 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
     APP_prob_info = new ("APP_prob_info_class")
 
-    ret_vals_from_add_errors =
-        add_error_to_spp_occupancy_data (parameters,
+    ret_vals_from_apply_errors =
+        apply_error_to_spp_occupancy_data (parameters,
                                          cor_bpm,
                                          cor_num_PU_spp_pairs,
                                          cor_num_PUs,
@@ -364,28 +364,28 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
         #  Save the chosen error parameters to output later with results.
 
-    APP_prob_info@original_FP_const_rate = ret_vals_from_add_errors$original_FP_const_rate
-    APP_prob_info@original_FN_const_rate = ret_vals_from_add_errors$original_FN_const_rate
-    APP_prob_info@match_error_counts     = ret_vals_from_add_errors$match_error_counts
-    APP_prob_info@FP_const_rate          = ret_vals_from_add_errors$FP_const_rate
-    APP_prob_info@FN_const_rate          = ret_vals_from_add_errors$FN_const_rate
+    APP_prob_info@original_FP_const_rate = ret_vals_from_apply_errors$original_FP_const_rate
+    APP_prob_info@original_FN_const_rate = ret_vals_from_apply_errors$original_FN_const_rate
+    APP_prob_info@match_error_counts     = ret_vals_from_apply_errors$match_error_counts
+    APP_prob_info@FP_const_rate          = ret_vals_from_apply_errors$FP_const_rate
+    APP_prob_info@FN_const_rate          = ret_vals_from_apply_errors$FN_const_rate
 
 #THIS MAY DIFFER FROM COR IF A SPECIES IS MISSING IN APPARENT DATA?
 #NOT SURE WHAT ALL IT'S USED FOR THOUGH.  IF DIMENSIONING ARRAYS, IT
 #PROBABLY NEEDS TO STAY THE SAME VALUE AS COR AND JUST ALLOW SOME 0 VALUES.
-    APP_prob_info@app_num_spp            = ret_vals_from_add_errors$app_num_spp
+    APP_prob_info@app_num_spp            = ret_vals_from_apply_errors$app_num_spp
 #THIS NEEDS TO MATCH COR_NUM_PUS DOESN'T IT?
-    APP_prob_info@app_num_PUs            = ret_vals_from_add_errors$app_num_PUs
+    APP_prob_info@app_num_PUs            = ret_vals_from_apply_errors$app_num_PUs
 
         #  Set the values for the apparent problem structure.
-    APP_prob_info@app_PU_spp_pair_indices      = ret_vals_from_add_errors$app_PU_spp_pair_indices
+    APP_prob_info@app_PU_spp_pair_indices      = ret_vals_from_apply_errors$app_PU_spp_pair_indices
 
 
     Xu_bdprob_APP@APP_prob_info          = APP_prob_info
 
 
     #NEEDS TO HAVE SAME DIMENSIONS AND ROW/COLUMN NAMES AS COR.
-    Xu_bdprob_APP@app_bpm                      = ret_vals_from_add_errors$app_spp_occupancy_data
+    Xu_bdprob_APP@app_bpm                      = ret_vals_from_apply_errors$app_spp_occupancy_data
 
 #===============================================================================
 #===============================================================================

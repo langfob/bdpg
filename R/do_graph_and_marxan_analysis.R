@@ -207,7 +207,7 @@ OLD_do_graph_and_marxan_analysis <- function (parameters,
 
                                                 #  input parameters for error model.
                                                 #  Only used to create master output structure?
-                                          add_error,
+                                          apply_error,
                                           match_error_counts,
                                           FP_const_rate,
                                           FN_const_rate,
@@ -315,7 +315,7 @@ OLD_do_graph_and_marxan_analysis <- function (parameters,
                                     app_bpm,
                                     cor_bpm,
                                     parameters,
-                                    add_error,
+                                    apply_error,
                                     match_error_counts,
                                     FP_const_rate,
                                     FN_const_rate,
