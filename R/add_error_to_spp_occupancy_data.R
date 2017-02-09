@@ -297,7 +297,12 @@ gen_single_bdprob_APP = function (Xu_bdprob_cor,
     Xu_bdprob_app@UUID_of_base_problem_that_has_err_added = Xu_bdprob_cor@UUID
 
     Xu_bdprob_app@prob_is_ok                       = FALSE
+#****************  2017 02 09 - BTL
+#  NEED TO FIX THIS TO MATCH REPLACEMENT OF THESE IN BASE PROBLEM WITH
+#  PROB_GEN_INFO
     Xu_bdprob_app@read_Xu_problem_from_Xu_file     = Xu_bdprob_cor@read_Xu_problem_from_Xu_file
+#****************
+
     Xu_bdprob_app@prob_generator_params_known      = Xu_bdprob_cor@prob_generator_params_known
     Xu_bdprob_app@correct_solution_vector_is_known = Xu_bdprob_cor@correct_solution_vector_is_known
 
@@ -352,7 +357,12 @@ gen_single_bdprob_APP = function (Xu_bdprob_cor,
     Xu_bdprob_app@cor_optimum_cost          = Xu_bdprob_cor@correct_solution_cost
 #IN FUTURE ERROR MODELS, THESE COSTS COULD BE CHANGED.
     Xu_bdprob_app@PU_costs                  = Xu_bdprob_cor@PU_costs
+
+#****************  2017 02 09 - BTL
+#  NEED TO FIX THIS TO MATCH REPLACEMENT OF THESE IN BASE PROBLEM WITH
+#  PROB_GEN_INFO
     Xu_bdprob_app@Xu_parameters             = Xu_bdprob_cor@Xu_parameters
+#****************
 #WHAT IS STORED IN NODES?  NOT SURE IF IT NEEDS TO CHANGE OR NOT.
 #I SUSPECT IT'S ONLY USED IN GENERATION OF THE ORIGINAL XU PROBLEM.
     Xu_bdprob_app@nodes                     = Xu_bdprob_cor@nodes

@@ -130,14 +130,22 @@ setClass ("PU_spp_pair_info_class",
 
 #===============================================================================
 
-    #  Xu_prob_gen_info class.
+    #  Xu_prob_gen_info_class class definition.
 
-setClass ("Xu_prob_gen_info",
+setClass ("Xu_prob_gen_info_class",
           representation (
                             read_Xu_problem_from_Xu_file     = "logical",
                             infile_name                      = "character",
                             Xu_parameters                    = "Xu_params"
-                            )
+                            ),
+
+          #-----------------------------------------------------------------
+
+          prototype (
+                        read_Xu_problem_from_Xu_file     = FALSE,
+                        infile_name                      = NA_character_,
+                        Xu_parameters                    = NULL    #  Don't know what else to put here.  It won't accept NA.
+                    )
         )
 
 #===============================================================================

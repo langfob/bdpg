@@ -140,6 +140,10 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' Read a Xu problem from files of ones already created by Xu or
 #' create one from scratch.
 #'
+#' **NOTE that if other kinds of problems are created, this routine will have
+#' to be replaced or cloned into something appropriate for the new problem
+#' type.**
+#'
 #' @param starting_dir character string giving path to directory where problem will be built
 #' @param parameters named list of all parameters, generally from project.yaml file
 #' @param read_Xu_problem_from_Xu_file boolean TRUE if problem is to be
@@ -156,13 +160,20 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 
 gen_single_bdprob_COR = function (starting_dir,
                                   parameters,
-                                  read_Xu_problem_from_Xu_file,
-                                  infile_name,
+                        read_Xu_problem_from_Xu_file,
+                        infile_name,
                                   given_correct_solution_cost,
                                   max_allowed_num_spp,
                                   bdpg_error_codes,
                                   integerize)
     {
+        #-------------------------------------------------------------------
+        #  Determine whether to create the problem from scratch or read it
+        #  from a Xu benchmark file, then create the problem.
+        #  Load the information about the generation of the problem into
+        #  an object to store with the full problem object.
+        #-------------------------------------------------------------------
+
     if (read_Xu_problem_from_Xu_file)
         {
         PU_spp_pair_info =
@@ -177,6 +188,16 @@ gen_single_bdprob_COR = function (starting_dir,
                                             bdpg_error_codes,
                                             integerize)
         }  #  end - create Xu problem from scratch
+
+        #---------------------------------------------------------
+        #  Save information about how the problem was generated.
+        #---------------------------------------------------------
+
+    Xu_prob_gen_info = new ("Xu_prob_gen_info_class")
+
+    Xu_prob_gen_info@read_Xu_problem_from_Xu_file = read_Xu_problem_from_Xu_file
+    Xu_prob_gen_info@Xu_parameters                = PU_spp_pair_info@Xu_parameters
+    Xu_prob_gen_info@infile_name                  = infile_name
 
     #===============================================================================
 
@@ -195,10 +216,18 @@ gen_single_bdprob_COR = function (starting_dir,
         #---------------------------------------------------------------
 
     Xu_bdprob_cor@UUID = uuid::UUIDgenerate()
-
-
     Xu_bdprob_cor@prob_is_ok                       = FALSE
-    Xu_bdprob_cor@read_Xu_problem_from_Xu_file     = read_Xu_problem_from_Xu_file
+
+    #----------
+
+            #  Replace old Xu information with an indirection.
+#    Xu_bdprob_cor@read_Xu_problem_from_Xu_file     = read_Xu_problem_from_Xu_file
+#    Xu_bdprob_cor@Xu_parameters             = PU_spp_pair_info@Xu_parameters
+    Xu_bdprob_cor@prob_type = "Xu_prob_gen_info_class"
+    Xu_bdprob_cor@prob_gen_info = Xu_prob_gen_info
+
+    #----------
+
     Xu_bdprob_cor@prob_generator_params_known      = PU_spp_pair_info@prob_generator_params_known
     Xu_bdprob_cor@correct_solution_vector_is_known = PU_spp_pair_info@correct_solution_vector_is_known
 
@@ -212,7 +241,6 @@ gen_single_bdprob_COR = function (starting_dir,
     Xu_bdprob_cor@num_spp                   = PU_spp_pair_info@num_spp
     Xu_bdprob_cor@cor_optimum_cost          = PU_spp_pair_info@correct_solution_cost
     Xu_bdprob_cor@PU_costs                  = PU_spp_pair_info@PU_costs
-    Xu_bdprob_cor@Xu_parameters             = PU_spp_pair_info@Xu_parameters
     Xu_bdprob_cor@nodes                     = PU_spp_pair_info@nodes
 
         #-----------------------------------------------------------

@@ -601,7 +601,31 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob@UUID_of_base_problem_that_is_wrapped = Xu_bdprob@UUID
 
     wrapped_bdprob@prob_is_ok                           = FALSE
-    wrapped_bdprob@read_Xu_problem_from_Xu_file         = Xu_bdprob@read_Xu_problem_from_Xu_file
+
+    #----------
+
+#*****************************************************************************************
+#  Possible bug (2017 02 09):
+#
+#  THIS SECTION MAY BE AN ISSUE SINCE IT'S ABOUT SAVING THE PROBLEM GENERATION
+#  PARAMETERS IF THEY'RE KNOWN.
+#  IF WRAPPING AROUND A XU PROBLEM GENERATED FROM SCRATCH, THEN THOSE PARS ARE KNOWN.
+#  IF WRAPPING AROUND A XU PROBLEM READ FROM A XU BENCHMARK FILE, THEY'RE NOT KNOWN.
+#  OTHER GENERATION PARAMETERS THAT WE MIGHT WANT TO KNOW ARE THINGS ABOUT THE WRAPPING,
+#  E.G., WAS A LOGNORMAL THE WRAPPER AND IF SO, WHAT WERE ITS PARAMETERS?
+#  THIS ALL SUGGESTS THAT I PROBABLY NEED TO CREATE ANOTHER PROB_GEN_INFO CLASS.
+#  For the moment, I'll just copy in the entries from the problem that's being wrapped.
+#*****************************************************************************************
+
+            #  Replace old Xu information with an indirection.
+#    wrapped_bdprob@read_Xu_problem_from_Xu_file         = Xu_bdprob@read_Xu_problem_from_Xu_file
+#    wrapped_bdprob@Xu_parameters                = Xu_bdprob@Xu_parameters
+
+    wrapped_bdprob@prob_type     = "Xu_prob_gen_info_class"
+    wrapped_bdprob@prob_gen_info = Xu_bdprob@Xu_prob_gen_info
+
+#*****************************************************************************************
+
     wrapped_bdprob@prob_generator_params_known          = Xu_bdprob@prob_generator_params_known
     wrapped_bdprob@correct_solution_vector_is_known     = Xu_bdprob@correct_solution_vector_is_known
 
@@ -624,7 +648,6 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob@cor_optimum_cost             = Xu_bdprob@cor_optimum_cost  #correct_solution_cost
 
     wrapped_bdprob@PU_costs                     = wrapped_PU_costs    #get_PU_costs (wrapped_num_PUs)
-    wrapped_bdprob@Xu_parameters                = Xu_bdprob@Xu_parameters
     wrapped_bdprob@nodes                        = wrapped_nodes
 
     wrapped_bdprob@bpm                          = wrapped_bpm
