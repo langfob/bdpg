@@ -1,0 +1,641 @@
+---
+title: "bdprobdiff data dictionary"
+author: "Bill Langford"
+date: "7 April 2016"
+output: html_document
+---
+
+--------------------------------------------------------------------------------
+
+### Function: summarize_and_plot_graph_and_distribution_structure_information
+
+```
+summarize_and_plot_graph_and_distribution_structure_information = 
+    function (PU_spp_pair_indices, 
+              cor_or_app_label, 
+              all_correct_node_IDs,
+              plot_output_dir, 
+              spp_col_name, 
+              PU_col_name, 
+              presences_col_name)
+```
+- Function defined in biodivprobgen_utilities.R.
+- PU_spp_pair_indices
+    - data frame with one PU/spp pair for every occurrence of every species in the problem
+    - exactly 2 columns
+    - column headings are PU_ID and spp_ID
+    - dimensions are [num PU spp pairs, 2]
+    - Example:
+    ```
+    dim (PU_spp_pair_indices)
+    1628    2
+    PU_spp_pair_indices:
+      PU_ID spp_ID
+    1     1      1
+    2     2      1
+    ...
+    1625    64    813
+    1626    82    813
+    1627    54    814
+    1628   112    814
+    ```
+
+- cor_or_app_label
+    - character string to use in writing labels on plots or messages
+    - Only 2 values allowed, either "cor" or "app".
+        - That might change if I allow multiple different apparents.
+    - Example:
+    ```
+    cor_or_app_label:
+    "cor"
+    ```
+
+- all_correct_node_IDs
+    - Vector listing all node IDs (PU IDs) in the problem, regardless of whether the PU is occupied by any species or not
+    - length of the vector is just the total number of PUs, empty and not empty
+    - Example:
+    ```
+    length (all_correct_node_IDs)
+    122
+    head (all_correct_node_IDs)
+    1 2 3 4 5 6
+    ```
+
+- column names
+    - character strings labelling columns in various tables
+    - the names are derived from what is used in the original creation of the tables.
+        - At the moment, I don't know how to specify the names ahead of time as variables and then use the variables to specify the column names.
+    - Example:
+    ```
+    spp_col_name
+    "spp_ID"
+    PU_col_name
+    "PU_ID"
+    presences_col_name
+    "freq"
+    ```
+
+- returned value: final_link_counts_for_each_node
+    - data frame with one column of unique PU IDs (both empty and non-empty) and a second column containing the number of species occurring on the corresponding PU
+    - column names are "PU_ID" and "freq"
+    - total number of rows in table is the total number of PUs in the problem, both empty and non-empty PUs
+    - Example:
+    ```
+    final_link_counts_for_each_node:
+         PU_ID freq
+    1     1    1
+    2     2   25
+    ...
+    ```
+
+--------------------------------------------------------------------------------
+
+### Function: compute_network_measures_using_bipartite_package
+
+```
+compute_network_measures_using_bipartite_package = function (bpm)
+```
+- Function defined in gscp_11a_network_measures_using_bipartite_package.R
+- bpm  
+
+    - 2D matrix with one row for every species and one column for every PU
+    - Created by create_adj_matrix_with_spp_rows_vs_PU_cols() in 
+        - gscp_10c_build_adj_and_cooccurrence_matrices.R
+    - Will be viewed as a bipartite matrix (bpm) by the bipartite network routines 
+    - Example:
+
+    ```
+    dim (bpm)
+    [1] 814 122
+    
+    bpm [1:4,1:8]
+         [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
+    [1,]    1    1    0    0    0    0    0    0 ...
+    [2,]    0    0    1    1    0    0    0    0 ...
+    [3,]    0    0    0    0    1    1    0    0 ...
+    [4,]    0    0    0    0    0    0    1    1 ...
+    ...
+    ```
+- returned value: bipartite_metrics_from_bipartite_package
+    - data frame with one column of unique PU IDs (both empty and non-empty) and a second column containing the number of species occurring on the corresponding PU
+    - column names are "PU_ID" and "freq"
+    - total number of rows in table is the total number of PUs in the problem, both empty and non-empty PUs
+    - Example:   
+
+    ```
+    bipartite_metrics_from_bipartite_package
+         connectance web_asymmetry links_per_species number_of_compartments
+    [1,]   0.0169207     -0.744086          1.755914                      2
+    
+         compartment_diversity cluster_coefficient nestedness weighted_nestedness
+    [1,]              1.015475          0.01726264   4.373023           0.3154829
+    
+         weighted_NODF interaction_strength_asymmetry specialisation_asymmetry
+    [1,]             0                              0                0.5206311
+    
+         linkage_density weighted_connectance Fisher_alpha Shannon_diversity
+    [1,]        12.70423           0.01366046 1.717987e+12          7.398174
+    
+         interaction_evenness Alatalo_interaction_evenness H2 number.of.species.HL
+    [1,]            0.6445867                            1  0                  119
+    
+         number.of.species.LL mean.number.of.shared.partners.HL
+    [1,]                  811                         0.1365902
+    
+         mean.number.of.shared.partners.LL cluster.coefficient.HL cluster.coefficient.LL
+    [1,]                        0.05527089             0.02864849             0.01827332
+    
+         weighted.cluster.coefficient.HL weighted.cluster.coefficient.LL niche.overlap.HL
+    [1,]                      0.01722157                       0.3061294      0.006840523
+    
+         niche.overlap.LL togetherness.HL togetherness.LL C.score.HL C.score.LL V.ratio.HL
+    [1,]       0.02669537     0.004202092      0.01122122  0.9788591  0.9584458   9.688273
+    
+         V.ratio.LL discrepancy.HL discrepancy.LL extinction.slope.HL extinction.slope.LL
+    [1,]  0.1657092           1563           1565             5.53822            1.934873
+    
+         robustness.HL robustness.LL functional.complementarity.HL
+    [1,]     0.8232885     0.6583167                      461.6131
+    
+         functional.complementarity.LL partner.diversity.HL partner.diversity.LL
+    [1,]                       1031.04             3.019578            0.7403126
+         generality.HL vulnerability.LL
+    [1,]      23.23393         2.174525
+    
+    ```
+
+--------------------------------------------------------------------------------
+
+### Function: summarize_and_plot_graph_and_distribution_structure_information
+
+```
+compute_igraph_related_network_measures <- 
+    function (
+              num_spp, 
+              num_PUs, 
+              PU_spp_pair_indices, 
+              emulatingTzar, 
+              DEBUG_LEVEL, 
+              network_output_dir, 
+#              cor_num_PUs,   #  app_ ???
+#              cor_num_spp,
+              PU_col_name, 
+              spp_col_name
+              ) 
+```
+- Function defined in gscp_11b_network_measures_using_igraph_package.R
+- num_spp
+    - integer number of correct or apparent species, depending on whether the routine is passed a correct or apparent problem
+- num_PUs
+    - integer number of correct or apparent PUs, depending on whether the routine is passed a correct or apparent problem
+- PU_spp_pair_indices
+    - data frame with one PU/spp pair for every occurrence of every species in the problem
+    - exactly 2 columns
+    - column headings are PU_ID and spp_ID
+    - dimensions are [num PU spp pairs, 2]
+    - Example:
+    ```
+    dim (PU_spp_pair_indices)
+    1628    2
+    PU_spp_pair_indices:
+      PU_ID spp_ID
+    1     1      1
+    2     2      1
+    ...
+    1625    64    813
+    1626    82    813
+    1627    54    814
+    1628   112    814
+    ```
+- emulatingTzar
+    - boolean flag indicating whether the run is emulating tzar
+- DEBUG_LEVEL
+    - integer number indicating what level of debugging output to do
+        - 0 means no debugging output
+        - increasing integers > 0 imply different levels of debugging output
+            - can't remember whether higher means more or less output, but it doesn't matter much at the moment since I don't think that I have used anything other than 0 and 1 at this point
+- network_output_dir
+    - character string indicating full path where network metric outputs should be written
+        - is this right, i.e., network metric outputs?  or is it for when you draw the network to a file?
+    - Example:
+    ```
+    "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1165_marxan_simulated_annealing.inprogress/Networks"
+    ```
+- REMOVING THESE:  counts that I'm not sure about, i.e., are they supposed to always be cor or should they be cor or app depending on what problem is passed in?  Looks like they're only used in constructing the list of vertex names for the network that is being constructed.  Having extra (empty) vertices for the PUs seems like it may distort the statistics that are computed.  2016 04 08 - BTL
+    - cor_num_PUs   #  app_ ???
+    - cor_num_spp
+- column names
+    - character strings labelling columns in various tables
+    - the names are derived from what is used in the original creation of the tables.
+        - At the moment, I don't know how to specify the names ahead of time as variables and then use the variables to specify the column names.
+    - Example:
+    ```
+    PU_col_name
+    "PU_ID"
+    spp_col_name
+    "spp_ID"
+    ```
+- returned value:  bipartite_metrics_from_igraph_package_df
+    - data frame with one column for each bipartite metric computed by igraph
+    - there is always only one row in the data frame?
+    - each column heading is the name of the metric
+    ```
+    bipartite_metrics_from_igraph_package_df
+      ig_top ig_bottom ig_num_edges_m  ig_ktop ig_kbottom  ig_bidens ig_lcctop ig_lccbottom ig_distop ig_disbottom  ig_cctop ig_ccbottom ig_cclowdottop
+    1    814       122           1633 2.006143   13.38525 0.01644379       810          118  4.342801     4.405056 0.3403602  0.03887111      0.5983846
+      ig_cclowdotbottom ig_cctopdottop ig_cctopdotbottom ig_mean_bottom_bg_redundancy ig_median_bottom_bg_redundancy ig_mean_top_bg_redundancy
+    1         0.3004119        0.45096        0.05012125                   0.07886978                              0                0.01429777
+      ig_median_top_bg_redundancy
+    1                           0
+    ```
+
+--------------------------------------------------------------------------------
+
+### Function: create_PU_spp_pair_names
+
+*HAVEN'T DECODED THIS ONE YET.  JUST LEAVING HERE WHAT I HAD CUT OUT OF THE CODE TO TRY TO FIGURE OUT WHETHER THERE SHOULD BE app_num_spp AND app_num_PUs AND WHAT WERE PU_spp_pair_names AND PU_spp_pair_names_triple.*
+
+*REMEMBER THAT THE KEY IS THE FLAGGING OF top AND bottom.  THEY ARE THE THINGS THAT INDICATE THE FACT THAT THIS IS A BIPARTITE NETWORK.  THE True AND False VALUES IN THE VERTICES type INDICATE WHETHER A NODE IS PART OF THE top OR bottom HALF OF THE BIPARTITE NETWORK. PUs ARE top? SPECIES ARE bottom?*
+```
+PU_spp_pair_names_triple = create_PU_spp_pair_names (cor_num_PUs,   #  app_ ???
+                                                     cor_num_spp,  #  app_ ???
+                                                     PU_spp_pair_indices, #  app_ ???
+                                                     PU_col_name, 
+                                                     spp_col_name
+                                                     ) 
+```
+
+```
+PU_spp_pair_names = PU_spp_pair_names_triple$PU_spp_pair_names
+PU_vertex_names = PU_spp_pair_names_triple$PU_vertex_names
+spp_vertex_names = PU_spp_pair_names_triple$spp_vertex_names
+
+#  ...
+
+vertices = data.frame (name=c(spp_vertex_names, PU_vertex_names), 
+                     type=c(rep(FALSE, num_spp),
+                            rep(TRUE, num_PUs)))
+
+bg = graph.data.frame (PU_spp_pair_names, directed=FALSE, vertices=vertices)
+bgp = bipartite.projection (bg)
+bgp_proj1_PUs = bgp$proj1
+bgp_proj2_spp = bgp$proj2
+
+head(bg)
+6 x 936 sparse Matrix of class "dgCMatrix"
+   [[ suppressing 936 column names ‘s1’, ‘s2’, ‘s3’ ... ]]
+                                                                                                
+s1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s5 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s6 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+                                                                                                
+...
+
+s1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s5 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s6 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+                                                                                                
+s1 . . . . . . . . . . . . . . . 1 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s2 . . . . . . . . . . . . . . . . . 1 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s3 . . . . . . . . . . . . . . . . . . . 1 1 . . . . . . . . . . . . . . . . 1 . . . . . . . . .
+s4 . . . . . . . . . . . . . . . . . . . . . 1 1 . . . . . . . . . . . . . . . . . . . . . . . .
+s5 . . . . . . . . . . . . . . . . . . . . . . . 1 1 . . . . . . . . . . . . . . . . . . . . . .
+s6 . . . . . . . . . . . . . . . . . . . . . . . . . 1 1 . . . . . . . . . . . . . . . . . . . .
+                                                                                                
+s1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s5 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s6 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+                                                                                        
+s1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s5 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+s6 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+# Number of top and bottom nodes
+top <- length(V(bg)[type==FALSE])
+bottom <- length(V(bg)[type==TRUE])
+
+vertices
+    name  type
+1     s1 FALSE
+2     s2 FALSE
+3     s3 FALSE
+4     s4 FALSE
+5     s5 FALSE
+6     s6 FALSE
+7     s7 FALSE
+8     s8 FALSE
+9     s9 FALSE
+10   s10 FALSE
+...
+810 s810 FALSE
+811 s811 FALSE
+812 s812 FALSE
+813 s813 FALSE
+814 s814 FALSE
+815   p1  TRUE
+816   p2  TRUE
+817   p3  TRUE
+818   p4  TRUE
+819   p5  TRUE
+820   p6  TRUE
+821   p7  TRUE
+822   p8  TRUE
+823   p9  TRUE
+824  p10  TRUE
+...
+929 p115  TRUE
+930 p116  TRUE
+931 p117  TRUE
+932 p118  TRUE
+933 p119  TRUE
+934 p120  TRUE
+935 p121  TRUE
+936 p122  TRUE
+```
+
+--------------------------------------------------------------------------------
+
+### Function: set_up_for_and_run_marxan
+
+```
+marxan_control_values = set_up_for_and_run_marxan (
+                            app_PU_spp_pair_indices,
+                            PU_col_name, 
+                            spp_col_name, 
+                            current_os, 
+                            marxan_input_dir, 
+                            marxan_output_dir, 
+                            parameters, 
+                            marxan_IO_dir
+                            )
+
+                                                  )
+```
+- Function defined in gscp_13_write_marxan_control_file_and_run_marxan.R
+- app_PU_spp_pair_indices
+    - Should have same form as PU_spp_pair_indices but just be for an apparent problem.
+    - PU_spp_pair_indices
+        - data frame with one PU/spp pair for every occurrence of every species in the problem
+        - exactly 2 columns
+        - column headings are PU_ID and spp_ID
+        - dimensions are [num PU spp pairs, 2]
+        - Example:
+    ```
+    dim (PU_spp_pair_indices)
+    1628    2
+    PU_spp_pair_indices:
+      PU_ID spp_ID
+    1     1      1
+    2     2      1
+    ...
+    1625    64    813
+    1626    82    813
+    1627    54    814
+    1628   112    814
+    ```
+- column names
+    - character strings labelling columns in various tables
+    - the names are derived from what is used in the original creation of the tables.
+        - At the moment, I don't know how to specify the names ahead of time as variables and then use the variables to specify the column names.
+    - Example:
+    ```
+    PU_col_name
+    "PU_ID"
+    spp_col_name
+    "spp_ID"
+    ```
+- Character strings from derived_bdpg_parameters
+- derived_bdpg_parameters$current_os
+- derived_bdpg_parameters$marxan_input_dir
+- derived_bdpg_parameters$marxan_output_dir
+- parameters
+- derived_bdpg_parameters$marxan_IO_dir
+
+
+- cor_or_app_label
+    - character string to use in writing labels on plots or messages
+    - Only 2 values allowed, either "cor" or "app".
+        - That might change if I allow multiple different apparents.
+    - Example:
+```
+cor_or_app_label:
+"cor"
+```
+- returned value:  marxan_control_values = retVal
+    - list with one name:value entry for each marxan option
+    - each entry has a name that is the same as the control variable
+```
+    retVal = list ()
+    retVal$marxan_PROP           = marxan_PROP
+    retVal$marxan_RANDSEED       = marxan_RANDSEED
+    retVal$marxan_NUMREPS        = marxan_NUMREPS
+    retVal$marxan_NUMITNS        = marxan_NUMITNS
+    retVal$marxan_STARTTEMP      = marxan_STARTTEMP
+    retVal$marxan_NUMTEMP        = marxan_NUMTEMP
+    retVal$marxan_COSTTHRESH     = marxan_COSTTHRESH
+    retVal$marxan_THRESHPEN1     = marxan_THRESHPEN1
+    retVal$marxan_THRESHPEN2     = marxan_THRESHPEN2
+    retVal$marxan_RUNMODE        = marxan_RUNMODE
+    retVal$marxan_MISSLEVEL      = marxan_MISSLEVEL
+    retVal$marxan_ITIMPTYPE      = marxan_ITIMPTYPE
+    retVal$marxan_HEURTYPE       = marxan_HEURTYPE
+    retVal$marxan_CLUMPTYPE      = marxan_CLUMPTYPE
+```
+
+--------------------------------------------------------------------------------
+
+```
+spf_const = write_network_to_marxan_files (
+                                        app_PU_spp_pair_indices,
+                                        PU_col_name, 
+                                        spp_col_name, 
+                                        parameters, 
+                                        marxan_input_dir, 
+                                        marxan_output_dir
+                                        ) 
+```
+- Function defined in gscp_13_write_marxan_control_file_and_run_marxan.R
+
+
+--------------------------------------------------------------------------------
+
+```
+marxan_control_values = 
+    set_marxan_controls_and_run_marxan (current_os, 
+                                    marxan_input_dir, 
+                                    marxan_output_dir, 
+                                    parameters, 
+                                    marxan_IO_dir) 
+```
+- Function defined in gscp_13_write_marxan_control_file_and_run_marxan.R
+
+--------------------------------------------------------------------------------
+
+```
+create_nodes_data_structure = 
+        function (tot_num_nodes, 
+                  num_nodes_per_group, 
+                  n__num_groups, 
+                  num_independent_nodes_per_group)
+```
+- Function defined in gscp_6_create_data_structures.R
+- independent_node_IDs
+    - integer vector (sorted?) of IDs of nodes in the independent set
+- dependent_node_IDs
+    - integer vector (sorted?) of IDs of nodes in the dependent set
+- returned value:  nodes
+    - dataframe with 
+        - 1 row for each node (PU) in the problem
+        - 3 columns for row (node), i.e., 
+            - node ID (integer)
+            - group ID (integer)
+            - flag indicating whether node is in the dependent set (boolean)   
+            
+```
+        #------------------------------------------------------------
+        #  Build an overall data frame that shows for each node, 
+        #  its node ID and group ID, plus a flag indicating whether 
+        #  it's in the dependent set or not.  For example, if there 
+        #  are 3 nodes per group:
+        #
+        #       node_ID     group_ID       dependent_set_member
+        #         1            1                 TRUE
+        #         2            1                 TRUE
+        #         3            1                 FALSE
+        #         4            2                 TRUE
+        #         5            2                 TRUE
+        #         6            2                 FALSE
+        #        ...          ...                 ...
+        #------------------------------------------------------------
+    
+    nodes = data.frame (node_ID = node_IDs,
+                        group_ID = group_IDs, 
+                        dependent_set_member = dependent_set_members)
+```
+
+--------------------------------------------------------------------------------
+
+```
+gen_single_bdprob = function (parameters, bdpg_error_codes, integerize)
+```
+- Function defined in gen_bdprob.R
+- parameters
+- bdpg_error_codes
+- integerize
+- returned value:  bdprob in mainline
+    - called retVal inside this routine
+    - list with 
+
+```
+retVal$read_Xu_problem_from_file = read_Xu_problem_from_file
+retVal$PU_spp_pair_indices       = PU_spp_pair_indices_sextet$PU_spp_pair_indices 
+retVal$PU_col_name               = PU_spp_pair_indices_sextet$PU_col_name
+retVal$spp_col_name              = PU_spp_pair_indices_sextet$spp_col_name
+retVal$num_PUs                   = PU_spp_pair_indices_sextet$num_PUs
+retVal$num_spp                   = PU_spp_pair_indices_sextet$num_spp
+retVal$cor_optimum_cost          = PU_spp_pair_indices_sextet$correct_solution_cost
+retVal$PU_costs                  = PU_costs
+retVal$derived_Xu_params = derived_Xu_params
+
+retVal$prob_is_ok = TRUE
+retVal$bpm = bpm    #  0/1 adjacency matrix of spp rows vs PU cols
+retVal$nodes = nodes
+```
+
+- derived_Xu_params
+```
+        num_nodes_per_group                                        = derived_Xu_params$num_nodes_per_group
+        num_rounds_of_linking_between_groups                       = derived_Xu_params$num_rounds_of_linking_between_groups
+        target_num_links_between_2_groups_per_round                = derived_Xu_params$target_num_links_between_2_groups_per_round
+        num_links_within_one_group                                 = derived_Xu_params$num_links_within_one_group
+        tot_num_links_inside_groups                                = derived_Xu_params$tot_num_links_inside_groups
+        max_possible_num_links_between_groups                      = derived_Xu_params$max_possible_num_links_between_groups
+        max_possible_tot_num_links                                 = derived_Xu_params$max_possible_tot_num_links
+        max_possible_tot_num_node_link_pairs                       = derived_Xu_params$max_possible_tot_num_node_link_pairs
+
+        n__num_groups                                              = derived_Xu_params$n__num_groups
+        alpha__                                                    = derived_Xu_params$alpha__
+        p__prop_of_links_between_groups                            = derived_Xu_params$p__prop_of_links_between_groups
+        r__density                                                 = derived_Xu_params$r__density
+        num_independent_nodes_per_group                            = derived_Xu_params$num_independent_nodes_per_group
+        num_independent_set_nodes                                  = derived_Xu_params$num_independent_set_nodes
+        tot_num_nodes                                              = derived_Xu_params$tot_num_nodes
+        num_dependent_set_nodes                                    = derived_Xu_params$num_dependent_set_nodes
+        opt_solution_as_frac_of_tot_num_nodes                      = derived_Xu_params$opt_solution_as_frac_of_tot_num_nodes
+        base_for_target_num_links_between_2_groups_per_round       = derived_Xu_params$base_for_target_num_links_between_2_groups_per_round
+        at_least_1_for_target_num_links_between_2_groups_per_round = derived_Xu_params$at_least_1_for_target_num_links_between_2_groups_per_round
+```
+- nodes
+```
+        nodes = create_nodes_data_structure (tot_num_nodes, 
+                                              num_nodes_per_group, 
+                                              n__num_groups, 
+                                              num_independent_nodes_per_group 
+                                             )
+```
+- edge_list
+```
+        edge_list = 
+            create_Xu_graph (num_nodes_per_group, 
+                             n__num_groups, 
+                             nodes, 
+                             max_possible_tot_num_links, 
+                             target_num_links_between_2_groups_per_round, 
+                             num_rounds_of_linking_between_groups, 
+                             DEBUG_LEVEL
+                             )
+```
+- correct_solution_vector_is_known
+```
+correct_solution_vector_is_known = TRUE
+```
+- dependent_node_IDs
+```
+        dependent_node_IDs = get_dependent_node_IDs (nodes)
+```
+- num_PUs
+```
+        num_PUs = get_num_nodes (nodes)
+```
+- PU_costs
+```
+        PU_costs = get_PU_costs (num_PUs)
+```
+- PU_spp_pair_indices_sextet
+
+```
+    #-------------------------------------------------------------    
+    #  Combine the information in the nodes and edge_list data 
+    #  structures into a single data structure that has one line 
+    #  for each species on each planning unit (where species 
+    #  are edges and PUs are nodes).
+    #-------------------------------------------------------------    
+
+PU_spp_pair_indices_sextet = create_PU_spp_pair_indices (edge_list, 
+                                                          nodes, 
+                                                          dependent_node_IDs, 
+                                                          PU_costs, 
+                                                         num_PUs) 
+                                                                 
+PU_spp_pair_indices  = PU_spp_pair_indices_sextet$PU_spp_pair_indices 
+PU_col_name          = PU_spp_pair_indices_sextet$PU_col_name
+spp_col_name         = PU_spp_pair_indices_sextet$spp_col_name
+num_PUs              = PU_spp_pair_indices_sextet$num_PUs
+num_spp              = PU_spp_pair_indices_sextet$num_spp
+cor_optimum_cost     = PU_spp_pair_indices_sextet$correct_solution_cost
+```
+
+
+
