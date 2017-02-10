@@ -432,7 +432,9 @@ wrap_abundance_dist_around_Xu_problem = function (starting_dir,
                                                   Xu_bdprob,
                                                   dep_set_PUs_eligible,
                                                   tot_num_PUs_in_landscape,
-                                                  bdpg_error_codes
+                                                  bdpg_error_codes,
+                                            wrap_prob_name_stem = "wrap_prob",
+                                            cor_dir_name_stem = "cor"
                                                   )
     {
     Xu_nodes = Xu_bdprob@nodes
@@ -621,8 +623,16 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 #    wrapped_bdprob@read_Xu_problem_from_Xu_file         = Xu_bdprob@read_Xu_problem_from_Xu_file
 #    wrapped_bdprob@Xu_parameters                = Xu_bdprob@Xu_parameters
 
-    wrapped_bdprob@prob_type     = "Xu_prob_gen_info_class"
+###  Is this even necessary?  Is it ever used?
+    wrapped_bdprob@prob_type     = Xu_bdprob@prob_type    #  "Xu_prob_gen_info_class"
+
+###  Should this be base_prob_gen_info instead of prob_gen_info?
     wrapped_bdprob@prob_gen_info = Xu_bdprob@prob_gen_info
+
+###  Make a new class for wrap_gen_info?
+###  Also, need to add this slot to the wrap class definition itself?
+###  Would this ever be used?  Maybe in generation of problem features in g15?
+###      wrapped_bdprob@wrap_gen_info = Xu_bdprob@wrap_gen_info
 
 #*****************************************************************************************
 
@@ -677,14 +687,35 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
         #  Create the basic set of directories for problem output.
         #-----------------------------------------------------------
 
-    wrapped_bdprob@starting_dir = starting_dir
-    wrapped_bdprob@base_outdir =
-        file.path (normalizePath (starting_dir, mustWork=FALSE), "cor")
-    dir.create (wrapped_bdprob@base_outdir, showWarnings = TRUE,
-                recursive = TRUE)
+    # wrapped_bdprob@starting_dir = starting_dir
+    # wrapped_bdprob@base_outdir =
+    #     file.path (normalizePath (starting_dir, mustWork=FALSE), "cor")
+    # dir.create (wrapped_bdprob@base_outdir, showWarnings = TRUE,
+    #             recursive = TRUE)
+    #
+    # wrapped_bdprob@derived_bdpg_dir_names =
+    #     create_base_dir_structure (wrapped_bdprob@base_outdir)
+
+    create_dirs = TRUE
+    prob_topdir =
+        get_or_create_prob_topdir_path (parameters$fullOutputDirWithSlash,
+                                        wrap_prob_name_stem,
+                                        create_dirs)
+    wrapped_bdprob@prob_topdir = prob_topdir  #  e.g., "tzaroutdir/wrap_prob/wrap_prob.2"
+
+            #----------------------------------------------------------------
+            #  Create COR directory for the problem if it doesn't
+            #  exist yet, e.g., "tzar_outdir/wrap_prob.1/cor".
+            #  Also add its subdirectories and store their paths in a list.
+            #----------------------------------------------------------------
+
+    cor_dir = file.path (prob_topdir, cor_dir_name_stem)
+    if (!dir.exists (cor_dir)) dir.create (cor_dir, showWarnings = TRUE,
+                                           recursive = TRUE)
+    wrapped_bdprob@prob_outdir = cor_dir  #  e.g., "tzaroutdir/wrap_prob/wrap_prob.2/cor"
 
     wrapped_bdprob@derived_bdpg_dir_names =
-        create_base_dir_structure (wrapped_bdprob@base_outdir)
+        create_base_dir_structure (cor_dir, create_dirs)
 
         #-----------------------------------------------------------------
         #  Compute and save the distribution and network metrics for the
@@ -695,7 +726,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob@final_link_counts_for_each_node =
         summarize_and_plot_graph_and_distribution_structure_information (
                   wrapped_bdprob@PU_spp_pair_indices,
-                  "cor",
+                  "COR",
                   wrapped_bdprob@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
                   wrapped_bdprob@derived_bdpg_dir_names$plot_output_dir,
                   wrapped_bdprob@spp_col_name,
@@ -728,9 +759,13 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
     wrapped_bdprob@prob_is_ok                   = TRUE
 
+    wrapped_bdprob@basic_or_wrapped_str = "WRAPPED"
+
     wrapped_bdprob@full_saved_bdprob_path =
-        save_bdprob ("WRAPPED", "COR", wrapped_bdprob@UUID,
-                     wrapped_bdprob@base_outdir, wrapped_bdprob)
+        save_bdprob (wrapped_bdprob@basic_or_wrapped_str, "COR",
+                     wrapped_bdprob@UUID,
+                     wrapped_bdprob@prob_outdir,
+                     wrapped_bdprob)
 
     return (wrapped_bdprob)  #  end function - wrap_abundance_dist_around_Xu_problem
     }
