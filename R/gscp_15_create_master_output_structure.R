@@ -43,7 +43,7 @@ create_master_output_structure <- function (read_Xu_problem_from_Xu_file,
                                             Xu_parameters,
                                             num_PUs,
                                             num_spp,
-                                            cor_solution_cost,
+                                            correct_solution_cost,
                                             nodes,
                                             cor_final_link_counts_for_each_node,
                                             bpm,
@@ -99,7 +99,7 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
 
   if (read_Xu_problem_from_Xu_file)
       {
-      cor_solution_vector = rep (NA, num_PUs)
+      correct_solution_vector = rep (NA, num_PUs)
       cor_signed_difference = rep (NA, num_PUs)
       cor_abs_val_signed_difference = rep (NA, num_PUs)
 
@@ -112,8 +112,8 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
           #  Derived Xu options
       num_nodes_per_group = NA
       tot_num_nodes = num_PUs
-      num_independent_set_nodes = tot_num_nodes - cor_solution_cost
-      num_dependent_set_nodes = cor_solution_cost
+      num_independent_set_nodes = tot_num_nodes - correct_solution_cost
+      num_dependent_set_nodes = correct_solution_cost
       num_rounds_of_linking_between_groups = NA
       target_num_links_between_2_groups_per_round = NA
       num_links_within_one_group = NA
@@ -121,7 +121,7 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
       max_possible_num_links_between_groups = NA
       max_possible_tot_num_links = NA
 
-      opt_solution_as_frac_of_tot_num_nodes = cor_solution_cost / tot_num_nodes
+      opt_solution_as_frac_of_tot_num_nodes = correct_solution_cost / tot_num_nodes
 
       } else  #  generated the problem
       {
@@ -136,7 +136,7 @@ cat ("\n\nJust before things requiring major fix in gscp_15:\n")
 # generateSetCoverProblem.R:242:#all_correct_node_IDs = cor_nodes$node_ID
 # generateSetCoverProblem.R:243:all_correct_node_IDs = 1:max(cor_nodes$node_ID)
 # gscp_15_create_master_output_structure.R:131:2016 07 16 - nodes$dependent_set_member ONLY HAS THE NUMBER OF PLANNING UNITS
-# gscp_15_create_master_output_structure.R:159:      cor_solution_vector = nodes$dependent_set_member
+# gscp_15_create_master_output_structure.R:159:      correct_solution_vector = nodes$dependent_set_member
 # gscp_15_create_master_output_structure.R:162:      cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
 #
 #
@@ -168,7 +168,7 @@ cat ("\n\nJust before things requiring major fix in gscp_15:\n")
 
 
 
-      cor_solution_vector = nodes$dependent_set_member
+      correct_solution_vector = nodes$dependent_set_member
 cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 #browser()
       cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
@@ -180,7 +180,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
       }
   #browser()
   solutions_df = data.frame (puid = marxan_best_df_sorted$PUID,
-                             optimal_solution = cor_solution_vector,
+                             optimal_solution = correct_solution_vector,
                              marxan_best_solution = marxan_best_df_sorted$SOLUTION, #  assumes already sorted by PU_ID
                              marxan_votes = marxan_ssoln_df$number,
                              cor_signed_diff = cor_signed_difference,
@@ -202,7 +202,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
                              )
 
   cor_num_patches_in_solution = sum (solutions_df$optimal_solution)
-      #cor_num_patches_in_solution = cor_solution_cost    #  assuming cost = number of patches
+      #cor_num_patches_in_solution = correct_solution_cost    #  assuming cost = number of patches
       cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
 
   #---------------------------------------------------------------------------

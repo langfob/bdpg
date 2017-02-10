@@ -237,7 +237,7 @@ gen_single_bdprob_COR = function (starting_dir,
     Xu_bdprob_cor@spp_col_name              = PU_spp_pair_info@spp_col_name
     Xu_bdprob_cor@num_PUs                   = PU_spp_pair_info@num_PUs
     Xu_bdprob_cor@num_spp                   = PU_spp_pair_info@num_spp
-    Xu_bdprob_cor@cor_solution_cost          = PU_spp_pair_info@correct_solution_cost
+    Xu_bdprob_cor@correct_solution_cost          = PU_spp_pair_info@correct_solution_cost
     Xu_bdprob_cor@PU_costs                  = PU_spp_pair_info@PU_costs
 
 

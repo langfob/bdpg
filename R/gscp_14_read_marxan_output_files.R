@@ -314,7 +314,7 @@ read_marxan_output_files <- function (marxan_output_dir,
                                       app_bpm,
 
                             cor_PU_costs,
-                                      cor_solution_cost,
+                                      correct_solution_cost,
                                       app_optimum_cost
                                       )
     {
@@ -729,7 +729,7 @@ cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_soluti
       #  Using correct scores...
      plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
                                                               cor_PU_costs,
-                                                        cor_solution_cost,
+                                                        correct_solution_cost,
                                                         cor_bpm,
                                                         "cor",
                                                               num_spp,

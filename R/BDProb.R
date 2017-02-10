@@ -235,11 +235,11 @@ setClass ("Xu_bd_problem",
                                 #  Solution information
                                 #------------------------
                                                                             #  possible problem:  "cost" may need to be "EF_value", since cost is going to be something other than just sum of pu costs when using boundary lengths in EF, etc.  Maybe not though, since there's always the financial cost, which may or may not be the same as the EF.  In that case, you might want to have separate entries for EF_cost and Financial_cost.
-                            cor_solution_cost                 = "numeric",     #  bd_prob (only known sometimes) - should this not be COR?, i.e., apparents may have what they perceive to be the opt cost
-#correct_solution_cost_is_known = "logical",                  #  bd_prob   #  Add this?  Would it ever be used or is it enough to just have NA for dependent_node_IDs/cor_solution_PU_IDs?
+                            correct_solution_cost                 = "numeric",     #  bd_prob (only known sometimes) - should this not be COR?, i.e., apparents may have what they perceive to be the opt cost
+#correct_solution_cost_is_known = "logical",                  #  bd_prob   #  Add this?  Would it ever be used or is it enough to just have NA for dependent_node_IDs/correct_solution_PU_IDs?
 
                             correct_solution_vector_is_known = "logical",                  #  bd_prob
-                            dependent_node_IDs               = "numeric",                  #  XU only?  OR, IS THIS JUST NAMED POORLY AND SHOULD BE "cor_solution_PU_IDs"
+                            dependent_node_IDs               = "numeric",                  #  XU only?  OR, IS THIS JUST NAMED POORLY AND SHOULD BE "correct_solution_PU_IDs"
                                                                                            #  integer vector (sorted?) of IDs of nodes in the dependent set
                                                                                            #  CAN BE DERIVED, SO MAKE IT A FUNCTION?
                                 #-----------------------

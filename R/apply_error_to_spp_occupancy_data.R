@@ -330,7 +330,7 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
     Xu_bdprob_APP@spp_col_name              = Xu_bdprob_COR@spp_col_name
     Xu_bdprob_APP@num_PUs                   = Xu_bdprob_COR@num_PUs
     Xu_bdprob_APP@num_spp                   = Xu_bdprob_COR@num_spp
-    Xu_bdprob_APP@cor_solution_cost          = Xu_bdprob_COR@correct_solution_cost
+    Xu_bdprob_APP@correct_solution_cost          = Xu_bdprob_COR@correct_solution_cost
 #IN FUTURE ERROR MODELS, THESE COSTS COULD BE CHANGED.
     Xu_bdprob_APP@PU_costs                  = Xu_bdprob_COR@PU_costs
 

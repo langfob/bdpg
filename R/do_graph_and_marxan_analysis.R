@@ -192,7 +192,7 @@ OLD_do_graph_and_marxan_analysis <- function (parameters,
                                           cor_bpm,
 
                                           cor_PU_costs,
-                                          cor_solution_cost,
+                                          correct_solution_cost,
                                           cor_nodes,
                                           spp_col_name,
                                           PU_col_name,
@@ -276,8 +276,8 @@ OLD_do_graph_and_marxan_analysis <- function (parameters,
                                     app_bpm,
 
                                     cor_PU_costs,  #  May also need to pass cor_ and app_PU_costs.
-                                    cor_solution_cost,
-                                    cor_solution_cost  #  Should probably be app_optimum_cost, but doesn't exist at the moment so just passing cor_ to get it to run.
+                                    correct_solution_cost,
+                                    correct_solution_cost  #  Should probably be app_optimum_cost, but doesn't exist at the moment so just passing cor_ to get it to run.
                                    )
 
     cat("\njust after read_marxan_output_files()")
@@ -305,7 +305,7 @@ OLD_do_graph_and_marxan_analysis <- function (parameters,
                                     cor_num_PUs,  #  cor_num_PUs?  app_num_PUs?
                                     cor_num_spp,  #  cor_num_spp?  app_num_spp?
 
-                                    cor_solution_cost,
+                                    correct_solution_cost,
 
                                         #  Using cor_nodes for now
                                               #nodes,  #  cor_nodes?  app_nodes?
