@@ -295,10 +295,13 @@ setClass ("Xu_bd_problem",
                                 #  Directory information
                                 #-------------------------
 
-                            starting_dir                     = "character",                  #  bd_prob [COR and APP values]
-                            base_outdir                      = "character",                  #  bd_prob [COR and APP values]
+prob_topdir                      = "character",
+prob_outdir                      = "character",
+#                            starting_dir                     = "character",                  #  bd_prob [COR and APP values]
+#                            base_outdir                      = "character",                  #  bd_prob [COR and APP values]
                             derived_bdpg_dir_names           = "list",                  #  bd_prob [COR and APP values]
                             full_saved_bdprob_path           = "character",                  #  bd_prob [COR and APP values]
+
 
                                 #---------------------------------------
                                 #  Problem attributes/measures/metrics

@@ -6,7 +6,8 @@
 \usage{
 gen_single_bdprob_COR(starting_dir, parameters, read_Xu_problem_from_Xu_file,
   infile_name, given_correct_solution_cost, max_allowed_num_spp,
-  bdpg_error_codes, integerize)
+  bdpg_error_codes, integerize, base_prob_name_stem = "base_prob",
+  cor_dir_name_stem = "cor")
 }
 \arguments{
 \item{starting_dir}{character string giving path to directory where problem will be built}

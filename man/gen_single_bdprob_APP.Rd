@@ -5,7 +5,7 @@
 \title{Generate a single biodiversity problem with error added to it}
 \usage{
 gen_single_bdprob_APP(Xu_bdprob_COR, starting_dir, parameters, bdpg_error_codes,
-  integerize)
+  integerize, base_prob_name_stem = "base_prob", app_dir_name_stem = "app")
 }
 \arguments{
 \item{Xu_bdprob_COR}{correct Xu problem that is to have error added to it}

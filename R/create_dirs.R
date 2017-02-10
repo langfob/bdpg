@@ -180,3 +180,130 @@ create_base_dir_structure <- function (base_outdir, create_dirs=TRUE)
 
 #===============================================================================
 
+#' Build a new numbered file name whose extension is 1 higher than the largest
+#' extension already in the given directory.
+#'
+#' If there are no numbered directories (e.g., app.1, app.2, etc.) in the
+#' directory to be searched, then this routine will return the stem with ".1"
+#' appended, e.g., "marxan.1".
+#'
+#' This routine is a little bit loose in that it doesn't check for errors
+#' such as whether there are any non integer file extensions.
+#'
+#' @param dir_to_search character string giving the path to the directory to
+#'     search for numbered directory names
+#' @param name_stem character string giving just the stem of the subdirectory
+#'     names, e.g,. "app" or "marxan", etc.
+#'
+#' @return character string giving the name of the next highest number
+#'     directory, e.g., if the dir_to_search was "tzarout/exp1/base_prob/app"
+#'     and the name_stem was "app" and there were directories
+#'     "tzarout/exp1/base_prob/app/app.1" and "tzarout/exp1/base_prob/app/app.2"
+#'     then "app.3" would be returned.
+#' @export
+
+get_next_numbered_dir_name <- function (dir_to_search,  #  e.g., "tzaroutdir/base_prob"
+                                        name_stem       #  e.g., "base_prob"
+                                        )
+    {
+        #  Build a wildcard search in the dir_to_search, looking for
+        #  the name stem followed by anything.
+    base_name = file.path (dir_to_search, stringr::str_c(name_stem, ".*"))
+    numbered_files_found = Sys.glob (file.path (base_name))
+
+        #  If there were any files there, find the largest extension number
+        #  and add 1 to it to get the new file name's extension.
+        #  If there weren't any there, set the new extension to 1.
+    biggest_ext = 0
+    if (length (numbered_files_found) > 0)
+        biggest_ext = max (as.integer (lapply (numbered_files_found,
+                                               tools::file_ext)))
+    new_ext = biggest_ext + 1
+
+        #  Tack the new extension onto give the original stem.
+    new_name = stringr::str_c (name_stem, ".", new_ext)
+
+    return (new_name)
+    }
+
+#----------
+
+    #  Imitate unix touch function to create an empty file.
+    #  I couldn't find an existing function for this, but did find a
+    #  stack overflow question that suggested using write.table() on an
+    #  empty table, so that's what I've done.
+
+touch <- function (file_path_to_touch)
+    {
+    file_path_to_touch = normalizePath (file_path_to_touch, mustWork=FALSE)
+#    cat ("\nfile_path_to_touch = '", file_path_to_touch, "'\n")
+    write.table (data.frame(),
+                 file = file_path_to_touch,
+                 col.names=FALSE)
+    }
+
+#----------
+
+test_get_next_numbered_dir_name <- function ()
+    {
+    dir_to_search = "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1646_marxan_simulated_annealing.inprogress/wrap_prob.1/cor/res_sel/marxan"
+
+    #  should return new_name == "marxan.3"
+    name_stem = "marxan"
+    new_name = get_next_numbered_dir_name (dir_to_search,  #  e.g., "tzaroutdir/base_prob"
+                                            name_stem       #  e.g., "base_prob"
+                                            )
+    if (new_name == "marxan.3") cat (".") else cat ("NO_3 ")
+
+    #  should return new_name == "app.1"
+    name_stem = "app"
+    new_name = get_next_numbered_dir_name (dir_to_search,  #  e.g., "tzaroutdir/base_prob"
+                                            name_stem       #  e.g., "base_prob"
+                                            )
+    if (new_name == "app.1") cat (".") else cat ("NO_1 ")
+    }
+
+#===============================================================================
+
+get_or_create_prob_topdir_path <- function (starting_dir, base_prob_name_stem,
+                                            create_dirs = TRUE)
+    {
+        #------------------------------------------------------------
+        #  If it doesn't exist yet, create top directory for
+        #  current problems type, i.e., base or wrapped.
+        #  Example:  tzar_outdir/base_prob or tzar_outdir/wrap_prob
+        #------------------------------------------------------------
+
+            #  Strip off trailing slash of starting_dir if there is one.
+            #  This is necessary because file.path() only strips the trailing
+            #  slash off its LAST argument.  If a previous argument has a
+            #  trailing slash, it gets doubled up in the output.
+    last_char = stringr::str_sub (starting_dir, nchar (starting_dir), nchar (starting_dir))
+    if (last_char == .Platform$file.sep)
+        starting_dir = stringr::str_sub (starting_dir,1,nchar(starting_dir)-1)
+    base_probs_dir = normalizePath (file.path (starting_dir,
+                                               base_prob_name_stem),
+                                    mustWork=FALSE)
+    cat ("\nget_or_create_prob_topdir_path:",
+         "\n    base_probs_dir = '", base_probs_dir, "'", sep='')
+    if (create_dirs & !dir.exists (base_probs_dir))
+        dir.create (base_probs_dir, showWarnings = TRUE, recursive = TRUE)
+
+        #-----------------------------------------------------
+        #  Create top directory for the current new problem,
+        #  e.g., tzar_outdir/base_prob/base_prob.1
+        #-----------------------------------------------------
+
+    prob_topdir_name =
+        get_next_numbered_dir_name (base_probs_dir, base_prob_name_stem)
+
+    prob_topdir = file.path (base_probs_dir, prob_topdir_name)
+    cat ("\n    prob_topdir = '", prob_topdir, "'", sep='')
+    if (create_dirs)
+        dir.create (prob_topdir, showWarnings = TRUE, recursive = TRUE)
+
+    return (prob_topdir)
+    }
+
+#===============================================================================
+

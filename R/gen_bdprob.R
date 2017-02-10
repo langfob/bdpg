@@ -42,10 +42,10 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize)
 
         } else
         {
-        starting_dir =
-            file.path (normalizePath (parameters$fullOutputDirWithSlash),
-                       "base_prob.1")
-        bdprob = gen_single_bdprob_COR (starting_dir,
+        # starting_dir =
+        #     file.path (normalizePath (parameters$fullOutputDirWithSlash),
+        #                "base_prob.1")
+        bdprob = gen_single_bdprob_COR (parameters$fullOutputDirWithSlash,  #starting_dir,
                                         parameters,
                                         read_Xu_problem_from_Xu_file,
                                         infile_name,

@@ -289,7 +289,9 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
                                     starting_dir,
                                     parameters,
                                     bdpg_error_codes,
-                                    integerize
+                                    integerize,
+                        base_prob_name_stem = "base_prob",
+                        app_dir_name_stem = "app"
                                     )
     {
 
@@ -437,14 +439,59 @@ browser()
         #  Create the basic set of directories for problem output.
         #-----------------------------------------------------------
 
-    Xu_bdprob_APP@starting_dir = starting_dir
-    Xu_bdprob_APP@base_outdir =
-        file.path (normalizePath (starting_dir, mustWork=FALSE), "cor")
-    dir.create (Xu_bdprob_APP@base_outdir, showWarnings = TRUE,
-                recursive = TRUE)
+    # Xu_bdprob_APP@starting_dir = starting_dir
+    # Xu_bdprob_APP@base_outdir =
+    #     file.path (normalizePath (starting_dir, mustWork=FALSE), "cor")
+    # dir.create (Xu_bdprob_APP@base_outdir,
+    #             showWarnings = FALSE,    #  For this test, don't turn warning into fatal error. 2017 02 10 2:20 pm
+    #             recursive = TRUE)
+    #
+    # Xu_bdprob_APP@derived_bdpg_dir_names =
+    #     create_base_dir_structure (Xu_bdprob_APP@base_outdir)
 
-    Xu_bdprob_APP@derived_bdpg_dir_names =
-        create_base_dir_structure (Xu_bdprob_APP@base_outdir)
+#===============================================================================
+#  Convention:  To make it more consistent to figure out:
+#    Make a container directory for any directories that can occur as numbered
+#    replicate directories, (e.g., app.1, app.2, app.3)
+#  That means that base_prob, wrap_prob, app, and marxan will have them.
+#  Not sure about any others yet.
+#===============================================================================
+
+    create_dirs = TRUE
+    prob_topdir =
+        get_or_create_prob_topdir_path (parameters$fullOutputDirWithSlash,
+                                        base_prob_name_stem,
+                                        create_dirs)
+Xu_bdprob_APP@prob_topdir = prob_topdir  #  e.g., "tzaroutdir/base_prob/base_prob.2"
+
+            #------------------------------------------------------------------
+            #  Create APP directory for the set of APP problems if it doesn't
+            #  exist yet, e.g., "tzar_outdir/base_prob.1/app".
+            #------------------------------------------------------------------
+
+    app_dir = file.path (prob_topdir, app_dir_name_stem)
+    if (!dir.exists (app_dir)) dir.create (app_dir, showWarnings = TRUE,
+                                           recursive = TRUE)
+
+            #----------------------------------------------------------------
+            #  Create numbered APP directory for this particular APP problem
+            #  if it doesn't exist yet,
+            #  e.g., "tzar_outdir/base_prob.1/app/app.3".
+            #  Also add its subdirectories and store their paths in a list.
+            #----------------------------------------------------------------
+
+    prob_outdir_name = get_next_numbered_dir_name (app_dir, app_dir_name_stem)
+    prob_outdir = file.path (app_dir, prob_outdir_name)
+    cat ("\n    prob_outdir = '", prob_outdir, "'", sep='')
+    if (create_dirs)
+        dir.create (prob_outdir, showWarnings = TRUE, recursive = TRUE)
+
+Xu_bdprob_APP@prob_outdir = prob_outdir  #  e.g., "tzaroutdir/base_prob/base_prob.2/app/app.4"
+
+
+    # Xu_bdprob_APP@app_dir = app_dir
+Xu_bdprob_APP@derived_bdpg_dir_names =
+        create_base_dir_structure (prob_outdir, create_dirs)
 
         #-----------------------------------------------------------------
         #  Compute and save the distribution and network metrics for the
@@ -490,7 +537,7 @@ browser()
 
     Xu_bdprob_APP@full_saved_bdprob_path =
         save_bdprob ("BASIC", "APP", Xu_bdprob_APP@UUID,
-                     Xu_bdprob_APP@base_outdir, Xu_bdprob_APP)
+                     Xu_bdprob_APP@prob_outdir, Xu_bdprob_APP)
 
     return (Xu_bdprob_APP)
     }
