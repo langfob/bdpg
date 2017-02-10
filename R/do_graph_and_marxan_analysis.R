@@ -136,11 +136,11 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
         #  Run marxan.
         #---------------
 
-    APP_values = set_up_for_and_run_marxan_COR (APP_bd_prob, COR_bd_prob,
+    APP_values = set_up_for_and_run_marxan_APP (APP_bd_prob, COR_bd_prob,
                                                 parameters)
 
     marxan_control_values  = APP_values$marxan_control_values
-    APP_bd_prob            = APP_values$COR_bd_prob  #  APP_bd_prob has new dirs
+    APP_bd_prob            = APP_values$APP_bd_prob  #  APP_bd_prob has new dirs
 
         #---------------------------
         #  Collect marxan results.
