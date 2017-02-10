@@ -314,7 +314,7 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
         #------------------------------------------------------------------
 
     Xu_bdprob_APP@prob_type     = Xu_bdprob_COR@prob_type
-    Xu_bdprob_APP@prob_gen_info = Xu_bdprob_COR@Xu_prob_gen_info
+    Xu_bdprob_APP@prob_gen_info = Xu_bdprob_COR@prob_gen_info
 
     Xu_bdprob_APP@prob_generator_params_known      = Xu_bdprob_COR@prob_generator_params_known
     Xu_bdprob_APP@correct_solution_vector_is_known = Xu_bdprob_COR@correct_solution_vector_is_known
