@@ -188,7 +188,8 @@ match_FP_and_FN_counts_to_smaller_of_the_two = function (num_TPs, num_TNs,
 #===============================================================================
 
 apply_error_to_spp_occupancy_data =
-        function (parameters, bpm, num_PU_spp_pairs, num_PUs, num_spp,
+        function (parameters, cor_bpm, cor_num_PU_spp_pairs,
+                  cor_num_PUs, cor_num_spp,
                   bdpg_error_codes)
     {
     FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters,
@@ -203,8 +204,8 @@ apply_error_to_spp_occupancy_data =
 
     if (match_error_counts)
         {
-        num_TPs = sum (bpm)
-        num_TNs = length (bpm) - num_TPs
+        num_TPs = sum (cor_bpm)
+        num_TNs = length (cor_bpm) - num_TPs
 
         FP_FN_const_rate_pair =
             match_FP_and_FN_counts_to_smaller_of_the_two (num_TPs, num_TNs,
@@ -215,44 +216,45 @@ apply_error_to_spp_occupancy_data =
         FN_const_rate = FP_FN_const_rate_pair$FN_const_rate
         }
 
-    FP_rates = matrix (rep (FP_const_rate, (num_PUs * num_spp)),
-                        nrow=num_spp,
-                        ncol=num_PUs,
+    FP_rates = matrix (rep (FP_const_rate, (cor_num_PUs * cor_num_spp)),
+                        nrow=cor_num_spp,
+                        ncol=cor_num_PUs,
                         byrow=TRUE)
 
-    FN_rates = matrix (rep (FN_const_rate, (num_PUs * num_spp)),
-                        nrow=num_spp,
-                        ncol=num_PUs,
+    FN_rates = matrix (rep (FN_const_rate, (cor_num_PUs * cor_num_spp)),
+                        nrow=cor_num_spp,
+                        ncol=cor_num_PUs,
                         byrow=TRUE)
 
-    random_values = matrix (runif (num_PUs * num_spp),
-                            nrow=num_spp,
-                            ncol=num_PUs,
+    random_values = matrix (runif (cor_num_PUs * cor_num_spp),
+                            nrow=cor_num_spp,
+                            ncol=cor_num_PUs,
                             byrow=TRUE)
 
     app_spp_occupancy_data =
-        apply_const_error_to_spp_occupancy_data (bpm,
+        apply_const_error_to_spp_occupancy_data (cor_bpm,
                                                 FP_rates, FN_rates,
-                                                num_PUs, num_spp,
+                                                cor_num_PUs, cor_num_spp,
                                                 random_values,
                                                bdpg_error_codes)
 
     app_PU_spp_pair_indices =
         build_PU_spp_pair_indices_from_occ_matrix (app_spp_occupancy_data,
-                                                    num_PUs, num_spp)
+                                                    cor_num_PUs, cor_num_spp)
 
     app_num_spp = length (unique (app_PU_spp_pair_indices [,"spp_ID"]))
     app_num_PUs = length (unique (app_PU_spp_pair_indices [,"PU_ID"]))
 
-    if (app_num_spp != num_spp)
+    if (app_num_spp != cor_num_spp)
         cat ("\n\nAfter adding error:  app_num_spp (", app_num_spp,
-             ") now differs from original num_spp (", num_spp,
+             ") now differs from original cor_num_spp (", cor_num_spp,
              ").")
 
-    if (app_num_PUs != num_PUs)
+    if (app_num_PUs != cor_num_PUs)
         cat ("\n\nAfter adding error:  app_num_PUs (", app_num_PUs,
-             ") now differs from original num_PUs (", num_PUs,
+             ") now differs from original cor_num_PUs (", cor_num_PUs,
              ").")
+browser()
 
     return (list (original_FP_const_rate = FP_and_FN_const_rates$FP_const_rate,
                   original_FN_const_rate = FP_and_FN_const_rates$FN_const_rate,
@@ -342,9 +344,6 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
         #  App data.
         #-------------------------------------------------------------
 
-    #APP data
-    Xu_bdprob_APP@UUID_of_base_problem_that_has_err_added = Xu_bdprob_COR@UUID
-
 
 #===============================================================================
 #===============================================================================
@@ -354,12 +353,14 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
     APP_prob_info = new ("APP_prob_info_class")
 
+    APP_prob_info@UUID_of_base_problem_that_has_err_added = Xu_bdprob_COR@UUID
+
     ret_vals_from_apply_errors =
         apply_error_to_spp_occupancy_data (parameters,
-                                         cor_bpm,
-                                         cor_num_PU_spp_pairs,
-                                         cor_num_PUs,
-                                         cor_num_spp,
+                                         Xu_bdprob_COR@bpm,     #  cor_bpm,
+                                         Xu_bdprob_COR@num_PU_spp_pairs,     #  cor_num_PU_spp_pairs,
+                                         Xu_bdprob_COR@num_PUs,     #  cor_num_PUs,
+                                         Xu_bdprob_COR@num_spp,     #  cor_num_spp,
                                          bdpg_error_codes)
 
         #  Save the chosen error parameters to output later with results.
@@ -380,12 +381,14 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
         #  Set the values for the apparent problem structure.
     APP_prob_info@app_PU_spp_pair_indices      = ret_vals_from_apply_errors$app_PU_spp_pair_indices
 
+#===============================================================================
 
     Xu_bdprob_APP@APP_prob_info          = APP_prob_info
 
-
     #NEEDS TO HAVE SAME DIMENSIONS AND ROW/COLUMN NAMES AS COR.
-    Xu_bdprob_APP@app_bpm                      = ret_vals_from_apply_errors$app_spp_occupancy_data
+    Xu_bdprob_APP@bpm                      = ret_vals_from_apply_errors$app_spp_occupancy_data
+
+browser()
 
 #===============================================================================
 #===============================================================================
