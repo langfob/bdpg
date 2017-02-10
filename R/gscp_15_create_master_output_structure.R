@@ -43,7 +43,7 @@ create_master_output_structure <- function (read_Xu_problem_from_Xu_file,
                                             Xu_parameters,
                                             num_PUs,
                                             num_spp,
-                                            cor_optimum_cost,
+                                            cor_solution_cost,
                                             nodes,
                                             cor_final_link_counts_for_each_node,
                                             bpm,
@@ -112,8 +112,8 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
           #  Derived Xu options
       num_nodes_per_group = NA
       tot_num_nodes = num_PUs
-      num_independent_set_nodes = tot_num_nodes - cor_optimum_cost
-      num_dependent_set_nodes = cor_optimum_cost
+      num_independent_set_nodes = tot_num_nodes - cor_solution_cost
+      num_dependent_set_nodes = cor_solution_cost
       num_rounds_of_linking_between_groups = NA
       target_num_links_between_2_groups_per_round = NA
       num_links_within_one_group = NA
@@ -121,7 +121,7 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
       max_possible_num_links_between_groups = NA
       max_possible_tot_num_links = NA
 
-      opt_solution_as_frac_of_tot_num_nodes = cor_optimum_cost / tot_num_nodes
+      opt_solution_as_frac_of_tot_num_nodes = cor_solution_cost / tot_num_nodes
 
       } else  #  generated the problem
       {
@@ -202,7 +202,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
                              )
 
   cor_num_patches_in_solution = sum (solutions_df$optimal_solution)
-      #cor_num_patches_in_solution = cor_optimum_cost    #  assuming cost = number of patches
+      #cor_num_patches_in_solution = cor_solution_cost    #  assuming cost = number of patches
       cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
 
   #---------------------------------------------------------------------------

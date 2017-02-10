@@ -645,7 +645,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
           #  At the moment, those PU costs are all dummied to 1 anyway.
           #  If that ever changes, then get_PU_costs() is going to have to change.
 
-    wrapped_bdprob@cor_optimum_cost             = Xu_bdprob@cor_optimum_cost  #correct_solution_cost
+    wrapped_bdprob@cor_solution_cost             = Xu_bdprob@cor_solution_cost  #correct_solution_cost
 
     wrapped_bdprob@PU_costs                     = wrapped_PU_costs    #get_PU_costs (wrapped_num_PUs)
     wrapped_bdprob@nodes                        = wrapped_nodes
