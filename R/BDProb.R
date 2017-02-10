@@ -302,6 +302,7 @@ prob_outdir                      = "character",
                             derived_bdpg_dir_names           = "list",                  #  bd_prob [COR and APP values]
                             full_saved_bdprob_path           = "character",                  #  bd_prob [COR and APP values]
 
+basic_or_wrapped_str = "character",    #  "BASIC" or "WRAPPED" - used in building name for saved RDS file
 
                                 #---------------------------------------
                                 #  Problem attributes/measures/metrics

@@ -390,7 +390,7 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
     #NEEDS TO HAVE SAME DIMENSIONS AND ROW/COLUMN NAMES AS COR.
     Xu_bdprob_APP@bpm                      = ret_vals_from_apply_errors$app_spp_occupancy_data
 
-browser()
+#browser()
 
 #===============================================================================
 #===============================================================================
@@ -535,9 +535,13 @@ Xu_bdprob_APP@derived_bdpg_dir_names =
 
     Xu_bdprob_APP@prob_is_ok = TRUE
 
+    Xu_bdprob_APP@basic_or_wrapped_str = Xu_bdprob_COR@basic_or_wrapped_str
+
     Xu_bdprob_APP@full_saved_bdprob_path =
-        save_bdprob ("BASIC", "APP", Xu_bdprob_APP@UUID,
-                     Xu_bdprob_APP@prob_outdir, Xu_bdprob_APP)
+        save_bdprob (Xu_bdprob_APP@basic_or_wrapped_str, "APP",
+                     Xu_bdprob_APP@UUID,
+                     Xu_bdprob_APP@prob_outdir,
+                     Xu_bdprob_APP)
 
     return (Xu_bdprob_APP)
     }
