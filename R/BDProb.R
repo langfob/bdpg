@@ -157,6 +157,8 @@ setClass ("Xu_prob_gen_info_class",
 
 setClass ("APP_prob_info_class",
           representation (
+                            UUID_of_base_problem_that_has_err_added = "character",  #  UUID string
+
                             original_FP_const_rate = "numeric",  #  ret_vals_from_apply_errors$original_FP_const_rate
                             original_FN_const_rate = "numeric",  #  ret_vals_from_apply_errors$original_FN_const_rate
                             match_error_counts     = "logical",  #  ret_vals_from_apply_errors$match_error_counts
@@ -165,7 +167,8 @@ setClass ("APP_prob_info_class",
 
                             app_num_spp = "numeric",  #  ret_vals_from_apply_errors$app_num_spp
                             app_num_PUs = "numeric",  #  ret_vals_from_apply_errors$app_num_PUs
-                            app_PU_spp_pair_indices = "numeric"  #  ret_vals_from_apply_errors$app_PU_spp_pair_indices
+
+                            app_PU_spp_pair_indices = "data.frame"  #  ret_vals_from_apply_errors$app_PU_spp_pair_indices
                             )
 
           # #-----------------------------------------------------------------
@@ -348,13 +351,13 @@ setClass ("Xu_wrapped_bd_problem",
             #         For example, there could be a function:
             #             is.COR=function(prob) {is.null(prob@APP)}
 
-setClass ("Xu_bd_problem_APP",
-          representation (
-                            UUID_of_base_problem_that_has_err_added = "character",  #  UUID string
-                            ret_vals_from_apply_errors = "list"
-                            ),
-          contains = "Xu_bd_problem"
-        )
+# setClass ("Xu_bd_problem_APP",
+#           representation (
+#                             UUID_of_base_problem_that_has_err_added = "character",  #  UUID string
+#                             ret_vals_from_apply_errors = "list"
+#                             ),
+#           contains = "Xu_bd_problem"
+#         )
 
 #===============================================================================
 
