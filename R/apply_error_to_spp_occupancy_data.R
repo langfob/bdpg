@@ -415,13 +415,19 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
         #  Quit if there are any duplicate edges/spp in the problem.
         #-------------------------------------------------------------
 
-#CHANGE THIS?
-    see_if_there_are_any_duplicate_links (Xu_bdprob_APP@app_bpm,
+# CHANGE THIS?
+#  2017 02 10 - BTL
+#  Getting error when I run this, but I don't think it should be an error
+#  because if you add false positives, then I think that would allow you to get
+#  duplicate links.  So, I'm going to remove this call for apparent, but not
+#  for correct.
 
-#                                          Xu_bdprob_APP@num_spp,
-                                          Xu_bdprob_COR@num_spp,   #  correct?
-
-                                          bdpg_error_codes)
+#     see_if_there_are_any_duplicate_links (Xu_bdprob_APP@bpm,
+#
+# #                                          Xu_bdprob_APP@num_spp,
+#                                           Xu_bdprob_COR@num_spp,   #  correct?
+#
+#                                           bdpg_error_codes)
 
         #-----------------------------------------------------------
         #  No duplicates found.
