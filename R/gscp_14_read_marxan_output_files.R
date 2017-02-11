@@ -303,6 +303,50 @@ plot_incremental_marxan_summed_solution_representations =
     }
 
 #===============================================================================
+#===============================================================================
+
+read_COR_marxan_output_files <- function (COR_bd_prob, parameters)
+    {
+    return (read_marxan_output_files (
+COR_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #marxan_output_dir,
+COR_bd_prob@all_PU_IDs,                                                #all_correct_node_IDs
+COR_bd_prob@num_PUs,                                                   #num_PUs
+COR_bd_prob@num_spp,                                                   #num_spp
+COR_bd_prob@bpm,                                                       #cor_bpm
+COR_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
+parameters,
+COR_bd_prob@bpm,                                                       #app_bpm
+COR_bd_prob@PU_costs,                                                  #cor_PU_costs
+COR_bd_prob@correct_solution_cost,                                     #correct_solution_cost
+COR_bd_prob@correct_solution_cost                                      #app_optimum_cost
+                                      )
+            )
+    }
+
+#===============================================================================
+
+read_APP_marxan_output_files <- function (APP_bd_prob,
+                                          COR_bd_prob,
+                                          parameters
+                                          )
+    {
+    return (read_marxan_output_files (
+APP_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #marxan_output_dir,
+COR_bd_prob@all_PU_IDs,                                                #all_correct_node_IDs
+COR_bd_prob@num_PUs,                                                   #num_PUs
+COR_bd_prob@num_spp,                                                   #num_spp
+COR_bd_prob@bpm,                                                       #cor_bpm
+APP_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
+parameters,
+APP_bd_prob@bpm,                                                       #app_bpm
+COR_bd_prob@PU_costs,                                                  #cor_PU_costs
+COR_bd_prob@correct_solution_cost,                                     #correct_solution_cost
+APP_bd_prob@correct_solution_cost                     # >>>       # ??? app_optimum_cost
+                                          )
+            )
+    }
+
+#===============================================================================
 
 read_marxan_output_files <- function (marxan_output_dir,
                                       all_correct_node_IDs,
