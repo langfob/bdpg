@@ -56,26 +56,28 @@
     # be appropriate to raise the SPF for these features. Once again, see the
     # MGPH for more detail on setting SPFs.
 
-compute_marxan_species_penalty_factor <- function (spf_rule_to_use)
+compute_marxan_species_penalty_factor <- function (spf_rule_to_use,
+                                                   num_spp,
+                                                   parameters)
     {
-    if (spf_rule_to_use == "POWER_OF_10")
-      {
-      spf_const_power_of_10 = 10 ^ (floor (log10 (num_spp)))
-          #  Marxan manual (quoted above) says to back off slightly
-          #  from the power of 10.
-          #  Not sure what "slightly" means, but I'll try decreasing by 5%.
-      spf_const = round (0.95 * spf_const_power_of_10)    #  "decrease the SPFs slightly"
+      if (spf_rule_to_use == "POWER_OF_10")
+        {
+        spf_const_power_of_10 = 10 ^ (floor (log10 (num_spp)))
+            #  Marxan manual (quoted above) says to back off slightly
+            #  from the power of 10.
+            #  Not sure what "slightly" means, but I'll try decreasing by 5%.
+        spf_const = round (0.95 * spf_const_power_of_10)    #  "decrease the SPFs slightly"
 
-      } else if (spf_rule_to_use == "CONSTANT")
-      {
-      spf_const = parameters$marxan_spf_const
-      } else
-      {
-      stop (paste0 ("\n\nERROR: marxan_spf_rule = '", spf_rule_to_use, "'",
-           "\nMust be one of: POWER_OF_10 or CONSTANT.\n\n"))
-      }
+        } else if (spf_rule_to_use == "CONSTANT")
+        {
+        spf_const = parameters$marxan_spf_const
+        } else
+        {
+        stop (paste0 ("\n\nERROR: marxan_spf_rule = '", spf_rule_to_use, "'",
+             "\nMust be one of: POWER_OF_10 or CONSTANT.\n\n"))
+        }
 
-    return (spf_const)
+      return (spf_const)
     }
 
 #===============================================================================

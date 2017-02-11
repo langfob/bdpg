@@ -408,6 +408,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                     COR_bd_prob@PU_col_name,
                                     COR_bd_prob@spp_col_name,
                                     COR_bd_prob@derived_bdpg_dir_names,
+                                    COR_bd_prob@num_spp,
                                     parameters
                                     )
 
@@ -448,6 +449,7 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                         COR_bd_prob@spp_col_name,
 
                                     APP_bd_prob@derived_bdpg_dir_names,
+                                    APP_bd_prob@num_spp,
                                         parameters
                                     )
 
@@ -487,9 +489,12 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
                                       PU_col_name,
                                       spp_col_name,
                                       bdpg_dir_names,
+                                      num_spp,
                                       parameters
                                       )
     {
+        #  Create and save the subtree of marxan IO directories.
+
     dir_names = create_new_res_sel_replicate_subtree (bdpg_dir_names,
                                                       "marxan",
                                                       bdpg_dir_names$res_sel_dir,
@@ -503,7 +508,9 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
     #--------------------
 
     spf_const =
-        compute_marxan_species_penalty_factor (parameters$marxan_spf_rule)
+        compute_marxan_species_penalty_factor (parameters$marxan_spf_rule,
+                                               num_spp,
+                                               parameters)
 
     #--------------------
 
