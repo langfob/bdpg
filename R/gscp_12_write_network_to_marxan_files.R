@@ -4,78 +4,6 @@
 
 #===============================================================================
 
-    #  Write out the data as Marxan input files.
-
-#-------------------------------------------------------------------------------
-
-#' Title
-#'
-#' @param PU_spp_pair_indices
-#' @param PU_IDs
-#' @param spp_IDs
-#' @param PU_col_name
-#' @param spp_col_name
-#' @param parameters
-#' @param marxan_input_dir
-#' @param marxan_output_dir
-#'
-#' @return
-#' @export
-
-write_network_to_marxan_files = function (PU_spp_pair_indices,       #  app values if running on app
-                                          PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?
-                                          spp_IDs,  #####!!!!!#####  #  All values, i.e., cor values?
-
-                                          PU_col_name,
-                                          spp_col_name,
-                                          parameters,
-                                          marxan_input_dir,
-                                          marxan_output_dir
-                                          )
-    {
-
-    cat ("\n\n--------------------  Writing out the data as Marxan input files.\n")
-
-    sppAmount = 1
-
-    #  Wasn't this value (num_PU_spp_pairs) already set earlier?
-    #  Is this measuring the same thing and therefore, should not be reset here?
-
-    num_PU_spp_pairs = length (PU_spp_pair_indices [,PU_col_name])
-
-#####!!!!!#####    PU_IDs = unique (PU_spp_pair_indices [,PU_col_name])
-    num_PUs = length (PU_IDs)
-
-#####!!!!!#####    spp_IDs = unique (PU_spp_pair_indices [,spp_col_name])
-    num_spp = length (spp_IDs)
-
-    spp_PU_amount_table =
-        data.frame (species = PU_spp_pair_indices [,spp_col_name],
-                    pu      = PU_spp_pair_indices [,PU_col_name],
-                    amount  = rep (sppAmount, num_PU_spp_pairs))
-
-    #----------------------------------------------------------------------
-    #  Sort the table in ascending order by species within planning unit.
-    #  Taken from Wickham comment in:
-    #  http://stackoverflow.com/questions/1296646/how-to-sort-a-dataframe-by-columns-in-r
-    #
-    #  BTL - 2014 11 28
-    #
-    #  Note that Marxan doesn't work correctly if the table is not sorted
-    #  by planning unit ID (e.g., it can't find satisfying solutions).
-    #  Ascelin said that the Marxan manual shows a picture of the values
-    #  sorted incorrectly, i.e., by species.
-    #
-    #  I should probably move this arrange() call into the code that
-    #  writes the table as a Marxan input file.  That would make sure
-    #  that no one can write the table out incorrectly if they use that
-    #  call.
-    #----------------------------------------------------------------------
-
-    spp_PU_amount_table = plyr::arrange (spp_PU_amount_table, pu, species)
-
-    #-------------------------------------------------------------------------------
-
     #  Choosing spf values
     #  Taken from pp. 38-39 of Marxan_User_Manual_2008.pdf.
     #  Particularly note the second paragraph, titled "Getting Started".
@@ -128,7 +56,9 @@ write_network_to_marxan_files = function (PU_spp_pair_indices,       #  app valu
     # be appropriate to raise the SPF for these features. Once again, see the
     # MGPH for more detail on setting SPFs.
 
-    if (parameters$marxan_spf_rule == "POWER_OF_10")
+compute_marxan_species_penalty_factor <- function (spf_rule_to_use)
+    {
+    if (spf_rule_to_use == "POWER_OF_10")
       {
       spf_const_power_of_10 = 10 ^ (floor (log10 (num_spp)))
           #  Marxan manual (quoted above) says to back off slightly
@@ -136,15 +66,91 @@ write_network_to_marxan_files = function (PU_spp_pair_indices,       #  app valu
           #  Not sure what "slightly" means, but I'll try decreasing by 5%.
       spf_const = round (0.95 * spf_const_power_of_10)    #  "decrease the SPFs slightly"
 
-      } else if (parameters$marxan_spf_rule == "CONSTANT")
+      } else if (spf_rule_to_use == "CONSTANT")
       {
       spf_const = parameters$marxan_spf_const
       } else
       {
-      stop (paste0 ("\n\nERROR: marxan_spf_rule = '",
-                    parameters$marxan_spf_rule, "'",
+      stop (paste0 ("\n\nERROR: marxan_spf_rule = '", spf_rule_to_use, "'",
            "\nMust be one of: POWER_OF_10 or CONSTANT.\n\n"))
       }
+
+    return (spf_const)
+    }
+
+#===============================================================================
+
+    #  Write out the data as Marxan input files.
+
+#-------------------------------------------------------------------------------
+
+#' Title
+#'
+#' @param PU_spp_pair_indices
+#' @param PU_IDs
+#' @param spp_IDs
+#' @param PU_col_name
+#' @param spp_col_name
+#' @param parameters
+#' @param marxan_input_dir
+#' @param marxan_output_dir
+#'
+#' @return
+#' @export
+
+write_network_to_marxan_files = function (PU_spp_pair_indices,       #  app values if running on app
+                                          PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?
+                                          spp_IDs,  #####!!!!!#####  #  All values, i.e., cor values?
+
+                                          PU_col_name,
+                                          spp_col_name,
+                                          parameters,
+                                          marxan_input_dir,
+                                          marxan_output_dir,
+
+                                          spf_const
+                                          )
+    {
+
+    cat ("\n\n--------------------  Writing out the data as Marxan input files.\n")
+
+    sppAmount = 1
+
+    #  Wasn't this value (num_PU_spp_pairs) already set earlier?
+    #  Is this measuring the same thing and therefore, should not be reset here?
+
+    num_PU_spp_pairs = length (PU_spp_pair_indices [,PU_col_name])
+
+#####!!!!!#####    PU_IDs = unique (PU_spp_pair_indices [,PU_col_name])
+    num_PUs = length (PU_IDs)
+
+#####!!!!!#####    spp_IDs = unique (PU_spp_pair_indices [,spp_col_name])
+    num_spp = length (spp_IDs)
+
+    spp_PU_amount_table =
+        data.frame (species = PU_spp_pair_indices [,spp_col_name],
+                    pu      = PU_spp_pair_indices [,PU_col_name],
+                    amount  = rep (sppAmount, num_PU_spp_pairs))
+
+    #----------------------------------------------------------------------
+    #  Sort the table in ascending order by species within planning unit.
+    #  Taken from Wickham comment in:
+    #  http://stackoverflow.com/questions/1296646/how-to-sort-a-dataframe-by-columns-in-r
+    #
+    #  BTL - 2014 11 28
+    #
+    #  Note that Marxan doesn't work correctly if the table is not sorted
+    #  by planning unit ID (e.g., it can't find satisfying solutions).
+    #  Ascelin said that the Marxan manual shows a picture of the values
+    #  sorted incorrectly, i.e., by species.
+    #
+    #  I should probably move this arrange() call into the code that
+    #  writes the table as a Marxan input file.  That would make sure
+    #  that no one can write the table out incorrectly if they use that
+    #  call.
+    #----------------------------------------------------------------------
+
+    spp_PU_amount_table = plyr::arrange (spp_PU_amount_table, pu, species)
 
     #-------------------------------------------------------------------------------
 

@@ -503,16 +503,25 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
     #--------------------
 
     spf_const =
-        write_network_to_marxan_files (PU_spp_pair_indices,       #  app values if running on app
-                                       PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?
-                                       spp_IDs,  #####!!!!!#####  #  All values, i.e., cor values?
+        compute_marxan_species_penalty_factor (parameters$marxan_spf_rule)
 
-                                       PU_col_name,
-                                       spp_col_name,
-                                       parameters,
-                                       marxan_input_dir,
-                                       marxan_output_dir
-                                      )
+    #--------------------
+
+        #  Write the network of species and planning units to marxan input
+        #  files.
+
+    write_network_to_marxan_files (PU_spp_pair_indices,       #  app values if running on app
+                                   PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?
+                                   spp_IDs,  #####!!!!!#####  #  All values, i.e., cor values?
+
+                                   PU_col_name,
+                                   spp_col_name,
+                                   parameters,
+                                   marxan_input_dir,
+                                   marxan_output_dir,
+
+                                   spf_const
+                                  )
 
     #--------------------
 
@@ -524,8 +533,7 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
                                            )
 
         #  Document what spf_const value was computed before the run of marxan
-        #  (above) and then used in the run of marxan by reading it from one
-        #  of the input files.
+        #  (above) and then used in the run of marxan.
         #  Want to document the value in case it is useful as an input feature
         #  when trying to learn to predict error.
 
@@ -534,7 +542,7 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
     #--------------------
 
     return (list (marxan_control_values = marxan_control_values,
-                          bdpg_dir_names        = bdpg_dir_names
+                  bdpg_dir_names        = bdpg_dir_names
                   )
             )
     }
