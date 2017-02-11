@@ -317,8 +317,8 @@ COR_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_out
 parameters,
 COR_bd_prob@bpm,                                                       #app_bpm
 COR_bd_prob@PU_costs,                                                  #cor_PU_costs
-COR_bd_prob@correct_solution_cost,                                     #correct_solution_cost
-COR_bd_prob@correct_solution_cost                                      #app_optimum_cost
+COR_bd_prob@correct_solution_cost                                      #correct_solution_cost
+#, COR_bd_prob@correct_solution_cost                                      #app_optimum_cost
                                       )
             )
     }
@@ -340,8 +340,8 @@ APP_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_out
 parameters,
 APP_bd_prob@bpm,                                                       #app_bpm
 COR_bd_prob@PU_costs,                                                  #cor_PU_costs
-COR_bd_prob@correct_solution_cost,                                     #correct_solution_cost
-APP_bd_prob@correct_solution_cost                     # >>>       # ??? app_optimum_cost
+COR_bd_prob@correct_solution_cost                                      #correct_solution_cost
+#, APP_bd_prob@correct_solution_cost                     # >>>       # ??? app_optimum_cost
                                           )
             )
     }
@@ -358,8 +358,9 @@ read_marxan_output_files <- function (marxan_output_dir,
                                       app_bpm,
 
                             cor_PU_costs,
-                                      correct_solution_cost,
-                                      app_optimum_cost
+                                      correct_solution_cost
+                            # ,
+                            #           app_optimum_cost
                                       )
     {
     DEBUG_LEVEL = getOption ("bdpg.DEBUG_LEVEL", default=0)
