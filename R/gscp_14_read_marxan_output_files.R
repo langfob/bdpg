@@ -307,8 +307,11 @@ plot_incremental_marxan_summed_solution_representations =
 
 read_COR_marxan_output_files <- function (COR_bd_prob, parameters)
     {
+    marxan_numbered_dir_name = "marxan.1"    #  bug:  See bdpg issue #27 on github.
+    marxan_output_dir = COR_bd_prob@derived_bdpg_dir_names$res_sel$marxan$marxan.1$output_dir
+
     return (read_marxan_output_files (
-COR_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #marxan_output_dir,
+marxan_output_dir,
 COR_bd_prob@all_PU_IDs,                                                #all_correct_node_IDs
 COR_bd_prob@num_PUs,                                                   #num_PUs
 COR_bd_prob@num_spp,                                                   #num_spp
@@ -330,8 +333,11 @@ read_APP_marxan_output_files <- function (APP_bd_prob,
                                           parameters
                                           )
     {
+    marxan_numbered_dir_name = "marxan.1"    #  bug:  See bdpg issue #27 on github.
+    marxan_output_dir = APP_bd_prob@derived_bdpg_dir_names$res_sel$marxan$marxan.1$output_dir
+
     return (read_marxan_output_files (
-APP_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #marxan_output_dir,
+marxan_output_dir,
 COR_bd_prob@all_PU_IDs,                                                #all_correct_node_IDs
 COR_bd_prob@num_PUs,                                                   #num_PUs
 COR_bd_prob@num_spp,                                                   #num_spp
@@ -787,8 +793,10 @@ cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_soluti
                                                         app_bpm,
                                                         "app",
                                                               num_spp,
-                                                              plot_output_dir,
-                                                              DEBUG_LEVEL)
+                                                              plot_output_dir
+#                                                        ,
+#                                                              DEBUG_LEVEL
+                                                        )
 
   #---------------------------------
 
