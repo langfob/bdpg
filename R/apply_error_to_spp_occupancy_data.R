@@ -254,7 +254,7 @@ apply_error_to_spp_occupancy_data =
         cat ("\n\nAfter adding error:  app_num_PUs (", app_num_PUs,
              ") now differs from original cor_num_PUs (", cor_num_PUs,
              ").")
-browser()
+#browser()
 
     return (list (original_FP_const_rate = FP_and_FN_const_rates$FP_const_rate,
                   original_FN_const_rate = FP_and_FN_const_rates$FN_const_rate,
@@ -286,7 +286,7 @@ browser()
 #' @export
 
 gen_single_bdprob_APP = function (Xu_bdprob_COR,
-                                    starting_dir,
+                                    #starting_dir,    #  not needed?  take from cor?
                                     parameters,
                                     bdpg_error_codes,
                                     integerize,
@@ -457,21 +457,33 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 #  Not sure about any others yet.
 #===============================================================================
 
+#####  2017 02 11 - BTL
+#####  This prob_topdir assignment needs to be modified somehow to deal with
+#####  the case where the Xu_bdprob_COR has been archived and rebuilt from
+#####  an archived copy whose dirs were hanging under a different tzar run
+#####  than the current one.  This all needs to be made more relative and
+#####  make sure that it creates and intermediate directories that are missing
+#####  to get down to the prob_topdir.
+#####  This is mentioned in Issue 26 on github.
+#####  Here's a possible example of what I mean:
+#####      if (Xu_bdprob_COR@cor_prob_from_archive)
+#####          Xu_bdprob_APP@prob_topdir =
+#####              build_missing_dirs_down_to_prob_topdir (Xu_bdprob_COR)
     create_dirs = TRUE
-    prob_topdir =
-        get_or_create_prob_topdir_path (parameters$fullOutputDirWithSlash,
-                                        base_prob_name_stem,
-                                        create_dirs)
-Xu_bdprob_APP@prob_topdir = prob_topdir  #  e.g., "tzaroutdir/base_prob/base_prob.2"
+    # prob_topdir =
+    #     get_or_create_prob_topdir_path (parameters$fullOutputDirWithSlash,
+    #                                     base_prob_name_stem,
+    #                                     create_dirs)
+Xu_bdprob_APP@prob_topdir = Xu_bdprob_COR@prob_topdir    #prob_topdir  #  e.g., "tzaroutdir/base_prob/base_prob.2"
 
             #------------------------------------------------------------------
             #  Create APP directory for the set of APP problems if it doesn't
             #  exist yet, e.g., "tzar_outdir/base_prob.1/app".
             #------------------------------------------------------------------
 
-    app_dir = file.path (prob_topdir, app_dir_name_stem)
-    if (!dir.exists (app_dir)) dir.create (app_dir, showWarnings = TRUE,
-                                           recursive = TRUE)
+    app_dir = file.path (Xu_bdprob_APP@prob_topdir, app_dir_name_stem)
+    if (create_dirs & !dir.exists (app_dir))
+        dir.create (app_dir, showWarnings = TRUE, recursive = TRUE)
 
             #----------------------------------------------------------------
             #  Create numbered APP directory for this particular APP problem
