@@ -5,7 +5,8 @@
 \title{FUNCTION_TITLE}
 \usage{
 wrap_abundance_dist_around_Xu_problem(starting_dir, rounded_abundances,
-  Xu_bdprob, dep_set_PUs_eligible, tot_num_PUs_in_landscape, bdpg_error_codes)
+  Xu_bdprob, dep_set_PUs_eligible, tot_num_PUs_in_landscape, bdpg_error_codes,
+  wrap_prob_name_stem = "wrap_prob", cor_dir_name_stem = "cor")
 }
 \arguments{
 \item{starting_dir}{DESCRIPTION.}

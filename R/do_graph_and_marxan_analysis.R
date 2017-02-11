@@ -94,16 +94,25 @@
 #
 #===============================================================================
 
+#' Run marxan on COR problem and write output from all analysis
+#'
+#' @param COR_bd_prob
+#' @param parameters
+#'
+#' @return
+#' @export
+#'
 do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters)
     {
         #---------------
         #  Run marxan.
         #---------------
 
-    COR_values = set_up_for_and_run_marxan_COR (COR_bd_prob, parameters)
+    COR_marxan_ret_values = set_up_for_and_run_marxan_COR (COR_bd_prob,
+                                                           parameters)
 
-    marxan_control_values  = COR_values$marxan_control_values
-    COR_bd_prob            = COR_values$COR_bd_prob  #  COR_bd_prob has new dirs
+    marxan_control_values  = COR_marxan_ret_values$marxan_control_values
+    COR_bd_prob            = COR_marxan_ret_values$COR_bd_prob  #  COR_bd_prob has new dirs
 
         #---------------------------
         #  Collect marxan results.
@@ -128,6 +137,15 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters)
 #===============================================================================
 #===============================================================================
 
+#' Run marxan on APP problem and write output from all analysis
+#'
+#' @param APP_bd_prob
+#' @param COR_bd_prob
+#' @param parameters
+#'
+#' @return
+#' @export
+
 do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters)
@@ -136,11 +154,12 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
         #  Run marxan.
         #---------------
 
-    APP_values = set_up_for_and_run_marxan_APP (APP_bd_prob, COR_bd_prob,
-                                                parameters)
+    APP_marxan_ret_values = set_up_for_and_run_marxan_APP (APP_bd_prob,
+                                                           COR_bd_prob,
+                                                           parameters)
 
-    marxan_control_values  = APP_values$marxan_control_values
-    APP_bd_prob            = APP_values$APP_bd_prob  #  APP_bd_prob has new dirs
+    marxan_control_values  = APP_marxan_ret_values$marxan_control_values
+    APP_bd_prob            = APP_marxan_ret_values$APP_bd_prob  #  APP_bd_prob has new dirs
 
         #---------------------------
         #  Collect marxan results.
