@@ -93,7 +93,7 @@ plot_incremental_marxan_summed_solution_representations =
     {
     DEBUG_LEVEL = getOption ("bdpg.DEBUG_LEVEL", default=0)
 
-    marxan_ssoln_PUs_ranked_by_votes_df = plyr::arrange (marxan_ssoln_df, desc (number))
+    marxan_ssoln_PUs_ranked_by_votes_df = plyr::arrange (marxan_ssoln_df, plyr::desc (number))
 
     total_landscape_cost = sum (cor_PU_costs)
     correct_optimum_landscape_frac_cost = optimum_cost / total_landscape_cost
