@@ -159,7 +159,7 @@ OLD_do_graph_and_marxan_analysis <- function (parameters,
 #                                   Run marxan.
 #===============================================================================
 
-    set_up_and_run_return_values =
+    set_up_and_run_values =
         bdpg::set_up_for_and_run_marxan (app_PU_spp_pair_indices,
                                             cor_PU_IDs, #####!!!!!#####
                                             cor_spp_IDs,  #####!!!!!#####
@@ -169,8 +169,8 @@ OLD_do_graph_and_marxan_analysis <- function (parameters,
                                             parameters
                                             )
 
-    marxan_control_values  = set_up_and_run_return_values$marxan_control_values
-    derived_bdpg_dir_names = set_up_and_run_return_values$bdpg_dir_names
+    marxan_control_values  = set_up_and_run_values$marxan_control_values
+    derived_bdpg_dir_names = set_up_and_run_values$bdpg_dir_names
 
     cat("\njust after set_up_for_and_run_marxan()")
 
