@@ -1,0 +1,107 @@
+---
+title: "Abbreviations"
+author: "Bill Langford"
+date: "12 February 2017"
+output: html_document
+---
+
+### Abbreviations used in variables and their meanings
+
+abs - absolute
+app - apparent
+const - constant
+cor - correct
+df - data frame
+err - error
+gen - generator or generation
+mod - model
+param - parameter
+prob - problem
+rand - random
+rel - relative
+sel - selector or selection
+sol - solution
+unif - uniform
+vec - vector
+
+###  Fooling around with archiving, etc.
+
+```{R}
+
+class (archive)
+    {
+    is_local: "boolean"    #  is on the same disk or not
+    location: "character"  #  file path if on same disk, complex locator if elsewhere [not sure how it would specify loc, maybe url?
+    }
+
+    #  Create a tiny archive for just this experiment.
+    #  It may end up containing just one problem or it might end up 
+    #  containing a couple of base problems and a wrapped problem and 
+    #  some app problems as well as a bunch of marxan runs, etc.
+
+create_archive <- function (archive_location, parameters)
+    {
+    new_archive <- blah_archive (archive_location)
+    
+    new_archive_search_set <- list (new_archive@location, unlist (parameters$archive_path_or_collection_to_search))
+    
+    return (new_archive)
+    }
+
+gen_RSprob <- function (parameters, archive_search_set)
+    {
+    rsprob <- blah_rsprob (parameters, archive_search_set)
+    archive (rsprob, archive_search_set)
+    }
+
+gen_ILPprob <- function (parameters, archive_search_set)
+    {
+    ilpprob <- blah_ilpprob (parameters)
+    
+    ilpprob@UUID = getUUID()
+    ilpprob@perishables <- files_etc
+    ilpprob@non_perishables <- not (ilpprob@perishables)
+    
+    ilpprob@checksum <- compute_checksum (ilpprob@non_perishables)
+    
+    archive (ilpprob, archive_search_set)
+    
+    return (ilpprob)
+    }
+
+possible_duplicates <- function (object, archive_search_set)
+    {
+    possible_duplicate_objects <- NULL
+        
+        #  Because initial run archives are likely to be small, 
+        #  you could make them just be lists or data frames and use 
+        #  the dplyr kinds of functions on them...
+    possible_duplicate_objects <- ldapply (archive, check (obj) { if (checksum == obj@checksum) obj })
+
+    return (possible_duplicate_object)
+    }
+
+run_marxan <- function (rsprob, archive_search_set, parameters)
+    {
+    marxan_run <- blah_marxan (rsprob, parameters)
+    archive (marxan_run, 
+             run_archive, parameters$archive_path_or_collection_to_search)
+    }
+
+mainline <- function (parameters)
+    {
+    archive_search_set <- create_archive (parameters$archive_location_dir)
+    
+    rsprob <- gen_RSprob (parameters, archive_search_set)
+    OR
+    rsprob <- get_RSprob (parameters$marxan_rsprob_search_parameters,
+                          archive_search_set)
+    
+    marxan_run <- run_marxan (rsprob, archive_search_set, parameters)
+    OR
+    marxan_run <- get_marxan_run (parameters$marxan_run_search_parameters,
+                                  archive_search_set)
+    }
+
+```
+
