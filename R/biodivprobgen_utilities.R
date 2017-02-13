@@ -481,4 +481,20 @@ strip_trailing_slash <- function (path)
 
 #===============================================================================
 
+    #  Imitate unix touch function to create an empty file.
+    #  I couldn't find an existing function for this, but did find a
+    #  stack overflow question that suggested using write.table() on an
+    #  empty table, so that's what I've done.
+
+touch <- function (file_path_to_touch)
+    {
+    file_path_to_touch = normalizePath (file_path_to_touch, mustWork=FALSE)
+#    cat ("\nfile_path_to_touch = '", file_path_to_touch, "'\n")
+    write.table (data.frame(),
+                 file = file_path_to_touch,
+                 col.names=FALSE)
+    }
+
+#===============================================================================
+
 
