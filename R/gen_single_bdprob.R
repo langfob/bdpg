@@ -275,11 +275,47 @@ gen_single_bdprob_COR = function (starting_dir,
         #  Create the basic set of directories for problem output.
         #-----------------------------------------------------------
 
+        #  Create directory names.
+        #  Creating as lists now to hold the place of storing these
+        #  names somewhere rather than hard-coding them.
+        #  Will figure out where to put them later.
+
+#####
+#  NOTE:  Have to be careful not to include anything unique here that will
+#         mess up checksum comparisons, e.g., uuid.
+#####
+
     create_dirs = TRUE
-    Xu_bdprob_cor@prob_topdir = Xu_bdprob_cor@UUID
+
+        #  Create directories for this problem.
+
+    RSprob_dir_names = list()
+    RSprob_dir_names$plot_output_dir    <- "plots"
+    RSprob_dir_names$network_output_dir <- "networks"
+
+    Xu_bdprob_cor@RSprob_dir_names <- RSprob_dir_names
+
     create_RSprob_dir_and_subdirs (parameters$fullOutputDir_NO_slash,
-                                   Xu_bdprob_cor@prob_topdir,
+                                   Xu_bdprob_cor@uuid,
+                                   RSprob_dir_names,
                                    create_dirs)
+
+    #  Just roughing out this code here.  Will move it to RSrun class creator
+    #  when I code that up later.
+
+    # create_dirs = TRUE
+
+    # RSrun_dir_names = list()
+    # RSrun_dir_names$rsrun_input_dir  <- file.path (top_dir_path, "input")
+    # RSrun_dir_names$rsrun_output_dir <- file.path (top_dir_path, "output")
+    #
+    # Xu_bdprob_cor@RSrun_dir_names <- RSrun_dir_names
+    #
+    # create_RSrun_dir_and_subdirs (parameters$fullOutputDir_NO_slash,
+    #                               Xu_bdprob_cor@uuid,
+    #                               RSprob_dir_names,
+    #                               create_dirs)
+
 
         #-----------------------------------------------------------------
         #  Compute and save the distribution and network metrics for the

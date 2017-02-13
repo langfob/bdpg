@@ -295,14 +295,7 @@ setClass ("Xu_bd_problem",
                                 #  Directory information
                                 #-------------------------
 
-prob_topdir                      = "character",
-prob_outdir                      = "character",
-#                            starting_dir                     = "character",                  #  bd_prob [COR and APP values]
-#                            base_outdir                      = "character",                  #  bd_prob [COR and APP values]
-                            derived_bdpg_dir_names           = "list",                  #  bd_prob [COR and APP values]
-                            full_saved_bdprob_path           = "character",                  #  bd_prob [COR and APP values]
-
-basic_or_wrapped_str = "character",    #  "BASIC" or "WRAPPED" - used in building name for saved RDS file
+                            RSprob_dir_names = "list",
 
                                 #---------------------------------------
                                 #  Problem attributes/measures/metrics
