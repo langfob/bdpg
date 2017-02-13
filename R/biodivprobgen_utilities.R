@@ -463,4 +463,22 @@ save_bdprob <- function (bdprob_type,    #  i.e., "BASIC" or "WRAPPED"
 
 #===============================================================================
 
+strip_trailing_slash <- function (path)
+    {
+    last_char = stringr::str_sub (path, nchar (path), nchar (path))
+
+        #  Originally, this looked for the platform-specific file separator,
+        #  but that may cause a problem, since tzar and R both seem to always
+        #  use a slash and then translate back and forth to the
+        #  platform-specific only when actually talking to the OS.
+        #  So, changing back to just checking for a slash.
+
+        if (last_char == "/")                                   #.Platform$file.sep)
+        path = stringr::str_sub (path,1,nchar(path)-1)
+
+    return (path)
+    }
+
+#===============================================================================
+
 

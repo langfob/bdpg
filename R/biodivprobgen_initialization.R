@@ -95,3 +95,35 @@ get_integerize_function <- function (integerize_string)
 
 #===============================================================================
 
+init_for_bdpg <- function ()
+    {
+        #  Set random seed to help reproducibility.
+        #  Has to be done after startup code that loads parameters structure.
+    set.seed (parameters$seed)
+
+        #  Initialize error codes.
+    bdpg_error_codes        = bdpg::get_bdpg_error_codes ()
+
+    cat ("\n\n================================================================================")
+    cat ("\n================================================================================\n\n")
+
+        #  For historical reasons, tzar returns the output directory path with
+        #  a slash on the end.  This is often inconvenient when passing the
+        #  directory to file.open(), so make a version of the variable that
+        #  has the slash stripped off.
+        #  The reason that the slash can be a problem is that if you call
+        #  file.open() like this, it will double up the slash in the
+        #  output since file.open() only strips a trailing slash from the
+        #  LAST ENTRY in its list of args.  For example, assume that
+        #  parameters$fullOutputDirWithSlash was "tzarout/", then :
+        #       file.open (parameters$fullOutputDirWithSlash, "abc/")
+        #  would return "tzarout//abc", rather than the desired "tzarout/abc".
+
+    parameters$fullOutputDir_WITHOUT_slash <-
+        strip_trailing_slash (parameters$fullOutputDirWithSlash)
+
+    return (list (parameters = parameters,
+                  bdpg_error_codes = bdpg_error_codes))
+    }
+#===============================================================================
+
