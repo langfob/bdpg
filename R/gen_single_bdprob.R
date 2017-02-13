@@ -275,50 +275,11 @@ gen_single_bdprob_COR = function (starting_dir,
         #  Create the basic set of directories for problem output.
         #-----------------------------------------------------------
 
-            #  2017 02 10 - BTL
-            #  KEEPING THE OLD CODE FOR THIS UNTIL I HAVE COMPLETELY REPLACED
-            #  ALL REFERENCES TO starting_dir AND base_outdir ELSEWHERE IN
-            #  THE PACKAGE.
-                    # Xu_bdprob_cor@starting_dir = starting_dir
-                    # Xu_bdprob_cor@base_outdir =
-                    #     file.path (normalizePath (starting_dir, mustWork=FALSE), "cor")
-                    # dir.create (Xu_bdprob_cor@base_outdir, showWarnings = TRUE,    #  For this test, don't turn warning into fatal error. 2017 02 10 2:20 pm
-                    #             recursive = TRUE)
-                    #
-                    # Xu_bdprob_cor@derived_bdpg_dir_names =
-                    #     create_base_dir_structure (Xu_bdprob_cor@base_outdir)
-
-            #  base_outdir CHANGING TO prob_outdir
-            #  starting_dir IS BEING DROPPED (I THINK)
-
-#===============================================================================
-#  Convention:  To make it more consistent to figure out:
-#    Make a container directory for any directories that can occur as numbered
-#    replicate directories, (e.g., app.1, app.2, app.3)
-#  That means that base_prob, wrap_prob, app, and marxan will have them.
-#  Not sure about any others yet.
-#===============================================================================
-
     create_dirs = TRUE
-    prob_topdir =
-        get_or_create_prob_topdir_path (parameters$fullOutputDirWithSlash,
-                                        base_prob_name_stem,
-                                        create_dirs)
-    Xu_bdprob_cor@prob_topdir = prob_topdir  #  e.g., "tzaroutdir/base_prob/base_prob.2"
-
-            #----------------------------------------------------------------
-            #  Create COR directory for the problem if it doesn't
-            #  exist yet, e.g., "tzar_outdir/base_prob.1/cor".
-            #  Also add its subdirectories and store their paths in a list.
-            #----------------------------------------------------------------
-
-    cor_dir = file.path (prob_topdir, cor_dir_name_stem)
-    if (!dir.exists (cor_dir)) dir.create (cor_dir, showWarnings = TRUE,
-                                           recursive = TRUE)
-    Xu_bdprob_cor@prob_outdir = cor_dir  #  e.g., "tzaroutdir/base_prob/base_prob.2/cor"
-
-    Xu_bdprob_cor@derived_bdpg_dir_names =
-        create_base_dir_structure (cor_dir, create_dirs)
+    Xu_bdprob_cor@prob_topdir = Xu_bdprob_cor@UUID
+    create_RSprob_dir_and_subdirs (parameters$fullOutputDir_NO_slash,
+                                   Xu_bdprob_cor@prob_topdir,
+                                   create_dirs)
 
         #-----------------------------------------------------------------
         #  Compute and save the distribution and network metrics for the
