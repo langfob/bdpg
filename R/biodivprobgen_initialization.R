@@ -107,6 +107,7 @@ init_for_bdpg <- function ()
     cat ("\n\n================================================================================")
     cat ("\n================================================================================\n\n")
 
+        #-----------------------------------------------------------------------
         #  For historical reasons, tzar returns the output directory path with
         #  a slash on the end.  This is often inconvenient when passing the
         #  directory to file.open(), so make a version of the variable that
@@ -118,9 +119,11 @@ init_for_bdpg <- function ()
         #  parameters$fullOutputDirWithSlash was "tzarout/", then :
         #       file.open (parameters$fullOutputDirWithSlash, "abc/")
         #  would return "tzarout//abc", rather than the desired "tzarout/abc".
+        #-----------------------------------------------------------------------
 
-    parameters$fullOutputDir_WITHOUT_slash <-
-        strip_trailing_slash (parameters$fullOutputDirWithSlash)
+    parameters$fullOutputDir_NO_slash <-
+        normalizePath (strip_trailing_slash (parameters$fullOutputDirWithSlash),
+                       mustWork=FALSE)
 
     return (list (parameters = parameters,
                   bdpg_error_codes = bdpg_error_codes))
