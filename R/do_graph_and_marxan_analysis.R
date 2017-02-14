@@ -54,7 +54,8 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters)
         #---------------------------
 
                                             #  Guessing at these args for now...
-    marxan_output_values = read_COR_marxan_output_files (COR_bd_prob,
+    marxan_output_values = read_COR_marxan_output_files (COR_marxan_run,
+                                                         COR_bd_prob,
                                                          parameters)
 
         #-----------------------------------------------
@@ -101,7 +102,8 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
         #---------------------------
 
                                             #  Guessing at these args for now...
-    marxan_output_values = read_APP_marxan_output_files (APP_bd_prob,
+    marxan_output_values = read_APP_marxan_output_files (APP_marxan_run,
+                                                         APP_bd_prob,
                                                          COR_bd_prob,
                                                          parameters)
 
