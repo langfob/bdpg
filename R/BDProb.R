@@ -226,13 +226,25 @@ setClass ("Xu_bd_problem",
 
                             APP_prob_info                     = "ANY",
 
-                                #-----------------------------
-                                #  Column naming information
-                                #-----------------------------
+                                #-------------------------------------------------------
+                                #  Constant naming information for df cols and dirs
+                                #  These are the same in all of these problem objects,
+                                #  but since this is research code that changes a lot,
+                                #  it seems good to have these names saved somewhere
+                                #  as self-documentation for the object in case the
+                                #  names change in some different version of the code.
+                                #  This way, we will always know for a given object,
+                                #  what names it assumed when it was built (even
+                                #  though this wastes some space by duplicating
+                                #  identical values in many objects).
+                                #-------------------------------------------------------
 
                             PU_col_name                      = "character",                  #  bd_prob
                             spp_col_name                     = "character",                  #  bd_prob
                             presences_col_name               = "character",                  #  bd_prob
+
+                            plot_output_dir                  = "character",
+                            network_output_dir               = "character",
 
                                 #------------------------
                                 #  Solution information
@@ -314,8 +326,11 @@ setClass ("Xu_bd_problem",
                           spp_col_name                     = "spp_ID",
                           presences_col_name               = "freq",
 
-                          bipartite_metrics_from_bipartite_package = NULL,
-                          bipartite_metrics_from_igraph_package_df = NULL
+                          plot_output_dir                  = "plots",
+                          network_output_dir               = "networks",
+
+                          bipartite_metrics_from_bipartite_package = NULL,  #  necessary?  does it already default to this?
+                          bipartite_metrics_from_igraph_package_df = NULL   #  necessary?  does it already default to this?
                     )
          )
 
