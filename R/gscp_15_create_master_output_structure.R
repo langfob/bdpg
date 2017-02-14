@@ -6,7 +6,8 @@
 
 create_COR_master_output_structure <- function (COR_bd_prob,
                                                 marxan_control_values,
-                                                marxan_output_values
+                                                marxan_output_values,
+                                                parameters
                                                 )
     {
     return (
@@ -33,6 +34,7 @@ create_COR_master_output_structure <- function (COR_bd_prob,
 
                     spf_const = marxan_control_values$spf_const,
 
+                    compute_network_metrics                  = COR_bd_prob@compute_network_metrics,
                     bipartite_metrics_from_bipartite_package = COR_bd_prob@bipartite_metrics_from_bipartite_package,
                     bipartite_metrics_from_igraph_package_df = COR_bd_prob@bipartite_metrics_from_igraph_package_df,
 
@@ -63,7 +65,8 @@ create_COR_master_output_structure <- function (COR_bd_prob,
 create_APP_master_output_structure <- function (APP_bd_prob,
                                                 COR_bd_prob,
                                                 marxan_control_values,
-                                                marxan_output_values
+                                                marxan_output_values,
+                                                parameters
                                                 )
     {
     return (
@@ -91,6 +94,7 @@ create_APP_master_output_structure <- function (APP_bd_prob,
 
                     spf_const = marxan_control_values$spf_const,
 
+        compute_network_metrics                  = APP_bd_prob@compute_network_metrics,
         bipartite_metrics_from_bipartite_package = APP_bd_prob@bipartite_metrics_from_bipartite_package,
         bipartite_metrics_from_igraph_package_df = APP_bd_prob@bipartite_metrics_from_igraph_package_df,
 
@@ -171,6 +175,8 @@ create_master_output_structure <- function (
                                             original_FP_const_rate,
                                             original_FN_const_rate,
                                             spf_const,
+
+                                            compute_network_metrics,
                                             bipartite_metrics_from_bipartite_package,
                                             bipartite_metrics_from_igraph_package_df,
 
@@ -743,7 +749,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #  Execution halted
 
 
-  if (parameters$compute_network_metrics)
+  if (compute_network_metrics)
       {
           #  Need to bind the network measures to the data frame too.
       results_df = cbind (results_df,
