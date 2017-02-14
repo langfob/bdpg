@@ -714,15 +714,19 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
                   )
 
         #  Compute network metrics.
-    if (parameters$compute_network_metrics)    #  POSSIBLE PROBLEM:  could want this flag on for wrap but off for base...
+    wrapped_bdprob@compute_network_metrics = parameters$compute_network_metrics_wrapped
+    if (parameters$compute_network_metrics_wrapped)
         {
         wrapped_bdprob@bipartite_metrics_from_bipartite_package =
-          compute_network_measures_using_bipartite_package (bpm)
+          compute_network_measures_using_bipartite_package (wrapped_bpm)
 
         wrapped_bdprob@bipartite_metrics_from_igraph_package_df =
           compute_igraph_related_network_measures (
                                     wrapped_bdprob@PU_spp_pair_indices,
-                                    wrapped_bdprob@derived_bdpg_dir_names$network_output_dir,
+
+#                                    wrapped_bdprob@derived_bdpg_dir_names$network_output_dir,
+                                    get_RSprob_path_networks (wrapped_bdprob, starting_dir),
+
                                     wrapped_bdprob@PU_col_name,
                                     wrapped_bdprob@spp_col_name
                                                     )
