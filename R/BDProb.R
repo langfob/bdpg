@@ -381,9 +381,11 @@ setClass ("RSrun",
 
                                 #  UUID of the problem the reserve selector
                                 #  is running on.
-                            RSprob_UUID = "character",
 
-                            RSrun_dir_names = "list"
+                            run_on_prob_UUID = "character",
+
+                            input_dir = "character",
+                            output_dir = "character"
                      )
          )
 

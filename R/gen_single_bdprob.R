@@ -238,6 +238,7 @@ gen_single_bdprob_COR = function (starting_dir,
 
     Xu_bdprob_cor@PU_col_name               = PU_spp_pair_info@PU_col_name
     Xu_bdprob_cor@spp_col_name              = PU_spp_pair_info@spp_col_name
+
     Xu_bdprob_cor@num_PUs                   = PU_spp_pair_info@num_PUs
     Xu_bdprob_cor@num_spp                   = PU_spp_pair_info@num_spp
     Xu_bdprob_cor@correct_solution_cost          = PU_spp_pair_info@correct_solution_cost
@@ -285,37 +286,25 @@ gen_single_bdprob_COR = function (starting_dir,
 #         mess up checksum comparisons, e.g., uuid.
 #####
 
-    create_dirs = TRUE
 
         #  Create directories for this problem.
 
-    RSprob_dir_names = list()
-    RSprob_dir_names$plot_output_dir    <- "plots"
-    RSprob_dir_names$network_output_dir <- "networks"
-
-    Xu_bdprob_cor@RSprob_dir_names <- RSprob_dir_names
-
+    create_dirs = TRUE
     create_RSprob_dir_and_subdirs (parameters$fullOutputDir_NO_slash,
                                    Xu_bdprob_cor@uuid,
-                                   RSprob_dir_names,
+                                   Xu_bdprob_cor@plot_output_dir,
+                                   Xu_bdprob_cor@network_output_dir,
                                    create_dirs)
 
     #  Just roughing out this code here.  Will move it to RSrun class creator
     #  when I code that up later.
 
     # create_dirs = TRUE
-
-    # RSrun_dir_names = list()
-    # RSrun_dir_names$rsrun_input_dir  <- file.path (top_dir_path, "input")
-    # RSrun_dir_names$rsrun_output_dir <- file.path (top_dir_path, "output")
-    #
-    # Xu_bdprob_cor@RSrun_dir_names <- RSrun_dir_names
-    #
-    # create_RSrun_dir_and_subdirs (parameters$fullOutputDir_NO_slash,
-    #                               Xu_bdprob_cor@uuid,
-    #                               RSprob_dir_names,
-    #                               create_dirs)
-
+    # create_RSprob_dir_and_subdirs (parameters$fullOutputDir_NO_slash,
+    #                                RSprob@uuid,
+    #                                RSprob@input_dir,
+    #                                RSprob@output_dir,
+    #                                create_dirs)
 
         #-----------------------------------------------------------------
         #  Compute and save the distribution and network metrics for the

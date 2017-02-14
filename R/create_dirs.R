@@ -5,8 +5,9 @@
 #===============================================================================
 
 create_RSprob_dir_and_subdirs <- function (top_dir,        #  tzar out dir
-                                           prob_dir_name,  #  e.g., problem UUID
-                                           RSprob_dir_names,
+                                           prob_dir_name,  #  e.g., the problem's UUID
+                                           RSprob_plot_dir_name,
+                                           RSprob_network_dir_name,
                                            create_dirs = TRUE)
     {
         #------------------------
@@ -15,10 +16,8 @@ create_RSprob_dir_and_subdirs <- function (top_dir,        #  tzar out dir
 
     top_dir_path     <- file.path (top_dir, prob_dir_name)
 
-    plots_dir_path   <- file.path (top_dir, prob_dir_name,
-                                   RSprob_dir_names$plot_output_dir)
-    network_dir_path <- file.path (top_dir, prob_dir_name,
-                                   RSprob_dir_names$network_output_dir)
+    plots_dir_path   <- file.path (top_dir, prob_dir_name, RSprob_plot_dir_name)
+    network_dir_path <- file.path (top_dir, prob_dir_name, RSprob_network_dir_name)
 
     cat ("\ncreate_RSprob_dir_and_subdirs:")
     cat ("\n    top_dir_path = '",     top_dir_path, "'",     sep='')
@@ -41,8 +40,9 @@ create_RSprob_dir_and_subdirs <- function (top_dir,        #  tzar out dir
 #===============================================================================
 
 create_RSrun_dir_and_subdirs <- function (top_dir,
-                                          run_dir_name,  #  e.g., run UUID
-                                          RSrun_dir_names,
+                                          run_dir_name,  #  e.g., the run's UUID
+                                          RSprob_input_dir_name,
+                                          RSprob_output_dir_name,
                                           create_dirs = TRUE)
     {
         #------------------------
@@ -51,10 +51,8 @@ create_RSrun_dir_and_subdirs <- function (top_dir,
 
     top_dir_path    <- file.path (top_dir, run_dir_name)
 
-    input_dir_path  <- file.path (top_dir, run_dir_name,
-                                  RSrun_dir_names$input_dir)
-    output_dir_path <- file.path (top_dir, run_dir_name,
-                                  RSrun_dir_names$output_dir)
+    input_dir_path  <- file.path (top_dir, run_dir_name, RSprob_input_dir_name)
+    output_dir_path <- file.path (top_dir, run_dir_name, RSprob_output_dir_name)
 
     cat ("\ncreate_RSrun_dir_and_subdirs:")
     cat ("\n    top_dir_path = '",    top_dir_path, "'",    sep='')
