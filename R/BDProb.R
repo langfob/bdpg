@@ -212,6 +212,7 @@ setClass ("Xu_bd_problem",
                             UUID                             = "character",                  #  bd_prob
                             prob_is_ok                       = "logical",                    #  bd_prob
 
+                            basic_or_wrapped_str = "character",    #  "BASIC" or "WRAPPED" - used inbuilding name for saved RDS file
 
                                 #---------------------------------
                                 #  Problem generator information
