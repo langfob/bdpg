@@ -4,8 +4,8 @@
 
 #===============================================================================
 
-create_RSprob_dir_and_subdirs <- function (top_dir,          #  tzar out dir
-                                           dir_name_stem,    #  obj uuid
+create_RSprob_dir_and_subdirs <- function (top_dir,        #  tzar out dir
+                                           prob_dir_name,  #  e.g., problem UUID
                                            RSprob_dir_names,
                                            create_dirs = TRUE)
     {
@@ -13,11 +13,11 @@ create_RSprob_dir_and_subdirs <- function (top_dir,          #  tzar out dir
         #  Create path strings.
         #------------------------
 
-    top_dir_path     <- file.path (top_dir, dir_name_stem)
+    top_dir_path     <- file.path (top_dir, prob_dir_name)
 
-    plots_dir_path   <- file.path (top_dir, dir_name_stem,
+    plots_dir_path   <- file.path (top_dir, prob_dir_name,
                                    RSprob_dir_names$plot_output_dir)
-    network_dir_path <- file.path (top_dir, dir_name_stem,
+    network_dir_path <- file.path (top_dir, prob_dir_name,
                                    RSprob_dir_names$network_output_dir)
 
     cat ("\ncreate_RSprob_dir_and_subdirs:")
@@ -41,7 +41,7 @@ create_RSprob_dir_and_subdirs <- function (top_dir,          #  tzar out dir
 #===============================================================================
 
 create_RSrun_dir_and_subdirs <- function (top_dir,
-                                          dir_name_stem,
+                                          run_dir_name,  #  e.g., run UUID
                                           RSrun_dir_names,
                                           create_dirs = TRUE)
     {
@@ -49,11 +49,11 @@ create_RSrun_dir_and_subdirs <- function (top_dir,
         #  Create path strings.
         #------------------------
 
-    top_dir_path    <- file.path (top_dir, dir_name_stem)
+    top_dir_path    <- file.path (top_dir, run_dir_name)
 
-    input_dir_path  <- file.path (top_dir, dir_name_stem,
+    input_dir_path  <- file.path (top_dir, run_dir_name,
                                   RSrun_dir_names$input_dir)
-    output_dir_path <- file.path (top_dir, dir_name_stem,
+    output_dir_path <- file.path (top_dir, run_dir_name,
                                   RSrun_dir_names$output_dir)
 
     cat ("\ncreate_RSrun_dir_and_subdirs:")
