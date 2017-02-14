@@ -416,10 +416,6 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                     parameters
                                     )
 
-        #  Update the CORRECT prob with the newly created directory structure.
-    COR_bd_prob@derived_bdpg_dir_names =
-        set_up_and_run_COR_values$bdpg_dir_names
-
         #  Caller needs to know the marxan control values and the
         #  updated version of the CORRECT bd problem object.
     return (list (marxan_control_values =
@@ -461,16 +457,13 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                         parameters
                                     )
 
-        #  Update the APPARENT prob with the newly created directory structure.
-    APP_bd_prob@derived_bdpg_dir_names =
-        set_up_and_run_APP_values$bdpg_dir_names
-
         #  Caller needs to know the marxan control values and the
         #  updated version of the APPARENT bd problem object.
         #  No changes have been made to the CORRECT problem, so
         #  no return of that value is necessary.
     return (list (marxan_control_values =
                         set_up_and_run_APP_values$marxan_control_values,
+
                   APP_bd_prob           = APP_bd_prob
                   )
             )
