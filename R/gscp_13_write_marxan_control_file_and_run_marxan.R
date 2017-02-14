@@ -416,14 +416,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                     parameters
                                     )
 
-        #  Caller needs to know the marxan control values and the
-        #  updated version of the CORRECT bd problem object.
-    return (list (marxan_control_values =
-                        set_up_and_run_COR_values$marxan_control_values,
-
-                  COR_bd_prob           = COR_bd_prob
-                  )
-            )
+    return (set_up_and_run_COR_values$marxan_control_values)
     }
 
 #===============================================================================
@@ -457,16 +450,7 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                         parameters
                                     )
 
-        #  Caller needs to know the marxan control values and the
-        #  updated version of the APPARENT bd problem object.
-        #  No changes have been made to the CORRECT problem, so
-        #  no return of that value is necessary.
-    return (list (marxan_control_values =
-                        set_up_and_run_APP_values$marxan_control_values,
-
-                  APP_bd_prob           = APP_bd_prob
-                  )
-            )
+    return (set_up_and_run_APP_values$marxan_control_values)
     }
 
 #===============================================================================
@@ -490,8 +474,7 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
                                       PU_col_name,
                                       spp_col_name,
 
-                        #bdpg_dir_names,
-                        rsrun,
+                                      rsrun,
 
                                       num_spp,
                                       parameters
@@ -547,10 +530,7 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
 
     #--------------------
 
-    return (list (marxan_control_values = marxan_control_values,
-                  bdpg_dir_names        = bdpg_dir_names
-                  )
-            )
+    return (marxan_control_values)
     }
 
 #===============================================================================

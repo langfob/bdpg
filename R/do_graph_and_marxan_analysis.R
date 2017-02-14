@@ -15,12 +15,7 @@ create_RSrun <- function (prob_UUID, parameters)
     rsrun@UUID             <- uuid::UUIDgenerate()
     rsrun@run_on_prob_UUID <- prob_UUID
 
-    create_dirs = TRUE
-    create_RSrun_dir_and_subdirs (parameters$fullOutputDir_NO_slash,
-                                  rsrun@UUID,
-                                  rsrun@input_dir_name,
-                                  rsrun@output_dir_name,
-                                  create_dirs)
+    create_RSrun_dir_and_subdirs (rsrun, parameters$fullOutputDir_NO_slash)
 
     return (rsrun)
     }
@@ -50,12 +45,9 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters)
 
     COR_marxan_run <- create_marxan_run (COR_bd_prob@UUID, parameters)
 
-    COR_marxan_ret_values = set_up_for_and_run_marxan_COR (COR_bd_prob,
+    marxan_control_values = set_up_for_and_run_marxan_COR (COR_bd_prob,
                                                            COR_marxan_run,
                                                            parameters)
-
-    marxan_control_values  = COR_marxan_ret_values$marxan_control_values
-    COR_bd_prob            = COR_marxan_ret_values$COR_bd_prob  #  COR_bd_prob has new dirs
 
         #---------------------------
         #  Collect marxan results.
@@ -99,13 +91,10 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
 
     APP_marxan_run <- create_marxan_run (APP_bd_prob@UUID, parameters)
 
-    APP_marxan_ret_values = set_up_for_and_run_marxan_APP (APP_bd_prob,
+    marxan_control_values = set_up_for_and_run_marxan_APP (APP_bd_prob,
                                                            COR_bd_prob,
                                                            APP_marxan_run,
                                                            parameters)
-
-    marxan_control_values  = APP_marxan_ret_values$marxan_control_values
-    APP_bd_prob            = APP_marxan_ret_values$APP_bd_prob  #  APP_bd_prob has new dirs
 
         #---------------------------
         #  Collect marxan results.
