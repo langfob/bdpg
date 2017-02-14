@@ -358,6 +358,22 @@ setClass ("Xu_wrapped_bd_problem",
 
 #===============================================================================
 
+    #  RS_run class.
+
+setClass ("RSrun",
+          representation (
+                            UUID        = "character",
+
+                                #  UUID of the problem the reserve selector
+                                #  is running on.
+                            RSprob_UUID = "character",
+
+                            RSrun_dir_names = "list"
+                     )
+         )
+
+#===============================================================================
+
 
 
 
