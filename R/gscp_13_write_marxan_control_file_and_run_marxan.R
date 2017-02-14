@@ -410,7 +410,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                     COR_bd_prob@PU_col_name,
                                     COR_bd_prob@spp_col_name,
 
-                    marxan_run@RSrun_dir_names,
+                                    marxan_run,
 
                                     COR_bd_prob@num_spp,
                                     parameters
@@ -455,7 +455,7 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                         COR_bd_prob@PU_col_name,
                                         COR_bd_prob@spp_col_name,
 
-                                    APP_bd_prob@derived_bdpg_dir_names,
+                                    marxan_run,
 
                                     APP_bd_prob@num_spp,
                                         parameters
