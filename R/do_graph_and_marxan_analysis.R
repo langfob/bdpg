@@ -2,8 +2,9 @@
 #
 #                       do_graph_and_marxan_analysis.R
 #
-#   Run code to compute graph metrics and to run marxan and dump results
-#   to file.
+#  Run code to run marxan and dump results to file.
+#
+#  Used to do graph analysis here too, but no longer.  Should rename file.
 #
 #===============================================================================
 
@@ -21,7 +22,10 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters)
         #  Run marxan.
         #---------------
 
+    COR_marxan_run <- create_marxan_run ()
+
     COR_marxan_ret_values = set_up_for_and_run_marxan_COR (COR_bd_prob,
+                                                           COR_marxan_run,
                                                            parameters)
 
     marxan_control_values  = COR_marxan_ret_values$marxan_control_values

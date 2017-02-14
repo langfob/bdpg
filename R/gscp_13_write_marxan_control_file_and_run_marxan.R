@@ -399,6 +399,7 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 #' @export
 
 set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
+                                           COR_marxan_run,
                                            parameters)
     {
     set_up_and_run_COR_values =
@@ -407,7 +408,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                     COR_bd_prob@all_spp_IDs,
                                     COR_bd_prob@PU_col_name,
                                     COR_bd_prob@spp_col_name,
-                                    COR_bd_prob@derived_bdpg_dir_names,
+                                    COR_marxan_run@RSrun_dir_names,
                                     COR_bd_prob@num_spp,
                                     parameters
                                     )
