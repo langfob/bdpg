@@ -486,10 +486,11 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
     Xu_bdprob_APP@basic_or_wrapped_str = Xu_bdprob_COR@basic_or_wrapped_str
 
-    Xu_bdprob_APP@full_saved_bdprob_path =
+#    Xu_bdprob_APP@full_saved_bdprob_path =
         save_bdprob (Xu_bdprob_APP@basic_or_wrapped_str, "APP",
                      Xu_bdprob_APP@UUID,
-                     Xu_bdprob_APP@prob_outdir,
+                     get_RSprob_path_topdir (Xu_bdprob_APP, starting_dir),
+                     # Xu_bdprob_APP@prob_outdir,
                      Xu_bdprob_APP)
 
     return (Xu_bdprob_APP)

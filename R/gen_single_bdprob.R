@@ -335,10 +335,13 @@ gen_single_bdprob_COR = function (starting_dir,
 
     Xu_bdprob_cor@basic_or_wrapped_str = "BASIC"
 
-    Xu_bdprob_cor@full_saved_bdprob_path =
+#    Xu_bdprob_cor@full_saved_bdprob_path =
         save_bdprob (Xu_bdprob_cor@basic_or_wrapped_str, "COR",
                      Xu_bdprob_cor@UUID,
-                     Xu_bdprob_cor@prob_outdir,
+
+                     get_RSprob_path_topdir (Xu_bdprob_cor, starting_dir),
+                     # Xu_bdprob_cor@prob_outdir,
+
                      Xu_bdprob_cor)
 
     return (Xu_bdprob_cor)
