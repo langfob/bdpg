@@ -393,13 +393,14 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 #' Convenience function to call set_up_for_and_run_marxan with correct arguments for a correct Xu_bd_problem
 #'
 #' @param COR_bd_prob a correct Xu_bd_problem (or subclass)
+#' @param marxan_run an RSrun object (or subclass)
 #' @param parameters parameters list for the run, usually derived from project.yaml
 #'
 #' @return list containing marxan_control_values and updated COR_bd_prob
 #' @export
 
 set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
-                                           COR_marxan_run,
+                                           marxan_run,
                                            parameters)
     {
     set_up_and_run_COR_values =
@@ -408,7 +409,9 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                     COR_bd_prob@all_spp_IDs,
                                     COR_bd_prob@PU_col_name,
                                     COR_bd_prob@spp_col_name,
-                                    COR_marxan_run@RSrun_dir_names,
+
+                    marxan_run@RSrun_dir_names,
+
                                     COR_bd_prob@num_spp,
                                     parameters
                                     )
@@ -421,6 +424,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
         #  updated version of the CORRECT bd problem object.
     return (list (marxan_control_values =
                         set_up_and_run_COR_values$marxan_control_values,
+
                   COR_bd_prob           = COR_bd_prob
                   )
             )
@@ -432,6 +436,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
 #'
 #' @param APP_bd_prob an apparent Xu_bd_problem (or subclass)
 #' @param COR_bd_prob the correct Xu_bd_problem (or subclass) that the apparent problem is derived from
+#' @param marxan_run an RSrun object (or subclass)
 #' @param parameters parameters list for the run, usually derived from project.yaml
 #'
 #' @return list containing marxan_control_values and updated APP_bd_prob
@@ -439,6 +444,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
 
 set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                            COR_bd_prob,
+                                           marxan_run,
                                            parameters)
     {
     set_up_and_run_APP_values =
@@ -450,6 +456,7 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                         COR_bd_prob@spp_col_name,
 
                                     APP_bd_prob@derived_bdpg_dir_names,
+
                                     APP_bd_prob@num_spp,
                                         parameters
                                     )
@@ -489,22 +496,20 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
                                       spp_IDs,  #####!!!!!#####  #  All values, i.e., cor values?
                                       PU_col_name,
                                       spp_col_name,
-                                      bdpg_dir_names,
+
+                        #bdpg_dir_names,
+                        rsrun,
+
                                       num_spp,
                                       parameters
                                       )
     {
-        #  Create and save the subtree of marxan IO directories.
+        #  Get paths to the marxan IO subdirectories.
 
-    dir_names = create_new_res_sel_replicate_subtree (bdpg_dir_names,
-                                                      "marxan",
-                                                      bdpg_dir_names$res_sel_dir,
-                                                      create_dirs = TRUE)
-    marxan_IO_dir     = dir_names$IO_dir
-    marxan_input_dir  = dir_names$input_dir
-    marxan_output_dir = dir_names$output_dir
-
-    bdpg_dir_names    = dir_names$bdpg_dir_names
+    topdir            = parameters$fullOutputDir_NO_slash
+    marxan_IO_dir     = get_RSrun_path_IO (rsrun, topdir)
+    marxan_input_dir  = get_RSrun_path_input (rsrun, topdir)
+    marxan_output_dir = get_RSrun_path_output (rsrun, topdir)
 
     #--------------------
 

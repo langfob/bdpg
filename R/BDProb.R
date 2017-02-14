@@ -366,8 +366,8 @@ setClass ("RSrun",
 
                             run_on_prob_UUID = "character",
 
-                            input_dir = "character",
-                            output_dir = "character"
+                            input_dir_name  = "character",
+                            output_dir_name = "character"
                      )
          )
 
