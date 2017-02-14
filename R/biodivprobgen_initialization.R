@@ -95,14 +95,19 @@ get_integerize_function <- function (integerize_string)
 
 #===============================================================================
 
-init_for_bdpg <- function ()
+#' Title
+#'
+#' @return
+#' @export
+
+init_for_bdpg <- function (parameters)
     {
         #  Set random seed to help reproducibility.
         #  Has to be done after startup code that loads parameters structure.
     set.seed (parameters$seed)
 
         #  Initialize error codes.
-    bdpg_error_codes        = bdpg::get_bdpg_error_codes ()
+    bdpg_error_codes        = get_bdpg_error_codes ()
 
     cat ("\n\n================================================================================")
     cat ("\n================================================================================\n\n")
@@ -127,7 +132,7 @@ init_for_bdpg <- function ()
 
     return (list (parameters = parameters,
                   bdpg_error_codes = bdpg_error_codes))
-}
+    }
 
 #===============================================================================
 
