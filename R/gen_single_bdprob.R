@@ -285,22 +285,8 @@ gen_single_bdprob_COR = function (starting_dir,
 
         #  Create directories for this problem.
 
-    create_dirs = TRUE
-    create_RSprob_dir_and_subdirs (parameters$fullOutputDir_NO_slash,
-                                   Xu_bdprob_cor@uuid,
-                                   Xu_bdprob_cor@plot_output_dir,
-                                   Xu_bdprob_cor@network_output_dir,
-                                   create_dirs)
-
-    #  Just roughing out this code here.  Will move it to RSrun class creator
-    #  when I code that up later.
-
-    # create_dirs = TRUE
-    # create_RSprob_dir_and_subdirs (parameters$fullOutputDir_NO_slash,
-    #                                RSprob@uuid,
-    #                                RSprob@input_dir,
-    #                                RSprob@output_dir,
-    #                                create_dirs)
+    create_RSprob_dir_and_subdirs (starting_dir,  #  parameters$fullOutputDir_NO_slash,  #  usually parameters$fullOutputDir_NO_slash
+                                   Xu_bdprob_cor)
 
         #-----------------------------------------------------------------
         #  Compute and save the distribution and network metrics for the
@@ -313,7 +299,10 @@ gen_single_bdprob_COR = function (starting_dir,
                   Xu_bdprob_cor@PU_spp_pair_indices,
                   "COR",
                   Xu_bdprob_cor@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
-                  Xu_bdprob_cor@derived_bdpg_dir_names$plot_output_dir,
+
+#                  Xu_bdprob_cor@derived_bdpg_dir_names$plot_output_dir,
+                  get_RSprob_path_plots (Xu_bdprob_cor, starting_dir),
+
                   Xu_bdprob_cor@spp_col_name,
                   Xu_bdprob_cor@PU_col_name,
                   Xu_bdprob_cor@presences_col_name

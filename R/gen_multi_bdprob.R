@@ -682,40 +682,12 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
                                           wrapped_bdprob@num_spp,
                                           bdpg_error_codes)
 
-        #-----------------------------------------------------------
-        #  No duplicates found.
-        #  Create the basic set of directories for problem output.
-        #-----------------------------------------------------------
+        #----------------------------------------
+        #  Create directories for this problem.
+        #----------------------------------------
 
-    # wrapped_bdprob@starting_dir = starting_dir
-    # wrapped_bdprob@base_outdir =
-    #     file.path (normalizePath (starting_dir, mustWork=FALSE), "cor")
-    # dir.create (wrapped_bdprob@base_outdir, showWarnings = TRUE,
-    #             recursive = TRUE)
-    #
-    # wrapped_bdprob@derived_bdpg_dir_names =
-    #     create_base_dir_structure (wrapped_bdprob@base_outdir)
-
-    create_dirs = TRUE
-    prob_topdir =
-        get_or_create_prob_topdir_path (parameters$fullOutputDirWithSlash,
-                                        wrap_prob_name_stem,
-                                        create_dirs)
-    wrapped_bdprob@prob_topdir = prob_topdir  #  e.g., "tzaroutdir/wrap_prob/wrap_prob.2"
-
-            #----------------------------------------------------------------
-            #  Create COR directory for the problem if it doesn't
-            #  exist yet, e.g., "tzar_outdir/wrap_prob.1/cor".
-            #  Also add its subdirectories and store their paths in a list.
-            #----------------------------------------------------------------
-
-    cor_dir = file.path (prob_topdir, cor_dir_name_stem)
-    if (!dir.exists (cor_dir)) dir.create (cor_dir, showWarnings = TRUE,
-                                           recursive = TRUE)
-    wrapped_bdprob@prob_outdir = cor_dir  #  e.g., "tzaroutdir/wrap_prob/wrap_prob.2/cor"
-
-    wrapped_bdprob@derived_bdpg_dir_names =
-        create_base_dir_structure (cor_dir, create_dirs)
+    create_RSprob_dir_and_subdirs (starting_dir,  #  parameters$fullOutputDir_NO_slash,  #  usually parameters$fullOutputDir_NO_slash
+                                   wrapped_bdprob)
 
         #-----------------------------------------------------------------
         #  Compute and save the distribution and network metrics for the
@@ -951,8 +923,9 @@ gen_multi_bdprob = function (parameters,
 
     cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  ABOUT TO build base Xu problem for multi-problem  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
     starting_dir =
-        file.path (normalizePath (parameters$fullOutputDirWithSlash),
-                   "base_prob.1")
+        file.path (normalizePath (parameters$fullOutputDirWithSlash))
+                   # ,
+                   # "base_prob.1")
 
     bdprob_1 = gen_single_bdprob_COR (starting_dir,
                                       parameters,
