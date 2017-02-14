@@ -4,10 +4,12 @@
 \alias{set_up_for_and_run_marxan_COR}
 \title{Convenience function to call set_up_for_and_run_marxan with correct arguments for a correct Xu_bd_problem}
 \usage{
-set_up_for_and_run_marxan_COR(COR_bd_prob, parameters)
+set_up_for_and_run_marxan_COR(COR_bd_prob, COR_marxan_run, parameters)
 }
 \arguments{
 \item{COR_bd_prob}{a correct Xu_bd_problem (or subclass)}
+
+\item{COR_marxan_run}{an RSrun object (or subclass)}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml}
 }
