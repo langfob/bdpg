@@ -355,24 +355,6 @@ setClass ("Xu_wrapped_bd_problem",
 
 #===============================================================================
 
-    #  Xu_bd_problem_APP class.
-
-            #***  IS THERE A PROBLEM HERE WITH HAVING AN APP VERSION OF WRAPPED OR COMBINED XU PROBLEM OR EVEN OF NON-XU PROBLEM?
-            #     Do we need an app version of every problem class?
-            #     Or, is APP an attribute of any problem and in COR, it's empty?
-            #         For example, there could be a function:
-            #             is.COR=function(prob) {is.null(prob@APP)}
-
-# setClass ("Xu_bd_problem_APP",
-#           representation (
-#                             UUID_of_base_problem_that_has_err_added = "character",  #  UUID string
-#                             ret_vals_from_apply_errors = "list"
-#                             ),
-#           contains = "Xu_bd_problem"
-#         )
-
-#===============================================================================
-
     #  RS_run class.
 
 setClass ("RSrun",
