@@ -309,7 +309,7 @@ read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
     {
 #    marxan_numbered_dir_name = "marxan.1"    #  bug:  See bdpg issue #27 on github.
 
-    topdir = parameters$fullOutputDir_NO_slash
+    top_dir = parameters$fullOutputDir_NO_slash
     marxan_output_dir = #COR_bd_prob@derived_bdpg_dir_names$res_sel$marxan$marxan.1$output_dir
         get_RSrun_path_output (rsrun, top_dir)
 
@@ -322,7 +322,7 @@ COR_bd_prob@num_spp,                                                   #num_spp
 COR_bd_prob@bpm,                                                       #cor_bpm
 
 #COR_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
-get_RSprob_path_plots (COR_bd_prob, topdir),
+get_RSprob_path_plots (COR_bd_prob, top_dir),
 
 parameters,
 COR_bd_prob@bpm,                                                       #app_bpm
@@ -343,7 +343,7 @@ read_APP_marxan_output_files <- function (rsrun,
     {
 #    marxan_numbered_dir_name = "marxan.1"    #  bug:  See bdpg issue #27 on github.
 
-    topdir = parameters$fullOutputDir_NO_slash
+    top_dir = parameters$fullOutputDir_NO_slash
     marxan_output_dir = #APP_bd_prob@derived_bdpg_dir_names$res_sel$marxan$marxan.1$output_dir
         get_RSrun_path_output (rsrun, top_dir)
 
@@ -356,7 +356,7 @@ COR_bd_prob@num_spp,                                                   #num_spp
 COR_bd_prob@bpm,                                                       #cor_bpm
 
 #APP_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
-get_RSprob_path_plots (APP_bd_prob, topdir),
+get_RSprob_path_plots (APP_bd_prob, top_dir),
 
 parameters,
 APP_bd_prob@bpm,                                                       #app_bpm
