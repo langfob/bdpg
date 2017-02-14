@@ -373,7 +373,15 @@ setClass ("RSrun",
 
                             input_dir_name  = "character",
                             output_dir_name = "character"
-                     )
+                     ),
+
+          #-----------------------------------------------------------------
+
+          prototype (
+                    input_dir_name  = "input",
+                    output_dir_name = "output"
+                    )
+
          )
 
 #===============================================================================
