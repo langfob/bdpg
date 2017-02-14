@@ -127,6 +127,7 @@ init_for_bdpg <- function ()
 
     return (list (parameters = parameters,
                   bdpg_error_codes = bdpg_error_codes))
-    }
+}
+
 #===============================================================================
 
