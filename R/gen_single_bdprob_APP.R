@@ -198,7 +198,7 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
     if (parameters$compute_network_metrics_APP)
         {
         Xu_bdprob_APP@bipartite_metrics_from_bipartite_package =
-          compute_network_measures_using_bipartite_package (Xu_bdprob_APP@app_bpm)
+          compute_network_measures_using_bipartite_package (Xu_bdprob_APP@bpm)
 
         Xu_bdprob_APP@bipartite_metrics_from_igraph_package_df =
           compute_igraph_related_network_measures (
