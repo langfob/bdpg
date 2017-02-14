@@ -305,10 +305,14 @@ plot_incremental_marxan_summed_solution_representations =
 #===============================================================================
 #===============================================================================
 
-read_COR_marxan_output_files <- function (COR_bd_prob, parameters)
+read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
     {
-    marxan_numbered_dir_name = "marxan.1"    #  bug:  See bdpg issue #27 on github.
-    marxan_output_dir = COR_bd_prob@derived_bdpg_dir_names$res_sel$marxan$marxan.1$output_dir
+#    marxan_numbered_dir_name = "marxan.1"    #  bug:  See bdpg issue #27 on github.
+
+    topdir = parameters$fullOutputDir_NO_slash
+    marxan_output_dir = #COR_bd_prob@derived_bdpg_dir_names$res_sel$marxan$marxan.1$output_dir
+        get_RSrun_path_output (rsrun, top_dir)
+
 
     return (read_marxan_output_files (
 marxan_output_dir,
@@ -316,7 +320,10 @@ COR_bd_prob@all_PU_IDs,                                                #all_corr
 COR_bd_prob@num_PUs,                                                   #num_PUs
 COR_bd_prob@num_spp,                                                   #num_spp
 COR_bd_prob@bpm,                                                       #cor_bpm
-COR_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
+
+#COR_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
+get_RSprob_path_plots (COR_bd_prob, topdir),
+
 parameters,
 COR_bd_prob@bpm,                                                       #app_bpm
 COR_bd_prob@PU_costs,                                                  #cor_PU_costs
@@ -328,13 +335,18 @@ COR_bd_prob@correct_solution_cost                                      #correct_
 
 #===============================================================================
 
-read_APP_marxan_output_files <- function (APP_bd_prob,
+read_APP_marxan_output_files <- function (rsrun,
+                                          APP_bd_prob,
                                           COR_bd_prob,
                                           parameters
                                           )
     {
-    marxan_numbered_dir_name = "marxan.1"    #  bug:  See bdpg issue #27 on github.
-    marxan_output_dir = APP_bd_prob@derived_bdpg_dir_names$res_sel$marxan$marxan.1$output_dir
+#    marxan_numbered_dir_name = "marxan.1"    #  bug:  See bdpg issue #27 on github.
+
+    topdir = parameters$fullOutputDir_NO_slash
+    marxan_output_dir = #APP_bd_prob@derived_bdpg_dir_names$res_sel$marxan$marxan.1$output_dir
+        get_RSrun_path_output (rsrun, top_dir)
+
 
     return (read_marxan_output_files (
 marxan_output_dir,
@@ -342,7 +354,10 @@ COR_bd_prob@all_PU_IDs,                                                #all_corr
 COR_bd_prob@num_PUs,                                                   #num_PUs
 COR_bd_prob@num_spp,                                                   #num_spp
 COR_bd_prob@bpm,                                                       #cor_bpm
-APP_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
+
+#APP_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
+get_RSprob_path_plots (APP_bd_prob, topdir),
+
 parameters,
 APP_bd_prob@bpm,                                                       #app_bpm
 COR_bd_prob@PU_costs,                                                  #cor_PU_costs
@@ -392,7 +407,7 @@ read_marxan_output_files <- function (marxan_output_dir,
                 #  output_sen.dat
 
       #marxan_output_dir_path = parameters$marxan_output_dir    #  "/Users/bill/D/Marxan/output/"  #  replaced in yaml file
-      marxan_output_dir_path = paste0 (marxan_output_dir, .Platform$file.sep)
+      marxan_output_dir_path = paste0 (marxan_output_dir, "/")    #.Platform$file.sep)
 
       marxan_output_best_file_name = "output_best.csv"
       marxan_output_ssoln_file_name = "output_ssoln.csv"
