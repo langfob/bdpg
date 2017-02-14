@@ -4,12 +4,14 @@
 \alias{set_up_for_and_run_marxan_APP}
 \title{Convenience function to call set_up_for_and_run_marxan with correct arguments for an apparent Xu_bd_problem}
 \usage{
-set_up_for_and_run_marxan_APP(APP_bd_prob, COR_bd_prob, parameters)
+set_up_for_and_run_marxan_APP(APP_bd_prob, COR_bd_prob, marxan_run, parameters)
 }
 \arguments{
 \item{APP_bd_prob}{an apparent Xu_bd_problem (or subclass)}
 
 \item{COR_bd_prob}{the correct Xu_bd_problem (or subclass) that the apparent problem is derived from}
+
+\item{marxan_run}{an RSrun object (or subclass)}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml}
 }

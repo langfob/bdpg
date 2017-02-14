@@ -4,6 +4,8 @@
 
 #===============================================================================
 
+    #  Shortcut functions to always build paths to RSprob dirs reliably.
+
 get_RSprob_path_topdir <- function (rsprob, topdir)
     {
     file.path (topdir, rsprob@UUID)
@@ -52,6 +54,9 @@ create_RSprob_dir_and_subdirs <- function (top_dir,  #  usually parameters$fullO
     }
 
 #===============================================================================
+#===============================================================================
+
+    #  Shortcut functions to always build paths to RSrun dirs reliably.
 
 get_RSrun_path_topdir <- function (rsrun, topdir)
     {
