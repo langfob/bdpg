@@ -114,8 +114,12 @@ setClass ("Xu_params",
 setClass ("PU_spp_pair_info_class",
           representation (
                             PU_spp_pair_indices              = "data.frame",
-                            PU_col_name                      = "character",
-                            spp_col_name                     = "character",
+
+    #  Need to make these constant names like Xu_bd_problem does
+    #  AND make sure they have the same values in both classes.
+        PU_col_name                      = "character",
+        spp_col_name                     = "character",
+
                             num_PUs                          = "numeric",
                             num_spp                          = "numeric",
                             correct_solution_cost            = "numeric",
