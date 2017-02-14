@@ -677,10 +677,14 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
         #         doesn't generate any duplicates if it is
         #         generating them now.
         #-------------------------------------------------------------
+        #  2017 02 14 - BTL
+        #  This started crashing the whole R session when it found 1
+        #  duplicate link, so I'm commenting it out for now.
+        #-------------------------------------------------------------
 
-    see_if_there_are_any_duplicate_links (wrapped_bpm,
-                                          wrapped_bdprob@num_spp,
-                                          bdpg_error_codes)
+    # see_if_there_are_any_duplicate_links (wrapped_bpm,
+    #                                       wrapped_bdprob@num_spp,
+    #                                       bdpg_error_codes)
 
         #----------------------------------------
         #  Create directories for this problem.
@@ -700,7 +704,10 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
                   wrapped_bdprob@PU_spp_pair_indices,
                   "COR",
                   wrapped_bdprob@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
-                  wrapped_bdprob@derived_bdpg_dir_names$plot_output_dir,
+
+                  #wrapped_bdprob@derived_bdpg_dir_names$plot_output_dir,
+                  get_RSprob_path_plots (wrapped_bdprob, starting_dir),
+
                   wrapped_bdprob@spp_col_name,
                   wrapped_bdprob@PU_col_name,
                   wrapped_bdprob@presences_col_name
@@ -733,10 +740,11 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
     wrapped_bdprob@basic_or_wrapped_str = "WRAPPED"
 
-    wrapped_bdprob@full_saved_bdprob_path =
+#    wrapped_bdprob@full_saved_bdprob_path =
         save_bdprob (wrapped_bdprob@basic_or_wrapped_str, "COR",
                      wrapped_bdprob@UUID,
-                     wrapped_bdprob@prob_outdir,
+                     get_RSprob_path_topdir (wrapped_bdprob, starting_dir),
+                     # wrapped_bdprob@prob_outdir,
                      wrapped_bdprob)
 
     return (wrapped_bdprob)  #  end function - wrap_abundance_dist_around_Xu_problem
@@ -947,8 +955,9 @@ gen_multi_bdprob = function (parameters,
         if (wrap_lognormal_dist_around_Xu)  #parameters$wrap_lognormal_around_Xu)
             {
             starting_dir =
-                file.path (normalizePath (parameters$fullOutputDirWithSlash),
-                           "wrap_prob.1")
+                file.path (normalizePath (parameters$fullOutputDirWithSlash))
+                           # ,
+                           # "wrap_prob.1")
 
             combined_bdprob = gen_wrapped_bdprob_COR (starting_dir,
                                                       parameters,
