@@ -403,7 +403,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                            marxan_run,
                                            parameters)
     {
-    set_up_and_run_COR_values =
+    marxan_control_values =
         set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
                                     COR_bd_prob@all_PU_IDs,
                                     COR_bd_prob@all_spp_IDs,
@@ -416,7 +416,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                     parameters
                                     )
 
-    return (set_up_and_run_COR_values$marxan_control_values)
+    return (marxan_control_values)
     }
 
 #===============================================================================
@@ -436,7 +436,7 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                            marxan_run,
                                            parameters)
     {
-    set_up_and_run_APP_values =
+    marxan_control_values =
         set_up_for_and_run_marxan (APP_bd_prob@PU_spp_pair_indices,
 
                                         COR_bd_prob@all_PU_IDs,
@@ -450,7 +450,7 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                         parameters
                                     )
 
-    return (set_up_and_run_APP_values$marxan_control_values)
+    return (marxan_control_values)
     }
 
 #===============================================================================
