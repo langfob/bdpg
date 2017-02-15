@@ -332,6 +332,57 @@ plot_incremental_marxan_summed_solution_representations =
     dev.off()
     }
 
+#-------------------------------------------------------------------------------
+
+#' Plot how marxan is actually doing vs. how marxan things it's doing
+#'
+#'  Evaluate apparent summed solutions as a function of the correct
+#'  problem structure and the apparent problem structure, i.e.,
+#'  how marxan is really doing vs. how marxan thinks it's doing.
+#'
+#' @param marxan_ssoln_df
+#' @param cor_PU_costs
+#' @param correct_solution_cost
+#' @param cor_bpm
+#' @param app_optimum_cost
+#' @param app_bpm
+#' @param num_spp
+#' @param plot_output_dir
+#'
+#' @return
+
+plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
+    function (marxan_ssoln_df,
+                cor_PU_costs,
+                correct_solution_cost,
+                app_optimum_cost,
+                cor_bpm,
+                app_bpm,
+                num_spp,
+                plot_output_dir
+                )
+    {
+        #  Using correct scores...
+    plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
+                                                                cor_PU_costs,
+                                                                correct_solution_cost,
+                                                                cor_bpm,
+                                                                "cor",
+                                                                num_spp,
+                                                                plot_output_dir
+                                                             )
+
+        #  Using apparent scores...
+    plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
+                                                                cor_PU_costs,
+                                                                app_optimum_cost,
+                                                                app_bpm,
+                                                                "app",
+                                                                num_spp,
+                                                                plot_output_dir
+                                                             )
+    }
+
 #===============================================================================
 #===============================================================================
 
@@ -790,30 +841,17 @@ see_if_marxan_best_was_actually_best (best_solution_ID_according_to_marxan,
 
   #---------------------------------
 
-      #  Evaluate apparent summed solutions as a function of the correct
-      #  problem structure and the apparent problem structure, i.e.,
-      #  how marxan is really doing vs. how marxan thinks it's doing.
+    # Plot how marxan is actually doing vs. how marxan things it's doing
 
-      #  Using correct scores...
-     plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
-                                                              cor_PU_costs,
-                                                        correct_solution_cost,
-                                                        cor_bpm,
-                                                        "cor",
-                                                              num_spp,
-                                                              plot_output_dir)
-
-        #  Using apparent scores...
-    plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
-                                                              cor_PU_costs,
-                                                        app_optimum_cost,
-                                                        app_bpm,
-                                                        "app",
-                                                              num_spp,
-                                                              plot_output_dir
-#                                                        ,
-#                                                              DEBUG_LEVEL
-                                                        )
+  plot_incremental_marxan_summed_solution_reps_for_COR_and_APP (marxan_ssoln_df,
+                                                                cor_PU_costs,
+                                                                correct_solution_cost,
+                                                                app_optimum_cost,
+                                                                cor_bpm,
+                                                                app_bpm,
+                                                                num_spp,
+                                                                plot_output_dir
+                                                                )
 
   #---------------------------------
 
