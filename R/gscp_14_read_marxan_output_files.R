@@ -616,22 +616,8 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
 
     app_marxan_solution_scores = cor_marxan_solution_scores
 
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-# BUG:  THESE ARE WRONG NOW, I THINK,
-#       BECAUSE num_spp AND num_PUs (particularly the PUs) IS NOT THE SAME
-#        AS THE HIGHEST PU NUMBER (AND SPP NUMBER?) SINCE WRAPPING CAN LEAD
-#        TO SOME PUs NOT BEING OCCUPIED BY ANY SPP.
-#        THIS IS LIKELY TO BE A PROBLEM ALL OVER THE PLACE.
-#        I REALLY NEED TO HAVE A DICTIONARY OR DATABASE, I.E., LOOKUP TABLE,
-#        OF PU_IDs AND ASSOCIATED VALUES, E.G., COSTS, ETC.
-
-    largest_spp_ID = num_spp                  #  temporary:    Need to compute largest_spp_ID somewhere...
-    targets = rep (1, largest_spp_ID)         #num_spp)
-    ###  PU_costs = rep (1, largest_PU_ID)    #num_PUs)
+    targets = rep (1, largest_spp_ID)    #  This should be passed in.
     total_landscape_cost = sum (cor_PU_costs)
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
 
     cat("\njust before for() to compute marxan solutions scores for each solution.")
     for (cur_solution_num in 1:num_marxan_solutions)
