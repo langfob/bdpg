@@ -509,7 +509,9 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
                                    marxan_input_dir,
                                    marxan_output_dir,
 
-                                   spf_const
+                                   spf_const,
+
+                                   rsrun@targets
                                   )
 
     #--------------------

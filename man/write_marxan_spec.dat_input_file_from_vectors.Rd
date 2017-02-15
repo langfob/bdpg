@@ -25,7 +25,7 @@ Write species input file (spec.dat) given vectors of target and spf values.
 spp_IDs = 1:5
 spf_values = c(2,3,8,1,4)
 target_values = c(20,20,10,100,5)
-write_marxan_spec.dat_input_file (spp_IDs, spf_values, target_values)
+write_marxan_spec.dat_input_file_from_vectors (spp_IDs, spf_values, target_values)
          }
 }
 

@@ -4,10 +4,11 @@
 \alias{do_COR_marxan_analysis_and_output}
 \title{Run marxan on COR problem and write output from all analysis}
 \usage{
-do_COR_marxan_analysis_and_output(COR_bd_prob, parameters)
+do_COR_marxan_analysis_and_output(COR_bd_prob, parameters, targets = rep(1,
+  COR_bd_prob@num_spp))
 }
 \arguments{
-\item{parameters}{}
+\item{targets}{}
 }
 \description{
 Run marxan on COR problem and write output from all analysis

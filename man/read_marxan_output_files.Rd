@@ -4,9 +4,9 @@
 \alias{read_marxan_output_files}
 \title{Read various marxan outputs into this program.}
 \usage{
-read_marxan_output_files(marxan_output_dir_path, all_correct_node_IDs, num_PUs,
-  num_spp, cor_bpm, plot_output_dir, parameters, app_bpm, cor_PU_costs,
-  correct_solution_cost)
+read_marxan_output_files(marxan_output_dir_path, all_correct_node_IDs, num_spp,
+  cor_bpm, plot_output_dir, parameters, app_bpm, cor_PU_costs,
+  correct_solution_cost, largest_PU_ID, largest_spp_ID, targets)
 }
 \description{
 Should include these in the marxan package.

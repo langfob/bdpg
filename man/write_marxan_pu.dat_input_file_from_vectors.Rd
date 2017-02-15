@@ -24,7 +24,7 @@ Write marxan planning units input file (pu.dat)  given vectors of cost and statu
 PU_IDs = 1:5
 cost_values = c(2,3,8,1,4)
 status_values = c(0,0,0,0,0)
-write_marxan_spec.dat_input_file (PU_IDs, cost_values, status_values)
+write_marxan_spec.dat_input_file_from_vectors (PU_IDs, cost_values, status_values)
          }
 }
 

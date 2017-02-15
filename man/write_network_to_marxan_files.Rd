@@ -5,10 +5,11 @@
 \title{Title}
 \usage{
 write_network_to_marxan_files(PU_spp_pair_indices, PU_IDs, spp_IDs, PU_col_name,
-  spp_col_name, parameters, marxan_input_dir, marxan_output_dir, spf_const)
+  spp_col_name, parameters, marxan_input_dir, marxan_output_dir, spf_const,
+  targets = rep(1, length(spp_IDs)), costs = rep(1, length(PU_IDs)))
 }
 \arguments{
-\item{marxan_output_dir}{}
+\item{costs}{}
 }
 \description{
 Title

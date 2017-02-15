@@ -374,7 +374,9 @@ setClass ("RSrun",
 
                             input_dir_name  = "character",
                             output_dir_name = "character",
-                            plot_dir_name   = "character"
+                            plot_dir_name   = "character",
+
+                            targets         = "vector"
                      ),
 
           #-----------------------------------------------------------------
@@ -383,6 +385,7 @@ setClass ("RSrun",
                     input_dir_name  = "input",
                     output_dir_name = "output",
                     plot_dir_name   = "plots"
+
                     )
 
          )

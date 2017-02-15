@@ -2,6 +2,17 @@
 
                 #  source ('write_marxan_input_files.R')
 
+#  The functions in this file write the 3 input files required by marxan.
+#
+#  There are 2 forms provided for the functions, one that requires full
+#  vectors of values for inputs and the other that defaults some of those
+#  vectors to a replicated constant value, e.g., a universal species target
+#  of 2.
+#
+#  The names of the functions that take the full vectors all end in
+#  "_from_vectors", e.g., write_marxan_pu.dat_input_file_from_vectors()
+#  rather than write_marxan_pu.dat_input_file().
+
 #===============================================================================
 
 #' Write marxan planning units input file (pu.dat)  given vectors of cost and status values.
@@ -16,7 +27,7 @@
 #' PU_IDs = 1:5
 #' cost_values = c(2,3,8,1,4)
 #' status_values = c(0,0,0,0,0)
-#' write_marxan_spec.dat_input_file (PU_IDs, cost_values, status_values)
+#' write_marxan_spec.dat_input_file_from_vectors (PU_IDs, cost_values, status_values)
 #'          }
 
 write_marxan_pu.dat_input_file_from_vectors = function (PU_IDs,
@@ -81,7 +92,7 @@ write_marxan_pu.dat_input_file = function (PU_IDs,
 #' spp_IDs = 1:5
 #' spf_values = c(2,3,8,1,4)
 #' target_values = c(20,20,10,100,5)
-#' write_marxan_spec.dat_input_file (spp_IDs, spf_values, target_values)
+#' write_marxan_spec.dat_input_file_from_vectors (spp_IDs, spf_values, target_values)
 #'          }
 
 write_marxan_spec.dat_input_file_from_vectors =
@@ -207,13 +218,14 @@ write_all_marxan_input_files = function (PU_IDs,
                                          spp_IDs,
                                          spp_PU_amount_table,
 
+                                         targets = rep (1, length (spp_IDs)),
+                                         costs = rep (1, length (PU_IDs)),
+
                                          spf_const = 1,
-                                         target_const = 1,
-                                         cost_const = 1,
                                          status_const = 0)
     {
-    write_marxan_pu.dat_input_file (PU_IDs, cost_const, status_const)
-    write_marxan_spec.dat_input_file (spp_IDs, spf_const, target_const)
+    write_marxan_pu.dat_input_file_from_vectors (PU_IDs, costs, status_const)
+    write_marxan_spec.dat_input_file_from_vectors (spp_IDs, spf_const, targets)
     write_marxan_puvspr.dat_input_file (spp_PU_amount_table)
     }
 

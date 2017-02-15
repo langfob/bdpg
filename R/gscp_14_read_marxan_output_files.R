@@ -594,7 +594,9 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
                                         plot_output_dir,
 
                                         largest_PU_ID,
-                                        largest_spp_ID
+                                        largest_spp_ID,
+
+                                        targets
                                         )
     {
     marxan_solutions_matrix_and_num_solutions <-
@@ -616,7 +618,6 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
 
     app_marxan_solution_scores = cor_marxan_solution_scores
 
-    targets = rep (1, largest_spp_ID)    #  This should be passed in.
     total_landscape_cost = sum (cor_PU_costs)
 
     cat("\njust before for() to compute marxan solutions scores for each solution.")
@@ -734,7 +735,9 @@ read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
                                         COR_bd_prob@correct_solution_cost,                                       #correct_solution_cost
 
                                         largest_PU_ID = COR_bd_prob@num_PUs,
-                                        largest_spp_ID = COR_bd_prob@num_spp
+                                        largest_spp_ID = COR_bd_prob@num_spp,
+
+                                        rsrun@targets
                                       )
             )
     }
@@ -764,7 +767,9 @@ read_APP_marxan_output_files <- function (rsrun,
                                         COR_bd_prob@correct_solution_cost,                                      #correct_solution_cost
 
                                         largest_PU_ID = COR_bd_prob@num_PUs,
-                                        largest_spp_ID = COR_bd_prob@num_spp
+                                        largest_spp_ID = COR_bd_prob@num_spp,
+
+                                        rsrun@targets
                                       )
             )
     }
@@ -812,7 +817,9 @@ read_marxan_output_files <- function (marxan_output_dir_path,
                                         correct_solution_cost,
 
                                         largest_PU_ID,
-                                        largest_spp_ID
+                                        largest_spp_ID,
+
+                                        targets
                                       )
     {
     marxan_best_df_sorted <-
@@ -832,7 +839,9 @@ read_marxan_output_files <- function (marxan_output_dir_path,
                                 plot_output_dir,
 
                                 largest_PU_ID,
-                                largest_spp_ID
+                                largest_spp_ID,
+
+                                targets
                                 )
 
     marxan_mvbest_df_sorted_by_ConservationFeature <-

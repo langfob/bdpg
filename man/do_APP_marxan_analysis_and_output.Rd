@@ -4,10 +4,11 @@
 \alias{do_APP_marxan_analysis_and_output}
 \title{Run marxan on APP problem and write output from all analysis}
 \usage{
-do_APP_marxan_analysis_and_output(APP_bd_prob, COR_bd_prob, parameters)
+do_APP_marxan_analysis_and_output(APP_bd_prob, COR_bd_prob, parameters,
+  targets = rep(1, COR_bd_prob@num_spp))
 }
 \arguments{
-\item{parameters}{}
+\item{targets}{}
 }
 \description{
 Run marxan on APP problem and write output from all analysis

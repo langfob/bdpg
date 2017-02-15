@@ -8,12 +8,14 @@
 #
 #===============================================================================
 
-create_RSrun <- function (prob_UUID, parameters)
+create_RSrun <- function (prob_UUID, parameters, targets)
     {
     rsrun <- new ("RSrun")
 
     rsrun@UUID             <- uuid::UUIDgenerate()
     rsrun@run_on_prob_UUID <- prob_UUID
+
+    rsrun@targets  <- targets
 
     create_RSrun_dir_and_subdirs (rsrun, parameters$fullOutputDir_NO_slash)
 
@@ -22,9 +24,9 @@ create_RSrun <- function (prob_UUID, parameters)
 
 #===============================================================================
 
-create_marxan_run <- function (prob_UUID, parameters)
+create_marxan_run <- function (prob_UUID, parameters, targets)
     {
-    return (create_RSrun (prob_UUID, parameters))
+    return (create_RSrun (prob_UUID, parameters, targets))
     }
 
 #===============================================================================
@@ -33,17 +35,22 @@ create_marxan_run <- function (prob_UUID, parameters)
 #'
 #' @param COR_bd_prob
 #' @param parameters
+#' @param targets
 #'
 #' @return
 #' @export
 #'
-do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters)
+do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
+                                               targets=rep(1,COR_bd_prob@num_spp))
     {
         #---------------
         #  Run marxan.
         #---------------
 
-    COR_marxan_run <- create_marxan_run (COR_bd_prob@UUID, parameters)
+
+
+    COR_marxan_run <- create_marxan_run (COR_bd_prob@UUID, parameters,
+                                         targets)
 
     marxan_control_values = set_up_for_and_run_marxan_COR (COR_bd_prob,
                                                            COR_marxan_run,
@@ -79,19 +86,23 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters)
 #' @param APP_bd_prob
 #' @param COR_bd_prob
 #' @param parameters
+#' @param targets
 #'
 #' @return
 #' @export
 
 do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
-                                               parameters)
+                                               parameters,
+                                               targets=rep(1,COR_bd_prob@num_spp)
+                                               )
     {
         #---------------
         #  Run marxan.
         #---------------
 
-    APP_marxan_run <- create_marxan_run (APP_bd_prob@UUID, parameters)
+    APP_marxan_run <- create_marxan_run (APP_bd_prob@UUID, parameters,
+                                         targets)
 
     marxan_control_values = set_up_for_and_run_marxan_APP (APP_bd_prob,
                                                            COR_bd_prob,

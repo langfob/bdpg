@@ -96,6 +96,9 @@ compute_marxan_species_penalty_factor <- function (spf_rule_to_use,
 #' @param parameters
 #' @param marxan_input_dir
 #' @param marxan_output_dir
+#' @param spf_const
+#' @param targets
+#' @param costs
 #'
 #' @return
 #' @export
@@ -110,7 +113,9 @@ write_network_to_marxan_files = function (PU_spp_pair_indices,       #  app valu
                                           marxan_input_dir,
                                           marxan_output_dir,
 
-                                          spf_const
+                                          spf_const,
+                                          targets = rep (1, length (spp_IDs)),
+                                          costs = rep (1, length (PU_IDs))
                                           )
     {
 
@@ -164,8 +169,14 @@ write_network_to_marxan_files = function (PU_spp_pair_indices,       #  app valu
       #***  marxan package and move copies to the R library and the nectar
       #***  machines.
 
-    write_all_marxan_input_files (PU_IDs, spp_IDs, spp_PU_amount_table,
-                                spf_const)
+    # write_all_marxan_input_files (PU_IDs, spp_IDs, spp_PU_amount_table,
+    #                             spf_const)
+    write_all_marxan_input_files (PU_IDs,
+                                  spp_IDs,
+                                  spp_PU_amount_table,
+                                  targets,
+                                  costs,
+                                  spf_const)
 
         #  Write pu.dat file.
     pu_dat_file_to_cp = paste0 (parameters$marxan_pu_file_name, " ", marxan_input_dir)

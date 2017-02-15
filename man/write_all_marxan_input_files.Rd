@@ -5,7 +5,8 @@
 \title{Write all marxan input files except bound.dat and input.dat using constant values for individual elements.}
 \usage{
 write_all_marxan_input_files(PU_IDs, spp_IDs, spp_PU_amount_table,
-  spf_const = 1, target_const = 1, cost_const = 1, status_const = 0)
+  targets = rep(1, length(spp_IDs)), costs = rep(1, length(PU_IDs)),
+  spf_const = 1, status_const = 0)
 }
 \arguments{
 \item{PU_IDs}{A vector of planning unit IDs}
@@ -16,11 +17,11 @@ write_all_marxan_input_files(PU_IDs, spp_IDs, spp_PU_amount_table,
 
 \item{spf_const}{A constant species penalty factor to be applied to all species}
 
+\item{status_const}{A constant status to be applied to all species}
+
 \item{target_const}{A constant target representation level to be applied to all species}
 
 \item{cost_const}{A constant cost to be applied to all species}
-
-\item{status_const}{A constant status to be applied to all species}
 }
 \value{
 nothing.
