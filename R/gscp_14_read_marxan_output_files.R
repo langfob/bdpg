@@ -321,8 +321,9 @@ COR_bd_prob@num_PUs,                                                   #num_PUs
 COR_bd_prob@num_spp,                                                   #num_spp
 COR_bd_prob@bpm,                                                       #cor_bpm
 
-#COR_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
-get_RSprob_path_plots (COR_bd_prob, top_dir),
+##COR_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
+#get_RSprob_path_plots (COR_bd_prob, top_dir),
+get_RSrun_path_plots (rsrun, top_dir),
 
 parameters,
 COR_bd_prob@bpm,                                                       #app_bpm
@@ -355,8 +356,9 @@ COR_bd_prob@num_PUs,                                                   #num_PUs
 COR_bd_prob@num_spp,                                                   #num_spp
 COR_bd_prob@bpm,                                                       #cor_bpm
 
-#APP_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
-get_RSprob_path_plots (APP_bd_prob, top_dir),
+##APP_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
+#get_RSprob_path_plots (APP_bd_prob, top_dir),
+get_RSrun_path_plots (rsrun, top_dir),
 
 parameters,
 APP_bd_prob@bpm,                                                       #app_bpm

@@ -373,14 +373,16 @@ setClass ("RSrun",
                             run_on_prob_UUID = "character",
 
                             input_dir_name  = "character",
-                            output_dir_name = "character"
+                            output_dir_name = "character",
+                            plot_dir_name   = "character"
                      ),
 
           #-----------------------------------------------------------------
 
           prototype (
                     input_dir_name  = "input",
-                    output_dir_name = "output"
+                    output_dir_name = "output",
+                    plot_dir_name   = "plots"
                     )
 
          )
