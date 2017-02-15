@@ -719,14 +719,6 @@ cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_soluti
 
   #--------------------
 
-  if (FALSE)     #  a quick test
-      {
-      get_marxan_solution_choice_string (10, 1, 10, 1)    #  OK_marxan_solution_IS_apparent_best
-      get_marxan_solution_choice_string (20, 1, 10, 1)    #  BAD_HALF_marxan_solution_NOT_apparent_best_cost_and_IS_apparent_best_rep
-      get_marxan_solution_choice_string (10, 0.8, 10, 1)  #  BAD_HALF_marxan_solution_IS_apparent_best_cost_and_NOT_apparent_best_rep
-      get_marxan_solution_choice_string (11, 0.5, 10, 1)  #  BAD_marxan_solution_NEITHER_best
-      }
-
   marxan_best_cost = app_marxan_solution_scores [best_solution_ID_according_to_marxan, "cost"]
   marxan_best_rep  = app_marxan_solution_scores [best_solution_ID_according_to_marxan, "representation"]
   sorted_best_cost = app_marxan_solution_scores [1, "cost"]
@@ -752,10 +744,6 @@ cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_soluti
   #===============================================================================
   #                       end - Find best marxan solutions.
   #===============================================================================
-
-  #---------------------------------
-  #---------------------------------
-  #---------------------------------
 
       #  Load the summed solutions vector.
       #  For each PU ID, it shows the number of solution vectors that
