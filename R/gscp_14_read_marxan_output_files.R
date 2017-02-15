@@ -532,67 +532,62 @@ read_marxan_output_files <- function (marxan_output_dir_path,
                                         correct_solution_cost
                                       )
     {
-
-    ##marxan_output_dir_path = parameters$marxan_output_dir    #  "/Users/bill/D/Marxan/output/"  #  replaced in yaml file
-    #marxan_output_dir_path = paste0 (marxan_output_dir, "/")    #.Platform$file.sep)
-
     marxan_output_best_file_name     = "output_best.csv"
     marxan_output_ssoln_file_name    = "output_ssoln.csv"
     marxan_output_mvbest_file_name   = "output_mvbest.csv"
     output_solutionsmatrix_file_name = "output_solutionsmatrix.csv"
 
-            #  Make sure both are sorted in increasing order of planning unit ID.
-            #  "arrange()" syntax taken from Wickham comment in:
-            #  http://stackoverflow.com/questions/1296646/how-to-sort-a-dataframe-by-columns-in-r
-
     #---------------------------------
 
-            #  2015 05 15 - BTL
-            #  The marxan mailing list digest has had some entries in the last few
-            #  days saying that the *nix version of marxan does not always return
-            #  its best vector in the vector it has labelled as the best.
-            #  So, I need to change this to go through all of the vectors marxan
-            #  generates and figure out which one is the best myself.
+        #  Make sure marxan_best data frames are both sorted in
+        #  increasing order of planning unit ID.
+        #  Use "arrange()" syntax taken from Wickham comment in:
+        #  http://stackoverflow.com/questions/1296646/how-to-sort-a-dataframe-by-columns-in-r
 
-  marxan_best_df_unsorted_without_missing_rows =
-#      read.csv (paste (marxan_output_dir_path, marxan_output_best_file_name, sep=''),
-      read.csv (file.path (marxan_output_dir_path, marxan_output_best_file_name),
-                header=TRUE)
+        #  2015 05 15 - BTL
+        #  The marxan mailing list digest has had some entries in the last few
+        #  days saying that the *nix version of marxan does not always return
+        #  its best vector in the vector it has labelled as the best.
+        #  So, I need to change this to go through all of the vectors marxan
+        #  generates and figure out which one is the best myself.
 
-  marxan_best_df_unsorted =
-      add_missing_PU_rows_to_PU_Count_dataframe (marxan_best_df_unsorted_without_missing_rows,
-                                           all_correct_node_IDs,
-                                           "PUID", "SOLUTION")
+    marxan_best_df_unsorted_without_missing_rows =
+        read.csv (file.path (marxan_output_dir_path, marxan_output_best_file_name),
+                  header=TRUE)
 
-  marxan_best_df_sorted = plyr::arrange (marxan_best_df_unsorted, PUID)
-  marxan_best_df_sorted_as_vector = as.vector (t(marxan_best_df_sorted [,"SOLUTION"]))
+    marxan_best_df_unsorted =
+        add_missing_PU_rows_to_PU_Count_dataframe (marxan_best_df_unsorted_without_missing_rows,
+                                                    all_correct_node_IDs,
+                                                    "PUID", "SOLUTION")
 
-  app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)
+    marxan_best_df_sorted = plyr::arrange (marxan_best_df_unsorted, PUID)
+    marxan_best_df_sorted_as_vector = as.vector (t(marxan_best_df_sorted [,"SOLUTION"]))
+
+    app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)
 
   #---------------------------------
 
-  marxan_mvbest_df =
-#      read.csv (paste (marxan_output_dir_path, marxan_output_mvbest_file_name, sep=''),
-      read.csv (file.path (marxan_output_dir_path, marxan_output_mvbest_file_name),
-                header=TRUE)
+    marxan_mvbest_df =
+        read.csv (file.path (marxan_output_dir_path, marxan_output_mvbest_file_name),
+                  header=TRUE)
 
-      #  The call to "arrange()" below gives a weird error when run on the
-      #  data frame because the column names have spaces in them (e.g.,
-      #  "Conservation Feature").  Renaming them seems to fix the problem
-  names (marxan_mvbest_df) =
-      c ("ConservationFeature",
-         "FeatureName",
-         "Target",
-         "AmountHeld",
-         "OccurrenceTarget",
-         "OccurrencesHeld",
-         "SeparationTarget",
-         "SeparationAchieved",
-         "TargetMet",
-         "MPM"
-         )
+        #  The call to "arrange()" below gives a weird error when run on the
+        #  data frame because the column names have spaces in them (e.g.,
+        #  "Conservation Feature").  Renaming them seems to fix the problem
 
-  marxan_mvbest_df = plyr::arrange (marxan_mvbest_df, ConservationFeature)
+    names (marxan_mvbest_df) =  c ("ConservationFeature",
+                                   "FeatureName",
+                                   "Target",
+                                   "AmountHeld",
+                                   "OccurrenceTarget",
+                                   "OccurrencesHeld",
+                                   "SeparationTarget",
+                                   "SeparationAchieved",
+                                   "TargetMet",
+                                   "MPM"
+                                  )
+
+    marxan_mvbest_df = plyr::arrange (marxan_mvbest_df, ConservationFeature)
 
   #===============================================================================
   #                          Find best marxan solutions.
@@ -603,21 +598,20 @@ read_marxan_output_files <- function (marxan_output_dir_path,
       #  Load output_solutionsmatrix.csv
 
   marxan_output_solutionsmatrix_df_unsorted_without_missing_rows =
-#      read.csv (paste (marxan_output_dir_path, output_solutionsmatrix_file_name, sep=''), as.is=TRUE,
       read.csv (file.path (marxan_output_dir_path, output_solutionsmatrix_file_name),
                 as.is=TRUE, header=TRUE)
 
-  #-----------------------------------------------------------------------------
-  #  The marxan output solutions matrix has a column for each
-  #  PU that occurs in some solution, but that leaves out some
-  #  PUs since they don't occur in any solution.
-  #  Also, each column header is a string like "P105" and they
-  #  are not in sorted order.
-  #  Convert this data into a matrix that has a column for each
-  #  PU in the problem and the order corresponds to the PU ID
-  #  so that values for each PU can be addressed directly by
-  #  ID number.
-  #-----------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#  The marxan output solutions matrix has a column for each
+#  PU that occurs in some solution, but that leaves out some
+#  PUs since they don't occur in any solution.
+#  Also, each column header is a string like "P105" and they
+#  are not in sorted order.
+#  Convert this data into a matrix that has a column for each
+#  PU in the problem and the order corresponds to the PU ID
+#  so that values for each PU can be addressed directly by
+#  ID number.
+#-------------------------------------------------------------------------------
 
       #  Get the planning unit names as they appear as solution column headings.
   PU_names = names (marxan_output_solutionsmatrix_df_unsorted_without_missing_rows)
@@ -652,57 +646,62 @@ read_marxan_output_files <- function (marxan_output_dir_path,
 
   #-----------------------------------------------------------------------------
 
-      #  Ready now to go through the matrix and compute the representation and
-      #  cost values for each solution row.
+        #  Ready now to go through the matrix and compute the representation and
+        #  cost values for each solution row.
 
-  cor_marxan_solution_scores = data.frame (solution_num=1:num_marxan_solutions,
-                                          representation=0,
-                                          cost=0)
-  app_marxan_solution_scores = cor_marxan_solution_scores
+    cor_marxan_solution_scores = data.frame (solution_num=1:num_marxan_solutions,
+                                            representation=0,
+                                            cost=0)
 
- # BUG:  THESE ARE WRONG NOW, I THINK,
- #       BECAUSE num_spp AND num_PUs (particularly the PUs) IS NOT THE SAME
- #        AS THE HIGHEST PU NUMBER (AND SPP NUMBER?) SINCE WRAPPING CAN LEAD
- #        TO SOME PUs NOT BEING OCCUPIED BY ANY SPP.
- #        THIS IS LIKELY TO BE A PROBLEM ALL OVER THE PLACE.
- #        I REALLY NEED TO HAVE A DICTIONARY OR DATABASE, I.E., LOOKUP TABLE,
- #        OF PU_IDs AND ASSOCIATED VALUES, E.G., COSTS, ETC.
+    app_marxan_solution_scores = cor_marxan_solution_scores
 
-largest_spp_ID = num_spp    #  temporary:    Need to compute largest_spp_ID somewhere...
-  targets = rep (1, largest_spp_ID)    #num_spp)
-###  PU_costs = rep (1, largest_PU_ID)    #num_PUs)
-  total_landscape_cost = sum (cor_PU_costs)
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# BUG:  THESE ARE WRONG NOW, I THINK,
+#       BECAUSE num_spp AND num_PUs (particularly the PUs) IS NOT THE SAME
+#        AS THE HIGHEST PU NUMBER (AND SPP NUMBER?) SINCE WRAPPING CAN LEAD
+#        TO SOME PUs NOT BEING OCCUPIED BY ANY SPP.
+#        THIS IS LIKELY TO BE A PROBLEM ALL OVER THE PLACE.
+#        I REALLY NEED TO HAVE A DICTIONARY OR DATABASE, I.E., LOOKUP TABLE,
+#        OF PU_IDs AND ASSOCIATED VALUES, E.G., COSTS, ETC.
 
-cat("\njust before for() to compute marxan solutions scores for each solution.")
-  for (cur_solution_num in 1:num_marxan_solutions)
-    {
-    cor_marxan_solution_scores [cur_solution_num, "solution_num"] = cur_solution_num
-    app_marxan_solution_scores [cur_solution_num, "solution_num"] = cur_solution_num
+    largest_spp_ID = num_spp                  #  temporary:    Need to compute largest_spp_ID somewhere...
+    targets = rep (1, largest_spp_ID)         #num_spp)
+    ###  PU_costs = rep (1, largest_PU_ID)    #num_PUs)
+    total_landscape_cost = sum (cor_PU_costs)
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
-    cur_marxan_solution_PU_IDs = which (marxan_solutions_matrix [cur_solution_num,] > 0)
+    cat("\njust before for() to compute marxan solutions scores for each solution.")
+    for (cur_solution_num in 1:num_marxan_solutions)
+        {
+        cor_marxan_solution_scores [cur_solution_num, "solution_num"] = cur_solution_num
+        app_marxan_solution_scores [cur_solution_num, "solution_num"] = cur_solution_num
 
-cat("\njust before compute_marxan_solution_scores() for cur_solution_num = ", cur_solution_num, ".")
+        cur_marxan_solution_PU_IDs = which (marxan_solutions_matrix [cur_solution_num,] > 0)
 
-    cor_marxan_solution_scores = compute_marxan_solution_scores (cor_bpm,
-                                                               cur_marxan_solution_PU_IDs,
-                                                               targets,
-                                                               num_spp,
-                                                               marxan_solutions_matrix,
-                                                               cur_solution_num,
-                                                               cor_marxan_solution_scores,
-                                                               cor_PU_costs,
-                                                               total_landscape_cost)
+        cat("\njust before compute_marxan_solution_scores() for cur_solution_num = ", cur_solution_num, ".")
 
-    app_marxan_solution_scores = compute_marxan_solution_scores (app_bpm,
-                                                               cur_marxan_solution_PU_IDs,
-                                                               targets,
-                                                               num_spp,
-                                                               marxan_solutions_matrix,
-                                                               cur_solution_num,
-                                                               app_marxan_solution_scores,
-                                                               cor_PU_costs,
-                                                               total_landscape_cost)
-    }
+        cor_marxan_solution_scores = compute_marxan_solution_scores (cor_bpm,
+                                                                   cur_marxan_solution_PU_IDs,
+                                                                   targets,
+                                                                   num_spp,
+                                                                   marxan_solutions_matrix,
+                                                                   cur_solution_num,
+                                                                   cor_marxan_solution_scores,
+                                                                   cor_PU_costs,
+                                                                   total_landscape_cost)
+
+        app_marxan_solution_scores = compute_marxan_solution_scores (app_bpm,
+                                                                   cur_marxan_solution_PU_IDs,
+                                                                   targets,
+                                                                   num_spp,
+                                                                   marxan_solutions_matrix,
+                                                                   cur_solution_num,
+                                                                   app_marxan_solution_scores,
+                                                                   cor_PU_costs,
+                                                                   total_landscape_cost)
+        }
 
     # cor_sorted_marxan_solution_scores = plyr::arrange (cor_marxan_solution_scores, -representation, -cost)
     # app_sorted_marxan_solution_scores = plyr::arrange (app_marxan_solution_scores, -representation, -cost)
@@ -713,12 +712,12 @@ cat("\njust before compute_marxan_solution_scores() for cur_solution_num = ", cu
     IDs_of_vectors_matching_marxan_best_solution_choice = c()
     for (cur_row in 1:num_marxan_solutions)
         {
-cat ("\n\ncur_row = ", cur_row, ", just before first dist_between_marxan_solutions()")
-#browser()
+        cat ("\n\ncur_row = ", cur_row, ", just before first dist_between_marxan_solutions()")
+
         cur_dist_from_marxan_best_df_sorted_as_vector =
         #        distances_between_marxan_solutions [cur_row, cur_col] =
-            dist_between_marxan_solutions (marxan_solutions_matrix [cur_row, ],
-                                           marxan_best_df_sorted_as_vector)
+        dist_between_marxan_solutions (marxan_solutions_matrix [cur_row, ],
+                                       marxan_best_df_sorted_as_vector)
 
         if (cur_dist_from_marxan_best_df_sorted_as_vector == 0)
             IDs_of_vectors_matching_marxan_best_solution_choice =
@@ -726,10 +725,11 @@ cat ("\n\ncur_row = ", cur_row, ", just before first dist_between_marxan_solutio
 
         for (cur_col in 1:num_marxan_solutions)
             {
-cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_solutions()")
+            cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_solutions()")
+
             distances_between_marxan_solutions [cur_row, cur_col] =
                 dist_between_marxan_solutions (marxan_solutions_matrix [cur_row, ],
-                                               marxan_solutions_matrix [cur_col, ])
+                                                marxan_solutions_matrix [cur_col, ])
             }
         }
 
@@ -742,15 +742,15 @@ cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_soluti
   cat ("\nnumber of vectors matching marxan best solution choice = ",
        length (IDs_of_vectors_matching_marxan_best_solution_choice))
 
-      #  Marxan returns a best solution, but I have not been able to find
-      #  anyplace where it tells you what solution number it was.
-      #  Since you can have multiple identical solutions, there may be
-      #  multiple solution IDs that could be identified as the best solution.
-      #  I need any one of them to use to get the corresponding solution vector.
-      #  I will arbitrarily choose the first one in the list of vectors that
-      #  selected the same PUs as the vector that marxan returned.
-  best_solution_ID_according_to_marxan =
-      IDs_of_vectors_matching_marxan_best_solution_choice [1]
+        #  Marxan returns a best solution, but I have not been able to find
+        #  anyplace where it tells you what solution number it was.
+        #  Since you can have multiple identical solutions, there may be
+        #  multiple solution IDs that could be identified as the best solution.
+        #  I need any one of them to use to get the corresponding solution vector.
+        #  I will arbitrarily choose the first one in the list of vectors that
+        #  selected the same PUs as the vector that marxan returned.
+    best_solution_ID_according_to_marxan =
+        IDs_of_vectors_matching_marxan_best_solution_choice [1]
 
     plot_marxan_best_solution_scores_COR_and_APP (plot_output_dir,
                                                     cor_marxan_solution_scores,
@@ -760,40 +760,40 @@ cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_soluti
 
   #--------------------
 
-see_if_marxan_best_was_actually_best (best_solution_ID_according_to_marxan,
-                                      app_marxan_solution_scores,
-                                      parameters$fullOutputDirWithSlash)
+    see_if_marxan_best_was_actually_best (best_solution_ID_according_to_marxan,
+                                          app_marxan_solution_scores,
+                                          parameters$fullOutputDirWithSlash)
 
   #===============================================================================
   #                       end - Find best marxan solutions.
   #===============================================================================
 
-      #  Load the summed solutions vector.
-      #  For each PU ID, it shows the number of solution vectors that
-      #  included that PU in the solution.
+    #  Load the summed solutions vector.
+    #  For each PU ID, it shows the number of solution vectors that
+    #  included that PU in the solution.
 
-  marxan_ssoln_df_unsorted_without_missing_rows =
-#      read.csv (paste (marxan_output_dir_path, marxan_output_ssoln_file_name, sep=''),
-      read.csv (file.path (marxan_output_dir_path, marxan_output_ssoln_file_name),
-                header=TRUE)
+    marxan_ssoln_df_unsorted_without_missing_rows =
+        read.csv (file.path (marxan_output_dir_path, marxan_output_ssoln_file_name),
+                    header=TRUE)
 
-  marxan_ssoln_df_unsorted =
-      add_missing_PU_rows_to_PU_Count_dataframe (marxan_ssoln_df_unsorted_without_missing_rows,
-                                           all_correct_node_IDs,
-                                           "planning_unit", "number")
+    marxan_ssoln_df_unsorted =
+        add_missing_PU_rows_to_PU_Count_dataframe (marxan_ssoln_df_unsorted_without_missing_rows,
+                                                    all_correct_node_IDs,
+                                                    "planning_unit", "number")
 
-  marxan_ssoln_df = plyr::arrange (marxan_ssoln_df_unsorted, planning_unit)
+    #  Sort by planning unit.
+    marxan_ssoln_df = plyr::arrange (marxan_ssoln_df_unsorted, planning_unit)
 
-    # Plot how marxan is actually doing vs. how marxan things it's doing
-  plot_incremental_marxan_summed_solution_reps_for_COR_and_APP (marxan_ssoln_df,
-                                                                cor_PU_costs,
-                                                                correct_solution_cost,
-                                                                app_optimum_cost,
-                                                                cor_bpm,
-                                                                app_bpm,
-                                                                num_spp,
-                                                                plot_output_dir
-                                                                )
+    # Plot how marxan is actually doing vs. how marxan thinks it's doing
+    plot_incremental_marxan_summed_solution_reps_for_COR_and_APP (marxan_ssoln_df,
+                                                            cor_PU_costs,
+                                                            correct_solution_cost,
+                                                            app_optimum_cost,
+                                                            cor_bpm,
+                                                            app_bpm,
+                                                            num_spp,
+                                                            plot_output_dir
+                                                            )
 
   #---------------------------------
 
