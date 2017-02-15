@@ -636,8 +636,8 @@ cat("\njust before compute_marxan_solution_scores() for cur_solution_num = ", cu
                                                                total_landscape_cost)
     }
 
-    cor_sorted_marxan_solution_scores = plyr::arrange (cor_marxan_solution_scores, -representation, -cost)
-    app_sorted_marxan_solution_scores = plyr::arrange (app_marxan_solution_scores, -representation, -cost)
+    # cor_sorted_marxan_solution_scores = plyr::arrange (cor_marxan_solution_scores, -representation, -cost)
+    # app_sorted_marxan_solution_scores = plyr::arrange (app_marxan_solution_scores, -representation, -cost)
 
     distances_between_marxan_solutions = matrix (0, nrow=num_marxan_solutions,
                                                ncol=num_marxan_solutions, byrow=TRUE)
