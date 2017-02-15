@@ -121,8 +121,6 @@ plot_incremental_marxan_summed_solution_representations =
               plot_output_dir
               )
     {
-    DEBUG_LEVEL = getOption ("bdpg.DEBUG_LEVEL", default=0)
-
     marxan_ssoln_PUs_ranked_by_votes_df = plyr::arrange (marxan_ssoln_df, plyr::desc (number))
 
     total_landscape_cost = sum (cor_PU_costs)
@@ -207,23 +205,6 @@ plot_incremental_marxan_summed_solution_representations =
 
                 }  #  end if - all targets met
             }  #  end if - no threshold found yet
-
-        #--------------------
-
-        if (DEBUG_LEVEL > 0)
-            {
-            cat ("\n---------------------\n", cur_run_index, ":", sep='')
-            print (cur_run_indices)
-            cat ("cur_solution_PUs = ")
-            print (cur_solution_PUs)
-            cat ("\n", cor_app_prefix_string, "_", "cur_frac_of_all_spp_meeting_their_target = ",
-            cur_frac_of_all_spp_meeting_their_target)
-            cat ("\n", cor_app_prefix_string, "_", "cur_cost = ", cur_cost)
-            cat ("\n", cor_app_prefix_string, "_", "cur_landscape_frac_cost = ", cur_landscape_frac_cost)
-            cat ("\n", cor_app_prefix_string, "_", "cur_optimal_frac_cost = ", cur_optimal_frac_cost)
-            cat ("\n", cor_app_prefix_string, "_", "cur_frac_rep_met_over_optimal_frac_cost = ", cur_frac_rep_met_over_optimal_frac_cost)
-
-            }  #  end if - debugging
 
         cat ("\n")
 
@@ -467,8 +448,6 @@ read_marxan_output_files <- function (marxan_output_dir,
                             #           app_optimum_cost
                                       )
     {
-    DEBUG_LEVEL = getOption ("bdpg.DEBUG_LEVEL", default=0)
-
         #  Read various marxan outputs into this program.
             #  Should include these in the marxan package.
             #  Marxan's best solution.
@@ -519,29 +498,8 @@ read_marxan_output_files <- function (marxan_output_dir,
                                            all_correct_node_IDs,
                                            "PUID", "SOLUTION")
 
-  if (DEBUG_LEVEL > 0)
-      {
-      cat ("\n\nAfter loading output_best.csv")
-      cat ("\nmarxan_best_df_unsorted_without_missing_rows =")
-      print (marxan_best_df_unsorted_without_missing_rows)
-      cat ("\nmarxan_best_df_unsorted =")
-      print (marxan_best_df_unsorted)
-      }
-
   marxan_best_df_sorted = plyr::arrange (marxan_best_df_unsorted, PUID)
   marxan_best_df_sorted_as_vector = as.vector (t(marxan_best_df_sorted [,"SOLUTION"]))
-
-#  DEBUG_LEVEL = 1
-  if (DEBUG_LEVEL > 0)
-      {
-      cat ("\n\nAfter sorting, marxan_best_df_sorted = \n")
-      print (marxan_best_df_sorted)
-      cat ("\n\nAfter sorting, marxan_best_df_sorted_as_vector = \n")
-      print (marxan_best_df_sorted_as_vector)
-      cat ("\n\n-------------------")
-      }
-#  DEBUG_LEVEL = 0
-#  browser()
 
   app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)
 
@@ -550,12 +508,6 @@ read_marxan_output_files <- function (marxan_output_dir,
   marxan_mvbest_df =
       read.csv (paste (marxan_output_dir_path, marxan_output_mvbest_file_name, sep=''),
                 header=TRUE)
-
-  if (DEBUG_LEVEL > 0)
-      {
-      cat ("\n\nAfter loading output_mvbest.csv, marxan_mvbest_df =")
-      print (marxan_mvbest_df)
-      }
 
       #  The call to "arrange()" below gives a weird error when run on the
       #  data frame because the column names have spaces in them (e.g.,
@@ -574,17 +526,6 @@ read_marxan_output_files <- function (marxan_output_dir,
          )
 
   marxan_mvbest_df = plyr::arrange (marxan_mvbest_df, ConservationFeature)
-
-  if (DEBUG_LEVEL > 0)
-      {
-      cat ("\n\nAfter sorting, marxan_mvbest_df = \n")
-      print (marxan_mvbest_df)
-      cat ("\n\n-------------------")
-      }
-
-  #---------------------------------
-  #---------------------------------
-  #---------------------------------
 
   #===============================================================================
   #                          Find best marxan solutions.
@@ -624,8 +565,6 @@ read_marxan_output_files <- function (marxan_output_dir,
         cur_idx = cur_idx + 1
 
         cur_PU_ID = convert_name_str_to_ID_num (cur_PU_name, "P")
-        if (DEBUG_LEVEL > 0)
-            cat ("\ncur_PU_ID = ", cur_PU_ID)
 
         PU_IDs_in_solutions [cur_idx] =  cur_PU_ID
         }
@@ -638,8 +577,6 @@ read_marxan_output_files <- function (marxan_output_dir,
     for (cur_PU_name in PU_names)
         {
         cur_PU_ID = convert_name_str_to_ID_num (cur_PU_name, "P")
-        if (DEBUG_LEVEL > 0)
-            cat ("\ncur_PU_ID = ", cur_PU_ID)
 
         marxan_solutions_matrix [,cur_PU_ID] =
             marxan_output_solutionsmatrix_df_unsorted_without_missing_rows [,cur_PU_name]
@@ -675,8 +612,6 @@ cat("\njust before for() to compute marxan solutions scores for each solution.")
     app_marxan_solution_scores [cur_solution_num, "solution_num"] = cur_solution_num
 
     cur_marxan_solution_PU_IDs = which (marxan_solutions_matrix [cur_solution_num,] > 0)
-    if (DEBUG_LEVEL > 0)
-        cat ("\n\ncur_marxan_solution_PU_IDs = ", cur_marxan_solution_PU_IDs)
 
 cat("\njust before compute_marxan_solution_scores() for cur_solution_num = ", cur_solution_num, ".")
 
@@ -733,12 +668,6 @@ cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_soluti
   short_range = min (num_marxan_solutions, 5)
   cat ("\n\ndistances_between_marxan_solutions [1:short_range,1:short_range] = \n")
   print (distances_between_marxan_solutions [1:short_range,1:short_range])
-
-  if (DEBUG_LEVEL > 0)
-      {
-      cat ("\n\ndistances_between_marxan_solutions = \n")
-      print (distances_between_marxan_solutions)
-      }
 
   cat ("\n\nIDs_of_vectors_matching_marxan_best_solution_choice = ",
        IDs_of_vectors_matching_marxan_best_solution_choice)
@@ -821,23 +750,7 @@ see_if_marxan_best_was_actually_best (best_solution_ID_according_to_marxan,
                                            all_correct_node_IDs,
                                            "planning_unit", "number")
 
-  if (DEBUG_LEVEL > 0)
-      {
-      cat ("\n\nAfter loading output_best.csv")
-      cat ("\nmarxan_ssoln_df_unsorted_without_missing_rows =")
-      print (marxan_ssoln_df_unsorted_without_missing_rows)
-      cat ("\nmarxan_ssoln_df_unsorted =")
-      print (marxan_ssoln_df_unsorted)
-      }
-
   marxan_ssoln_df = plyr::arrange (marxan_ssoln_df_unsorted, planning_unit)
-
-  if (DEBUG_LEVEL > 0)
-      {
-      cat ("\n\nAfter sorting, marxan_ssoln_df = \n")
-      print (marxan_ssoln_df)
-      cat ("\n\n-------------------")
-      }
 
   #---------------------------------
 
