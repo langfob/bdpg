@@ -594,13 +594,6 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
                                         plot_output_dir
                                         )
     {
-
-  #===============================================================================
-  #                          Find best marxan solutions.
-  #
-  #  Added 2015 06 18 - BTL.
-  #===============================================================================
-
     marxan_solutions_matrix_and_num_solutions <-
         load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs (
             marxan_output_dir_path,
@@ -728,14 +721,7 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
     see_if_marxan_best_was_actually_best (best_solution_ID_according_to_marxan,
                                           app_marxan_solution_scores,
                                           parameters$fullOutputDirWithSlash)
-
-  #===============================================================================
-  #                       end - Find best marxan solutions.
-  #===============================================================================
-
     }
-
-#-------------------------------------------------------------------------------
 
 #===============================================================================
 #===============================================================================
