@@ -524,7 +524,7 @@ load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <- function (marxan_o
 
 load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
     function (marxan_output_dir_path,
-              num_PUs)    #  should pass in largest_PU_ID instead?
+              largest_PU_ID)    #  should pass in largest_PU_ID instead?
     {
       #  Load output_solutionsmatrix.csv
 
@@ -565,7 +565,7 @@ load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
         PU_IDs_in_solutions [cur_idx] =  cur_PU_ID
         }
 
-    largest_PU_ID = num_PUs    #max (PU_IDs_in_solutions)    #num_PUs
+###    largest_PU_ID = num_PUs    #max (PU_IDs_in_solutions)    #num_PUs
         cat ("\nlargest_PU_ID in marxan solutions matrix = ", largest_PU_ID)
     marxan_solutions_matrix = matrix (0, nrow = num_marxan_solutions,
                                     ncol = largest_PU_ID,
@@ -585,19 +585,22 @@ load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
 #-------------------------------------------------------------------------------
 
 find_best_marxan_solutions <- function (marxan_output_dir_path,
-                                        num_PUs,     #  should this be largest_PU_ID?
+                                        #num_PUs,     #  should this be largest_PU_ID?
                                         num_spp,     #  should this be largest_spp_ID?
                                         cor_PU_costs,
                                         cor_bpm,
                                         app_bpm,
                                         marxan_best_df_sorted_as_vector,
-                                        plot_output_dir
+                                        plot_output_dir,
+
+                                        largest_PU_ID,
+                                        largest_spp_ID
                                         )
     {
     marxan_solutions_matrix_and_num_solutions <-
         load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs (
             marxan_output_dir_path,
-            num_PUs)
+            largest_PU_ID)
 
     marxan_solutions_matrix = marxan_solutions_matrix_and_num_solutions$marxan_solutions_matrix
     num_marxan_solutions    = marxan_solutions_matrix_and_num_solutions$num_marxan_solutions
@@ -728,29 +731,24 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
 
 read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
     {
-#    marxan_numbered_dir_name = "marxan.1"    #  bug:  See bdpg issue #27 on github.
-
     top_dir = parameters$fullOutputDir_NO_slash
-    marxan_output_dir = #COR_bd_prob@derived_bdpg_dir_names$res_sel$marxan$marxan.1$output_dir
-        get_RSrun_path_output (rsrun, top_dir)
-
+    marxan_output_dir = get_RSrun_path_output (rsrun, top_dir)
 
     return (read_marxan_output_files (
-marxan_output_dir,
-COR_bd_prob@all_PU_IDs,                                                #all_correct_node_IDs
-COR_bd_prob@num_PUs,                                                   #num_PUs
-COR_bd_prob@num_spp,                                                   #num_spp
-COR_bd_prob@bpm,                                                       #cor_bpm
+                                        marxan_output_dir,
+                                        COR_bd_prob@all_PU_IDs,                                                #all_correct_node_IDs
+                                #COR_bd_prob@num_PUs,                                                   #num_PUs
+                                        COR_bd_prob@num_spp,                                                   #num_spp
+                                        COR_bd_prob@bpm,                                                       #cor_bpm
+                                        get_RSrun_path_plots (rsrun, top_dir),
 
-##COR_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
-#get_RSprob_path_plots (COR_bd_prob, top_dir),
-get_RSrun_path_plots (rsrun, top_dir),
+                                        parameters,
+                                        COR_bd_prob@bpm,                                                       #app_bpm
+                                        COR_bd_prob@PU_costs,                                                  #cor_PU_costs
+                                        COR_bd_prob@correct_solution_cost,                                       #correct_solution_cost
 
-parameters,
-COR_bd_prob@bpm,                                                       #app_bpm
-COR_bd_prob@PU_costs,                                                  #cor_PU_costs
-COR_bd_prob@correct_solution_cost                                      #correct_solution_cost
-#, COR_bd_prob@correct_solution_cost                                      #app_optimum_cost
+                                        largest_PU_ID = COR_bd_prob@num_PUs,
+                                        largest_spp_ID = COR_bd_prob@num_spp
                                       )
             )
     }
@@ -763,30 +761,25 @@ read_APP_marxan_output_files <- function (rsrun,
                                           parameters
                                           )
     {
-#    marxan_numbered_dir_name = "marxan.1"    #  bug:  See bdpg issue #27 on github.
-
     top_dir = parameters$fullOutputDir_NO_slash
-    marxan_output_dir = #APP_bd_prob@derived_bdpg_dir_names$res_sel$marxan$marxan.1$output_dir
-        get_RSrun_path_output (rsrun, top_dir)
-
+    marxan_output_dir = get_RSrun_path_output (rsrun, top_dir)
 
     return (read_marxan_output_files (
-marxan_output_dir,
-COR_bd_prob@all_PU_IDs,                                                #all_correct_node_IDs
-COR_bd_prob@num_PUs,                                                   #num_PUs
-COR_bd_prob@num_spp,                                                   #num_spp
-COR_bd_prob@bpm,                                                       #cor_bpm
+                                        marxan_output_dir,
+                                        COR_bd_prob@all_PU_IDs,                                                #all_correct_node_IDs
+                                #COR_bd_prob@num_PUs,                                                   #num_PUs
+                                        COR_bd_prob@num_spp,                                                   #num_spp
+                                        COR_bd_prob@bpm,                                                       #cor_bpm
+                                        get_RSrun_path_plots (rsrun, top_dir),
 
-##APP_bd_prob@derived_bdpg_dir_names$plot_output_dir,                    #plot_output_dir
-#get_RSprob_path_plots (APP_bd_prob, top_dir),
-get_RSrun_path_plots (rsrun, top_dir),
+                                        parameters,
+                                        APP_bd_prob@bpm,                                                       #app_bpm
+                                        COR_bd_prob@PU_costs,                                                  #cor_PU_costs
+                                        COR_bd_prob@correct_solution_cost,                                      #correct_solution_cost
 
-parameters,
-APP_bd_prob@bpm,                                                       #app_bpm
-COR_bd_prob@PU_costs,                                                  #cor_PU_costs
-COR_bd_prob@correct_solution_cost                                      #correct_solution_cost
-#, APP_bd_prob@correct_solution_cost                     # >>>       # ??? app_optimum_cost
-                                          )
+                                        largest_PU_ID = COR_bd_prob@num_PUs,
+                                        largest_spp_ID = COR_bd_prob@num_spp
+                                      )
             )
     }
 
@@ -810,7 +803,6 @@ COR_bd_prob@correct_solution_cost                                      #correct_
 #'
 #' @param marxan_output_dir
 #' @param all_correct_node_IDs
-#' @param num_PUs
 #' @param num_spp
 #' @param cor_bpm
 #' @param plot_output_dir
@@ -818,10 +810,12 @@ COR_bd_prob@correct_solution_cost                                      #correct_
 #' @param app_bpm
 #' @param cor_PU_costs
 #' @param correct_solution_cost
+#' @param largest_PU_ID
+#' @param largest_spp_ID
 
 read_marxan_output_files <- function (marxan_output_dir_path,
                                         all_correct_node_IDs,
-                                        num_PUs,
+                                #num_PUs,
                                         num_spp,
                                         cor_bpm,
                                         plot_output_dir,
@@ -829,7 +823,10 @@ read_marxan_output_files <- function (marxan_output_dir_path,
                                         app_bpm,
 
                                         cor_PU_costs,
-                                        correct_solution_cost
+                                        correct_solution_cost,
+
+                                        largest_PU_ID,
+                                        largest_spp_ID
                                       )
     {
     marxan_best_df_sorted <-
@@ -840,13 +837,17 @@ read_marxan_output_files <- function (marxan_output_dir_path,
     app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)
 
     find_best_marxan_solutions (marxan_output_dir_path,
-                                num_PUs,     #  should this be largest_PU_ID?
+#                                num_PUs,     #  should this be largest_PU_ID?
                                 num_spp,     #  should this be largest_spp_ID?
                                 cor_PU_costs,
                                 cor_bpm,
                                 app_bpm,
                                 marxan_best_df_sorted_as_vector,
-                                plot_output_dir)
+                                plot_output_dir,
+
+                                largest_PU_ID,
+                                largest_spp_ID
+                                )
 
     marxan_mvbest_df_sorted_by_ConservationFeature <-
         load_marxan_mvbest_df_from_file_and_sort_by_CF (marxan_output_dir_path)
