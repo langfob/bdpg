@@ -492,48 +492,54 @@ COR_bd_prob@correct_solution_cost                                      #correct_
 
 #===============================================================================
 
-read_marxan_output_files <- function (marxan_output_dir,
-                                      all_correct_node_IDs,
-                                      num_PUs,
-                                      num_spp,
-                                      cor_bpm,
-                                      plot_output_dir,
-                                      parameters,
-                                      app_bpm,
+#'  Read various marxan outputs into this program.
+#'
+#'  Should include these in the marxan package.
+#'  Marxan's best solution.
+#'  Marxan's votes for including each planning unit.
+#'  Marxan output files to read from the Marxan output directory
+#'  (need to look these file names up in the manual):
+#'  output_best.csv
+#'  output_mvbest.csv
+#'  output_ssoln.csv
+#'  output_solutionsmatrix.csv
+#'  output_sum.csv
+#'  output_penalty_planning_units.csv
+#'  output_penalty.csv
+#'  output_sen.dat
+#'
+#' @param marxan_output_dir
+#' @param all_correct_node_IDs
+#' @param num_PUs
+#' @param num_spp
+#' @param cor_bpm
+#' @param plot_output_dir
+#' @param parameters
+#' @param app_bpm
+#' @param cor_PU_costs
+#' @param correct_solution_cost
 
-                            cor_PU_costs,
-                                      correct_solution_cost
-                            # ,
-                            #           app_optimum_cost
+read_marxan_output_files <- function (marxan_output_dir,
+                                        all_correct_node_IDs,
+                                        num_PUs,
+                                        num_spp,
+                                        cor_bpm,
+                                        plot_output_dir,
+                                        parameters,
+                                        app_bpm,
+
+                                        cor_PU_costs,
+                                        correct_solution_cost
                                       )
     {
-        #  Read various marxan outputs into this program.
-            #  Should include these in the marxan package.
-            #  Marxan's best solution.
-            #  Marxan's votes for including each planning unit.
 
-            #  Marxan output files to read from the Marxan output directory
-            #  (need to look these file names up in the manual):
+    #marxan_output_dir_path = parameters$marxan_output_dir    #  "/Users/bill/D/Marxan/output/"  #  replaced in yaml file
+    marxan_output_dir_path = paste0 (marxan_output_dir, "/")    #.Platform$file.sep)
 
-                #  output_best.csv
-                #  output_mvbest.csv
-
-                #  output_ssoln.csv
-                #  output_solutionsmatrix.csv
-                #  output_sum.csv
-
-                #  output_penalty_planning_units.csv
-                #  output_penalty.csv
-
-                #  output_sen.dat
-
-      #marxan_output_dir_path = parameters$marxan_output_dir    #  "/Users/bill/D/Marxan/output/"  #  replaced in yaml file
-      marxan_output_dir_path = paste0 (marxan_output_dir, "/")    #.Platform$file.sep)
-
-      marxan_output_best_file_name = "output_best.csv"
-      marxan_output_ssoln_file_name = "output_ssoln.csv"
-      marxan_output_mvbest_file_name = "output_mvbest.csv"
-      output_solutionsmatrix_file_name = "output_solutionsmatrix.csv"
+    marxan_output_best_file_name = "output_best.csv"
+    marxan_output_ssoln_file_name = "output_ssoln.csv"
+    marxan_output_mvbest_file_name = "output_mvbest.csv"
+    output_solutionsmatrix_file_name = "output_solutionsmatrix.csv"
 
             #  Make sure both are sorted in increasing order of planning unit ID.
             #  "arrange()" syntax taken from Wickham comment in:
@@ -775,7 +781,6 @@ see_if_marxan_best_was_actually_best (best_solution_ID_according_to_marxan,
   marxan_ssoln_df = plyr::arrange (marxan_ssoln_df_unsorted, planning_unit)
 
     # Plot how marxan is actually doing vs. how marxan things it's doing
-
   plot_incremental_marxan_summed_solution_reps_for_COR_and_APP (marxan_ssoln_df,
                                                                 cor_PU_costs,
                                                                 correct_solution_cost,
