@@ -364,6 +364,65 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
                                                              )
     }
 
+#-------------------------------------------------------------------------------
+
+plot_marxan_best_solution_scores_COR_and_APP <- function (plot_output_dir,
+                                                            cor_marxan_solution_scores,
+                                                            best_solution_ID_according_to_marxan,
+                                                            app_marxan_solution_scores
+                                                            )
+    {
+    cor_app_prefix_string = "cor"
+    pdf (file.path (plot_output_dir, paste0 (cor_app_prefix_string, "_", "marxan_all_solutions_frac_rep_vs_raw_cost.pdf")))
+      plot (cor_marxan_solution_scores [, "cost"],
+              cor_marxan_solution_scores [, "representation"],
+              main="Marxan solutions\nCORRECT - Fraction of spp meeting targets vs. costs",
+              xlab="Solution cost",
+              ylab="Fraction of spp meeting target",
+              col= "blue", pch = 19, cex = 1, lty = "solid", lwd = 2
+              )
+
+    text(cor_marxan_solution_scores [, "cost"],
+         cor_marxan_solution_scores [, "representation"],
+         labels = cor_marxan_solution_scores [, "solution_num"],
+         cex= 0.7, pos=4)
+
+        #  Color marxan's chosen solution red.
+    points (cor_marxan_solution_scores [best_solution_ID_according_to_marxan, "cost"],
+            cor_marxan_solution_scores [best_solution_ID_according_to_marxan, "representation"],
+            col= "red", pch = 19, cex = 1, lty = "solid", lwd = 2)
+    dev.off()
+
+    cor_app_prefix_string = "app"
+    pdf (file.path (plot_output_dir, paste0 (cor_app_prefix_string, "_", "marxan_all_solutions_frac_rep_vs_raw_cost.pdf")))
+    plot (app_marxan_solution_scores [, "cost"],
+          app_marxan_solution_scores [, "representation"],
+          main="Marxan solutions\nAPPARENT - Fraction of spp meeting targets vs. costs",
+          xlab="Solution cost",
+          ylab="Fraction of spp meeting target",
+          col= "blue", pch = 19, cex = 1, lty = "solid", lwd = 2
+          )
+
+    text(app_marxan_solution_scores [, "cost"],
+         app_marxan_solution_scores [, "representation"],
+         labels = cor_marxan_solution_scores [, "solution_num"],
+         cex= 0.7, pos=4)
+
+        #  Color marxan's chosen solution red.
+    points (app_marxan_solution_scores [best_solution_ID_according_to_marxan, "cost"],
+            app_marxan_solution_scores [best_solution_ID_according_to_marxan, "representation"],
+            col= "red", pch = 19, cex = 1, lty = "solid", lwd = 2)
+    dev.off()
+}
+
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+
 #===============================================================================
 #===============================================================================
 
@@ -684,48 +743,11 @@ cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_soluti
   best_solution_ID_according_to_marxan =
       IDs_of_vectors_matching_marxan_best_solution_choice [1]
 
-  cor_app_prefix_string = "cor"
-  pdf (file.path (plot_output_dir, paste0 (cor_app_prefix_string, "_", "marxan_all_solutions_frac_rep_vs_raw_cost.pdf")))
-    plot (cor_marxan_solution_scores [, "cost"],
-            cor_marxan_solution_scores [, "representation"],
-            main="Marxan solutions\nCORRECT - Fraction of spp meeting targets vs. costs",
-            xlab="Solution cost",
-            ylab="Fraction of spp meeting target",
-            col= "blue", pch = 19, cex = 1, lty = "solid", lwd = 2
-            )
-
-  text(cor_marxan_solution_scores [, "cost"],
-       cor_marxan_solution_scores [, "representation"],
-       labels = cor_marxan_solution_scores [, "solution_num"],
-       cex= 0.7, pos=4)
-
-      #  Color marxan's chosen solution red.
-  points (cor_marxan_solution_scores [best_solution_ID_according_to_marxan, "cost"],
-          cor_marxan_solution_scores [best_solution_ID_according_to_marxan, "representation"],
-          col= "red", pch = 19, cex = 1, lty = "solid", lwd = 2)
-  dev.off()
-
-  cor_app_prefix_string = "app"
-  pdf (file.path (plot_output_dir, paste0 (cor_app_prefix_string, "_", "marxan_all_solutions_frac_rep_vs_raw_cost.pdf")))
-  plot (app_marxan_solution_scores [, "cost"],
-        app_marxan_solution_scores [, "representation"],
-        main="Marxan solutions\nAPPARENT - Fraction of spp meeting targets vs. costs",
-        xlab="Solution cost",
-        ylab="Fraction of spp meeting target",
-        col= "blue", pch = 19, cex = 1, lty = "solid", lwd = 2
-        )
-
-  text(app_marxan_solution_scores [, "cost"],
-       app_marxan_solution_scores [, "representation"],
-       labels = cor_marxan_solution_scores [, "solution_num"],
-       cex= 0.7, pos=4)
-
-      #  Color marxan's chosen solution red.
-  points (app_marxan_solution_scores [best_solution_ID_according_to_marxan, "cost"],
-          app_marxan_solution_scores [best_solution_ID_according_to_marxan, "representation"],
-          col= "red", pch = 19, cex = 1, lty = "solid", lwd = 2)
-  dev.off()
-  #browser()
+    plot_marxan_best_solution_scores_COR_and_APP (plot_output_dir,
+                                                    cor_marxan_solution_scores,
+                                                    best_solution_ID_according_to_marxan,
+                                                    app_marxan_solution_scores
+                                                    )
 
   #--------------------
 
@@ -751,8 +773,6 @@ see_if_marxan_best_was_actually_best (best_solution_ID_according_to_marxan,
                                            "planning_unit", "number")
 
   marxan_ssoln_df = plyr::arrange (marxan_ssoln_df_unsorted, planning_unit)
-
-  #---------------------------------
 
     # Plot how marxan is actually doing vs. how marxan things it's doing
 
