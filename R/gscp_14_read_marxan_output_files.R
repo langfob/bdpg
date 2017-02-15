@@ -519,7 +519,7 @@ COR_bd_prob@correct_solution_cost                                      #correct_
 #' @param cor_PU_costs
 #' @param correct_solution_cost
 
-read_marxan_output_files <- function (marxan_output_dir,
+read_marxan_output_files <- function (marxan_output_dir_path,
                                         all_correct_node_IDs,
                                         num_PUs,
                                         num_spp,
@@ -533,12 +533,12 @@ read_marxan_output_files <- function (marxan_output_dir,
                                       )
     {
 
-    #marxan_output_dir_path = parameters$marxan_output_dir    #  "/Users/bill/D/Marxan/output/"  #  replaced in yaml file
-    marxan_output_dir_path = paste0 (marxan_output_dir, "/")    #.Platform$file.sep)
+    ##marxan_output_dir_path = parameters$marxan_output_dir    #  "/Users/bill/D/Marxan/output/"  #  replaced in yaml file
+    #marxan_output_dir_path = paste0 (marxan_output_dir, "/")    #.Platform$file.sep)
 
-    marxan_output_best_file_name = "output_best.csv"
-    marxan_output_ssoln_file_name = "output_ssoln.csv"
-    marxan_output_mvbest_file_name = "output_mvbest.csv"
+    marxan_output_best_file_name     = "output_best.csv"
+    marxan_output_ssoln_file_name    = "output_ssoln.csv"
+    marxan_output_mvbest_file_name   = "output_mvbest.csv"
     output_solutionsmatrix_file_name = "output_solutionsmatrix.csv"
 
             #  Make sure both are sorted in increasing order of planning unit ID.
@@ -555,7 +555,8 @@ read_marxan_output_files <- function (marxan_output_dir,
             #  generates and figure out which one is the best myself.
 
   marxan_best_df_unsorted_without_missing_rows =
-      read.csv (paste (marxan_output_dir_path, marxan_output_best_file_name, sep=''),
+#      read.csv (paste (marxan_output_dir_path, marxan_output_best_file_name, sep=''),
+      read.csv (file.path (marxan_output_dir_path, marxan_output_best_file_name),
                 header=TRUE)
 
   marxan_best_df_unsorted =
@@ -571,7 +572,8 @@ read_marxan_output_files <- function (marxan_output_dir,
   #---------------------------------
 
   marxan_mvbest_df =
-      read.csv (paste (marxan_output_dir_path, marxan_output_mvbest_file_name, sep=''),
+#      read.csv (paste (marxan_output_dir_path, marxan_output_mvbest_file_name, sep=''),
+      read.csv (file.path (marxan_output_dir_path, marxan_output_mvbest_file_name),
                 header=TRUE)
 
       #  The call to "arrange()" below gives a weird error when run on the
@@ -601,8 +603,9 @@ read_marxan_output_files <- function (marxan_output_dir,
       #  Load output_solutionsmatrix.csv
 
   marxan_output_solutionsmatrix_df_unsorted_without_missing_rows =
-      read.csv (paste (marxan_output_dir_path, output_solutionsmatrix_file_name, sep=''), as.is=TRUE,
-                header=TRUE)
+#      read.csv (paste (marxan_output_dir_path, output_solutionsmatrix_file_name, sep=''), as.is=TRUE,
+      read.csv (file.path (marxan_output_dir_path, output_solutionsmatrix_file_name),
+                as.is=TRUE, header=TRUE)
 
   #-----------------------------------------------------------------------------
   #  The marxan output solutions matrix has a column for each
@@ -770,7 +773,8 @@ see_if_marxan_best_was_actually_best (best_solution_ID_according_to_marxan,
       #  included that PU in the solution.
 
   marxan_ssoln_df_unsorted_without_missing_rows =
-      read.csv (paste (marxan_output_dir_path, marxan_output_ssoln_file_name, sep=''),
+#      read.csv (paste (marxan_output_dir_path, marxan_output_ssoln_file_name, sep=''),
+      read.csv (file.path (marxan_output_dir_path, marxan_output_ssoln_file_name),
                 header=TRUE)
 
   marxan_ssoln_df_unsorted =
