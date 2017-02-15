@@ -76,6 +76,36 @@ get_marxan_solution_choice_string = function (marxan_best_cost,
 
 #-------------------------------------------------------------------------------
 
+see_if_marxan_best_was_actually_best <-
+                            function (best_solution_ID_according_to_marxan,
+                                      app_marxan_solution_scores,
+                                      out_dir)
+    {
+    marxan_best_cost = app_marxan_solution_scores [best_solution_ID_according_to_marxan, "cost"]
+    marxan_best_rep  = app_marxan_solution_scores [best_solution_ID_according_to_marxan, "representation"]
+    sorted_best_cost = app_marxan_solution_scores [1, "cost"]
+    sorted_best_rep  = app_marxan_solution_scores [1, "representation"]
+
+    marxan_solution_choice_check_string =
+        get_marxan_solution_choice_string (marxan_best_cost, marxan_best_rep,
+                                           sorted_best_cost, sorted_best_rep)
+    cat ("\n\n=====>  ", marxan_solution_choice_check_string, "     <=====\n", sep='')
+
+      #  Write an empty file whose name indicates whether marxan really did
+      #  return its best guess.
+      #  This will make it easy to quickly search a bunch of runs to see
+      #  whether any of them had a bad marxan choice for best run by
+      #  just looking for the existance of any files whose names begin
+      #  with "BAD_".
+
+    flag_file_name = paste0 (out_dir, marxan_solution_choice_check_string)
+
+    #    system (paste ("touch", flag_file_name), wait=FALSE)
+    touch (flag_file_name)
+    }
+
+#-------------------------------------------------------------------------------
+
     #  For each step in order by Marxan summed solution PU ID:
     #  Want the fraction of all species who have met or exceeded their target
     #  when all PUs with the same number of votes or more are included in the
@@ -719,27 +749,9 @@ cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_soluti
 
   #--------------------
 
-  marxan_best_cost = app_marxan_solution_scores [best_solution_ID_according_to_marxan, "cost"]
-  marxan_best_rep  = app_marxan_solution_scores [best_solution_ID_according_to_marxan, "representation"]
-  sorted_best_cost = app_marxan_solution_scores [1, "cost"]
-  sorted_best_rep  = app_marxan_solution_scores [1, "representation"]
-
-  marxan_solution_choice_check_string =
-      get_marxan_solution_choice_string (marxan_best_cost, marxan_best_rep,
-                                         sorted_best_cost, sorted_best_rep)
-  cat ("\n\n=====>  ", marxan_solution_choice_check_string, "     <=====\n", sep='')
-
-      #  Write an empty file whose name indicates whether marxan really did
-      #  return its best guess.
-      #  This will make it easy to quickly search a bunch of runs to see
-      #  whether any of them had a bad marxan choice for best run by
-      #  just looking for the existance of any files whose names begin
-      #  with "BAD_".
-  flag_file_name = paste0 (parameters$fullOutputDirWithSlash,
-                           marxan_solution_choice_check_string)
-  system (paste ("touch", flag_file_name), wait=FALSE)
-
-  #--------------------
+see_if_marxan_best_was_actually_best (best_solution_ID_according_to_marxan,
+                                      app_marxan_solution_scores,
+                                      parameters$fullOutputDirWithSlash)
 
   #===============================================================================
   #                       end - Find best marxan solutions.
