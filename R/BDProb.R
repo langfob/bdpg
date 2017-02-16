@@ -320,6 +320,10 @@ setClass ("Xu_bd_problem",
 
                                         #  Post-generation measures
                             compute_network_metrics                  = "logical",
+                            use_igraph_metrics                       = "logical",
+                            use_bipartite_metrics                    = "logical",
+                            bipartite_metrics_to_use                 = "character",
+
                             bipartite_metrics_from_bipartite_package = "matrix",                  #  bd_prob [COR and APP values]
                             bipartite_metrics_from_igraph_package_df = "data.frame"                  #  bd_prob [COR and APP values]
 

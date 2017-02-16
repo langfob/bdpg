@@ -26,6 +26,10 @@ level species (columns) and lower trophic level species (rows). Usually this
 will be number of pollinators on each species of plants or number of
 parasitoids on each species of prey."
 
+HL=PUs=columns
+LL=Spp=rows
+species=PUsAndSpp
+
 This means that measures coming out of the bipartite package are named as if
 the graph was a plant-pollinator network.  This, in turn, means that some
 metric names need to be re-interpreted for the reserve selection problem.

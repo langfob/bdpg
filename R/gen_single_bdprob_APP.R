@@ -194,24 +194,30 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
                   )
 
         #  Compute network metrics.
-        Xu_bdprob_APP@compute_network_metrics = parameters$compute_network_metrics_APP
-    if (parameters$compute_network_metrics_APP)
-        {
-        Xu_bdprob_APP@bipartite_metrics_from_bipartite_package =
-          compute_network_measures_using_bipartite_package (Xu_bdprob_APP@bpm)
+    Xu_bdprob_APP <- init_object_graph_data (Xu_bdprob_APP,
+                                             parameters$compute_network_metrics_APP,
+                                             parameters$use_igraph_metrics,
+                                             parameters$use_bipartite_metrics,
+                                             parameters$bipartite_metrics_to_use)
 
-        Xu_bdprob_APP@bipartite_metrics_from_igraph_package_df =
-          compute_igraph_related_network_measures (
-                                    Xu_bdprob_APP@PU_spp_pair_indices,
-
-#                                    Xu_bdprob_APP@derived_bdpg_dir_names$network_output_dir,
-                                    get_RSprob_path_networks (Xu_bdprob_APP, starting_dir),
-
-
-                                    Xu_bdprob_APP@PU_col_name,
-                                    Xu_bdprob_APP@spp_col_name
-                                                    )
-        }
+#     Xu_bdprob_APP@compute_network_metrics = parameters$compute_network_metrics_APP
+#     if (parameters$compute_network_metrics_APP)
+#         {
+#         Xu_bdprob_APP@bipartite_metrics_from_bipartite_package =
+#           compute_network_measures_using_bipartite_package (Xu_bdprob_APP@bpm)
+#
+#         Xu_bdprob_APP@bipartite_metrics_from_igraph_package_df =
+#           compute_igraph_related_network_measures (
+#                                     Xu_bdprob_APP@PU_spp_pair_indices,
+#
+# #                                    Xu_bdprob_APP@derived_bdpg_dir_names$network_output_dir,
+#                                     get_RSprob_path_networks (Xu_bdprob_APP, starting_dir),
+#
+#
+#                                     Xu_bdprob_APP@PU_col_name,
+#                                     Xu_bdprob_APP@spp_col_name
+#                                                     )
+#         }
 
         #------------------------------------------------------------
         #  Everything seems to have worked.

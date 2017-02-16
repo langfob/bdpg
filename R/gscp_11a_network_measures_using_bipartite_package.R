@@ -25,6 +25,10 @@
 #'will be number of pollinators on each species of plants or number of
 #'parasitoids on each species of prey."
 #'
+#'HL=PUs=columns
+#'LL=Spp=rows
+#'species=PUsAndSpp
+#'
 #'This means that measures coming out of the bipartite package are named as if
 #'the graph was a plant-pollinator network.  This, in turn, means that some
 #'metric names need to be re-interpreted for the reserve selection problem.
@@ -122,59 +126,52 @@ compute_network_measures_using_bipartite_package = function (bpm)
     #        )
 
 
-      bipartite_metrics_from_bipartite_package <-
-    # #         t (networklevel (bpm, index=c ("links per species",
-    # #                                      "H2",
-    # #                                      "interaction evenness")))
+        #-----------------------------------------------------------------------
+        #  On a small network, using "ALLBUTDD" as the metric choice took a
+        #  miniscule amount of extra time compared to all_except_slow_indices.
+        #  However, on larger problems (e.g., wrapped problems), the bipartite
+        #  package's metric computations are pretty slow (5 or 10 minutes at
+        #  the moment) even for the all_except_slow_indices so it's better
+        #  not to use "ALLBUTDD" there.
+        #-----------------------------------------------------------------------
 
-                #  BTL - 2015 01 07
-                #  On a small network, ALLBUTDD took a miniscule amount
-                #  of extra time compared to all_except_slow_indices,
-                #  so I'm going to use ALLBUTDD for now.  If bigger
-                #  networks show this is too slow, then can revert to
-                #  using all_except_slow_indices.
+    if (parameters$bipartite_metrics_to_use == "ALLBUTDD")
+        {
+        metrics_to_use = "ALLBUTDD"
+        cat ("\nIn compute_network_measures_using_bipartite_package():  metrics_to_use = '",
+             parameters$bipartite_metrics_to_use, "'", sep='')
 
-                #  BTL - 2017 02 16
-                #  I've been using larger, wrapped problems lately, so the
-                #  graph computations are going pretty slowly, so I'm going
-                #  to go back to using the faster metrics.
-                #  However, I think that most of the speed problems are coming
-                #  from igraph, not bipartite.  Need to check that out.
-                #  In any case, the choice of metrics here should be an
-                #  option in the yaml file rather than hard-coded here.
-                #  I'll get to that later.  For now, while I'm testing,
-                #  I'll just use the faster ones.
+        } else
+        {
+        metrics_to_use = all_except_slow_indices
+        cat ("\nIn compute_network_measures_using_bipartite_package():  metrics_to_use = '",
+             parameters$bipartite_metrics_to_use, "'", sep='')
+        }
 
-        t (networklevel (bpm, index=all_except_slow_indices))
-#        t (bipartite::networklevel (bpm, index="ALLBUTDD"))
+    bipartite_metrics_from_bipartite_package <-
+                        bipartite::networklevel (bpm, index=metrics_to_use)
 
-    cat ("\n\nbipartite_metrics_from_bipartite_package = \n")
-    print (bipartite_metrics_from_bipartite_package)
+        #-----------------------------------------------------------------------
+        #  The outputs will be used in a data frame, but they've been returned
+        #  here as a vector, so they need to be transposed.
+        #-----------------------------------------------------------------------
 
-#  BTL - 2017 02 06 - POSSIBLE BUG
-#  Documentation for networklevel() says that it returns:
-#      "Depending on the selected indices, some or all of the
-#       below (returned as vector if “degree distribution” was
-#       not requested, otherwise as list):"
-#  So, when I have index="ALLBUTDD", shouldn't it be returning a vector and
-#  all of this stuff about column names should be failing?
+    bipartite_metrics_from_bipartite_package <-
+        t (bipartite_metrics_from_bipartite_package)
 
-cat ("\n>>>>>  class of return from bipartite::networklevel = ")
-print (class (bipartite_metrics_from_bipartite_package))
-cat ("\n>>>>>  dim (bipartite_metrics_from_bipartite_package) = ")
-print (bipartite_metrics_from_bipartite_package)
-cat ("\n\n")
-#browser()
 
-      #  Clean up metric names...
-      #
-      #  The bipartite metrics output has spaces in some of the metric names.
-      #  This can cause problems sometimes for downstream uses of the output, so
-      #  you need to replace the spaces with something other than white space.
-      #  Here, I'll replace them with underscores.  Some of the metrics already
-      #  use periods instead of spaces, but I won't mess with those for now in
-      #  case it helps match them up with some other expectation from a paper or
-      #  something.
+        #-----------------------------------------------------------------------
+        #  Clean up metric names...
+        #
+        #  The bipartite metrics output has spaces in some of the metric names.
+        #  This can cause problems sometimes for downstream uses of the output,
+        #  so we need to replace the spaces with something other than white
+        #  space.
+        #  Here, we'll replace them with underscores.  Some of the metrics
+        #  already use periods instead of spaces, but using underscore helps
+        #  identify which ones have been modified when trying to find them
+        #  in the bipartite package documentation.
+        #-----------------------------------------------------------------------
 
     metrics_col_names = colnames (bipartite_metrics_from_bipartite_package)
     cat ("\n\nmetrics_col_names = \n")
