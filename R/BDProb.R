@@ -324,7 +324,7 @@ setClass ("Xu_bd_problem",
                             use_bipartite_metrics                    = "logical",
                             bipartite_metrics_to_use                 = "character",
 
-                            bipartite_metrics_from_bipartite_package = "matrix",                  #  bd_prob [COR and APP values]
+                            bipartite_metrics_from_bipartite_package = "data.frame",                  #  bd_prob [COR and APP values]
                             bipartite_metrics_from_igraph_package_df = "data.frame"                  #  bd_prob [COR and APP values]
 
                      ),
@@ -337,10 +337,11 @@ setClass ("Xu_bd_problem",
                           presences_col_name               = "freq",
 
                           plot_output_dir                  = "plots",
-                          network_output_dir               = "networks",
-
-                          bipartite_metrics_from_bipartite_package = NULL,  #  necessary?  does it already default to this?
-                          bipartite_metrics_from_igraph_package_df = NULL   #  necessary?  does it already default to this?
+                          network_output_dir               = "networks"
+                          # ,
+                          #
+                          # bipartite_metrics_from_bipartite_package = NULL,  #  necessary?  does it already default to this?
+                          # bipartite_metrics_from_igraph_package_df = NULL   #  necessary?  does it already default to this?
                     )
          )
 
