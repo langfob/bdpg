@@ -464,7 +464,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 
   num_runs = 1    #  Vestigial?  Not sure it will ever be anything but 1.
                   #  2015 05 09 - BTL.
-
+{
   results_df =
       data.frame (runset_abbrev = rep (NA, num_runs),
                   run_ID = rep (NA, num_runs),
@@ -597,7 +597,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
                       #  Full runset name
                   runset_name = rep (NA, num_runs)
                   )
-
+}
   cur_result_row = 0
 
   #-------------------------------------------------------------------------------
@@ -609,6 +609,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
       #  by tzar.  Not sure what I'll do in the long run.
       #  2015 03 09 - BTL
   results_df$runset_abbrev [cur_result_row]                                    = parameters$runset_name    #  parameters$runset_abbrev
+  {
 
   results_df$exceeded_thresh_for_num_spp                                       = FALSE
 
@@ -737,7 +738,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 
       #  Full runset name
   results_df$runset_name [cur_result_row]                                      = parameters$runset_name
-
+}
 
 
   #  Getting an error.  Not sure why...  Is it because the free variable names
