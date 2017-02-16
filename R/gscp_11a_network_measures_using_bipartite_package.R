@@ -78,14 +78,25 @@
 #'algorithm. Finally, excluding discrepancy can also moderately decrease
 #'computation time.
 #'
-#' @param bpm
+#' @param rsprob an RSprob reserve selection problem over which the measures are being computed
+#' @param top_dir top directory of the tree where the problem is written out, usually
+#'     something like the tzar output directory followed by the UUID of the problem,
+#'     e.g., ~/tzarout/2fdbbefc-b67f-488c-ba97-d6cbc92ada2b
 #'
 #' @return
-#' @export
 
-compute_network_measures_using_bipartite_package = function (bpm)
+compute_network_measures_using_bipartite_package = function (rsprob,
+                                                             top_dir)
     {
     cat ("\n\nAbout to create all_except_slow_indices.")
+
+    bpm = rsprob@bpm
+
+    quick_test <-
+      c(
+          "number of species",
+          "connectance"
+          )
 
     all_except_slow_indices <-
       c(
@@ -141,9 +152,9 @@ compute_network_measures_using_bipartite_package = function (bpm)
         cat ("\nIn compute_network_measures_using_bipartite_package():  metrics_to_use = '",
              parameters$bipartite_metrics_to_use, "'", sep='')
 
-        } else
+        } else if (parameters$bipartite_metrics_to_use == "quick_test")
         {
-        metrics_to_use = all_except_slow_indices
+        metrics_to_use = quick_test
         cat ("\nIn compute_network_measures_using_bipartite_package():  metrics_to_use = '",
              parameters$bipartite_metrics_to_use, "'", sep='')
         }
@@ -216,11 +227,33 @@ compute_network_measures_using_bipartite_package = function (bpm)
     print (bipartite_metrics_from_bipartite_package)
     cat ("\n\n")
 
-        #--------------------------------------------------------------------
-        #  SHOULD WE BE WRITING THEM OUT TO DISK NOW INSTEAD OF WAITING FOR
-        #  gscp_15 ?
-        #--------------------------------------------------------------------
+        #-----------------------------------------------------------------
+        #  Add UUID of the problem as the first column and then save the
+        #  graph results data frame to disk.
+        #-----------------------------------------------------------------
 
+    uuid_col = data.frame (prob_UUID=rsprob@UUID)
+    bipartite_metrics_from_bipartite_package =
+        cbind (uuid_col, bipartite_metrics_from_bipartite_package)
+
+    cat ("\n\nfinal bipartite_metrics_from_bipartite_package including prob_UUID column = \n")
+    print (bipartite_metrics_from_bipartite_package)
+    cat ("\n\n")
+
+    bipartite_metrics_csv_file_name =
+        file.path (get_RSprob_path_networks (rsprob, top_dir),
+                   "bipartite_metrics_from_bipartite_package.csv")
+
+    write.csv (bipartite_metrics_from_bipartite_package,
+               file = bipartite_metrics_csv_file_name,
+    #            col.names=TRUE,
+                row.names=FALSE
+                )
+
+# Error in (function (cl, name, valueClass)  :
+#   assignment of an object of class “data.frame” is not valid for @‘bipartite_metrics_from_bipartite_package’ in an object of class “Xu_bd_problem”; is(value, "matrix") is not TRUE
+
+browser()
 
     return (bipartite_metrics_from_bipartite_package)
     }

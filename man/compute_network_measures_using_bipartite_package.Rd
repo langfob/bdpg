@@ -4,10 +4,14 @@
 \alias{compute_network_measures_using_bipartite_package}
 \title{Compute bipartite network measures using bipartite package}
 \usage{
-compute_network_measures_using_bipartite_package(bpm)
+compute_network_measures_using_bipartite_package(rsprob, top_dir)
 }
 \arguments{
-\item{bpm}{}
+\item{rsprob}{an RSprob reserve selection problem over which the measures are being computed}
+
+\item{top_dir}{top directory of the tree where the problem is written out, usually
+something like the tzar output directory followed by the UUID of the problem,
+e.g., ~/tzarout/2fdbbefc-b67f-488c-ba97-d6cbc92ada2b}
 }
 \description{
 The bdpg package computes bipartite measures over the PU/spp network in

@@ -310,6 +310,7 @@ gen_single_bdprob_COR = function (starting_dir,
 
         #  Compute network metrics.
     Xu_bdprob_cor <- init_object_graph_data (Xu_bdprob_cor,
+                                             starting_dir,
                                              parameters$compute_network_metrics_COR,
                                              parameters$use_igraph_metrics,
                                              parameters$use_bipartite_metrics,

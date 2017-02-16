@@ -195,6 +195,7 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
         #  Compute network metrics.
     Xu_bdprob_APP <- init_object_graph_data (Xu_bdprob_APP,
+                                             starting_dir,
                                              parameters$compute_network_metrics_APP,
                                              parameters$use_igraph_metrics,
                                              parameters$use_bipartite_metrics,

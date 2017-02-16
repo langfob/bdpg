@@ -73,6 +73,7 @@
 #' }
 
 init_object_graph_data <- function (rsprob,
+                                    top_dir,
                                     compute_network_metrics,
                                     use_igraph_metrics,
                                     use_bipartite_metrics,
@@ -87,14 +88,19 @@ init_object_graph_data <- function (rsprob,
         {
         if (use_bipartite_metrics)
             rsprob@bipartite_metrics_from_bipartite_package =
-              compute_network_measures_using_bipartite_package (rsprob@bpm)
+                compute_network_measures_using_bipartite_package (rsprob,
+                                                                  top_dir)
 
         if (use_igraph_metrics)
             rsprob@bipartite_metrics_from_igraph_package_df =
-                compute_igraph_related_network_measures (rsprob@PU_spp_pair_indices,
-                                                         get_RSprob_path_networks (rsprob, starting_dir),
-                                                         rsprob@PU_col_name,
-                                                         rsprob@spp_col_name)
+                compute_igraph_related_network_measures (rsprob,
+                                                         top_dir
+                                                        # ,
+                                                        #  rsprob@PU_spp_pair_indices,
+                                                        #  get_RSprob_path_networks (rsprob, starting_dir),
+                                                        #  rsprob@PU_col_name,
+                                                        #  rsprob@spp_col_name
+                                                        )
         }
 
     return (rsprob)

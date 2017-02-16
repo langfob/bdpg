@@ -715,6 +715,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
         #  Compute network metrics.
     wrapped_bdprob <- init_object_graph_data (wrapped_bdprob,
+                                              starting_dir,
                                               parameters$compute_network_metrics_wrapped,
                                               parameters$use_igraph_metrics,
                                               parameters$use_bipartite_metrics,

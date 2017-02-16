@@ -202,33 +202,59 @@ compute_igraph_related_network_measures <-
 #               DEBUG_LEVEL,
 #               network_output_dir
 #               )
-    function (
-                    #  2016 03 29 - BTL.
-                    #  Removed from arg list since now computed below,
-                    #  by call to create_PU_spp_pair_names().
-#              spp_vertex_names,
-#              PU_vertex_names,
-###              num_spp,
-###              num_PUs,
-                    #  2016 03 29 - BTL.
-                    #  Probably needs to be generic, not app_, so that you
-                    #  can run this routine on both cor_ and app_ values.
-                    #  At the moment, I'm not sure about that.
-#              app_PU_spp_pair_indices,
-              PU_spp_pair_indices,
-
-#####              PU_spp_pair_names,
-              network_output_dir,
-                    #  Added 2016 03 29 - BTL.
-                    #  May not need the num_spp, num_PUs args up above if
-                    #  everything in here always requires the cor_ counts.
-                    #  At the moment, I'm not sure about that.
-#####              cor_num_PUs,   #  app_ ???
-#####              cor_num_spp,
-              PU_col_name,
-              spp_col_name
-              )
+    function (rsprob,
+              top_dir
+             )
+#               ,
+#
+#                     #  2016 03 29 - BTL.
+#                     #  Removed from arg list since now computed below,
+#                     #  by call to create_PU_spp_pair_names().
+# #              spp_vertex_names,
+# #              PU_vertex_names,
+# ###              num_spp,
+# ###              num_PUs,
+#                     #  2016 03 29 - BTL.
+#                     #  Probably needs to be generic, not app_, so that you
+#                     #  can run this routine on both cor_ and app_ values.
+#                     #  At the moment, I'm not sure about that.
+# #              app_PU_spp_pair_indices,
+#               PU_spp_pair_indices,
+#
+# #####              PU_spp_pair_names,
+#               network_output_dir,
+#                     #  Added 2016 03 29 - BTL.
+#                     #  May not need the num_spp, num_PUs args up above if
+#                     #  everything in here always requires the cor_ counts.
+#                     #  At the moment, I'm not sure about that.
+# #####              cor_num_PUs,   #  app_ ???
+# #####              cor_num_spp,
+#               PU_col_name,
+#               spp_col_name
+#               )
     {
+        #-------------------------------------------------------------------
+        #  These used to be arguments to the function, but now that rsprob
+        #  is being passed in, they can all be derived here.
+        #-------------------------------------------------------------------
+
+    PU_spp_pair_indices = rsprob@PU_spp_pair_indices
+    network_output_dir  = get_RSprob_path_networks (rsprob, starting_dir)
+    PU_col_name         = rsprob@PU_col_name
+    spp_col_name        = rsprob@spp_col_name
+
+        #---------------------------------------------------------------------
+        #  I had been drawing plots of the networks, but they're so big and
+        #  convoluted and the nodes are drawn all over the top of each other
+        #  that it's not worth doing anymore.
+        #  I'll leave the code for it in here though, in case it becomes
+        #  useful at some later time.  I'll set a flag here to control that,
+        #  but it could be put in the project.yaml file if that becomes
+        #  useful.
+        #---------------------------------------------------------------------
+
+    draw_network_plots = FALSE
+
         #--------------------------------------------------------------------
         #  Generate the PU_spp_pair_names with names instead of indices.
         #
@@ -311,9 +337,12 @@ compute_igraph_related_network_measures <-
                file.path (network_output_dir, "bg-bipartite_graph_edgelist.txt"),
                format="edgelist")
 
-    pdf (file.path (network_output_dir, "bg-bipartite_graph.pdf"))
-    plot (bg)
-    dev.off()
+    if (draw_network_plots)
+        {
+        pdf (file.path (network_output_dir, "bg-bipartite_graph.pdf"))
+        plot (bg)
+        dev.off()
+        }
 
         #---------------------------------------------------------------
         #  Create the 2 projections of the bipartite graph, i.e.,
@@ -331,9 +360,12 @@ compute_igraph_related_network_measures <-
                file.path (network_output_dir, "bgp_proj1_PUs_edgelist.txt"),
                format="edgelist")
 
-    pdf (file.path (network_output_dir, "bgp_proj1_PUs.pdf"))
-    plot (bgp_proj1_PUs)
-    dev.off()
+    if (draw_network_plots)
+        {
+        pdf (file.path (network_output_dir, "bgp_proj1_PUs.pdf"))
+        plot (bgp_proj1_PUs)
+        dev.off()
+        }
 
         #-----------------------------------------------------------------------
         #  Write out the spp projection, i.e., projection 2, then plot it to a file.
@@ -344,9 +376,12 @@ compute_igraph_related_network_measures <-
                file.path (network_output_dir, "bgp_proj2_spp_edgelist.txt"),
                format="edgelist")
 
-    pdf (file.path (network_output_dir, "bgp_proj2_spp.pdf"))
-    plot (bgp_proj2_spp)
-    dev.off()
+    if (draw_network_plots)
+        {
+        pdf (file.path (network_output_dir, "bgp_proj2_spp.pdf"))
+        plot (bgp_proj2_spp)
+        dev.off()
+        }
 
     #===========================================================================
 
@@ -451,7 +486,8 @@ compute_igraph_related_network_measures <-
     #===============================================================================
 
     bipartite_metrics_from_igraph_package_df =
-        data.frame (ig_top = top,
+        data.frame (prob_UUID = rsprob@UUID,
+                  ig_top = top,
                   ig_bottom = bottom,
                   ig_num_edges_m = m,
                   ig_ktop = ktop,
@@ -481,6 +517,29 @@ compute_igraph_related_network_measures <-
                   ig_mean_top_bg_redundancy = mean_top_bg_redundancy,
                   ig_median_top_bg_redundancy = median_top_bg_redundancy
                   )
+
+        #-----------------------------------------------------------------
+        #  Add UUID of the problem as the first column and then save the
+        #  graph results data frame to disk.
+        #-----------------------------------------------------------------
+
+    # uuid_col = data.frame (prob_UUID=rsprob@UUID)
+    # bipartite_metrics_from_igraph_package_df =
+    #     cbind (uuid_col, bipartite_metrics_from_igraph_package_df)
+    #
+    # cat ("\n\nfinal bipartite_metrics_from_igraph_package_df including prob_UUID column = \n")
+    # print (bipartite_metrics_from_igraph_package_df)
+    # cat ("\n\n")
+
+    igraph_metrics_csv_file_name =
+        file.path (network_output_dir,
+                   "bipartite_metrics_from_igraph_package_df")
+
+    write.csv (bipartite_metrics_from_igraph_package_df,
+               file = igraph_metrics_csv_file_name,
+               # col.names=TRUE,
+               row.names=FALSE
+               )
 
     return (bipartite_metrics_from_igraph_package_df)
     }
