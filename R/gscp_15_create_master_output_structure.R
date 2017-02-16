@@ -334,7 +334,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #---------------------------------------------------------------------------
   #               Summarize marxan solution features.
   #---------------------------------------------------------------------------
-
+{
       #  Find which PUs marxan chose for its best solution.
   marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
   marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
@@ -346,11 +346,12 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
       cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
       cat ("\nabs_marxan_best_solution_cost_err_frac =", abs_marxan_best_solution_cost_err_frac)
+}
 
   #===============================================================================
   #       Compute correct and apparent scores for marxan solution.
   #===============================================================================
-
+{
   cat ("\n\nnum_spp =", num_spp)
   spp_rep_targets = rep (1, num_spp)    #  Seems like this should already have been set long before now.
 
@@ -369,11 +370,13 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
       cat ("\napp_solution_NUM_spp_covered__fromMarxan =", app_solution_NUM_spp_covered__fromMarxan)
       cat ("\napp_solution_FRAC_spp_covered__fromMarxan =", app_solution_FRAC_spp_covered__fromMarxan)
       cat ("\napp_spp_rep_shortfall__fromMarxan =", app_spp_rep_shortfall__fromMarxan)
+}
 
   #---------------------------------------------------------------------------
   #               Apparent scores as computed by biodivprobgen...
   #---------------------------------------------------------------------------
 
+{
   app_results_list = compute_solution_vector_scores (bpm,
                                                      num_PUs,
                                                       marxan_best_solution_PU_IDs,
@@ -408,11 +411,12 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #     cat ("\napp_solution_NUM_spp_covered =", app_solution_NUM_spp_covered)
   #     cat ("\napp_solution_FRAC_spp_covered =", app_solution_FRAC_spp_covered)
   #     cat ("\napp_spp_rep_shortfall =", app_spp_rep_shortfall)
+}
 
   #---------------------------------------------------------------------------
   #               Correct scores as computed by biodivprobgen...
   #---------------------------------------------------------------------------
-
+{
   cor_results_list = compute_solution_vector_scores (cor_bpm,
                                                      num_PUs,
                                                       marxan_best_solution_PU_IDs,
@@ -446,6 +450,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #     cat ("\ncor_NUM_spp_covered =", cor_NUM_spp_covered)
   #     cat ("\ncor_FRAC_spp_covered =", cor_FRAC_spp_covered)
   #     cat ("\ncor_spp_rep_shortfall =", cor_spp_rep_shortfall)
+}
 
   #===============================================================================
 
@@ -464,6 +469,13 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 
   num_runs = 1    #  Vestigial?  Not sure it will ever be anything but 1.
                   #  2015 05 09 - BTL.
+
+#  Create full results_df.
+#  The code in collapsed brackets below just does a big version of this:
+#      results_df =
+#          data.frame (runset_abbrev = rep (NA, num_runs),
+#                      ...
+#                     )
 {
   results_df =
       data.frame (runset_abbrev = rep (NA, num_runs),
