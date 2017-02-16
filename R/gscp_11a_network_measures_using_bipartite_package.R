@@ -191,6 +191,37 @@ compute_network_measures_using_bipartite_package = function (bpm)
     print (bipartite_metrics_from_bipartite_package)
     cat ("\n\n")
 
+        #--------------------------------------------------------------------
+        #  Translate all column names from bipartite's naming scheme to
+        #  using PUs and Spp instead of HL and LL, etc.
+        #  This could have been done just once and hard-coded in here, but
+        #  the string substitution doesn't take long and I want to make it
+        #  clear exactly what was changed and how, so the code for doing it
+        #  is included here.
+        #--------------------------------------------------------------------
+
+    x = new_metrics_col_names
+    x = gsub("HL",                "PUs",       x, fixed=TRUE)
+    x = gsub("LL",                "Spp",       x, fixed=TRUE)
+    x = gsub("number.of.species", "number.of", x, fixed=TRUE)
+    x = gsub("species",           "PUsAndSpp", x, fixed=TRUE)
+
+    cat ("\n\ntranslated_col_names = \n")
+    print (x)
+    cat ("\n\n")
+
+    colnames (bipartite_metrics_from_bipartite_package) = x
+
+    cat ("\n\nbipartite_metrics_from_bipartite_package with column names translated to use PUs & Spp, etc. instead of bipartite HL, LL, etc. = \n")
+    print (bipartite_metrics_from_bipartite_package)
+    cat ("\n\n")
+
+        #--------------------------------------------------------------------
+        #  SHOULD WE BE WRITING THEM OUT TO DISK NOW INSTEAD OF WAITING FOR
+        #  gscp_15 ?
+        #--------------------------------------------------------------------
+
+
     return (bipartite_metrics_from_bipartite_package)
     }
 
