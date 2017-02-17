@@ -306,8 +306,6 @@ create_master_output_structure <- function (parameters,
     #===========================================================================
 {
     {
-    spp_rep_targets = APP_marxan_run@targets
-
     #---------------------------------------------------------------------------
     #               Apparent scores as computed by marxan
     #---------------------------------------------------------------------------
@@ -321,29 +319,31 @@ create_master_output_structure <- function (parameters,
     #               Apparent scores as computed by biodivprobgen...
     #---------------------------------------------------------------------------
 
-    app_results_list = compute_solution_vector_scores (app_bpm,
-                                                     num_PUs,
-                                                      marxan_best_solution_PU_IDs,
-                                                      marxan_best_num_patches_in_solution,
-                                                      cor_num_patches_in_solution,
-                                                      spp_rep_targets,
-                                                      num_spp,
-                                                      FP_const_rate,
-                                                      FN_const_rate)
+    app_results_list =
+            compute_solution_vector_scores (app_bpm,
+                                            num_PUs,
+                                            marxan_best_solution_PU_IDs,
+                                            marxan_best_num_patches_in_solution,
+                                            cor_num_patches_in_solution,
+                                            APP_marxan_run@targets,
+                                            num_spp,
+                                            FP_const_rate,
+                                            FN_const_rate)
 
     #---------------------------------------------------------------------------
     #               Correct scores as computed by biodivprobgen...
     #---------------------------------------------------------------------------
 
-    cor_results_list = compute_solution_vector_scores (cor_bpm,
-                                                 num_PUs,
-                                                  marxan_best_solution_PU_IDs,
-                                                  marxan_best_num_patches_in_solution,
-                                                  cor_num_patches_in_solution,
-                                                  spp_rep_targets,
-                                                  num_spp,
-                                                  FP_const_rate,
-                                                  FN_const_rate)
+    cor_results_list =
+            compute_solution_vector_scores (cor_bpm,
+                                            num_PUs,
+                                            marxan_best_solution_PU_IDs,
+                                            marxan_best_num_patches_in_solution,
+                                            cor_num_patches_in_solution,
+                                            APP_marxan_run@targets,
+                                            num_spp,
+                                            FP_const_rate,
+                                            FN_const_rate)
 }
 
 #===============================================================================
