@@ -289,39 +289,12 @@ create_master_output_structure <- function (
     app_solution_NUM_spp_covered__fromMarxan  = sum (marxan_mvbest_df$MPM)
     app_solution_FRAC_spp_covered__fromMarxan = app_solution_NUM_spp_covered__fromMarxan / num_spp
     app_spp_rep_shortfall__fromMarxan         = 1 - app_solution_FRAC_spp_covered__fromMarxan
-
-            cat ("\n\n----------------------------------")
-            cat ("\nAPP_ VALUES AS COMPUTED BY MARXAN:")
-            cat ("\n----------------------------------")
-            cat ("\napp_solution_NUM_spp_covered__fromMarxan  =", app_solution_NUM_spp_covered__fromMarxan)
-            cat ("\napp_solution_FRAC_spp_covered__fromMarxan =", app_solution_FRAC_spp_covered__fromMarxan)
-            cat ("\napp_spp_rep_shortfall__fromMarxan         =", app_spp_rep_shortfall__fromMarxan)
     }
 
     #---------------------------------------------------------------------------
     #               Apparent scores as computed by biodivprobgen...
     #---------------------------------------------------------------------------
 
-#------------------------------------------------------------------------------
-#  BTL - 2017 02 17
-#  I'm not sure whether "apparent" in all of this means apparent in
-#  the sense of the added error in the problem itself or in the sense
-#  of something being marxan's result instead of the correct result.
-
-#  Is this stuff being done for all of marxan's solutions in its output or
-#  is it only being done for marxan's choice of best solution?
-#  Would be interesting to see it for all of marxan's solutions and in
-#  particular, it would be interesting to see how well the ranking across
-#  solutions compares between correct and apparent, i.e., do apparent rank
-#  solutions hold when you look at what they're really getting in the correct
-#  solutions?
-#  Would it be useful to do a rank correlation between correct and apparent
-#  or among the top 10 or 25 percent of solutions or whatever set is most
-#  likely to be what people are paying attention to.
-#------------------------------------------------------------------------------
-
-
-    {
     app_results_list = compute_solution_vector_scores (bpm,
                                                      num_PUs,
                                                       marxan_best_solution_PU_IDs,
@@ -332,38 +305,19 @@ create_master_output_structure <- function (
                                                       FP_const_rate,
                                                       FN_const_rate)
 
-    app_solution_unmet_spp_rep_frac_indices = app_results_list$indices_of_spp_with_unmet_rep_frac
-
-            cat ("\n\n-----------------------------------------")
-            cat ("\nAPP_ VALUES AS COMPUTED BY BIODIVPROBGEN:")
-            cat ("\n-----------------------------------------")
-            cat ("\nlength (app_solution_unmet_spp_rep_frac_indices) = ",
-                length (app_solution_unmet_spp_rep_frac_indices))
-    }
-
     #---------------------------------------------------------------------------
     #               Correct scores as computed by biodivprobgen...
     #---------------------------------------------------------------------------
-    {
+
     cor_results_list = compute_solution_vector_scores (cor_bpm,
-                                                     num_PUs,
-                                                      marxan_best_solution_PU_IDs,
-                                                      marxan_best_num_patches_in_solution,
-                                                      cor_num_patches_in_solution,
-                                                      spp_rep_targets,
-                                                      num_spp,
-                                                      FP_const_rate,
-                                                      FN_const_rate)
-
-    cor_unmet_spp_rep_frac_indices = cor_results_list$indices_of_spp_with_unmet_rep_frac
-
-            cat ("\n\n-----------------------------------------")
-            cat ("\nCOR_ VALUES AS COMPUTED BY BIODIVPROBGEN:")
-            cat ("\n-----------------------------------------")
-            cat ("\nlength (cor_unmet_spp_rep_frac_indices) = ",
-                length (cor_unmet_spp_rep_frac_indices))
-    }
-
+                                                 num_PUs,
+                                                  marxan_best_solution_PU_IDs,
+                                                  marxan_best_num_patches_in_solution,
+                                                  cor_num_patches_in_solution,
+                                                  spp_rep_targets,
+                                                  num_spp,
+                                                  FP_const_rate,
+                                                  FN_const_rate)
 }
 
 #===============================================================================
@@ -373,21 +327,10 @@ create_master_output_structure <- function (
         #  NO COMPUTATIONS ARE DONE FROM HERE ON IN THIS FUNCTION.
 {
     #-------------------------------------------------------------------------
-    #  Create full results_df, i.e., just allocated it and initialize it
-    #  before going on to populate it with the results.
-    #
-    #  Would it make more sense to be building up partial data frames
-    #  elsewhere and then here, just cbind the partial frames together?
-    #  That seems like it could be written as a more flexible routine that
-    #  builds results frames to suit particular questions rather than
-    #  building a mammoth frame that holds every possible thing and has to
-    #  choose dummy values to put into places that don't apply to some data.
+    #  Create full results_df and initialize before populating it afterwards.
     #-------------------------------------------------------------------------
 
     {
-    num_runs = 1    #  Vestigial?  Not sure it will ever be anything but 1.
-                    #  2015 05 09 - BTL.
-
     results_df =
         data.frame (
                     runset_abbrev = rep (NA, num_runs),
@@ -530,9 +473,6 @@ create_master_output_structure <- function (
         #----------------------------------------------
 
     {
-    cur_result_row = 0
-    cur_result_row = cur_result_row + 1
-
         #  Filling in the runset_abbrev with the full runset name for the moment,
         #  because it's more reliably correct since it's automatically captured
         #  by tzar.  Not sure what I'll do in the long run.
@@ -959,9 +899,66 @@ create_master_output_structure <- function (
 
 #===============================================================================
 
-#===============================================================================
+#------------------------------------------------------------------------------
+#  BTL - 2017 02 17
+#  I'm not sure whether "apparent" in all of this means apparent in
+#  the sense of the added error in the problem itself or in the sense
+#  of something being marxan's result instead of the correct result.
+#
+#  Is this stuff being done for all of marxan's solutions in its output or
+#  is it only being done for marxan's choice of best solution?
+#  Would be interesting to see it for all of marxan's solutions and in
+#  particular, it would be interesting to see how well the ranking across
+#  solutions compares between correct and apparent, i.e., do apparent rank
+#  solutions hold when you look at what they're really getting in the correct
+#  solutions?
+#
+#  Would it be useful to do a rank correlation between correct and apparent
+#  or among the top 10 or 25 percent of solutions or whatever set is most
+#  likely to be what people are paying attention to.
+#------------------------------------------------------------------------------
+
 
 #===============================================================================
+
+            # cat ("\n\n----------------------------------")
+            # cat ("\nAPP_ VALUES AS COMPUTED BY MARXAN:")
+            # cat ("\n----------------------------------")
+            # cat ("\napp_solution_NUM_spp_covered__fromMarxan  =", app_solution_NUM_spp_covered__fromMarxan)
+            # cat ("\napp_solution_FRAC_spp_covered__fromMarxan =", app_solution_FRAC_spp_covered__fromMarxan)
+            # cat ("\napp_spp_rep_shortfall__fromMarxan         =", app_spp_rep_shortfall__fromMarxan)
+
+# #unreferenced#    app_solution_unmet_spp_rep_frac_indices = app_results_list$indices_of_spp_with_unmet_rep_frac
+#
+#             cat ("\n\n-----------------------------------------")
+#             cat ("\nAPP_ VALUES AS COMPUTED BY BIODIVPROBGEN:")
+#             cat ("\n-----------------------------------------")
+#             cat ("\nlength (app_solution_unmet_spp_rep_frac_indices) = ",
+#                 length (app_solution_unmet_spp_rep_frac_indices))
+#
+# #unreferenced#    cor_unmet_spp_rep_frac_indices = cor_results_list$indices_of_spp_with_unmet_rep_frac
+#
+#             cat ("\n\n-----------------------------------------")
+#             cat ("\nCOR_ VALUES AS COMPUTED BY BIODIVPROBGEN:")
+#             cat ("\n-----------------------------------------")
+#             cat ("\nlength (cor_unmet_spp_rep_frac_indices) = ",
+#                 length (cor_unmet_spp_rep_frac_indices))
+
+#===============================================================================
+
+    #-------------------------------------------------------------------------
+    #  Create full results_df.
+    #
+    #  I.e., just allocate it and initialize it before going on to populate
+    #  it with the results.
+    #
+    #  Would it make more sense to be building up partial data frames
+    #  elsewhere and then here, just cbind the partial frames together?
+    #  That seems like it could be written as a more flexible routine that
+    #  builds results frames to suit particular questions rather than
+    #  building a mammoth frame that holds every possible thing and has to
+    #  choose dummy values to put into places that don't apply to some data.
+    #-------------------------------------------------------------------------
 
 #===============================================================================
 
