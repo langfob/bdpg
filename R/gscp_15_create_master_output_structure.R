@@ -223,6 +223,7 @@ create_master_output_structure <- function (parameters,
             #  Finally, marxan_control_values values...
             #--------------------------------------------
 
+    spf_const         = marxan_control_values$spf_const
     marxan_PROP       = marxan_control_values$marxan_PROP
     marxan_RANDSEED   = marxan_control_values$marxan_RANDSEED
     marxan_NUMREPS    = marxan_control_values$marxan_NUMREPS
