@@ -70,40 +70,40 @@ create_APP_master_output_structure <- function (marxan_control_values,
 
 #===============================================================================
 
-#  Build a master table containing:
-{
-    #  planning unit ID
-            #  marxan_best_df_sorted$PUID
-    #  correct (optimal) answer (as boolean flags on sorted planning units)
-    #  best marxan guess
-            #  marxan_best_df_sorted$SOLUTION
-    #  marxan number of votes for each puid
-            #  marxan_ssoln_df$number
-    #  difference between correct and best (i.e., (cor - best), FP, FN, etc)
-    #  absolute value of difference (to make counting them easier)
-    #  number of species on each patch (i.e., simple richness)
+    #  Build a master table containing:
+    {
+        #  planning unit ID
+                #  marxan_best_df_sorted$PUID
+        #  correct (optimal) answer (as boolean flags on sorted planning units)
+        #  best marxan guess
+                #  marxan_best_df_sorted$SOLUTION
+        #  marxan number of votes for each puid
+                #  marxan_ssoln_df$number
+        #  difference between correct and best (i.e., (cor - best), FP, FN, etc)
+        #  absolute value of difference (to make counting them easier)
+        #  number of species on each patch (i.e., simple richness)
 
-#  Need to bind together:
-#   problem setup
-#       - planning unit IDs (goes with all of these, even if they're split
-#         into separate tables)
-#       - number of species (simple richness) on patch as counts
-#   correct/optimal solution
-#       - correct/optimal solution as 0/1
-#   marxan solution(s)
-#       - marxan best solution as 0/1
-#       - marxan solution votes as counts
-#   performance measure(s)
-#       - difference between marxan best and optimal solution to represent
-#         error direction (e.g., FP, FN, etc.)
-#       - abs (difference) to represent error or no error
+    #  Need to bind together:
+    #   problem setup
+    #       - planning unit IDs (goes with all of these, even if they're split
+    #         into separate tables)
+    #       - number of species (simple richness) on patch as counts
+    #   correct/optimal solution
+    #       - correct/optimal solution as 0/1
+    #   marxan solution(s)
+    #       - marxan best solution as 0/1
+    #       - marxan solution votes as counts
+    #   performance measure(s)
+    #       - difference between marxan best and optimal solution to represent
+    #         error direction (e.g., FP, FN, etc.)
+    #       - abs (difference) to represent error or no error
 
-    #  *** Need to be sure that the puid column matches in the nodes data frame
-    #  and the marxan data frames.  Otherwise, there could be a mismatch in
-    #  the assignments for inclusion or exclusion of patches in the solutions.
+        #  *** Need to be sure that the puid column matches in the nodes data frame
+        #  and the marxan data frames.  Otherwise, there could be a mismatch in
+        #  the assignments for inclusion or exclusion of patches in the solutions.
 
-    #  Create table holding all the information to compare solutions.
-}
+        #  Create table holding all the information to compare solutions.
+    }
 
 #===============================================================================
 
@@ -253,11 +253,20 @@ create_master_output_structure <- function (parameters,
         #  is known, but not the correct solution vector.
         #---------------------------------------------------------------------
 
+
     if (correct_solution_vector_is_known)
         {
-                #  NOTE:  Long comment about possible problem has been cut out of
-                #         here and moved to the comment dumping ground at the
-                #         bottom of this file.
+
+#  2017 02 17 - BTL
+#  ALL 3 OF THESE VALUES COULD BE COMPUTED LONG BEFORE COMING TO THIS ROUTINE,
+#  THOUGH I DON'T KNOW IF THEY'RE ALL THAT NECESSARY.  IN ANY CASE, THEY
+#  COULD EVEN BE ADDED TO THE PROBLEM OBJECT AS SOON AS THE PROBLEM IS BUILT.
+#  THEY _ARE_ USED FURTHER DOWN IN HERE TO DO THINGS LIKE COMPUTE SOLUTION
+#  SCORES, HOWEVER, EVEN THERE I WONDER IF THEY SHOULD BE REPLACED BY COSTS
+#  INSTEAD OF PATCH COUNTS SINCE PATCH COUNTS ARE REALLY JUST SURROGATES FOR
+#  COSTS WHERE EVERY PU COST = 1.  CHANGING ALL THESE THINGS TO COSTS MIGHT
+#  BE NECESSARY FOR MAKING THIS CODE GENERALIZE TO NON-XU PROBLEMS.
+
         correct_solution_vector = nodes$dependent_set_member
         opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
         cor_num_patches_in_solution = sum (correct_solution_vector)
@@ -268,7 +277,7 @@ create_master_output_structure <- function (parameters,
     #---------------------------------------------------------------------------
     {
         #  Find which PUs marxan chose for its best solution.
-    marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
+    marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)  #  solution has a 1 for each PU in the solution and 0 otherwise
     marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
 
         #  Compute error in cost of best marxan solution.
@@ -305,11 +314,10 @@ create_master_output_structure <- function (parameters,
     #       Compute correct and apparent scores for marxan solution.
     #===========================================================================
 {
-    {
     #---------------------------------------------------------------------------
     #               Apparent scores as computed by marxan
     #---------------------------------------------------------------------------
-
+    {
     app_solution_NUM_spp_covered__fromMarxan  = sum (marxan_mvbest_df$MPM)
     app_solution_FRAC_spp_covered__fromMarxan = app_solution_NUM_spp_covered__fromMarxan / num_spp
     app_spp_rep_shortfall__fromMarxan         = 1 - app_solution_FRAC_spp_covered__fromMarxan
@@ -318,7 +326,7 @@ create_master_output_structure <- function (parameters,
     #---------------------------------------------------------------------------
     #               Apparent scores as computed by bdpg...
     #---------------------------------------------------------------------------
-
+{
     app_results_list =
             compute_solution_vector_scores (app_bpm,
                                             num_PUs,
@@ -329,11 +337,11 @@ create_master_output_structure <- function (parameters,
                                             num_spp,
                                             FP_const_rate,
                                             FN_const_rate)
-
+}
     #---------------------------------------------------------------------------
     #               Correct scores as computed by bdpg...
     #---------------------------------------------------------------------------
-
+{
     cor_results_list =
             compute_solution_vector_scores (cor_bpm,
                                             num_PUs,
@@ -344,6 +352,7 @@ create_master_output_structure <- function (parameters,
                                             num_spp,
                                             FP_const_rate,
                                             FN_const_rate)
+}
 }
 
 #===============================================================================
@@ -877,30 +886,6 @@ create_master_output_structure <- function (parameters,
   #     cat ("\ncor_NUM_spp_covered =", cor_NUM_spp_covered)
   #     cat ("\ncor_FRAC_spp_covered =", cor_FRAC_spp_covered)
   #     cat ("\ncor_spp_rep_shortfall =", cor_spp_rep_shortfall)
-
-#----------------------------------
-#----------------------------------
-
-#----------------------------------
-#----------------------------------
-
-#----------------------------------
-#----------------------------------
-
-#----------------------------------
-#----------------------------------
-
-#----------------------------------
-#----------------------------------
-
-#----------------------------------
-#----------------------------------
-
-#----------------------------------
-#----------------------------------
-
-#----------------------------------
-#----------------------------------
 
 #===============================================================================
 
