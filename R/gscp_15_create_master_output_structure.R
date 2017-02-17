@@ -137,6 +137,20 @@ create_master_output_structure <- function (parameters,
 
 #===============================================================================
 
+#  2017 02 17 - BTL
+#  MEANINGLESS, BUT NECESSARY, STARTUP CODE
+#
+#  NOTE THAT MANY OF THE ASSIGNMENTS DONE IN THIS SECTION DON'T REALLY NEED
+#  TO BE DONE.  THEY'RE MAKING A LOCAL VARIABLE TO HOLD A VALUE THAT'S A SLOT
+#  IN AN OBJECT OR LIST THAT WAS PASSED IN AND OFTEN, THEY'RE ONLY REFERENCED
+#  ONE TIME, I.E., WHEN THEIR VALUE IS WRITTEN INTO THE RESULTS DATA FRAME.
+#  SO, MUCH OF THIS COULD BE REPLACED BY JUST DIRECTLY REFERENCING THE SLOT.
+#
+#  THE OTHER THING IS THAT NEARLY ALL OF THESE ASSIGNMENTS WILL GO AWAY IF I
+#  SWITCH TO THE CBIND STRATEGY FOR BUILDING A SPECIFIC RESULTS DATA FRAME
+#  FOR EACH QUESTION OF INTEREST.
+
+{
 #------------------------------------------------------------------------
 #  2017 02 17 - BTL
 #  Moving these initializations up here to remind me to look at whether
@@ -239,23 +253,9 @@ create_master_output_structure <- function (parameters,
     marxan_HEURTYPE   = marxan_control_values$marxan_HEURTYPE
     marxan_CLUMPTYPE  = marxan_control_values$marxan_CLUMPTYPE
     }
+}
 
 #===============================================================================
-
-    #---------------------------------------------------------------------------
-    #      Initialize the data frame holding correct and apparent solutions.
-    #---------------------------------------------------------------------------
-
-        #---------------------------------------------------------------------
-        #  Need to separate the case of reading a Xu problem from one of
-        #  his benchmark files vs. generating a problem from scratch.
-        #  When you read it from a benchmark file, the correct solution cost
-        #  is known, but not the correct solution vector.
-        #---------------------------------------------------------------------
-
-
-    if (correct_solution_vector_is_known)
-        {
 
 #  2017 02 17 - BTL
 #  ALL 3 OF THESE VALUES COULD BE COMPUTED LONG BEFORE COMING TO THIS ROUTINE,
@@ -267,11 +267,21 @@ create_master_output_structure <- function (parameters,
 #  COSTS WHERE EVERY PU COST = 1.  CHANGING ALL THESE THINGS TO COSTS MIGHT
 #  BE NECESSARY FOR MAKING THIS CODE GENERALIZE TO NON-XU PROBLEMS.
 
+    if (correct_solution_vector_is_known)
+        {
+
         correct_solution_vector = nodes$dependent_set_member
         opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
         cor_num_patches_in_solution = sum (correct_solution_vector)
         }
 
+#===============================================================================
+
+#  2017 02 17 - BTL
+#  THIS SECTION COULD BE COMPUTED AT END OF MARXAN RUN AND SAVED IN FILES THERE,
+#  THEN READ BACK IN HERE IF USING THE CBIND STRATEGY FOR ASSEMBLING OUTPUT DF.
+
+{
     #---------------------------------------------------------------------------
     #               Summarize marxan solution features.
     #---------------------------------------------------------------------------
@@ -313,6 +323,7 @@ create_master_output_structure <- function (parameters,
     #===========================================================================
     #       Compute correct and apparent scores for marxan solution.
     #===========================================================================
+
 {
     #---------------------------------------------------------------------------
     #               Apparent scores as computed by marxan
@@ -354,12 +365,14 @@ create_master_output_structure <- function (parameters,
                                             FN_const_rate)
 }
 }
+}
 
 #===============================================================================
 
-        #  FROM HERE ON IS JUST BUSYWORK CODE FOR ASSEMBLING ALL THE PREVIOUS
-        #  RESULTS INTO A MASSIVE, POPULATED DATA FRAME.
-        #  NO COMPUTATIONS ARE DONE FROM HERE ON IN THIS FUNCTION.
+#  2017 02 17 - BTL
+#  FROM HERE ON IS JUST BUSYWORK CODE FOR ASSEMBLING ALL THE PREVIOUS
+#  RESULTS INTO A MASSIVE, POPULATED DATA FRAME.
+#  NO COMPUTATIONS ARE DONE FROM HERE ON IN THIS FUNCTION.
 {
     #-------------------------------------------------------------------------
     #  Create full results_df and initialize before populating it afterwards.
