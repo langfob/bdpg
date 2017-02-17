@@ -5,8 +5,8 @@
 \title{Create a master output structure for all problem attributes and reserve
 selection results when evaluating a CORRECT problem.}
 \usage{
-create_COR_master_output_structure(COR_bd_prob, marxan_control_values,
-  marxan_output_values, parameters)
+create_COR_master_output_structure(marxan_control_values, marxan_output_values,
+  parameters, COR_bd_prob, COR_marxan_run)
 }
 \description{
 When evaluating performance on a CORRECT problem, pass that CORRECT problem

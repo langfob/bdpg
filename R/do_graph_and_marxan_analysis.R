@@ -69,11 +69,13 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
         #  Dump all of the different kinds of results.
         #-----------------------------------------------
 
-                                        #  Guessing at these args for now...
-    create_COR_master_output_structure (COR_bd_prob,
-                                        marxan_control_values,
+    create_COR_master_output_structure (marxan_control_values,
                                         marxan_output_values,
-                                        parameters)
+                                        parameters,
+
+                                        COR_bd_prob,
+                                        COR_marxan_run
+                                        )
 
     }  #  end function - do_COR_marxan_analysis_and_output
 
@@ -113,7 +115,6 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
         #  Collect marxan results.
         #---------------------------
 
-                                            #  Guessing at these args for now...
     marxan_output_values = read_APP_marxan_output_files (APP_marxan_run,
                                                          APP_bd_prob,
                                                          COR_bd_prob,
@@ -124,11 +125,14 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
         #-----------------------------------------------
 
                                         #  Guessing at these args for now...
-    create_APP_master_output_structure (APP_bd_prob,
-                                        COR_bd_prob,
-                                        marxan_control_values,
+    create_APP_master_output_structure (marxan_control_values,
                                         marxan_output_values,
-                                        parameters)
+                                        parameters,
+
+                                        COR_bd_prob,
+                                        APP_bd_prob,
+                                        APP_marxan_run
+                                        )
 
     }  #  end function - do_APP_marxan_analysis_and_output
 

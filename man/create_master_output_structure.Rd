@@ -5,11 +5,14 @@
 \title{Create a master output structure for all problem attributes and reserve
 selection results.}
 \usage{
-create_master_output_structure(COR_bd_prob, APP_bd_prob, apply_error,
-  parameters, marxan_output_values, marxan_control_values)
+create_master_output_structure(parameters, marxan_output_values,
+  marxan_control_values, COR_bd_prob, APP_bd_prob, APP_marxan_run, apply_error)
 }
 \description{
-Create a master output structure for all problem attributes and reserve
-selection results.
+When evaluating performance on a CORRECT problem, pass that CORRECT problem
+in as both the CORRECT and the APPARENT problem.  The code to create the
+master output structure puts out various APPARENT values and this dummying
+in of the CORRECT for the APPARENT allows the function to work identically
+for CORRECT and APPARENT data.
 }
 

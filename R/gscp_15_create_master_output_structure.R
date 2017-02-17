@@ -18,19 +18,22 @@
 #' @param marxan_output_values
 #' @param parameters
 
-create_COR_master_output_structure <- function (COR_bd_prob,
-                                                marxan_control_values,
+create_COR_master_output_structure <- function (marxan_control_values,
                                                 marxan_output_values,
-                                                parameters
+                                                parameters,
+
+                                                COR_bd_prob,
+                                                COR_marxan_run
                                                 )
     {
-    create_master_output_structure (COR_bd_prob           = COR_bd_prob,
-                                    APP_bd_prob           = COR_bd_prob,  #  <==
-                                    apply_error           = FALSE,        #  <==
-
-                                    parameters            = parameters,
+    create_master_output_structure (parameters            = parameters,
                                     marxan_output_values  = marxan_output_values,
-                                    marxan_control_values = marxan_control_values
+                                    marxan_control_values = marxan_control_values,
+
+                                    COR_bd_prob    = COR_bd_prob,
+                                    APP_bd_prob    = COR_bd_prob,     #  <==
+                                    APP_marxan_run = COR_marxan_run,  #  <==
+                                    apply_error    = FALSE            #  <==
                                     )
     }
 
@@ -45,20 +48,23 @@ create_COR_master_output_structure <- function (COR_bd_prob,
 #' @param marxan_output_values
 #' @param parameters
 
-create_APP_master_output_structure <- function (APP_bd_prob,
-                                                COR_bd_prob,
-                                                marxan_control_values,
+create_APP_master_output_structure <- function (marxan_control_values,
                                                 marxan_output_values,
-                                                parameters
+                                                parameters,
+
+                                                COR_bd_prob,
+                                                APP_bd_prob,
+                                                APP_marxan_run
                                                 )
     {
-    create_master_output_structure (COR_bd_prob           = COR_bd_prob,
-                                    APP_bd_prob           = APP_bd_prob,  #  <==
-                                    apply_error           = TRUE,         #  <==
-
-                                    parameters            = parameters,
+    create_master_output_structure (parameters            = parameters,
                                     marxan_output_values  = marxan_output_values,
-                                    marxan_control_values = marxan_control_values
+                                    marxan_control_values = marxan_control_values,
+
+                                    COR_bd_prob    = COR_bd_prob,
+                                    APP_bd_prob    = APP_bd_prob,     #  <==
+                                    APP_marxan_run = APP_marxan_run,  #  <==
+                                    apply_error    = TRUE             #  <==
                                     )
     }
 
@@ -104,22 +110,31 @@ create_APP_master_output_structure <- function (APP_bd_prob,
 #' Create a master output structure for all problem attributes and reserve
 #' selection results.
 #'
-#' @param COR_bd_prob
-#' @param APP_bd_prob
-#' @param apply_error
+#'When evaluating performance on a CORRECT problem, pass that CORRECT problem
+#'in as both the CORRECT and the APPARENT problem.  The code to create the
+#'master output structure puts out various APPARENT values and this dummying
+#'in of the CORRECT for the APPARENT allows the function to work identically
+#'for CORRECT and APPARENT data.
+#'
 #' @param parameters
 #' @param marxan_output_values
 #' @param marxan_control_values
+#' @param COR_bd_prob
+#' @param APP_bd_prob
+#' @param APP_marxan_run
+#' @param apply_error
 
-create_master_output_structure <- function (COR_bd_prob,
-                                            APP_bd_prob,
-                                            apply_error,
-
-                                            parameters,
+create_master_output_structure <- function (parameters,
                                             marxan_output_values,
-                                            marxan_control_values
+                                            marxan_control_values,
+
+                                            COR_bd_prob,
+                                            APP_bd_prob,     #  <==  different for COR/APP
+                                            APP_marxan_run,  #  <==  different for COR/APP
+                                            apply_error      #  <==  different for COR/APP
                                             )
     {
+
 #===============================================================================
 
 #------------------------------------------------------------------------
@@ -633,7 +648,7 @@ create_master_output_structure <- function (COR_bd_prob,
                             cur_result_row)    #  Added 2016 03 28 - BTL.
 }
 
-}  #  end of function - create_master_output_structure()
+    }  #  end of function - create_master_output_structure()
 
 
 

@@ -5,8 +5,8 @@
 \title{Create a master output structure for all problem attributes and reserve
 selection results when evaluating an APPARENT problem.}
 \usage{
-create_APP_master_output_structure(APP_bd_prob, COR_bd_prob,
-  marxan_control_values, marxan_output_values, parameters)
+create_APP_master_output_structure(marxan_control_values, marxan_output_values,
+  parameters, COR_bd_prob, APP_bd_prob, APP_marxan_run)
 }
 \description{
 Create a master output structure for all problem attributes and reserve
