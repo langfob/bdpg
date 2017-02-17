@@ -4,6 +4,20 @@
 
 #===============================================================================
 
+#' Create a master output structure for all problem attributes and reserve
+#' selection results when evaluating a CORRECT problem.
+#'
+#'When evaluating performance on a CORRECT problem, pass that CORRECT problem
+#'in as both the CORRECT and the APPARENT problem.  The code to create the
+#'master output structure puts out various APPARENT values and this dummying
+#'in of the CORRECT for the APPARENT allows the function to work identically
+#'for CORRECT and APPARENT data.
+#'
+#' @param COR_bd_prob
+#' @param marxan_control_values
+#' @param marxan_output_values
+#' @param parameters
+
 create_COR_master_output_structure <- function (COR_bd_prob,
                                                 marxan_control_values,
                                                 marxan_output_values,
@@ -11,16 +25,25 @@ create_COR_master_output_structure <- function (COR_bd_prob,
                                                 )
     {
     create_master_output_structure (COR_bd_prob           = COR_bd_prob,
-                                    APP_bd_prob           = COR_bd_prob,
-                                    apply_error           = FALSE,
+                                    APP_bd_prob           = COR_bd_prob,  #  <==
+                                    apply_error           = FALSE,        #  <==
 
                                     parameters            = parameters,
                                     marxan_output_values  = marxan_output_values,
                                     marxan_control_values = marxan_control_values
-            )
+                                    )
     }
 
 #===============================================================================
+
+#' Create a master output structure for all problem attributes and reserve
+#' selection results when evaluating an APPARENT problem.
+#'
+#' @param APP_bd_prob
+#' @param COR_bd_prob
+#' @param marxan_control_values
+#' @param marxan_output_values
+#' @param parameters
 
 create_APP_master_output_structure <- function (APP_bd_prob,
                                                 COR_bd_prob,
@@ -30,8 +53,8 @@ create_APP_master_output_structure <- function (APP_bd_prob,
                                                 )
     {
     create_master_output_structure (COR_bd_prob           = COR_bd_prob,
-                                    APP_bd_prob           = APP_bd_prob,
-                                    apply_error           = TRUE,
+                                    APP_bd_prob           = APP_bd_prob,  #  <==
+                                    apply_error           = TRUE,         #  <==
 
                                     parameters            = parameters,
                                     marxan_output_values  = marxan_output_values,
@@ -77,6 +100,16 @@ create_APP_master_output_structure <- function (APP_bd_prob,
 }
 
 #===============================================================================
+
+#' Create a master output structure for all problem attributes and reserve
+#' selection results.
+#'
+#' @param COR_bd_prob
+#' @param APP_bd_prob
+#' @param apply_error
+#' @param parameters
+#' @param marxan_output_values
+#' @param marxan_control_values
 
 create_master_output_structure <- function (COR_bd_prob,
                                             APP_bd_prob,
