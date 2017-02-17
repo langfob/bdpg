@@ -10,15 +10,13 @@ create_COR_master_output_structure <- function (COR_bd_prob,
                                                 parameters
                                                 )
     {
-    return (
-            create_master_output_structure (COR_bd_prob           = COR_bd_prob,
-                                            APP_bd_prob           = COR_bd_prob,
-                                            apply_error           = FALSE,
+    create_master_output_structure (COR_bd_prob           = COR_bd_prob,
+                                    APP_bd_prob           = COR_bd_prob,
+                                    apply_error           = FALSE,
 
-                                            parameters            = parameters,
-                                            marxan_output_values  = marxan_output_values,
-                                            marxan_control_values = marxan_control_values
-                    )
+                                    parameters            = parameters,
+                                    marxan_output_values  = marxan_output_values,
+                                    marxan_control_values = marxan_control_values
             )
     }
 
@@ -31,16 +29,14 @@ create_APP_master_output_structure <- function (APP_bd_prob,
                                                 parameters
                                                 )
     {
-    return (
-            create_master_output_structure (COR_bd_prob           = COR_bd_prob,
-                                            APP_bd_prob           = APP_bd_prob,
-                                            apply_error           = TRUE,
+    create_master_output_structure (COR_bd_prob           = COR_bd_prob,
+                                    APP_bd_prob           = APP_bd_prob,
+                                    apply_error           = TRUE,
 
-                                            parameters            = parameters,
-                                            marxan_output_values  = marxan_output_values,
-                                            marxan_control_values = marxan_control_values
-                    )
-            )
+                                    parameters            = parameters,
+                                    marxan_output_values  = marxan_output_values,
+                                    marxan_control_values = marxan_control_values
+                                    )
     }
 
 #===============================================================================
