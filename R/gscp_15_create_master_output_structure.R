@@ -22,6 +22,7 @@ create_COR_master_output_structure <- function (COR_bd_prob,
                     cor_link_counts_for_each_node       = COR_bd_prob@final_link_counts_for_each_node,
                     bpm                                 = COR_bd_prob@bpm,
                     cor_bpm                             = COR_bd_prob@bpm,
+
                     parameters                          = parameters,
 
                         #  input parameters for error model.
@@ -81,9 +82,10 @@ create_APP_master_output_structure <- function (APP_bd_prob,
                     correct_solution_cost               = COR_bd_prob@correct_solution_cost,
                     nodes                               = COR_bd_prob@nodes,
 
-                    cor_link_counts_for_each_node = COR_bd_prob@final_link_counts_for_each_node,  #  See 3:04 pm note below
+                    cor_link_counts_for_each_node       = COR_bd_prob@final_link_counts_for_each_node,  #  See 3:04 pm note below
                     bpm                                 = APP_bd_prob@bpm,
                     cor_bpm                             = COR_bd_prob@bpm,
+
                     parameters                          = parameters,
 
                         #  input parameters for error model.
@@ -226,20 +228,9 @@ create_master_output_structure <- function (
                 #  NOTE:  Long comment about possible problem has been cut out of
                 #         here and moved to the comment dumping ground at the
                 #         bottom of this file.
-
-                #  2017 02 17 - BTL
-                #  Not sure whether this is really a problem anymore or not.
-                #  Need to investigate.
-
-                cat ("\n\nJust before things requiring major fix in gscp_15:\n")
         correct_solution_vector = nodes$dependent_set_member
-
-                cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
-
         opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
         cor_num_patches_in_solution = sum (correct_solution_vector)
-
-                cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
         }
 
     #---------------------------------------------------------------------------
