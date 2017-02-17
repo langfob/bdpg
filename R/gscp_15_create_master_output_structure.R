@@ -155,7 +155,7 @@ create_master_output_structure <- function (parameters,
 #===============================================================================
 
         #-------------------------------------------------------------
-        #  Decode values that used to explicitly be in the arg list.
+        #  Decode values that used to be explicitly in the arg list.
         #-------------------------------------------------------------
     {
             #---------------------------
@@ -247,7 +247,7 @@ create_master_output_structure <- function (parameters,
     #---------------------------------------------------------------------------
 
         #---------------------------------------------------------------------
-        #  Need to separate the case of reading a Xu problem from one of his
+        #  Need to separate the case of reading a Xu problem from one of
         #  his benchmark files vs. generating a problem from scratch.
         #  When you read it from a benchmark file, the correct solution cost
         #  is known, but not the correct solution vector.
@@ -281,6 +281,24 @@ create_master_output_structure <- function (parameters,
 
     marxan_best_solution_cost_err_frac = (marxan_best_num_patches_in_solution - cor_num_patches_in_solution) / cor_num_patches_in_solution
     abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
+
+# #  2017 02 17 - BTL
+# #  HOW I MIGHT WANT TO REWRITE THE STUFF ABOVE.
+# #  NEED TO LOOK UP WHERE I'M STORING THE PU COSTS NOW SO THAT THE WAY IT'S
+# #  STATED IN THE EXPRESSIONS BELOW IS CORRECT.
+# #
+# #  There are really 4 errors here:
+# #  - an apparent cost error
+# #  - a correct cost error and
+# #  - an absolute error in the estimation of the cost (i.e., abs(app_cost - cor_cost)) and
+# #  - a fractional error in the estimation of the cost (i.e., abs_cost_err/cor_cost)
+#
+#     marxan_best_sol_cost = sum (cost [marxan_best_df_sorted$SOLUTION > 0])
+#     marxan_best_solution_cost_err_frac =
+#         (marxan_best_sol_cost - cor_cost) / cor_cost
+#     abs_marxan_best_solution_cost_err_frac =
+#         abs (marxan_best_solution_cost_err_frac)
+
     }
 
     #===========================================================================
@@ -294,7 +312,8 @@ create_master_output_structure <- function (parameters,
 #  setting all targets to 1 here.
 #  Is the RSrun object passed in to this function though?
 
-    spp_rep_targets = rep (1, num_spp)    #  Seems like this should already have been set long before now.
+#    spp_rep_targets = rep (1, num_spp)    #  Seems like this should already have been set long before now.
+    spp_rep_targets = APP_marxan_run@targets
 
     #---------------------------------------------------------------------------
     #               Apparent scores as computed by marxan
