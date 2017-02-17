@@ -11,38 +11,13 @@ create_COR_master_output_structure <- function (COR_bd_prob,
                                                 )
     {
     return (
-            create_master_output_structure (
+            create_master_output_structure (COR_bd_prob           = COR_bd_prob,
+                                            APP_bd_prob           = COR_bd_prob,
+                                            apply_error           = FALSE,
 
-                    read_Xu_problem_from_Xu_file        = COR_bd_prob@prob_gen_info@read_Xu_problem_from_Xu_file,
-                    Xu_parameters                       = COR_bd_prob@prob_gen_info@Xu_parameters,
-                    num_PUs                             = COR_bd_prob@num_PUs,
-                    num_spp                             = COR_bd_prob@num_spp,
-                    correct_solution_cost               = COR_bd_prob@correct_solution_cost,
-                    nodes                               = COR_bd_prob@nodes,
-                    cor_link_counts_for_each_node       = COR_bd_prob@final_link_counts_for_each_node,
-                    app_bpm                             = COR_bd_prob@bpm,
-                    cor_bpm                             = COR_bd_prob@bpm,
-
-                    parameters                          = parameters,
-
-                        #  input parameters for error model.
-                    apply_error             = FALSE,
-                    match_error_counts      = FALSE,
-                    FP_const_rate           = 0,
-                    FN_const_rate           = 0,
-                    original_FP_const_rate  = 0,
-                    original_FN_const_rate  = 0,
-
-                    spf_const = marxan_control_values$spf_const,
-
-                    compute_network_metrics                  = COR_bd_prob@compute_network_metrics,
-                    bipartite_metrics_from_bipartite_package = COR_bd_prob@bipartite_metrics_from_bipartite_package,
-                    bipartite_metrics_from_igraph_package_df = COR_bd_prob@bipartite_metrics_from_igraph_package_df,
-
-                    marxan_output_values  = marxan_output_values,
-                    marxan_control_values = marxan_control_values,
-
-                    correct_solution_vector_is_known = COR_bd_prob@correct_solution_vector_is_known
+                                            parameters            = parameters,
+                                            marxan_output_values  = marxan_output_values,
+                                            marxan_control_values = marxan_control_values
                     )
             )
     }
@@ -57,39 +32,13 @@ create_APP_master_output_structure <- function (APP_bd_prob,
                                                 )
     {
     return (
-            create_master_output_structure (
+            create_master_output_structure (COR_bd_prob           = COR_bd_prob,
+                                            APP_bd_prob           = APP_bd_prob,
+                                            apply_error           = TRUE,
 
-                    read_Xu_problem_from_Xu_file        = COR_bd_prob@prob_gen_info@read_Xu_problem_from_Xu_file,
-                    Xu_parameters                       = COR_bd_prob@prob_gen_info@Xu_parameters,
-                    num_PUs                             = COR_bd_prob@num_PUs,
-                    num_spp                             = COR_bd_prob@num_spp,
-                    correct_solution_cost               = COR_bd_prob@correct_solution_cost,
-                    nodes                               = COR_bd_prob@nodes,
-
-                    cor_link_counts_for_each_node       = COR_bd_prob@final_link_counts_for_each_node,  #  See 3:04 pm note below
-        app_bpm                                 = APP_bd_prob@bpm,
-                    cor_bpm                             = COR_bd_prob@bpm,
-
-                    parameters                          = parameters,
-
-                        #  input parameters for error model.
-                    apply_error             = TRUE,    # FALSE,
-        match_error_counts      = APP_bd_prob@APP_prob_info@match_error_counts,    # FALSE,
-        FP_const_rate           = APP_bd_prob@APP_prob_info@FP_const_rate,    # 0,
-        FN_const_rate           = APP_bd_prob@APP_prob_info@FN_const_rate,    # 0,
-        original_FP_const_rate  = APP_bd_prob@APP_prob_info@original_FP_const_rate,    # 0,
-        original_FN_const_rate  = APP_bd_prob@APP_prob_info@original_FN_const_rate,    # 0,
-
-                    spf_const = marxan_control_values$spf_const,
-
-        compute_network_metrics                  = APP_bd_prob@compute_network_metrics,
-        bipartite_metrics_from_bipartite_package = APP_bd_prob@bipartite_metrics_from_bipartite_package,
-        bipartite_metrics_from_igraph_package_df = APP_bd_prob@bipartite_metrics_from_igraph_package_df,
-
-                    marxan_output_values  = marxan_output_values,
-                    marxan_control_values = marxan_control_values,
-
-                    correct_solution_vector_is_known = COR_bd_prob@correct_solution_vector_is_known
+                                            parameters            = parameters,
+                                            marxan_output_values  = marxan_output_values,
+                                            marxan_control_values = marxan_control_values
                     )
             )
     }
@@ -133,76 +82,118 @@ create_APP_master_output_structure <- function (APP_bd_prob,
 
 #===============================================================================
 
-create_master_output_structure <- function (
-                                            read_Xu_problem_from_Xu_file,
-                                            Xu_parameters,
-                                            num_PUs,
-                                            num_spp,
-                                            correct_solution_cost,
-                                            nodes,
-                                            cor_link_counts_for_each_node,
-                                            app_bpm,
-                                            cor_bpm,
-                                            parameters,
+create_master_output_structure <- function (COR_bd_prob,
+                                            APP_bd_prob,
                                             apply_error,
-                                            match_error_counts,
-                                            FP_const_rate,
-                                            FN_const_rate,
-                                            original_FP_const_rate,
-                                            original_FN_const_rate,
-                                            spf_const,
 
-                                            compute_network_metrics,
-                                            bipartite_metrics_from_bipartite_package,
-                                            bipartite_metrics_from_igraph_package_df,
-
+                                            parameters,
                                             marxan_output_values,
-                                            marxan_control_values,
-
-                                            correct_solution_vector_is_known
+                                            marxan_control_values
                                             )
     {
-    derived_Xu_params    = Xu_parameters@derived_params
-    base_Xu_params       = Xu_parameters@base_params
-
-                    marxan_best_df_sorted = marxan_output_values$marxan_best_df_sorted,
-                    marxan_ssoln_df       = marxan_output_values$marxan_ssoln_df,
-                    marxan_mvbest_df      = marxan_output_values$marxan_mvbest_df,
-
-
-                    marxan_PROP       = marxan_control_values$marxan_PROP,
-                    marxan_RANDSEED   = marxan_control_values$marxan_RANDSEED,
-                    marxan_NUMREPS    = marxan_control_values$marxan_NUMREPS,
-                    marxan_NUMITNS    = marxan_control_values$marxan_NUMITNS,
-                    marxan_STARTTEMP  = marxan_control_values$marxan_STARTTEMP,
-                    marxan_NUMTEMP    = marxan_control_values$marxan_NUMTEMP,
-                    marxan_COSTTHRESH = marxan_control_values$marxan_COSTTHRESH,
-                    marxan_THRESHPEN1 = marxan_control_values$marxan_THRESHPEN1,
-                    marxan_THRESHPEN2 = marxan_control_values$marxan_THRESHPEN2,
-                    marxan_RUNMODE    = marxan_control_values$marxan_RUNMODE,
-                    marxan_MISSLEVEL  = marxan_control_values$marxan_MISSLEVEL,
-                    marxan_ITIMPTYPE  = marxan_control_values$marxan_ITIMPTYPE,
-                    marxan_HEURTYPE   = marxan_control_values$marxan_HEURTYPE,
-                    marxan_CLUMPTYPE  = marxan_control_values$marxan_CLUMPTYPE,
-
-
-
-
 #===============================================================================
 
-    #------------------------------------------------------------------------
-    #  2017 02 17 - BTL
-    #  Moving these initializations up here to remind me to look at whether
-    #  these variables are just vestigial and should be removed altogether
-    #  from here and from the results df.
-    #  Not sure they will ever have any value other than 1 the way things
-    #  work now.
-    #------------------------------------------------------------------------
-
+#------------------------------------------------------------------------
+#  2017 02 17 - BTL
+#  Moving these initializations up here to remind me to look at whether
+#  these variables are just vestigial and should be removed altogether
+#  from here and from the results df.
+#  Not sure they will ever have any value other than 1 the way things
+#  work now.
+#------------------------------------------------------------------------
+    {
     num_runs = 1
 
     cur_result_row = 0
     cur_result_row = cur_result_row + 1
+    }
+
+#===============================================================================
+
+        #-------------------------------------------------------------
+        #  Decode values that used to explicitly be in the arg list.
+        #-------------------------------------------------------------
+    {
+            #---------------------------
+            #  CORRECT values first...
+            #---------------------------
+
+    read_Xu_problem_from_Xu_file        = COR_bd_prob@prob_gen_info@read_Xu_problem_from_Xu_file
+
+    Xu_parameters                       = COR_bd_prob@prob_gen_info@Xu_parameters
+    derived_Xu_params                   = Xu_parameters@derived_params
+    base_Xu_params                      = Xu_parameters@base_params
+
+    num_PUs                             = COR_bd_prob@num_PUs
+    num_spp                             = COR_bd_prob@num_spp
+    correct_solution_cost               = COR_bd_prob@correct_solution_cost
+    nodes                               = COR_bd_prob@nodes
+    cor_link_counts_for_each_node       = COR_bd_prob@final_link_counts_for_each_node  #  See 3:04 pm note below
+    cor_bpm                             = COR_bd_prob@bpm
+    correct_solution_vector_is_known    = COR_bd_prob@correct_solution_vector_is_known
+
+            #----------------------------------------------------------
+            #  Now APPARENT values...
+            #  However, when just evaluating performance on a correct
+            #  problem, the CORRECT problem will be passed in as both
+            #  CORRECT and APPARENT, so the APPARENT values below will
+            #  be identical to their CORRECT counterparts in the case
+            #  of evaluating performance on a CORRECT problem.
+            #----------------------------------------------------------
+
+    app_bpm                                  = APP_bd_prob@bpm
+    compute_network_metrics                  = APP_bd_prob@compute_network_metrics
+    bipartite_metrics_from_bipartite_package = APP_bd_prob@bipartite_metrics_from_bipartite_package
+    bipartite_metrics_from_igraph_package_df = APP_bd_prob@bipartite_metrics_from_igraph_package_df
+
+            #---------------------------------------
+            #  Input parameters for error model...
+            #---------------------------------------
+
+    if (apply_error)
+        {       #  APPARENT => there is an error model
+        match_error_counts      = APP_bd_prob@APP_prob_info@match_error_counts    # FALSE
+        FP_const_rate           = APP_bd_prob@APP_prob_info@FP_const_rate    # 0
+        FN_const_rate           = APP_bd_prob@APP_prob_info@FN_const_rate    # 0
+        original_FP_const_rate  = APP_bd_prob@APP_prob_info@original_FP_const_rate    # 0
+        original_FN_const_rate  = APP_bd_prob@APP_prob_info@original_FN_const_rate    # 0
+
+        } else
+        {       #  CORRECT => no error model
+        match_error_counts      = FALSE
+        FP_const_rate           = 0
+        FN_const_rate           = 0
+        original_FP_const_rate  = 0
+        original_FN_const_rate  = 0
+        }
+
+            #------------------------------------
+            #  Now marxan_output_values values...
+            #------------------------------------
+
+    marxan_best_df_sorted = marxan_output_values$marxan_best_df_sorted
+    marxan_ssoln_df       = marxan_output_values$marxan_ssoln_df
+    marxan_mvbest_df      = marxan_output_values$marxan_mvbest_df
+
+            #--------------------------------------------
+            #  Finally, marxan_control_values values...
+            #--------------------------------------------
+
+    marxan_PROP       = marxan_control_values$marxan_PROP
+    marxan_RANDSEED   = marxan_control_values$marxan_RANDSEED
+    marxan_NUMREPS    = marxan_control_values$marxan_NUMREPS
+    marxan_NUMITNS    = marxan_control_values$marxan_NUMITNS
+    marxan_STARTTEMP  = marxan_control_values$marxan_STARTTEMP
+    marxan_NUMTEMP    = marxan_control_values$marxan_NUMTEMP
+    marxan_COSTTHRESH = marxan_control_values$marxan_COSTTHRESH
+    marxan_THRESHPEN1 = marxan_control_values$marxan_THRESHPEN1
+    marxan_THRESHPEN2 = marxan_control_values$marxan_THRESHPEN2
+    marxan_RUNMODE    = marxan_control_values$marxan_RUNMODE
+    marxan_MISSLEVEL  = marxan_control_values$marxan_MISSLEVEL
+    marxan_ITIMPTYPE  = marxan_control_values$marxan_ITIMPTYPE
+    marxan_HEURTYPE   = marxan_control_values$marxan_HEURTYPE
+    marxan_CLUMPTYPE  = marxan_control_values$marxan_CLUMPTYPE
+    }
 
 #===============================================================================
 
