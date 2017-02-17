@@ -61,23 +61,6 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,
 #-------------------------------------------------------------
 
         #-------------------------------------------------------------
-        #  Test code - will extract and re-enable later
-        #-------------------------------------------------------------
-
-# 2015 05 17 - BTL
-# Test code part 1:            i.e., start of a function wrapper for the EFs
-# build_confusion_matrix <- function (num_PUs,
-#                                     num_PUs_in_optimal_solution,
-#                                     num_PUs_in_marxan_solution,
-#                                     frac_spp_covered,
-#                                     input_err_FP = 0,
-#                                     input_err_FN = 0
-#                                     )
-#     {
-
-#-------------------------------------------------------------
-
-        #-------------------------------------------------------------
         #  Classification counts to base confusion matrix on
         #-------------------------------------------------------------
 
@@ -91,7 +74,7 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,
         #  Confusion matrix fractions
         #-------------------------------------------------------------
 
-    TP = min (num_marxan_1s, num_optimum_1s) / num_PUs
+    TP = min (num_marxan_1s, num_optimum_1s) / num_PUsm
     TN = min (num_marxan_0s, num_optimum_0s) / num_PUs
     FP = max (0, num_marxan_1s - num_optimum_1s) / num_PUs
     FN = max (0, num_marxan_0s - num_optimum_0s) / num_PUs
@@ -196,62 +179,40 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,
 
 #-------------------------------------------------------------
 
-        #-------------------------------------------------------------
-        #  Test code - will extract and re-enable later
-        #-------------------------------------------------------------
+    solution_vector_scores =
+        list (spp_rep_fracs = spp_rep_fracs,
+                indices_of_spp_with_unmet_rep_frac = indices_of_spp_with_unmet_rep_frac,
 
-# 2015 05 17 - BTL
-# Test code part 2:            i.e., end of a function wrapper for the EFs
-#                                    plus a test call to that function
-#     }
-#
-# num_PUs = 100
-# num_PUs_in_marxan_solution = 25
-# num_PUs_in_optimal_solution = 90
-# frac_spp_covered = 0.3
-# input_err_FP = 0.1
-# input_err_FN = 0.01
-#
-# build_confusion_matrix (num_PUs,
-#                         num_PUs_in_optimal_solution,
-#                         num_PUs_in_marxan_solution,
-#                         frac_spp_covered,
-#                         input_err_FP,
-#                         input_err_FN)
+                num_spp_covered = num_spp_covered,
+                frac_spp_covered = frac_spp_covered,
+                spp_rep_shortfall = spp_rep_shortfall,
 
-#-------------------------------------------------------------
+                TP = TP,
+                TN = TN,
+                FP = FP,
+                FN = FN,
 
-    return (list (spp_rep_fracs = spp_rep_fracs,
-                  indices_of_spp_with_unmet_rep_frac = indices_of_spp_with_unmet_rep_frac,
+                cSe = cSe,
+                cSp = cSp,
+                cPPV = cPPV,
+                cNPV = cNPV,
 
-                  num_spp_covered = num_spp_covered,
-                  frac_spp_covered = frac_spp_covered,
-                  spp_rep_shortfall = spp_rep_shortfall,
+                acc_frac = acc_frac,
+                acc_err_frac = acc_err_frac,
+                cost_savings = cost_savings,
 
-                    TP = TP,
-                    TN = TN,
-                    FP = FP,
-                    FN = FN,
+                opt_cost_savings = opt_cost_savings,
 
-                    cSe = cSe,
-                    cSp = cSp,
-                    cPPV = cPPV,
-                    cNPV = cNPV,
+                TSS = TSS,
+                max_cSe_cSp = max_cSe_cSp,
+                min_cSe_cSp = min_cSe_cSp,
+                mean_cSe_cSp = mean_cSe_cSp,
+                prod_cSe_cSp = prod_cSe_cSp,
+                euc_cSe_cSp = euc_cSe_cSp,
+                acc_err_mag = acc_err_mag
+                )
 
-                    acc_frac = acc_frac,
-                    acc_err_frac = acc_err_frac,
-                    cost_savings = cost_savings,
-
-                    opt_cost_savings = opt_cost_savings,
-
-                    TSS = TSS,
-                    max_cSe_cSp = max_cSe_cSp,
-                    min_cSe_cSp = min_cSe_cSp,
-                    mean_cSe_cSp = mean_cSe_cSp,
-                    prod_cSe_cSp = prod_cSe_cSp,
-                    euc_cSe_cSp = euc_cSe_cSp,
-                    acc_err_mag = acc_err_mag
-                  ))
+    return (solution_vector_scores)
     }
 
 #===============================================================================
