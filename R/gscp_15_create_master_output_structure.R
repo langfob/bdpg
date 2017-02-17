@@ -316,7 +316,7 @@ create_master_output_structure <- function (parameters,
     }
 
     #---------------------------------------------------------------------------
-    #               Apparent scores as computed by biodivprobgen...
+    #               Apparent scores as computed by bdpg...
     #---------------------------------------------------------------------------
 
     app_results_list =
@@ -331,7 +331,7 @@ create_master_output_structure <- function (parameters,
                                             FN_const_rate)
 
     #---------------------------------------------------------------------------
-    #               Correct scores as computed by biodivprobgen...
+    #               Correct scores as computed by bdpg...
     #---------------------------------------------------------------------------
 
     cor_results_list =
@@ -375,7 +375,7 @@ create_master_output_structure <- function (parameters,
                     p__prop_of_links_between_groups = rep (NA, num_runs),
                     r__density = rep (NA, num_runs),
 
-                      #  Correct results as computed by biodivprobgen
+                      #  Correct results as computed by bdpg
                     opt_solution_as_frac_of_tot_num_nodes = rep (NA, num_runs),
                     cor_num_patches_in_solution = rep (NA, num_runs),
                     marxan_best_num_patches_in_solution = rep (NA, num_runs),
@@ -410,7 +410,7 @@ create_master_output_structure <- function (parameters,
                     cor_euc_cSe_cSp = rep (NA, num_runs),
                     cor_acc_err_mag = rep (NA, num_runs),
 
-                      #  Apparent results as computed by biodivprobgen
+                      #  Apparent results as computed by bdpg
                     app_spp_rep_shortfall = rep (NA, num_runs),
                     app_solution_NUM_spp_covered = rep (NA, num_runs),
                     app_solution_FRAC_spp_covered = rep (NA, num_runs),
@@ -518,7 +518,7 @@ create_master_output_structure <- function (parameters,
     results_df$p__prop_of_links_between_groups [cur_result_row]                  = base_Xu_params@p__prop_of_links_between_groups
     results_df$r__density [cur_result_row]                                       = base_Xu_params@r__density
 
-        #  Correct results as computed by biodivprobgen
+        #  Correct results as computed by bdpg
     results_df$opt_solution_as_frac_of_tot_num_nodes [cur_result_row]            = opt_solution_as_frac_of_tot_num_nodes
     results_df$cor_num_patches_in_solution [cur_result_row]                      = cor_num_patches_in_solution
     results_df$marxan_best_num_patches_in_solution [cur_result_row]              = marxan_best_num_patches_in_solution
@@ -553,7 +553,7 @@ create_master_output_structure <- function (parameters,
     results_df$cor_euc_cSe_cSp [cur_result_row]                      = cor_results_list$euc_cSe_cSp
     results_df$cor_acc_err_mag [cur_result_row]                      = cor_results_list$acc_err_mag
 
-        #  Apparent results as computed by biodivprobgen
+        #  Apparent results as computed by bdpg
     results_df$app_spp_rep_shortfall [cur_result_row]                = app_results_list$spp_rep_shortfall
     results_df$app_solution_NUM_spp_covered [cur_result_row]         = app_results_list$num_spp_covered
     results_df$app_solution_FRAC_spp_covered [cur_result_row]        = app_results_list$frac_spp_covered
