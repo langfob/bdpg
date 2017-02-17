@@ -55,7 +55,9 @@ create_COR_master_output_structure <- function (COR_bd_prob,
                     marxan_MISSLEVEL  = marxan_control_values$marxan_MISSLEVEL,
                     marxan_ITIMPTYPE  = marxan_control_values$marxan_ITIMPTYPE,
                     marxan_HEURTYPE   = marxan_control_values$marxan_HEURTYPE,
-                    marxan_CLUMPTYPE  = marxan_control_values$marxan_CLUMPTYPE
+                    marxan_CLUMPTYPE  = marxan_control_values$marxan_CLUMPTYPE,
+
+                    correct_solution_vector_is_known = COR_bd_prob@correct_solution_vector_is_known
                     )
             )
     }
@@ -115,7 +117,9 @@ create_APP_master_output_structure <- function (APP_bd_prob,
                     marxan_MISSLEVEL  = marxan_control_values$marxan_MISSLEVEL,
                     marxan_ITIMPTYPE  = marxan_control_values$marxan_ITIMPTYPE,
                     marxan_HEURTYPE   = marxan_control_values$marxan_HEURTYPE,
-                    marxan_CLUMPTYPE  = marxan_control_values$marxan_CLUMPTYPE
+                    marxan_CLUMPTYPE  = marxan_control_values$marxan_CLUMPTYPE,
+
+                    correct_solution_vector_is_known = COR_bd_prob@correct_solution_vector_is_known
                     )
             )
     }
@@ -196,7 +200,9 @@ create_master_output_structure <- function (
                                             marxan_MISSLEVEL,
                                             marxan_ITIMPTYPE,
                                             marxan_HEURTYPE,
-                                            marxan_CLUMPTYPE
+                                            marxan_CLUMPTYPE,
+
+                                            correct_solution_vector_is_known
                                             )
 {
 
@@ -214,64 +220,10 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
       #  his benchmark files vs. generating a problem from scratch.
       #  When you read it from a benchmark file, the correct solution cost
       #  is known, but not the correct solution vector.
-      #  So, when reading a problem from a benchmark file, initialize all
-      #  kinds of things to NA.
-
-#  2017 02 17 - BTL
-#  I don't think that this "Xu read from file" works anymore.
-#  When you go down and look at the loading of the final results dataframe,
-#  none of these variables are referenced.  In fact, none of them are ever
-#  referenced from here on, except for the first 3 and they're only used
-#  for calculations related to when not reading from a benchmark file.
-#  The results data frame is built using the Xu parameters structures that
-#  are attached to the problem itself, not from the variables below.
-#  So, either the building of the data frame needs to change or else the
-#  creation of the problem object from a benchmark file needs to do the
-#  empty assignment stuff below as part of its initialization.
-#  However, either way leaves the first 3 entries in the if section wrong.
-#  They look like they were only used in comparisons of marxan solution
-#  vectors with Xu solution vectors and that stuff never gets to the final
-#  results because the Xu solution vector might not be the only correct one
-#  and I think that all of the code and output that referenced that stuff
-#  has been removed.
-#  So, I'm going to remove this whole clause but leave it in the dead code
-#  section at the bottom of this file until I've got it all worked out.
-#
-#  Regardless of that, one important thing is to check to see how building
-#  the results data frame behaves when given a Xu problem that's read from
-#  a benchmark file.  For that matter, how does it behave when given ANY
-#  problem that lacks the Xu parameters that are currently being written
-#  to the data frame?
-
       #---------------------------------------------------------------------
 
-    if (read_Xu_problem_from_Xu_file)
-        {
-        correct_solution_vector = rep (NA, num_PUs)
-        cor_signed_difference = rep (NA, num_PUs)
-        cor_abs_val_signed_difference = rep (NA, num_PUs)
-
-        #  Xu options
-        n__num_groups = NA
-        alpha__ = NA
-        p__prop_of_links_between_groups = NA
-        r__density = NA
-
-        #  Derived Xu options
-        num_nodes_per_group = NA
-        tot_num_nodes = num_PUs
-        num_independent_set_nodes = tot_num_nodes - correct_solution_cost
-        num_dependent_set_nodes = correct_solution_cost
-        num_rounds_of_linking_between_groups = NA
-        target_num_links_between_2_groups_per_round = NA
-        num_links_within_one_group = NA
-        tot_num_links_inside_groups = NA
-        max_possible_num_links_between_groups = NA
-        max_possible_tot_num_links = NA
-
-        opt_solution_as_frac_of_tot_num_nodes = correct_solution_cost / tot_num_nodes
-
-        } else  #  generated the problem
+#    if (! read_Xu_problem_from_Xu_file)  #  i.e., generated the problem
+    if (correct_solution_vector_is_known)
         {
                 #  NOTE:  Long comment about possible problem has been cut out of
                 #         here and moved to the comment dumping ground at the
@@ -896,6 +848,62 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
 # #                IT REALLY DOES COVER THE SET, I.E., IT IS A CORRECT SOLUTION.
 
 #-------------------------------------------------------------------------------
+
+# #  2017 02 17 - BTL
+# #  I don't think that this "Xu read from file" works anymore.
+# #  When you go down and look at the loading of the final results dataframe,
+# #  none of these variables are referenced.  In fact, none of them are ever
+# #  referenced from here on, except for the first 3 and they're only used
+# #  for calculations related to when not reading from a benchmark file.
+# #  The results data frame is built using the Xu parameters structures that
+# #  are attached to the problem itself, not from the variables below.
+# #  So, either the building of the data frame needs to change or else the
+# #  creation of the problem object from a benchmark file needs to do the
+# #  empty assignment stuff below as part of its initialization.
+# #  However, either way leaves the first 3 entries in the if section wrong.
+# #  They look like they were only used in comparisons of marxan solution
+# #  vectors with Xu solution vectors and that stuff never gets to the final
+# #  results because the Xu solution vector might not be the only correct one
+# #  and I think that all of the code and output that referenced that stuff
+# #  has been removed.
+# #  So, I'm going to remove this whole clause but leave it in the dead code
+# #  section at the bottom of this file until I've got it all worked out.
+# #
+# #  Regardless of that, one important thing is to check to see how building
+# #  the results data frame behaves when given a Xu problem that's read from
+# #  a benchmark file.  For that matter, how does it behave when given ANY
+# #  problem that lacks the Xu parameters that are currently being written
+# #  to the data frame?
+#
+#       #---------------------------------------------------------------------
+#
+#     if (read_Xu_problem_from_Xu_file)
+#         {
+#         correct_solution_vector = rep (NA, num_PUs)
+#         cor_signed_difference = rep (NA, num_PUs)
+#         cor_abs_val_signed_difference = rep (NA, num_PUs)
+#
+#         #  Xu options
+#         n__num_groups = NA
+#         alpha__ = NA
+#         p__prop_of_links_between_groups = NA
+#         r__density = NA
+#
+#         #  Derived Xu options
+#         num_nodes_per_group = NA
+#         tot_num_nodes = num_PUs
+#         num_independent_set_nodes = tot_num_nodes - correct_solution_cost
+#         num_dependent_set_nodes = correct_solution_cost
+#         num_rounds_of_linking_between_groups = NA
+#         target_num_links_between_2_groups_per_round = NA
+#         num_links_within_one_group = NA
+#         tot_num_links_inside_groups = NA
+#         max_possible_num_links_between_groups = NA
+#         max_possible_tot_num_links = NA
+#
+#         opt_solution_as_frac_of_tot_num_nodes = correct_solution_cost / tot_num_nodes
+#
+#         } else  #  generated the problem
 
 #-------------------------------------------------------------------------------
 
