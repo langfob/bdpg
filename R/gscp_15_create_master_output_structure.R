@@ -212,6 +212,22 @@ create_master_output_structure <- function (
     derived_Xu_params    = Xu_parameters@derived_params
     base_Xu_params       = Xu_parameters@base_params
 
+    #------------------------------------------------------------------------
+    #  2017 02 17 - BTL
+    #  Moving these initializations up here to remind me to look at whether
+    #  these variables are just vestigial and should be removed altogether
+    #  from here and from the results df.
+    #  Not sure they will ever have any value other than 1 the way things
+    #  work now.
+    #------------------------------------------------------------------------
+
+    num_runs = 1
+
+    cur_result_row = 0
+    cur_result_row = cur_result_row + 1
+
+#===============================================================================
+
     #---------------------------------------------------------------------------
     #      Initialize the data frame holding correct and apparent solutions.
     #---------------------------------------------------------------------------
