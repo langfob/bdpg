@@ -20,7 +20,7 @@ create_COR_master_output_structure <- function (COR_bd_prob,
                     correct_solution_cost               = COR_bd_prob@correct_solution_cost,
                     nodes                               = COR_bd_prob@nodes,
                     cor_link_counts_for_each_node       = COR_bd_prob@final_link_counts_for_each_node,
-                    bpm                                 = COR_bd_prob@bpm,
+                    app_bpm                                 = COR_bd_prob@bpm,
                     cor_bpm                             = COR_bd_prob@bpm,
 
                     parameters                          = parameters,
@@ -83,18 +83,18 @@ create_APP_master_output_structure <- function (APP_bd_prob,
                     nodes                               = COR_bd_prob@nodes,
 
                     cor_link_counts_for_each_node       = COR_bd_prob@final_link_counts_for_each_node,  #  See 3:04 pm note below
-                    bpm                                 = APP_bd_prob@bpm,
+        app_bpm                                 = APP_bd_prob@bpm,
                     cor_bpm                             = COR_bd_prob@bpm,
 
                     parameters                          = parameters,
 
                         #  input parameters for error model.
                     apply_error             = TRUE,    # FALSE,
-                    match_error_counts      = APP_bd_prob@APP_prob_info@match_error_counts,    # FALSE,
-                    FP_const_rate           = APP_bd_prob@APP_prob_info@FP_const_rate,    # 0,
-                    FN_const_rate           = APP_bd_prob@APP_prob_info@FN_const_rate,    # 0,
-                    original_FP_const_rate  = APP_bd_prob@APP_prob_info@original_FP_const_rate,    # 0,
-                    original_FN_const_rate  = APP_bd_prob@APP_prob_info@original_FN_const_rate,    # 0,
+        match_error_counts      = APP_bd_prob@APP_prob_info@match_error_counts,    # FALSE,
+        FP_const_rate           = APP_bd_prob@APP_prob_info@FP_const_rate,    # 0,
+        FN_const_rate           = APP_bd_prob@APP_prob_info@FN_const_rate,    # 0,
+        original_FP_const_rate  = APP_bd_prob@APP_prob_info@original_FP_const_rate,    # 0,
+        original_FN_const_rate  = APP_bd_prob@APP_prob_info@original_FN_const_rate,    # 0,
 
                     spf_const = marxan_control_values$spf_const,
 
@@ -173,7 +173,7 @@ create_master_output_structure <- function (
                                             correct_solution_cost,
                                             nodes,
                                             cor_link_counts_for_each_node,
-                                            bpm,
+                                            app_bpm,
                                             cor_bpm,
                                             parameters,
                                             apply_error,
@@ -211,6 +211,8 @@ create_master_output_structure <- function (
     {
     derived_Xu_params    = Xu_parameters@derived_params
     base_Xu_params       = Xu_parameters@base_params
+
+#===============================================================================
 
     #------------------------------------------------------------------------
     #  2017 02 17 - BTL
@@ -295,7 +297,7 @@ create_master_output_structure <- function (
     #               Apparent scores as computed by biodivprobgen...
     #---------------------------------------------------------------------------
 
-    app_results_list = compute_solution_vector_scores (bpm,
+    app_results_list = compute_solution_vector_scores (app_bpm,
                                                      num_PUs,
                                                       marxan_best_solution_PU_IDs,
                                                       marxan_best_num_patches_in_solution,
@@ -820,7 +822,7 @@ create_master_output_structure <- function (
 
   #         #  These should be the same as those computed via Marxan.
   #     app_solution_spp_rep_fracs =
-  #         compute_rep_fraction (bpm, marxan_best_solution_PU_IDs, DEBUG_LEVEL, spp_rep_targets)
+  #         compute_rep_fraction (app_bpm, marxan_best_solution_PU_IDs, DEBUG_LEVEL, spp_rep_targets)
   #     app_solution_unmet_spp_rep_frac_indices = which (app_solution_spp_rep_fracs < 1)
   #     app_solution_NUM_spp_covered = num_spp - length (app_solution_unmet_spp_rep_frac_indices)
   #
