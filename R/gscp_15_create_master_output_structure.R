@@ -20,7 +20,7 @@ create_COR_master_output_structure <- function (COR_bd_prob,
                     correct_solution_cost               = COR_bd_prob@correct_solution_cost,
                     nodes                               = COR_bd_prob@nodes,
                     cor_link_counts_for_each_node       = COR_bd_prob@final_link_counts_for_each_node,
-                    app_bpm                                 = COR_bd_prob@bpm,
+                    app_bpm                             = COR_bd_prob@bpm,
                     cor_bpm                             = COR_bd_prob@bpm,
 
                     parameters                          = parameters,
@@ -43,20 +43,7 @@ create_COR_master_output_structure <- function (COR_bd_prob,
                     marxan_ssoln_df       = marxan_output_values$marxan_ssoln_df,
                     marxan_mvbest_df      = marxan_output_values$marxan_mvbest_df,
 
-                    marxan_PROP       = marxan_control_values$marxan_PROP,
-                    marxan_RANDSEED   = marxan_control_values$marxan_RANDSEED,
-                    marxan_NUMREPS    = marxan_control_values$marxan_NUMREPS,
-                    marxan_NUMITNS    = marxan_control_values$marxan_NUMITNS,
-                    marxan_STARTTEMP  = marxan_control_values$marxan_STARTTEMP,
-                    marxan_NUMTEMP    = marxan_control_values$marxan_NUMTEMP,
-                    marxan_COSTTHRESH = marxan_control_values$marxan_COSTTHRESH,
-                    marxan_THRESHPEN1 = marxan_control_values$marxan_THRESHPEN1,
-                    marxan_THRESHPEN2 = marxan_control_values$marxan_THRESHPEN2,
-                    marxan_RUNMODE    = marxan_control_values$marxan_RUNMODE,
-                    marxan_MISSLEVEL  = marxan_control_values$marxan_MISSLEVEL,
-                    marxan_ITIMPTYPE  = marxan_control_values$marxan_ITIMPTYPE,
-                    marxan_HEURTYPE   = marxan_control_values$marxan_HEURTYPE,
-                    marxan_CLUMPTYPE  = marxan_control_values$marxan_CLUMPTYPE,
+                    marxan_control_values = marxan_control_values,
 
                     correct_solution_vector_is_known = COR_bd_prob@correct_solution_vector_is_known
                     )
@@ -106,20 +93,7 @@ create_APP_master_output_structure <- function (APP_bd_prob,
                     marxan_ssoln_df       = marxan_output_values$marxan_ssoln_df,
                     marxan_mvbest_df      = marxan_output_values$marxan_mvbest_df,
 
-                    marxan_PROP       = marxan_control_values$marxan_PROP,
-                    marxan_RANDSEED   = marxan_control_values$marxan_RANDSEED,
-                    marxan_NUMREPS    = marxan_control_values$marxan_NUMREPS,
-                    marxan_NUMITNS    = marxan_control_values$marxan_NUMITNS,
-                    marxan_STARTTEMP  = marxan_control_values$marxan_STARTTEMP,
-                    marxan_NUMTEMP    = marxan_control_values$marxan_NUMTEMP,
-                    marxan_COSTTHRESH = marxan_control_values$marxan_COSTTHRESH,
-                    marxan_THRESHPEN1 = marxan_control_values$marxan_THRESHPEN1,
-                    marxan_THRESHPEN2 = marxan_control_values$marxan_THRESHPEN2,
-                    marxan_RUNMODE    = marxan_control_values$marxan_RUNMODE,
-                    marxan_MISSLEVEL  = marxan_control_values$marxan_MISSLEVEL,
-                    marxan_ITIMPTYPE  = marxan_control_values$marxan_ITIMPTYPE,
-                    marxan_HEURTYPE   = marxan_control_values$marxan_HEURTYPE,
-                    marxan_CLUMPTYPE  = marxan_control_values$marxan_CLUMPTYPE,
+                    marxan_control_values = marxan_control_values,
 
                     correct_solution_vector_is_known = COR_bd_prob@correct_solution_vector_is_known
                     )
@@ -191,26 +165,32 @@ create_master_output_structure <- function (
                                             marxan_best_df_sorted,
                                             marxan_ssoln_df,
                                             marxan_mvbest_df,
-                                            marxan_PROP,
-                                            marxan_RANDSEED,
-                                            marxan_NUMREPS,
-                                            marxan_NUMITNS,
-                                            marxan_STARTTEMP,
-                                            marxan_NUMTEMP,
-                                            marxan_COSTTHRESH,
-                                            marxan_THRESHPEN1,
-                                            marxan_THRESHPEN2,
-                                            marxan_RUNMODE,
-                                            marxan_MISSLEVEL,
-                                            marxan_ITIMPTYPE,
-                                            marxan_HEURTYPE,
-                                            marxan_CLUMPTYPE,
+
+                                            marxan_control_values,
 
                                             correct_solution_vector_is_known
                                             )
     {
     derived_Xu_params    = Xu_parameters@derived_params
     base_Xu_params       = Xu_parameters@base_params
+
+                    marxan_PROP       = marxan_control_values$marxan_PROP,
+                    marxan_RANDSEED   = marxan_control_values$marxan_RANDSEED,
+                    marxan_NUMREPS    = marxan_control_values$marxan_NUMREPS,
+                    marxan_NUMITNS    = marxan_control_values$marxan_NUMITNS,
+                    marxan_STARTTEMP  = marxan_control_values$marxan_STARTTEMP,
+                    marxan_NUMTEMP    = marxan_control_values$marxan_NUMTEMP,
+                    marxan_COSTTHRESH = marxan_control_values$marxan_COSTTHRESH,
+                    marxan_THRESHPEN1 = marxan_control_values$marxan_THRESHPEN1,
+                    marxan_THRESHPEN2 = marxan_control_values$marxan_THRESHPEN2,
+                    marxan_RUNMODE    = marxan_control_values$marxan_RUNMODE,
+                    marxan_MISSLEVEL  = marxan_control_values$marxan_MISSLEVEL,
+                    marxan_ITIMPTYPE  = marxan_control_values$marxan_ITIMPTYPE,
+                    marxan_HEURTYPE   = marxan_control_values$marxan_HEURTYPE,
+                    marxan_CLUMPTYPE  = marxan_control_values$marxan_CLUMPTYPE,
+
+
+
 
 #===============================================================================
 
