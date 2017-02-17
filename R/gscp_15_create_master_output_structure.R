@@ -269,7 +269,9 @@ cat ("\n\nJust before things requiring major fix in gscp_15:\n")
 #             This is part of a larger problem of making sure that the problem
 #             returned by wrapping is correctly sized in every way to allow
 #             subsequent operations to act on it exactly as they would act on
-#             a base Xu problem.  One test of that is to make sure that all of
+#             a base Xu problem.
+#
+#             One test of that is to make sure that all of
 #             the dimensions of the object elements include all planning units
 #             of the wrapped problem.  This may also be complicated by the
 #             application of error to generate an apparent problem.  That means
@@ -327,6 +329,15 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
                              cor_num_spp_on_patch = cor_link_counts_for_each_node$freq
                              )
 
+#-------------------------------------------------------------------------------
+#  2017 02 17 - BTL
+#  THIS SEEMS LIKE IT SHOULDN'T BE GETTING RUN FOR XU PROBLEMS THAT ARE READ IN,
+#  SINCE THE OPTIMAL SOLUTION IS UNKNOWN.
+#  SHOULD THIS BE DONE IN THE PRECEDING ELSE BRANCH INSTEAD OF OUT HERE?
+#  HERE, IT'S BASED ON USING ONE OF THE COLUMNS IN THE SOLUTIONS_DF, BUT THAT
+#  COLUMN WAS JUST IN FROM correct_solution_vector...
+#-------------------------------------------------------------------------------
+
   cor_num_patches_in_solution = sum (solutions_df$optimal_solution)
       #cor_num_patches_in_solution = correct_solution_cost    #  assuming cost = number of patches
       cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
@@ -342,6 +353,12 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 
       #  Compute error in cost of best marxan solution.
       #  Assumes equal cost for all patches, i.e., cost per patch = 1.
+            #  BTL - 2017 02 17
+            #  It's simple to fix this, i.e., these num_patches bits should
+            #  be changed to costs instead of patch counts.
+            #  Since patch costs are the same as patch counts in the Xu
+            #  problems, it will work for now and for the future.
+
   marxan_best_solution_cost_err_frac = (marxan_best_num_patches_in_solution - cor_num_patches_in_solution) / cor_num_patches_in_solution
   abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
       cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
@@ -352,29 +369,57 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #       Compute correct and apparent scores for marxan solution.
   #===============================================================================
 {
+{
   cat ("\n\nnum_spp =", num_spp)
+
+#  BTL - 2017 02 17
+#  This is actually part of the RSrun object now, so
+#  it should be extracted from there instead of arbitrarily
+#  setting all targets to 1 here.
+#  Is the RSrun object passed in to this function though?
+
   spp_rep_targets = rep (1, num_spp)    #  Seems like this should already have been set long before now.
 
   #---------------------------------------------------------------------------
   #               Apparent scores as computed by marxan
   #---------------------------------------------------------------------------
 
-  app_solution_NUM_spp_covered__fromMarxan = sum (marxan_mvbest_df$MPM)
-
+  app_solution_NUM_spp_covered__fromMarxan  = sum (marxan_mvbest_df$MPM)
   app_solution_FRAC_spp_covered__fromMarxan = app_solution_NUM_spp_covered__fromMarxan / num_spp
-  app_spp_rep_shortfall__fromMarxan = 1 - app_solution_FRAC_spp_covered__fromMarxan
+  app_spp_rep_shortfall__fromMarxan         = 1 - app_solution_FRAC_spp_covered__fromMarxan
 
       cat ("\n\n----------------------------------")
       cat ("\nAPP_ VALUES AS COMPUTED BY MARXAN:")
       cat ("\n----------------------------------")
-      cat ("\napp_solution_NUM_spp_covered__fromMarxan =", app_solution_NUM_spp_covered__fromMarxan)
+      cat ("\napp_solution_NUM_spp_covered__fromMarxan  =", app_solution_NUM_spp_covered__fromMarxan)
       cat ("\napp_solution_FRAC_spp_covered__fromMarxan =", app_solution_FRAC_spp_covered__fromMarxan)
-      cat ("\napp_spp_rep_shortfall__fromMarxan =", app_spp_rep_shortfall__fromMarxan)
+      cat ("\napp_spp_rep_shortfall__fromMarxan         =", app_spp_rep_shortfall__fromMarxan)
 }
 
   #---------------------------------------------------------------------------
   #               Apparent scores as computed by biodivprobgen...
   #---------------------------------------------------------------------------
+
+
+
+#------------------------------------------------------------------------------
+#  BTL - 2017 02 17
+#  I'm not sure whether "apparent" in all of this means apparent in
+#  the sense of the added error in the problem itself or in the sense
+#  of something being marxan's result instead of the correct result.
+
+#  Is this stuff being done for all of marxan's solutions in its output or
+#  is it only being done for marxan's choice of best solution?
+#  Would be interesting to see it for all of marxan's solutions and in
+#  particular, it would be interesting to see how well the ranking across
+#  solutions compares between correct and apparent, i.e., do apparent rank
+#  solutions hold when you look at what they're really getting in the correct
+#  solutions?
+#  Would it be useful to do a rank correlation between correct and apparent
+#  or among the top 10 or 25 percent of solutions or whatever set is most
+#  likely to be what people are paying attention to.
+#------------------------------------------------------------------------------
+
 
 {
   app_results_list = compute_solution_vector_scores (bpm,
@@ -452,7 +497,17 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #     cat ("\ncor_spp_rep_shortfall =", cor_spp_rep_shortfall)
 }
 
-  #===============================================================================
+}
+
+#===============================================================================
+
+      #------------------------------------------------------------------------
+      #  2017 02 17 - BTL
+      #  I HAVE NO IDEA WHAT THIS COMMENT IS ABOUT OR WHETHER IT EVEN APPLIES
+      #  ANYMORE.
+      #  FOR EXAMPLE, THE LAST BIT ABOUT FP AND FN RATES IS DEFINITELY OUT
+      #  OF DATE NOW, SINCE THOSE _ARE_ INCLUDED IN THE OUTPUT.
+      #------------------------------------------------------------------------
 
   #  Supporting data not in binding
   #   species vs planning units (database?) to allow computation of performance
@@ -465,18 +520,28 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #     ALSO STILL NEED TO ADD THE FP AND FN RATES AND OTHER ERROR MODEL
   #     ATTRIBUTES TO THE OUTPUT DATA FRAME AND CSV FILE.
 
-  #-------------------------------------------------------------------------------
+#===============================================================================
 
+        #  FROM HERE ON IS JUST BUSYWORK CODE FOR ASSEMBLING ALL THE PREVIOUS
+        #  RESULTS INTO A MASSIVE, POPULATED DATA FRAME.
+        #  NO COMPUTATIONS ARE DONE FROM HERE ON IN THIS FUNCTION.
+{
+    #-------------------------------------------------------------------------
+    #  Create full results_df, i.e., just allocated it and initialize it
+    #  before going on to populate it with the results.
+    #
+    #  Would it make more sense to be building up partial data frames
+    #  elsewhere and then here, just cbind the partial frames together?
+    #  That seems like it could be written as a more flexible routine that
+    #  builds results frames to suit particular questions rather than
+    #  building a mammoth frame that holds every possible thing and has to
+    #  choose dummy values to put into places that don't apply to some data.
+    #-------------------------------------------------------------------------
+
+{
   num_runs = 1    #  Vestigial?  Not sure it will ever be anything but 1.
                   #  2015 05 09 - BTL.
 
-#  Create full results_df.
-#  The code in collapsed brackets below just does a big version of this:
-#      results_df =
-#          data.frame (runset_abbrev = rep (NA, num_runs),
-#                      ...
-#                     )
-{
   results_df =
       data.frame (runset_abbrev = rep (NA, num_runs),
                   run_ID = rep (NA, num_runs),
@@ -610,10 +675,15 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
                   runset_name = rep (NA, num_runs)
                   )
 }
+
+#===============================================================================
+
+        #----------------------------------------------
+        #  Fill in the full final results data frame.
+        #----------------------------------------------
+
+  {
   cur_result_row = 0
-
-  #-------------------------------------------------------------------------------
-
   cur_result_row = cur_result_row + 1
 
       #  Filling in the runset_abbrev with the full runset name for the moment,
@@ -621,7 +691,6 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
       #  by tzar.  Not sure what I'll do in the long run.
       #  2015 03 09 - BTL
   results_df$runset_abbrev [cur_result_row]                                    = parameters$runset_name    #  parameters$runset_abbrev
-  {
 
   results_df$exceeded_thresh_for_num_spp                                       = FALSE
 
@@ -750,7 +819,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 
       #  Full runset name
   results_df$runset_name [cur_result_row]                                      = parameters$runset_name
-}
+
 
 
   #  Getting an error.  Not sure why...  Is it because the free variable names
@@ -770,9 +839,12 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
                           bipartite_metrics_from_igraph_package_df
                           )
       }
+  }
 
   write_results_to_files (results_df, parameters,
                           cur_result_row)    #  Added 2016 03 28 - BTL.
+}
+
 }
 
 #===============================================================================
