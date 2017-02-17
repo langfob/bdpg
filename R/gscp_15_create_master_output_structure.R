@@ -300,6 +300,24 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 #      opt_solution_as_frac_of_tot_num_nodes = Xu_parameters$opt_solution_as_frac_of_tot_num_nodes
       opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
 
+
+#-------------------------------------------------------------------------------
+#  2017 02 17 - BTL
+#  Moved this up from just after creation of solutions_df to address the
+#  question that I had raised in this comment:
+#
+#  THIS SEEMS LIKE IT SHOULDN'T BE GETTING RUN FOR XU PROBLEMS THAT ARE READ IN,
+#  SINCE THE OPTIMAL SOLUTION IS UNKNOWN.
+#  SHOULD THIS BE DONE IN THE PRECEDING ELSE BRANCH INSTEAD OF OUT HERE?
+#  HERE, IT'S BASED ON USING ONE OF THE COLUMNS IN THE SOLUTIONS_DF, BUT THAT
+#  COLUMN WAS JUST IN FROM correct_solution_vector...
+#-------------------------------------------------------------------------------
+
+#  cor_num_patches_in_solution = sum (solutions_df$optimal_solution)
+  cor_num_patches_in_solution = sum (correct_solution_vector)
+      #cor_num_patches_in_solution = correct_solution_cost    #  assuming cost = number of patches
+      cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
+
       }
   #browser()
   solutions_df = data.frame (puid = marxan_best_df_sorted$PUID,
@@ -328,19 +346,6 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 #                             cor_num_spp_on_patch = cor_final_counts_for_each_node$freq
                              cor_num_spp_on_patch = cor_link_counts_for_each_node$freq
                              )
-
-#-------------------------------------------------------------------------------
-#  2017 02 17 - BTL
-#  THIS SEEMS LIKE IT SHOULDN'T BE GETTING RUN FOR XU PROBLEMS THAT ARE READ IN,
-#  SINCE THE OPTIMAL SOLUTION IS UNKNOWN.
-#  SHOULD THIS BE DONE IN THE PRECEDING ELSE BRANCH INSTEAD OF OUT HERE?
-#  HERE, IT'S BASED ON USING ONE OF THE COLUMNS IN THE SOLUTIONS_DF, BUT THAT
-#  COLUMN WAS JUST IN FROM correct_solution_vector...
-#-------------------------------------------------------------------------------
-
-  cor_num_patches_in_solution = sum (solutions_df$optimal_solution)
-      #cor_num_patches_in_solution = correct_solution_cost    #  assuming cost = number of patches
-      cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
 
   #---------------------------------------------------------------------------
   #               Summarize marxan solution features.
