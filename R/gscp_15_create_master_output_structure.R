@@ -237,23 +237,20 @@ create_master_output_structure <- function (
     #               Summarize marxan solution features.
     #---------------------------------------------------------------------------
     {
-    #  Find which PUs marxan chose for its best solution.
+        #  Find which PUs marxan chose for its best solution.
     marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
     marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
-            cat ("\nmarxan_best_num_patches_in_solution =", marxan_best_num_patches_in_solution)
 
-    #  Compute error in cost of best marxan solution.
-    #  Assumes equal cost for all patches, i.e., cost per patch = 1.
-        #  BTL - 2017 02 17
-        #  It's simple to fix this, i.e., these num_patches bits should
-        #  be changed to costs instead of patch counts.
-        #  Since patch costs are the same as patch counts in the Xu
-        #  problems, it will work for now and for the future.
+        #  Compute error in cost of best marxan solution.
+        #  Assumes equal cost for all patches, i.e., cost per patch = 1.
+            #  BTL - 2017 02 17
+            #  It's simple to fix this, i.e., these num_patches bits should
+            #  be changed to costs instead of patch counts.
+            #  Since patch costs are the same as patch counts in the Xu
+            #  problems, it will work for now and for the future.
 
     marxan_best_solution_cost_err_frac = (marxan_best_num_patches_in_solution - cor_num_patches_in_solution) / cor_num_patches_in_solution
     abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
-            cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
-            cat ("\nabs_marxan_best_solution_cost_err_frac =", abs_marxan_best_solution_cost_err_frac)
     }
 
     #===========================================================================
@@ -261,8 +258,6 @@ create_master_output_structure <- function (
     #===========================================================================
 {
     {
-            cat ("\n\nnum_spp =", num_spp)
-
 #  BTL - 2017 02 17
 #  This is actually part of the RSrun object now, so
 #  it should be extracted from there instead of arbitrarily
