@@ -300,26 +300,29 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 #      opt_solution_as_frac_of_tot_num_nodes = Xu_parameters$opt_solution_as_frac_of_tot_num_nodes
       opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
 
-
-#-------------------------------------------------------------------------------
-#  2017 02 17 - BTL
-#  Moved this up from just after creation of solutions_df to address the
-#  question that I had raised in this comment:
-#
-#  THIS SEEMS LIKE IT SHOULDN'T BE GETTING RUN FOR XU PROBLEMS THAT ARE READ IN,
-#  SINCE THE OPTIMAL SOLUTION IS UNKNOWN.
-#  SHOULD THIS BE DONE IN THE PRECEDING ELSE BRANCH INSTEAD OF OUT HERE?
-#  HERE, IT'S BASED ON USING ONE OF THE COLUMNS IN THE SOLUTIONS_DF, BUT THAT
-#  COLUMN WAS JUST IN FROM correct_solution_vector...
-#-------------------------------------------------------------------------------
-
 #  cor_num_patches_in_solution = sum (solutions_df$optimal_solution)
   cor_num_patches_in_solution = sum (correct_solution_vector)
       #cor_num_patches_in_solution = correct_solution_cost    #  assuming cost = number of patches
       cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
 
       }
-  #browser()
+
+  #---------------------------------------------------------------------------
+  #               Summarize marxan solution features.
+  #---------------------------------------------------------------------------
+{
+#  BTL - 2017 02 17
+#  solutions_df is no longer even referenced anywhere in bdpg.
+#  Should I just get rid of it?
+#  At the moment, it's slightly useful as a documentation of what some of the
+#  different vectors mean (i.e., the data frame column names are more
+#  meaningful than some of the vectors assigned to them.
+#  Actually, that only applies to two of them:
+#      - marxan_best_solution = marxan_best_df_sorted$SOLUTION, #  assumes already sorted by PU_ID
+#      - marxan_votes         = marxan_ssoln_df$number
+#  Would probably be better to just have a documentation section somewhere that
+#  explains the different marxan output columns.
+
   solutions_df = data.frame (puid = marxan_best_df_sorted$PUID,
                              optimal_solution = correct_solution_vector,
                              marxan_best_solution = marxan_best_df_sorted$SOLUTION, #  assumes already sorted by PU_ID
@@ -347,10 +350,6 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
                              cor_num_spp_on_patch = cor_link_counts_for_each_node$freq
                              )
 
-  #---------------------------------------------------------------------------
-  #               Summarize marxan solution features.
-  #---------------------------------------------------------------------------
-{
       #  Find which PUs marxan chose for its best solution.
   marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
   marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
