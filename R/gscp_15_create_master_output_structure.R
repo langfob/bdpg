@@ -216,6 +216,33 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
       #  is known, but not the correct solution vector.
       #  So, when reading a problem from a benchmark file, initialize all
       #  kinds of things to NA.
+
+#  2017 02 17 - BTL
+#  I don't think that this "Xu read from file" works anymore.
+#  When you go down and look at the loading of the final results dataframe,
+#  none of these variables are referenced.  In fact, none of them are ever
+#  referenced from here on, except for the first 3 and they're only used
+#  for calculations related to when not reading from a benchmark file.
+#  The results data frame is built using the Xu parameters structures that
+#  are attached to the problem itself, not from the variables below.
+#  So, either the building of the data frame needs to change or else the
+#  creation of the problem object from a benchmark file needs to do the
+#  empty assignment stuff below as part of its initialization.
+#  However, either way leaves the first 3 entries in the if section wrong.
+#  They look like they were only used in comparisons of marxan solution
+#  vectors with Xu solution vectors and that stuff never gets to the final
+#  results because the Xu solution vector might not be the only correct one
+#  and I think that all of the code and output that referenced that stuff
+#  has been removed.
+#  So, I'm going to remove this whole clause but leave it in the dead code
+#  section at the bottom of this file until I've got it all worked out.
+#
+#  Regardless of that, one important thing is to check to see how building
+#  the results data frame behaves when given a Xu problem that's read from
+#  a benchmark file.  For that matter, how does it behave when given ANY
+#  problem that lacks the Xu parameters that are currently being written
+#  to the data frame?
+
       #---------------------------------------------------------------------
 
     if (read_Xu_problem_from_Xu_file)
