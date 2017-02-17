@@ -306,13 +306,6 @@ create_master_output_structure <- function (parameters,
     #===========================================================================
 {
     {
-#  BTL - 2017 02 17
-#  This is actually part of the RSrun object now, so
-#  it should be extracted from there instead of arbitrarily
-#  setting all targets to 1 here.
-#  Is the RSrun object passed in to this function though?
-
-#    spp_rep_targets = rep (1, num_spp)    #  Seems like this should already have been set long before now.
     spp_rep_targets = APP_marxan_run@targets
 
     #---------------------------------------------------------------------------
