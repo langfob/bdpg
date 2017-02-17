@@ -205,10 +205,9 @@ create_master_output_structure <- function (
                                             correct_solution_vector_is_known
                                             )
 {
-
 derived_Xu_params    = Xu_parameters@derived_params
 base_Xu_params       = Xu_parameters@base_params
-bdpg_extended_params = Xu_parameters@bdpg_extended_params
+#unreferenced#bdpg_extended_params = Xu_parameters@bdpg_extended_params
 
 
   #-------------------------------------------------------------------------------
@@ -237,8 +236,8 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
         correct_solution_vector = nodes$dependent_set_member
 
         cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
-        cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
-        cor_abs_val_signed_difference = abs (cor_signed_difference)
+#unreferenced#        cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
+#unreferenced#        cor_abs_val_signed_difference = abs (cor_signed_difference)
 
                 #      opt_solution_as_frac_of_tot_num_nodes = Xu_parameters$opt_solution_as_frac_of_tot_num_nodes
         opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
@@ -339,7 +338,7 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
                                                       FP_const_rate,
                                                       FN_const_rate)
 
-  app_solution_spp_rep_fracs              = app_results_list$spp_rep_fracs
+#unreferenced#  app_solution_spp_rep_fracs              = app_results_list$spp_rep_fracs
   app_solution_unmet_spp_rep_frac_indices = app_results_list$indices_of_spp_with_unmet_rep_frac
 
   # app_solution_NUM_spp_covered            = app_results_list$num_spp_covered
@@ -379,7 +378,7 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
                                                       FP_const_rate,
                                                       FN_const_rate)
 
-  cor_spp_rep_fracs              = cor_results_list$spp_rep_fracs
+#unreferenced#  cor_spp_rep_fracs              = cor_results_list$spp_rep_fracs
   cor_unmet_spp_rep_frac_indices = cor_results_list$indices_of_spp_with_unmet_rep_frac
 
   # cor_NUM_spp_covered            = cor_results_list$num_spp_covered
