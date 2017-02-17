@@ -127,6 +127,7 @@ create_APP_master_output_structure <- function (APP_bd_prob,
 #===============================================================================
 
 #  Build a master table containing:
+{
     #  planning unit ID
             #  marxan_best_df_sorted$PUID
     #  correct (optimal) answer (as boolean flags on sorted planning units)
@@ -158,6 +159,7 @@ create_APP_master_output_structure <- function (APP_bd_prob,
     #  the assignments for inclusion or exclusion of patches in the solutions.
 
     #  Create table holding all the information to compare solutions.
+}
 
 #===============================================================================
 
@@ -204,24 +206,21 @@ create_master_output_structure <- function (
 
                                             correct_solution_vector_is_known
                                             )
-{
-derived_Xu_params    = Xu_parameters@derived_params
-base_Xu_params       = Xu_parameters@base_params
-#unreferenced#bdpg_extended_params = Xu_parameters@bdpg_extended_params
+    {
+    derived_Xu_params    = Xu_parameters@derived_params
+    base_Xu_params       = Xu_parameters@base_params
 
+    #---------------------------------------------------------------------------
+    #      Initialize the data frame holding correct and apparent solutions.
+    #---------------------------------------------------------------------------
 
-  #-------------------------------------------------------------------------------
-  #      Initialize the data frame holding correct and apparent solutions.
-  #-------------------------------------------------------------------------------
+        #---------------------------------------------------------------------
+        #  Need to separate the case of reading a Xu problem from one of his
+        #  his benchmark files vs. generating a problem from scratch.
+        #  When you read it from a benchmark file, the correct solution cost
+        #  is known, but not the correct solution vector.
+        #---------------------------------------------------------------------
 
-      #---------------------------------------------------------------------
-      #  Need to separate the case of reading a Xu problem from one of his
-      #  his benchmark files vs. generating a problem from scratch.
-      #  When you read it from a benchmark file, the correct solution cost
-      #  is known, but not the correct solution vector.
-      #---------------------------------------------------------------------
-
-#    if (! read_Xu_problem_from_Xu_file)  #  i.e., generated the problem
     if (correct_solution_vector_is_known)
         {
                 #  NOTE:  Long comment about possible problem has been cut out of
@@ -232,51 +231,46 @@ base_Xu_params       = Xu_parameters@base_params
                 #  Not sure whether this is really a problem anymore or not.
                 #  Need to investigate.
 
-        cat ("\n\nJust before things requiring major fix in gscp_15:\n")
+                cat ("\n\nJust before things requiring major fix in gscp_15:\n")
         correct_solution_vector = nodes$dependent_set_member
 
-        cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
-#unreferenced#        cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
-#unreferenced#        cor_abs_val_signed_difference = abs (cor_signed_difference)
+                cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 
-                #      opt_solution_as_frac_of_tot_num_nodes = Xu_parameters$opt_solution_as_frac_of_tot_num_nodes
         opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
-
-                #  cor_num_patches_in_solution = sum (solutions_df$optimal_solution)
         cor_num_patches_in_solution = sum (correct_solution_vector)
-                #cor_num_patches_in_solution = correct_solution_cost    #  assuming cost = number of patches
-        cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
+
+                cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
         }
 
-  #---------------------------------------------------------------------------
-  #               Summarize marxan solution features.
-  #---------------------------------------------------------------------------
-{
-      #  Find which PUs marxan chose for its best solution.
-  marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
-  marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
-      cat ("\nmarxan_best_num_patches_in_solution =", marxan_best_num_patches_in_solution)
+    #---------------------------------------------------------------------------
+    #               Summarize marxan solution features.
+    #---------------------------------------------------------------------------
+    {
+    #  Find which PUs marxan chose for its best solution.
+    marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
+    marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
+            cat ("\nmarxan_best_num_patches_in_solution =", marxan_best_num_patches_in_solution)
 
-      #  Compute error in cost of best marxan solution.
-      #  Assumes equal cost for all patches, i.e., cost per patch = 1.
-            #  BTL - 2017 02 17
-            #  It's simple to fix this, i.e., these num_patches bits should
-            #  be changed to costs instead of patch counts.
-            #  Since patch costs are the same as patch counts in the Xu
-            #  problems, it will work for now and for the future.
+    #  Compute error in cost of best marxan solution.
+    #  Assumes equal cost for all patches, i.e., cost per patch = 1.
+        #  BTL - 2017 02 17
+        #  It's simple to fix this, i.e., these num_patches bits should
+        #  be changed to costs instead of patch counts.
+        #  Since patch costs are the same as patch counts in the Xu
+        #  problems, it will work for now and for the future.
 
-  marxan_best_solution_cost_err_frac = (marxan_best_num_patches_in_solution - cor_num_patches_in_solution) / cor_num_patches_in_solution
-  abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
-      cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
-      cat ("\nabs_marxan_best_solution_cost_err_frac =", abs_marxan_best_solution_cost_err_frac)
-}
+    marxan_best_solution_cost_err_frac = (marxan_best_num_patches_in_solution - cor_num_patches_in_solution) / cor_num_patches_in_solution
+    abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
+            cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
+            cat ("\nabs_marxan_best_solution_cost_err_frac =", abs_marxan_best_solution_cost_err_frac)
+    }
 
-  #===============================================================================
-  #       Compute correct and apparent scores for marxan solution.
-  #===============================================================================
+    #===========================================================================
+    #       Compute correct and apparent scores for marxan solution.
+    #===========================================================================
 {
-{
-  cat ("\n\nnum_spp =", num_spp)
+    {
+            cat ("\n\nnum_spp =", num_spp)
 
 #  BTL - 2017 02 17
 #  This is actually part of the RSrun object now, so
@@ -284,29 +278,27 @@ base_Xu_params       = Xu_parameters@base_params
 #  setting all targets to 1 here.
 #  Is the RSrun object passed in to this function though?
 
-  spp_rep_targets = rep (1, num_spp)    #  Seems like this should already have been set long before now.
+    spp_rep_targets = rep (1, num_spp)    #  Seems like this should already have been set long before now.
 
-  #---------------------------------------------------------------------------
-  #               Apparent scores as computed by marxan
-  #---------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
+    #               Apparent scores as computed by marxan
+    #---------------------------------------------------------------------------
 
-  app_solution_NUM_spp_covered__fromMarxan  = sum (marxan_mvbest_df$MPM)
-  app_solution_FRAC_spp_covered__fromMarxan = app_solution_NUM_spp_covered__fromMarxan / num_spp
-  app_spp_rep_shortfall__fromMarxan         = 1 - app_solution_FRAC_spp_covered__fromMarxan
+    app_solution_NUM_spp_covered__fromMarxan  = sum (marxan_mvbest_df$MPM)
+    app_solution_FRAC_spp_covered__fromMarxan = app_solution_NUM_spp_covered__fromMarxan / num_spp
+    app_spp_rep_shortfall__fromMarxan         = 1 - app_solution_FRAC_spp_covered__fromMarxan
 
-      cat ("\n\n----------------------------------")
-      cat ("\nAPP_ VALUES AS COMPUTED BY MARXAN:")
-      cat ("\n----------------------------------")
-      cat ("\napp_solution_NUM_spp_covered__fromMarxan  =", app_solution_NUM_spp_covered__fromMarxan)
-      cat ("\napp_solution_FRAC_spp_covered__fromMarxan =", app_solution_FRAC_spp_covered__fromMarxan)
-      cat ("\napp_spp_rep_shortfall__fromMarxan         =", app_spp_rep_shortfall__fromMarxan)
-}
+            cat ("\n\n----------------------------------")
+            cat ("\nAPP_ VALUES AS COMPUTED BY MARXAN:")
+            cat ("\n----------------------------------")
+            cat ("\napp_solution_NUM_spp_covered__fromMarxan  =", app_solution_NUM_spp_covered__fromMarxan)
+            cat ("\napp_solution_FRAC_spp_covered__fromMarxan =", app_solution_FRAC_spp_covered__fromMarxan)
+            cat ("\napp_spp_rep_shortfall__fromMarxan         =", app_spp_rep_shortfall__fromMarxan)
+    }
 
-  #---------------------------------------------------------------------------
-  #               Apparent scores as computed by biodivprobgen...
-  #---------------------------------------------------------------------------
-
-
+    #---------------------------------------------------------------------------
+    #               Apparent scores as computed by biodivprobgen...
+    #---------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
 #  BTL - 2017 02 17
@@ -327,8 +319,8 @@ base_Xu_params       = Xu_parameters@base_params
 #------------------------------------------------------------------------------
 
 
-{
-  app_results_list = compute_solution_vector_scores (bpm,
+    {
+    app_results_list = compute_solution_vector_scores (bpm,
                                                      num_PUs,
                                                       marxan_best_solution_PU_IDs,
                                                       marxan_best_num_patches_in_solution,
@@ -338,37 +330,20 @@ base_Xu_params       = Xu_parameters@base_params
                                                       FP_const_rate,
                                                       FN_const_rate)
 
-#unreferenced#  app_solution_spp_rep_fracs              = app_results_list$spp_rep_fracs
-  app_solution_unmet_spp_rep_frac_indices = app_results_list$indices_of_spp_with_unmet_rep_frac
+    app_solution_unmet_spp_rep_frac_indices = app_results_list$indices_of_spp_with_unmet_rep_frac
 
-  # app_solution_NUM_spp_covered            = app_results_list$num_spp_covered
-  # app_solution_FRAC_spp_covered           = app_results_list$frac_spp_covered
-  # app_spp_rep_shortfall                   = app_results_list$spp_rep_shortfall
+            cat ("\n\n-----------------------------------------")
+            cat ("\nAPP_ VALUES AS COMPUTED BY BIODIVPROBGEN:")
+            cat ("\n-----------------------------------------")
+            cat ("\nlength (app_solution_unmet_spp_rep_frac_indices) = ",
+                length (app_solution_unmet_spp_rep_frac_indices))
+    }
 
-  #         #  These should be the same as those computed via Marxan.
-  #     app_solution_spp_rep_fracs =
-  #         compute_rep_fraction (bpm, marxan_best_solution_PU_IDs, DEBUG_LEVEL, spp_rep_targets)
-  #     app_solution_unmet_spp_rep_frac_indices = which (app_solution_spp_rep_fracs < 1)
-  #     app_solution_NUM_spp_covered = num_spp - length (app_solution_unmet_spp_rep_frac_indices)
-  #
-  #     app_solution_FRAC_spp_covered = app_solution_NUM_spp_covered / num_spp
-  #     app_spp_rep_shortfall = 1 - app_solution_FRAC_spp_covered
-
-      cat ("\n\n-----------------------------------------")
-      cat ("\nAPP_ VALUES AS COMPUTED BY BIODIVPROBGEN:")
-      cat ("\n-----------------------------------------")
-      cat ("\nlength (app_solution_unmet_spp_rep_frac_indices) = ",
-         length (app_solution_unmet_spp_rep_frac_indices))
-  #     cat ("\napp_solution_NUM_spp_covered =", app_solution_NUM_spp_covered)
-  #     cat ("\napp_solution_FRAC_spp_covered =", app_solution_FRAC_spp_covered)
-  #     cat ("\napp_spp_rep_shortfall =", app_spp_rep_shortfall)
-}
-
-  #---------------------------------------------------------------------------
-  #               Correct scores as computed by biodivprobgen...
-  #---------------------------------------------------------------------------
-{
-  cor_results_list = compute_solution_vector_scores (cor_bpm,
+    #---------------------------------------------------------------------------
+    #               Correct scores as computed by biodivprobgen...
+    #---------------------------------------------------------------------------
+    {
+    cor_results_list = compute_solution_vector_scores (cor_bpm,
                                                      num_PUs,
                                                       marxan_best_solution_PU_IDs,
                                                       marxan_best_num_patches_in_solution,
@@ -378,53 +353,16 @@ base_Xu_params       = Xu_parameters@base_params
                                                       FP_const_rate,
                                                       FN_const_rate)
 
-#unreferenced#  cor_spp_rep_fracs              = cor_results_list$spp_rep_fracs
-  cor_unmet_spp_rep_frac_indices = cor_results_list$indices_of_spp_with_unmet_rep_frac
+    cor_unmet_spp_rep_frac_indices = cor_results_list$indices_of_spp_with_unmet_rep_frac
 
-  # cor_NUM_spp_covered            = cor_results_list$num_spp_covered
-  # cor_FRAC_spp_covered           = cor_results_list$frac_spp_covered
-  # cor_spp_rep_shortfall                   = cor_results_list$spp_rep_shortfall
-
-  #     cor_spp_rep_fracs =
-  #         compute_rep_fraction (cor_bpm, marxan_best_solution_PU_IDs, DEBUG_LEVEL, spp_rep_targets)
-  #     cor_unmet_spp_rep_frac_indices = which (cor_spp_rep_fracs < 1)
-  #     cor_NUM_spp_covered = num_spp - length (cor_unmet_spp_rep_frac_indices)
-  #
-  #     cor_FRAC_spp_covered = cor_NUM_spp_covered / num_spp
-  #     cor_spp_rep_shortfall = 1 - cor_FRAC_spp_covered
-
-      cat ("\n\n-----------------------------------------")
-      cat ("\nCOR_ VALUES AS COMPUTED BY BIODIVPROBGEN:")
-      cat ("\n-----------------------------------------")
-      cat ("\nlength (cor_unmet_spp_rep_frac_indices) = ",
-         length (cor_unmet_spp_rep_frac_indices))
-  #     cat ("\ncor_NUM_spp_covered =", cor_NUM_spp_covered)
-  #     cat ("\ncor_FRAC_spp_covered =", cor_FRAC_spp_covered)
-  #     cat ("\ncor_spp_rep_shortfall =", cor_spp_rep_shortfall)
-}
+            cat ("\n\n-----------------------------------------")
+            cat ("\nCOR_ VALUES AS COMPUTED BY BIODIVPROBGEN:")
+            cat ("\n-----------------------------------------")
+            cat ("\nlength (cor_unmet_spp_rep_frac_indices) = ",
+                length (cor_unmet_spp_rep_frac_indices))
+    }
 
 }
-
-#===============================================================================
-
-      #------------------------------------------------------------------------
-      #  2017 02 17 - BTL
-      #  I HAVE NO IDEA WHAT THIS COMMENT IS ABOUT OR WHETHER IT EVEN APPLIES
-      #  ANYMORE.
-      #  FOR EXAMPLE, THE LAST BIT ABOUT FP AND FN RATES IS DEFINITELY OUT
-      #  OF DATE NOW, SINCE THOSE _ARE_ INCLUDED IN THE OUTPUT.
-      #------------------------------------------------------------------------
-
-  #  Supporting data not in binding
-  #   species vs planning units (database?) to allow computation of performance
-  #   measures related to which species are covered in solutions
-  #   (e.g., SELECT species WHERE planning unit ID == curPlanningUnitID)
-  #   (e.g., SELECT planning unit ID WHERE species == curSpeciesID))
-  #       - planning unit IDs
-  #       - set of species on planning unit
-
-  #     ALSO STILL NEED TO ADD THE FP AND FN RATES AND OTHER ERROR MODEL
-  #     ATTRIBUTES TO THE OUTPUT DATA FRAME AND CSV FILE.
 
 #===============================================================================
 
@@ -444,143 +382,144 @@ base_Xu_params       = Xu_parameters@base_params
     #  choose dummy values to put into places that don't apply to some data.
     #-------------------------------------------------------------------------
 
-{
-  num_runs = 1    #  Vestigial?  Not sure it will ever be anything but 1.
-                  #  2015 05 09 - BTL.
+    {
+    num_runs = 1    #  Vestigial?  Not sure it will ever be anything but 1.
+                    #  2015 05 09 - BTL.
 
-  results_df =
-      data.frame (runset_abbrev = rep (NA, num_runs),
-                  run_ID = rep (NA, num_runs),
+    results_df =
+        data.frame (
+                    runset_abbrev = rep (NA, num_runs),
+                    run_ID = rep (NA, num_runs),
 
-                  exceeded_thresh_for_num_spp = rep (NA, num_runs),
+                    exceeded_thresh_for_num_spp = rep (NA, num_runs),
 
-                  num_PUs = rep (NA, num_runs),
-                  num_spp = rep (NA, num_runs),
-                  num_spp_per_PU = rep (NA, num_runs),
-                  seed = rep (NA, num_runs),
+                    num_PUs = rep (NA, num_runs),
+                    num_spp = rep (NA, num_runs),
+                    num_spp_per_PU = rep (NA, num_runs),
+                    seed = rep (NA, num_runs),
 
                       #  Xu options
-                  n__num_groups = rep (NA, num_runs),
-                  alpha__ = rep (NA, num_runs),
-                  p__prop_of_links_between_groups = rep (NA, num_runs),
-                  r__density = rep (NA, num_runs),
+                    n__num_groups = rep (NA, num_runs),
+                    alpha__ = rep (NA, num_runs),
+                    p__prop_of_links_between_groups = rep (NA, num_runs),
+                    r__density = rep (NA, num_runs),
 
                       #  Correct results as computed by biodivprobgen
-                  opt_solution_as_frac_of_tot_num_nodes = rep (NA, num_runs),
-                  cor_num_patches_in_solution = rep (NA, num_runs),
-                  marxan_best_num_patches_in_solution = rep (NA, num_runs),
-                  abs_marxan_best_solution_cost_err_frac = rep (NA, num_runs),
-                  marxan_best_solution_cost_err_frac = rep (NA, num_runs),
+                    opt_solution_as_frac_of_tot_num_nodes = rep (NA, num_runs),
+                    cor_num_patches_in_solution = rep (NA, num_runs),
+                    marxan_best_num_patches_in_solution = rep (NA, num_runs),
+                    abs_marxan_best_solution_cost_err_frac = rep (NA, num_runs),
+                    marxan_best_solution_cost_err_frac = rep (NA, num_runs),
 
-                  cor_spp_rep_shortfall = rep (NA, num_runs),
-                  cor_NUM_spp_covered = rep (NA, num_runs),
-                  cor_FRAC_spp_covered = rep (NA, num_runs),
+                    cor_spp_rep_shortfall = rep (NA, num_runs),
+                    cor_NUM_spp_covered = rep (NA, num_runs),
+                    cor_FRAC_spp_covered = rep (NA, num_runs),
 
-                  cor_TP = rep (NA, num_runs),
-                  cor_TN = rep (NA, num_runs),
-                  cor_FP = rep (NA, num_runs),
-                  cor_FN = rep (NA, num_runs),
+                    cor_TP = rep (NA, num_runs),
+                    cor_TN = rep (NA, num_runs),
+                    cor_FP = rep (NA, num_runs),
+                    cor_FN = rep (NA, num_runs),
 
-                  cor_cSe = rep (NA, num_runs),
-                  cor_cSp = rep (NA, num_runs),
-                  cor_cPPV = rep (NA, num_runs),
-                  cor_cNPV = rep (NA, num_runs),
+                    cor_cSe = rep (NA, num_runs),
+                    cor_cSp = rep (NA, num_runs),
+                    cor_cPPV = rep (NA, num_runs),
+                    cor_cNPV = rep (NA, num_runs),
 
-                  cor_acc_frac = rep (NA, num_runs),
-                  cor_acc_err_frac = rep (NA, num_runs),
-                  cor_cost_savings = rep (NA, num_runs),
+                    cor_acc_frac = rep (NA, num_runs),
+                    cor_acc_err_frac = rep (NA, num_runs),
+                    cor_cost_savings = rep (NA, num_runs),
 
-                  cor_opt_cost_savings = rep (NA, num_runs),
+                    cor_opt_cost_savings = rep (NA, num_runs),
 
-                  cor_TSS = rep (NA, num_runs),
-                  cor_max_cSe_cSp = rep (NA, num_runs),
-                  cor_min_cSe_cSp = rep (NA, num_runs),
-                  cor_mean_cSe_cSp = rep (NA, num_runs),
-                  cor_prod_cSe_cSp = rep (NA, num_runs),
-                  cor_euc_cSe_cSp = rep (NA, num_runs),
-                  cor_acc_err_mag = rep (NA, num_runs),
+                    cor_TSS = rep (NA, num_runs),
+                    cor_max_cSe_cSp = rep (NA, num_runs),
+                    cor_min_cSe_cSp = rep (NA, num_runs),
+                    cor_mean_cSe_cSp = rep (NA, num_runs),
+                    cor_prod_cSe_cSp = rep (NA, num_runs),
+                    cor_euc_cSe_cSp = rep (NA, num_runs),
+                    cor_acc_err_mag = rep (NA, num_runs),
 
                       #  Apparent results as computed by biodivprobgen
-                  app_spp_rep_shortfall = rep (NA, num_runs),
-                  app_solution_NUM_spp_covered = rep (NA, num_runs),
-                  app_solution_FRAC_spp_covered = rep (NA, num_runs),
+                    app_spp_rep_shortfall = rep (NA, num_runs),
+                    app_solution_NUM_spp_covered = rep (NA, num_runs),
+                    app_solution_FRAC_spp_covered = rep (NA, num_runs),
 
-                  app_TP = rep (NA, num_runs),
-                  app_TN = rep (NA, num_runs),
-                  app_FP = rep (NA, num_runs),
-                  app_FN = rep (NA, num_runs),
+                    app_TP = rep (NA, num_runs),
+                    app_TN = rep (NA, num_runs),
+                    app_FP = rep (NA, num_runs),
+                    app_FN = rep (NA, num_runs),
 
-                  app_cSe = rep (NA, num_runs),
-                  app_cSp = rep (NA, num_runs),
-                  app_cPPV = rep (NA, num_runs),
-                  app_cNPV = rep (NA, num_runs),
+                    app_cSe = rep (NA, num_runs),
+                    app_cSp = rep (NA, num_runs),
+                    app_cPPV = rep (NA, num_runs),
+                    app_cNPV = rep (NA, num_runs),
 
-                  app_acc_frac = rep (NA, num_runs),
-                  app_acc_err_frac = rep (NA, num_runs),
-                  app_cost_savings = rep (NA, num_runs),
+                    app_acc_frac = rep (NA, num_runs),
+                    app_acc_err_frac = rep (NA, num_runs),
+                    app_cost_savings = rep (NA, num_runs),
 
-                  app_opt_cost_savings = rep (NA, num_runs),
+                    app_opt_cost_savings = rep (NA, num_runs),
 
-                  app_TSS = rep (NA, num_runs),
-                  app_max_cSe_cSp = rep (NA, num_runs),
-                  app_min_cSe_cSp = rep (NA, num_runs),
-                  app_mean_cSe_cSp = rep (NA, num_runs),
-                  app_prod_cSe_cSp = rep (NA, num_runs),
-                  app_euc_cSe_cSp = rep (NA, num_runs),
-                  app_acc_err_mag = rep (NA, num_runs),
+                    app_TSS = rep (NA, num_runs),
+                    app_max_cSe_cSp = rep (NA, num_runs),
+                    app_min_cSe_cSp = rep (NA, num_runs),
+                    app_mean_cSe_cSp = rep (NA, num_runs),
+                    app_prod_cSe_cSp = rep (NA, num_runs),
+                    app_euc_cSe_cSp = rep (NA, num_runs),
+                    app_acc_err_mag = rep (NA, num_runs),
 
                       #  Apparent results as computed by Marxan
-                  app_spp_rep_shortfall__fromMarxan = rep (NA, num_runs),
-                  app_solution_NUM_spp_covered__fromMarxan = rep (NA, num_runs),
-                  app_solution_FRAC_spp_covered__fromMarxan = rep (NA, num_runs),
+                    app_spp_rep_shortfall__fromMarxan = rep (NA, num_runs),
+                    app_solution_NUM_spp_covered__fromMarxan = rep (NA, num_runs),
+                    app_solution_FRAC_spp_covered__fromMarxan = rep (NA, num_runs),
 
                       #  Error generation parameters
-                  apply_error = rep (NA, num_runs),
-                  FP_const_rate = rep (NA, num_runs),
-                  FN_const_rate = rep (NA, num_runs),
-                  match_error_counts = rep (NA, num_runs),
-                  original_FP_const_rate = rep (NA, num_runs),
-                  original_FN_const_rate = rep (NA, num_runs),
+                    apply_error = rep (NA, num_runs),
+                    FP_const_rate = rep (NA, num_runs),
+                    FN_const_rate = rep (NA, num_runs),
+                    match_error_counts = rep (NA, num_runs),
+                    original_FP_const_rate = rep (NA, num_runs),
+                    original_FN_const_rate = rep (NA, num_runs),
 
                       #  Derived options
-                  num_nodes_per_group = rep (NA, num_runs),
-                  tot_num_nodes = rep (NA, num_runs),
-                  num_independent_set_nodes = rep (NA, num_runs),
-                  num_dependent_set_nodes = rep (NA, num_runs),
-                  num_rounds_of_linking_between_groups = rep (NA, num_runs),
-                  target_num_links_between_2_groups_per_round = rep (NA, num_runs),
-                  num_links_within_one_group = rep (NA, num_runs),
-                  tot_num_links_inside_groups = rep (NA, num_runs),
-                  max_possible_num_links_between_groups = rep (NA, num_runs),
-                  max_possible_tot_num_links = rep (NA, num_runs),
+                    num_nodes_per_group = rep (NA, num_runs),
+                    tot_num_nodes = rep (NA, num_runs),
+                    num_independent_set_nodes = rep (NA, num_runs),
+                    num_dependent_set_nodes = rep (NA, num_runs),
+                    num_rounds_of_linking_between_groups = rep (NA, num_runs),
+                    target_num_links_between_2_groups_per_round = rep (NA, num_runs),
+                    num_links_within_one_group = rep (NA, num_runs),
+                    tot_num_links_inside_groups = rep (NA, num_runs),
+                    max_possible_num_links_between_groups = rep (NA, num_runs),
+                    max_possible_tot_num_links = rep (NA, num_runs),
 
                       #  Marxan options
-                  marxan_spf_const = rep (NA, num_runs),
-                  marxan_PROP = rep (NA, num_runs),
-                  marxan_RANDSEED = rep (NA, num_runs),
-                  marxan_NUMREPS = rep (NA, num_runs),
+                    marxan_spf_const = rep (NA, num_runs),
+                    marxan_PROP = rep (NA, num_runs),
+                    marxan_RANDSEED = rep (NA, num_runs),
+                    marxan_NUMREPS = rep (NA, num_runs),
 
                       #  Marxan Annealing Parameters
-                  marxan_NUMITNS = rep (NA, num_runs),
-                  marxan_STARTTEMP = rep (NA, num_runs),
-                  marxan_NUMTEMP = rep (NA, num_runs),
+                    marxan_NUMITNS = rep (NA, num_runs),
+                    marxan_STARTTEMP = rep (NA, num_runs),
+                    marxan_NUMTEMP = rep (NA, num_runs),
 
                       #  Marxan Cost Threshold
-                  marxan_COSTTHRESH = rep (NA, num_runs),
-                  marxan_THRESHPEN1 = rep (NA, num_runs),
-                  marxan_THRESHPEN2 = rep (NA, num_runs),
+                    marxan_COSTTHRESH = rep (NA, num_runs),
+                    marxan_THRESHPEN1 = rep (NA, num_runs),
+                    marxan_THRESHPEN2 = rep (NA, num_runs),
 
                       #  Marxan Program control
-                  marxan_RUNMODE = rep (NA, num_runs),
-                  marxan_MISSLEVEL = rep (NA, num_runs),
-                  marxan_ITIMPTYPE = rep (NA, num_runs),
-                  marxan_HEURTYPE = rep (NA, num_runs),
-                  marxan_CLUMPTYPE = rep (NA, num_runs),
+                    marxan_RUNMODE = rep (NA, num_runs),
+                    marxan_MISSLEVEL = rep (NA, num_runs),
+                    marxan_ITIMPTYPE = rep (NA, num_runs),
+                    marxan_HEURTYPE = rep (NA, num_runs),
+                    marxan_CLUMPTYPE = rep (NA, num_runs),
 
                       #  Full runset name
-                  runset_name = rep (NA, num_runs)
-                  )
-}
+                    runset_name = rep (NA, num_runs)
+                    )
+    }
 
 #===============================================================================
 
@@ -588,22 +527,22 @@ base_Xu_params       = Xu_parameters@base_params
         #  Fill in the full final results data frame.
         #----------------------------------------------
 
-  {
-  cur_result_row = 0
-  cur_result_row = cur_result_row + 1
+    {
+    cur_result_row = 0
+    cur_result_row = cur_result_row + 1
 
-      #  Filling in the runset_abbrev with the full runset name for the moment,
-      #  because it's more reliably correct since it's automatically captured
-      #  by tzar.  Not sure what I'll do in the long run.
-      #  2015 03 09 - BTL
-  results_df$runset_abbrev [cur_result_row]                                    = parameters$runset_name    #  parameters$runset_abbrev
+        #  Filling in the runset_abbrev with the full runset name for the moment,
+        #  because it's more reliably correct since it's automatically captured
+        #  by tzar.  Not sure what I'll do in the long run.
+        #  2015 03 09 - BTL
+    results_df$runset_abbrev [cur_result_row]                                    = parameters$runset_name    #  parameters$runset_abbrev
 
-  results_df$exceeded_thresh_for_num_spp                                       = FALSE
+    results_df$exceeded_thresh_for_num_spp                                       = FALSE
 
-  results_df$num_PUs [cur_result_row]                                          = num_PUs
-  results_df$num_spp [cur_result_row]                                          = num_spp
-  results_df$num_spp_per_PU [cur_result_row]                                   = num_spp / num_PUs
-  results_df$seed [cur_result_row]                                             = parameters$seed
+    results_df$num_PUs [cur_result_row]                                          = num_PUs
+    results_df$num_spp [cur_result_row]                                          = num_spp
+    results_df$num_spp_per_PU [cur_result_row]                                   = num_spp / num_PUs
+    results_df$seed [cur_result_row]                                             = parameters$seed
 
         #  Xu options
     results_df$n__num_groups [cur_result_row]                                    = base_Xu_params@n__num_groups
@@ -723,36 +662,45 @@ base_Xu_params       = Xu_parameters@base_params
     results_df$marxan_HEURTYPE [cur_result_row]                                  = marxan_HEURTYPE
     results_df$marxan_CLUMPTYPE [cur_result_row]                                 = marxan_CLUMPTYPE
 
-      #  Full runset name
-  results_df$runset_name [cur_result_row]                                      = parameters$runset_name
+        #  Full runset name
+    results_df$runset_name [cur_result_row]                                      = parameters$runset_name
 
+#--------------------------------------------------------------------------------
+#  2017 02 17 - BTL
+#  IS THIS STILL TRUE?
+#  NEED TO INVESTIGATE.
+#
+#  Getting an error.  Not sure why...  Is it because the free variable names
+#  like num_PUs, are the same as the list element names, like results_df$num_PUs?
+#
+#  Error in `$<-.data.frame`(`*tmp*`, "num_PUs", value = c(NA, 12L)) :
+#    replacement has 2 rows, data has 1
+#  Calls: source ... withVisible -> eval -> eval -> $<- -> $<-.data.frame
+#  Execution halted
+#--------------------------------------------------------------------------------
 
+    if (compute_network_metrics)
+        {
+        #  Need to bind the network measures to the data frame too.
+        results_df = cbind (results_df,
+                      bipartite_metrics_from_bipartite_package,
+                      bipartite_metrics_from_igraph_package_df
+                      )
+        }
+    }
 
-  #  Getting an error.  Not sure why...  Is it because the free variable names
-  #  like num_PUs, are the same as the list element names, like results_df$num_PUs?
-  #
-  #  Error in `$<-.data.frame`(`*tmp*`, "num_PUs", value = c(NA, 12L)) :
-  #    replacement has 2 rows, data has 1
-  #  Calls: source ... withVisible -> eval -> eval -> $<- -> $<-.data.frame
-  #  Execution halted
-
-
-  if (compute_network_metrics)
-      {
-          #  Need to bind the network measures to the data frame too.
-      results_df = cbind (results_df,
-                          bipartite_metrics_from_bipartite_package,
-                          bipartite_metrics_from_igraph_package_df
-                          )
-      }
-  }
-
-  write_results_to_files (results_df, parameters,
-                          cur_result_row)    #  Added 2016 03 28 - BTL.
+    write_results_to_files (results_df, parameters,
+                            cur_result_row)    #  Added 2016 03 28 - BTL.
 }
 
-}
+}  #  end of function - create_master_output_structure()
 
+
+
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
 #===============================================================================
 #  THIS LAST SECTION IS A TEMPORARY DUMPING GROUND FOR CODE THAT'S BEEN
 #  COMMENTED OUT BUT HAS SOME UTILITY IN BUILDING UP SOME DOCUMENTATION FOR
@@ -804,7 +752,8 @@ base_Xu_params       = Xu_parameters@base_params
 # #                             cor_num_spp_on_patch = cor_final_counts_for_each_node$freq
 #                              cor_num_spp_on_patch = cor_link_counts_for_each_node$freq
 #                              )
-#-------------------------------------------------------------------------------
+
+#===============================================================================
 
 #  cut from start of else clause of "if (read_Xu_problem_from_Xu_file)"
 
@@ -846,7 +795,7 @@ base_Xu_params       = Xu_parameters@base_params
 # #             B) IF IT IS THE CORRECT SIZE, THEN YOU ALSO NEED TO CHECK THAT
 # #                IT REALLY DOES COVER THE SET, I.E., IT IS A CORRECT SOLUTION.
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 # #  2017 02 17 - BTL
 # #  I don't think that this "Xu read from file" works anymore.
@@ -904,9 +853,121 @@ base_Xu_params       = Xu_parameters@base_params
 #
 #         } else  #  generated the problem
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
-#-------------------------------------------------------------------------------
+#-----------------------------------------------------
+#  2017 02 17 12:17 am - BTL
+#  Variables that RStudio had flagged as never used:
+#-----------------------------------------------------
+
+#unreferenced#bdpg_extended_params = Xu_parameters@bdpg_extended_params
+#unreferenced#        cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
+#unreferenced#        cor_abs_val_signed_difference = abs (cor_signed_difference)
+#unreferenced#  app_solution_spp_rep_fracs              = app_results_list$spp_rep_fracs
+#unreferenced#  cor_spp_rep_fracs              = cor_results_list$spp_rep_fracs
+
+#-------------------------------------------------------------------------
+#  2017 02 17 12:17 am - BTL
+#  Variables that are commented out throughout the code and just getting
+#  in the way at the moment but I might want to restore later on:
+#-------------------------------------------------------------------------
+
+  # app_solution_NUM_spp_covered            = app_results_list$num_spp_covered
+  # app_solution_FRAC_spp_covered           = app_results_list$frac_spp_covered
+  # app_spp_rep_shortfall                   = app_results_list$spp_rep_shortfall
+
+  #         #  These should be the same as those computed via Marxan.
+  #     app_solution_spp_rep_fracs =
+  #         compute_rep_fraction (bpm, marxan_best_solution_PU_IDs, DEBUG_LEVEL, spp_rep_targets)
+  #     app_solution_unmet_spp_rep_frac_indices = which (app_solution_spp_rep_fracs < 1)
+  #     app_solution_NUM_spp_covered = num_spp - length (app_solution_unmet_spp_rep_frac_indices)
+  #
+  #     app_solution_FRAC_spp_covered = app_solution_NUM_spp_covered / num_spp
+  #     app_spp_rep_shortfall = 1 - app_solution_FRAC_spp_covered
+
+            #     cat ("\napp_solution_NUM_spp_covered =", app_solution_NUM_spp_covered)
+            #     cat ("\napp_solution_FRAC_spp_covered =", app_solution_FRAC_spp_covered)
+            #     cat ("\napp_spp_rep_shortfall =", app_spp_rep_shortfall)
+
+#----------------------------------
+#----------------------------------
+
+  # cor_NUM_spp_covered            = cor_results_list$num_spp_covered
+  # cor_FRAC_spp_covered           = cor_results_list$frac_spp_covered
+  # cor_spp_rep_shortfall                   = cor_results_list$spp_rep_shortfall
+
+  #     cor_spp_rep_fracs =
+  #         compute_rep_fraction (cor_bpm, marxan_best_solution_PU_IDs, DEBUG_LEVEL, spp_rep_targets)
+  #     cor_unmet_spp_rep_frac_indices = which (cor_spp_rep_fracs < 1)
+  #     cor_NUM_spp_covered = num_spp - length (cor_unmet_spp_rep_frac_indices)
+  #
+  #     cor_FRAC_spp_covered = cor_NUM_spp_covered / num_spp
+  #     cor_spp_rep_shortfall = 1 - cor_FRAC_spp_covered
+
+
+
+  #     cat ("\ncor_NUM_spp_covered =", cor_NUM_spp_covered)
+  #     cat ("\ncor_FRAC_spp_covered =", cor_FRAC_spp_covered)
+  #     cat ("\ncor_spp_rep_shortfall =", cor_spp_rep_shortfall)
+
+#----------------------------------
+#----------------------------------
+
+#----------------------------------
+#----------------------------------
+
+#----------------------------------
+#----------------------------------
+
+#----------------------------------
+#----------------------------------
+
+#----------------------------------
+#----------------------------------
+
+#----------------------------------
+#----------------------------------
+
+#----------------------------------
+#----------------------------------
+
+#----------------------------------
+#----------------------------------
+
+#===============================================================================
+
+      #------------------------------------------------------------------------
+      #  2017 02 17 - BTL
+      #  I HAVE NO IDEA WHAT THIS COMMENT IS ABOUT OR WHETHER IT EVEN APPLIES
+      #  ANYMORE.
+      #  FOR EXAMPLE, THE LAST BIT ABOUT FP AND FN RATES IS DEFINITELY OUT
+      #  OF DATE NOW, SINCE THOSE _ARE_ INCLUDED IN THE OUTPUT.
+      #------------------------------------------------------------------------
+
+  #  Supporting data not in binding
+  #   species vs planning units (database?) to allow computation of performance
+  #   measures related to which species are covered in solutions
+  #   (e.g., SELECT species WHERE planning unit ID == curPlanningUnitID)
+  #   (e.g., SELECT planning unit ID WHERE species == curSpeciesID))
+  #       - planning unit IDs
+  #       - set of species on planning unit
+
+  #     ALSO STILL NEED TO ADD THE FP AND FN RATES AND OTHER ERROR MODEL
+  #     ATTRIBUTES TO THE OUTPUT DATA FRAME AND CSV FILE.
+
+#===============================================================================
+
+#===============================================================================
+
+#===============================================================================
+
+#===============================================================================
+
+#===============================================================================
+
+#===============================================================================
+
+#===============================================================================
 
 #===============================================================================
 
