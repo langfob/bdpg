@@ -39,10 +39,7 @@ create_COR_master_output_structure <- function (COR_bd_prob,
                     bipartite_metrics_from_bipartite_package = COR_bd_prob@bipartite_metrics_from_bipartite_package,
                     bipartite_metrics_from_igraph_package_df = COR_bd_prob@bipartite_metrics_from_igraph_package_df,
 
-                    marxan_best_df_sorted = marxan_output_values$marxan_best_df_sorted,
-                    marxan_ssoln_df       = marxan_output_values$marxan_ssoln_df,
-                    marxan_mvbest_df      = marxan_output_values$marxan_mvbest_df,
-
+                    marxan_output_values  = marxan_output_values,
                     marxan_control_values = marxan_control_values,
 
                     correct_solution_vector_is_known = COR_bd_prob@correct_solution_vector_is_known
@@ -89,10 +86,7 @@ create_APP_master_output_structure <- function (APP_bd_prob,
         bipartite_metrics_from_bipartite_package = APP_bd_prob@bipartite_metrics_from_bipartite_package,
         bipartite_metrics_from_igraph_package_df = APP_bd_prob@bipartite_metrics_from_igraph_package_df,
 
-                    marxan_best_df_sorted = marxan_output_values$marxan_best_df_sorted,
-                    marxan_ssoln_df       = marxan_output_values$marxan_ssoln_df,
-                    marxan_mvbest_df      = marxan_output_values$marxan_mvbest_df,
-
+                    marxan_output_values  = marxan_output_values,
                     marxan_control_values = marxan_control_values,
 
                     correct_solution_vector_is_known = COR_bd_prob@correct_solution_vector_is_known
@@ -162,10 +156,7 @@ create_master_output_structure <- function (
                                             bipartite_metrics_from_bipartite_package,
                                             bipartite_metrics_from_igraph_package_df,
 
-                                            marxan_best_df_sorted,
-                                            marxan_ssoln_df,
-                                            marxan_mvbest_df,
-
+                                            marxan_output_values,
                                             marxan_control_values,
 
                                             correct_solution_vector_is_known
@@ -173,6 +164,11 @@ create_master_output_structure <- function (
     {
     derived_Xu_params    = Xu_parameters@derived_params
     base_Xu_params       = Xu_parameters@base_params
+
+                    marxan_best_df_sorted = marxan_output_values$marxan_best_df_sorted,
+                    marxan_ssoln_df       = marxan_output_values$marxan_ssoln_df,
+                    marxan_mvbest_df      = marxan_output_values$marxan_mvbest_df,
+
 
                     marxan_PROP       = marxan_control_values$marxan_PROP,
                     marxan_RANDSEED   = marxan_control_values$marxan_RANDSEED,
