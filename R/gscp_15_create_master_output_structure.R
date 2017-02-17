@@ -3,6 +3,59 @@
                 #  gscp_15_create_master_output_structure.R
 
 #===============================================================================
+#  THIS FIRST SECTION IS A TEMPORARY DUMPING GROUND FOR CODE THAT'S BEEN
+#  COMMENTED OUT BUT HAS SOME UTILITY IN BUILDING UP SOME DOCUMENTATION FOR
+#  VARIOUS BITS OF DATA.  SEE MORE DETAILED EXPLANATION BELOW.
+#-------------------------------------------------------------------------------
+#  BTL - 2017 02 17
+#  Need to document what some of the various marxan and bdpg vectors and lists
+#  and data frame columns mean, since some of the names only made sense in
+#  the context where they were created and now they're being used for other
+#  things.  So here, I'm going to just collect a pile of code that's been
+#  commented out but had some useful information in it before it was removed.
+#  Later, you can get rid of all this, but not until some more documentation
+#  is scavenged from it.  Not sure what all I need in that way though, so I
+#  don't want to waste time on it right now.
+#  solutions_df is no longer even referenced anywhere in bdpg.
+#  Should I just get rid of it?
+#  At the moment, it's slightly useful as a documentation of what some of the
+#  different vectors mean (i.e., the data frame column names are more
+#  meaningful than some of the vectors assigned to them.
+#  Actually, that only applies to two of them:
+#      - marxan_best_solution = marxan_best_df_sorted$SOLUTION, #  assumes already sorted by PU_ID
+#      - marxan_votes         = marxan_ssoln_df$number
+#  Would probably be better to just have a documentation section somewhere that
+#  explains the different marxan output columns.
+
+#   solutions_df = data.frame (puid = marxan_best_df_sorted$PUID,
+#                              optimal_solution = correct_solution_vector,
+#                              marxan_best_solution = marxan_best_df_sorted$SOLUTION, #  assumes already sorted by PU_ID
+#                              marxan_votes = marxan_ssoln_df$number,
+#                              cor_signed_diff = cor_signed_difference,
+#                              cor_abs_val_diff = cor_abs_val_signed_difference,
+#           #  2015 06 19 - BTL
+#           #  Until now (3:04 pm), this said:
+#           #       cor_num_spp_on_patch = final_link_counts_for_each_node$freq
+#           #  That means that it was using the apparent, not the correct,
+#           #  final link counts for each node.
+#           #  I have now changed this to say cor_... instead.
+#           #  Not sure if this was a source of unknown bugs before or will be
+#           #  a source now.  Need to look more closely at this to see the
+#           #  consequences where solutions_df$cor_num_spp_on_patch is used
+#           #  downstream of here.  However, since this is the only place it
+#           #  appears in this file and this file (gscp_15) is at the end of
+#           #  the whole program, maybe it doesn't matter at all except being
+#           #  echoed in some output file.
+#           #  2017 02 11 - BTL
+#           #  cor_final_counts_for_each_node seems to be the wrong name all over.
+#           #  Trying cor_link_counts_for_each_node now.
+#           #  All of this definitely needs some checking into...
+# #                             cor_num_spp_on_patch = cor_final_counts_for_each_node$freq
+#                              cor_num_spp_on_patch = cor_link_counts_for_each_node$freq
+#                              )
+#-------------------------------------------------------------------------------
+
+#===============================================================================
 
 create_COR_master_output_structure <- function (COR_bd_prob,
                                                 marxan_control_values,
@@ -311,45 +364,6 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #               Summarize marxan solution features.
   #---------------------------------------------------------------------------
 {
-#  BTL - 2017 02 17
-#  solutions_df is no longer even referenced anywhere in bdpg.
-#  Should I just get rid of it?
-#  At the moment, it's slightly useful as a documentation of what some of the
-#  different vectors mean (i.e., the data frame column names are more
-#  meaningful than some of the vectors assigned to them.
-#  Actually, that only applies to two of them:
-#      - marxan_best_solution = marxan_best_df_sorted$SOLUTION, #  assumes already sorted by PU_ID
-#      - marxan_votes         = marxan_ssoln_df$number
-#  Would probably be better to just have a documentation section somewhere that
-#  explains the different marxan output columns.
-
-  solutions_df = data.frame (puid = marxan_best_df_sorted$PUID,
-                             optimal_solution = correct_solution_vector,
-                             marxan_best_solution = marxan_best_df_sorted$SOLUTION, #  assumes already sorted by PU_ID
-                             marxan_votes = marxan_ssoln_df$number,
-                             cor_signed_diff = cor_signed_difference,
-                             cor_abs_val_diff = cor_abs_val_signed_difference,
-          #  2015 06 19 - BTL
-          #  Until now (3:04 pm), this said:
-          #       cor_num_spp_on_patch = final_link_counts_for_each_node$freq
-          #  That means that it was using the apparent, not the correct,
-          #  final link counts for each node.
-          #  I have now changed this to say cor_... instead.
-          #  Not sure if this was a source of unknown bugs before or will be
-          #  a source now.  Need to look more closely at this to see the
-          #  consequences where solutions_df$cor_num_spp_on_patch is used
-          #  downstream of here.  However, since this is the only place it
-          #  appears in this file and this file (gscp_15) is at the end of
-          #  the whole program, maybe it doesn't matter at all except being
-          #  echoed in some output file.
-          #  2017 02 11 - BTL
-          #  cor_final_counts_for_each_node seems to be the wrong name all over.
-          #  Trying cor_link_counts_for_each_node now.
-          #  All of this definitely needs some checking into...
-#                             cor_num_spp_on_patch = cor_final_counts_for_each_node$freq
-                             cor_num_spp_on_patch = cor_link_counts_for_each_node$freq
-                             )
-
       #  Find which PUs marxan chose for its best solution.
   marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
   marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
