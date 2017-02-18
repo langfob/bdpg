@@ -340,6 +340,9 @@ create_master_output_structure <- function (parameters,
 {
     app_results_list =
             compute_solution_vector_scores (app_bpm,
+
+                                                #  Identical args from here down
+                                                #  for cor and app.
                                             num_PUs,
                                             marxan_best_solution_PU_IDs,
                                             marxan_best_num_patches_in_solution,
@@ -355,6 +358,9 @@ create_master_output_structure <- function (parameters,
 {
     cor_results_list =
             compute_solution_vector_scores (cor_bpm,
+
+                                                #  Identical args from here down
+                                                #  for cor and app.
                                             num_PUs,
                                             marxan_best_solution_PU_IDs,
                                             marxan_best_num_patches_in_solution,

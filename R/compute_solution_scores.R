@@ -10,9 +10,71 @@
 
 #===============================================================================
 
-    #  In this routine, cand_sol stands for "candidate solution"
+#' Compute vector of classification-style scores for a candidate solution with
+#' respect to a reference species occupancy matrix (i.e., correct or apparent)
+#'
+#'  Computes error measures related to confusion matrix, etc. For the purpose of
+#'  computing a performance score, start by treating the problem as if it's a
+#'  classification problem, where a selected patch is classified as 1 and an
+#'  unselected patch is classified as 0. This allows us to use any of the many
+#'  existing measures developed for classifiers.
+#'
+#'  Doesn't matter too much which measures we use, since this is mostly about
+#'  demonstrating how to generate and evaluate problems and users will have to
+#'  choose which measure best aligns with their own goals.
+#'
+#'  However, it may be that some of these measures are easier to learn to
+#'  predict than others, so it's good to provide several different ones until we
+#'  know more. The base case would be to provide the ones that are the simplest
+#'  and most direct measures over the confusion matrix.
+#'  Confusion matrix fractions
+#'
+#'  Note that the TP and TN values are computed as the min of the candidate and
+#'  correct values. This is because the number of "trues" for the candidate
+#'  can't exceed the number of "trues" in the correct solution by definition.
+#'
+#'  Similarly, any count of TP or TN that falls short of the corresponding
+#'  counts in the correct solution represents the number of TP or TN that the
+#'  candidate got right and using the number of TP or TN from the correct would
+#'  overstate the candidate's performance.
+#'
+#'  This all seems a bit odd in the normal classification context because in
+#'  classification, you would have to know _which_ PUs the classifier got right
+#'  and count them up. In reserve selection, there could be many ways to get the
+#'  same final optimal count of PUs in the solution and we don't care _which_
+#'  ones are chosen to get that count. However, the same kind of a scoring
+#'  system can work because we know that anything short of the optimal number
+#'  represents the existance of False Negatives, i.e., _some_ PUs who should
+#'  have been included.  Similarly, any count greater than the optimal count
+#'  implies the existance of False Positives, i.e., _some_ PUs who should NOT
+#'  have been included.
+#'
+#'  Since nearly all classification performance scores are based on some
+#'  combination of the 4 values from the confusion matrix (TP,TN,FP,FN),
+#'  choosing those 4 values sets us up to compute all these scores.
+#'
+#' @param ref_spp_occ_matrix reference species occupancy matrix, e.g.,
+#'     correct or apparent species occupancy matrix
+#' @param num_PUs integer number of planning units
+#' @param cand_sol_PU_IDs vector of only the planning unit IDs that are
+#'     included in the candidate solution
+#' @param num_PUs_in_cand_solution integer number of planning units in the
+#'     candidate solution
+#' @param num_PUs_in_optimal_solution integer number of planning units in the
+#'     optimal solution
+#' @param spp_rep_targets vector of numeric species representation targets
+#' @param num_spp integer number of species in the problem
+#' @param input_err_FP fractional amount of False Positive error added to the
+#'     correct problem to create the apparent problem
+#' @param input_err_FN fractional amount of False Negative error added to the
+#'     correct problem to create the apparent problem
+#'
+#' @return list of solution vector scores
 
-compute_solution_vector_scores <- function (ref_spp_occ_matrix,
+compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bpm or app_bpm
+
+                                                #  Identical args from here down
+                                                #  for cor and app.
                                             num_PUs,
                                             cand_sol_PU_IDs,
                                             num_PUs_in_cand_solution,
@@ -22,62 +84,99 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,
                                             input_err_FP = 0,
                                             input_err_FN = 0)
     {
+        #----------------------------------------------------------------------
+        #  For each species, compute what fraction of its representation
+        #  target has been met by the candidate solution's vector of PU_IDs.
+        #  If the ref_spp_occ_matrix is the app_bpm, then the result will
+        #  be the representation fraction that the candidate solution APPEARS
+        #  to meet.  If the ref_spp_occ_matrix is the cor_bpm, then the
+        #  result will be the representation fraction actually achieved by
+        #  the candidate solution.
+        #
+        #  Here, the species occupancy matrix is referred to as the
+        #  "ref_spp_occ_matrix" to indicate that we're computing scores with
+        #  respect to a given reference, i.e., either correct or apparent,
+        #  rather than always computing the correct score.
+        #
+        #  This is to allow us to see the difference between how well a
+        #  method is actually doing and how it might appear to be doing when
+        #  its performance is measured against data of unknown correctness,
+        #  which is how nearly all results are presented in the literature.
+        #----------------------------------------------------------------------
+
     spp_rep_fracs = compute_rep_fraction (ref_spp_occ_matrix,
-                                                   cand_sol_PU_IDs,
-                                                   spp_rep_targets)
+                                          cand_sol_PU_IDs,
+                                          spp_rep_targets)
+
+
+        #------------------------------------------------------------------
+        #  Compute what fraction of all the species (appear to) have met
+        #  their target.
+        #  A representation fraction of 1 implies that the target is met.
+        #------------------------------------------------------------------
 
     indices_of_spp_with_unmet_rep_frac =  which (spp_rep_fracs < 1)
-
     num_spp_covered = num_spp  -  length (indices_of_spp_with_unmet_rep_frac)
-
     frac_spp_covered = num_spp_covered  /  num_spp
-
     spp_rep_shortfall = 1  -  frac_spp_covered
 
-        cat ("\n\n-------------------------------------------------------------------------")
-        cat ("\nIn compute_solution_vector_scores(), SCORES AS COMPUTED BY BIODIVPROBGEN:")
-        cat ("\n-------------------------------------------------------------------------")
-        cat ("\nlength (indices_of_spp_with_unmet_rep_frac) = ",
-           length (indices_of_spp_with_unmet_rep_frac))
-        cat ("\nnum_spp_covered =", num_spp_covered)
-        cat ("\nfrac_spp_covered =", frac_spp_covered)
-        cat ("\nspp_rep_shortfall =", spp_rep_shortfall)
-
-        #------------------------------------------------------------
-        #  Compute error measures related to confusion matrix, etc.
-        #------------------------------------------------------------
-        #  Doesn't matter too much which measures we use, since
-        #  this is mostly about demonstrating how to generate and
-        #  evaluate problems and users will have to choose which
-        #  measure best aligns with their own goals.
-        #  However, it may be that some of these measures are easier
-        #  to learn to predict than others, so it's good to provide
-        #  several different ones until we know more.
-        #  The base case would be to provide the ones that are the
-        #  simplest and most direct measures over the confusion
-        #  matrix.
-        #------------------------------------------------------------
-
-#-------------------------------------------------------------
+                    cat ("\n\n-------------------------------------------------------------------------")
+                    cat ("\nIn compute_solution_vector_scores(), SCORES AS COMPUTED BY BIODIVPROBGEN:")
+                    cat ("\n-------------------------------------------------------------------------")
+                    cat ("\nlength (indices_of_spp_with_unmet_rep_frac) = ",
+                       length (indices_of_spp_with_unmet_rep_frac))
+                    cat ("\nnum_spp_covered =", num_spp_covered)
+                    cat ("\nfrac_spp_covered =", frac_spp_covered)
+                    cat ("\nspp_rep_shortfall =", spp_rep_shortfall)
 
         #-------------------------------------------------------------
         #  Classification counts to base confusion matrix on
         #-------------------------------------------------------------
 
-    num_marxan_1s = num_PUs_in_cand_solution
-    num_marxan_0s = num_PUs - num_marxan_1s
+    num_cand_1s = num_PUs_in_cand_solution
+    num_cand_0s = num_PUs - num_cand_1s
 
     num_optimum_1s = num_PUs_in_optimal_solution
     num_optimum_0s = num_PUs - num_optimum_1s
 
         #-------------------------------------------------------------
         #  Confusion matrix fractions
+        #
+        #  Note that the TP and TN values are computed as the min
+        #  of the candidate and correct values.
+        #  This is because the number of "trues" for the candidate
+        #  can't exceed the number of "trues" in the correct
+        #  solution by definition.
+        #  Similarly, any count of TP or TN that falls short of the
+        #  corresponding counts in the correct solution represents
+        #  the number of TP or TN that the candidate got right and
+        #  using the number of TP or TN from the correct would
+        #  overstate the candidate's performance.
+        #
+        #  This all seems a bit odd in the normal classification
+        #  context because in classification, you would have to know
+        #  _which_ PUs the classifier got right and count them up.
+        #  In reserve selection, there could be many ways to get the
+        #  same final optimal count of PUs in the solution and we
+        #  don't care _which_ ones are chosen to get that count.
+        #  However, the same kind of a scoring system can work
+        #  because we know that anything short of the optimal number
+        #  represents the existance of False Negatives, i.e.,
+        #  _some_ PUs who should have been included.  Similarly,
+        #  any count greater than the optimal count implies the
+        #  existance of False Positives, i.e., _some_ PUs who should
+        #  NOT have been included.
+        #
+        #  Since nearly all classification performance scores are
+        #  based on some combination of the 4 values from the
+        #  confusion matrix (TP,TN,FP,FN), choosing those 4 values
+        #  sets us up to compute all these scores.
         #-------------------------------------------------------------
 
-    TP = min (num_marxan_1s, num_optimum_1s) / num_PUsm
-    TN = min (num_marxan_0s, num_optimum_0s) / num_PUs
-    FP = max (0, num_marxan_1s - num_optimum_1s) / num_PUs
-    FN = max (0, num_marxan_0s - num_optimum_0s) / num_PUs
+    TP = min (num_cand_1s, num_optimum_1s) / num_PUs
+    TN = min (num_cand_0s, num_optimum_0s) / num_PUs
+    FP = max (0, num_cand_1s - num_optimum_1s) / num_PUs
+    FN = max (0, num_cand_0s - num_optimum_0s) / num_PUs
 
         #-------------------------------------------------------------
         #  Base evaluation measures over the confusion matrix
@@ -112,7 +211,7 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,
     acc_frac = TP + TN
     acc_err_frac = 1 - acc_frac
 
-    cost_savings = 1 - (num_marxan_1s / num_PUs)
+    cost_savings = 1 - (num_cand_1s / num_PUs)
     opt_cost_savings = 1 - (num_optimum_1s / num_PUs)
 
     TSS = cSe + cSp - 1
