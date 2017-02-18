@@ -12,7 +12,7 @@
 
 #===============================================================================
 
-#' Compute vector of scores for a candidate solution with respect to a reference
+#' Compute scores for candidate solution with respect to a reference
 #' spp occupancy matrix (i.e., COR or APP)
 #'
 #' Computes error measures related to confusion matrix, etc. For the purpose of
@@ -68,6 +68,18 @@
 #' actually doing and how it might appear to be doing when its performance is
 #' measured against data of unknown correctness, which is how nearly all results
 #' are presented in the literature.
+#'
+#' Source of formulas for measures
+#'
+#' I got nearly all of these measures from one paper a while ago and I can't
+#' remember exactly what paper it was at the moment.  Need to look this up
+#' again.  I think it might have been the 2011 Liu et al. paper in the
+#' references section below.
+#'
+#'@references
+#'
+#' Measuring and comparing the accuracy of species distribution models
+#' with presence–absence data. C Liu, M White, G Newell - Ecography, 2011
 
 #' @param ref_spp_occ_matrix reference species occupancy matrix, e.g.,
 #'     correct or apparent species occupancy matrix
@@ -158,25 +170,6 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bp
         #  the number of TP or TN that the candidate got right and
         #  using the number of TP or TN from the correct would
         #  overstate the candidate's performance.
-        #
-        #  This all seems a bit odd in the normal classification
-        #  context because in classification, you would have to know
-        #  _which_ PUs the classifier got right and count them up.
-        #  In reserve selection, there could be many ways to get the
-        #  same final optimal count of PUs in the solution and we
-        #  don't care _which_ ones are chosen to get that count.
-        #  However, the same kind of a scoring system can work
-        #  because we know that anything short of the optimal number
-        #  represents the existance of False Negatives, i.e.,
-        #  _some_ PUs who should have been included.  Similarly,
-        #  any count greater than the optimal count implies the
-        #  existance of False Positives, i.e., _some_ PUs who should
-        #  NOT have been included.
-        #
-        #  Since nearly all classification performance scores are
-        #  based on some combination of the 4 values from the
-        #  confusion matrix (TP,TN,FP,FN), choosing those 4 values
-        #  sets us up to compute all these scores.
         #-------------------------------------------------------------
 
     TP = min (num_cand_1s, num_optimum_1s) / num_PUs

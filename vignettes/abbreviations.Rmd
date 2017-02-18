@@ -7,22 +7,32 @@ output: html_document
 
 ### Abbreviations used in variables and their meanings
 
-abs - absolute
-app - apparent
+abs   - absolute
+app   - apparent
+bd    - biodiversity
+cand  - candidate
+CF    - conservation feature (usually a species)
 const - constant
-cor - correct
-df - data frame
-err - error
-gen - generator or generation
-mod - model
+cor   - correct
+df    - data frame
+eg    - error generator
+em    - error model
+err   - error
+gen   - generator or generation
+mod   - model
+par   - parameter
 param - parameter
-prob - problem
-rand - random
-rel - relative
-sel - selector or selection
-sol - solution
-unif - uniform
-vec - vector
+prob  - problem
+pg    - problem generator
+PU    - planning unit
+rand  - random
+rel   - relative
+rs    - reserve selector
+sdm   - species distribution model
+sel   - selector or selection
+sol   - solution
+unif  - uniform
+vec   - vector
 
 ###  Fooling around with archiving, etc.
 

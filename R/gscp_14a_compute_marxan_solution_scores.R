@@ -4,6 +4,9 @@
 
 #===============================================================================
 
+
+#===============================================================================
+
 dist_between_marxan_solutions = function (solution_1, solution_2)
     {
 #browser()
@@ -27,7 +30,32 @@ compute_marxan_solution_scores <- function (spp_rows_by_PU_cols_matrix_of_spp_ct
         compute_rep_fraction (spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
                               marxan_solution_PU_IDs,
                               targets)
-    cur_frac_of_all_spp_meeting_their_target = sum (cur_rep_fractions >= 1.0) / num_spp    #  How best to give a tolerance here?
+        #  How best to give a tolerance here?
+        #  Could say cur_rep_fractions >= (1.0 - epsilon).
+        #  This might be a good thing to compute in general, rather than
+        #  just for this one routine, since it might be a more general
+        #  way for someone to be playing with the results to see how they
+        #  change as you loosen up the epsilon.  Still, they can already
+        #  do that by just changing the targets in their inputs.
+        #  Providing an epsilon in my code would still require re-running
+        #  everything in the same way that having the user do it in the
+        #  marxan input file, so there's no gain for having an epsilon here...
+#*****
+#  2017 02 18 - BTL
+#  The column names in marxan_solution_scores are misleading.
+#  Should rename them to "frac_of_all_spp_meeting_their_tgt" and
+#  "frac_of_total_landscape_cost".
+#  I would do this immediately, but I'm not sure how far that would propagate,
+#  i.e., how many different places is this structure referenced?
+#  Should really be doing this with a variable name, in the same way I do it
+#  for most of the other data frames.
+#  This in turn suggests that I need someplace to store global, shared constants.
+#  Maybe I really should violate all the rules and make a global constant object
+#  that is universally available but never written to other than when it is
+#  created at the start of the run.  That would save all kinds of noise in the
+#  argument lists that would need it passed in and/or passed down.
+#*****
+    cur_frac_of_all_spp_meeting_their_target = sum (cur_rep_fractions >= 1.0) / num_spp
     marxan_solution_scores [cur_solution_num, "representation"] = cur_frac_of_all_spp_meeting_their_target
 
     cur_solution_PUs = which (marxan_solutions_matrix [cur_solution_num,] > 0)
@@ -69,6 +97,39 @@ get_marxan_solution_choice_string = function (marxan_best_cost,
 
 #-------------------------------------------------------------------------------
 
+#' Verify whether the solution marxan chose as best was actually its best
+#'
+#' A comment in the marxan mailing list said that sometimes in the unix version
+#' of marxan, the solution that marxan marked as its best was not actually its
+#' best.  This function looks at all of marxan's solutions and compares them to
+#' marxan's chosen best solution to verify that it really was the best.
+#'
+#' Writes an empty file in the marxan output directory and the name of the file
+#' indicates whether marxan really did return its best guess. This will make it
+#' easy to quickly search a bunch of runs to see whether any of them had a bad
+#' marxan choice for best run by just looking for the existance of any files
+#' whose names begin with "BAD_".  This should never happen, but this function
+#' is run to make sure.
+#'
+#' The empty file that is written has one of the following names:
+#'
+#' - OK_marxan_solution_IS_apparent_best:  If marxan's chosen best cost solution
+#' really is its best cost solution
+#'
+#' - BAD_marxan_solution_NEITHER_best:  If marxan's chosen best is also neither
+#' the best cost nor the best representation
+#'
+#' - BAD_HALF_marxan_solution_NOT_apparent_best_cost_and_IS_apparent_best_rep:
+#' If marxan's chosen best is not best cost but is best representation
+#'
+#' - BAD_HALF_marxan_solution_IS_apparent_best_cost_and_NOT_apparent_best_rep:
+#' If marxan's chosen best is best cost but is NOT best representation
+#'
+
+#' @param best_solution_ID_according_to_marxan
+#' @param app_marxan_solution_scores
+#' @param out_dir
+
 see_if_marxan_best_was_actually_best <-
                             function (best_solution_ID_according_to_marxan,
                                       app_marxan_solution_scores,
@@ -99,10 +160,21 @@ see_if_marxan_best_was_actually_best <-
 
 #-------------------------------------------------------------------------------
 
-    #  For each step in order by Marxan summed solution PU ID:
-    #  Want the fraction of all species who have met or exceeded their target
-    #  when all PUs with the same number of votes or more are included in the
-    #  solution.
+
+#' plot incrementatl marxan summed solution representations
+#'
+#'  For each step in order by Marxan summed solution PU ID:
+#'  Want the fraction of all species who have met or exceeded their target
+#'  when all PUs with the same number of votes or more are included in the
+#'  solution.
+#'
+#' @param marxan_ssoln_df
+#' @param cor_PU_costs
+#' @param optimum_cost
+#' @param bpm
+#' @param cor_app_prefix_string
+#' @param num_spp
+#' @param plot_output_dir
 
 plot_incremental_marxan_summed_solution_representations =
     function (marxan_ssoln_df,
@@ -410,6 +482,23 @@ plot_marxan_best_solution_scores_COR_and_APP <- function (plot_output_dir,
 
 #-------------------------------------------------------------------------------
 
+# Variables and their structures
+#
+# app_marxan_solution_scores: data frame:  columns: [same as for cor_marxan_solution_scores]
+# cor_marxan_solution_scores: data frame:  columns:
+#     - solution_num
+#     - representation
+#     - cost
+# cur_marxan_solution_PU_IDs:  vector of integers
+# marxan_solutions_matrix:  data frame:  columns:
+#     - ???  see load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs()
+# marxan_solutions_matrix_and_num_solutions:  list:  slots:
+#     - marxan_solutions_matrix
+#     - num_marxan_solutions
+# num_marxan_solutions:  integer
+# total_landscape_cost:  integer
+
+
 find_best_marxan_solutions <- function (marxan_output_dir_path,
                                         #num_PUs,     #  should this be largest_PU_ID?
                                         num_spp,     #  should this be largest_spp_ID?
@@ -480,18 +569,18 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
     # cor_sorted_marxan_solution_scores = plyr::arrange (cor_marxan_solution_scores, -representation, -cost)
     # app_sorted_marxan_solution_scores = plyr::arrange (app_marxan_solution_scores, -representation, -cost)
 
-    distances_between_marxan_solutions = matrix (0, nrow=num_marxan_solutions,
-                                               ncol=num_marxan_solutions, byrow=TRUE)
+    distances_between_marxan_solutions = matrix (0,
+                                                 nrow  = num_marxan_solutions,
+                                                 ncol  = num_marxan_solutions,
+                                                 byrow = TRUE)
 
     IDs_of_vectors_matching_marxan_best_solution_choice = c()
     for (cur_row in 1:num_marxan_solutions)
         {
-        cat ("\n\ncur_row = ", cur_row, ", just before first dist_between_marxan_solutions()")
-
+                            cat ("\n\ncur_row = ", cur_row, ", just before first dist_between_marxan_solutions()")
         cur_dist_from_marxan_best_df_sorted_as_vector =
-        #        distances_between_marxan_solutions [cur_row, cur_col] =
-        dist_between_marxan_solutions (marxan_solutions_matrix [cur_row, ],
-                                       marxan_best_df_sorted_as_vector)
+            dist_between_marxan_solutions (marxan_solutions_matrix [cur_row, ],
+                                           marxan_best_df_sorted_as_vector)
 
         if (cur_dist_from_marxan_best_df_sorted_as_vector == 0)
             IDs_of_vectors_matching_marxan_best_solution_choice =
@@ -499,30 +588,33 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
 
         for (cur_col in 1:num_marxan_solutions)
             {
-            cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_solutions()")
-
+                                cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_solutions()")
             distances_between_marxan_solutions [cur_row, cur_col] =
                 dist_between_marxan_solutions (marxan_solutions_matrix [cur_row, ],
                                                 marxan_solutions_matrix [cur_col, ])
             }
         }
 
-  short_range = min (num_marxan_solutions, 5)
-  cat ("\n\ndistances_between_marxan_solutions [1:short_range,1:short_range] = \n")
-  print (distances_between_marxan_solutions [1:short_range,1:short_range])
+                        short_range = min (num_marxan_solutions, 5)
+                        cat ("\n\ndistances_between_marxan_solutions [1:short_range,1:short_range] = \n")
+                        print (distances_between_marxan_solutions [1:short_range,1:short_range])
 
-  cat ("\n\nIDs_of_vectors_matching_marxan_best_solution_choice = ",
-       IDs_of_vectors_matching_marxan_best_solution_choice)
-  cat ("\nnumber of vectors matching marxan best solution choice = ",
-       length (IDs_of_vectors_matching_marxan_best_solution_choice))
+                        cat ("\n\nIDs_of_vectors_matching_marxan_best_solution_choice = ",
+                           IDs_of_vectors_matching_marxan_best_solution_choice)
+                        cat ("\nnumber of vectors matching marxan best solution choice = ",
+                           length (IDs_of_vectors_matching_marxan_best_solution_choice))
 
+        #-----------------------------------------------------------------------
         #  Marxan returns a best solution, but I have not been able to find
         #  anyplace where it tells you what solution number it was.
         #  Since you can have multiple identical solutions, there may be
         #  multiple solution IDs that could be identified as the best solution.
-        #  I need any one of them to use to get the corresponding solution vector.
+        #  I need any one of them to use to get the corresponding solution
+        #  vector.
         #  I will arbitrarily choose the first one in the list of vectors that
         #  selected the same PUs as the vector that marxan returned.
+        #-----------------------------------------------------------------------
+
     best_solution_ID_according_to_marxan =
         IDs_of_vectors_matching_marxan_best_solution_choice [1]
 
