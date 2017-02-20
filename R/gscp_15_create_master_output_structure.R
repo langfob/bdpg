@@ -370,7 +370,7 @@ create_master_output_structure <- function (parameters,
                                             FP_const_rate,
                                             FN_const_rate)
 }
-}
+}  #  end - Compute correct and apparent scores for marxan solution.
 }
 
 #===============================================================================
@@ -518,7 +518,7 @@ create_master_output_structure <- function (parameters,
                       #  Full runset name
                     runset_name = rep (NA, num_runs)
                     )
-    }
+    }  #  end - Create full results_df and initialize before populating it afterwards.
 
 #===============================================================================
 
@@ -677,13 +677,14 @@ create_master_output_structure <- function (parameters,
 
     if (compute_network_metrics)
         {
-        #  Need to bind the network measures to the data frame too.
+            #  Need to bind the network measures to the data frame too.
         results_df = cbind (results_df,
                       bipartite_metrics_from_bipartite_package,
                       bipartite_metrics_from_igraph_package_df
                       )
         }
-    }
+
+    }  #  end - Fill in the full final results data frame.
 
     write_results_to_files (results_df, parameters,
                             cur_result_row)    #  Added 2016 03 28 - BTL.
@@ -702,6 +703,7 @@ create_master_output_structure <- function (parameters,
 #  COMMENTED OUT BUT HAS SOME UTILITY IN BUILDING UP SOME DOCUMENTATION FOR
 #  VARIOUS BITS OF DATA.  SEE MORE DETAILED EXPLANATION BELOW.
 #-------------------------------------------------------------------------------
+{
 #  BTL - 2017 02 17
 #  Need to document what some of the various marxan and bdpg vectors and lists
 #  and data frame columns mean, since some of the names only made sense in
@@ -989,6 +991,8 @@ create_master_output_structure <- function (parameters,
     #  building a mammoth frame that holds every possible thing and has to
     #  choose dummy values to put into places that don't apply to some data.
     #-------------------------------------------------------------------------
+
+}
 
 #===============================================================================
 
