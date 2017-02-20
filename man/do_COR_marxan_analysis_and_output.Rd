@@ -13,4 +13,3 @@ do_COR_marxan_analysis_and_output(COR_bd_prob, parameters, targets = rep(1,
 \description{
 Run marxan on COR problem and write output from all analysis
 }
-

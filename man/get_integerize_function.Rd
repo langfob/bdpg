@@ -24,4 +24,3 @@ parameter inputs.
 get_integerize_function ("ceiling")
 
 }
-

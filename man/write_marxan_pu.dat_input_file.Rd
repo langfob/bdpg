@@ -28,4 +28,3 @@ PU_IDs = c(3,5,6,7,21,32)
 write_marxan_pu.dat_input_file (PU_IDs, 3, 0)
          }
 }
-

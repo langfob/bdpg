@@ -16,4 +16,3 @@ Evaluate apparent summed solutions as a function of the correct
  problem structure and the apparent problem structure, i.e.,
  how marxan is really doing vs. how marxan thinks it's doing.
 }
-

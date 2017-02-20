@@ -33,4 +33,3 @@ before its instances are spread across the landscape.  This function
 strips that inside distribution out of the full wrapped distribution and
 returns a set of abundances ready for spreading.
 }
-

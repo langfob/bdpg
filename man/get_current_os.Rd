@@ -17,4 +17,3 @@ where the current operating system is stored.
 get_current_os ()
 
 }
-

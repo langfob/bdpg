@@ -28,4 +28,3 @@ target_values = c(20,20,10,100,5)
 write_marxan_spec.dat_input_file_from_vectors (spp_IDs, spf_values, target_values)
          }
 }
-

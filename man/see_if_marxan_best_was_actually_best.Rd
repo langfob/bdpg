@@ -35,4 +35,3 @@ If marxan's chosen best is not best cost but is best representation
 - BAD_HALF_marxan_solution_IS_apparent_best_cost_and_NOT_apparent_best_rep:
 If marxan's chosen best is best cost but is NOT best representation
 }
-

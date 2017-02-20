@@ -15,4 +15,3 @@ master output structure puts out various APPARENT values and this dummying
 in of the CORRECT for the APPARENT allows the function to work identically
 for CORRECT and APPARENT data.
 }
-

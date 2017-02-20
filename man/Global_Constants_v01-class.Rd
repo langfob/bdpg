@@ -50,6 +50,7 @@ output in RSrun-related code (e.g., marxan output files)}
 \item{\code{rsrun_plot_dir_name}}{character string directory name for plot
 output files in RSrun-related code}
 }}
+
 \section{Assumptions}{
 
 
@@ -76,6 +77,7 @@ to make sure they're consistent in all occurrences of various structures and
 to make it easy to change their values everywhere at once on the rare
 occasions when I want to do that.
 }
+
 \examples{
 \dontrun{
 #  Note that this is now done indirectly by calling
@@ -87,4 +89,3 @@ occasions when I want to do that.
 \seealso{
 \code{\link{create_global_constants}}
 }
-

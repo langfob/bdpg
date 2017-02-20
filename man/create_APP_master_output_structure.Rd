@@ -12,4 +12,3 @@ create_APP_master_output_structure(marxan_control_values, marxan_output_values,
 Create a master output structure for all problem attributes and reserve
 selection results when evaluating an APPARENT problem.
 }
-

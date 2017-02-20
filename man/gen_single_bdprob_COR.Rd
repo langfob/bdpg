@@ -40,4 +40,3 @@ create one from scratch.
 to be replaced or cloned into something appropriate for the new problem
 type.**
 }
-

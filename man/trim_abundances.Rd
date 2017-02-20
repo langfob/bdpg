@@ -38,4 +38,3 @@ This doesn't really need to be a function since it's only one line
  That version is in the git repository in case it needs to be
  resurrected for some reason.
 }
-

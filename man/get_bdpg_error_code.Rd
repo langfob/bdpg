@@ -19,4 +19,3 @@ Look up a specific bdpg error code given its name
 get_bdpg_error_code ("ERROR_STATUS_unknown_spp_occ_FP_error_type")
 
 }
-

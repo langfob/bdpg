@@ -57,4 +57,3 @@ write_marxan_spec.dat_input_file (spp_IDs)
 write_marxan_puvspr.dat_input_file (spp_PU_amount_table)
          }
 }
-

@@ -62,4 +62,3 @@ write_marxan_spec.dat_input_file_from_vectors (spp_IDs, spf_values, target_value
 write_marxan_puvspr.dat_input_file (spp_PU_amount_table)
          }
 }
-

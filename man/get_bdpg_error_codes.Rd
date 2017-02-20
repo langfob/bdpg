@@ -15,4 +15,3 @@ Builds the error codes returned by errors in bdpg package
 \examples{
 get_bdpg_error_codes ()
 }
-

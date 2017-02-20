@@ -155,7 +155,7 @@ When I try to create an instance of the Global_Constants_v01 class outside
       }}
       }
 }
+
 \seealso{
 \code{"\linkS4class{Global_Constants_v01}"}
 }
-

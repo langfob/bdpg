@@ -59,4 +59,3 @@ Dummy code that was in here to demonstrate high-level parts of that
  found in github versions of the code up until around commit 1c0fbba6
  on Feb 4, 2017.
 }
-

@@ -27,4 +27,3 @@ status_values = c(0,0,0,0,0)
 write_marxan_spec.dat_input_file_from_vectors (PU_IDs, cost_values, status_values)
          }
 }
-

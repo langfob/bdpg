@@ -82,4 +82,3 @@ corresponding slot's value for each of the flags in the RSprob object.
 
 }
 }
-

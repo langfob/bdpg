@@ -20,4 +20,3 @@ combine_2_bdprobs(bdprob_1, bdprob_2, parameters, bdpg_error_codes, integerize)
 \description{
 FUNCTION_DESCRIPTION
 }
-

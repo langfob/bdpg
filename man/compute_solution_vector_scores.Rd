@@ -104,4 +104,3 @@ references section below.
 Measuring and comparing the accuracy of species distribution models
 with presence–absence data. C Liu, M White, G Newell - Ecography, 2011
 }
-

@@ -13,4 +13,3 @@ do_APP_marxan_analysis_and_output(APP_bd_prob, COR_bd_prob, parameters,
 \description{
 Run marxan on APP problem and write output from all analysis
 }
-

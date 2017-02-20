@@ -23,4 +23,3 @@ Should include these in the marxan package.
  output_penalty.csv
  output_sen.dat
 }
-

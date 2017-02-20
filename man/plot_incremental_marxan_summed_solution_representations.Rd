@@ -14,4 +14,3 @@ For each step in order by Marxan summed solution PU ID:
  when all PUs with the same number of votes or more are included in the
  solution.
 }
-
