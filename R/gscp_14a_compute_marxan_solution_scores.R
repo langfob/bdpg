@@ -499,6 +499,22 @@ plot_marxan_best_solution_scores_COR_and_APP <- function (plot_output_dir,
 # total_landscape_cost:  integer
 
 
+#' Title
+#'
+#' @param marxan_output_dir_path
+#' @param num_spp
+#' @param cor_PU_costs
+#' @param cor_bpm
+#' @param app_bpm
+#' @param marxan_best_df_sorted_as_vector
+#' @param plot_output_dir
+#' @param largest_PU_ID
+#' @param largest_spp_ID
+#' @param targets
+#'
+#' @return  nothing?
+
+
 find_best_marxan_solutions <- function (marxan_output_dir_path,
                                         #num_PUs,     #  should this be largest_PU_ID?
                                         num_spp,     #  should this be largest_spp_ID?
