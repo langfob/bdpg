@@ -4,50 +4,50 @@
 
 #===============================================================================
 
-write_abbreviated_results_to_files = 
-            function (cur_result_row, 
-                      parameters, 
-                      num_PUs, 
-                      num_spp, 
-                      n__num_groups, 
-                      alpha__, 
-                      p__prop_of_links_between_groups, 
-                      r__density, 
-                      num_nodes_per_group, 
-                      tot_num_nodes, 
-                      num_independent_set_nodes, 
-                      num_dependent_set_nodes, 
-                      num_rounds_of_linking_between_groups, 
-                      target_num_links_between_2_groups_per_round, 
-                      num_links_within_one_group, 
-                      tot_num_links_inside_groups, 
-                      max_possible_num_links_between_groups, 
-                      max_possible_tot_num_links) 
+write_abbreviated_results_to_files =
+            function (cur_result_row,
+                      parameters,
+                      num_PUs,
+                      num_spp,
+                      n__num_groups,
+                      alpha__,
+                      p__prop_of_links_between_groups,
+                      r__density,
+                      num_nodes_per_group,
+                      tot_num_nodes,
+                      num_independent_set_nodes,
+                      num_dependent_set_nodes,
+                      num_rounds_of_linking_between_groups,
+                      target_num_links_between_2_groups_per_round,
+                      num_links_within_one_group,
+                      tot_num_links_inside_groups,
+                      max_possible_num_links_between_groups,
+                      max_possible_tot_num_links)
     {
-    all_output_col_names = 
+    all_output_col_names =
         c (
             "runset_abbrev",
-            "run_ID", 
-            
-            "exceeded_thresh_for_num_spp", 
-            
+            "run_ID",
+
+            "exceeded_thresh_for_num_spp",
+
                 #  Derived network parameters (after running Xu algorithm)
             "num_PUs",
             "num_spp",
             "num_spp_per_PU",
-            
+
             "seed",
-            
+
                 #  Xu input parameters
             "n__num_groups",
             "alpha__",
             "p__prop_of_links_between_groups",
             "r__density",
-            
+
                 #  Correct answers
             "opt_solution_as_frac_of_tot_num_nodes",
             "cor_num_patches",
-            
+
                 #  Marxan results
             "marxan_best_num_patches",
             "abs_marxan_best_solution_cost_err_frac",
@@ -55,7 +55,7 @@ write_abbreviated_results_to_files =
             "spp_rep_shortfall",
             "marxan_best_solution_NUM_spp_covered",
             "marxan_best_solution_FRAC_spp_covered",
-            
+
                 #  Derived input parameters (before running Xu algorithm)
             "num_nodes_per_group",
             "tot_num_nodes",
@@ -67,7 +67,7 @@ write_abbreviated_results_to_files =
             "tot_num_links_inside_groups",
             "max_possible_num_links_between_groups",
             "max_possible_tot_num_links",
-            
+
                 #  Marxan input parameters
             "marxan_spf_const",
             "marxan_PROP",
@@ -84,9 +84,9 @@ write_abbreviated_results_to_files =
             "marxan_ITIMPTYPE",
             "marxan_HEURTYPE",
             "marxan_CLUMPTYPE",
-            
+
             "runset_name",
-            
+
                 #  Bipartite measures
             "connectance",
             "web_asymmetry",
@@ -133,7 +133,7 @@ write_abbreviated_results_to_files =
             "partner.diversity.LL",
             "generality.HL",
             "vulnerability.LL",
-            
+
                 #  igraph Latapy measures
             "ig_top",
             "ig_bottom",
@@ -156,28 +156,28 @@ write_abbreviated_results_to_files =
             "ig_mean_top_bg_redundancy",
             "ig_median_top_bg_redundancy"
             )
-    
-    
+
+
     all_output_initialized_cols = rep (NA, length (all_output_col_names))
-    
+
     initialized_output_df = as.data.frame (t (all_output_initialized_cols))
     names (initialized_output_df) = all_output_col_names
-    
+
     initialized_output_df$runset_abbrev [cur_result_row]                                    = parameters$runset_name    #  parameters$runset_abbrev
-    
+
     initialized_output_df$exceeded_thresh_for_num_spp                                       = TRUE
-    
+
     initialized_output_df$num_PUs [cur_result_row]                                          = num_PUs
     initialized_output_df$num_spp [cur_result_row]                                          = num_spp
     initialized_output_df$num_spp_per_PU [cur_result_row]                                   = num_spp / num_PUs
     initialized_output_df$seed [cur_result_row]                                             = parameters$seed
-    
+
         #  Xu options
     initialized_output_df$n__num_groups [cur_result_row]                                   = n__num_groups
     initialized_output_df$alpha__ [cur_result_row]                                          = alpha__
     initialized_output_df$p__prop_of_links_between_groups [cur_result_row]                 = p__prop_of_links_between_groups
     initialized_output_df$r__density [cur_result_row]                                       = r__density
-    
+
         #  Derived Xu options
     initialized_output_df$num_nodes_per_group [cur_result_row]                             = num_nodes_per_group
     initialized_output_df$tot_num_nodes [cur_result_row]                                    = tot_num_nodes
@@ -189,12 +189,12 @@ write_abbreviated_results_to_files =
     initialized_output_df$tot_num_links_inside_groups [cur_result_row]                     = tot_num_links_inside_groups
     initialized_output_df$max_possible_num_links_between_groups [cur_result_row]           = max_possible_num_links_between_groups
     initialized_output_df$max_possible_tot_num_links [cur_result_row]                       = max_possible_tot_num_links
-    
+
         #  Full runset name
     initialized_output_df$runset_name [cur_result_row]                                      = parameters$runset_name
-    
+
         #  Write data frame to file.
-    write_results_to_files (initialized_output_df, parameters, 
+    write_results_to_files (initialized_output_df, parameters,
                             cur_result_row)    #  Added 2016 03 28 - BTL.
     }
 
