@@ -210,6 +210,9 @@ setClass ("Xu_bd_problem",
                                 #-----------------------
 
                             UUID                             = "character",                  #  bd_prob
+                            checksum                         = "character",
+
+
                             prob_is_ok                       = "logical",                    #  bd_prob
 
                             basic_or_wrapped_str = "character",    #  "BASIC" or "WRAPPED" - used inbuilding name for saved RDS file
@@ -371,6 +374,7 @@ setClass ("Xu_wrapped_bd_problem",
 setClass ("RSrun",
           representation (
                             UUID        = "character",
+                            checksum    = "character",
 
                                 #  UUID of the problem the reserve selector
                                 #  is running on.

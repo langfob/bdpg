@@ -452,6 +452,8 @@ save_bdprob <- function (bdprob_type,    #  i.e., "BASIC" or "WRAPPED"
 
     full_saved_bdprob_path = file.path (base_outdir, saved_bdprob_filename)
 
+    bdprob = compute_and_set_obj_checksum (bdprob, base_outdir)
+
     saveRDS (bdprob, full_saved_bdprob_path)
 #    reloaded_bdprob = readRDS (full_saved_bdprob_path)    #  testing only
 
@@ -496,5 +498,87 @@ touch <- function (file_path_to_touch)
     }
 
 #===============================================================================
+
+#' Compute a checksum for the object
+#'
+#' The point of this function is to give a quick way to compare two complex
+#' objects to see whether they are really the same object excluding their UUID
+#' and checksum fields.  This is useful when running lots of experiments over
+#' and over during development where the same random seed may end up
+#' accidentally being re-used and generating identical experiments.  When lots
+#' experiments are archived, it may be necessary to quickly cross-compare many
+#' archived experiments against each other and having a stored checksum will
+#' make it easier to do this and therfore, easier to spot accidental
+#' duplicates.
+#'
+#' This function works by replacing the UUID and checksum fields of the local
+#' copy of the object with empty strings and then writing the object copy to a
+#' temporary file.  Then, a checksum is computed for that temporary file and
+#' file.  The modified original object is not returned from the function.
+#'
+#' @param obj object whose checksum is to be computed
+#' @param base_outdir directory where temporary file for use in checksum
+#'     computation will be written and then deleted
+#'
+#' @return character string checksum of the object
+#' @export
+
+compute_obj_checksum <- function (obj, base_outdir=".")
+    {
+        #------------------------------------------------------------------
+        #  Clear the UUID and checksum fields if they exist,
+        #  since we don't want them to cause the checksum to be different
+        #  when two objects are identical other than those two fields.
+        #------------------------------------------------------------------
+
+    if ("UUID" %in% slotNames (obj))
+        obj@UUID <- ""
+    if ("checksum" %in% slotNames (obj))
+        obj@checksum <- ""
+
+        #--------------------------------------------------------------
+        #  Write the object to a temporary file that checksum can be
+        #  computed over (checksum only works on files, not objects).
+        #--------------------------------------------------------------
+
+    saved_obj_filename = paste0 ("tmp_for_checksum__ok_to_delete_if_left_after_run.rds")
+    full_saved_obj_path = file.path (normalizePath (base_outdir),
+                                     saved_obj_filename)
+    saveRDS (obj, full_saved_obj_path)
+
+        #-----------------------------------------------------
+        #  Now ready to compute the checksum
+        #  and get rid of the temporary file created for it.
+        #-----------------------------------------------------
+
+    checksum = md5sum (full_saved_obj_path)
+    if (file.exists (full_saved_obj_path)) file.remove (full_saved_obj_path)
+
+    return (checksum)
+    }
+
+#' Convenience function for computing the object's checksum and setting that slot
+#'
+#' This function computes the checksum and sets the checksum slot in the object,
+#' then returns the modified object.  It just packages those up for convenience.
+#'
+#' @param obj object whose checksum is to be computed
+#' @param base_outdir directory where temporary file for use in checksum
+#'     computation will be written and then deleted
+#'
+#' @return  the same object that was passed in except that its checksum is
+#'     now set
+#' @export
+
+compute_and_set_obj_checksum <- function (obj, base_outdir=".")
+    {
+    obj@checksum <- compute_obj_checksum (obj, base_outdir)
+
+    return (obj)
+    }
+
+#===============================================================================
+
+
 
 
