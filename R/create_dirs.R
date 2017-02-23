@@ -4,14 +4,16 @@
 
 #===============================================================================
 
-    #  Shortcut functions to always build paths to RSprob dirs reliably.
-
 build_topdir_name <- function (obj)
     {
     topdir_name <- paste0 (obj@file_name_prefix, ".", obj@UUID)
 
     return (topdir_name)
     }
+
+#===============================================================================
+
+    #  Shortcut functions to always build paths to RSprob dirs reliably.
 
 get_RSprob_path_topdir <- function (rsprob, exp_root_dir)
     {

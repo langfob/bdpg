@@ -54,24 +54,6 @@ cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"
 
 #===============================================================================
 
-# create_marxan_run <- function (prob_UUID,
-#                               targets,
-#                               starting_dir,
-#                               cor_or_app_str
-#                               )
-#     {
-#     new_rsrun <- create_RSrun (prob_UUID,
-#                               targets,
-#                               starting_dir = parameters$fullOutputDir_NO_slash,
-#                               cor_or_app_str,
-#                               method_name = "Marxan_SA"
-#                               )
-#
-#     return (new_rsrun)
-#     }
-
-#===============================================================================
-
 #' Run marxan on COR problem and write output from all analysis
 #'
 #' @param COR_bd_prob
@@ -87,12 +69,6 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
         #---------------
         #  Run marxan.
         #---------------
-
-
-
-    # COR_marxan_run <- create_marxan_run (COR_bd_prob@UUID, parameters,
-    #                                      targets)
-
 
     COR_marxan_run <- create_RSrun (COR_bd_prob@UUID,
                                     targets,
@@ -165,9 +141,6 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
         #  Run marxan.
         #---------------
 
-    # APP_marxan_run <- create_marxan_run (APP_bd_prob@UUID, parameters,
-    #                                      targets)
-    #
     APP_marxan_run <- create_RSrun (APP_bd_prob@UUID,
                                     targets,
                                     parameters$fullOutputDir_NO_slash,

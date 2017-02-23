@@ -212,25 +212,6 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
                                              parameters$use_bipartite_metrics,
                                              parameters$bipartite_metrics_to_use)
 
-#     Xu_bdprob_APP@compute_network_metrics = parameters$compute_network_metrics_APP
-#     if (parameters$compute_network_metrics_APP)
-#         {
-#         Xu_bdprob_APP@bipartite_metrics_from_bipartite_package =
-#           compute_network_measures_using_bipartite_package (Xu_bdprob_APP@bpm)
-#
-#         Xu_bdprob_APP@bipartite_metrics_from_igraph_package_df =
-#           compute_igraph_related_network_measures (
-#                                     Xu_bdprob_APP@PU_spp_pair_indices,
-#
-# #                                    Xu_bdprob_APP@derived_bdpg_dir_names$network_output_dir,
-#                                     get_RSprob_path_networks (Xu_bdprob_APP, starting_dir),
-#
-#
-#                                     Xu_bdprob_APP@PU_col_name,
-#                                     Xu_bdprob_APP@spp_col_name
-#                                                     )
-#         }
-
         #------------------------------------------------------------
         #  Everything seems to have worked.
         #  Save the bdprob to disk as a first cut at how to archive
@@ -240,15 +221,6 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
         #------------------------------------------------------------
 
     Xu_bdprob_APP@prob_is_ok = TRUE
-
-#     Xu_bdprob_APP@basic_or_wrapped_str = Xu_bdprob_COR@basic_or_wrapped_str
-#
-# #    Xu_bdprob_APP@full_saved_bdprob_path =
-#         save_bdprob (Xu_bdprob_APP@basic_or_wrapped_str, "APP",
-#                      Xu_bdprob_APP@UUID,
-#                      get_RSprob_path_topdir (Xu_bdprob_APP, starting_dir),
-#                      # Xu_bdprob_APP@prob_outdir,
-#                      Xu_bdprob_APP)
 
     Xu_bdprob_APP <- save_rsprob (Xu_bdprob_APP, starting_dir)
 

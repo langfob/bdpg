@@ -142,17 +142,6 @@ setClass ("Xu_prob_gen_info_class",
                             infile_name                      = "character",
                             Xu_parameters                    = "Xu_params"
                             )
-          # ,  #  Dropping prototype for now since it was causing crashes.
-          #    #  May already have fixed the problem though with testing
-          #    #  of infile_name for NULL and replacing that with "".
-          #    #  May want to try reinstating this.  BTL - 2017 02 09.
-          # #-----------------------------------------------------------------
-          #
-          # prototype (
-          #               read_Xu_problem_from_Xu_file     = FALSE,
-          #               infile_name                      = NA_character_,
-          #               Xu_parameters                    = NULL    #  Don't know what else to put here.  It won't accept NA.
-          #           )
         )
 
 #===============================================================================
@@ -343,10 +332,6 @@ setClass ("Xu_bd_problem",
 
                           plot_output_dir                  = "plots",
                           network_output_dir               = "networks"
-                          # ,
-                          #
-                          # bipartite_metrics_from_bipartite_package = NULL,  #  necessary?  does it already default to this?
-                          # bipartite_metrics_from_igraph_package_df = NULL   #  necessary?  does it already default to this?
                     )
          )
 

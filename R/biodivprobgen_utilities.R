@@ -423,44 +423,7 @@ save_obj_with_checksum = function (obj, saved_obj_filename, base_outdir)
 #'  \item{whether it's a basic problem or a wrapped problem}
 #'  \item{whether it's a correct or an apparent problem}
 #' }
-#'For example:  "saved_bdprob.f470f75b-116b-4ff9-9db0-4e9448bcb2ef.BASIC.COR.rds"
-#'
-#'Note that the BASIC/WRAPPED and COR/APP arguments to save_bdprob() don't have
-#'to be capitalized or even use the suggested strings.  They can be anything
-#'that you want to have built into those spots in the file name.  Capitalizing
-#'and using those strings has just proven easy to spot or search for in
-#'directory listings so they seem like a good convention to use.
-#'
-#' @param bdprob_type character string indicating problem type, either "BASIC" or "WRAPPED" (could eventually also be "combined")
-#' @param app_vs_cor character string indicating whether it's a correct or apparent problem, either "COR" or "APP"
-#' @param uuid character string indicating the UUID of the problem being saved
-#' @param base_outdir character sting giving the full path to the directory where the problem will be saved
-#' @param bdprob a Xu_bd_problem to write to disk (subclasses of Xu_bd_problem allowed)
-#'
-#' @return character string giving the full path (including file name) to file where problem is saved on disk
 #' @export
-#'
-#' @examples
-#' \dontrun{
-#' Xu_bdprob_cor@full_saved_bdprob_path =
-#'     save_bdprob ("BASIC", "COR", Xu_bdprob_cor@UUID, Xu_bdprob_cor@base_outdir,
-#'                  Xu_bdprob_cor)
-#' Xu_bdprob_app@full_saved_bdprob_path =
-#'     save_bdprob ("BASIC", "APP", Xu_bdprob_app@UUID, Xu_bdprob_app@base_outdir,
-#'                  Xu_bdprob_app)
-#'
-#' Xu_bdprob_cor@full_saved_bdprob_path =
-#'     save_bdprob ("WRAPPED", "COR", Xu_bdprob_cor@UUID, Xu_bdprob_cor@base_outdir,
-#'                  Xu_bdprob_cor)
-#' Xu_bdprob_app@full_saved_bdprob_path =
-#'     save_bdprob ("WRAPPED", "APP", Xu_bdprob_app@UUID, Xu_bdprob_app@base_outdir,
-#'                  Xu_bdprob_app)
-#'
-#' #  To reload the problem as a Xu_bd_problem, call readRDS () with the
-#' #  full path to the saved file
-#' reloaded_Xu_prob =
-#'     readRDS ("saved_bdprob.f470f75b-116b-4ff9-9db0-4e9448bcb2ef.BASIC.COR.rds")
-#' }
 
 save_rsprob <- function (rsprob, starting_dir)
     {
