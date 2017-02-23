@@ -310,6 +310,15 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bp
                 acc_err_mag = acc_err_mag
                 )
 
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     return (solution_vector_scores)
     }
 

@@ -103,6 +103,15 @@ init_object_graph_data <- function (rsprob,
                                                         )
         }
 
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     return (rsprob)
     }
 

@@ -44,6 +44,15 @@ write_marxan_pu.dat_input_file_from_vectors = function (PU_IDs,
                  sep=",",
                  quote=FALSE,
                  row.names=FALSE)
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     }
 
 #-------------------------------------------------------------------------------
@@ -76,6 +85,15 @@ write_marxan_pu.dat_input_file = function (PU_IDs,
     write_marxan_pu.dat_input_file_from_vectors (PU_IDs,
                                                  cost_values,
                                                  status_values)
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     }
 
 #===============================================================================
@@ -107,6 +125,15 @@ write_marxan_spec.dat_input_file_from_vectors =
                  sep=",",
                  quote=FALSE,
                  row.names=FALSE)
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     }
 
 #-------------------------------------------------------------------------------
@@ -139,6 +166,15 @@ write_marxan_spec.dat_input_file = function (spp_IDs,
     write_marxan_spec.dat_input_file_from_vectors (spp_IDs,
                                                    spf_values,
                                                    target_values)
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     }
 
 #===============================================================================
@@ -172,6 +208,15 @@ write_marxan_puvspr.dat_input_file = function (spp_PU_amount_table)
                  sep=",",
                  quote=FALSE,
                  row.names=FALSE)
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     }
 
 #===============================================================================
@@ -227,6 +272,15 @@ write_all_marxan_input_files = function (PU_IDs,
     write_marxan_pu.dat_input_file_from_vectors (PU_IDs, costs, status_const)
     write_marxan_spec.dat_input_file_from_vectors (spp_IDs, spf_const, targets)
     write_marxan_puvspr.dat_input_file (spp_PU_amount_table)
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     }
 
 #-------------------------------------------------------------------------------
@@ -287,6 +341,15 @@ write_all_marxan_input_files_from_vectors = function (PU_IDs,
     write_marxan_pu.dat_input_file_from_vectors (PU_IDs, cost_values, status_values)
     write_marxan_spec.dat_input_file_from_vectors (spp_IDs, spf_values, target_values)
     write_marxan_puvspr.dat_input_file (spp_PU_amount_table)
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     }
 
 #===============================================================================

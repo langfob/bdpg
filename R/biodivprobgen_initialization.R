@@ -24,6 +24,15 @@ get_bdpg_error_codes <- function ()
     bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FP_error_type = 1005
     bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FN_error_type = 1006
 
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     return (bdpg_error_codes)
     }
 
