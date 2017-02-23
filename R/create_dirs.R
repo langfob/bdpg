@@ -6,19 +6,26 @@
 
     #  Shortcut functions to always build paths to RSprob dirs reliably.
 
-get_RSprob_path_topdir <- function (rsprob, top_dir)
+build_topdir_name <- function (obj)
     {
-    file.path (top_dir, rsprob@UUID)
+    topdir_name <- paste0 (obj@file_name_prefix, ".", obj@UUID)
+
+    return (topdir_name)
     }
 
-get_RSprob_path_plots <- function (rsprob, top_dir)
+get_RSprob_path_topdir <- function (rsprob, exp_root_dir)
     {
-    file.path (top_dir, rsprob@UUID, rsprob@plot_output_dir)
+    file.path (exp_root_dir, build_topdir_name (rsprob))
     }
 
-get_RSprob_path_networks <- function (rsprob, top_dir)
+get_RSprob_path_plots <- function (rsprob, exp_root_dir)
     {
-    file.path (top_dir, rsprob@UUID, rsprob@network_output_dir)
+    file.path (exp_root_dir, build_topdir_name (rsprob), rsprob@plot_output_dir)
+    }
+
+get_RSprob_path_networks <- function (rsprob, exp_root_dir)
+    {
+    file.path (exp_root_dir, build_topdir_name (rsprob), rsprob@network_output_dir)
     }
 
 #===============================================================================
@@ -58,29 +65,29 @@ create_RSprob_dir_and_subdirs <- function (top_dir,  #  usually parameters$fullO
 
     #  Shortcut functions to always build paths to RSrun dirs reliably.
 
-get_RSrun_path_topdir <- function (rsrun, top_dir)
+get_RSrun_path_topdir <- function (rsrun, exp_root_dir)
     {
-    file.path (top_dir, rsrun@UUID)
+    file.path (exp_root_dir, build_topdir_name (rsrun))
     }
 
-get_RSrun_path_IO <- function (rsrun, top_dir)
+get_RSrun_path_IO <- function (rsrun, exp_root_dir)
     {
-    file.path (top_dir, rsrun@UUID)
+    file.path (exp_root_dir, build_topdir_name (rsrun))
     }
 
-get_RSrun_path_input <- function (rsrun, top_dir)
+get_RSrun_path_input <- function (rsrun, exp_root_dir)
     {
-    file.path (top_dir, rsrun@UUID, rsrun@input_dir_name)
+    file.path (exp_root_dir, build_topdir_name (rsrun), rsrun@input_dir_name)
     }
 
-get_RSrun_path_output <- function (rsrun, top_dir)
+get_RSrun_path_output <- function (rsrun, exp_root_dir)
     {
-    file.path (top_dir, rsrun@UUID, rsrun@output_dir_name)
+    file.path (exp_root_dir, build_topdir_name (rsrun), rsrun@output_dir_name)
     }
 
-get_RSrun_path_plots <- function (rsrun, top_dir)
+get_RSrun_path_plots <- function (rsrun, exp_root_dir)
     {
-    file.path (top_dir, rsrun@UUID, rsrun@plot_dir_name)
+    file.path (exp_root_dir, build_topdir_name (rsrun), rsrun@plot_dir_name)
     }
 
 #===============================================================================

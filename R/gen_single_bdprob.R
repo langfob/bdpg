@@ -125,6 +125,15 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 
         }  #  end if - num_spp > max_allowed_num_spp
 
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     return (PU_spp_pair_info)
     }
 
@@ -220,6 +229,22 @@ gen_single_bdprob_COR = function (starting_dir,
 
     Xu_bdprob_cor@UUID = uuid::UUIDgenerate()
     Xu_bdprob_cor@prob_is_ok                       = FALSE
+
+        #---------------------------------------------------------------
+        #  Build file and dir naming prefix.
+        #  This needs to be done before any directories are created
+        #  for this problem.
+        #---------------------------------------------------------------
+
+    Xu_bdprob_cor@obj_type_str                     = "RSprob"
+    Xu_bdprob_cor@basic_or_wrapped_or_comb_str     = "Base"
+    Xu_bdprob_cor@cor_or_app_str                   = "COR"    #  "cor" or "app" - used in building file and dir names
+
+    Xu_bdprob_cor@file_name_prefix =
+                            paste (Xu_bdprob_cor@obj_type_str,
+                                   Xu_bdprob_cor@cor_or_app_str,
+                                   Xu_bdprob_cor@basic_or_wrapped_or_comb_str,
+                                   sep='-')
 
         #------------------------------------------------------------------
         #  Save whatever information is known about the problem generator
@@ -344,16 +369,16 @@ gen_single_bdprob_COR = function (starting_dir,
 
     Xu_bdprob_cor@prob_is_ok = TRUE
 
-    Xu_bdprob_cor@basic_or_wrapped_str = "BASIC"
+    Xu_bdprob_cor <- save_rsprob (Xu_bdprob_cor, starting_dir)
 
-#    Xu_bdprob_cor@full_saved_bdprob_path =
-        save_bdprob (Xu_bdprob_cor@basic_or_wrapped_str, "COR",
-                     Xu_bdprob_cor@UUID,
-
-                     get_RSprob_path_topdir (Xu_bdprob_cor, starting_dir),
-                     # Xu_bdprob_cor@prob_outdir,
-
-                     Xu_bdprob_cor)
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
 
     return (Xu_bdprob_cor)
     }

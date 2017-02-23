@@ -212,10 +212,12 @@ setClass ("Xu_bd_problem",
                             UUID                             = "character",                  #  bd_prob
                             checksum                         = "character",
 
+                            obj_type_str                     = "character",    #  e.g., "RSprob" - used in building name for file and dir names
+                            cor_or_app_str                   = "character",    #  "COR" or "APP" - used in building file and dir names
+                            basic_or_wrapped_or_comb_str     = "character",    #  "Base" or "Wrap" or "Comb" - used in building file and dir names
+                            file_name_prefix                 = "character",    #  string to combine with uuid to build file and dir names
 
                             prob_is_ok                       = "logical",                    #  bd_prob
-
-                            basic_or_wrapped_str = "character",    #  "BASIC" or "WRAPPED" - used inbuilding name for saved RDS file
 
                                 #---------------------------------
                                 #  Problem generator information
@@ -380,6 +382,12 @@ setClass ("RSrun",
                                 #  is running on.
 
                             run_on_prob_UUID = "character",
+
+                            obj_type_str     = "character",    #  e.g., "RSrun_" - used in building name for file and dir names
+                            cor_or_app_str   = "character",    #  "COR" or "APP" - used in building file and dir names
+                            basic_or_wrapped_or_comb_str = "character",    #  "Base" or "Wrap" or "Comb" - used in building file and dir names
+                            rs_method_name   = "character",    #  e.g., "Marxan_sa" - used in building file and dir names
+                            file_name_prefix = "character",    #  string to combine with uuid to build file and dir names
 
                             input_dir_name  = "character",
                             output_dir_name = "character",

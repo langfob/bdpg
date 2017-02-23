@@ -170,7 +170,18 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
         #  Create directories for this problem.
         #----------------------------------------
 
+    Xu_bdprob_APP@obj_type_str                     = "RSprob"
+    Xu_bdprob_APP@basic_or_wrapped_or_comb_str     = Xu_bdprob_COR@basic_or_wrapped_or_comb_str
+    Xu_bdprob_APP@cor_or_app_str                   = "APP"
+
+    Xu_bdprob_APP@file_name_prefix =
+                            paste (Xu_bdprob_APP@obj_type_str,
+                                   Xu_bdprob_APP@cor_or_app_str,
+                                   Xu_bdprob_APP@basic_or_wrapped_or_comb_str,
+                                   sep='-')
+
     starting_dir = parameters$fullOutputDir_NO_slash
+
     create_RSprob_dir_and_subdirs (starting_dir, Xu_bdprob_APP)
 
         #-----------------------------------------------------------------
@@ -230,14 +241,25 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
     Xu_bdprob_APP@prob_is_ok = TRUE
 
-    Xu_bdprob_APP@basic_or_wrapped_str = Xu_bdprob_COR@basic_or_wrapped_str
+#     Xu_bdprob_APP@basic_or_wrapped_str = Xu_bdprob_COR@basic_or_wrapped_str
+#
+# #    Xu_bdprob_APP@full_saved_bdprob_path =
+#         save_bdprob (Xu_bdprob_APP@basic_or_wrapped_str, "APP",
+#                      Xu_bdprob_APP@UUID,
+#                      get_RSprob_path_topdir (Xu_bdprob_APP, starting_dir),
+#                      # Xu_bdprob_APP@prob_outdir,
+#                      Xu_bdprob_APP)
 
-#    Xu_bdprob_APP@full_saved_bdprob_path =
-        save_bdprob (Xu_bdprob_APP@basic_or_wrapped_str, "APP",
-                     Xu_bdprob_APP@UUID,
-                     get_RSprob_path_topdir (Xu_bdprob_APP, starting_dir),
-                     # Xu_bdprob_APP@prob_outdir,
-                     Xu_bdprob_APP)
+    Xu_bdprob_APP <- save_rsprob (Xu_bdprob_APP, starting_dir)
+
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
 
     return (Xu_bdprob_APP)
     }

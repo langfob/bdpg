@@ -385,6 +385,30 @@ cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 
 #===============================================================================
 
+save_obj_with_checksum = function (obj, saved_obj_filename, base_outdir)
+    {
+    obj = compute_and_set_obj_checksum (obj, base_outdir)
+
+        #  This assumes that the object has a file_name_prefix and a UUID.
+
+    saved_obj_filename = paste0 ("saved.",
+                                 obj@file_name_prefix, ".",
+                                 obj@UUID,
+                                 ".rds")
+    full_saved_obj_path = file.path (base_outdir, saved_obj_filename)
+    saveRDS (obj, full_saved_obj_path)
+
+#    reloaded_obj = readRDS (full_saved_obj_path)    #  testing only
+
+    cat ("\n\n>>>>> '", obj@file_name_prefix, "' object saved to: \n    '",
+         full_saved_obj_path, "'",
+         "\nTo reload problem, use readRDS (full_saved_obj_path)\n\n", sep='')
+
+    return (obj)
+    }
+
+#===============================================================================
+
 #' Save bd problem to disk
 #'
 #' After a problem is generated, its R representation is saved to disk so
@@ -438,29 +462,30 @@ cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 #'     readRDS ("saved_bdprob.f470f75b-116b-4ff9-9db0-4e9448bcb2ef.BASIC.COR.rds")
 #' }
 
-save_bdprob <- function (bdprob_type,    #  i.e., "BASIC" or "WRAPPED"
-                         app_vs_cor,     #  i.e., "COR" or "APP"
-                         uuid,
-                         base_outdir,
-                         bdprob
-                         )
+save_rsprob <- function (rsprob, starting_dir)
     {
-    saved_bdprob_filename = paste0 ("saved_bdprob.",
-                                    uuid, ".",
-                                    bdprob_type, ".",
-                                    app_vs_cor, ".rds")
+    base_outdir = get_RSprob_path_topdir (rsprob, starting_dir)
+    rsprob      = save_obj_with_checksum (rsprob, saved_rsprob_filename,
+                                          base_outdir)
 
-    full_saved_bdprob_path = file.path (base_outdir, saved_bdprob_filename)
+    return (rsprob)
+    }
 
-    bdprob = compute_and_set_obj_checksum (bdprob, base_outdir)
 
-    saveRDS (bdprob, full_saved_bdprob_path)
-#    reloaded_bdprob = readRDS (full_saved_bdprob_path)    #  testing only
+#===============================================================================
 
-    cat ("\n\n>>>>> bdprob saved to: \n    '", full_saved_bdprob_path, "'",
-         "\nTo reload problem, use readRDS (full_saved_bdprob_path)\n\n", sep='')
+save_rsrun <- function (rsrun, starting_dir)
+    {
+    saved_rsrun_filename = paste0 ("saved_rsrun.",
+                                    rsrun@file_name_prefix,
+                                    rsrun@UUID,
+                                    ".rds")
 
-    return (full_saved_bdprob_path)
+    base_outdir = get_RSrun_path_topdir (rsrun, starting_dir)
+    rsrun       = save_obj_with_checksum (rsrun, saved_rsrun_filename,
+                                          base_outdir)
+
+    return (rsrun)
     }
 
 #===============================================================================

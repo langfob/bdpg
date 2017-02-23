@@ -52,6 +52,17 @@ create_eligible_PU_set <- function (Xu_dep_set,
     else
         eligible_PUs = extra_PUs
 
+
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
+
     return (eligible_PUs)
     }
 
@@ -90,6 +101,15 @@ trim_abundances = function (rounded_abundances,
                             max_abund=.Machine$double.xmax
                             )
     {
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     return (rounded_abundances [(rounded_abundances <= max_abund) &
                                 (rounded_abundances >= min_abund), drop=FALSE])
     }
@@ -250,6 +270,15 @@ remove_base_spp_abundances_from_wrapping_distribution <-
             }
         }
 
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
+
     return (extra_spp_abund)
     }
 
@@ -401,6 +430,15 @@ wrap_abundances_around_eligible_set <- function (dep_set,
     cat ("\n\n")
 
 #browser()
+
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
 
     return (PU_spp_table)
 
@@ -691,6 +729,16 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
         #  Create directories for this problem.
         #----------------------------------------
 
+    wrapped_bdprob@obj_type_str                     = "RSprob"
+    wrapped_bdprob@cor_or_app_str                   = Xu_bdprob@cor_or_app_str
+    wrapped_bdprob@basic_or_wrapped_or_comb_str     = "Wrap"
+
+    wrapped_bdprob@file_name_prefix =
+                            paste (wrapped_bdprob@obj_type_str,
+                                   wrapped_bdprob@cor_or_app_str,
+                                   wrapped_bdprob@basic_or_wrapped_or_comb_str,
+                                   sep='-')
+
     create_RSprob_dir_and_subdirs (starting_dir,  #  parameters$fullOutputDir_NO_slash,  #  usually parameters$fullOutputDir_NO_slash
                                    wrapped_bdprob)
 
@@ -750,14 +798,25 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
     wrapped_bdprob@prob_is_ok                   = TRUE
 
-    wrapped_bdprob@basic_or_wrapped_str = "WRAPPED"
+#     wrapped_bdprob@basic_or_wrapped_or_comb_str = "wrapped"
+#
+# #    wrapped_bdprob@full_saved_bdprob_path =
+#         save_bdprob (wrapped_bdprob@basic_or_wrapped_str, "COR",
+#                      wrapped_bdprob@UUID,
+#                      get_RSprob_path_topdir (wrapped_bdprob, starting_dir),
+#                      # wrapped_bdprob@prob_outdir,
+#                      wrapped_bdprob)
 
-#    wrapped_bdprob@full_saved_bdprob_path =
-        save_bdprob (wrapped_bdprob@basic_or_wrapped_str, "COR",
-                     wrapped_bdprob@UUID,
-                     get_RSprob_path_topdir (wrapped_bdprob, starting_dir),
-                     # wrapped_bdprob@prob_outdir,
-                     wrapped_bdprob)
+    wrapped_bdprob <- save_rsprob (wrapped_bdprob, starting_dir)
+
+########################################################################################
+#  TEMPORARY:  Echo information about data structures of all currently active variables.
+cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
+print (sys.call())
+v=ls();
+sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
+cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+########################################################################################
 
     return (wrapped_bdprob)  #  end function - wrap_abundance_dist_around_Xu_problem
     }
