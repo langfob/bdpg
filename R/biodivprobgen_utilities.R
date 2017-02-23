@@ -551,7 +551,7 @@ compute_obj_checksum <- function (obj, base_outdir=".")
         #  and get rid of the temporary file created for it.
         #-----------------------------------------------------
 
-    checksum = md5sum (full_saved_obj_path)
+    checksum = tools::md5sum (full_saved_obj_path)
     if (file.exists (full_saved_obj_path)) file.remove (full_saved_obj_path)
 
     return (checksum)
