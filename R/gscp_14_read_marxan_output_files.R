@@ -44,15 +44,7 @@ load_marxan_mvbest_df_from_file_and_sort_by_CF <- function (marxan_output_dir_pa
 
     marxan_mvbest_df = plyr::arrange (marxan_mvbest_df, ConservationFeature)
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
     return (marxan_mvbest_df)
     }
 
@@ -83,15 +75,7 @@ load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_pat
         #  Sort by planning unit.
     marxan_ssoln_df = plyr::arrange (marxan_ssoln_df_unsorted, planning_unit)
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
     return (marxan_ssoln_df)
     }
 
@@ -129,15 +113,7 @@ load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <- function (marxan_o
 
     marxan_best_df_sorted = plyr::arrange (marxan_best_df_unsorted, PUID)
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
     return (marxan_best_df_sorted)
     }
 
@@ -199,17 +175,13 @@ load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
             marxan_output_solutionsmatrix_df_unsorted_without_missing_rows [,cur_PU_name]
         }
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+    marxan_solutions_matrix_and_num_solutions <-
+        list (marxan_solutions_matrix = marxan_solutions_matrix,
+              num_marxan_solutions    = num_marxan_solutions)
 
-    return (list (marxan_solutions_matrix = marxan_solutions_matrix,
-                  num_marxan_solutions    = num_marxan_solutions))
+doc_vars_in_this_func ()
+
+    return (marxan_solutions_matrix_and_num_solutions)
     }
 
 #===============================================================================
@@ -219,7 +191,7 @@ read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
     top_dir = parameters$fullOutputDir_NO_slash
     marxan_output_dir = get_RSrun_path_output (rsrun, top_dir)
 
-    return (read_marxan_output_files (
+    marxan_output_values <- read_marxan_output_files (
                                         marxan_output_dir,
                                         COR_bd_prob@all_PU_IDs,                                                #all_correct_node_IDs
                                 #COR_bd_prob@num_PUs,                                                   #num_PUs
@@ -237,7 +209,9 @@ read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
 
                                         rsrun@targets
                                       )
-            )
+
+doc_vars_in_this_func ()
+    return (marxan_output_values)
     }
 
 #===============================================================================
@@ -251,7 +225,7 @@ read_APP_marxan_output_files <- function (rsrun,
     top_dir = parameters$fullOutputDir_NO_slash
     marxan_output_dir = get_RSrun_path_output (rsrun, top_dir)
 
-    return (read_marxan_output_files (
+    marxan_output_values <-read_marxan_output_files (
                                         marxan_output_dir,
                                         COR_bd_prob@all_PU_IDs,                                                #all_correct_node_IDs
                                 #COR_bd_prob@num_PUs,                                                   #num_PUs
@@ -269,7 +243,9 @@ read_APP_marxan_output_files <- function (rsrun,
 
                                         rsrun@targets
                                       )
-            )
+
+doc_vars_in_this_func ()
+    return (marxan_output_values)
     }
 
 #===============================================================================
@@ -367,15 +343,7 @@ read_marxan_output_files <- function (marxan_output_dir_path,
     retVal$marxan_ssoln_df       = marxan_ssoln_df_sorted_by_PU
     retVal$marxan_mvbest_df      = marxan_mvbest_df_sorted_by_ConservationFeature
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
     return (retVal)
     }
 

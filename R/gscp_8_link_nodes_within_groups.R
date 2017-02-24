@@ -74,6 +74,8 @@ link_nodes_within_groups =
         cat ("\n\n")
         }
 
+doc_vars_in_this_func ()
+
     return (list (edge_list=edge_list, cur_row=cur_row))
     }
 

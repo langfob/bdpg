@@ -53,15 +53,7 @@ create_eligible_PU_set <- function (Xu_dep_set,
         eligible_PUs = extra_PUs
 
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
 
     return (eligible_PUs)
     }
@@ -101,17 +93,13 @@ trim_abundances = function (rounded_abundances,
                             max_abund=.Machine$double.xmax
                             )
     {
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+    trimmed_rounded_abund_per_spp <-
+        rounded_abundances [(rounded_abundances <= max_abund) &
+                            (rounded_abundances >= min_abund), drop=FALSE]
 
-    return (rounded_abundances [(rounded_abundances <= max_abund) &
-                                (rounded_abundances >= min_abund), drop=FALSE])
+doc_vars_in_this_func ()
+
+    return (trimmed_rounded_abund_per_spp)
     }
 
 #===============================================================================
@@ -270,14 +258,7 @@ remove_base_spp_abundances_from_wrapping_distribution <-
             }
         }
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+doc_vars_in_this_func ()
 
     return (extra_spp_abund)
     }
@@ -431,14 +412,7 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 
 #browser()
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+doc_vars_in_this_func ()
 
     return (PU_spp_table)
 
@@ -791,14 +765,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
     wrapped_bdprob <- save_rsprob (wrapped_bdprob, starting_dir)
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+doc_vars_in_this_func ()
 
     return (wrapped_bdprob)  #  end function - wrap_abundance_dist_around_Xu_problem
     }
@@ -881,6 +848,8 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                       "    Currently, the only type of wrapping done is ",
                       "wrapping lognormal around Xu.\n\n"))
         }
+
+doc_vars_in_this_func ()
 
     return (wrapped_bdprob_COR)
     }

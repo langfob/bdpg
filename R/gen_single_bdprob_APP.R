@@ -224,14 +224,7 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
     Xu_bdprob_APP <- save_rsprob (Xu_bdprob_APP, starting_dir)
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+doc_vars_in_this_func ()
 
     return (Xu_bdprob_APP)
     }

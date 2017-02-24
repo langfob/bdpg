@@ -98,15 +98,7 @@ run_marxan = function (marxan_dir, marxan_executable_name)
     setwd (original_dir)
     cat ("\n\nAfter setwd (original_dir), sitting in:", getwd(), "\n\n")
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
     return (retval)
     }
 
@@ -394,15 +386,7 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 
     #---------------------------------------------------------------------------
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
     return (retVal)
     }
 
@@ -434,15 +418,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                     parameters
                                     )
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
     return (marxan_control_values)
     }
 
@@ -477,6 +453,7 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                         parameters
                                     )
 
+doc_vars_in_this_func ()
     return (marxan_control_values)
     }
 
@@ -559,15 +536,7 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
 
     #--------------------
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
     return (marxan_control_values)
     }
 

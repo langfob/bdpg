@@ -55,14 +55,7 @@ compute_rep_fraction =
         print (display_matrix)
         }
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+doc_vars_in_this_func ()
 
     return (spp_rep_fracs)
     }
@@ -74,7 +67,10 @@ cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"
 compute_solution_cost =
     function (PU_set_to_test, PU_costs)
     {
-    return (sum (PU_costs [PU_set_to_test]))
+    solution_cost <- sum (PU_costs [PU_set_to_test])
+
+doc_vars_in_this_func ()
+    return (solution_cost)
     }
 
 #===============================================================================

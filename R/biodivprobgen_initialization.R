@@ -24,14 +24,7 @@ get_bdpg_error_codes <- function ()
     bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FP_error_type = 1005
     bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FN_error_type = 1006
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+doc_vars_in_this_func ()
 
     return (bdpg_error_codes)
     }
@@ -139,8 +132,11 @@ init_for_bdpg <- function (parameters)
         normalizePath (strip_trailing_slash (parameters$fullOutputDirWithSlash),
                        mustWork=FALSE)
 
-    return (list (parameters = parameters,
-                  bdpg_error_codes = bdpg_error_codes))
+    params_and_error_codes <- list (parameters = parameters,
+                                    bdpg_error_codes = bdpg_error_codes)
+
+doc_vars_in_this_func ()
+    return (params_and_error_codes)
     }
 
 #===============================================================================

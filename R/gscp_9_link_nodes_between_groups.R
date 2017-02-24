@@ -123,6 +123,7 @@ link_nodes_between_groups =
         }
 
 
+doc_vars_in_this_func ()
 #     return (list (edge_list=edge_list,
 #                   cur_row=cur_row))
     return (edge_list)

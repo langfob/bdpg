@@ -28,7 +28,7 @@ ccBip <- function (bg)
     names (neib) <- V(bg)$name
     proj <- bipartite.projection(bg)
 
-    lapply (proj,
+    ccBip_retval <-    lapply (proj,
             function(x)
                 {
                 el <- get.edgelist(x)
@@ -48,15 +48,8 @@ ccBip <- function (bg)
                         )
                 }
             )
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
+    return (ccBip_retval)
     }
 
 #' @import igraph
@@ -70,7 +63,7 @@ ccLowDot <- function (bg)
     neib <- get.adjlist (bg)
     names (neib) <- V(bg)$name
     proj <- bipartite.projection (bg)
-    lapply (proj,
+ccLowDot_retval <-    lapply (proj,
             function(x)
                 {
                 el <- get.edgelist (x)
@@ -88,15 +81,8 @@ ccLowDot <- function (bg)
                         )
                 }
             )
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
+    return (ccLowDot_retval)
     }
 
 #' @import igraph
@@ -110,7 +96,7 @@ ccTopDot <- function (bg)
     neib <- get.adjlist (bg)
     names (neib) <- V(bg)$name
     proj <- bipartite.projection (bg)
-    lapply(proj,
+    ccTopDot_retval <- lapply(proj,
            function(x)
                {
                 el <- get.edgelist(x)
@@ -127,15 +113,8 @@ ccTopDot <- function (bg)
                         )
                 }
            )
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+doc_vars_in_this_func ()
+    return (ccTopDot_retval)
     }
 
 #===============================================================================
@@ -207,15 +186,8 @@ redundancy <- function (g
             }
         redundancy <- append(redundancy, overlap*norm)
         }
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
 
+doc_vars_in_this_func ()
     return(redundancy)
     }
 
@@ -577,14 +549,7 @@ compute_igraph_related_network_measures <-
                row.names=FALSE
                )
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+doc_vars_in_this_func ()
 
     return (bipartite_metrics_from_igraph_package_df)
     }

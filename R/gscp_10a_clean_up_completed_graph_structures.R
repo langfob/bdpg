@@ -1,6 +1,6 @@
 #===============================================================================
 
-                #  gscp_10_clean_up_completed_graph_structures.R
+                #  gscp_10a_clean_up_completed_graph_structures.R
 
 #===============================================================================
 
@@ -92,14 +92,7 @@ create_PU_spp_pair_indices = function (edge_list,
     PU_spp_pair_info@num_spp               <- get_num_edge_list (edge_list)
     PU_spp_pair_info@correct_solution_cost <- correct_solution_cost
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+doc_vars_in_this_func ()
 
     return (PU_spp_pair_info)
 

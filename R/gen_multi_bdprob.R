@@ -194,6 +194,7 @@ gen_multi_bdprob = function (parameters,
             }
         }
 
+doc_vars_in_this_func ()
     return (combined_bdprob)
     }
 

@@ -164,9 +164,13 @@ load_and_parse_Xu_set_cover_problem_file <- function (infile_name)
             as.integer (cur_line_as_list_of_strings [[1]][-1])
         }
 
-    return (list (xu_list_of_vectors_of_edge_IDs=xu_list_of_vectors_of_edge_IDs,
-                  num_PUs=num_vertices,
-                  num_spp=max_edge_ID))
+    parsed_Xu_file_triple <-
+        list (xu_list_of_vectors_of_edge_IDs=xu_list_of_vectors_of_edge_IDs,
+              num_PUs=num_vertices,
+              num_spp=max_edge_ID)
+
+doc_vars_in_this_func ()
+    return (parsed_Xu_file_triple)
     }
 
 #==============================================================================
@@ -192,6 +196,7 @@ load_Xu_problem_from_Xu_file_into_PU_spp_pair_indices =
             }
         }
 
+doc_vars_in_this_func ()
     return (PU_spp_pair_indices)
     }
 
@@ -233,6 +238,7 @@ load_Xu_problem_from_Xu_file =
     PU_spp_pair_info@num_spp <- num_spp
     PU_spp_pair_info@correct_solution_cost <- correct_solution_cost
 
+doc_vars_in_this_func ()
     return (PU_spp_pair_info)
 
     # return (list (PU_spp_pair_indices=PU_spp_pair_indices,
@@ -294,6 +300,7 @@ read_Xu_problem_from_Xu_file <- function (infile_name, correct_solution_cost)
 
     PU_spp_pair_info@prob_generator_params_known = FALSE
 
+doc_vars_in_this_func ()
     return (PU_spp_pair_info)
     }
 

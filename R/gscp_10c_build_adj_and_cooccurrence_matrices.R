@@ -66,14 +66,7 @@ verify_that_generated_solution_really_is_a_solution =
 
     stopifnot (all.equal (solution_cost, length (dependent_node_IDs)))
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+doc_vars_in_this_func ()
 
     return (TRUE)
     }
@@ -137,18 +130,13 @@ create_PU_spp_pair_names =
                     spp_ID = stringr::str_c ("s", PU_spp_pair_indices [,spp_col_name]),
                     stringsAsFactors = FALSE)
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
-    return (list (PU_spp_pair_names=PU_spp_pair_names,
+    PU_spp_pair_names_triple <- list (PU_spp_pair_names=PU_spp_pair_names,
                   PU_vertex_names=PU_vertex_names,
-                  spp_vertex_names=spp_vertex_names))
+                  spp_vertex_names=spp_vertex_names)
+
+doc_vars_in_this_func ()
+
+    return (PU_spp_pair_names_triple)
     }
 
 #===============================================================================
@@ -223,14 +211,7 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
                                                         bdpg_error_codes)
         }
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
+doc_vars_in_this_func ()
 
     return (bpm)
     }
