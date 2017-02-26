@@ -464,6 +464,32 @@ doc_vars_in_this_func ()
 
 #===============================================================================
 
+#' Strip Trailing Slash Off Of Path If There Is One
+#'
+#' Tzar puts a slash on the end of the output path and this causes problems
+#' when using it to build full paths to file names.  This function is
+#' primarily here to strip that off but can be used on any path.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \strong{FUNCTION:  strip_trailing_slash}(parameters$fullOutputDirWithSlash)
+#' \subsection{last_char}{
+#' \preformatted{
+#' last_char :  chr "/"
+#' }}
+#' \subsection{path}{
+#' \preformatted{
+#' path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1836_marxan_simulated_annealing.inprogress"
+#' }}
+#'
+#' @param path
+#'
+#' @return
+#' @export
+
 strip_trailing_slash <- function (path)
     {
     last_char = stringr::str_sub (path, nchar (path), nchar (path))
@@ -474,7 +500,7 @@ strip_trailing_slash <- function (path)
         #  platform-specific only when actually talking to the OS.
         #  So, changing back to just checking for a slash.
 
-        if (last_char == "/")                                   #.Platform$file.sep)
+    if (last_char == "/")                                   #.Platform$file.sep)
         path = stringr::str_sub (path,1,nchar(path)-1)
 
 doc_vars_in_this_func ()
@@ -582,12 +608,18 @@ doc_vars_in_this_func ()
 
 #===============================================================================
 
+#' Document variables and their types that are visibile inside current function
+#'
+#' @return Nothing
+#' @export
+
+
 doc_vars_in_this_func <- function ()
     {
-    cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvv  START doc_vars_in_this_func  vvvvvvvvvvvvvvvvvvvvvvvv\n");
+    cat("\n\n>>>>>>>>>>>>>>>>>>>>>>>>  START doc_vars_in_this_func  >>>>>>>>>>>>>>>>>>>>>>>>\n");
     print (sys.call(-1))
     print(ls.str(envir = sys.frame(-1))) ## [1] "aa" "t2"
-    cat("^^^^^^^^^^^^^^^^^^^^^^^^   END  doc_vars_in_this_func  ^^^^^^^^^^^^^^^^^^^^^^^^\n")
+    cat("<<<<<<<<<<<<<<<<<<<<<<<<  END doc_vars_in_this_func  <<<<<<<<<<<<<<<<<<<<<<<<<<\n")
     }
 
 #===============================================================================
