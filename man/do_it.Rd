@@ -4,7 +4,7 @@
 \alias{do_it}
 \title{Title}
 \usage{
-do_it(infile)
+do_it(infile, sinkFilePath)
 }
 \description{
 Title

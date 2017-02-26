@@ -9,55 +9,6 @@
 
 #  From:  http://www.numbertheory.nl/2013/03/24/parsing-complex-text-files-using-regular-expressions-and-vectorization/
 
-
-
-#===============================================================================
-
-# check_for_end_of_file <- function (cur_idx, num_doc_lines, cur_data_line,
-#                                    cur_state, prev_state,
-#                                    legal_line_starts)
-#     {
-#         #  If past the last line then prepare to quit.
-#         #  Otherwise, determine whether the current line
-#         #  starts with a legal kind of value and modify the
-#         #  current state if necessary.
-#
-#     if (cur_idx > num_doc_lines)
-#         {
-#         cur_state <- "state__finished"
-#
-#         } else
-#         {
-#         cur_line_tokens <- tokenize_string (cur_data_line)
-#         first_token <- cur_line_tokens [1, "type"]
-#
-#             #  Check for legal type of start to the line, i.e,
-#             #  it needs to start with a symbol (func name or var name) or
-#             #  whitespace of an operator (i.e., ">").
-#         cur_state <- switch (first_token,
-#
-#                     #  If you find whitespace, then you're either continuing
-#                     #  a variable declaration or a function declaration.
-#
-#                 whitespace = set_continuation_state (),
-#
-#                 symbol = set_symbol_state (),
-#
-#                 operator = state__block_start,
-#
-#                 ... = stop (paste0 ("\n\nUnexpected token at start of line ",
-#                               cur_data_line_num,
-#                               ".   Token = '", first_token,
-#                               "'.  Line = \n'", cur_data_line,
-#                               "'\n\n"))
-#
-#                 )  #  end switch - first_token
-#         }  #  end else - not past last line yet
-#
-#     return (cur_state)
-#     }
-
-#===============================================================================
 #===============================================================================
 
 get_first_token_type_of_line <- function (data_line)
@@ -237,20 +188,12 @@ decode_var_first_line_of_desc <- function (cur_data_line,
     return (next_state)
     }
 
-# state__start_of_file
-# state__block_start
-# state__finished
-# state__func_decl_cont_line
-# state__func_first_line_of_decl
-# state__var_desc_cont_line
-# state__var_first_line_of_desc
-
 #===============================================================================
 
 decode_var_desc_cont_line <- function (cur_data_line,
                                        cur_data_line_num,
                                        first_token_of_next_line)
-        {
+    {
         #  First thing on the line is whitespace and the previous line
         #  was either a variable description line or a variable description
         #  continuation line.
@@ -274,14 +217,83 @@ decode_var_desc_cont_line <- function (cur_data_line,
 
 #===============================================================================
 
+#' Parse reduced input text array and write outputs depending on state
+#'
+#' This function takes an input array of strings that were lines in the
+#' input file and parses it into chunks corresponding to functions and
+#' variables.  As it encounters each chunk, it writes out a properly
+#' formatted roxygen subsection block that can be pasted into the function's
+#' documentation.  It also writes a bit of header text for the section.
+#' Each variable is written as a subsection.
+#'
+#' @section Function declaration in output:
+#' For each function block that is parsed, the function's name and argument list
+#' are also written to the output, even though they are not intended to be
+#' included in what is pasted into the function's documentation. (That
+#' information is already in the documentation.) The information is only
+#' included to make it easier to identify which function the variable list
+#' belongs to when cutting it out of a big file full of outputs.
+#'
+#' @section Parameter declarations in output:
+#' The output also includes descriptions for variables that are a part of the
+#' function's parameter list since the output is for all variables known in
+#' the function.  These variables should already appear in the @@params section
+#' of the function's documentation, so they can be deleted from the output.
+#' However, they're included here for 2 reasons.  First, this code is pretty
+#' quick and dirty and it would take more coding to parse out the function's
+#' argument list to determine overlapping variables.  Second, the information
+#' written out here can be helpful in building the @@parames and @@return
+#' sections of the function's documentation before removing them from the
+#' sections generated here.
+#'
+#' @section States Used In The Parsing:
+#' \describe{
+#'   \item {state__start_of_file}{Before parsing begins.}
+#'   \item {state__block_start}{Sitting on a ">>>  START..." line at the head
+#'       of a new function block.}
+#'   \item {state__func_first_line_of_decl}{Sitting on the first line of a
+#'       function declaration.  Starts with a symbol, not whitespace.
+#'       Immediately follows the block start line with no intervening lines.}
+#'   \item {state__func_decl_cont_line}{Sitting on a continuation line of a
+#'       multi-line function declaration.  Line starts with whitespace.}
+#'   \item {state__var_first_line_of_desc}{Sitting on the first line of the
+#'       description of a variable.  Starts with a symbol, not whitespace.
+#'       Immediately follows the end of a function declaration or variable
+#'       declaration  with no intervening lines.}
+#'   \item {state__var_desc_cont_line}{Sitting on a continuation line of a
+#'       multi-line description of a variable.  Line starts with whitespace.}
+#'   \item {state__finished}{Found end of file, ready to do final cleanup.}
+#' }
+#'
+#' @section Legal Line Starts In The Parsing:
+#' \describe{
+#'   \item {symbol}{An R function name or variable name with no preceding white
+#'       space.}
+#'   \item {whitespace}{Spaces and/or tabs.}
+#'   \item {operator}{An R operator; in this case the only one that should
+#'       occur is the ">" that is used on the block start lines.}
+#'   \item {EOF}{End of file; not returned by the tokenizer, but set in this
+#'       function and its subcalls.}
+#'   }
+
+
+#'
+#' @param all_data Vector of character strings, each entry containing the text
+#'     from the corresponding line in the original input file
+#' @param doc_line_numbers Vector of integer line numbers serving as an index
+#'     into the reduced set of lines of interest in the original data.  For
+#'     example, lines 1 and 2 of the original input may be irrelevant, while
+#'     line 3 of the original file is the first useful line for parsing, so
+#'     doc_line_numbers[1] = 3.
+#'
+#' @return nothing
+
 state_transition <- function (all_data, doc_line_numbers)
     {
     num_doc_lines     <- length (doc_line_numbers)
 
     prev_state        <- "state__start_of_file"
     cur_state         <- "state__block_start"
-
-#    legal_line_starts <- c ("symbol", "whitespace", "operator", "EOF")
 
     for (cur_idx in 1:num_doc_lines)
         {
@@ -318,18 +330,6 @@ state_transition <- function (all_data, doc_line_numbers)
                 #  Ready now to take action on the current line
                 #  based on what state we're in.
                 #------------------------------------------------
-
-if(FALSE)
-{
-cat ("\n\n::::::::::::::  Just before main switch:")
-cat ("\n    prev_state = '", prev_state, "'")
-cat ("\n    cur_state = '", cur_state, "'")
-cat ("\n    first_token_of_next_line = '", first_token_of_next_line, "'")
-cat ("\n    cur_data_line_num = ", cur_data_line_num)
-cat ("\n    cur_data_line = '", cur_data_line, "'")
-cat ("\n::::::::::::::\n")
-browser()
-}
 
         next_state <-
             switch (cur_state,
@@ -385,8 +385,9 @@ browser()
 test_do_it <- function ()
     {
     infile = "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1836_marxan_simulated_annealing.completedTzarEmulation/consoleSinkOutput.temp.txt"
+    sinkFilePath = "/Users/bill/D/Projects/ProblemDifficulty/ProbDiff_Notes/funcvars.doc.txt"
 
-    do_it (infile)
+    do_it (infile, sinkFilePath)
     }
 
 #===============================================================================
@@ -396,10 +397,10 @@ test_do_it <- function ()
 #' @return
 #' @export
 
-do_it <- function (infile)
+do_it <- function (infile,
+                   sinkFilePath)
     {
     print (getwd())
-    sinkFilePath = "./funcvars.doc.txt"
 
         #  Open a file to echo console to.
     tempConsoleOutFile <- file (sinkFilePath, open="wt")
@@ -409,11 +410,7 @@ do_it <- function (infile)
 
     all_data <- readLines (infile)
 
-#                all_data <- all_data [1:100]  # for testing only
-
-#    lines_starting_with_blank <- grep ("^ ", all_data)
     lines_containing_start_or_end <- grep (" doc_vars_in_this_func  ", all_data)
-#    lines_containing_start <- grep ("<  START doc_vars_in_this_func", all_data)
 
     original_line_numbers <- 1:length (all_data)
     interval_nums <- findInterval (original_line_numbers,
@@ -424,48 +421,18 @@ do_it <- function (infile)
     doc_line_nums_and_intervals <- interval_containing_line [gtools::odd (interval_containing_line [,2]),]
     colnames(doc_line_nums_and_intervals) <- c("line_num", "interval_num")
 
-doc_line_numbers <- doc_line_nums_and_intervals [,"line_num"]
-state_transition (all_data, doc_line_numbers)
+    doc_line_numbers <- doc_line_nums_and_intervals [,"line_num"]
+    state_transition (all_data, doc_line_numbers)
 
 
-#  REPLACE THIS SECTION WITH SOMETHING THAT FINDS THESE LOCATIONS AND
-#  MODIFIES THE LINE RIGHT AFTER IT TO START WITH A SPACE AND THEN
-#  HAVE THE \strong ETC, ALL REPLACING THAT LINE.
-#  - STARTING WITH A SPACE MEANS THAT THE NEXT PASS WILL IGNORE THE LINE AND
-#    PASS IT STRAIGHT THROUGH.
-#  - SIMILARLY, ANY LINE THAT DOESN'T START WITH A SPACE COULD HAVE THE DOUBLE
-#    BRACKET ADDED TO THE FRONT OF IT?  STILL DOESN'T WORK RIGHT THOUGH FOR
-#    THE FIRST VARIABLE IN A FUNCTION.
-#  - COULD SPIT OUT A DUMMY {{ AT THE END OF THE SECTION HEADER THOUGH AND
-#    MAYBE THAT WOULD PAIR UP WITH THE ODD }} AND END UP BEING IGNORED.
-#    - ACTUALLY, IF THIS PAIR ENDED UP ON A LINE OF ITS OWN, YOU COULD MAKE
-#      ANOTHER PASS THAT GREPPED FOR LINES LIKE THAT AND REMOVED THEM.
-#  - ALSO STILL NEED TO STRIP OFF FROM THE COLON TO END OF LINE ON VAR LINES.
-    # doc_line_numbers <- doc_line_nums_and_intervals [,"line_num"]
-    #
-    # doc_line_nums_and_intervals <-
-    #     doc_line_nums_and_intervals [! (doc_line_numbers %in% lines_containing_start),]
+    # reduced_data <- all_data [doc_line_nums_and_intervals [,"line_num"]]
+    # sapply (reduced_data, write_the_line)
 
-
-
-
-    reduced_data <- all_data [doc_line_nums_and_intervals [,"line_num"]]
-#browser()
-    sapply (reduced_data, write_the_line)
-#    invisible()
-
-
-
-#  ...
-
-        sink ()
-        close (tempConsoleOutFile)
-
-
-
+    sink ()
+    close (tempConsoleOutFile)
 
     return (NULL)
-}
+    }
 
 #do_it()
 
@@ -501,34 +468,6 @@ write_the_line <- function (cur_line_text)
         cat ("\n#\'")
         }
     }
-
-#===============================================================================
-#===============================================================================
-
-# set_symbol_state <- function (cur_state, prev_state)
-#     {
-#     if (prev_state == "state__block_start")
-#         {
-#         cur_state <- "state__first_line_of_func_decl"
-#
-#         } else if (prev_state == "state__first_line_of_func_decl")
-#         {
-#         cur_state <- "state__var_name_line"
-#
-#         } else if (prev_state == "state__var_name_line")
-#         {
-#             #  E.g., "stuffvar1" line followed by "stuffvar2..." line
-#
-#         cur_state <- "state__var_name_line"
-#         }
-#
-#
-#     state__var_name_line = xxx(),
-#
-#     state__var_continuation_line = xxx(),
-#
-#     return (cur_state)
-#     }
 
 #===============================================================================
 
