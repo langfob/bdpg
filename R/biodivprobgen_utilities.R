@@ -608,21 +608,5 @@ doc_vars_in_this_func ()
 
 #===============================================================================
 
-#' Document variables and their types that are visibile inside current function
-#'
-#' @return Nothing
-#' @export
-
-
-doc_vars_in_this_func <- function ()
-    {
-    cat("\n\n>>>>>>>>>>>>>>>>>>>>>>>>  START doc_vars_in_this_func  >>>>>>>>>>>>>>>>>>>>>>>>\n");
-    print (sys.call(-1))
-    print(ls.str(envir = sys.frame(-1))) ## [1] "aa" "t2"
-    cat("<<<<<<<<<<<<<<<<<<<<<<<<  END doc_vars_in_this_func  <<<<<<<<<<<<<<<<<<<<<<<<<<\n")
-    }
-
-#===============================================================================
-
 
 

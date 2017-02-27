@@ -1,13 +1,31 @@
 #===============================================================================
+#
+#                   generate_function_documentation.R
+#
+#===============================================================================
 
+#  Library references:
+#      - Uses gtools::odd()
+#      - Uses sourcetools::tokenize_string()
+
+#  Part of the mainline was derived by reading:
+#  From:  http://www.numbertheory.nl/2013/03/24/parsing-complex-text-files-using-regular-expressions-and-vectorization/
 
 #===============================================================================
 
-#  Suggests gtools
+#' Document variables and their types that are visibile inside current function
+#'
+#' @return Nothing
+#' @export
 
-#library (gtools)
 
-#  From:  http://www.numbertheory.nl/2013/03/24/parsing-complex-text-files-using-regular-expressions-and-vectorization/
+doc_vars_in_this_func <- function ()
+    {
+    cat("\n\n>>>>>>>>>>>>>>>>>>>>>>>>  START doc_vars_in_this_func  >>>>>>>>>>>>>>>>>>>>>>>>\n");
+    print (sys.call(-1))
+    print(ls.str(envir = sys.frame(-1))) ## [1] "aa" "t2"
+    cat("<<<<<<<<<<<<<<<<<<<<<<<<  END doc_vars_in_this_func  <<<<<<<<<<<<<<<<<<<<<<<<<<\n")
+    }
 
 #===============================================================================
 
@@ -226,6 +244,18 @@ decode_var_desc_cont_line <- function (cur_data_line,
 #' documentation.  It also writes a bit of header text for the section.
 #' Each variable is written as a subsection.
 #'
+#' @section Assumptions:
+#' \describe{
+#'   \item{Operator begins START and END lines}{Each relevant section of the
+#'       input file begins with a line containing
+#'       ">>>>  START doc_vars_in_this_func  >>>>" and ends with a line
+#'       containing "<<<<  END doc_vars_in_this_func  <<<<".  It doesn't matter
+#'       how many "greater than" or "less than" characters are in the line.
+#'       All that matters is that the line begins with an operator so that the
+#'       tokenizer will return "operator" as the first token on the line to
+#'       flag it as the start of a block. }
+#' }
+#'
 #' @section Function declaration in output:
 #' For each function block that is parsed, the function's name and argument list
 #' are also written to the output, even though they are not intended to be
@@ -382,12 +412,12 @@ state_transition <- function (all_data, doc_line_numbers)
 #'
 #' @export
 
-test_do_it <- function ()
+test_generate_func_var_roxygen_comments <- function ()
     {
     infile = "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1836_marxan_simulated_annealing.completedTzarEmulation/consoleSinkOutput.temp.txt"
     sinkFilePath = "/Users/bill/D/Projects/ProblemDifficulty/ProbDiff_Notes/funcvars.doc.txt"
 
-    do_it (infile, sinkFilePath)
+    generate_func_var_roxygen_comments (infile, sinkFilePath)
     }
 
 #===============================================================================
@@ -397,37 +427,79 @@ test_do_it <- function ()
 #' @return
 #' @export
 
-do_it <- function (infile,
-                   sinkFilePath)
+generate_func_var_roxygen_comments <- function (infile, sinkFilePath)
     {
     print (getwd())
 
-        #  Open a file to echo console to.
+        #  Open a file to echo console to and redirect output there.
     tempConsoleOutFile <- file (sinkFilePath, open="wt")
-
-    	#  Redirect console output to the file.
     sink (tempConsoleOutFile, split=TRUE)
 
+        #  Load the text file to be parsed.
     all_data <- readLines (infile)
+
+        #  Sections of interest in the file are bracketed with a start line
+        #  and an end line containing the " doc_vars_in_this_func  ", i.e.,
+        #          ">>>>  START doc_vars_in_this_func  >>>>" and
+        #          "<<<<  END doc_vars_in_this_func  <<<<".
+        #  Find all of these lines and use them to construct intervals.
+        #  We only have to search for "doc_vars_in_this_func" because that
+        #  occurs in both the START and END lines.
+        #
+        #  Assign every line in the original file to an interval number.
+        #  Then, every line with an odd interval number is a line of interest,
+        #  so you can filter the file to only look at those lines.
 
     lines_containing_start_or_end <- grep (" doc_vars_in_this_func  ", all_data)
 
+                #  Assign an interval number to each set of lines between
+                #  the START and END markers and between each END markers
+                #  and the next START marker.
+
     original_line_numbers <- 1:length (all_data)
     interval_nums <- findInterval (original_line_numbers,
-                                              lines_containing_start_or_end)
+                                   lines_containing_start_or_end)
     interval_containing_line <-
         cbind (original_line_numbers, interval_nums)
+
+                #  Select all lines that fall inside the START/END pairs and
+                #  ignore the ones between END/START pairs.  In other words,
+                #  just select lines with an odd interval number.
+                #  - findInterval() starts a new interval number each time that
+                #    it encounters a line in the set of start/end pairs.
+                #    This means that the START line is included in the intervals
+                #    that we save and the END line is in the intervals that get
+                #    tossed.
+                #  - Note that choosing the odd intervals (rather than the even
+                #    ones) still works even if there are no input lines before
+                #    the first occurrence of a START line.
+                #    It looks like the findInterval() routine starts numbering
+                #    intervals at 0 until it finds the first line matching its
+                #    search criteria and then sets the interval number to 1 when
+                #    it finds that first match.  So, if that match occurs on the
+                #    first line, no lines get assigned an interval number of 0
+                #    and the intervals that we want still have odd numbers.
 
     doc_line_nums_and_intervals <- interval_containing_line [gtools::odd (interval_containing_line [,2]),]
     colnames(doc_line_nums_and_intervals) <- c("line_num", "interval_num")
 
+                #  Build an index from the selected lines back into their
+                #  corresponding line numbers in the original data so that
+                #  you can work only the lines of interest but still retrieve
+                #  their original text
+
     doc_line_numbers <- doc_line_nums_and_intervals [,"line_num"]
+
+        #  Ready now to parse the selected lines and spit out the appropriate
+        #  roxygen formatting of the data in those lines.
+        #  Do the parsing using a simple state-transition switching mechanism.
+
     state_transition (all_data, doc_line_numbers)
+
+        #  All done, so close out the file containing the roxygen output.
 
     sink ()
     close (tempConsoleOutFile)
-
-    return (NULL)
     }
 
 #===============================================================================

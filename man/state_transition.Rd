@@ -27,6 +27,20 @@ formatted roxygen subsection block that can be pasted into the function's
 documentation.  It also writes a bit of header text for the section.
 Each variable is written as a subsection.
 }
+\section{Assumptions}{
+
+\describe{
+  \item{Operator begins START and END lines}{Each relevant section of the
+      input file begins with a line containing
+      ">>>>  START doc_vars_in_this_func  >>>>" and ends with a line
+      containing "<<<<  END doc_vars_in_this_func  <<<<".  It doesn't matter
+      how many "greater than" or "less than" characters are in the line.
+      All that matters is that the line begins with an operator so that the
+      tokenizer will return "operator" as the first token on the line to
+      flag it as the start of a block. }
+}
+}
+
 \section{Function declaration in output}{
 
 For each function block that is parsed, the function's name and argument list
