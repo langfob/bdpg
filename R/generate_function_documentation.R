@@ -13,21 +13,20 @@
 
 #===============================================================================
 
-#' Document variables and their types that are visibile inside current function
+#' Get type of first token on the line
 #'
-#' @return Nothing
-#' @export
-
-
-doc_vars_in_this_func <- function ()
-    {
-    cat("\n\n>>>>>>>>>>>>>>>>>>>>>>>>  START doc_vars_in_this_func  >>>>>>>>>>>>>>>>>>>>>>>>\n");
-    print (sys.call(-1))
-    print(ls.str(envir = sys.frame(-1))) ## [1] "aa" "t2"
-    cat("<<<<<<<<<<<<<<<<<<<<<<<<  END doc_vars_in_this_func  <<<<<<<<<<<<<<<<<<<<<<<<<<\n")
-    }
-
-#===============================================================================
+#' Tokenizes the whole line and then returns the type associated with the
+#' first token on the line.  This is useful because the first token is what
+#' flags whether the line is the start of a chunk, variable, or function or
+#' whether it's a continuation line of a function or a variable.
+#'
+#' This doesn't really need to tokenize the whole line since it only uses the
+#' first token.  Not sure if there's a way to ask for just one token.
+#'
+#' @inheritParams decode_var_first_line_of_desc
+#'
+#' @return character string containing the first token type of the line,
+#'     e.g., "whitespace" or "symbol"
 
 get_first_token_type_of_line <- function (data_line)
     {
@@ -39,19 +38,33 @@ get_first_token_type_of_line <- function (data_line)
 
 #===============================================================================
 
+#' Write closing brackets for previous subsection if open brackets remain
+#'
+#' Variables are written out as subsections and that means they start with
+#' brackets.  Finding a function name means that the var subsection brackets
+#' need to be closed and this function does that by just spitting out two
+#' brackets.
+#'
+#' @inheritParams decode_var_first_line_of_desc
+#'
+#' @return Returns nothing
+
 close_open_subsection_if_necessary <- function (prev_state)
     {
     if (prev_state == "state__var_first_line_of_desc" |
         prev_state == "state__var_desc_cont_line")
         {
-            #  Variables are written out as subsections and that means
-            #  they start with brackets and finding a function name
-            #  means that the var subsection needs to be closed.
         cat ("\n#\' }}")
         }
     }
 
 #===============================================================================
+
+#' Clean up any subsection left open when end of file is found
+#'
+#' @inheritParams decode_var_first_line_of_desc
+#' @seealso \code{\link{close_open_subsection_if_necessary}}
+#' @return Returns nothing
 
 finish_up <- function (prev_state)
     {
@@ -63,24 +76,51 @@ finish_up <- function (prev_state)
 
 #===============================================================================
 
+#' Quit since an unexpected token was found
+#'
+#' Emits an error message containint the unexpected token, the input line
+#' number where it occurred, and the line itself; then it quits.
+#'
+#' @inheritParams decode_var_first_line_of_desc
+#' @param token character string indicating the token type, e.g.,
+#'     "whitespace" or "symbol"
+#'
+#' @return Returns nothing
+
 stop_due_to_unexpected_token <- function (token,
-                                          cur_data_line_num,
-                                          cur_data_line)
+                                          data_line_num,
+                                          data_line)
     {
     stop (paste0 ("\n\nUnexpected token at start of line ",
-                  cur_data_line_num,
+                  data_line_num,
                   ".   Token = '", first_token,
-                  "'.  Line = \n'", cur_data_line,
+                  "'.  Line = \n'", data_line,
                   "'\n\n"))
     }
 
 #===============================================================================
 
-decode_block_start <- function (prev_state)
+#' Start new function block and clean up previous block if necessary
+#'
+#' At start of new block of variable descriptions for a new function,
+#' write some output to visually separate the new output from the previous
+#' block.  Also clean up any variable subsection that's still open from
+#' the previous block, i.e., write closing brackets for it.
+#'
+#' @inheritParams decode_var_first_line_of_desc
+#' @param visual_separator character string to write between the end of the
+#'     previous block and the new block to make it easier to pick out where
+#'     one ends and the other begins
+#'
+#' @seealso \code{\link{close_open_subsection_if_necessary}}
+#' @inherit decode_var_first_line_of_desc return
+
+decode_block_start <- function (prev_state,
+                                visual_separator="\n\n\n\n")
     {
     close_open_subsection_if_necessary (prev_state)
 
-    cat ("\n\n\n\n")
+    cat (visual_separator)
 
     next_state <- "state__func_first_line_of_decl"
     return (next_state)
@@ -88,8 +128,14 @@ decode_block_start <- function (prev_state)
 
 #===============================================================================
 
-decode_func_first_line_of_decl <- function (cur_data_line,
-                                            cur_data_line_num,
+#' Title
+#'
+#' @inheritParams decode_var_first_line_of_desc
+#'
+#' @inherit decode_var_first_line_of_desc return
+
+decode_func_first_line_of_decl <- function (data_line,
+                                            data_line_num,
                                             prev_state,
                                             first_token_of_next_line)
     {
@@ -112,7 +158,7 @@ decode_func_first_line_of_decl <- function (cur_data_line,
         #  brackets for that command around the name, then
         #  echo the rest of the line not in bold.
 
-    cur_line_tokens <- sourcetools::tokenize_string (cur_data_line)
+    cur_line_tokens <- sourcetools::tokenize_string (data_line)
     func_name <- cur_line_tokens [1, "value"]
 
     cat ("\n#\' \\strong{FUNCTION:  ",
@@ -120,9 +166,9 @@ decode_func_first_line_of_decl <- function (cur_data_line,
          "}",
          sep='')
 
-    cat (stringr::str_sub (cur_data_line,
+    cat (stringr::str_sub (data_line,
                            cur_line_tokens [2, "column"],
-                           stringr::str_length (cur_data_line)))
+                           stringr::str_length (data_line)))
 
     next_state <-
         switch (first_token_of_next_line,
@@ -132,8 +178,8 @@ decode_func_first_line_of_decl <- function (cur_data_line,
                 operator   = "state__block_start",
                 ...        = stop_due_to_unexpected_token (
                                                     first_token_of_next_line,
-                                                    cur_data_line_num,
-                                                    cur_data_line)
+                                                    data_line_num,
+                                                    data_line)
                 )
 
     return (next_state)
@@ -141,15 +187,21 @@ decode_func_first_line_of_decl <- function (cur_data_line,
 
 #===============================================================================
 
-decode_func_decl_cont_line <- function (cur_data_line,
-                                        cur_data_line_num,
+#' Title
+#'
+#' @inheritParams decode_var_first_line_of_desc
+#'
+#' @inherit decode_var_first_line_of_desc return
+
+decode_func_decl_cont_line <- function (data_line,
+                                        data_line_num,
                                         first_token_of_next_line)
     {
         #  First thing on the line is whitespace and the previous line
         #  was either a function declaration line or a function declaration
         #  continuation line.
 
-    cat ("\n#\' ", cur_data_line, sep='')  #  Just echo this line.
+    cat ("\n#\' ", data_line, sep='')  #  Just echo this line.
 
     next_state <-
         switch (first_token_of_next_line,
@@ -159,8 +211,8 @@ decode_func_decl_cont_line <- function (cur_data_line,
                 operator   = "state__block_start",
                 ...        = stop_due_to_unexpected_token (
                                                     first_token_of_next_line,
-                                                    cur_data_line_num,
-                                                    cur_data_line)
+                                                    data_line_num,
+                                                    data_line)
                 )
 
     return (next_state)
@@ -168,8 +220,22 @@ decode_func_decl_cont_line <- function (cur_data_line,
 
 #===============================================================================
 
-decode_var_first_line_of_desc <- function (cur_data_line,
-                                           cur_data_line_num,
+#' Title
+#'
+#' @param data_line character string containing one full line from the input
+#'     file
+#' @param data_line_num integer line number of data_line in original input file
+#' @param prev_state character string indicating the previous state, e.g.,
+#'     "state__block_start"
+#' @param first_token_of_next_line character string containing the first
+#'     token type of the next line in the input file, e.g., "whitespace" or
+#'     "symbol"
+#'
+#' @return character string indicating the next state to transition to, e.g.,
+#'     "state__block_start"
+
+decode_var_first_line_of_desc <- function (data_line,
+                                           data_line_num,
                                            prev_state,
                                            first_token_of_next_line)
     {
@@ -183,13 +249,13 @@ decode_var_first_line_of_desc <- function (cur_data_line,
         #  variable name.
         #  Display variable name as a subsection header.
 
-    cur_line_tokens <- sourcetools::tokenize_string (cur_data_line)
+    cur_line_tokens <- sourcetools::tokenize_string (data_line)
     variable_name <- cur_line_tokens [1, "value"]
 
     cat ("\n#\' \\subsection{", variable_name, "}{", sep='')
     cat ("\n#\' \\preformatted{")
 
-    cat ("\n#\' ", cur_data_line, sep='')  #  Echo the whole line in subsection.
+    cat ("\n#\' ", data_line, sep='')  #  Echo the whole line in subsection.
 
     next_state <-
         switch (first_token_of_next_line,
@@ -199,8 +265,8 @@ decode_var_first_line_of_desc <- function (cur_data_line,
                 operator   = "state__block_start",
                 ...        = stop_due_to_unexpected_token (
                                                     first_token_of_next_line,
-                                                    cur_data_line_num,
-                                                    cur_data_line)
+                                                    data_line_num,
+                                                    data_line)
                 )
 
     return (next_state)
@@ -208,15 +274,21 @@ decode_var_first_line_of_desc <- function (cur_data_line,
 
 #===============================================================================
 
-decode_var_desc_cont_line <- function (cur_data_line,
-                                       cur_data_line_num,
+#' Title
+#'
+#' @inheritParams decode_var_first_line_of_desc
+#'
+#' @return
+
+decode_var_desc_cont_line <- function (data_line,
+                                       data_line_num,
                                        first_token_of_next_line)
     {
         #  First thing on the line is whitespace and the previous line
         #  was either a variable description line or a variable description
         #  continuation line.
 
-    cat ("\n#\' ", cur_data_line, sep='')  #  Just echo this line.
+    cat ("\n#\' ", data_line, sep='')  #  Just echo this line.
 
     next_state <-
         switch (first_token_of_next_line,
@@ -226,8 +298,8 @@ decode_var_desc_cont_line <- function (cur_data_line,
                 operator   = "state__block_start",
                 ...        = stop_due_to_unexpected_token (
                                                     first_token_of_next_line,
-                                                    cur_data_line_num,
-                                                    cur_data_line)
+                                                    data_line_num,
+                                                    data_line)
                 )
 
     return (next_state)
@@ -408,8 +480,11 @@ state_transition <- function (all_data, doc_line_numbers)
 
 #===============================================================================
 
-#' Title
+#' Test running generate_func_var_roxygen_comments() function
 #'
+#' Loads an existing input file and runs the function.
+#'
+#' @return Returns nothing (but in the future it should flag success/failure).
 #' @export
 
 test_generate_func_var_roxygen_comments <- function ()
@@ -422,9 +497,9 @@ test_generate_func_var_roxygen_comments <- function ()
 
 #===============================================================================
 
-#' Title
+#' Read text from doc_vars_in_this_func() and convert to roxygen comments
 #'
-#' @return
+#' @return Returns nothing
 #' @export
 
 generate_func_var_roxygen_comments <- function (infile, sinkFilePath)
