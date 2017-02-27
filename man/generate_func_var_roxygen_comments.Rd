@@ -2,10 +2,13 @@
 % Please edit documentation in R/generate_function_documentation.R
 \name{generate_func_var_roxygen_comments}
 \alias{generate_func_var_roxygen_comments}
-\title{Title}
+\title{Read text from doc_vars_in_this_func() and convert to roxygen comments}
 \usage{
 generate_func_var_roxygen_comments(infile, sinkFilePath)
 }
+\value{
+Returns nothing
+}
 \description{
-Title
+Read text from doc_vars_in_this_func() and convert to roxygen comments
 }

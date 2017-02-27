@@ -2,10 +2,13 @@
 % Please edit documentation in R/generate_function_documentation.R
 \name{test_generate_func_var_roxygen_comments}
 \alias{test_generate_func_var_roxygen_comments}
-\title{Title}
+\title{Test running generate_func_var_roxygen_comments() function}
 \usage{
 test_generate_func_var_roxygen_comments()
 }
+\value{
+Returns nothing (but in the future it should flag success/failure).
+}
 \description{
-Title
+Loads an existing input file and runs the function.
 }
