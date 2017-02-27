@@ -248,31 +248,31 @@ decode_var_desc_cont_line <- function (cur_data_line,
 #'
 #' @section States Used In The Parsing:
 #' \describe{
-#'   \item {state__start_of_file}{Before parsing begins.}
-#'   \item {state__block_start}{Sitting on a ">>>  START..." line at the head
+#'   \item{state__start_of_file}{Before parsing begins.}
+#'   \item{state__block_start}{Sitting on a ">>>  START..." line at the head
 #'       of a new function block.}
-#'   \item {state__func_first_line_of_decl}{Sitting on the first line of a
+#'   \item{state__func_first_line_of_decl}{Sitting on the first line of a
 #'       function declaration.  Starts with a symbol, not whitespace.
 #'       Immediately follows the block start line with no intervening lines.}
-#'   \item {state__func_decl_cont_line}{Sitting on a continuation line of a
+#'   \item{state__func_decl_cont_line}{Sitting on a continuation line of a
 #'       multi-line function declaration.  Line starts with whitespace.}
-#'   \item {state__var_first_line_of_desc}{Sitting on the first line of the
+#'   \item{state__var_first_line_of_desc}{Sitting on the first line of the
 #'       description of a variable.  Starts with a symbol, not whitespace.
 #'       Immediately follows the end of a function declaration or variable
 #'       declaration  with no intervening lines.}
-#'   \item {state__var_desc_cont_line}{Sitting on a continuation line of a
+#'   \item{state__var_desc_cont_line}{Sitting on a continuation line of a
 #'       multi-line description of a variable.  Line starts with whitespace.}
-#'   \item {state__finished}{Found end of file, ready to do final cleanup.}
+#'   \item{state__finished}{Found end of file, ready to do final cleanup.}
 #' }
 #'
 #' @section Legal Line Starts In The Parsing:
 #' \describe{
-#'   \item {symbol}{An R function name or variable name with no preceding white
+#'   \item{symbol}{An R function name or variable name with no preceding white
 #'       space.}
-#'   \item {whitespace}{Spaces and/or tabs.}
-#'   \item {operator}{An R operator; in this case the only one that should
+#'   \item{whitespace}{Spaces and/or tabs.}
+#'   \item{operator}{An R operator; in this case the only one that should
 #'       occur is the ">" that is used on the block start lines.}
-#'   \item {EOF}{End of file; not returned by the tokenizer, but set in this
+#'   \item{EOF}{End of file; not returned by the tokenizer, but set in this
 #'       function and its subcalls.}
 #'   }
 
@@ -424,49 +424,10 @@ do_it <- function (infile,
     doc_line_numbers <- doc_line_nums_and_intervals [,"line_num"]
     state_transition (all_data, doc_line_numbers)
 
-
-    # reduced_data <- all_data [doc_line_nums_and_intervals [,"line_num"]]
-    # sapply (reduced_data, write_the_line)
-
     sink ()
     close (tempConsoleOutFile)
 
     return (NULL)
-    }
-
-#do_it()
-
-#===============================================================================
-#===============================================================================
-
-write_the_line <- function (cur_line_text)
-    {
-#    browser()
-    x <- grep ("<  START doc_vars_in_this_func", cur_line_text)
-    if (length (x) == 0)
-        {
-        if (startsWith (cur_line_text, " "))
-            {
-                #  It's a detail or continuation line.
-                #  Just echo the line.
-            cat ("\n#\' ", cur_line_text, sep='')
-
-            } else
-            {
-                #  It's a function name or a variable name.
-                #  Start a subsection.
-            cat ("\n#\' }}\n#\'")
-            cat ("\n#\' \\subsection{", cur_line_text, "}{", sep='')
-            cat ("\n#\' \\preformatted{")
-            }
-        } else
-        {
-        cat ("\n\n\n\n\n#\'@section Local Variable Structures and examples:")
-        cat ("\n#\'Here is the output of str() for each variable visible in the function.")
-        cat ("\n#\'Note that the particular counts and values given are just examples to show")
-        cat ("\n#\'what the data might look like.")
-        cat ("\n#\'")
-        }
     }
 
 #===============================================================================

@@ -54,33 +54,33 @@ sections generated here.
 \section{States Used In The Parsing}{
 
 \describe{
-  \item {state__start_of_file}{Before parsing begins.}
-  \item {state__block_start}{Sitting on a ">>>  START..." line at the head
+  \item{state__start_of_file}{Before parsing begins.}
+  \item{state__block_start}{Sitting on a ">>>  START..." line at the head
       of a new function block.}
-  \item {state__func_first_line_of_decl}{Sitting on the first line of a
+  \item{state__func_first_line_of_decl}{Sitting on the first line of a
       function declaration.  Starts with a symbol, not whitespace.
       Immediately follows the block start line with no intervening lines.}
-  \item {state__func_decl_cont_line}{Sitting on a continuation line of a
+  \item{state__func_decl_cont_line}{Sitting on a continuation line of a
       multi-line function declaration.  Line starts with whitespace.}
-  \item {state__var_first_line_of_desc}{Sitting on the first line of the
+  \item{state__var_first_line_of_desc}{Sitting on the first line of the
       description of a variable.  Starts with a symbol, not whitespace.
       Immediately follows the end of a function declaration or variable
       declaration  with no intervening lines.}
-  \item {state__var_desc_cont_line}{Sitting on a continuation line of a
+  \item{state__var_desc_cont_line}{Sitting on a continuation line of a
       multi-line description of a variable.  Line starts with whitespace.}
-  \item {state__finished}{Found end of file, ready to do final cleanup.}
+  \item{state__finished}{Found end of file, ready to do final cleanup.}
 }
 }
 
 \section{Legal Line Starts In The Parsing}{
 
 \describe{
-  \item {symbol}{An R function name or variable name with no preceding white
+  \item{symbol}{An R function name or variable name with no preceding white
       space.}
-  \item {whitespace}{Spaces and/or tabs.}
-  \item {operator}{An R operator; in this case the only one that should
+  \item{whitespace}{Spaces and/or tabs.}
+  \item{operator}{An R operator; in this case the only one that should
       occur is the ">" that is used on the block start lines.}
-  \item {EOF}{End of file; not returned by the tokenizer, but set in this
+  \item{EOF}{End of file; not returned by the tokenizer, but set in this
       function and its subcalls.}
   }
 }
