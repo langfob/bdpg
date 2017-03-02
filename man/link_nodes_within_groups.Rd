@@ -8,6 +8,11 @@ link_nodes_within_groups(num_nodes_per_group, n__num_groups, nodes, edge_list,
   bdpg_error_codes)
 }
 \arguments{
+\item{nodes}{data frame containing integer node_ID, integer group_ID, and boolean dependent_set_member}
+
+\item{edge_list}{two column integer matrix of node IDs with one row for
+each edge and columns for the 2 ends of the edge}
+
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{

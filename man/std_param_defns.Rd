@@ -4,20 +4,26 @@
 \alias{std_param_defns}
 \title{Standardized parameter definitions for reuse across all functions}
 \usage{
-std_param_defns(bdpg_error_name, integerize_string, parameters)
+std_param_defns(bdpg_error_codes, bdpg_error_name, edge_list, integerize,
+  integerize_string, nodes, parameters)
 }
 \arguments{
+\item{bdpg_error_codes}{list of error names and corresponding error codes}
+
 \item{bdpg_error_name}{string containing name of error code to look up in list of error codes}
+
+\item{edge_list}{two column integer matrix of node IDs with one row for
+each edge and columns for the 2 ends of the edge}
+
+\item{integerize}{function to use in converting floats to ints}
 
 \item{integerize_string}{string containing name of the function to use to
 convert floats to integers}
 
+\item{nodes}{data frame containing integer node_ID, integer group_ID, and boolean dependent_set_member}
+
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
-
-\item{integerize}{function to use in converting floats to ints}
 }
 \description{
 This function should \emph{never} be called.  It is intended strictly as a

@@ -92,16 +92,23 @@
 #'
 #' @param bdpg_error_codes list of error names and corresponding error codes
 #' @param bdpg_error_name string containing name of error code to look up in list of error codes
+#' @param edge_list two column integer matrix of node IDs with one row for
+#'     each edge and columns for the 2 ends of the edge
 #' @param integerize function to use in converting floats to ints
 #' @param integerize_string string containing name of the function to use to
 #'     convert floats to integers
+#' @param nodes data frame containing integer node_ID, integer group_ID, and boolean dependent_set_member
 #' @param parameters parameters list for the run, usually derived from project.yaml
 #'     and can have a varying number and set of elements depending on the run
 
 std_param_defns <-
     function (
+            bdpg_error_codes,
             bdpg_error_name,
+            edge_list,
+            integerize,
             integerize_string,
+            nodes,
             parameters
              )
     {
