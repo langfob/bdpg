@@ -2,6 +2,10 @@
 #
 #                       doc_vars_in_this_func.R
 #
+#  MOVED TO docaids PACKAGE, 2017 03 01.
+#  Will remove fromt his package as soon as I know the integration with docaids
+#  works.
+#
 #===============================================================================
 
 #  Library references:
@@ -40,7 +44,7 @@ doc_vars_in_this_func <- function (sys.call_ht = -1,
     {
     cat("\n\n>>>>>>>>>>>>>>>>>>>>>>>>  START doc_vars_in_this_func  >>>>>>>>>>>>>>>>>>>>>>>>\n");
     print (sys.call (sys.call_ht))
-    print(ls.str(envir = sys.frame (sys.frame_ht))) ## [1] "aa" "t2"
+    print(utils::ls.str(envir = sys.frame (sys.frame_ht))) ## [1] "aa" "t2"
     cat("<<<<<<<<<<<<<<<<<<<<<<<<  END doc_vars_in_this_func  <<<<<<<<<<<<<<<<<<<<<<<<<<\n")
     }
 
@@ -89,15 +93,14 @@ doc_vars_in_this_func <- function (sys.call_ht = -1,
 #'     building a counter name that is supposed to be unique
 #'
 #' @return integer value of global counter for the current function
-#' @example
 #' @export
 
 bump_global_ctr_for_cur_func <- function (sys.call_ht=-7,
                                           ctr_name_prefix =
                                               "TEMPCTR___RM_THIS_AT_END__")
     {
-    v7 <- capture.output (sys.call (sys.call_ht))
-    syscall_tokens <- tokenize_string (v7)
+    v7 <- utils::capture.output (sys.call (sys.call_ht))
+    syscall_tokens <- sourcetools::tokenize_string (v7)
     func_name <- syscall_tokens [1, "value"]
     ctr_name <- paste0 (ctr_name_prefix, func_name)
 

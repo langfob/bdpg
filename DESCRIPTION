@@ -25,7 +25,8 @@ Suggests:
     rmarkdown,
     testthat, 
     gtools, 
-    sourcetools
+    sourcetools, 
+    docaids
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 URL: https://github.com/langfob/bdpg
