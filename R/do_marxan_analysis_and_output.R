@@ -40,7 +40,7 @@ create_RSrun <- function (prob_UUID,
 
     rsrun <- save_rsprob (rsrun, starting_dir)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (rsrun)
     }
@@ -84,7 +84,7 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
                                                          COR_bd_prob,
                                                          parameters)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
         #-----------------------------------------------
         #  Dump all of the different kinds of results.
@@ -149,7 +149,7 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
                                                          COR_bd_prob,
                                                          parameters)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
             #-----------------------------------------------
         #  Dump all of the different kinds of results.

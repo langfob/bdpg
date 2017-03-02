@@ -7,7 +7,7 @@
 build_topdir_name <- function (obj)
     {
     topdir_name <- paste0 (obj@file_name_prefix, ".", obj@UUID)
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (topdir_name)
     }
@@ -19,7 +19,7 @@ doc_vars_in_this_func ()
 get_RSprob_path_topdir <- function (rsprob, exp_root_dir)
     {
     topdir <- file.path (exp_root_dir, build_topdir_name (rsprob))
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (topdir)
     }
@@ -27,7 +27,7 @@ doc_vars_in_this_func ()
 get_RSprob_path_plots <- function (rsprob, exp_root_dir)
     {
     plotsdir <- file.path (exp_root_dir, build_topdir_name (rsprob), rsprob@plot_output_dir)
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (plotsdir)
     }
@@ -35,7 +35,7 @@ doc_vars_in_this_func ()
 get_RSprob_path_networks <- function (rsprob, exp_root_dir)
     {
     networksdir <- file.path (exp_root_dir, build_topdir_name (rsprob), rsprob@network_output_dir)
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (networksdir)
     }
@@ -70,7 +70,7 @@ create_RSprob_dir_and_subdirs <- function (top_dir,  #  usually parameters$fullO
         dir.create (plot_dir_path,    showWarnings = TRUE, recursive = TRUE)
         dir.create (network_dir_path, showWarnings = TRUE, recursive = TRUE)
         }
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================
@@ -136,7 +136,7 @@ create_RSrun_dir_and_subdirs <- function (rsrun,
         dir.create (output_dir_path, showWarnings = TRUE, recursive = TRUE)
         dir.create (plot_dir_path,   showWarnings = TRUE, recursive = TRUE)
         }
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================

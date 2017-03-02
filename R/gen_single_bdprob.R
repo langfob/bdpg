@@ -125,7 +125,7 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 
         }  #  end if - num_spp > max_allowed_num_spp
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (PU_spp_pair_info)
     }
@@ -364,7 +364,7 @@ gen_single_bdprob_COR = function (starting_dir,
 
     Xu_bdprob_cor <- save_rsprob (Xu_bdprob_cor, starting_dir)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (Xu_bdprob_cor)
     }

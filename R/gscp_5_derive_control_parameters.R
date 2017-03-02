@@ -382,7 +382,7 @@ derive_Xu_control_parameters = function (parameters,
 
     #-------------------------------------------------------------------------------
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 #    return (derived_Xu_params)
     return (Xu_parameters)
     }

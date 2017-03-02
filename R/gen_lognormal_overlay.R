@@ -54,7 +54,7 @@ plot_hist_and_normal_curve_for_sampled_lognormal_data =
     curve (dnorm (x, mean=meanlog, sd=sdlog), add=TRUE, lwd=2)
 
     plot (sort(rounded_abundances, decreasing=TRUE))
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     }  #  end function - plot_hist_and_normal_curve_for_sampled_lognormal_data ()
 
@@ -107,7 +107,7 @@ gen_rounded_abundances = function (num_spp_to_generate, meanlog, sdlog,
                                                                meanlog,
                                                                sdlog)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (abundance_data)
 
@@ -223,7 +223,7 @@ gen_lognormal = function (num_spp_to_generate,
     #     }
     # return (rounded_abundances_without_nonexistant_spp)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (rounded_abundances)
 
@@ -277,7 +277,7 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
                           )
                 )
         }
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     }
 
@@ -478,7 +478,7 @@ EF = function (seed_value,
 
     cat ("\nEF RETVAL ", EF_num, ": ", score, sep='')
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (score)
 
     }  #  end function - EF ()
@@ -645,7 +645,7 @@ search_for_approximating_lognormal <- function (seed_value,
         cat ("\n")
         }
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (lognormal_result)
 
     }  #  end function - search_for_approximating_lognormal ()
@@ -768,7 +768,7 @@ find_lognormal_to_wrap_around_Xu = function (Xu_bdprob, parameters,
     rounded_abundances = lognormal_search_results$abundance_data$rounded_abundances
     plot (sort(rounded_abundances, decreasing = TRUE))
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (rounded_abundances)
 

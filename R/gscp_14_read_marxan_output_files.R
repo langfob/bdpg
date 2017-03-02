@@ -44,7 +44,7 @@ load_marxan_mvbest_df_from_file_and_sort_by_CF <- function (marxan_output_dir_pa
 
     marxan_mvbest_df = plyr::arrange (marxan_mvbest_df, ConservationFeature)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (marxan_mvbest_df)
     }
 
@@ -75,7 +75,7 @@ load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_pat
         #  Sort by planning unit.
     marxan_ssoln_df = plyr::arrange (marxan_ssoln_df_unsorted, planning_unit)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (marxan_ssoln_df)
     }
 
@@ -113,7 +113,7 @@ load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <- function (marxan_o
 
     marxan_best_df_sorted = plyr::arrange (marxan_best_df_unsorted, PUID)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (marxan_best_df_sorted)
     }
 
@@ -179,7 +179,7 @@ load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
         list (marxan_solutions_matrix = marxan_solutions_matrix,
               num_marxan_solutions    = num_marxan_solutions)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (marxan_solutions_matrix_and_num_solutions)
     }
@@ -210,7 +210,7 @@ read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
                                         rsrun@targets
                                       )
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (marxan_output_values)
     }
 
@@ -244,7 +244,7 @@ read_APP_marxan_output_files <- function (rsrun,
                                         rsrun@targets
                                       )
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (marxan_output_values)
     }
 
@@ -343,7 +343,7 @@ read_marxan_output_files <- function (marxan_output_dir_path,
     retVal$marxan_ssoln_df       = marxan_ssoln_df_sorted_by_PU
     retVal$marxan_mvbest_df      = marxan_mvbest_df_sorted_by_ConservationFeature
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (retVal)
     }
 

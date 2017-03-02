@@ -98,7 +98,7 @@ run_marxan = function (marxan_dir, marxan_executable_name)
     setwd (original_dir)
     cat ("\n\nAfter setwd (original_dir), sitting in:", getwd(), "\n\n")
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (retval)
     }
 
@@ -386,7 +386,7 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 
     #---------------------------------------------------------------------------
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (retVal)
     }
 
@@ -418,7 +418,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                     parameters
                                     )
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (marxan_control_values)
     }
 
@@ -453,7 +453,7 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                         parameters
                                     )
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (marxan_control_values)
     }
 
@@ -536,7 +536,7 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
 
     #--------------------
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (marxan_control_values)
     }
 

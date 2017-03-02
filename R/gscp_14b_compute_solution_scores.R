@@ -310,7 +310,7 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bp
                 acc_err_mag = acc_err_mag
                 )
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (solution_vector_scores)
     }

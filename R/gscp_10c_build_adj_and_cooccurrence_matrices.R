@@ -66,7 +66,7 @@ verify_that_generated_solution_really_is_a_solution =
 
     stopifnot (all.equal (solution_cost, length (dependent_node_IDs)))
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (TRUE)
     }
@@ -134,7 +134,7 @@ create_PU_spp_pair_names =
                   PU_vertex_names=PU_vertex_names,
                   spp_vertex_names=spp_vertex_names)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (PU_spp_pair_names_triple)
     }
@@ -211,7 +211,7 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
                                                         bdpg_error_codes)
         }
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (bpm)
     }

@@ -55,7 +55,7 @@ apply_const_error_to_spp_occupancy_data =
             }  #  end for - all PU cols
         }  #  end for - all spp rows
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (bpm)
     }
 
@@ -118,7 +118,7 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
     FP_and_FN_const_rates <- list (FP_const_rate = FP_const_rate,
                                    FN_const_rate = FN_const_rate)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (FP_and_FN_const_rates)
     }
 
@@ -188,7 +188,7 @@ match_FP_and_FN_counts_to_smaller_of_the_two = function (num_TPs, num_TNs,
     FP_FN_const_rate_pair <- list (FP_const_rate = FP_const_rate,
                                    FN_const_rate = FN_const_rate)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (FP_FN_const_rate_pair)
     }
@@ -274,7 +274,7 @@ apply_error_to_spp_occupancy_data =
                   app_num_spp = app_num_spp,
                   app_num_PUs = app_num_PUs)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (ret_vals_from_apply_errors)
     }
 

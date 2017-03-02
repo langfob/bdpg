@@ -109,7 +109,7 @@ summarize_pu_and_spp_dist_data_from_pu_spp_amt_df <- function (pu_spp_amt_df)
                                   num_PUs_per_spp=num_PUs_per_spp,
                                   amt_per_spp=amt_per_spp)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (pu_and_spp_dist_data)
 }
@@ -142,7 +142,7 @@ summarize_pu_and_spp_dist_data_from_marxan_puvspr_input_file <-
     pu_and_spp_dist_data <-
         summarize_pu_and_spp_dist_data_from_pu_spp_amt_df (pu_spp_amt_df)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (pu_and_spp_dist_data)
     }

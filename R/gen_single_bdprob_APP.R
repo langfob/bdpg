@@ -224,7 +224,7 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
     Xu_bdprob_APP <- save_rsprob (Xu_bdprob_APP, starting_dir)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (Xu_bdprob_APP)
     }

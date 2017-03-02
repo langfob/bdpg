@@ -55,7 +55,7 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize)
                                         integerize)
         }
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (bdprob)
     }

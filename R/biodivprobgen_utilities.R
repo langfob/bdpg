@@ -50,7 +50,7 @@ write_results_to_files = function (results_df, parameters,
     results_df$run_ID [cur_result_row] = parameters$run_id
     write.csv (results_df, file = parameters$summary_filename, row.names = FALSE)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================
@@ -144,7 +144,7 @@ see_if_there_are_any_duplicate_links = function (occ_matrix, num_spp,
         quit (save="no", bdpg_error_codes$ERROR_STATUS_duplicate_spp_in_Xu_input_file)
         }
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (edge_list)
     }
 
@@ -179,7 +179,7 @@ build_PU_spp_pair_indices_from_occ_matrix = function (occ_matrix,
             }  #  end for - all PU cols
         }  #  end for - all soo rows
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (PU_spp_pair_indices)
     }
 
@@ -198,7 +198,7 @@ find_indices_of_spp_with_unmet_rep = function (spp_occ_matrix,
                                           spp_rep_targets
                                           )
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (which (spp_rep_fracs < 1))
     }
 
@@ -218,7 +218,7 @@ compute_frac_spp_covered =
                                             spp_rep_targets
                                             )
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (1 - (length (indices_of_spp_with_unmet_rep) / num_spp))
     }
 
@@ -275,7 +275,7 @@ add_missing_PU_rows_to_PU_Count_dataframe = function (marxan_solution,
         marxan_solution = rbind (marxan_solution, missing_rows)
         }
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (marxan_solution)
     }
 
@@ -387,7 +387,7 @@ cat("\njust after clean_up_final_link_counts_for_each_node()")
 cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (final_link_counts_for_each_node)
     }
 
@@ -412,7 +412,7 @@ save_obj_with_checksum = function (obj, saved_obj_filename, base_outdir)
          full_saved_obj_path, "'",
          "\nTo reload problem, use readRDS (full_saved_obj_path)\n\n", sep='')
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (obj)
     }
 
@@ -440,7 +440,7 @@ save_rsprob <- function (rsprob, starting_dir)
     rsprob      = save_obj_with_checksum (rsprob, saved_rsprob_filename,
                                           base_outdir)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (rsprob)
     }
 
@@ -458,7 +458,7 @@ save_rsrun <- function (rsrun, starting_dir)
     rsrun       = save_obj_with_checksum (rsrun, saved_rsrun_filename,
                                           base_outdir)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (rsrun)
     }
 
@@ -503,7 +503,7 @@ strip_trailing_slash <- function (path)
     if (last_char == "/")                                   #.Platform$file.sep)
         path = stringr::str_sub (path,1,nchar(path)-1)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (path)
     }
 
@@ -521,7 +521,7 @@ touch <- function (file_path_to_touch)
     write.table (data.frame(),
                  file = file_path_to_touch,
                  col.names=FALSE)
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================
@@ -581,7 +581,7 @@ compute_obj_checksum <- function (obj, base_outdir=".")
     checksum = tools::md5sum (full_saved_obj_path)
     if (file.exists (full_saved_obj_path)) file.remove (full_saved_obj_path)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (checksum)
     }
 
@@ -602,7 +602,7 @@ compute_and_set_obj_checksum <- function (obj, base_outdir=".")
     {
     obj@checksum <- compute_obj_checksum (obj, base_outdir)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (obj)
     }
 

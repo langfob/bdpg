@@ -124,7 +124,7 @@ assert_edge_list_does_not_violate_assumptions =
               }  #  end if - (first_row_of_intergroup_links <= num_rows_in_edge_list)
           }  #  end else - (first_row_of_intergroup_links >= 2)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
       if (edge_list_error)
           stop ("\n\nOne or more fatal errors in building edge_list.\n\n")
 
@@ -140,7 +140,7 @@ sort_within_rows = function (a_2_col_matrix, decreasing=FALSE)
         a_2_col_matrix [row,] = sort (a_2_col_matrix [row,], decreasing)
         }
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (a_2_col_matrix)
     }
 
@@ -263,7 +263,7 @@ create_Xu_graph = function (num_nodes_per_group,
 
     #---------------------------------------------------------------------------
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (edge_list)
     }

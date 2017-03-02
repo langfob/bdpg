@@ -55,7 +55,7 @@ compute_rep_fraction =
         print (display_matrix)
         }
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (spp_rep_fracs)
     }
@@ -69,7 +69,7 @@ compute_solution_cost =
     {
     solution_cost <- sum (PU_costs [PU_set_to_test])
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (solution_cost)
     }
 

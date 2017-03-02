@@ -74,7 +74,7 @@ link_nodes_within_groups =
         cat ("\n\n")
         }
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (list (edge_list=edge_list, cur_row=cur_row))
     }

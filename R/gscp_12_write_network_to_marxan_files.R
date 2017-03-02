@@ -77,7 +77,7 @@ compute_marxan_species_penalty_factor <- function (spf_rule_to_use,
              "\nMust be one of: POWER_OF_10 or CONSTANT.\n\n"))
         }
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
       return (spf_const)
     }
 
@@ -191,7 +191,7 @@ write_network_to_marxan_files = function (PU_spp_pair_indices,       #  app valu
     puvspr_file_to_cp = paste0 (parameters$marxan_puvspr_file_name, " ", marxan_input_dir)
     system (paste0 ("cp ./", puvspr_file_to_cp))
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (spf_const)
     }
 

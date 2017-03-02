@@ -87,7 +87,7 @@ create_nodes_data_structure =
 
     #-------------------------------------------------------------------------------
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (nodes)
     }

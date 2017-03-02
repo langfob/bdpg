@@ -24,7 +24,7 @@ get_bdpg_error_codes <- function ()
     bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FP_error_type = 1005
     bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FN_error_type = 1006
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (bdpg_error_codes)
     }
@@ -135,7 +135,7 @@ init_for_bdpg <- function (parameters)
     params_and_error_codes <- list (parameters = parameters,
                                     bdpg_error_codes = bdpg_error_codes)
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (params_and_error_codes)
     }
 

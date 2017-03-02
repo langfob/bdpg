@@ -48,7 +48,7 @@ ccBip <- function (bg)
                         )
                 }
             )
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (ccBip_retval)
     }
 
@@ -81,7 +81,7 @@ ccLowDot_retval <-    lapply (proj,
                         )
                 }
             )
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (ccLowDot_retval)
     }
 
@@ -113,7 +113,7 @@ ccTopDot <- function (bg)
                         )
                 }
            )
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return (ccTopDot_retval)
     }
 
@@ -187,7 +187,7 @@ redundancy <- function (g
         redundancy <- append(redundancy, overlap*norm)
         }
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     return(redundancy)
     }
 
@@ -549,7 +549,7 @@ compute_igraph_related_network_measures <-
                row.names=FALSE
                )
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (bipartite_metrics_from_igraph_package_df)
     }

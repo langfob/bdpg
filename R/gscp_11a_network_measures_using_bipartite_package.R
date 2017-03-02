@@ -253,7 +253,7 @@ compute_network_measures_using_bipartite_package = function (rsprob,
 # Error in (function (cl, name, valueClass)  :
 #   assignment of an object of class “data.frame” is not valid for @‘bipartite_metrics_from_bipartite_package’ in an object of class “Xu_bd_problem”; is(value, "matrix") is not TRUE
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (bipartite_metrics_from_bipartite_package)
     }

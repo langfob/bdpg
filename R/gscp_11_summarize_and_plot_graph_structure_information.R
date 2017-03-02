@@ -63,7 +63,7 @@ plot_final_degree_dist_for_node_graph =
             ylab="num spp on PU")
     dev.off()
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     }
 
 #-------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ plot_rank_abundance_dist_for_node_graph =
             ylab="abundance:  num PUs occupied by spp")
     dev.off()
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================
@@ -115,7 +115,7 @@ plot_degree_and_abundance_dists_for_node_graph =
                                             cor_or_app_label
                                             )
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================

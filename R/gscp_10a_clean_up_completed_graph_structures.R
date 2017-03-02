@@ -92,7 +92,7 @@ create_PU_spp_pair_indices = function (edge_list,
     PU_spp_pair_info@num_spp               <- get_num_edge_list (edge_list)
     PU_spp_pair_info@correct_solution_cost <- correct_solution_cost
 
-doc_vars_in_this_func ()
+docaids::doc_vars_in_this_func_once ()
 
     return (PU_spp_pair_info)
 
