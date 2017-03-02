@@ -4,6 +4,55 @@
 
 #===============================================================================
 
+#' Assert edge list does not violate assumptions
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{cur_row}{
+#' \preformatted{
+#' cur_row :  int 814
+#' }}
+#' \subsection{edge_list}{
+#' \preformatted{
+#' edge_list :  int [1:814, 1:2] 1 3 5 7 9 11 13 15 17 19 ...
+#' }}
+#' \subsection{edge_list_error}{
+#' \preformatted{
+#' edge_list_error :  logi FALSE
+#' }}
+#' \subsection{first_row_of_intergroup_links}{
+#' \preformatted{
+#' first_row_of_intergroup_links :  num 62
+#' }}
+#' \subsection{from_node}{
+#' \preformatted{
+#' from_node :  Named int 54
+#' }}
+#' \subsection{nodes}{
+#' \preformatted{
+#' nodes : 'data.frame':	122 obs. of  3 variables:
+#'  $ node_ID             : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ group_ID            : num  1 1 2 2 3 3 4 4 5 5 ...
+#'  $ dependent_set_member: logi  FALSE TRUE FALSE TRUE FALSE TRUE ...
+#' }}
+#' \subsection{num_rows_in_edge_list}{
+#' \preformatted{
+#' num_rows_in_edge_list :  int 814
+#' }}
+#' \subsection{to_node}{
+#' \preformatted{
+#' to_node :  Named int 112
+#' }}
+#'
+#' @param first_row_of_intergroup_links integer row number of first row
+#'     containing intergroup links
+#' @inheritParams std_param_defns
+#'
+#' @return Returns a boolean
+
 assert_edge_list_does_not_violate_assumptions =
     function (edge_list, first_row_of_intergroup_links, nodes)
     {
@@ -133,6 +182,33 @@ docaids::doc_vars_in_this_func_once ()
 
 #===============================================================================
 
+#' Sort a 2 column matrix within rows
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{a_2_col_matrix}{
+#' \preformatted{
+#' a_2_col_matrix :  int [1:1003, 1:2] 1 3 5 7 9 11 13 15 17 19 ...
+#' }}
+#' \subsection{decreasing}{
+#' \preformatted{
+#' decreasing :  logi FALSE
+#' }}
+#' \subsection{row}{
+#' \preformatted{
+#' row :  int 1003
+#' }}
+#'
+#' @param a_2_col_matrix a 2 column numeric matrix
+#' @param decreasing boolean flag indicating whether to sort in increasing or
+#'     decreasing order; TRUE implies sort in decreasing order, FALSE implies
+#'     sort in increasing order
+#'
+#' @return Returns sorted 2 column matrix
+
 sort_within_rows = function (a_2_col_matrix, decreasing=FALSE)
     {
     for (row in 1:dim(a_2_col_matrix)[1])
@@ -145,6 +221,91 @@ docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================
+
+#' Create Xu graph
+#'
+#' Given a set of controlling parameters derived from the initial 4 input
+#' parameters, this function the creates an edge list for a Xu graph using the
+#' algorithm described by Xu et al.  [Need citations here.]
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{bdpg_error_codes}{
+#' \preformatted{
+#' bdpg_error_codes : List of 6
+#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+#' }}
+#' \subsection{DEBUG_LEVEL}{
+#' \preformatted{
+#' DEBUG_LEVEL :  num 0
+#' }}
+#' \subsection{duplicate_links_allowed}{
+#' \preformatted{
+#' duplicate_links_allowed :  logi FALSE
+#' }}
+#' \subsection{edge_list}{
+#' \preformatted{
+#' edge_list :  int [1:814, 1:2] 1 3 5 7 9 11 13 15 17 19 ...
+#' }}
+#' \subsection{edge_list_and_cur_row}{
+#' \preformatted{
+#' edge_list_and_cur_row : List of 2
+#'  $ edge_list: int [1:1003, 1:2] 1 3 5 7 9 11 13 15 17 19 ...
+#'  $ cur_row  : num 62
+#' }}
+#' \subsection{first_row_of_intergroup_links}{
+#' \preformatted{
+#' first_row_of_intergroup_links :  num 62
+#' }}
+#' \subsection{max_possible_tot_num_links}{
+#' \preformatted{
+#' max_possible_tot_num_links :  num 1003
+#' }}
+#' \subsection{n__num_groups}{
+#' \preformatted{
+#' n__num_groups :  num 61
+#' }}
+#' \subsection{nodes}{
+#' \preformatted{
+#' nodes : 'data.frame':	122 obs. of  3 variables:
+#'  $ node_ID             : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ group_ID            : num  1 1 2 2 3 3 4 4 5 5 ...
+#'  $ dependent_set_member: logi  FALSE TRUE FALSE TRUE FALSE TRUE ...
+#' }}
+#' \subsection{num_nodes_per_group}{
+#' \preformatted{
+#' num_nodes_per_group :  num 2
+#' }}
+#' \subsection{num_non_unique_edge_list}{
+#' \preformatted{
+#' num_non_unique_edge_list :  int 1003
+#' }}
+#' \subsection{num_rounds_of_linking_between_groups}{
+#' \preformatted{
+#' num_rounds_of_linking_between_groups :  num 942
+#' }}
+#' \subsection{num_unique_edge_list}{
+#' \preformatted{
+#' num_unique_edge_list :  int 814
+#' }}
+#' \subsection{target_num_links_between_2_groups_per_round}{
+#' \preformatted{
+#' target_num_links_between_2_groups_per_round :  num 1
+#' }}
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Returns an edge list, which is a two column integer matrix of
+#'     node IDs with one row for each edge and columns for the 2 ends of
+#'     the edge
 
 create_Xu_graph = function (num_nodes_per_group,
                             n__num_groups,

@@ -8,6 +8,12 @@ link_nodes_within_groups(num_nodes_per_group, n__num_groups, nodes, edge_list,
   bdpg_error_codes)
 }
 \arguments{
+\item{num_nodes_per_group}{integer number of planning units per group in the
+Xu problem}
+
+\item{n__num_groups}{integer number of groups in the Xu problem, one of the
+4 base input parameters for specifying the Xu problem}
+
 \item{nodes}{data frame containing integer node_ID, integer group_ID, and boolean dependent_set_member}
 
 \item{edge_list}{two column integer matrix of node IDs with one row for
@@ -19,7 +25,10 @@ each edge and columns for the 2 ends of the edge}
 Returns list containing edge_list and cur_row
 }
 \description{
-Link nodes within groups
+Create species in a Xu problem by creating links between nodes in different
+groups.  Each link will represent a species that appears on the planning
+units at each end of the link and those planning units are in separate
+groups.
 }
 \section{Local Variable Structures and examples}{
 

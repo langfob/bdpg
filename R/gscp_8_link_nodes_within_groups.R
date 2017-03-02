@@ -6,6 +6,11 @@
 
 #' Link nodes within groups
 #'
+#' Create species in a Xu problem by creating links between nodes in different
+#' groups.  Each link will represent a species that appears on the planning
+#' units at each end of the link and those planning units are in separate
+#' groups.
+#'
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -65,10 +70,6 @@
 #' other_node_idx :  int 2
 #' }}
 #'
-#' @param num_nodes_per_group
-#' @param n__num_groups
-#' @param nodes
-#' @param edge_list
 #' @inheritParams std_param_defns
 #'
 #' @return Returns list containing edge_list and cur_row

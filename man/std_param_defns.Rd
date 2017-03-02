@@ -4,13 +4,24 @@
 \alias{std_param_defns}
 \title{Standardized parameter definitions for reuse across all functions}
 \usage{
-std_param_defns(bdpg_error_codes, bdpg_error_name, edge_list, integerize,
-  integerize_string, nodes, parameters)
+std_param_defns(bdpg_error_codes, bdpg_error_name, dependent_node_IDs,
+  duplicate_links_allowed, edge_list, integerize, integerize_string,
+  max_allowed_num_spp, max_possible_tot_num_links, n__num_groups, nodes,
+  num_nodes_per_group, num_rounds_of_linking_between_groups, num_PUs,
+  parameters, PU_costs, target_num_links_between_2_groups_per_round)
 }
 \arguments{
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{bdpg_error_name}{string containing name of error code to look up in list of error codes}
+
+\item{dependent_node_IDs}{integer vector of IDs of planning units contained
+in a constructed correct solution to a Xu problem}
+
+\item{duplicate_links_allowed}{boolean indicating whether more than one link
+is allowed between the same two planning units, i.e., whether more than
+one species can occupy exactly the same pair of planning units; TRUE
+implies more than one allowed, FALSE implies only one allowed}
 
 \item{edge_list}{two column integer matrix of node IDs with one row for
 each edge and columns for the 2 ends of the edge}
@@ -20,10 +31,34 @@ each edge and columns for the 2 ends of the edge}
 \item{integerize_string}{string containing name of the function to use to
 convert floats to integers}
 
+\item{max_allowed_num_spp}{integer maximum number of species allowed in the
+problem (to keep from generating problems that are too large when trying
+to keep the run-time down)}
+
+\item{max_possible_tot_num_links}{integer maximum possible number of links
+in the Xu problem given all the other parameter settings}
+
+\item{n__num_groups}{integer number of groups in the Xu problem, one of the
+4 base input parameters for specifying the Xu problem}
+
 \item{nodes}{data frame containing integer node_ID, integer group_ID, and boolean dependent_set_member}
+
+\item{num_nodes_per_group}{integer number of planning units per group in the
+Xu problem}
+
+\item{num_rounds_of_linking_between_groups}{integer number of rounds of
+linking to be done between groups in constructing the Xu problems}
+
+\item{num_PUs}{integer number of planning units}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{PU_costs}{numeric vector of planning unit costs}
+
+\item{target_num_links_between_2_groups_per_round}{integer target number of
+links between any two groups per round of linking in constructing the
+Xu problem}
 }
 \description{
 This function should \emph{never} be called.  It is intended strictly as a

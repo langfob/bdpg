@@ -2,23 +2,103 @@
 % Please edit documentation in R/gen_single_bdprob.R
 \name{create_Xu_problem_from_scratch}
 \alias{create_Xu_problem_from_scratch}
-\title{FUNCTION_TITLE}
+\title{Generate a Xu problem from scratch}
 \usage{
 create_Xu_problem_from_scratch(max_allowed_num_spp, parameters,
   bdpg_error_codes, integerize)
 }
 \arguments{
-\item{max_allowed_num_spp}{DESCRIPTION.}
+\item{max_allowed_num_spp}{integer maximum number of species allowed in the
+problem (to keep from generating problems that are too large when trying
+to keep the run-time down)}
 
-\item{parameters}{DESCRIPTION.}
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
 
-\item{bdpg_error_codes}{DESCRIPTION.}
+\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
-\item{integerize}{DESCRIPTION.}
+\item{integerize}{function to use in converting floats to ints}
 }
 \value{
-RETURN_DESCRIPTION
+Returns a PU_spp_pair_info_class object
 }
 \description{
-FUNCTION_DESCRIPTION
+Generate a Xu biodiversity problem based on 4 input control parameters
+rather than reading it from a file.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{base_Xu_params}{
+\preformatted{
+base_Xu_params : Formal class 'Xu_base_params' [package "bdpg"] with 4 slots
+}}
+\subsection{bdpg_error_codes}{
+\preformatted{
+bdpg_error_codes : List of 6
+ $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+ $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+ $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+ $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+ $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+ $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+}}
+\subsection{bdpg_extended_params}{
+\preformatted{
+bdpg_extended_params : Formal class 'Xu_bdpg_extended_params' [package "bdpg"] with 18 slots
+}}
+\subsection{dependent_node_IDs}{
+\preformatted{
+dependent_node_IDs :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
+}}
+\subsection{derived_Xu_params}{
+\preformatted{
+derived_Xu_params : Formal class 'Xu_derived_params' [package "bdpg"] with 13 slots
+}}
+\subsection{edge_list}{
+\preformatted{
+edge_list :  int [1:814, 1:2] 1 3 5 7 9 11 13 15 17 19 ...
+}}
+\subsection{integerize}{
+\preformatted{
+integerize : function (x, digits = 0)
+}}
+\subsection{max_allowed_num_spp}{
+\preformatted{
+max_allowed_num_spp :  num 2000
+}}
+\subsection{nodes}{
+\preformatted{
+nodes : 'data.frame':	122 obs. of  3 variables:
+ $ node_ID             : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ group_ID            : num  1 1 2 2 3 3 4 4 5 5 ...
+ $ dependent_set_member: logi  FALSE TRUE FALSE TRUE FALSE TRUE ...
+}}
+\subsection{num_PUs}{
+\preformatted{
+num_PUs :  int 122
+}}
+\subsection{parameters}{
+\preformatted{
+parameters : List of 66
+ $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+ ...
+ $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+\subsection{PU_costs}{
+\preformatted{
+PU_costs :  num [1:122] 1 1 1 1 1 1 1 1 1 1 ...
+}}
+\subsection{PU_spp_pair_info}{
+\preformatted{
+PU_spp_pair_info : Formal class 'PU_spp_pair_info_class' [package "bdpg"] with 12 slots
+}}
+\subsection{Xu_parameters}{
+\preformatted{
+Xu_parameters : Formal class 'Xu_params' [package "bdpg"] with 3 slots
+}}
+}
+
