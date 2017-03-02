@@ -10,8 +10,28 @@ get_bdpg_error_codes()
 list of integer error codes
 }
 \description{
-Builds the error codes returned by errors in bdpg package
+This function is used as a central way to get at the error codes and make
+sure they're always the same, but may want to move them to the
+Global_Constants structure instead...
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{bdpg_error_codes}{
+\preformatted{
+bdpg_error_codes : List of 6
+ $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+ $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+ $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+ $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+ $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+ $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+}}
+}
+
 \examples{
 get_bdpg_error_codes ()
 }

@@ -7,7 +7,12 @@
 strip_trailing_slash(path)
 }
 \arguments{
-\item{path}{}
+\item{path}{character string containing a path that may or may not end in a
+slash}
+}
+\value{
+character string containing original path argument with trailing
+    slash removed if there was one, otherwise, same as original
 }
 \description{
 Tzar puts a slash on the end of the output path and this causes problems
@@ -20,14 +25,13 @@ Here is the output of str() for each variable visible in the function.
 Note that the particular counts and values given are just examples to show
 what the data might look like.
 
-\strong{FUNCTION:  strip_trailing_slash}(parameters$fullOutputDirWithSlash)
 \subsection{last_char}{
 \preformatted{
 last_char :  chr "/"
 }}
 \subsection{path}{
 \preformatted{
-path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1836_marxan_simulated_annealing.inprogress"
+path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
 }}
 }
 

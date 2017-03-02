@@ -4,6 +4,26 @@
 
 #' Builds the error codes returned by errors in bdpg package
 #'
+#' This function is used as a central way to get at the error codes and make
+#' sure they're always the same, but may want to move them to the
+#' Global_Constants structure instead...
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{bdpg_error_codes}{
+#' \preformatted{
+#' bdpg_error_codes : List of 6
+#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+#' }}
+#'
 #' @return list of integer error codes
 #' @export
 #' @examples
@@ -24,8 +44,7 @@ get_bdpg_error_codes <- function ()
     bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FP_error_type = 1005
     bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FN_error_type = 1006
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (bdpg_error_codes)
     }
 
@@ -76,8 +95,7 @@ get_current_os <- function ()
 #' looks up which function to use based on the user's specification in the
 #' parameter inputs.
 #'
-#' @param integerize_string string containing name of the function to use to
-#'     convert floats to integers
+#' @inheritParams std_param_defns
 #'
 #' @return function to use to convert floats to integers
 #' @export
@@ -97,9 +115,42 @@ get_integerize_function <- function (integerize_string)
 
 #===============================================================================
 
-#' Title
+#' Initialize for biodiversity problem generation
 #'
-#' @return
+#' Central point for doing a few odds and ends of initializing.
+#'
+#' @section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{bdpg_error_codes}{
+#' \preformatted{
+#' bdpg_error_codes : List of 6
+#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+#' }}
+#' \subsection{parameters}{
+#' \preformatted{
+#' parameters : List of 66
+#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+#'  ...
+#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{params_and_error_codes}{
+#' \preformatted{
+#' params_and_error_codes : List of 2
+#'  $ parameters      :List of 66
+#'  $ bdpg_error_codes:List of 6
+#' }}
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Two element list containing parameters list and bdpg error codes
 #' @export
 
 init_for_bdpg <- function (parameters)
@@ -135,7 +186,7 @@ init_for_bdpg <- function (parameters)
     params_and_error_codes <- list (parameters = parameters,
                                     bdpg_error_codes = bdpg_error_codes)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (params_and_error_codes)
     }
 

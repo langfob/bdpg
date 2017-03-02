@@ -475,19 +475,20 @@ docaids::doc_vars_in_this_func_once ()
 #'Note that the particular counts and values given are just examples to show
 #'what the data might look like.
 #'
-#' \strong{FUNCTION:  strip_trailing_slash}(parameters$fullOutputDirWithSlash)
 #' \subsection{last_char}{
 #' \preformatted{
 #' last_char :  chr "/"
 #' }}
 #' \subsection{path}{
 #' \preformatted{
-#' path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1836_marxan_simulated_annealing.inprogress"
+#' path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
 #' }}
 #'
-#' @param path
+#' @param path character string containing a path that may or may not end in a
+#'     slash
 #'
-#' @return
+#' @return character string containing original path argument with trailing
+#'     slash removed if there was one, otherwise, same as original
 #' @export
 
 strip_trailing_slash <- function (path)
