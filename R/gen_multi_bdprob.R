@@ -8,9 +8,7 @@
 #'
 #' @param bdprob_1 a BD_Prob to be combined
 #' @param bdprob_2 a BD_Prob to be combined
-#' @param parameters list of control parameters, generally from project.yaml
-#' @param bdpg_error_codes list of error names and corresponding error codes
-#' @param integerize function to use in converting floats to ints
+#' @inheritParams std_param_defns
 
 combine_2_bdprobs = function (bdprob_1, bdprob_2,
                               parameters, bdpg_error_codes, integerize)
@@ -40,7 +38,6 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
 #'  found in github versions of the code up until around commit 1c0fbba6
 #'  on Feb 4, 2017.
 #'
-#' @param parameters named list of all parameters, generally from project.yaml file
 #' @param wrap_lognormal_dist_around_Xu boolean indicating whether to wrap a
 #'     lognormal distribution around a base Xu problem; TRUE implies wrapping
 #'     should be done; FALSE implies not
@@ -56,11 +53,9 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
 #' @param max_allowed_num_spp maximum number of species allowed in generating
 #'     a problem from scratch (particularly of use when trying to do smaller,
 #'     faster tests in development)
-#' @param bdpg_error_codes named list of error codes and their corresponding
-#'     numeric return values
-#' @param integerize function to use when converting floats to integers
+#' @inheritParams std_param_defns
 #'
-#' @return a multi-BD_Prob
+#' @return Returns a multi-BD_Prob
 #' @export
 
 gen_multi_bdprob = function (parameters,

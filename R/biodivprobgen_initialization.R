@@ -24,7 +24,7 @@
 #'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
 #' }}
 #'
-#' @return list of integer error codes
+#' @return Returns list of integer error codes
 #' @export
 #' @examples
 #' get_bdpg_error_codes ()
@@ -52,14 +52,14 @@ get_bdpg_error_codes <- function ()
 
 #' Look up a specific bdpg error code given its name
 #'
-#' @param bdpg_error_name string containing name of error code to look up in list of error codes
+#' @inheritParams std_param_defns
 #'
-#' @return integer error code for the given error name
+#' @return Returns integer error code for the given error name
 #' @export
 #'
 #' @examples
 #' get_bdpg_error_code ("ERROR_STATUS_unknown_spp_occ_FP_error_type")
-#'
+
 get_bdpg_error_code <- function (bdpg_error_name)
     {
     bdpg_error_codes = get_bdpg_error_codes ()
@@ -74,12 +74,12 @@ get_bdpg_error_code <- function (bdpg_error_name)
 #' This function is only here as a convenience because I can never remember
 #' where the current operating system is stored.
 #'
-#' @return string containing name and version of current operating system
+#' @return Returns string containing name and version of current operating system
 #' @export
 #'
 #' @examples
 #' get_current_os ()
-#'
+
 get_current_os <- function ()
     {
     sessionInfo()$R.version$os
@@ -97,7 +97,7 @@ get_current_os <- function ()
 #'
 #' @inheritParams std_param_defns
 #'
-#' @return function to use to convert floats to integers
+#' @return Returns function to use to convert floats to integers
 #' @export
 #'
 #' @examples
@@ -105,7 +105,6 @@ get_current_os <- function ()
 #'
 get_integerize_function <- function (integerize_string)
     {
-#    switch (parameters$integerize_string,
     switch (integerize_string,
             round=round,
             ceiling=ceiling,
@@ -150,7 +149,7 @@ get_integerize_function <- function (integerize_string)
 #'
 #' @inheritParams std_param_defns
 #'
-#' @return Two element list containing parameters list and bdpg error codes
+#' @return Returns two element list containing parameters list and bdpg error codes
 #' @export
 
 init_for_bdpg <- function (parameters)

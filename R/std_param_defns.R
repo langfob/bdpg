@@ -90,6 +90,9 @@
 #'          }
 #'
 #'
+#' @param bdpg_error_codes list of error names and corresponding error codes
+#' @param bdpg_error_name string containing name of error code to look up in list of error codes
+#' @param integerize function to use in converting floats to ints
 #' @param integerize_string string containing name of the function to use to
 #'     convert floats to integers
 #' @param parameters parameters list for the run, usually derived from project.yaml
@@ -97,6 +100,7 @@
 
 std_param_defns <-
     function (
+            bdpg_error_name,
             integerize_string,
             parameters
              )

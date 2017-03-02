@@ -11,7 +11,8 @@ combine_2_bdprobs(bdprob_1, bdprob_2, parameters, bdpg_error_codes, integerize)
 
 \item{bdprob_2}{a BD_Prob to be combined}
 
-\item{parameters}{list of control parameters, generally from project.yaml}
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
 
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 

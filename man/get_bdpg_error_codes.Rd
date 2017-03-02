@@ -7,7 +7,7 @@
 get_bdpg_error_codes()
 }
 \value{
-list of integer error codes
+Returns list of integer error codes
 }
 \description{
 This function is used as a central way to get at the error codes and make

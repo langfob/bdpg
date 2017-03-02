@@ -10,12 +10,11 @@ get_bdpg_error_code(bdpg_error_name)
 \item{bdpg_error_name}{string containing name of error code to look up in list of error codes}
 }
 \value{
-integer error code for the given error name
+Returns integer error code for the given error name
 }
 \description{
 Look up a specific bdpg error code given its name
 }
 \examples{
 get_bdpg_error_code ("ERROR_STATUS_unknown_spp_occ_FP_error_type")
-
 }

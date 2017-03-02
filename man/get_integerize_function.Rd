@@ -11,7 +11,7 @@ get_integerize_function(integerize_string)
 convert floats to integers}
 }
 \value{
-function to use to convert floats to integers
+Returns function to use to convert floats to integers
 }
 \description{
 Many computations return floating point numbers that need to be passed

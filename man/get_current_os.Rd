@@ -7,7 +7,7 @@
 get_current_os()
 }
 \value{
-string containing name and version of current operating system
+Returns string containing name and version of current operating system
 }
 \description{
 This function is only here as a convenience because I can never remember
@@ -15,5 +15,4 @@ where the current operating system is stored.
 }
 \examples{
 get_current_os ()
-
 }

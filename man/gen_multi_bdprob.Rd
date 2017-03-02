@@ -10,7 +10,8 @@ gen_multi_bdprob(parameters, wrap_lognormal_dist_around_Xu,
   max_allowed_num_spp, bdpg_error_codes, integerize)
 }
 \arguments{
-\item{parameters}{named list of all parameters, generally from project.yaml file}
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
 
 \item{wrap_lognormal_dist_around_Xu}{boolean indicating whether to wrap a
 lognormal distribution around a base Xu problem; TRUE implies wrapping
@@ -32,13 +33,12 @@ known}
 a problem from scratch (particularly of use when trying to do smaller,
 faster tests in development)}
 
-\item{bdpg_error_codes}{named list of error codes and their corresponding
-numeric return values}
+\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
-\item{integerize}{function to use when converting floats to integers}
+\item{integerize}{function to use in converting floats to ints}
 }
 \value{
-a multi-BD_Prob
+Returns a multi-BD_Prob
 }
 \description{
 Sometimes it may be useful to combine 2 or more bd problems into

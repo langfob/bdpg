@@ -20,6 +20,72 @@
 
 #===============================================================================
 
+#' Create nodes data structure
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{dependent_node_IDs}{
+#' \preformatted{
+#' dependent_node_IDs :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
+#' }}
+#' \subsection{dependent_set_members}{
+#' \preformatted{
+#' dependent_set_members :  logi [1:122] FALSE TRUE FALSE TRUE FALSE TRUE ...
+#' }}
+#' \subsection{group_IDs}{
+#' \preformatted{
+#' group_IDs :  num [1:122] 1 1 2 2 3 3 4 4 5 5 ...
+#' }}
+#' \subsection{idx}{
+#' \preformatted{
+#' idx :  int 0
+#' }}
+#' \subsection{independent_node_ID_starts}{
+#' \preformatted{
+#' independent_node_ID_starts :  num [1:61] 1 3 5 7 9 11 13 15 17 19 ...
+#' }}
+#' \subsection{independent_node_IDs}{
+#' \preformatted{
+#' independent_node_IDs :  num [1:61] 1 3 5 7 9 11 13 15 17 19 ...
+#' }}
+#' \subsection{n__num_groups}{
+#' \preformatted{
+#' n__num_groups :  num 61
+#' }}
+#' \subsection{node_IDs}{
+#' \preformatted{
+#' node_IDs :  int [1:122] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{nodes}{
+#' \preformatted{
+#' nodes : 'data.frame':	122 obs. of  3 variables:
+#'  $ node_ID             : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ group_ID            : num  1 1 2 2 3 3 4 4 5 5 ...
+#'  $ dependent_set_member: logi  FALSE TRUE FALSE TRUE FALSE TRUE ...
+#' }}
+#' \subsection{num_independent_nodes_per_group}{
+#' \preformatted{
+#' num_independent_nodes_per_group :  num 1
+#' }}
+#' \subsection{num_nodes_per_group}{
+#' \preformatted{
+#' num_nodes_per_group :  num 2
+#' }}
+#' \subsection{tot_num_nodes}{
+#' \preformatted{
+#' tot_num_nodes :  num 122
+#' }}
+#'
+#' @param tot_num_nodes integer
+#' @param num_nodes_per_group integer
+#' @param n__num_groups integer
+#' @param num_independent_nodes_per_group integer
+#'
+#' @return data frame containing node_ID, group_ID, dependent_set_member
+
 create_nodes_data_structure =
         function (tot_num_nodes,
                   num_nodes_per_group,
@@ -87,8 +153,7 @@ create_nodes_data_structure =
 
     #-------------------------------------------------------------------------------
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (nodes)
     }
 
