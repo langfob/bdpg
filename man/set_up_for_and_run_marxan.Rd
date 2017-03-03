@@ -3,17 +3,115 @@
 %   R/gscp_13_write_marxan_control_file_and_run_marxan.R
 \name{set_up_for_and_run_marxan}
 \alias{set_up_for_and_run_marxan}
-\title{Title}
+\title{Set up for and run marxan}
 \usage{
 set_up_for_and_run_marxan(PU_spp_pair_indices, PU_IDs, spp_IDs, PU_col_name,
   spp_col_name, rsrun, num_spp, parameters)
 }
 \arguments{
-\item{parameters}{}
+\item{PU_spp_pair_indices}{data frame}
+
+\item{PU_IDs}{integer vector}
+
+\item{spp_IDs}{integer vector}
+
+\item{PU_col_name}{character string}
+
+\item{spp_col_name}{character string}
+
+\item{rsrun}{RSrun object}
+
+\item{num_spp}{integer}
+
+\item{parameters}{list}
 }
 \value{
-list containing marxan_control_values and bdpg_dir_names
+Returns marxan control values list
 }
 \description{
-Title
+Set up for and run marxan for either COR or APP
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{marxan_control_values}{
+\preformatted{
+marxan_control_values : List of 15
+ $ marxan_PROP      : num 0.5
+ $ marxan_RANDSEED  : num 10102
+ $ marxan_NUMREPS   : num 4
+ $ marxan_NUMITNS   : chr "1000000"
+ $ marxan_STARTTEMP : num -1
+ $ marxan_NUMTEMP   : num 10000
+ $ marxan_COSTTHRESH: chr "0.00000000000000E+0000"
+ $ marxan_THRESHPEN1: chr "1.40000000000000E+0001"
+ $ marxan_THRESHPEN2: chr "1.00000000000000E+0000"
+ $ marxan_RUNMODE   : num 1
+ $ marxan_MISSLEVEL : num 1
+ $ marxan_ITIMPTYPE : num 0
+ $ marxan_HEURTYPE  : num -1
+ $ marxan_CLUMPTYPE : num 0
+ $ spf_const        : num 950
+}}
+\subsection{marxan_input_dir}{
+\preformatted{
+marxan_input_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+\subsection{marxan_IO_dir}{
+\preformatted{
+marxan_IO_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+\subsection{marxan_output_dir}{
+\preformatted{
+marxan_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+\subsection{num_spp}{
+\preformatted{
+num_spp :  int 1277
+}}
+\subsection{parameters}{
+\preformatted{
+parameters : List of 66
+ $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+ ...
+ $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+\subsection{PU_col_name}{
+\preformatted{
+PU_col_name :  chr "PU_ID"
+}}
+\subsection{PU_IDs}{
+\preformatted{
+PU_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
+}}
+\subsection{PU_spp_pair_indices}{
+\preformatted{
+PU_spp_pair_indices : 'data.frame':	3037 obs. of  2 variables:
+ $ PU_ID : num  1 2 3 4 5 6 7 8 9 10 ...
+ $ spp_ID: num  1 1 2 2 3 3 4 4 5 5 ...
+}}
+\subsection{rsrun}{
+\preformatted{
+rsrun : Formal class 'RSrun' [package "bdpg"] with 12 slots
+}}
+\subsection{spf_const}{
+\preformatted{
+spf_const :  num 950
+}}
+\subsection{spp_col_name}{
+\preformatted{
+spp_col_name :  chr "spp_ID"
+}}
+\subsection{spp_IDs}{
+\preformatted{
+spp_IDs :  int [1:1277] 1 2 3 4 5 6 7 8 9 10 ...
+}}
+\subsection{topdir}{
+\preformatted{
+topdir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+}
+

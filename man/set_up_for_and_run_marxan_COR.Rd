@@ -3,7 +3,7 @@
 %   R/gscp_13_write_marxan_control_file_and_run_marxan.R
 \name{set_up_for_and_run_marxan_COR}
 \alias{set_up_for_and_run_marxan_COR}
-\title{Convenience function to call set_up_for_and_run_marxan with correct arguments for a correct Xu_bd_problem}
+\title{Set up for and run marxan for COR problem}
 \usage{
 set_up_for_and_run_marxan_COR(COR_bd_prob, marxan_run, parameters)
 }
@@ -18,5 +18,48 @@ set_up_for_and_run_marxan_COR(COR_bd_prob, marxan_run, parameters)
 list containing marxan_control_values and updated COR_bd_prob
 }
 \description{
-Convenience function to call set_up_for_and_run_marxan with correct arguments for a correct Xu_bd_problem
+Convenience function to call set_up_for_and_run_marxan with proper
+arguments for a correct Xu_bd_problem.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{COR_bd_prob}{
+\preformatted{
+COR_bd_prob : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
+}}
+\subsection{marxan_control_values}{
+\preformatted{
+marxan_control_values : List of 15
+ $ marxan_PROP      : num 0.5
+ $ marxan_RANDSEED  : num 10102
+ $ marxan_NUMREPS   : num 4
+ $ marxan_NUMITNS   : chr "1000000"
+ $ marxan_STARTTEMP : num -1
+ $ marxan_NUMTEMP   : num 10000
+ $ marxan_COSTTHRESH: chr "0.00000000000000E+0000"
+ $ marxan_THRESHPEN1: chr "1.40000000000000E+0001"
+ $ marxan_THRESHPEN2: chr "1.00000000000000E+0000"
+ $ marxan_RUNMODE   : num 1
+ $ marxan_MISSLEVEL : num 1
+ $ marxan_ITIMPTYPE : num 0
+ $ marxan_HEURTYPE  : num -1
+ $ marxan_CLUMPTYPE : num 0
+ $ spf_const        : num 950
+}}
+\subsection{marxan_run}{
+\preformatted{
+marxan_run : Formal class 'RSrun' [package "bdpg"] with 12 slots
+}}
+\subsection{parameters}{
+\preformatted{
+parameters : List of 66
+ $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+ ...
+ $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+}
+

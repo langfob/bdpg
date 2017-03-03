@@ -7,6 +7,16 @@
 see_if_marxan_best_was_actually_best(best_solution_ID_according_to_marxan,
   app_marxan_solution_scores, out_dir)
 }
+\arguments{
+\item{best_solution_ID_according_to_marxan}{integer}
+
+\item{app_marxan_solution_scores}{data frame}
+
+\item{out_dir}{character string}
+}
+\value{
+Returns nothing
+}
 \description{
 A comment in the marxan mailing list said that sometimes in the unix version
 of marxan, the solution that marxan marked as its best was not actually its
@@ -35,3 +45,50 @@ If marxan's chosen best is not best cost but is best representation
 - BAD_HALF_marxan_solution_IS_apparent_best_cost_and_NOT_apparent_best_rep:
 If marxan's chosen best is best cost but is NOT best representation
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{app_marxan_solution_scores}{
+\preformatted{
+app_marxan_solution_scores : 'data.frame':	4 obs. of  3 variables:
+ $ solution_num  : int  1 2 3 4
+ $ representation: num  1 1 1 1
+ $ cost          : num  0.15 0.15 0.15 0.15
+}}
+\subsection{best_solution_ID_according_to_marxan}{
+\preformatted{
+best_solution_ID_according_to_marxan :  int 1
+}}
+\subsection{flag_file_name}{
+\preformatted{
+flag_file_name :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/OK_marxan_solution_IS_appar"| __truncated__
+}}
+\subsection{marxan_best_cost}{
+\preformatted{
+marxan_best_cost :  num 0.15
+}}
+\subsection{marxan_best_rep}{
+\preformatted{
+marxan_best_rep :  num 1
+}}
+\subsection{marxan_solution_choice_check_string}{
+\preformatted{
+marxan_solution_choice_check_string :  chr "OK_marxan_solution_IS_apparent_best"
+}}
+\subsection{out_dir}{
+\preformatted{
+out_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/"
+}}
+\subsection{sorted_best_cost}{
+\preformatted{
+sorted_best_cost :  num 0.15
+}}
+\subsection{sorted_best_rep}{
+\preformatted{
+sorted_best_rep :  num 1
+}}
+}
+

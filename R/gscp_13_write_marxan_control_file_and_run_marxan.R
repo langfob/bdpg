@@ -51,12 +51,14 @@
 
 #===============================================================================
 
-#' Title
+#' Run marxan
 #'
-#' @param marxan_dir
-#' @param marxan_executable_name
+#' Run marxan program
 #'
-#' @return
+#' @param marxan_dir character string
+#' @param marxan_executable_name character string
+#'
+#' @return Returns system return code from running marxan
 #' @export
 
 run_marxan = function (marxan_dir, marxan_executable_name)
@@ -98,20 +100,22 @@ run_marxan = function (marxan_dir, marxan_executable_name)
     setwd (original_dir)
     cat ("\n\nAfter setwd (original_dir), sitting in:", getwd(), "\n\n")
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (retval)
     }
 
 #===============================================================================
 
-#' Title
+#' Set marxan controls and run marxan
 #'
-#' @param marxan_input_dir
-#' @param marxan_output_dir
-#' @param parameters
-#' @param marxan_IO_dir
+#' Set marxan controls and run marxan
 #'
-#' @return
+#' @param marxan_input_dir character string
+#' @param marxan_output_dir character string
+#' @param parameters list
+#' @param marxan_IO_dir character string
+#'
+#' @return Returns list
 #' @export
 
 set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
@@ -386,13 +390,56 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 
     #---------------------------------------------------------------------------
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (retVal)
     }
 
 #===============================================================================
 
-#' Convenience function to call set_up_for_and_run_marxan with correct arguments for a correct Xu_bd_problem
+#' Set up for and run marxan for COR problem
+#'
+#' Convenience function to call set_up_for_and_run_marxan with proper
+#' arguments for a correct Xu_bd_problem.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{COR_bd_prob}{
+#' \preformatted{
+#' COR_bd_prob : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
+#' }}
+#' \subsection{marxan_control_values}{
+#' \preformatted{
+#' marxan_control_values : List of 15
+#'  $ marxan_PROP      : num 0.5
+#'  $ marxan_RANDSEED  : num 10102
+#'  $ marxan_NUMREPS   : num 4
+#'  $ marxan_NUMITNS   : chr "1000000"
+#'  $ marxan_STARTTEMP : num -1
+#'  $ marxan_NUMTEMP   : num 10000
+#'  $ marxan_COSTTHRESH: chr "0.00000000000000E+0000"
+#'  $ marxan_THRESHPEN1: chr "1.40000000000000E+0001"
+#'  $ marxan_THRESHPEN2: chr "1.00000000000000E+0000"
+#'  $ marxan_RUNMODE   : num 1
+#'  $ marxan_MISSLEVEL : num 1
+#'  $ marxan_ITIMPTYPE : num 0
+#'  $ marxan_HEURTYPE  : num -1
+#'  $ marxan_CLUMPTYPE : num 0
+#'  $ spf_const        : num 950
+#' }}
+#' \subsection{marxan_run}{
+#' \preformatted{
+#' marxan_run : Formal class 'RSrun' [package "bdpg"] with 12 slots
+#' }}
+#' \subsection{parameters}{
+#' \preformatted{
+#' parameters : List of 66
+#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+#'  ...
+#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
 #'
 #' @param COR_bd_prob a correct Xu_bd_problem (or subclass)
 #' @param marxan_run an RSrun object (or subclass)
@@ -418,13 +465,60 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                     parameters
                                     )
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (marxan_control_values)
     }
 
 #===============================================================================
 
-#' Convenience function to call set_up_for_and_run_marxan with correct arguments for an apparent Xu_bd_problem
+#' Set up for and run marxan for APP problem
+#'
+#' Convenience function to call set_up_for_and_run_marxan with proper
+#' arguments for an apparent Xu_bd_problem
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{APP_bd_prob}{
+#' \preformatted{
+#' APP_bd_prob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+#' }}
+#' \subsection{COR_bd_prob}{
+#' \preformatted{
+#' COR_bd_prob : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
+#' }}
+#' \subsection{marxan_control_values}{
+#' \preformatted{
+#' marxan_control_values : List of 15
+#'  $ marxan_PROP      : num 0.5
+#'  $ marxan_RANDSEED  : num 10102
+#'  $ marxan_NUMREPS   : num 4
+#'  $ marxan_NUMITNS   : chr "1000000"
+#'  $ marxan_STARTTEMP : num -1
+#'  $ marxan_NUMTEMP   : num 10000
+#'  $ marxan_COSTTHRESH: chr "0.00000000000000E+0000"
+#'  $ marxan_THRESHPEN1: chr "1.40000000000000E+0001"
+#'  $ marxan_THRESHPEN2: chr "1.00000000000000E+0000"
+#'  $ marxan_RUNMODE   : num 1
+#'  $ marxan_MISSLEVEL : num 1
+#'  $ marxan_ITIMPTYPE : num 0
+#'  $ marxan_HEURTYPE  : num -1
+#'  $ marxan_CLUMPTYPE : num 0
+#'  $ spf_const        : num 950
+#' }}
+#' \subsection{marxan_run}{
+#' \preformatted{
+#' marxan_run : Formal class 'RSrun' [package "bdpg"] with 12 slots
+#' }}
+#' \subsection{parameters}{
+#' \preformatted{
+#' parameters : List of 66
+#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+#'  ...
+#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
 #'
 #' @param APP_bd_prob an apparent Xu_bd_problem (or subclass)
 #' @param COR_bd_prob the correct Xu_bd_problem (or subclass) that the apparent problem is derived from
@@ -453,23 +547,108 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                         parameters
                                     )
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (marxan_control_values)
     }
 
 #===============================================================================
 
-#' Title
+#' Set up for and run marxan
 #'
-#' @param PU_spp_pair_indices
-#' @param PU_IDs
-#' @param spp_IDs
-#' @param PU_col_name
-#' @param spp_col_name
-#' @param bdpg_dir_names
-#' @param parameters
+#' Set up for and run marxan for either COR or APP
 #'
-#' @return list containing marxan_control_values and bdpg_dir_names
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{marxan_control_values}{
+#' \preformatted{
+#' marxan_control_values : List of 15
+#'  $ marxan_PROP      : num 0.5
+#'  $ marxan_RANDSEED  : num 10102
+#'  $ marxan_NUMREPS   : num 4
+#'  $ marxan_NUMITNS   : chr "1000000"
+#'  $ marxan_STARTTEMP : num -1
+#'  $ marxan_NUMTEMP   : num 10000
+#'  $ marxan_COSTTHRESH: chr "0.00000000000000E+0000"
+#'  $ marxan_THRESHPEN1: chr "1.40000000000000E+0001"
+#'  $ marxan_THRESHPEN2: chr "1.00000000000000E+0000"
+#'  $ marxan_RUNMODE   : num 1
+#'  $ marxan_MISSLEVEL : num 1
+#'  $ marxan_ITIMPTYPE : num 0
+#'  $ marxan_HEURTYPE  : num -1
+#'  $ marxan_CLUMPTYPE : num 0
+#'  $ spf_const        : num 950
+#' }}
+#' \subsection{marxan_input_dir}{
+#' \preformatted{
+#' marxan_input_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{marxan_IO_dir}{
+#' \preformatted{
+#' marxan_IO_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{marxan_output_dir}{
+#' \preformatted{
+#' marxan_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{num_spp}{
+#' \preformatted{
+#' num_spp :  int 1277
+#' }}
+#' \subsection{parameters}{
+#' \preformatted{
+#' parameters : List of 66
+#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+#'  ...
+#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{PU_col_name}{
+#' \preformatted{
+#' PU_col_name :  chr "PU_ID"
+#' }}
+#' \subsection{PU_IDs}{
+#' \preformatted{
+#' PU_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{PU_spp_pair_indices}{
+#' \preformatted{
+#' PU_spp_pair_indices : 'data.frame':	3037 obs. of  2 variables:
+#'  $ PU_ID : num  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ spp_ID: num  1 1 2 2 3 3 4 4 5 5 ...
+#' }}
+#' \subsection{rsrun}{
+#' \preformatted{
+#' rsrun : Formal class 'RSrun' [package "bdpg"] with 12 slots
+#' }}
+#' \subsection{spf_const}{
+#' \preformatted{
+#' spf_const :  num 950
+#' }}
+#' \subsection{spp_col_name}{
+#' \preformatted{
+#' spp_col_name :  chr "spp_ID"
+#' }}
+#' \subsection{spp_IDs}{
+#' \preformatted{
+#' spp_IDs :  int [1:1277] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{topdir}{
+#' \preformatted{
+#' topdir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#'
+#' @param PU_spp_pair_indices data frame
+#' @param PU_IDs integer vector
+#' @param spp_IDs integer vector
+#' @param PU_col_name character string
+#' @param spp_col_name character string
+#' @param rsrun RSrun object
+#' @param num_spp integer
+#' @param parameters list
+#'
+#' @return Returns marxan control values list
 #' @export
 
 set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values if running on app
@@ -536,7 +715,7 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
 
     #--------------------
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (marxan_control_values)
     }
 

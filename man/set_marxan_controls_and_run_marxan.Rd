@@ -3,14 +3,23 @@
 %   R/gscp_13_write_marxan_control_file_and_run_marxan.R
 \name{set_marxan_controls_and_run_marxan}
 \alias{set_marxan_controls_and_run_marxan}
-\title{Title}
+\title{Set marxan controls and run marxan}
 \usage{
 set_marxan_controls_and_run_marxan(marxan_input_dir, marxan_output_dir,
   marxan_IO_dir, parameters)
 }
 \arguments{
-\item{marxan_IO_dir}{}
+\item{marxan_input_dir}{character string}
+
+\item{marxan_output_dir}{character string}
+
+\item{marxan_IO_dir}{character string}
+
+\item{parameters}{list}
+}
+\value{
+Returns list
 }
 \description{
-Title
+Set marxan controls and run marxan
 }

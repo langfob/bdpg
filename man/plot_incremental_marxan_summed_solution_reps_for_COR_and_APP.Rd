@@ -9,10 +9,69 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP(marxan_ssoln_df,
   num_spp, plot_output_dir)
 }
 \arguments{
-\item{plot_output_dir}{}
+\item{marxan_ssoln_df}{data frame}
+
+\item{cor_PU_costs}{numeric vector}
+
+\item{correct_solution_cost}{numeric}
+
+\item{app_optimum_cost}{numeric}
+
+\item{cor_bpm}{matrix}
+
+\item{app_bpm}{matrix}
+
+\item{num_spp}{integer}
+
+\item{plot_output_dir}{character string}
+}
+\value{
+Returns nothing
 }
 \description{
 Evaluate apparent summed solutions as a function of the correct
  problem structure and the apparent problem structure, i.e.,
  how marxan is really doing vs. how marxan thinks it's doing.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{app_bpm}{
+\preformatted{
+app_bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
+}}
+\subsection{app_optimum_cost}{
+\preformatted{
+app_optimum_cost :  int 61
+}}
+\subsection{cor_bpm}{
+\preformatted{
+cor_bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
+}}
+\subsection{cor_PU_costs}{
+\preformatted{
+cor_PU_costs :  num [1:407] 1 1 1 1 1 1 1 1 1 1 ...
+}}
+\subsection{correct_solution_cost}{
+\preformatted{
+correct_solution_cost :  num 61
+}}
+\subsection{marxan_ssoln_df}{
+\preformatted{
+marxan_ssoln_df : 'data.frame':	407 obs. of  2 variables:
+ $ planning_unit: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ number       : int  0 4 0 4 0 4 0 4 0 4 ...
+}}
+\subsection{num_spp}{
+\preformatted{
+num_spp :  int 1277
+}}
+\subsection{plot_output_dir}{
+\preformatted{
+plot_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+}
+

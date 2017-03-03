@@ -92,8 +92,46 @@ load_marxan_mvbest_df_from_file_and_sort_by_CF <- function (marxan_output_dir_pa
 #'  For each PU ID, it shows the number of solution vectors that
 #'  included that PU in the solution.
 #'
-#' @param marxan_output_dir_path
-#' @param all_correct_node_IDs
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{all_correct_node_IDs}{
+#' \preformatted{
+#' all_correct_node_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{marxan_output_dir_path}{
+#' \preformatted{
+#' marxan_output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{marxan_output_ssoln_file_name}{
+#' \preformatted{
+#' marxan_output_ssoln_file_name :  chr "output_ssoln.csv"
+#' }}
+#' \subsection{marxan_ssoln_df}{
+#' \preformatted{
+#' marxan_ssoln_df : 'data.frame':	407 obs. of  2 variables:
+#'  $ planning_unit: int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ number       : int  0 4 0 4 0 4 0 4 0 4 ...
+#' }}
+#' \subsection{marxan_ssoln_df_unsorted}{
+#' \preformatted{
+#' marxan_ssoln_df_unsorted : 'data.frame':	407 obs. of  2 variables:
+#'  $ planning_unit: int  407 406 405 404 403 402 401 400 399 398 ...
+#'  $ number       : int  0 0 0 0 0 0 0 0 0 0 ...
+#' }}
+#' \subsection{marxan_ssoln_df_unsorted_without_missing_rows}{
+#' \preformatted{
+#' marxan_ssoln_df_unsorted_without_missing_rows : 'data.frame':	407 obs. of  2 variables:
+#'  $ planning_unit: int  407 406 405 404 403 402 401 400 399 398 ...
+#'  $ number       : int  0 0 0 0 0 0 0 0 0 0 ...
+#' }}
+#'
+#' @param marxan_output_dir_path character string
+#' @param all_correct_node_IDs integer vector
+#'
+#' @return Returns marxan_ssoln_df data frame
 
 load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_path,
                                                            all_correct_node_IDs)
@@ -112,7 +150,7 @@ load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_pat
         #  Sort by planning unit.
     marxan_ssoln_df = plyr::arrange (marxan_ssoln_df_unsorted, planning_unit)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (marxan_ssoln_df)
     }
 

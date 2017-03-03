@@ -3,13 +3,18 @@
 %   R/gscp_13_write_marxan_control_file_and_run_marxan.R
 \name{run_marxan}
 \alias{run_marxan}
-\title{Title}
+\title{Run marxan}
 \usage{
 run_marxan(marxan_dir, marxan_executable_name)
 }
 \arguments{
-\item{marxan_executable_name}{}
+\item{marxan_dir}{character string}
+
+\item{marxan_executable_name}{character string}
+}
+\value{
+Returns system return code from running marxan
 }
 \description{
-Title
+Run marxan program
 }
