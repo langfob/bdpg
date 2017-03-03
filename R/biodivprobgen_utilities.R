@@ -303,26 +303,76 @@ docaids::doc_vars_in_this_func_once ()
 
 #===============================================================================
 
-    #  When error is added to the input data, it sometimes results in
-    #  planning units that appear to have no species on them.
-    #       NOTE:  There could also be correct problems that have some
-    #               patches with no species on them.
-    #  When the pu_spp_pair_indices are written out in marxan's input
-    #  format, there is no record of the empty planning units in those
-    #  pairs since each pair is a planning unit ID followed by the ID
-    #  of a species on that planning unit.
-    #  Consequently, marxan's output solutions will have fewer planning
-    #  units than the problem generator generated and you will get size
-    #  warnings (that should be errors) when comparing them to things
-    #  like nodes$dependent_set_member.
-    #  For example, here is the error that showed this was happening:
-    #
-    #       Error in marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member :
-    #       (converted from warning) longer object length is not a multiple of shorter object length
-    #
-    #  To fix this, you need to add entries for each of the missing PUs.
+#' Add missing PUs to PU_Count data frame
+#'
+#'  When error is added to the input data, it sometimes results in
+#'  planning units that appear to have no species on them.  This function
+#'  adds these planning units back into the PU_Count data frame so that the
+#'  apparent problem has the same number of planning units as the correct
+#'  problem.
+#'
+#'  When the pu_spp_pair_indices are written out in marxan's input
+#'  format, there is no record of the empty planning units in those
+#'  pairs since each pair is a planning unit ID followed by the ID
+#'  of a species on that planning unit.
+#'
+#'  Consequently, marxan's output solutions will have fewer planning
+#'  units than the problem generator generated and you will get size
+#'  warnings (that should be errors) when comparing them to things
+#'  like nodes$dependent_set_member.
+#'  For example, here is the error that showed this was happening:
+#'
+#'       Error in marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member :
+#'       (converted from warning) longer object length is not a multiple of shorter object length
+#'
+#'  To fix this, you need to add entries for each of the missing PUs.
+#'
+#' NOTE:  There could also be correct problems that have some patches with no
+#' species on them.
+#'
+#' NOTE:  Not sure if matters, but I had commented in here that the old name
+#' for this function was: add_missing_PUs_to_marxan_solutions().  Probably
+#' don't need to track that anymoe, but will leave it here for the moment.
 
-#add_missing_PUs_to_marxan_solutions
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{all_correct_node_IDs}{
+#' \preformatted{
+#' all_correct_node_IDs :  int [1:122] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{marxan_solution}{
+#' \preformatted{
+#' marxan_solution : 'data.frame':	122 obs. of  2 variables:
+#'  $ PU_ID: int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ freq : int  1 25 1 27 1 29 1 28 1 24 ...
+#' }}
+#' \subsection{missing_PU_IDs}{
+#' \preformatted{
+#' missing_PU_IDs :  int(0)
+#' }}
+#' \subsection{num_missing_PU_IDs}{
+#' \preformatted{
+#' num_missing_PU_IDs :  int 0
+#' }}
+#' \subsection{presences_col_name}{
+#' \preformatted{
+#' presences_col_name :  chr "freq"
+#' }}
+#' \subsection{PU_col_name}{
+#' \preformatted{
+#' PU_col_name :  chr "PU_ID"
+#' }}
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Returns \code{marxan solution} data frame that includes all planning
+#'     unit IDs from the correct problem rather than only the IDs that occurred
+#'     in the apparent problem (see description of \code{marxan_solution} in
+#'     input argument list for this function)
+
 add_missing_PU_rows_to_PU_Count_dataframe = function (marxan_solution,
                                                 all_correct_node_IDs,
                                                 PU_col_name,
@@ -354,7 +404,7 @@ add_missing_PU_rows_to_PU_Count_dataframe = function (marxan_solution,
         marxan_solution = rbind (marxan_solution, missing_rows)
         }
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (marxan_solution)
     }
 

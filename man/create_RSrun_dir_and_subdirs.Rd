@@ -2,13 +2,58 @@
 % Please edit documentation in R/create_dirs.R
 \name{create_RSrun_dir_and_subdirs}
 \alias{create_RSrun_dir_and_subdirs}
-\title{Title}
+\title{Create directories for an RS run}
 \usage{
 create_RSrun_dir_and_subdirs(rsrun, top_dir)
 }
 \arguments{
-\item{top_dir}{}
+\item{rsrun}{an RSrun (reserve selection run) object, e.g., a marxan run}
+
+\item{top_dir}{character string giving the path to the directory where the
+highest level directory for the object will be created; usually this
+will be parameters$fullOutputDir_NO_slash}
+}
+\value{
+Doesn't return anything.
 }
 \description{
-Title
+Create directory and subdirectory structure for an RS run inside an
+experiment.  Creates the highest level directory for the run and the
+input, output, and plots directories under that directory.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{create_dirs}{
+\preformatted{
+create_dirs :  logi TRUE
+}}
+\subsection{input_dir_path}{
+\preformatted{
+input_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+\subsection{output_dir_path}{
+\preformatted{
+output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+\subsection{plot_dir_path}{
+\preformatted{
+plot_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+\subsection{rsrun}{
+\preformatted{
+rsrun : Formal class 'RSrun' [package "bdpg"] with 12 slots
+}}
+\subsection{top_dir}{
+\preformatted{
+top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+\subsection{top_dir_path}{
+\preformatted{
+top_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+}
+

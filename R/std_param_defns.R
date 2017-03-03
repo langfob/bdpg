@@ -6,7 +6,7 @@
 
 #' Standardized parameter definitions for reuse across all functions
 #'
-#' This function should \emph{never} be called.  It is intended strictly as a
+#' This function should never be called.  It is intended strictly as a
 #' place to assemble all @@param values that are to be inherited by other
 #' functions in their Roxygen documentation.
 #'
@@ -90,6 +90,9 @@
 #'          }
 #'
 #'
+#' @param all_correct_node_IDs numeric vector containing all planning unit IDs
+#'     that appear in the correct problem, not to be confused with the set of
+#'     planning IDs that appear in the correct \emph{solution}
 #' @param bdpg_error_codes list of error names and corresponding error codes
 #' @param bdpg_error_name string containing name of error code to look up in
 #'     list of error codes
@@ -98,6 +101,7 @@
 #'     whether that species occupies that planning unit; 1 indicates the
 #'     species does occupy the planning unit and 0 indicates it does not.
 #'     Same as occ_matrix.
+#' @param cor_or_app_label character string for labelling as Correct or Apparent
 #' @param correct_solution_vector_is_known boolean flag indicating whether
 #'     a correct optimal solution vector is known for the problem (as opposed
 #'     for example, to only knowing the correct cost)
@@ -111,9 +115,25 @@
 #'     each edge and columns for the 2 ends of the edge
 #' @param exp_root_dir character string path to root directory of an
 #'     experiment
+#' @param final_link_counts_for_each_node integer vector of counts of number
+#'     of links for each node, i.e., number of species for each planning unit
+#' @param final_node_counts_for_each_link integer vector of counts of number
+#'     of nodes for each link, i.e., number of planning units for each species
+#'     (same as final_rank_abundance_dist)
+#' @param final_rank_abundance_dist integer vector of counts of number
+#'     of nodes for each link, i.e., number of planning units for each species
+#'     (same as final_node_counts_for_each_link)
 #' @param integerize function to use in converting floats to ints
 #' @param integerize_string string containing name of the function to use to
 #'     convert floats to integers
+#' @param marxan_solution data frame with one row for each planning unit.
+#'    Has 2 columns, one for the planning unit IDs and the other
+#'    for the count or indicator of presence/absence.
+#'    The second column usually contains 0 or 1 to indicate presence
+#'    or absence of that PU in the marxan solution.
+#'    However, in the case of marxan's summed solution, the second
+#'    column contains the number of iterations (restarts) where that
+#'    planning unit appeared in marxan's solution.
 #' @param max_allowed_num_spp integer maximum number of species allowed in the
 #'     problem (to keep from generating problems that are too large when trying
 #'     to keep the run-time down)
@@ -136,6 +156,10 @@
 #'     Same as bpm.
 #' @param parameters parameters list for the run, usually derived from project.yaml
 #'     and can have a varying number and set of elements depending on the run
+#' @param plot_output_dir character string giving pat to directory where plot
+#'     should be written
+#' @param presences_col_name character string giving presences column name in
+#'     data frames
 #' @param PU_col_name character string giving planning unit column name in data frames
 #' @param PU_costs numeric vector of planning unit costs
 #' @param PU_set_to_test integer vector of planning unit IDs where each ID
@@ -144,6 +168,7 @@
 #'     spp_ID, where each row identifies a the ID of a given species that
 #'     occurs on the given planning unit
 #' @param rsprob a reserve selection problem object, e.g., a Xu_bd_problem
+#' @param rsrun an RSrun (reserve selection run) object, e.g., a marxan run
 #' @param spp_col_name character string giving species column name in data frames
 #' @param spp_rep_fracs numeric vector of fractions of species
 #'     representation targets achieved by a given set of planning units
@@ -162,16 +187,21 @@
 
 std_param_defns <-
     function (
+            all_correct_node_IDs,
             bdpg_error_codes,
             bdpg_error_name,
             bpm,
+            cor_or_app_label,
             correct_solution_vector_is_known,
             dependent_node_IDs,
             duplicate_links_allowed,
             edge_list,
             exp_root_dir,
+            final_link_counts_for_each_node,
+            final_node_counts_for_each_link,
             integerize,
             integerize_string,
+            marxan_solution,
             max_allowed_num_spp,
             max_possible_tot_num_links,
             n__num_groups,
@@ -183,6 +213,7 @@ std_param_defns <-
             obj,
             occ_matrix,
             parameters,
+            plot_output_dir,
             PU_col_name,
             PU_costs,
             PU_set_to_test,

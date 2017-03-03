@@ -2,7 +2,6 @@
 
 export(compute_and_set_obj_checksum)
 export(compute_obj_checksum)
-export(create_RSrun_dir_and_subdirs)
 export(create_global_constants)
 export(do_APP_marxan_analysis_and_output)
 export(do_COR_marxan_analysis_and_output)

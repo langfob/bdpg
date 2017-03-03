@@ -257,15 +257,50 @@ get_RSrun_path_plots <- function (rsrun, exp_root_dir)
 
 #===============================================================================
 
-#' Title
+#' Create directories for an RS run
 #'
-#' @param rsrun
-#' @param top_dir
+#' Create directory and subdirectory structure for an RS run inside an
+#' experiment.  Creates the highest level directory for the run and the
+#' input, output, and plots directories under that directory.
 #'
-#' @return
-#' @export
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
 #'
-#' @examples
+#' \subsection{create_dirs}{
+#' \preformatted{
+#' create_dirs :  logi TRUE
+#' }}
+#' \subsection{input_dir_path}{
+#' \preformatted{
+#' input_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{output_dir_path}{
+#' \preformatted{
+#' output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{plot_dir_path}{
+#' \preformatted{
+#' plot_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{rsrun}{
+#' \preformatted{
+#' rsrun : Formal class 'RSrun' [package "bdpg"] with 12 slots
+#' }}
+#' \subsection{top_dir}{
+#' \preformatted{
+#' top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{top_dir_path}{
+#' \preformatted{
+#' top_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Doesn't return anything.
+
 create_RSrun_dir_and_subdirs <- function (rsrun,
                                           top_dir)  #  usually parameters$fullOutputDir_NO_slash
     {
