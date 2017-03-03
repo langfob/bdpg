@@ -676,7 +676,7 @@ strip_trailing_slash <- function (path)
     if (last_char == "/")                                   #.Platform$file.sep)
         path = stringr::str_sub (path,1,nchar(path)-1)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (path)
     }
 
@@ -716,14 +716,40 @@ docaids::doc_vars_in_this_func_once ()
 #' temporary file.  Then, a checksum is computed for that temporary file and
 #' file.  The modified original object is not returned from the function.
 #'
-#' @param obj object whose checksum is to be computed
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{base_outdir}{
+#' \preformatted{
+#' base_outdir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+#' }}
+#' \subsection{checksum}{
+#' \preformatted{
+#' checksum :  Named chr "8e5ad448864db57de0e617aff6929882"
+#' }}
+#' \subsection{full_saved_obj_path}{
+#' \preformatted{
+#' full_saved_obj_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+#' }}
+#' \subsection{obj_with_UUID_and_checksum}{
+#' \preformatted{
+#' obj_with_UUID_and_checksum : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+#' }}
+#' \subsection{saved_obj_filename}{
+#' \preformatted{
+#' saved_obj_filename :  chr "tmp_for_checksum__ok_to_delete_if_left_after_run.rds"
+#' }}
+#'
+#' @param obj_with_UUID_and_checksum object whose checksum is to be computed
 #' @param base_outdir directory where temporary file for use in checksum
 #'     computation will be written and then deleted
 #'
-#' @return character string checksum of the object
-#' @export
+#' @return character string checksum of the object when object has been written
+#'     out as a file
 
-compute_obj_checksum <- function (obj, base_outdir=".")
+compute_obj_checksum <- function (obj_with_UUID_and_checksum, base_outdir=".")
     {
         #------------------------------------------------------------------
         #  Clear the UUID and checksum fields if they exist,
@@ -731,10 +757,10 @@ compute_obj_checksum <- function (obj, base_outdir=".")
         #  when two objects are identical other than those two fields.
         #------------------------------------------------------------------
 
-    if ("UUID" %in% slotNames (obj))
-        obj@UUID <- ""
-    if ("checksum" %in% slotNames (obj))
-        obj@checksum <- ""
+    if ("UUID" %in% slotNames (obj_with_UUID_and_checksum))
+        obj_with_UUID_and_checksum@UUID <- ""
+    if ("checksum" %in% slotNames (obj_with_UUID_and_checksum))
+        obj_with_UUID_and_checksum@checksum <- ""
 
         #--------------------------------------------------------------
         #  Write the object to a temporary file that checksum can be
@@ -744,7 +770,7 @@ compute_obj_checksum <- function (obj, base_outdir=".")
     saved_obj_filename = paste0 ("tmp_for_checksum__ok_to_delete_if_left_after_run.rds")
     full_saved_obj_path = file.path (normalizePath (base_outdir),
                                      saved_obj_filename)
-    saveRDS (obj, full_saved_obj_path)
+    saveRDS (obj_with_UUID_and_checksum, full_saved_obj_path)
 
         #-----------------------------------------------------
         #  Now ready to compute the checksum
@@ -754,14 +780,30 @@ compute_obj_checksum <- function (obj, base_outdir=".")
     checksum = tools::md5sum (full_saved_obj_path)
     if (file.exists (full_saved_obj_path)) file.remove (full_saved_obj_path)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (checksum)
     }
+
+#===============================================================================
 
 #' Convenience function for computing the object's checksum and setting that slot
 #'
 #' This function computes the checksum and sets the checksum slot in the object,
 #' then returns the modified object.  It just packages those up for convenience.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{base_outdir}{
+#' \preformatted{
+#' base_outdir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+#' }}
+#' \subsection{obj}{
+#' \preformatted{
+#' obj : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+#' }}
 #'
 #' @param obj object whose checksum is to be computed
 #' @param base_outdir directory where temporary file for use in checksum
@@ -769,13 +811,12 @@ docaids::doc_vars_in_this_func_once ()
 #'
 #' @return  the same object that was passed in except that its checksum is
 #'     now set
-#' @export
 
 compute_and_set_obj_checksum <- function (obj, base_outdir=".")
     {
     obj@checksum <- compute_obj_checksum (obj, base_outdir)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (obj)
     }
 

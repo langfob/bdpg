@@ -272,6 +272,10 @@ get_RSrun_path_plots <- function (rsrun, exp_root_dir)
 #' \preformatted{
 #' create_dirs :  logi TRUE
 #' }}
+#' \subsection{exp_root_dir}{
+#' \preformatted{
+#' exp_root_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
 #' \subsection{input_dir_path}{
 #' \preformatted{
 #' input_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
@@ -288,10 +292,6 @@ get_RSrun_path_plots <- function (rsrun, exp_root_dir)
 #' \preformatted{
 #' rsrun : Formal class 'RSrun' [package "bdpg"] with 12 slots
 #' }}
-#' \subsection{top_dir}{
-#' \preformatted{
-#' top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-#' }}
 #' \subsection{top_dir_path}{
 #' \preformatted{
 #' top_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
@@ -302,16 +302,16 @@ get_RSrun_path_plots <- function (rsrun, exp_root_dir)
 #' @return Doesn't return anything.
 
 create_RSrun_dir_and_subdirs <- function (rsrun,
-                                          top_dir)  #  usually parameters$fullOutputDir_NO_slash
+                                          exp_root_dir)  #  usually parameters$fullOutputDir_NO_slash
     {
         #------------------------
         #  Create path strings.
         #------------------------
 
-    top_dir_path    <- get_RSrun_path_topdir (rsrun, top_dir)
-    input_dir_path  <- get_RSrun_path_input (rsrun, top_dir)
-    output_dir_path <- get_RSrun_path_output (rsrun, top_dir)
-    plot_dir_path   <- get_RSrun_path_plots (rsrun, top_dir)
+    top_dir_path    <- get_RSrun_path_topdir (rsrun, exp_root_dir)
+    input_dir_path  <- get_RSrun_path_input (rsrun, exp_root_dir)
+    output_dir_path <- get_RSrun_path_output (rsrun, exp_root_dir)
+    plot_dir_path   <- get_RSrun_path_plots (rsrun, exp_root_dir)
 
     cat ("\ncreate_RSrun_dir_and_subdirs:")
     cat ("\n    top_dir_path = '",    top_dir_path, "'",    sep='')

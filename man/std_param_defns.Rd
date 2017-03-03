@@ -50,7 +50,7 @@ implies more than one allowed, FALSE implies only one allowed}
 each edge and columns for the 2 ends of the edge}
 
 \item{exp_root_dir}{character string path to root directory of an
-experiment}
+experiment, usually parameters$fullOutputDir_NO_slash}
 
 \item{final_link_counts_for_each_node}{integer vector of counts of number
 of links for each node, i.e., number of species for each planning unit}
@@ -138,9 +138,11 @@ species ID and a column for each planning unit ID}
 links between any two groups per round of linking in constructing the
 Xu problem}
 
-\item{top_dir}{character string giving the path to the directory where the
-highest level directory for the object will be created; usually this
-will be parameters$fullOutputDir_NO_slash}
+\item{top_dir}{character string giving the path to the top directory of the
+tree where the problem is written out, usually something like the tzar
+output directory of the experiment followed by some object-specific
+information and the UUID of the object, e.g.,
+~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587}
 
 \item{final_rank_abundance_dist}{integer vector of counts of number
 of nodes for each link, i.e., number of planning units for each species

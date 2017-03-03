@@ -5,22 +5,15 @@
 \alias{compute_network_measures_using_bipartite_package}
 \title{Compute bipartite network measures using bipartite package}
 \usage{
-compute_network_measures_using_bipartite_package(rsprob, top_dir)
-}
-\arguments{
-\item{rsprob}{an RSprob reserve selection problem over which the measures are being computed}
-
-\item{top_dir}{top directory of the tree where the problem is written out, usually
-something like the tzar output directory followed by the UUID of the problem,
-e.g., ~/tzarout/2fdbbefc-b67f-488c-ba97-d6cbc92ada2b}
+compute_network_measures_using_bipartite_package(rsprob, exp_root_dir)
 }
 \description{
 The bdpg package computes bipartite measures over the PU/spp network in
 two ways, one using the igraph package and the other using the bipartite
 package.  This function computes values using the bipartite package.
 }
-\details{
-Cautions about metric name confusion
+\section{Cautions about metric name confusion}{
+
 
 The bipartite package looks at bipartite networks through the lens of
 plant-pollinator or parasitoid-prey networks.  Specifically, in the
@@ -31,9 +24,11 @@ level species (columns) and lower trophic level species (rows). Usually this
 will be number of pollinators on each species of plants or number of
 parasitoids on each species of prey."
 
-HL=PUs=columns
-LL=Spp=rows
-species=PUsAndSpp
+\itemize{
+   \item{HL=PUs=columns}
+   \item{LL=Spp=rows}
+   \item{species=PUsAndSpp}
+}
 
 This means that measures coming out of the bipartite package are named as if
 the graph was a plant-pollinator network.  This, in turn, means that some
@@ -48,39 +43,107 @@ groups/levels in the network, since plants and pollinators are both species.
 In the reserve selection problem, that means the total number of both planning
 units and species together, rather than just the species involved in the
 reserve selection problem.
+}
 
-Choice of metrics vs. speed of computation
+\section{Choice of metrics vs. speed of computation}{
+
 
 Information about which indices are slow is taken from the R documentation for
 the networklevel function in the bipartite package in its section called
 "Reducting computation time".  Here is that section to help understand
 the choices made in the compute_network_measures_using_bipartite_package()
 function.
+}
 
-Reducing computation time:
+\section{Reducing computation time}{
+
 
 Some indices require rather long computation times on large webs. If you want
 to increase the speed by omitting some indices, here a rough guide: Ask only
 for the indices you are interested in! Otherwise, here is the sequence of most
 time-consuming indices:
 
-1.  The slowest function is related to extinction slopes and robustness. Excluding
-both makes the function faster.
+\enumerate{
+   \item{The slowest function is related to extinction slopes and robustness. Excluding
+both makes the function faster.}
 
-2.  weighted cluster coefficient is also very time consuming (an exhaustive search
+   \item{weighted cluster coefficient is also very time consuming (an exhaustive search
 for 4-loops in the one-mode projection of the network). Omitting it can
-dramatically boost speed.
+dramatically boost speed.}
 
-3.  Degree distributions are somewhat time consuming.
+   \item{Degree distributions are somewhat time consuming.}
 
-4.  Fisher's alpha is computed iteratively and hence time consuming.
+   \item{Fisher's alpha is computed iteratively and hence time consuming.}
 
-5.  Nestedness and weighted nestedness are not the fastest of routines.
+   \item{Nestedness and weighted nestedness are not the fastest of routines.}
 
-6.  Number (and diversity) of compartments calls a recursive and hence relatively
-slow algorithm.
+   \item{Number (and diversity) of compartments calls a recursive and hence relatively
+slow algorithm.}
 
-7.  H2 and specialisation asymmetry require an iterative, heuristic search
+   \item{H2 and specialisation asymmetry require an iterative, heuristic search
 algorithm. Finally, excluding discrepancy can also moderately decrease
-computation time.
+computation time.}
 }
+}
+
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{all_except_slow_indices}{
+\preformatted{
+all_except_slow_indices :  chr [1:22] "number of species" "connectance" "web asymmetry" ...
+}}
+\subsection{bipartite_metrics_csv_file_name}{
+\preformatted{
+bipartite_metrics_csv_file_name :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+}}
+\subsection{bipartite_metrics_from_bipartite_package}{
+\preformatted{
+bipartite_metrics_from_bipartite_package : 'data.frame':	1 obs. of  4 variables:
+ $ prob_UUID    : Factor w/ 1 level "d0729e1c-eadc-4899-a382-8cb7ac2c08d7": 1
+ $ connectance  : num 0.0164
+ $ number.of.PUs: num 122
+ $ number.of.Spp: num 814
+}}
+\subsection{bpm}{
+\preformatted{
+bpm :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
+}}
+\subsection{exp_root_dir}{
+\preformatted{
+exp_root_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+\subsection{metrics_col_names}{
+\preformatted{
+metrics_col_names :  chr [1:3] "connectance" "number.of.species.HL" "number.of.species.LL"
+}}
+\subsection{metrics_to_use}{
+\preformatted{
+metrics_to_use :  chr [1:2] "number of species" "connectance"
+}}
+\subsection{new_metrics_col_names}{
+\preformatted{
+new_metrics_col_names :  chr [1:3] "connectance" "number.of.species.HL" "number.of.species.LL"
+}}
+\subsection{quick_test}{
+\preformatted{
+quick_test :  chr [1:2] "number of species" "connectance"
+}}
+\subsection{rsprob}{
+\preformatted{
+rsprob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+}}
+\subsection{uuid_col}{
+\preformatted{
+uuid_col : 'data.frame':	1 obs. of  1 variable:
+ $ prob_UUID: Factor w/ 1 level "d0729e1c-eadc-4899-a382-8cb7ac2c08d7": 1
+}}
+\subsection{x}{
+\preformatted{
+x :  chr [1:3] "connectance" "number.of.PUs" "number.of.Spp"
+}}
+}
+

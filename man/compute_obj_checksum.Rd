@@ -4,16 +4,17 @@
 \alias{compute_obj_checksum}
 \title{Compute a checksum for the object}
 \usage{
-compute_obj_checksum(obj, base_outdir = ".")
+compute_obj_checksum(obj_with_UUID_and_checksum, base_outdir = ".")
 }
 \arguments{
-\item{obj}{object whose checksum is to be computed}
+\item{obj_with_UUID_and_checksum}{object whose checksum is to be computed}
 
 \item{base_outdir}{directory where temporary file for use in checksum
 computation will be written and then deleted}
 }
 \value{
-character string checksum of the object
+character string checksum of the object when object has been written
+    out as a file
 }
 \description{
 The point of this function is to give a quick way to compare two complex
@@ -32,3 +33,31 @@ copy of the object with empty strings and then writing the object copy to a
 temporary file.  Then, a checksum is computed for that temporary file and
 file.  The modified original object is not returned from the function.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{base_outdir}{
+\preformatted{
+base_outdir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+}}
+\subsection{checksum}{
+\preformatted{
+checksum :  Named chr "8e5ad448864db57de0e617aff6929882"
+}}
+\subsection{full_saved_obj_path}{
+\preformatted{
+full_saved_obj_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+}}
+\subsection{obj_with_UUID_and_checksum}{
+\preformatted{
+obj_with_UUID_and_checksum : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+}}
+\subsection{saved_obj_filename}{
+\preformatted{
+saved_obj_filename :  chr "tmp_for_checksum__ok_to_delete_if_left_after_run.rds"
+}}
+}
+

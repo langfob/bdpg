@@ -114,7 +114,7 @@
 #' @param edge_list two column integer matrix of node IDs with one row for
 #'     each edge and columns for the 2 ends of the edge
 #' @param exp_root_dir character string path to root directory of an
-#'     experiment
+#'     experiment, usually parameters$fullOutputDir_NO_slash
 #' @param final_link_counts_for_each_node integer vector of counts of number
 #'     of links for each node, i.e., number of species for each planning unit
 #' @param final_node_counts_for_each_link integer vector of counts of number
@@ -180,9 +180,11 @@
 #' @param target_num_links_between_2_groups_per_round integer target number of
 #'     links between any two groups per round of linking in constructing the
 #'     Xu problem
-#' @param top_dir character string giving the path to the directory where the
-#'     highest level directory for the object will be created; usually this
-#'     will be parameters$fullOutputDir_NO_slash
+#' @param top_dir character string giving the path to the top directory of the
+#'     tree where the problem is written out, usually something like the tzar
+#'     output directory of the experiment followed by some object-specific
+#'     information and the UUID of the object, e.g.,
+#'     ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587
 
 std_param_defns <-
     function (

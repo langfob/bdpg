@@ -10,7 +10,7 @@ get_RSprob_path_topdir(rsprob, exp_root_dir)
 \item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}
 
 \item{exp_root_dir}{character string path to root directory of an
-experiment}
+experiment, usually parameters$fullOutputDir_NO_slash}
 }
 \value{
 Returns character string path to highest level directory for a

@@ -7,9 +7,11 @@
 create_RSprob_dir_and_subdirs(top_dir, rsprob)
 }
 \arguments{
-\item{top_dir}{character string giving the path to the directory where the
-highest level directory for the object will be created; usually this
-will be parameters$fullOutputDir_NO_slash}
+\item{top_dir}{character string giving the path to the top directory of the
+tree where the problem is written out, usually something like the tzar
+output directory of the experiment followed by some object-specific
+information and the UUID of the object, e.g.,
+~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587}
 
 \item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}
 }

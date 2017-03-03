@@ -4,14 +4,13 @@
 \alias{create_RSrun_dir_and_subdirs}
 \title{Create directories for an RS run}
 \usage{
-create_RSrun_dir_and_subdirs(rsrun, top_dir)
+create_RSrun_dir_and_subdirs(rsrun, exp_root_dir)
 }
 \arguments{
 \item{rsrun}{an RSrun (reserve selection run) object, e.g., a marxan run}
 
-\item{top_dir}{character string giving the path to the directory where the
-highest level directory for the object will be created; usually this
-will be parameters$fullOutputDir_NO_slash}
+\item{exp_root_dir}{character string path to root directory of an
+experiment, usually parameters$fullOutputDir_NO_slash}
 }
 \value{
 Doesn't return anything.
@@ -31,6 +30,10 @@ what the data might look like.
 \preformatted{
 create_dirs :  logi TRUE
 }}
+\subsection{exp_root_dir}{
+\preformatted{
+exp_root_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
 \subsection{input_dir_path}{
 \preformatted{
 input_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
@@ -46,10 +49,6 @@ plot_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1
 \subsection{rsrun}{
 \preformatted{
 rsrun : Formal class 'RSrun' [package "bdpg"] with 12 slots
-}}
-\subsection{top_dir}{
-\preformatted{
-top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
 }}
 \subsection{top_dir_path}{
 \preformatted{
