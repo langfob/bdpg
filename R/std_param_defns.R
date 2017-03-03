@@ -158,14 +158,14 @@
 #'     and can have a varying number and set of elements depending on the run
 #' @param plot_output_dir character string giving pat to directory where plot
 #'     should be written
-#' @param presences_col_name character string giving presences column name in
-#'     data frames
+#' @param presences_col_name character string giving column name for species
+#'     counts (presences) in data frames
 #' @param PU_col_name character string giving planning unit column name in data frames
 #' @param PU_costs numeric vector of planning unit costs
 #' @param PU_set_to_test integer vector of planning unit IDs where each ID
 #'     specifies a planning unit to include in the set to be tested
-#' @param PU_spp_pair_indices data frame with 2 integer columns, PU_ID and
-#'     spp_ID, where each row identifies a the ID of a given species that
+#' @param PU_spp_pair_indices 2 column data frame of PU IDs vs species IDs,
+#'     where each row identifies a the ID of a given species that
 #'     occurs on the given planning unit
 #' @param rsprob a reserve selection problem object, e.g., a Xu_bd_problem
 #' @param rsrun an RSrun (reserve selection run) object, e.g., a marxan run
@@ -183,7 +183,6 @@
 #' @param top_dir character string giving the path to the directory where the
 #'     highest level directory for the object will be created; usually this
 #'     will be parameters$fullOutputDir_NO_slash
-
 
 std_param_defns <-
     function (

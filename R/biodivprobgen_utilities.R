@@ -442,15 +442,58 @@ clean_up_final_link_counts_for_each_node <- function (PU_spp_pair_indices,
 
 #' Compute final PU and species counts and plot degree and abundance distributions.
 #'
-#' @param PU_spp_pair_indices 2 column data frame of PU IDs vs species IDs
-#' @param cor_or_app_label Character string for labelling things as correct or apparent
-#' @param all_correct_node_IDs Cector of integer node IDs, one for every node in the "correct" problem
-#' @param plot_output_dir Full path string to location for storing plotting output files
-#' @param spp_col_name Character string giving column name for spp IDs in PU_spp_pair_indices
-#' @param PU_col_name Character string giving column name for PU IDs in PU_spp_pair_indices
-#' @param presences_col_name Character string giving column name for species counts in returned final_link_counts_for_each_node
-#' @export
-#' @return species count for each node, i.e., 2 column data frame of PU_IDs vs. number of species on corresponding PU
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{all_correct_node_IDs}{
+#' \preformatted{
+#' all_correct_node_IDs :  int [1:122] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{cor_or_app_label}{
+#' \preformatted{
+#' cor_or_app_label :  chr "COR"
+#' }}
+#' \subsection{final_link_counts_for_each_node}{
+#' \preformatted{
+#' final_link_counts_for_each_node : 'data.frame':	122 obs. of  2 variables:
+#'  $ PU_ID: int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ freq : int  1 25 1 27 1 29 1 28 1 24 ...
+#' }}
+#' \subsection{final_node_counts_for_each_link}{
+#' \preformatted{
+#' final_node_counts_for_each_link : 'data.frame':	814 obs. of  2 variables:
+#'  $ spp_ID: int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ freq  : int  2 2 2 2 2 2 2 2 2 2 ...
+#' }}
+#' \subsection{plot_output_dir}{
+#' \preformatted{
+#' plot_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+#' }}
+#' \subsection{presences_col_name}{
+#' \preformatted{
+#' presences_col_name :  chr "freq"
+#' }}
+#' \subsection{PU_col_name}{
+#' \preformatted{
+#' PU_col_name :  chr "PU_ID"
+#' }}
+#' \subsection{PU_spp_pair_indices}{
+#' \preformatted{
+#' PU_spp_pair_indices : 'data.frame':	1628 obs. of  2 variables:
+#'  $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
+#' }}
+#' \subsection{spp_col_name}{
+#' \preformatted{
+#' spp_col_name :  chr "spp_ID"
+#' }}
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return final_link_counts_for_each_node, i.e., species count for each node, i.e., 2 column data frame of PU_IDs vs. number of species on corresponding PU
+#'
 #' @details
 #'  Count the number of species on each PU.
 #'  If a PU has no species on it, it won't necessarily be in the
@@ -516,7 +559,7 @@ cat("\njust after clean_up_final_link_counts_for_each_node()")
 cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (final_link_counts_for_each_node)
     }
 

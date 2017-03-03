@@ -13,8 +13,8 @@ create_adj_matrix_with_spp_rows_vs_PU_cols(num_spp, num_PUs,
 
 \item{num_PUs}{integer number of planning units}
 
-\item{PU_spp_pair_indices}{data frame with 2 integer columns, PU_ID and
-spp_ID, where each row identifies a the ID of a given species that
+\item{PU_spp_pair_indices}{2 column data frame of PU IDs vs species IDs,
+where each row identifies a the ID of a given species that
 occurs on the given planning unit}
 
 \item{PU_costs}{numeric vector of planning unit costs}

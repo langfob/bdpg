@@ -23,8 +23,8 @@ planning IDs that appear in the correct \emph{solution}}
 
 \item{PU_col_name}{character string giving planning unit column name in data frames}
 
-\item{presences_col_name}{character string giving presences column name in
-data frames}
+\item{presences_col_name}{character string giving column name for species
+counts (presences) in data frames}
 }
 \value{
 Returns \code{marxan solution} data frame that includes all planning

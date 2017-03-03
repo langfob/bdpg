@@ -116,8 +116,8 @@ should be written}
 \item{PU_set_to_test}{integer vector of planning unit IDs where each ID
 specifies a planning unit to include in the set to be tested}
 
-\item{PU_spp_pair_indices}{data frame with 2 integer columns, PU_ID and
-spp_ID, where each row identifies a the ID of a given species that
+\item{PU_spp_pair_indices}{2 column data frame of PU IDs vs species IDs,
+where each row identifies a the ID of a given species that
 occurs on the given planning unit}
 
 \item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}
@@ -146,8 +146,8 @@ will be parameters$fullOutputDir_NO_slash}
 of nodes for each link, i.e., number of planning units for each species
 (same as final_node_counts_for_each_link)}
 
-\item{presences_col_name}{character string giving presences column name in
-data frames}
+\item{presences_col_name}{character string giving column name for species
+counts (presences) in data frames}
 
 \item{rsrun}{an RSrun (reserve selection run) object, e.g., a marxan run}
 }
