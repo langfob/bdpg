@@ -2,13 +2,54 @@
 % Please edit documentation in R/create_dirs.R
 \name{create_RSprob_dir_and_subdirs}
 \alias{create_RSprob_dir_and_subdirs}
-\title{Title}
+\title{Create directories for an RS problem}
 \usage{
 create_RSprob_dir_and_subdirs(top_dir, rsprob)
 }
 \arguments{
-\item{rsprob}{}
+\item{top_dir}{character string giving the path to the directory where the
+highest level directory for the object will be created; usually this
+will be parameters$fullOutputDir_NO_slash}
+
+\item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}
+}
+\value{
+Doesn't return anything.
 }
 \description{
-Title
+Create directory and subdirectory structure for an RS problem inside an
+experiment.  Creates the highest level directory for the problem and the
+plots and networks directories under that directory.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{create_dirs}{
+\preformatted{
+create_dirs :  logi TRUE
+}}
+\subsection{network_dir_path}{
+\preformatted{
+network_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+}}
+\subsection{plot_dir_path}{
+\preformatted{
+plot_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+}}
+\subsection{rsprob}{
+\preformatted{
+rsprob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+}}
+\subsection{top_dir}{
+\preformatted{
+top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+\subsection{top_dir_path}{
+\preformatted{
+top_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+}}
+}
+

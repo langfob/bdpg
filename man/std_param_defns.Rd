@@ -12,7 +12,7 @@ std_param_defns(bdpg_error_codes, bdpg_error_name, bpm,
   parameters, PU_col_name, PU_costs, PU_set_to_test, PU_spp_pair_indices,
   rsprob, spp_col_name, spp_rep_fracs, spp_rep_targets,
   spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
-  target_num_links_between_2_groups_per_round)
+  target_num_links_between_2_groups_per_round, top_dir)
 }
 \arguments{
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
@@ -110,6 +110,10 @@ species ID and a column for each planning unit ID}
 \item{target_num_links_between_2_groups_per_round}{integer target number of
 links between any two groups per round of linking in constructing the
 Xu problem}
+
+\item{top_dir}{character string giving the path to the directory where the
+highest level directory for the object will be created; usually this
+will be parameters$fullOutputDir_NO_slash}
 }
 \description{
 This function should \emph{never} be called.  It is intended strictly as a

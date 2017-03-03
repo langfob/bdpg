@@ -153,15 +153,46 @@ get_RSprob_path_networks <- function (rsprob, exp_root_dir)
 
 #===============================================================================
 
-#' Title
+#' Create directories for an RS problem
 #'
-#' @param top_dir
-#' @param rsprob
+#' Create directory and subdirectory structure for an RS problem inside an
+#' experiment.  Creates the highest level directory for the problem and the
+#' plots and networks directories under that directory.
 #'
-#' @return
-#' @export
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
 #'
-#' @examples
+#' \subsection{create_dirs}{
+#' \preformatted{
+#' create_dirs :  logi TRUE
+#' }}
+#' \subsection{network_dir_path}{
+#' \preformatted{
+#' network_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+#' }}
+#' \subsection{plot_dir_path}{
+#' \preformatted{
+#' plot_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+#' }}
+#' \subsection{rsprob}{
+#' \preformatted{
+#' rsprob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+#' }}
+#' \subsection{top_dir}{
+#' \preformatted{
+#' top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{top_dir_path}{
+#' \preformatted{
+#' top_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
+#' }}
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Doesn't return anything.
+
 create_RSprob_dir_and_subdirs <- function (top_dir,  #  usually parameters$fullOutputDir_NO_slash
                                            rsprob)
     {

@@ -155,6 +155,9 @@
 #' @param target_num_links_between_2_groups_per_round integer target number of
 #'     links between any two groups per round of linking in constructing the
 #'     Xu problem
+#' @param top_dir character string giving the path to the directory where the
+#'     highest level directory for the object will be created; usually this
+#'     will be parameters$fullOutputDir_NO_slash
 
 
 std_param_defns <-
@@ -189,7 +192,8 @@ std_param_defns <-
             spp_rep_fracs,
             spp_rep_targets,
             spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
-            target_num_links_between_2_groups_per_round
+            target_num_links_between_2_groups_per_round,
+            top_dir
              )
     {
     stop (paste0 ("\n\nstd_param_defns() is not meant to be called.  ",
