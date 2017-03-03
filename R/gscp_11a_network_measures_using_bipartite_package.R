@@ -141,7 +141,7 @@
 #' x :  chr [1:3] "connectance" "number.of.PUs" "number.of.Spp"
 #' }}
 #'
-#' @inheritParams
+#' @inheritParams std_param_defns
 #'
 #' @return
 

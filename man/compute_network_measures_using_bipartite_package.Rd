@@ -7,6 +7,12 @@
 \usage{
 compute_network_measures_using_bipartite_package(rsprob, exp_root_dir)
 }
+\arguments{
+\item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}
+
+\item{exp_root_dir}{character string path to root directory of an
+experiment, usually parameters$fullOutputDir_NO_slash}
+}
 \description{
 The bdpg package computes bipartite measures over the PU/spp network in
 two ways, one using the igraph package and the other using the bipartite
