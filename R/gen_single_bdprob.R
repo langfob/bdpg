@@ -216,24 +216,86 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' to be replaced or cloned into something appropriate for the new problem
 #' type.**
 #'
-#' @param starting_dir character string giving path to directory where problem will be built
-#' @param parameters named list of all parameters, generally from project.yaml file
-#' @param read_Xu_problem_from_Xu_file boolean TRUE if problem is to be
-#'     read from a file created by Xu; FALSE if problem is to be created from
-#'     scratch.
-#' @param infile_name DESCRIPTION.
-#' @param given_correct_solution_cost DESCRIPTION.
-#' @param max_allowed_num_spp DESCRIPTION.
-#' @param bdpg_error_codes DESCRIPTION.
-#' @param integerize DESCRIPTION.
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
 #'
-#' @return RETURN_DESCRIPTION
+#' \subsection{base_prob_name_stem}{
+#' \preformatted{
+#' base_prob_name_stem :  chr "base_prob"
+#' }}
+#' \subsection{bdpg_error_codes}{
+#' \preformatted{
+#' bdpg_error_codes : List of 6
+#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+#' }}
+#' \subsection{bpm}{
+#' \preformatted{
+#' bpm :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
+#' }}
+#' \subsection{cor_dir_name_stem}{
+#' \preformatted{
+#' cor_dir_name_stem :  chr "cor"
+#' }}
+#' \subsection{given_correct_solution_cost}{
+#' \preformatted{
+#' given_correct_solution_cost :  num 420
+#' }}
+#' \subsection{Xu_bench_infile_name}{
+#' \preformatted{
+#' Xu_bench_infile_name :  chr ""
+#' }}
+#' \subsection{integerize}{
+#' \preformatted{
+#' integerize : function (x, digits = 0)
+#' }}
+#' \subsection{max_allowed_num_spp}{
+#' \preformatted{
+#' max_allowed_num_spp :  num 2000
+#' }}
+#' \subsection{parameters}{
+#' \preformatted{
+#' parameters : List of 66
+#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+#'  ...
+#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{PU_spp_pair_info}{
+#' \preformatted{
+#' PU_spp_pair_info : Formal class 'PU_spp_pair_info_class' [package "bdpg"] with 12 slots
+#' }}
+#' \subsection{read_Xu_problem_from_Xu_file}{
+#' \preformatted{
+#' read_Xu_problem_from_Xu_file :  logi FALSE
+#' }}
+#' \subsection{exp_root_dir}{
+#' \preformatted{
+#' exp_root_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{Xu_bdprob_cor}{
+#' \preformatted{
+#' Xu_bdprob_cor : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+#' }}
+#' \subsection{Xu_prob_gen_info}{
+#' \preformatted{
+#' Xu_prob_gen_info : Formal class 'Xu_prob_gen_info_class' [package "bdpg"] with 3 slots
+#' }}
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Returns a new Xu_bd_problem
 #' @export
 
-gen_single_bdprob_COR = function (starting_dir,
+gen_single_bdprob_COR = function (exp_root_dir,
                                   parameters,
                         read_Xu_problem_from_Xu_file,
-                        infile_name,
+                        Xu_bench_infile_name,
                                   given_correct_solution_cost,
                                   max_allowed_num_spp,
                                   bdpg_error_codes,
@@ -252,7 +314,7 @@ gen_single_bdprob_COR = function (starting_dir,
     if (read_Xu_problem_from_Xu_file)
         {
         PU_spp_pair_info =
-            read_Xu_problem_from_Xu_file (infile_name,
+            read_Xu_problem_from_Xu_file (Xu_bench_infile_name,
                                           given_correct_solution_cost)
 
         } else  #  Create Xu problem from scratch
@@ -272,7 +334,7 @@ gen_single_bdprob_COR = function (starting_dir,
 
     Xu_prob_gen_info@read_Xu_problem_from_Xu_file = read_Xu_problem_from_Xu_file
     Xu_prob_gen_info@Xu_parameters                = PU_spp_pair_info@Xu_parameters
-    Xu_prob_gen_info@infile_name                  = infile_name
+    Xu_prob_gen_info@infile_name                  = Xu_bench_infile_name
 
     #===============================================================================
 
@@ -373,7 +435,7 @@ gen_single_bdprob_COR = function (starting_dir,
 
         #  Create directories for this problem.
 
-    create_RSprob_dir_and_subdirs (starting_dir,  #  parameters$fullOutputDir_NO_slash,  #  usually parameters$fullOutputDir_NO_slash
+    create_RSprob_dir_and_subdirs (exp_root_dir,  #  parameters$fullOutputDir_NO_slash,  #  usually parameters$fullOutputDir_NO_slash
                                    Xu_bdprob_cor)
 
         #-----------------------------------------------------------------
@@ -389,7 +451,7 @@ gen_single_bdprob_COR = function (starting_dir,
                   Xu_bdprob_cor@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
 
 #                  Xu_bdprob_cor@derived_bdpg_dir_names$plot_output_dir,
-                  get_RSprob_path_plots (Xu_bdprob_cor, starting_dir),
+                  get_RSprob_path_plots (Xu_bdprob_cor, exp_root_dir),
 
                   Xu_bdprob_cor@spp_col_name,
                   Xu_bdprob_cor@PU_col_name,
@@ -398,7 +460,7 @@ gen_single_bdprob_COR = function (starting_dir,
 
         #  Compute network metrics.
     Xu_bdprob_cor <- init_object_graph_data (Xu_bdprob_cor,
-                                             starting_dir,
+                                             exp_root_dir,
                                              parameters$compute_network_metrics_COR,
                                              parameters$use_igraph_metrics,
                                              parameters$use_bipartite_metrics,
@@ -415,7 +477,7 @@ gen_single_bdprob_COR = function (starting_dir,
 #                                     Xu_bdprob_cor@PU_spp_pair_indices,
 #
 # #                                    Xu_bdprob_cor@derived_bdpg_dir_names$network_output_dir,
-#                                     get_RSprob_path_networks (Xu_bdprob_cor, starting_dir),
+#                                     get_RSprob_path_networks (Xu_bdprob_cor, exp_root_dir),
 #
 #                                     Xu_bdprob_cor@PU_col_name,
 #                                     Xu_bdprob_cor@spp_col_name
@@ -432,7 +494,7 @@ gen_single_bdprob_COR = function (starting_dir,
 
     Xu_bdprob_cor@prob_is_ok = TRUE
 
-    Xu_bdprob_cor <- save_rsprob (Xu_bdprob_cor, starting_dir)
+    Xu_bdprob_cor <- save_rsprob (Xu_bdprob_cor, exp_root_dir)
 
 docaids::doc_vars_in_this_func_once ()
 

@@ -30,6 +30,28 @@ do_sanity_checks <- function ()
 #' that target set of planning units based on the value of the
 #' dep_set_PUs_eligible flag passed to it.
 #'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{dep_set_PUs_eligible}{
+#' \preformatted{
+#' dep_set_PUs_eligible :  logi FALSE
+#' }}
+#' \subsection{eligible_PUs}{
+#' \preformatted{
+#' eligible_PUs :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
+#' }}
+#' \subsection{extra_PUs}{
+#' \preformatted{
+#' extra_PUs :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
+#' }}
+#' \subsection{Xu_dep_set}{
+#' \preformatted{
+#' Xu_dep_set :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
+#' }}
+#'
 #' @param Xu_dep_set integer vector of planning unit IDs for the solution set
 #'     of the original Xu problem being wrapped around
 #' @param extra_PUs integer vector of plannning unit IDs being added to the
@@ -60,9 +82,7 @@ docaids::doc_vars_in_this_func_once ()
 
 #===============================================================================
 
-
-#'  Remove species from an abundance distribution if they fall on either
-#'  too many or too few patches.
+#'  Drop spp from abund dist if on too many or too few patches
 #'
 #'  This function is primarily to get rid of species that occur on
 #'  only 0 or 1 patches, however, some distribution generator might also
@@ -81,6 +101,28 @@ docaids::doc_vars_in_this_func_once ()
 #'  I could monitor how many things were being cut out.
 #'  That version is in the git repository in case it needs to be
 #'  resurrected for some reason.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{max_abund}{
+#' \preformatted{
+#' max_abund :  num 1.8e+308
+#' }}
+#' \subsection{min_abund}{
+#' \preformatted{
+#' min_abund :  num 2
+#' }}
+#' \subsection{rounded_abundances}{
+#' \preformatted{
+#' rounded_abundances :  num [1:1628] 2 2 1 1 3 1 3 2 2 1 ...
+#' }}
+#' \subsection{trimmed_rounded_abund_per_spp}{
+#' \preformatted{
+#' trimmed_rounded_abund_per_spp :  num [1:1277] 2 2 3 3 2 2 2 2 2 2 ...
+#' }}
 #'
 #' @param rounded_abundances vector of abundances to be trimmed
 #' @param min_abund lowest abundance to allow in the trimmed set
@@ -117,6 +159,85 @@ docaids::doc_vars_in_this_func_once ()
 #' before its instances are spread across the landscape.  This function
 #' strips that inside distribution out of the full wrapped distribution and
 #' returns a set of abundances ready for spreading.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{base_abund_by_spp}{
+#' \preformatted{
+#' base_abund_by_spp : 'data.frame':	814 obs. of  2 variables:
+#'  $ x   : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ freq: int  2 2 2 2 2 2 2 2 2 2 ...
+#' }}
+#' \subsection{base_abund_hist}{
+#' \preformatted{
+#' base_abund_hist : 'data.frame':	1 obs. of  2 variables:
+#'  $ x   : int 2
+#'  $ freq: int 814
+#' }}
+#' \subsection{cur_idx}{
+#' \preformatted{
+#' cur_idx :  int 6
+#' }}
+#' \subsection{end_idx}{
+#' \preformatted{
+#' end_idx :  num 463
+#' }}
+#' \subsection{extra_spp_abund}{
+#' \preformatted{
+#' extra_spp_abund :  num [1:463] 2 2 2 2 2 2 2 2 2 2 ...
+#' }}
+#' \subsection{num_abund_rows}{
+#' \preformatted{
+#' num_abund_rows :  int 6
+#' }}
+#' \subsection{num_extra_spp}{
+#' \preformatted{
+#' num_extra_spp :  num 463
+#' }}
+#' \subsection{spp_col_name}{
+#' \preformatted{
+#' spp_col_name :  chr "spp_ID"
+#' }}
+#' \subsection{start_idx}{
+#' \preformatted{
+#' start_idx :  num 464
+#' }}
+#' \subsection{trimmed_rounded_abund_per_spp}{
+#' \preformatted{
+#' trimmed_rounded_abund_per_spp :  num [1:1277] 2 2 3 3 2 2 2 2 2 2 ...
+#' }}
+#' \subsection{verbose_remove_base}{
+#' \preformatted{
+#' verbose_remove_base :  logi FALSE
+#' }}
+#' \subsection{wrapped_extra_spp_abund_hist}{
+#' \preformatted{
+#' wrapped_extra_spp_abund_hist : 'data.frame':	6 obs. of  2 variables:
+#'  $ abund: num  2 3 4 5 6 7
+#'  $ freq : num  77 311 57 15 2 1
+#' }}
+#' \subsection{wrapped_extra_spp_abund_merge}{
+#' \preformatted{
+#' wrapped_extra_spp_abund_merge : 'data.frame':	6 obs. of  3 variables:
+#'  $ x     : num  2 3 4 5 6 7
+#'  $ freq.x: int  891 311 57 15 2 1
+#'  $ freq.y: num  814 0 0 0 0 0
+#' }}
+#' \subsection{wrapping_abund_hist}{
+#' \preformatted{
+#' wrapping_abund_hist : 'data.frame':	6 obs. of  2 variables:
+#'  $ x   : num  2 3 4 5 6 7
+#'  $ freq: int  891 311 57 15 2 1
+#' }}
+#' \subsection{Xu_PU_spp_table}{
+#' \preformatted{
+#' Xu_PU_spp_table : 'data.frame':	1628 obs. of  2 variables:
+#'  $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
+#' }}
 #'
 #' @param Xu_PU_spp_table PU_spp table for original Xu problem being wrapped
 #'     around
@@ -265,22 +386,118 @@ docaids::doc_vars_in_this_func_once ()
 
 #===============================================================================
 
-#' FUNCTION_TITLE
+#' Wrap abundances around eligible set
 #'
-#' FUNCTION_DESCRIPTION
+#' Take a given distribution (e.g., from a Xu problem) and add more species
+#' (and probably more planning units too) to the problem so that the new
+#' problem has a specified distribution, but retains the original problem's
+#' solution.
 #'
-#' @param dep_set DESCRIPTION.
-#' @param eligible_set DESCRIPTION.
-#' @param rounded_abund_per_spp DESCRIPTION.
-#' @param num_base_spp DESCRIPTION.
-#' @param Xu_PU_spp_table DESCRIPTION.
-#' @param min_allowed_abundance DESCRIPTION.
-#' @param PU_col_name DESCRIPTION.
-#' @param spp_col_name DESCRIPTION.
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
 #'
-#' @return RETURN_DESCRIPTION
-#' @examples
-#' # ADD_EXAMPLES_HERE
+#' \subsection{cur_eligible_set}{
+#' \preformatted{
+#' cur_eligible_set :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
+#' }}
+#' \subsection{cur_row}{
+#' \preformatted{
+#' cur_row :  num 1410
+#' }}
+#' \subsection{cur_spp_idx}{
+#' \preformatted{
+#' cur_spp_idx :  int 463
+#' }}
+#' \subsection{dep_set}{
+#' \preformatted{
+#' dep_set :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
+#' }}
+#' \subsection{dep_set_PU}{
+#' \preformatted{
+#' dep_set_PU :  int 42
+#' }}
+#' \subsection{eligible_set}{
+#' \preformatted{
+#' eligible_set :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
+#' }}
+#' \subsection{end_row}{
+#' \preformatted{
+#' end_row :  num 1409
+#' }}
+#' \subsection{extra_abund}{
+#' \preformatted{
+#' extra_abund :  num [1:463] 2 2 2 2 2 2 2 2 2 2 ...
+#' }}
+#' \subsection{extra_PUs_for_cur_spp}{
+#' \preformatted{
+#' extra_PUs_for_cur_spp :  int [1:6] 397 278 292 178 316 324
+#' }}
+#' \subsection{min_allowed_abundance}{
+#' \preformatted{
+#' min_allowed_abundance :  num 2
+#' }}
+#' \subsection{num_base_spp}{
+#' \preformatted{
+#' num_base_spp :  int 814
+#' }}
+#' \subsection{num_extra_occurrences}{
+#' \preformatted{
+#' num_extra_occurrences :  num 1409
+#' }}
+#' \subsection{num_extra_spp}{
+#' \preformatted{
+#' num_extra_spp :  int 463
+#' }}
+#' \subsection{num_PUs_to_draw}{
+#' \preformatted{
+#' num_PUs_to_draw :  num 6
+#' }}
+#' \subsection{PU_col_name}{
+#' \preformatted{
+#' PU_col_name :  chr "PU_ID"
+#' }}
+#' \subsection{PU_spp_table}{
+#' \preformatted{
+#' PU_spp_table : 'data.frame':	3037 obs. of  2 variables:
+#'  $ PU_ID : num  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ spp_ID: num  1 1 2 2 3 3 4 4 5 5 ...
+#' }}
+#' \subsection{rounded_abund_per_spp}{
+#' \preformatted{
+#' rounded_abund_per_spp :  num [1:1628] 2 2 1 1 3 1 3 2 2 1 ...
+#' }}
+#' \subsection{spp_col_name}{
+#' \preformatted{
+#' spp_col_name :  chr "spp_ID"
+#' }}
+#' \subsection{trimmed_rounded_abund_per_spp}{
+#' \preformatted{
+#' trimmed_rounded_abund_per_spp :  num [1:1277] 2 2 3 3 2 2 2 2 2 2 ...
+#' }}
+#' \subsection{x}{
+#' \preformatted{
+#' x :  int(0)
+#' }}
+#' \subsection{Xu_PU_spp_table}{
+#' \preformatted{
+#' Xu_PU_spp_table : 'data.frame':	1628 obs. of  2 variables:
+#'  $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
+#' }}
+#'
+#' @param dep_set integer vector
+#' @param eligible_set integer vector
+#' @param rounded_abund_per_spp integer vector
+#' @param num_base_spp integer
+#' @param Xu_PU_spp_table data frame
+#' @param min_allowed_abundance integer
+#' @param PU_col_name character string
+#' @param spp_col_name character string
+#'
+#' @return Returns PU_spp_table data frame
+
 wrap_abundances_around_eligible_set <- function (dep_set,
                                                  eligible_set,
                                                  rounded_abund_per_spp,
@@ -412,8 +629,7 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 
 #browser()
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (PU_spp_table)
 
     }  #  end function - wrap_abundances_around_eligible_set

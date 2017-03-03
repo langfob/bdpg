@@ -62,16 +62,79 @@ docaids::doc_vars_in_this_func_once ()
 #
 #                       gen_rounded_abundances ()
 #
-#  Function to generate a sampled lognormal distribution whose values are
-#  rounded to produce a vector of counts of the number of PUs that each
-#  species will occupy.
-#  Returns a vector with one count for each species.
-#  No zero counts are allowed, so any species that was assigned a 0 count in
-#  the lognormal generation is removed from the returned vector.
-#  This means that the number of species returned may be less than the value
-#  of num_spp_to_generate specified in the inputs.
+
+
+
 #
 #===============================================================================
+
+#' Generate rounded abundances
+#'
+#'  Function to generate a sampled lognormal distribution whose values are
+#'  rounded to produce a vector of counts of the number of PUs that each
+#'  species will occupy.
+#'
+#'  No zero counts are allowed, so any species that was assigned a 0 count in
+#'  the lognormal generation is removed from the returned vector.
+#'  This means that the number of species returned may be less than the value
+#'  of num_spp_to_generate specified in the inputs.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{abundance_data}{
+#' \preformatted{
+#' abundance_data : List of 3
+#'  $ rounded_abundances          : num [1:1628] 3 3 2 2 3 3 3 3 3 3 ...
+#'  $ num_spp_on_exactly_2_patches: int 173
+#'  $ max_abundance_ct            : num 4
+#' }}
+#' \subsection{abundances}{
+#' \preformatted{
+#' abundances :  num [1:1628] 2.67 2.84 2.43 2.47 3.18 ...
+#' }}
+#' \subsection{add_one_to_abundances}{
+#' \preformatted{
+#' add_one_to_abundances :  logi FALSE
+#' }}
+#' \subsection{max_abundance_ct}{
+#' \preformatted{
+#' max_abundance_ct :  num 4
+#' }}
+#' \subsection{meanlog}{
+#' \preformatted{
+#' meanlog :  num 1.04
+#' }}
+#' \subsection{num_spp_on_exactly_2_patches}{
+#' \preformatted{
+#' num_spp_on_exactly_2_patches :  int 173
+#' }}
+#' \subsection{num_spp_to_generate}{
+#' \preformatted{
+#' num_spp_to_generate :  num 1628
+#' }}
+#' \subsection{plot_rounded_abundances}{
+#' \preformatted{
+#' plot_rounded_abundances :  logi FALSE
+#' }}
+#' \subsection{rounded_abundances}{
+#' \preformatted{
+#' rounded_abundances :  num [1:1628] 3 3 2 2 3 3 3 3 3 3 ...
+#' }}
+#' \subsection{sdlog}{
+#' \preformatted{
+#' sdlog :  num 0.1
+#' }}
+#'
+#' @param num_spp_to_generate integer
+#' @param meanlog numeric
+#' @param sdlog numeric
+#' @param add_one_to_abundances boolean
+#' @param plot_rounded_abundances boolean
+#'
+#' @return Returns a vector with one count for each species
 
 gen_rounded_abundances = function (num_spp_to_generate, meanlog, sdlog,
                                    add_one_to_abundances,
@@ -107,8 +170,7 @@ gen_rounded_abundances = function (num_spp_to_generate, meanlog, sdlog,
                                                                meanlog,
                                                                sdlog)
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (abundance_data)
 
     }  #  end function - gen_rounded_abundances ()
@@ -331,6 +393,126 @@ docaids::doc_vars_in_this_func_once ()
 
 #===============================================================================
 
+#' Evaluation Function to be passed to optim()
+#'
+#'Note that the "Local Variable Structures and examples" section below was
+#'not labelled as belonging to a function "EF".  It was labelled as belonging
+#'to a function "fn".  I'm assuming that the variables actually belong to EF
+#'because "fn" is the argument name that EF gets assigned to when passed to
+#'optim().
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{abundance_data}{
+#' \preformatted{
+#' abundance_data : List of 3
+#'  $ rounded_abundances          : num [1:1628] 3 3 2 2 3 3 3 3 3 3 ...
+#'  $ num_spp_on_exactly_2_patches: int 173
+#'  $ max_abundance_ct            : num 4
+#' }}
+#' \subsection{add_one_to_abundances}{
+#' \preformatted{
+#' add_one_to_abundances :  logi FALSE
+#' }}
+#' \subsection{double_diff}{
+#' \preformatted{
+#' double_diff :  num 1.07e+14
+#' }}
+#' \subsection{double_diff_penalty}{
+#' \preformatted{
+#' double_diff_penalty :  num 1.07e+14
+#' }}
+#' \subsection{double_diff_penalty_exponent}{
+#' \preformatted{
+#' double_diff_penalty_exponent :  num 5
+#' }}
+#' \subsection{double_frac}{
+#' \preformatted{
+#' double_frac :  num 1.32e+11
+#' }}
+#' \subsection{EF_num}{
+#' \preformatted{
+#' EF_num :  num 1
+#' }}
+#' \subsection{max_abundance_ct}{
+#' \preformatted{
+#' max_abundance_ct :  num 4
+#' }}
+#' \subsection{max_abundance_diff}{
+#' \preformatted{
+#' max_abundance_diff :  num 138
+#' }}
+#' \subsection{max_abundance_frac}{
+#' \preformatted{
+#' max_abundance_frac :  num 0.972
+#' }}
+#' \subsection{max_abundance_penalty_exponent}{
+#' \preformatted{
+#' max_abundance_penalty_exponent :  num 2
+#' }}
+#' \subsection{max_max_abundance}{
+#' \preformatted{
+#' max_max_abundance :  num 203
+#' }}
+#' \subsection{mean_sd_pair}{
+#' \preformatted{
+#' mean_sd_pair :  num [1:2] 1.04 0.1
+#' }}
+#' \subsection{min_num_spp_on_2_PUs}{
+#' \preformatted{
+#' min_num_spp_on_2_PUs :  int 814
+#' }}
+#' \subsection{num_spp_on_exactly_2_patches}{
+#' \preformatted{
+#' num_spp_on_exactly_2_patches :  int 173
+#' }}
+#' \subsection{num_spp_to_generate}{
+#' \preformatted{
+#' num_spp_to_generate :  num 1628
+#' }}
+#' \subsection{out_record}{
+#' \preformatted{
+#' out_record :  chr "1,131909314986.928,1.03988718083831,0.1,131909314986.928,0.971830985915493,814,142,203,11,1628,FALSE"
+#' }}
+#' \subsection{outfile}{
+#' \preformatted{
+#' outfile :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/wrap_search_outfile.csv"
+#' }}
+#' \subsection{score}{
+#' \preformatted{
+#' score :  num 1.32e+11
+#' }}
+#' \subsection{seed_value}{
+#' \preformatted{
+#' seed_value :  num 11
+#' }}
+#' \subsection{target_max_abundance_ct}{
+#' \preformatted{
+#' target_max_abundance_ct :  num 142
+#' }}
+#' \subsection{warn_on_constraint_violation}{
+#' \preformatted{
+#' warn_on_constraint_violation :  logi TRUE
+#' }}
+#'
+#' @param seed_value integer
+#' @param num_spp_to_generate integer
+#' @param min_num_spp_on_2_PUs integer
+#' @param max_max_abundance integer
+#' @param target_max_abundance_ct integer
+#' @param add_one_to_abundances boolean
+#' @param outfile character string
+#' @param mean_sd_pair 2 element numeric vector containing the mean and
+#'     standard deviation to use for the lognormal
+#'
+#' @return Returns numeric score from evaluating the given lognormal; the
+#'     closer to 0 the better
+#' @export
+#'
+#' @examples
 EF = function (seed_value,
                num_spp_to_generate,
                min_num_spp_on_2_PUs,
@@ -478,23 +660,101 @@ EF = function (seed_value,
 
     cat ("\nEF RETVAL ", EF_num, ": ", score, sep='')
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (score)
 
     }  #  end function - EF ()
 
 #===============================================================================
 
+#' Search for approximating lognormal
+#'
 #' Function to search for a lognormal that comes close to meeting the
 #'  constraints specified in the argument list, i.e.,
-#'       1) to generate roughly the given number of species but never more
-#'          than the given number (num_spp_to_generate)
-#'       2) to come close to the given number of species that occur on
+#'  \enumerate{
+#'      \item{to generate roughly the given number of species but never more
+#'          than the given number (num_spp_to_generate)}
+#'      \item{to come close to the given number of species that occur on
 #'          exactly 2 PUs without ever falling below that minimum value
-#'          (min_num_spp_on_2_PUs)
-#'       3) to have the most abundant generated species have roughly
+#'          (min_num_spp_on_2_PUs)}
+#'      \item{to have the most abundant generated species have roughly
 #'          the target value (target_max_abundance_ct), but never exceed
-#'          the given max value (max_max_abundance).
+#'          the given max value (max_max_abundance).}
+#'}
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{abundance_data}{
+#' \preformatted{
+#' abundance_data : List of 3
+#'  $ rounded_abundances          : num [1:1628] 2 2 1 1 3 1 3 2 2 1 ...
+#'  $ num_spp_on_exactly_2_patches: int 891
+#'  $ max_abundance_ct            : num 7
+#' }}
+#' \subsection{add_one_to_abundances}{
+#' \preformatted{
+#' add_one_to_abundances :  logi FALSE
+#' }}
+#' \subsection{initial_meanlog}{
+#' \preformatted{
+#' initial_meanlog :  num 1.04
+#' }}
+#' \subsection{initial_sdlog}{
+#' \preformatted{
+#' initial_sdlog :  num 0.1
+#' }}
+#' \subsection{lognormal_result}{
+#' \preformatted{
+#' lognormal_result : List of 4
+#'  $ meanlog       : num 0.676
+#'  $ sdlog         : num 0.347
+#'  $ score         : num 0.951
+#'  $ abundance_data:List of 3
+#' }}
+#' \subsection{max_iterations}{
+#' \preformatted{
+#' max_iterations :  num 500
+#' }}
+#' \subsection{max_max_abundance}{
+#' \preformatted{
+#' max_max_abundance :  num 203
+#' }}
+#' \subsection{min_num_spp_on_2_PUs}{
+#' \preformatted{
+#' min_num_spp_on_2_PUs :  int 814
+#' }}
+#' \subsection{num_spp_to_generate}{
+#' \preformatted{
+#' num_spp_to_generate :  num 1628
+#' }}
+#' \subsection{outfile}{
+#' \preformatted{
+#' outfile :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/wrap_search_outfile.csv"
+#' }}
+#' \subsection{result}{
+#' \preformatted{
+#' result : List of 5
+#'  $ par        : num [1:2] 0.676 0.347
+#'  $ value      : num 0.951
+#'  $ counts     : Named int [1:2] 9 NA
+#'  $ convergence: int 0
+#'  $ message    : NULL
+#' }}
+#' \subsection{seed_value}{
+#' \preformatted{
+#' seed_value :  num 11
+#' }}
+#' \subsection{show_abundance_data}{
+#' \preformatted{
+#' show_abundance_data :  logi FALSE
+#' }}
+#' \subsection{target_max_abundance_ct}{
+#' \preformatted{
+#' target_max_abundance_ct :  num 142
+#' }}
 #'
 #' @param seed_value random seed to pass to optim function
 #' @param num_spp_to_generate number of species to generate in distribution
@@ -507,8 +767,7 @@ docaids::doc_vars_in_this_func_once ()
 #' @param add_one_to_abundances boolean flag to indicate whether to add 1 to all abundances
 #' @param outfile output file
 #'
-#' @return
-#'  The function returns the best lognormal found in the given maximum number
+#' @return Returns the best lognormal found in the given maximum number
 #'  of search iterations (max_iterations).  The value returned is a structure
 #'  containing the following information about the best lognormal curve found:
 #'       $meanlog - the meanlog used in specifying the curve, e.g., 1.035326
@@ -652,6 +911,157 @@ docaids::doc_vars_in_this_func_once ()
 
 #===============================================================================
 
+#' Find lognormal to wrap around Xu problem
+#'
+#' Uses optimizer to search for parameters of a lognormal distribution that
+#' will have at least as many species occurring on exactly 2 patches as the
+#' given Xu problem and meet the other curve shape criteria given in the
+#' argument list.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{add_one_to_lognormal_abundances}{
+#' \preformatted{
+#' add_one_to_lognormal_abundances :  logi FALSE
+#' }}
+#' \subsection{desired_max_abundance_frac}{
+#' \preformatted{
+#' desired_max_abundance_frac :  num 0.7
+#' }}
+#' \subsection{desired_Xu_spp_frac_of_all_spp}{
+#' \preformatted{
+#' desired_Xu_spp_frac_of_all_spp :  num 0.5
+#' }}
+#' \subsection{initial_meanlog_for_search}{
+#' \preformatted{
+#' initial_meanlog_for_search :  num 1.04
+#' }}
+#' \subsection{initial_sdlog_for_search}{
+#' \preformatted{
+#' initial_sdlog_for_search :  num 0.1
+#' }}
+#' \subsection{lognormal_search_results}{
+#' \preformatted{
+#' lognormal_search_results : List of 4
+#'  $ meanlog       : num 0.676
+#'  $ sdlog         : num 0.347
+#'  $ score         : num 0.951
+#'  $ abundance_data:List of 3
+#' }}
+#' \subsection{max_abundance_frac}{
+#' \preformatted{
+#' max_abundance_frac :  num 0.7
+#' }}
+#' \subsection{max_max_abundance_ct}{
+#' \preformatted{
+#' max_max_abundance_ct :  num 203
+#' }}
+#' \subsection{max_search_iterations}{
+#' \preformatted{
+#' max_search_iterations :  num 500
+#' }}
+#' \subsection{min_num_spp_on_2_PUs}{
+#' \preformatted{
+#' min_num_spp_on_2_PUs :  int 814
+#' }}
+#' \subsection{mu}{
+#' \preformatted{
+#' mu :  num 1.04
+#' }}
+#' \subsection{num_PUs_per_spp_ie_rarity}{
+#' \preformatted{
+#' num_PUs_per_spp_ie_rarity :  num 2
+#' }}
+#' \subsection{num_spp_to_generate}{
+#' \preformatted{
+#' num_spp_to_generate :  num 1628
+#' }}
+#' \subsection{num_spp_with_given_num_PUs}{
+#' \preformatted{
+#' num_spp_with_given_num_PUs :  int 814
+#' }}
+#' \subsection{num_Xu_dep_set_nodes}{
+#' \preformatted{
+#' num_Xu_dep_set_nodes :  int 61
+#' }}
+#' \subsection{parameters}{
+#' \preformatted{
+#' parameters : List of 66
+#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+#'  ...
+#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{plusOrMinus1}{
+#' \preformatted{
+#' plusOrMinus1 :  num 1
+#' }}
+#' \subsection{rounded_abundances}{
+#' \preformatted{
+#' rounded_abundances :  num [1:1628] 2 2 1 1 3 1 3 2 2 1 ...
+#' }}
+#' \subsection{search_outfile_name}{
+#' \preformatted{
+#' search_outfile_name :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/wrap_search_outfile.csv"
+#' }}
+#' \subsection{seed_value_for_search}{
+#' \preformatted{
+#' seed_value_for_search :  num 11
+#' }}
+#' \subsection{sigma}{
+#' \preformatted{
+#' sigma :  num 0.1
+#' }}
+#' \subsection{solution_frac_of_landscape}{
+#' \preformatted{
+#' solution_frac_of_landscape :  num 0.3
+#' }}
+#' \subsection{target_max_abundance_ct}{
+#' \preformatted{
+#' target_max_abundance_ct :  num 142
+#' }}
+#' \subsection{tot_num_PUs_in_landscape}{
+#' \preformatted{
+#' tot_num_PUs_in_landscape :  num 203
+#' }}
+#' \subsection{Xu_bdprob}{
+#' \preformatted{
+#' Xu_bdprob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+#' }}
+#' \subsection{Xu_dep_set}{
+#' \preformatted{
+#' Xu_dep_set :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
+#' }}
+#' \subsection{Xu_nodes}{
+#' \preformatted{
+#' Xu_nodes : 'data.frame':	122 obs. of  3 variables:
+#'  $ node_ID             : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ group_ID            : num  1 1 2 2 3 3 4 4 5 5 ...
+#'  $ dependent_set_member: logi  FALSE TRUE FALSE TRUE FALSE TRUE ...
+#' }}
+#' \subsection{Xu_tot_num_PUs}{
+#' \preformatted{
+#' Xu_tot_num_PUs :  int 122
+#' }}
+#' \subsection{Xu_tot_num_spp}{
+#' \preformatted{
+#' Xu_tot_num_spp :  int 814
+#' }}
+#'
+#' @param Xu_bdprob a Xu_bd_problem object
+#' @param desired_Xu_spp_frac_of_all_spp numeric
+#' @param solution_frac_of_landscape numeric
+#' @param desired_max_abundance_frac numeric
+#' @param seed_value_for_search integer
+#' @param max_search_iterations integer
+#' @param add_one_to_lognormal_abundances boolean
+#' @param search_outfile_name character string
+#' @inheritParams std_param_defns
+#'
+#' @return Returns numeric vector of abundances
+
 find_lognormal_to_wrap_around_Xu = function (Xu_bdprob, parameters,
                                              desired_Xu_spp_frac_of_all_spp,
                                              solution_frac_of_landscape,
@@ -768,8 +1178,7 @@ find_lognormal_to_wrap_around_Xu = function (Xu_bdprob, parameters,
     rounded_abundances = lognormal_search_results$abundance_data$rounded_abundances
     plot (sort(rounded_abundances, decreasing = TRUE))
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (rounded_abundances)
 
     }  #  end function - find_lognormal_to_wrap_around_Xu ()

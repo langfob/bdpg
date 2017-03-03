@@ -125,6 +125,8 @@
 #' @param final_rank_abundance_dist integer vector of counts of number
 #'     of nodes for each link, i.e., number of planning units for each species
 #'     (same as final_node_counts_for_each_link)
+#' @param given_correct_solution_cost boolean indicating whether the correct
+#'     optimal solution cost is given for a reserve selection problem
 #' @param integerize function to use in converting floats to ints
 #' @param integerize_string string containing name of the function to use to
 #'     convert floats to integers
@@ -170,6 +172,9 @@
 #' @param PU_spp_pair_indices 2 column data frame of PU IDs vs species IDs,
 #'     where each row identifies a the ID of a given species that
 #'     occurs on the given planning unit
+#' @param read_Xu_problem_from_Xu_file boolean TRUE if problem is to be
+#'     read from a benchmark problem description file created by Xu;
+#'     FALSE if problem is to be created from scratch.
 #' @param rsprob a reserve selection problem object, e.g., a Xu_bd_problem
 #' @param rsrun an RSrun (reserve selection run) object, e.g., a marxan run
 #' @param spp_col_name character string giving species column name in data frames
@@ -188,10 +193,13 @@
 #'     output directory of the experiment followed by some object-specific
 #'     information and the UUID of the object, e.g.,
 #'     ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587
+#' @param Xu_bench_infile_name filename of Xu benchmark problem file
+
 
 std_param_defns <-
     function (
             all_correct_node_IDs,
+            base_outdir_for_checksum,
             bdpg_error_codes,
             bdpg_error_name,
             bpm,
@@ -203,6 +211,7 @@ std_param_defns <-
             exp_root_dir,
             final_link_counts_for_each_node,
             final_node_counts_for_each_link,
+            given_correct_solution_cost,
             integerize,
             integerize_string,
             marxan_solution,
@@ -215,6 +224,7 @@ std_param_defns <-
             num_rounds_of_linking_between_groups,
             num_spp,
             obj,
+            obj_with_UUID_and_checksum,
             occ_matrix,
             parameters,
             plot_output_dir,
@@ -222,13 +232,15 @@ std_param_defns <-
             PU_costs,
             PU_set_to_test,
             PU_spp_pair_indices,
+            read_Xu_problem_from_Xu_file,
             rsprob,
             spp_col_name,
             spp_rep_fracs,
             spp_rep_targets,
             spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
             target_num_links_between_2_groups_per_round,
-            top_dir
+            top_dir,
+            Xu_bench_infile_name
              )
     {
     stop (paste0 ("\n\nstd_param_defns() is not meant to be called.  ",

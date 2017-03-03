@@ -2,16 +2,7 @@
 % Please edit documentation in R/gen_lognormal_overlay.R
 \name{search_for_approximating_lognormal}
 \alias{search_for_approximating_lognormal}
-\title{Function to search for a lognormal that comes close to meeting the
- constraints specified in the argument list, i.e.,
-      1) to generate roughly the given number of species but never more
-         than the given number (num_spp_to_generate)
-      2) to come close to the given number of species that occur on
-         exactly 2 PUs without ever falling below that minimum value
-         (min_num_spp_on_2_PUs)
-      3) to have the most abundant generated species have roughly
-         the target value (target_max_abundance_ct), but never exceed
-         the given max value (max_max_abundance).}
+\title{Search for approximating lognormal}
 \usage{
 search_for_approximating_lognormal(seed_value, num_spp_to_generate,
   min_num_spp_on_2_PUs, max_max_abundance, target_max_abundance_ct,
@@ -40,7 +31,7 @@ search_for_approximating_lognormal(seed_value, num_spp_to_generate,
 \item{outfile}{output file}
 }
 \value{
-The function returns the best lognormal found in the given maximum number
+Returns the best lognormal found in the given maximum number
  of search iterations (max_iterations).  The value returned is a structure
  containing the following information about the best lognormal curve found:
       $meanlog - the meanlog used in specifying the curve, e.g., 1.035326
@@ -64,12 +55,90 @@ The function returns the best lognormal found in the given maximum number
 \description{
 Function to search for a lognormal that comes close to meeting the
  constraints specified in the argument list, i.e.,
-      1) to generate roughly the given number of species but never more
-         than the given number (num_spp_to_generate)
-      2) to come close to the given number of species that occur on
+ \enumerate{
+     \item{to generate roughly the given number of species but never more
+         than the given number (num_spp_to_generate)}
+     \item{to come close to the given number of species that occur on
          exactly 2 PUs without ever falling below that minimum value
-         (min_num_spp_on_2_PUs)
-      3) to have the most abundant generated species have roughly
+         (min_num_spp_on_2_PUs)}
+     \item{to have the most abundant generated species have roughly
          the target value (target_max_abundance_ct), but never exceed
-         the given max value (max_max_abundance).
+         the given max value (max_max_abundance).}
 }
+}
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{abundance_data}{
+\preformatted{
+abundance_data : List of 3
+ $ rounded_abundances          : num [1:1628] 2 2 1 1 3 1 3 2 2 1 ...
+ $ num_spp_on_exactly_2_patches: int 891
+ $ max_abundance_ct            : num 7
+}}
+\subsection{add_one_to_abundances}{
+\preformatted{
+add_one_to_abundances :  logi FALSE
+}}
+\subsection{initial_meanlog}{
+\preformatted{
+initial_meanlog :  num 1.04
+}}
+\subsection{initial_sdlog}{
+\preformatted{
+initial_sdlog :  num 0.1
+}}
+\subsection{lognormal_result}{
+\preformatted{
+lognormal_result : List of 4
+ $ meanlog       : num 0.676
+ $ sdlog         : num 0.347
+ $ score         : num 0.951
+ $ abundance_data:List of 3
+}}
+\subsection{max_iterations}{
+\preformatted{
+max_iterations :  num 500
+}}
+\subsection{max_max_abundance}{
+\preformatted{
+max_max_abundance :  num 203
+}}
+\subsection{min_num_spp_on_2_PUs}{
+\preformatted{
+min_num_spp_on_2_PUs :  int 814
+}}
+\subsection{num_spp_to_generate}{
+\preformatted{
+num_spp_to_generate :  num 1628
+}}
+\subsection{outfile}{
+\preformatted{
+outfile :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/wrap_search_outfile.csv"
+}}
+\subsection{result}{
+\preformatted{
+result : List of 5
+ $ par        : num [1:2] 0.676 0.347
+ $ value      : num 0.951
+ $ counts     : Named int [1:2] 9 NA
+ $ convergence: int 0
+ $ message    : NULL
+}}
+\subsection{seed_value}{
+\preformatted{
+seed_value :  num 11
+}}
+\subsection{show_abundance_data}{
+\preformatted{
+show_abundance_data :  logi FALSE
+}}
+\subsection{target_max_abundance_ct}{
+\preformatted{
+target_max_abundance_ct :  num 142
+}}
+}
+

@@ -4,32 +4,37 @@
 \alias{gen_single_bdprob_COR}
 \title{Generate a single biodiversity problem}
 \usage{
-gen_single_bdprob_COR(starting_dir, parameters, read_Xu_problem_from_Xu_file,
-  infile_name, given_correct_solution_cost, max_allowed_num_spp,
+gen_single_bdprob_COR(exp_root_dir, parameters, read_Xu_problem_from_Xu_file,
+  Xu_bench_infile_name, given_correct_solution_cost, max_allowed_num_spp,
   bdpg_error_codes, integerize, base_prob_name_stem = "base_prob",
   cor_dir_name_stem = "cor")
 }
 \arguments{
-\item{starting_dir}{character string giving path to directory where problem will be built}
+\item{exp_root_dir}{character string path to root directory of an
+experiment, usually parameters$fullOutputDir_NO_slash}
 
-\item{parameters}{named list of all parameters, generally from project.yaml file}
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
 
 \item{read_Xu_problem_from_Xu_file}{boolean TRUE if problem is to be
-read from a file created by Xu; FALSE if problem is to be created from
-scratch.}
+read from a benchmark problem description file created by Xu;
+FALSE if problem is to be created from scratch.}
 
-\item{infile_name}{DESCRIPTION.}
+\item{Xu_bench_infile_name}{filename of Xu benchmark problem file}
 
-\item{given_correct_solution_cost}{DESCRIPTION.}
+\item{given_correct_solution_cost}{boolean indicating whether the correct
+optimal solution cost is given for a reserve selection problem}
 
-\item{max_allowed_num_spp}{DESCRIPTION.}
+\item{max_allowed_num_spp}{integer maximum number of species allowed in the
+problem (to keep from generating problems that are too large when trying
+to keep the run-time down)}
 
-\item{bdpg_error_codes}{DESCRIPTION.}
+\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
-\item{integerize}{DESCRIPTION.}
+\item{integerize}{function to use in converting floats to ints}
 }
 \value{
-RETURN_DESCRIPTION
+Returns a new Xu_bd_problem
 }
 \description{
 Read a Xu problem from files of ones already created by Xu or
@@ -40,3 +45,76 @@ create one from scratch.
 to be replaced or cloned into something appropriate for the new problem
 type.**
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{base_prob_name_stem}{
+\preformatted{
+base_prob_name_stem :  chr "base_prob"
+}}
+\subsection{bdpg_error_codes}{
+\preformatted{
+bdpg_error_codes : List of 6
+ $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+ $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+ $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+ $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+ $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+ $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+}}
+\subsection{bpm}{
+\preformatted{
+bpm :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
+}}
+\subsection{cor_dir_name_stem}{
+\preformatted{
+cor_dir_name_stem :  chr "cor"
+}}
+\subsection{given_correct_solution_cost}{
+\preformatted{
+given_correct_solution_cost :  num 420
+}}
+\subsection{Xu_bench_infile_name}{
+\preformatted{
+Xu_bench_infile_name :  chr ""
+}}
+\subsection{integerize}{
+\preformatted{
+integerize : function (x, digits = 0)
+}}
+\subsection{max_allowed_num_spp}{
+\preformatted{
+max_allowed_num_spp :  num 2000
+}}
+\subsection{parameters}{
+\preformatted{
+parameters : List of 66
+ $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+ ...
+ $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+\subsection{PU_spp_pair_info}{
+\preformatted{
+PU_spp_pair_info : Formal class 'PU_spp_pair_info_class' [package "bdpg"] with 12 slots
+}}
+\subsection{read_Xu_problem_from_Xu_file}{
+\preformatted{
+read_Xu_problem_from_Xu_file :  logi FALSE
+}}
+\subsection{exp_root_dir}{
+\preformatted{
+exp_root_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+\subsection{Xu_bdprob_cor}{
+\preformatted{
+Xu_bdprob_cor : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+}}
+\subsection{Xu_prob_gen_info}{
+\preformatted{
+Xu_prob_gen_info : Formal class 'Xu_prob_gen_info_class' [package "bdpg"] with 3 slots
+}}
+}
+

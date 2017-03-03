@@ -4,22 +4,27 @@
 \alias{std_param_defns}
 \title{Standardized parameter definitions for reuse across all functions}
 \usage{
-std_param_defns(all_correct_node_IDs, bdpg_error_codes, bdpg_error_name, bpm,
-  cor_or_app_label, correct_solution_vector_is_known, dependent_node_IDs,
-  duplicate_links_allowed, edge_list, exp_root_dir,
-  final_link_counts_for_each_node, final_node_counts_for_each_link, integerize,
+std_param_defns(all_correct_node_IDs, base_outdir_for_checksum,
+  bdpg_error_codes, bdpg_error_name, bpm, cor_or_app_label,
+  correct_solution_vector_is_known, dependent_node_IDs, duplicate_links_allowed,
+  edge_list, exp_root_dir, final_link_counts_for_each_node,
+  final_node_counts_for_each_link, given_correct_solution_cost, integerize,
   integerize_string, marxan_solution, max_allowed_num_spp,
   max_possible_tot_num_links, n__num_groups, nodes, num_nodes_per_group,
-  num_PUs, num_rounds_of_linking_between_groups, num_spp, obj, occ_matrix,
-  parameters, plot_output_dir, PU_col_name, PU_costs, PU_set_to_test,
-  PU_spp_pair_indices, rsprob, spp_col_name, spp_rep_fracs, spp_rep_targets,
-  spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
-  target_num_links_between_2_groups_per_round, top_dir)
+  num_PUs, num_rounds_of_linking_between_groups, num_spp, obj,
+  obj_with_UUID_and_checksum, occ_matrix, parameters, plot_output_dir,
+  PU_col_name, PU_costs, PU_set_to_test, PU_spp_pair_indices,
+  read_Xu_problem_from_Xu_file, rsprob, spp_col_name, spp_rep_fracs,
+  spp_rep_targets, spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
+  target_num_links_between_2_groups_per_round, top_dir, Xu_bench_infile_name)
 }
 \arguments{
 \item{all_correct_node_IDs}{numeric vector containing all planning unit IDs
 that appear in the correct problem, not to be confused with the set of
 planning IDs that appear in the correct \emph{solution}}
+
+\item{base_outdir_for_checksum}{directory where temporary file for use in checksum
+computation will be written and then deleted}
 
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 
@@ -59,6 +64,9 @@ of links for each node, i.e., number of species for each planning unit}
 of nodes for each link, i.e., number of planning units for each species
 (same as final_rank_abundance_dist)}
 
+\item{given_correct_solution_cost}{boolean indicating whether the correct
+optimal solution cost is given for a reserve selection problem}
+
 \item{integerize}{function to use in converting floats to ints}
 
 \item{integerize_string}{string containing name of the function to use to
@@ -97,6 +105,8 @@ linking to be done between groups in constructing the Xu problems}
 
 \item{obj}{an object such as a Xu_bd_problem or an RSrun}
 
+\item{obj_with_UUID_and_checksum}{object whose checksum is to be computed}
+
 \item{occ_matrix}{occupancy matrix, integer matrix with one row for each
 species and one column for each planning unit.  Each matrix entry
 specifies whether that species occupies that planning unit; 1 indicates
@@ -119,6 +129,10 @@ specifies a planning unit to include in the set to be tested}
 \item{PU_spp_pair_indices}{2 column data frame of PU IDs vs species IDs,
 where each row identifies a the ID of a given species that
 occurs on the given planning unit}
+
+\item{read_Xu_problem_from_Xu_file}{boolean TRUE if problem is to be
+read from a benchmark problem description file created by Xu;
+FALSE if problem is to be created from scratch.}
 
 \item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}
 
@@ -144,14 +158,11 @@ output directory of the experiment followed by some object-specific
 information and the UUID of the object, e.g.,
 ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587}
 
-\item{base_outdir_for_checksum}{directory where temporary file for use in checksum
-computation will be written and then deleted}
+\item{Xu_bench_infile_name}{filename of Xu benchmark problem file}
 
 \item{final_rank_abundance_dist}{integer vector of counts of number
 of nodes for each link, i.e., number of planning units for each species
 (same as final_node_counts_for_each_link)}
-
-\item{obj_with_UUID_and_checksum}{object whose checksum is to be computed}
 
 \item{presences_col_name}{character string giving column name for species
 counts (presences) in data frames}

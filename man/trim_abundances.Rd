@@ -2,8 +2,7 @@
 % Please edit documentation in R/gen_wrapped_bdprob.R
 \name{trim_abundances}
 \alias{trim_abundances}
-\title{Remove species from an abundance distribution if they fall on either
- too many or too few patches.}
+\title{Drop spp from abund dist if on too many or too few patches}
 \usage{
 trim_abundances(rounded_abundances, min_abund = 2,
   max_abund = .Machine$double.xmax)
@@ -38,3 +37,27 @@ This doesn't really need to be a function since it's only one line
  That version is in the git repository in case it needs to be
  resurrected for some reason.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{max_abund}{
+\preformatted{
+max_abund :  num 1.8e+308
+}}
+\subsection{min_abund}{
+\preformatted{
+min_abund :  num 2
+}}
+\subsection{rounded_abundances}{
+\preformatted{
+rounded_abundances :  num [1:1628] 2 2 1 1 3 1 3 2 2 1 ...
+}}
+\subsection{trimmed_rounded_abund_per_spp}{
+\preformatted{
+trimmed_rounded_abund_per_spp :  num [1:1277] 2 2 3 3 2 2 2 2 2 2 ...
+}}
+}
+

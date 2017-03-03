@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen_wrapped_bdprob.R
 \name{wrap_abundances_around_eligible_set}
 \alias{wrap_abundances_around_eligible_set}
-\title{FUNCTION_TITLE}
+\title{Wrap abundances around eligible set}
 \usage{
 wrap_abundances_around_eligible_set(dep_set, eligible_set,
   rounded_abund_per_spp, num_base_spp, Xu_PU_spp_table,
@@ -10,28 +10,124 @@ wrap_abundances_around_eligible_set(dep_set, eligible_set,
   spp_col_name = "spp_ID")
 }
 \arguments{
-\item{dep_set}{DESCRIPTION.}
+\item{dep_set}{integer vector}
 
-\item{eligible_set}{DESCRIPTION.}
+\item{eligible_set}{integer vector}
 
-\item{rounded_abund_per_spp}{DESCRIPTION.}
+\item{rounded_abund_per_spp}{integer vector}
 
-\item{num_base_spp}{DESCRIPTION.}
+\item{num_base_spp}{integer}
 
-\item{Xu_PU_spp_table}{DESCRIPTION.}
+\item{Xu_PU_spp_table}{data frame}
 
-\item{min_allowed_abundance}{DESCRIPTION.}
+\item{min_allowed_abundance}{integer}
 
-\item{PU_col_name}{DESCRIPTION.}
+\item{PU_col_name}{character string}
 
-\item{spp_col_name}{DESCRIPTION.}
+\item{spp_col_name}{character string}
 }
 \value{
-RETURN_DESCRIPTION
+Returns PU_spp_table data frame
 }
 \description{
-FUNCTION_DESCRIPTION
+Take a given distribution (e.g., from a Xu problem) and add more species
+(and probably more planning units too) to the problem so that the new
+problem has a specified distribution, but retains the original problem's
+solution.
 }
-\examples{
-# ADD_EXAMPLES_HERE
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{cur_eligible_set}{
+\preformatted{
+cur_eligible_set :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
+}}
+\subsection{cur_row}{
+\preformatted{
+cur_row :  num 1410
+}}
+\subsection{cur_spp_idx}{
+\preformatted{
+cur_spp_idx :  int 463
+}}
+\subsection{dep_set}{
+\preformatted{
+dep_set :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
+}}
+\subsection{dep_set_PU}{
+\preformatted{
+dep_set_PU :  int 42
+}}
+\subsection{eligible_set}{
+\preformatted{
+eligible_set :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
+}}
+\subsection{end_row}{
+\preformatted{
+end_row :  num 1409
+}}
+\subsection{extra_abund}{
+\preformatted{
+extra_abund :  num [1:463] 2 2 2 2 2 2 2 2 2 2 ...
+}}
+\subsection{extra_PUs_for_cur_spp}{
+\preformatted{
+extra_PUs_for_cur_spp :  int [1:6] 397 278 292 178 316 324
+}}
+\subsection{min_allowed_abundance}{
+\preformatted{
+min_allowed_abundance :  num 2
+}}
+\subsection{num_base_spp}{
+\preformatted{
+num_base_spp :  int 814
+}}
+\subsection{num_extra_occurrences}{
+\preformatted{
+num_extra_occurrences :  num 1409
+}}
+\subsection{num_extra_spp}{
+\preformatted{
+num_extra_spp :  int 463
+}}
+\subsection{num_PUs_to_draw}{
+\preformatted{
+num_PUs_to_draw :  num 6
+}}
+\subsection{PU_col_name}{
+\preformatted{
+PU_col_name :  chr "PU_ID"
+}}
+\subsection{PU_spp_table}{
+\preformatted{
+PU_spp_table : 'data.frame':	3037 obs. of  2 variables:
+ $ PU_ID : num  1 2 3 4 5 6 7 8 9 10 ...
+ $ spp_ID: num  1 1 2 2 3 3 4 4 5 5 ...
+}}
+\subsection{rounded_abund_per_spp}{
+\preformatted{
+rounded_abund_per_spp :  num [1:1628] 2 2 1 1 3 1 3 2 2 1 ...
+}}
+\subsection{spp_col_name}{
+\preformatted{
+spp_col_name :  chr "spp_ID"
+}}
+\subsection{trimmed_rounded_abund_per_spp}{
+\preformatted{
+trimmed_rounded_abund_per_spp :  num [1:1277] 2 2 3 3 2 2 2 2 2 2 ...
+}}
+\subsection{x}{
+\preformatted{
+x :  int(0)
+}}
+\subsection{Xu_PU_spp_table}{
+\preformatted{
+Xu_PU_spp_table : 'data.frame':	1628 obs. of  2 variables:
+ $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
+}}
 }
+

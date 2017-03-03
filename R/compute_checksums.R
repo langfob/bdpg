@@ -52,7 +52,8 @@
 #' @return character string checksum of the object when object has been written
 #'     out as a file
 
-compute_obj_checksum <- function (obj_with_UUID_and_checksum, base_outdir_for_checksum=".")
+compute_obj_checksum <- function (obj_with_UUID_and_checksum,
+                                  base_outdir_for_checksum=".")
     {
         #------------------------------------------------------------------
         #  Clear the UUID and checksum fields if they exist,
@@ -116,7 +117,9 @@ compute_obj_checksum <- function (obj_with_UUID_and_checksum, base_outdir_for_ch
 compute_and_set_obj_checksum <- function (obj_with_UUID_and_checksum,
                                           base_outdir_for_checksum=".")
     {
-    obj_with_UUID_and_checksum@checksum <- compute_obj_checksum (obj_with_UUID_and_checksum, base_outdir_for_checksum)
+    obj_with_UUID_and_checksum@checksum <-
+        compute_obj_checksum (obj_with_UUID_and_checksum,
+                              base_outdir_for_checksum)
 
 #docaids::doc_vars_in_this_func_once ()
     return (obj_with_UUID_and_checksum)
@@ -150,8 +153,6 @@ compute_and_set_obj_checksum <- function (obj_with_UUID_and_checksum,
 #' saved_obj_with_checksum_filename :  chr "saved.RSprob-COR-Base.d0729e1c-eadc-4899-a382-8cb7ac2c08d7.rds"
 #' }}
 #'
-# param saved_obj_with_checksum_filename character string filename for
-#     writing checksummed object to disk
 #' @inheritParams std_param_defns
 #'
 #' @return Returns input object with its checksum slot filled
