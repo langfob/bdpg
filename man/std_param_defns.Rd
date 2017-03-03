@@ -6,11 +6,11 @@
 \usage{
 std_param_defns(bdpg_error_codes, bdpg_error_name, bpm,
   correct_solution_vector_is_known, dependent_node_IDs, duplicate_links_allowed,
-  edge_list, integerize, integerize_string, max_allowed_num_spp,
+  edge_list, exp_root_dir, integerize, integerize_string, max_allowed_num_spp,
   max_possible_tot_num_links, n__num_groups, nodes, num_nodes_per_group,
-  num_PUs, num_rounds_of_linking_between_groups, num_spp, occ_matrix,
+  num_PUs, num_rounds_of_linking_between_groups, num_spp, obj, occ_matrix,
   parameters, PU_col_name, PU_costs, PU_set_to_test, PU_spp_pair_indices,
-  spp_col_name, spp_rep_fracs, spp_rep_targets,
+  rsprob, spp_col_name, spp_rep_fracs, spp_rep_targets,
   spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
   target_num_links_between_2_groups_per_round)
 }
@@ -41,6 +41,9 @@ implies more than one allowed, FALSE implies only one allowed}
 \item{edge_list}{two column integer matrix of node IDs with one row for
 each edge and columns for the 2 ends of the edge}
 
+\item{exp_root_dir}{character string path to root directory of an
+experiment}
+
 \item{integerize}{function to use in converting floats to ints}
 
 \item{integerize_string}{string containing name of the function to use to
@@ -68,6 +71,8 @@ linking to be done between groups in constructing the Xu problems}
 
 \item{num_spp}{integer number of species in the problem}
 
+\item{obj}{an object such as a Xu_bd_problem or an RSrun}
+
 \item{occ_matrix}{occupancy matrix, integer matrix with one row for each
 species and one column for each planning unit.  Each matrix entry
 specifies whether that species occupies that planning unit; 1 indicates
@@ -87,6 +92,8 @@ specifies a planning unit to include in the set to be tested}
 \item{PU_spp_pair_indices}{data frame with 2 integer columns, PU_ID and
 spp_ID, where each row identifies a the ID of a given species that
 occurs on the given planning unit}
+
+\item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}
 
 \item{spp_col_name}{character string giving species column name in data frames}
 
