@@ -81,10 +81,8 @@
 #' @param pu_spp_amt_df data frame containing the marxan planning unit vs.
 #'     species data (i.e., data frame with columns for pu, species, and amount).
 #'
-#' @return list containing 3 named elements, each of which is a data frame:
+#' @return Returns list containing 3 named elements, each of which is a data frame:
 #'     num_spp_per_patch, num_PUs_per_spp, and amt_per_spp.
-#'
-#'
 #'
 #' @export
 
@@ -109,20 +107,22 @@ summarize_pu_and_spp_dist_data_from_pu_spp_amt_df <- function (pu_spp_amt_df)
                                   num_PUs_per_spp=num_PUs_per_spp,
                                   amt_per_spp=amt_per_spp)
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (pu_and_spp_dist_data)
 }
 
 #-------------------------------------------------------------------------------
 
-#' Title
+#' Summarize PU and spp dist data from marxan puvspr input file
+#'
+#' Summarize planning unit and species distribution data from marxan puvspr
+#' input file.
 #'
 #' @param infile_path character string giving path to the marxan puvspr.dat
 #'     file to be analyzed (including the name of the file itself), e.g.,
 #'     "~/marxan/input/puvspr.dat"
 #'
-#' @return
+#' @return Returns pu_and_spp_dist_data
 #' @export
 #'
 #' @examples \dontrun{
@@ -143,7 +143,6 @@ summarize_pu_and_spp_dist_data_from_marxan_puvspr_input_file <-
         summarize_pu_and_spp_dist_data_from_pu_spp_amt_df (pu_spp_amt_df)
 
 docaids::doc_vars_in_this_func_once ()
-
     return (pu_and_spp_dist_data)
     }
 

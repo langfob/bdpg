@@ -41,7 +41,6 @@ create_RSrun <- function (prob_UUID,
     rsrun <- save_rsprob (rsrun, starting_dir)
 
 docaids::doc_vars_in_this_func_once ()
-
     return (rsrun)
     }
 
@@ -49,11 +48,11 @@ docaids::doc_vars_in_this_func_once ()
 
 #' Run marxan on COR problem and write output from all analysis
 #'
-#' @param COR_bd_prob
-#' @param parameters
-#' @param targets
+#' @param COR_bd_prob a Xu_bd_problem
+#' @param parameters list
+#' @param targets numeric vector
 #'
-#' @return
+#' @return Returns nothing
 #' @export
 #'
 do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
@@ -109,12 +108,12 @@ docaids::doc_vars_in_this_func_once ()
 
 #' Run marxan on APP problem and write output from all analysis
 #'
-#' @param APP_bd_prob
-#' @param COR_bd_prob
-#' @param parameters
-#' @param targets
+#' @param APP_bd_prob a Xu_bd_problem
+#' @param COR_bd_prob a Xu_bd_problem
+#' @param parameters list
+#' @param targets numeric vector
 #'
-#' @return
+#' @return Returns nothing
 #' @export
 
 do_APP_marxan_analysis_and_output <- function (APP_bd_prob,

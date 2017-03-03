@@ -8,7 +8,16 @@ do_APP_marxan_analysis_and_output(APP_bd_prob, COR_bd_prob, parameters,
   targets = rep(1, COR_bd_prob@num_spp))
 }
 \arguments{
-\item{targets}{}
+\item{APP_bd_prob}{a Xu_bd_problem}
+
+\item{COR_bd_prob}{a Xu_bd_problem}
+
+\item{parameters}{list}
+
+\item{targets}{numeric vector}
+}
+\value{
+Returns nothing
 }
 \description{
 Run marxan on APP problem and write output from all analysis

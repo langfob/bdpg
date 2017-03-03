@@ -511,8 +511,7 @@ docaids::doc_vars_in_this_func_once ()
 #' @return Returns numeric score from evaluating the given lognormal; the
 #'     closer to 0 the better
 #' @export
-#'
-#' @examples
+
 EF = function (seed_value,
                num_spp_to_generate,
                min_num_spp_on_2_PUs,

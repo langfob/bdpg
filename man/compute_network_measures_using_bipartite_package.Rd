@@ -13,6 +13,9 @@ compute_network_measures_using_bipartite_package(rsprob, exp_root_dir)
 \item{exp_root_dir}{character string path to root directory of an
 experiment, usually parameters$fullOutputDir_NO_slash}
 }
+\value{
+Returns bipartite_metrics_from_bipartite_package
+}
 \description{
 The bdpg package computes bipartite measures over the PU/spp network in
 two ways, one using the igraph package and the other using the bipartite

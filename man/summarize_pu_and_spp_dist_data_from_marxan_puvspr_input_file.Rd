@@ -3,7 +3,7 @@
 %   R/compute_pu_and_spp_histograms_from_marxan_pusvpr_file.R
 \name{summarize_pu_and_spp_dist_data_from_marxan_puvspr_input_file}
 \alias{summarize_pu_and_spp_dist_data_from_marxan_puvspr_input_file}
-\title{Title}
+\title{Summarize PU and spp dist data from marxan puvspr input file}
 \usage{
 summarize_pu_and_spp_dist_data_from_marxan_puvspr_input_file(infile_path)
 }
@@ -12,8 +12,12 @@ summarize_pu_and_spp_dist_data_from_marxan_puvspr_input_file(infile_path)
 file to be analyzed (including the name of the file itself), e.g.,
 "~/marxan/input/puvspr.dat"}
 }
+\value{
+Returns pu_and_spp_dist_data
+}
 \description{
-Title
+Summarize planning unit and species distribution data from marxan puvspr
+input file.
 }
 \examples{
 \dontrun{

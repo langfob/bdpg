@@ -143,7 +143,7 @@
 #'
 #' @inheritParams std_param_defns
 #'
-#' @return
+#' @return Returns bipartite_metrics_from_bipartite_package
 
 compute_network_measures_using_bipartite_package = function (rsprob,
                                                              exp_root_dir)

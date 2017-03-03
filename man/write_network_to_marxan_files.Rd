@@ -2,15 +2,130 @@
 % Please edit documentation in R/gscp_12_write_network_to_marxan_files.R
 \name{write_network_to_marxan_files}
 \alias{write_network_to_marxan_files}
-\title{Title}
+\title{Write network to marxan input file}
 \usage{
 write_network_to_marxan_files(PU_spp_pair_indices, PU_IDs, spp_IDs, PU_col_name,
   spp_col_name, parameters, marxan_input_dir, marxan_output_dir, spf_const,
   targets = rep(1, length(spp_IDs)), costs = rep(1, length(PU_IDs)))
 }
 \arguments{
-\item{costs}{}
+\item{PU_spp_pair_indices}{data frame}
+
+\item{PU_IDs}{integer vector}
+
+\item{spp_IDs}{integer vector}
+
+\item{PU_col_name}{character string}
+
+\item{spp_col_name}{character string}
+
+\item{parameters}{lilst}
+
+\item{marxan_input_dir}{character string}
+
+\item{marxan_output_dir}{character string}
+
+\item{spf_const}{numeric}
+
+\item{targets}{numeric vector}
+
+\item{costs}{numeric vector}
+}
+\value{
+numeric spf_const
 }
 \description{
-Title
+Write the network as a marxan input file.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{costs}{
+\preformatted{
+costs :  num [1:407] 1 1 1 1 1 1 1 1 1 1 ...
+}}
+\subsection{marxan_input_dir}{
+\preformatted{
+marxan_input_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+\subsection{marxan_output_dir}{
+\preformatted{
+marxan_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+\subsection{num_PU_spp_pairs}{
+\preformatted{
+num_PU_spp_pairs :  int 3037
+}}
+\subsection{num_PUs}{
+\preformatted{
+num_PUs :  int 407
+}}
+\subsection{num_spp}{
+\preformatted{
+num_spp :  int 1277
+}}
+\subsection{parameters}{
+\preformatted{
+parameters : List of 66
+ $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+ ...
+ $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+\subsection{PU_col_name}{
+\preformatted{
+PU_col_name :  chr "PU_ID"
+}}
+\subsection{pu_dat_file_to_cp}{
+\preformatted{
+pu_dat_file_to_cp :  chr "pu.dat /Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marx"| __truncated__
+}}
+\subsection{PU_IDs}{
+\preformatted{
+PU_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
+}}
+\subsection{PU_spp_pair_indices}{
+\preformatted{
+PU_spp_pair_indices : 'data.frame':	3037 obs. of  2 variables:
+ $ PU_ID : num  1 2 3 4 5 6 7 8 9 10 ...
+ $ spp_ID: num  1 1 2 2 3 3 4 4 5 5 ...
+}}
+\subsection{puvspr_file_to_cp}{
+\preformatted{
+puvspr_file_to_cp :  chr "puvspr.dat /Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-"| __truncated__
+}}
+\subsection{spec_file_to_cp}{
+\preformatted{
+spec_file_to_cp :  chr "spec.dat /Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Ma"| __truncated__
+}}
+\subsection{spf_const}{
+\preformatted{
+spf_const :  num 950
+}}
+\subsection{spp_col_name}{
+\preformatted{
+spp_col_name :  chr "spp_ID"
+}}
+\subsection{spp_IDs}{
+\preformatted{
+spp_IDs :  int [1:1277] 1 2 3 4 5 6 7 8 9 10 ...
+}}
+\subsection{spp_PU_amount_table}{
+\preformatted{
+spp_PU_amount_table : 'data.frame':	3037 obs. of  3 variables:
+ $ species: num  1 1 65 88 139 215 227 256 259 262 ...
+ $ pu     : num  1 2 2 2 2 2 2 2 2 2 ...
+ $ amount : num  1 1 1 1 1 1 1 1 1 1 ...
+}}
+\subsection{sppAmount}{
+\preformatted{
+sppAmount :  num 1
+}}
+\subsection{targets}{
+\preformatted{
+targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
+}}
+}
+

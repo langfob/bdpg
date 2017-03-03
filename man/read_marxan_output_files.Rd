@@ -8,6 +8,32 @@ read_marxan_output_files(marxan_output_dir_path, all_correct_node_IDs, num_spp,
   cor_bpm, plot_output_dir, parameters, app_bpm, cor_PU_costs,
   correct_solution_cost, largest_PU_ID, largest_spp_ID, targets)
 }
+\arguments{
+\item{all_correct_node_IDs}{integer vector}
+
+\item{num_spp}{integer}
+
+\item{cor_bpm}{matrix}
+
+\item{plot_output_dir}{character string}
+
+\item{parameters}{list}
+
+\item{app_bpm}{matrix}
+
+\item{cor_PU_costs}{numeric vector}
+
+\item{correct_solution_cost}{numeric}
+
+\item{largest_PU_ID}{integer}
+
+\item{largest_spp_ID}{integer}
+
+\item{marxan_output_dir}{character string}
+}
+\value{
+Returns list
+}
 \description{
 Should include these in the marxan package.
  Marxan's best solution.
@@ -23,3 +49,103 @@ Should include these in the marxan package.
  output_penalty.csv
  output_sen.dat
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{all_correct_node_IDs}{
+\preformatted{
+all_correct_node_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
+}}
+\subsection{app_bpm}{
+\preformatted{
+app_bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
+}}
+\subsection{app_optimum_cost}{
+\preformatted{
+app_optimum_cost :  int 61
+}}
+\subsection{cor_bpm}{
+\preformatted{
+cor_bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
+}}
+\subsection{cor_PU_costs}{
+\preformatted{
+cor_PU_costs :  num [1:407] 1 1 1 1 1 1 1 1 1 1 ...
+}}
+\subsection{correct_solution_cost}{
+\preformatted{
+correct_solution_cost :  num 61
+}}
+\subsection{largest_PU_ID}{
+\preformatted{
+largest_PU_ID :  num 407
+}}
+\subsection{largest_spp_ID}{
+\preformatted{
+largest_spp_ID :  int 1277
+}}
+\subsection{marxan_best_df_sorted}{
+\preformatted{
+marxan_best_df_sorted : 'data.frame':	407 obs. of  2 variables:
+ $ PUID    : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ SOLUTION: int  0 1 0 1 0 1 0 1 0 1 ...
+}}
+\subsection{marxan_best_df_sorted_as_vector}{
+\preformatted{
+marxan_best_df_sorted_as_vector :  int [1:407] 0 1 0 1 0 1 0 1 0 1 ...
+}}
+\subsection{marxan_mvbest_df_sorted_by_ConservationFeature}{
+\preformatted{
+marxan_mvbest_df_sorted_by_ConservationFeature : 'data.frame':	1277 obs. of  10 variables:
+ $ ConservationFeature: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ FeatureName        : logi  NA NA NA NA NA NA ...
+ $ Target             : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ AmountHeld         : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ OccurrenceTarget   : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ OccurrencesHeld    : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ SeparationTarget   : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ SeparationAchieved : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ TargetMet          : Factor w/ 1 level "yes": 1 1 1 1 1 1 1 1 1 1 ...
+ $ MPM                : num  1 1 1 1 1 1 1 1 1 1 ...
+}}
+\subsection{marxan_output_dir_path}{
+\preformatted{
+marxan_output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+\subsection{marxan_ssoln_df_sorted_by_PU}{
+\preformatted{
+marxan_ssoln_df_sorted_by_PU : 'data.frame':	407 obs. of  2 variables:
+ $ planning_unit: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ number       : int  0 4 0 4 0 4 0 4 0 4 ...
+}}
+\subsection{num_spp}{
+\preformatted{
+num_spp :  int 1277
+}}
+\subsection{parameters}{
+\preformatted{
+parameters : List of 66
+ $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+ ...
+ $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+\subsection{plot_output_dir}{
+\preformatted{
+plot_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+}}
+\subsection{retVal}{
+\preformatted{
+retVal : List of 3
+ $ marxan_best_df_sorted:'data.frame':	407 obs. of  2 variables:
+ $ marxan_ssoln_df      :'data.frame':	407 obs. of  2 variables:
+ $ marxan_mvbest_df     :'data.frame':	1277 obs. of  10 variables:
+}}
+\subsection{targets}{
+\preformatted{
+targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
+}}
+}
+

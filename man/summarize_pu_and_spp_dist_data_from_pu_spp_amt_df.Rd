@@ -12,7 +12,7 @@ summarize_pu_and_spp_dist_data_from_pu_spp_amt_df(pu_spp_amt_df)
 species data (i.e., data frame with columns for pu, species, and amount).}
 }
 \value{
-list containing 3 named elements, each of which is a data frame:
+Returns list containing 3 named elements, each of which is a data frame:
     num_spp_per_patch, num_PUs_per_spp, and amt_per_spp.
 }
 \description{
