@@ -196,8 +196,7 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 
         }  #  end if - num_spp > max_allowed_num_spp
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (PU_spp_pair_info)
     }
 

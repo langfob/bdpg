@@ -36,7 +36,7 @@ implies more than one allowed, FALSE implies only one allowed}
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
-Returns an edge list, which is a two column integer matrix of
+Returns edge list, a two column integer matrix of
     node IDs with one row for each edge and columns for the 2 ends of
     the edge
 }

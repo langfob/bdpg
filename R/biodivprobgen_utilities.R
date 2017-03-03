@@ -59,15 +59,94 @@ get_PU_costs = function (num_PUs) { return (rep (1, num_PUs)) }
 
 #===============================================================================
 
-    #  Note that you can only uniquely decode an edge list from an occurrence
-    #  matrix if the species only occurs on 2 patches, i.e., the underlying
-    #  assumption in the Xu problem generator.
-    #  However, the only reason I'm building this routine now is to run it
-    #  on the Xu benchmark problems to see if those allow any duplicate
-    #  edges, i.e., more than one species occurring on the same pair of
-    #  patches.
+#' See if there are any duplicate links
+#'
+#' I'm not certain, but I think that the original Xu algorithm doesn't allow
+#' duplicate links.  I don't think that they would invalidate the solution,
+#' but I suspect that they could make the problem easier by giving more
+#' reasons to choose a pair of planning units.  Consequently, I'm looking for
+#' duplicate links.
+#'
+#'  Note that you can only uniquely decode an edge list from an occurrence
+#'  matrix if the species only occurs on 2 patches, i.e., the underlying
+#'  assumption in the Xu problem generator.
+#'  However, the only reason I'm building this routine now is to run it
+#'  on the Xu benchmark problems to see if those allow any duplicate
+#'  edges, i.e., more than one species occurring on the same pair of
+#'  patches.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{bdpg_error_codes}{
+#' \preformatted{
+#' bdpg_error_codes : List of 6
+#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+#' }}
+#' \subsection{cur_spp_occurs_on_patches}{
+#' \preformatted{
+#' cur_spp_occurs_on_patches :  int [1:2] 54 112
+#' }}
+#' \subsection{cur_spp_row}{
+#' \preformatted{
+#' cur_spp_row :  int 814
+#' }}
+#' \subsection{edge_list}{
+#' \preformatted{
+#' edge_list :  num [1:814, 1:2] 1 3 5 7 9 11 13 15 17 19 ...
+#' }}
+#' \subsection{num_duplicates}{
+#' \preformatted{
+#' num_duplicates :  int 0
+#' }}
+#' \subsection{num_patches_for_cur_spp}{
+#' \preformatted{
+#' num_patches_for_cur_spp :  int 2
+#' }}
+#' \subsection{num_PU_spp_pairs}{
+#' \preformatted{
+#' num_PU_spp_pairs :  num 1628
+#' }}
+#' \subsection{num_spp}{
+#' \preformatted{
+#' num_spp :  int 814
+#' }}
+#' \subsection{num_spp_on_no_patches}{
+#' \preformatted{
+#' num_spp_on_no_patches :  num 0
+#' }}
+#' \subsection{num_spp_warnings}{
+#' \preformatted{
+#' num_spp_warnings :  num 0
+#' }}
+#' \subsection{occ_matrix}{
+#' \preformatted{
+#' occ_matrix :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
+#' }}
+#' \subsection{row_nums_of_duplicates}{
+#' \preformatted{
+#' row_nums_of_duplicates :  int(0)
+#' }}
+#' \subsection{rows_to_delete}{
+#' \preformatted{
+#' rows_to_delete :  list()
+#' }}
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Returns an edge list, a two column integer matrix of
+#'     node IDs with one row for each edge and columns for the 2 ends of
+#'     the edge; quits if any duplicate edges are found.
 
-see_if_there_are_any_duplicate_links = function (occ_matrix, num_spp,
+see_if_there_are_any_duplicate_links = function (occ_matrix,
+                                                 num_spp,
                                                  bdpg_error_codes)
     {
     num_PU_spp_pairs = sum (occ_matrix)
@@ -144,7 +223,7 @@ see_if_there_are_any_duplicate_links = function (occ_matrix, num_spp,
         quit (save="no", bdpg_error_codes$ERROR_STATUS_duplicate_spp_in_Xu_input_file)
         }
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (edge_list)
     }
 

@@ -14,11 +14,70 @@
 #       Verify that the generated optimal solution really is a solution.
 #===============================================================================
 
-    #  Theoretically, this should not be necessary, but checking it here to
-    #  make sure that the implementation is working correctly.
-    #  Correct solutions will have every species attaining a representation
-    #  fraction of their target of at least 1 (where 1 means exactly meeting
-    #  their target).
+#' Verify that solution does cover all species
+#'
+#'  Theoretically, this should not be necessary, but checking it here to
+#'  make sure that the implementation is working correctly.
+#'  Correct solutions will have every species attaining a representation
+#'  fraction of their target of at least 1 (where 1 means exactly meeting
+#'  their target).
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{bdpg_error_codes}{
+#' \preformatted{
+#' bdpg_error_codes : List of 6
+#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+#' }}
+#' \subsection{bpm}{
+#' \preformatted{
+#' bpm :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
+#' }}
+#' \subsection{dependent_node_IDs}{
+#' \preformatted{
+#' dependent_node_IDs :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
+#' }}
+#' \subsection{num_PUs}{
+#' \preformatted{
+#' num_PUs :  int 122
+#' }}
+#' \subsection{num_spp}{
+#' \preformatted{
+#' num_spp :  int 814
+#' }}
+#' \subsection{PU_costs}{
+#' \preformatted{
+#' PU_costs :  num [1:122] 1 1 1 1 1 1 1 1 1 1 ...
+#' }}
+#' \subsection{solution_cost}{
+#' \preformatted{
+#' solution_cost :  num 61
+#' }}
+#' \subsection{spp_rep_fracs}{
+#' \preformatted{
+#' spp_rep_fracs :  num [1:814] 1 1 1 1 1 1 1 1 1 1 ...
+#' }}
+#' \subsection{spp_rep_targets}{
+#' \preformatted{
+#' spp_rep_targets :  num [1:814] 1 1 1 1 1 1 1 1 1 1 ...
+#' }}
+#' \subsection{unmet_spp_rep_frac_indices}{
+#' \preformatted{
+#' unmet_spp_rep_frac_indices :  int(0)
+#' }}
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Returns TRUE if given solution does cover all species targets;
+#'     quits otherwise
 
 verify_that_generated_solution_really_is_a_solution =
         function (bpm,
@@ -66,8 +125,7 @@ verify_that_generated_solution_really_is_a_solution =
 
     stopifnot (all.equal (solution_cost, length (dependent_node_IDs)))
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (TRUE)
     }
 
@@ -143,6 +201,98 @@ docaids::doc_vars_in_this_func_once ()
 #               Build input matrix for bipartite package...
 #===============================================================================
 
+#' Create adjacency matrix with species rows vs planning unit columns
+#'
+#' Create numeric adjacency matrix with one row for each species and one
+#' column for each planning unit and each matrix entry specifying whether
+#' that species occupies that planning unit.  A 1 indicates the species
+#' does occupy the planning unit and 0 indicates it does not.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{bdpg_error_codes}{
+#' \preformatted{
+#' bdpg_error_codes : List of 6
+#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+#' }}
+#' \subsection{bpm}{
+#' \preformatted{
+#' bpm :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
+#' }}
+#' \subsection{correct_solution_vector_is_known}{
+#' \preformatted{
+#' correct_solution_vector_is_known :  logi TRUE
+#' }}
+#' \subsection{cur_col}{
+#' \preformatted{
+#' cur_col :  int 112
+#' }}
+#' \subsection{cur_row}{
+#' \preformatted{
+#' cur_row :  int 814
+#' }}
+#' \subsection{dependent_node_IDs}{
+#' \preformatted{
+#' dependent_node_IDs :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
+#' }}
+#' \subsection{edge_idx}{
+#' \preformatted{
+#' edge_idx :  int 1628
+#' }}
+#' \subsection{num_PU_cols}{
+#' \preformatted{
+#' num_PU_cols :  int 122
+#' }}
+#' \subsection{num_PU_spp_pairs}{
+#' \preformatted{
+#' num_PU_spp_pairs :  int 1628
+#' }}
+#' \subsection{num_PUs}{
+#' \preformatted{
+#' num_PUs :  int 122
+#' }}
+#' \subsection{num_spp}{
+#' \preformatted{
+#' num_spp :  int 814
+#' }}
+#' \subsection{num_spp_rows}{
+#' \preformatted{
+#' num_spp_rows :  int 814
+#' }}
+#' \subsection{PU_col_name}{
+#' \preformatted{
+#' PU_col_name :  chr "PU_ID"
+#' }}
+#' \subsection{PU_costs}{
+#' \preformatted{
+#' PU_costs :  num [1:122] 1 1 1 1 1 1 1 1 1 1 ...
+#' }}
+#' \subsection{PU_spp_pair_indices}{
+#' \preformatted{
+#' PU_spp_pair_indices : 'data.frame':	1628 obs. of  2 variables:
+#'  $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
+#' }}
+#' \subsection{spp_col_name}{
+#' \preformatted{
+#' spp_col_name :  chr "spp_ID"
+#' }}
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Returns bpm; integer matrix with one row for each species and one
+#'     column for each planning unit.  Each matrix entry specifies whether
+#'     that species occupies that planning unit; 1 indicates the species
+#'     does occupy the planning unit and 0 indicates it does not.
+
 create_adj_matrix_with_spp_rows_vs_PU_cols =
     function (num_spp,
               num_PUs,
@@ -211,8 +361,7 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
                                                         bdpg_error_codes)
         }
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (bpm)
     }
 

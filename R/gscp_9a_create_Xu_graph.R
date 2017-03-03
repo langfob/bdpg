@@ -173,7 +173,7 @@ assert_edge_list_does_not_violate_assumptions =
               }  #  end if - (first_row_of_intergroup_links <= num_rows_in_edge_list)
           }  #  end else - (first_row_of_intergroup_links >= 2)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
       if (edge_list_error)
           stop ("\n\nOne or more fatal errors in building edge_list.\n\n")
 
@@ -216,7 +216,7 @@ sort_within_rows = function (a_2_col_matrix, decreasing=FALSE)
         a_2_col_matrix [row,] = sort (a_2_col_matrix [row,], decreasing)
         }
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (a_2_col_matrix)
     }
 
@@ -303,7 +303,7 @@ docaids::doc_vars_in_this_func_once ()
 #'
 #' @inheritParams std_param_defns
 #'
-#' @return Returns an edge list, which is a two column integer matrix of
+#' @return Returns edge list, a two column integer matrix of
 #'     node IDs with one row for each edge and columns for the 2 ends of
 #'     the edge
 
@@ -424,8 +424,7 @@ create_Xu_graph = function (num_nodes_per_group,
 
     #---------------------------------------------------------------------------
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (edge_list)
     }
 

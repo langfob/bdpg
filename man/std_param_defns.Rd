@@ -4,16 +4,31 @@
 \alias{std_param_defns}
 \title{Standardized parameter definitions for reuse across all functions}
 \usage{
-std_param_defns(bdpg_error_codes, bdpg_error_name, dependent_node_IDs,
-  duplicate_links_allowed, edge_list, integerize, integerize_string,
-  max_allowed_num_spp, max_possible_tot_num_links, n__num_groups, nodes,
-  num_nodes_per_group, num_rounds_of_linking_between_groups, num_PUs,
-  parameters, PU_costs, target_num_links_between_2_groups_per_round)
+std_param_defns(bdpg_error_codes, bdpg_error_name, bpm,
+  correct_solution_vector_is_known, dependent_node_IDs, duplicate_links_allowed,
+  edge_list, integerize, integerize_string, max_allowed_num_spp,
+  max_possible_tot_num_links, n__num_groups, nodes, num_nodes_per_group,
+  num_PUs, num_rounds_of_linking_between_groups, num_spp, occ_matrix,
+  parameters, PU_col_name, PU_costs, PU_set_to_test, PU_spp_pair_indices,
+  spp_col_name, spp_rep_fracs, spp_rep_targets,
+  spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
+  target_num_links_between_2_groups_per_round)
 }
 \arguments{
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 
-\item{bdpg_error_name}{string containing name of error code to look up in list of error codes}
+\item{bdpg_error_name}{string containing name of error code to look up in
+list of error codes}
+
+\item{bpm}{bipartite matrix; integer matrix with one row for each species
+and one column for each planning unit.  Each matrix entry specifies
+whether that species occupies that planning unit; 1 indicates the
+species does occupy the planning unit and 0 indicates it does not.
+Same as occ_matrix.}
+
+\item{correct_solution_vector_is_known}{boolean flag indicating whether
+a correct optimal solution vector is known for the problem (as opposed
+for example, to only knowing the correct cost)}
 
 \item{dependent_node_IDs}{integer vector of IDs of planning units contained
 in a constructed correct solution to a Xu problem}
@@ -46,15 +61,44 @@ in the Xu problem given all the other parameter settings}
 \item{num_nodes_per_group}{integer number of planning units per group in the
 Xu problem}
 
+\item{num_PUs}{integer number of planning units}
+
 \item{num_rounds_of_linking_between_groups}{integer number of rounds of
 linking to be done between groups in constructing the Xu problems}
 
-\item{num_PUs}{integer number of planning units}
+\item{num_spp}{integer number of species in the problem}
+
+\item{occ_matrix}{occupancy matrix, integer matrix with one row for each
+species and one column for each planning unit.  Each matrix entry
+specifies whether that species occupies that planning unit; 1 indicates
+the species does occupy the planning unit and 0 indicates it does not.
+Same as bpm.}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
 
+\item{PU_col_name}{character string giving planning unit column name in data frames}
+
 \item{PU_costs}{numeric vector of planning unit costs}
+
+\item{PU_set_to_test}{integer vector of planning unit IDs where each ID
+specifies a planning unit to include in the set to be tested}
+
+\item{PU_spp_pair_indices}{data frame with 2 integer columns, PU_ID and
+spp_ID, where each row identifies a the ID of a given species that
+occurs on the given planning unit}
+
+\item{spp_col_name}{character string giving species column name in data frames}
+
+\item{spp_rep_fracs}{numeric vector of fractions of species
+representation targets achieved by a given set of planning units}
+
+\item{spp_rep_targets}{numeric vector with a target abundance for each
+species in the problem}
+
+\item{spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU}{integer matrix of
+abundance of each species in each planning unit, with a row for each
+species ID and a column for each planning unit ID}
 
 \item{target_num_links_between_2_groups_per_round}{integer target number of
 links between any two groups per round of linking in constructing the

@@ -7,7 +7,8 @@
 get_bdpg_error_code(bdpg_error_name)
 }
 \arguments{
-\item{bdpg_error_name}{string containing name of error code to look up in list of error codes}
+\item{bdpg_error_name}{string containing name of error code to look up in
+list of error codes}
 }
 \value{
 Returns integer error code for the given error name
