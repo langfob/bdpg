@@ -93,6 +93,8 @@
 #' @param all_correct_node_IDs numeric vector containing all planning unit IDs
 #'     that appear in the correct problem, not to be confused with the set of
 #'     planning IDs that appear in the correct \emph{solution}
+#' @param base_outdir_for_checksum directory where temporary file for use in checksum
+#'     computation will be written and then deleted
 #' @param bdpg_error_codes list of error names and corresponding error codes
 #' @param bdpg_error_name string containing name of error code to look up in
 #'     list of error codes
@@ -149,6 +151,7 @@
 #'     linking to be done between groups in constructing the Xu problems
 #' @param num_spp integer number of species in the problem
 #' @param obj an object such as a Xu_bd_problem or an RSrun
+#' @param obj_with_UUID_and_checksum object whose checksum is to be computed
 #' @param occ_matrix occupancy matrix, integer matrix with one row for each
 #'     species and one column for each planning unit.  Each matrix entry
 #'     specifies whether that species occupies that planning unit; 1 indicates

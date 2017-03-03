@@ -144,9 +144,14 @@ output directory of the experiment followed by some object-specific
 information and the UUID of the object, e.g.,
 ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587}
 
+\item{base_outdir_for_checksum}{directory where temporary file for use in checksum
+computation will be written and then deleted}
+
 \item{final_rank_abundance_dist}{integer vector of counts of number
 of nodes for each link, i.e., number of planning units for each species
 (same as final_node_counts_for_each_link)}
+
+\item{obj_with_UUID_and_checksum}{object whose checksum is to be computed}
 
 \item{presences_col_name}{character string giving column name for species
 counts (presences) in data frames}

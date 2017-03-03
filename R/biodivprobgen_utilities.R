@@ -565,31 +565,6 @@ cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 
 #===============================================================================
 
-save_obj_with_checksum = function (obj, saved_obj_filename, base_outdir)
-    {
-    obj = compute_and_set_obj_checksum (obj, base_outdir)
-
-        #  This assumes that the object has a file_name_prefix and a UUID.
-
-    saved_obj_filename = paste0 ("saved.",
-                                 obj@file_name_prefix, ".",
-                                 obj@UUID,
-                                 ".rds")
-    full_saved_obj_path = file.path (base_outdir, saved_obj_filename)
-    saveRDS (obj, full_saved_obj_path)
-
-#    reloaded_obj = readRDS (full_saved_obj_path)    #  testing only
-
-    cat ("\n\n>>>>> '", obj@file_name_prefix, "' object saved to: \n    '",
-         full_saved_obj_path, "'",
-         "\nTo reload problem, use readRDS (full_saved_obj_path)\n\n", sep='')
-
-docaids::doc_vars_in_this_func_once ()
-    return (obj)
-    }
-
-#===============================================================================
-
 #' Save bd problem to disk
 #'
 #' After a problem is generated, its R representation is saved to disk so
@@ -609,7 +584,8 @@ docaids::doc_vars_in_this_func_once ()
 save_rsprob <- function (rsprob, starting_dir)
     {
     base_outdir = get_RSprob_path_topdir (rsprob, starting_dir)
-    rsprob      = save_obj_with_checksum (rsprob, saved_rsprob_filename,
+    rsprob      = save_obj_with_checksum (rsprob,
+                                          #saved_rsprob_filename,
                                           base_outdir)
 
 docaids::doc_vars_in_this_func_once ()
@@ -621,13 +597,14 @@ docaids::doc_vars_in_this_func_once ()
 
 save_rsrun <- function (rsrun, starting_dir)
     {
-    saved_rsrun_filename = paste0 ("saved_rsrun.",
-                                    rsrun@file_name_prefix,
-                                    rsrun@UUID,
-                                    ".rds")
+    # saved_rsrun_filename = paste0 ("saved_rsrun.",
+    #                                 rsrun@file_name_prefix,
+    #                                 rsrun@UUID,
+    #                                 ".rds")
 
     base_outdir = get_RSrun_path_topdir (rsrun, starting_dir)
-    rsrun       = save_obj_with_checksum (rsrun, saved_rsrun_filename,
+    rsrun       = save_obj_with_checksum (rsrun,
+                                          #saved_rsrun_filename,
                                           base_outdir)
 
 docaids::doc_vars_in_this_func_once ()
@@ -695,129 +672,6 @@ touch <- function (file_path_to_touch)
                  file = file_path_to_touch,
                  col.names=FALSE)
 docaids::doc_vars_in_this_func_once ()
-    }
-
-#===============================================================================
-
-#' Compute a checksum for the object
-#'
-#' The point of this function is to give a quick way to compare two complex
-#' objects to see whether they are really the same object excluding their UUID
-#' and checksum fields.  This is useful when running lots of experiments over
-#' and over during development where the same random seed may end up
-#' accidentally being re-used and generating identical experiments.  When lots
-#' experiments are archived, it may be necessary to quickly cross-compare many
-#' archived experiments against each other and having a stored checksum will
-#' make it easier to do this and therfore, easier to spot accidental
-#' duplicates.
-#'
-#' This function works by replacing the UUID and checksum fields of the local
-#' copy of the object with empty strings and then writing the object copy to a
-#' temporary file.  Then, a checksum is computed for that temporary file and
-#' file.  The modified original object is not returned from the function.
-#'
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{base_outdir}{
-#' \preformatted{
-#' base_outdir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-#' }}
-#' \subsection{checksum}{
-#' \preformatted{
-#' checksum :  Named chr "8e5ad448864db57de0e617aff6929882"
-#' }}
-#' \subsection{full_saved_obj_path}{
-#' \preformatted{
-#' full_saved_obj_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-#' }}
-#' \subsection{obj_with_UUID_and_checksum}{
-#' \preformatted{
-#' obj_with_UUID_and_checksum : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-#' }}
-#' \subsection{saved_obj_filename}{
-#' \preformatted{
-#' saved_obj_filename :  chr "tmp_for_checksum__ok_to_delete_if_left_after_run.rds"
-#' }}
-#'
-#' @param obj_with_UUID_and_checksum object whose checksum is to be computed
-#' @param base_outdir directory where temporary file for use in checksum
-#'     computation will be written and then deleted
-#'
-#' @return character string checksum of the object when object has been written
-#'     out as a file
-
-compute_obj_checksum <- function (obj_with_UUID_and_checksum, base_outdir=".")
-    {
-        #------------------------------------------------------------------
-        #  Clear the UUID and checksum fields if they exist,
-        #  since we don't want them to cause the checksum to be different
-        #  when two objects are identical other than those two fields.
-        #------------------------------------------------------------------
-
-    if ("UUID" %in% slotNames (obj_with_UUID_and_checksum))
-        obj_with_UUID_and_checksum@UUID <- ""
-    if ("checksum" %in% slotNames (obj_with_UUID_and_checksum))
-        obj_with_UUID_and_checksum@checksum <- ""
-
-        #--------------------------------------------------------------
-        #  Write the object to a temporary file that checksum can be
-        #  computed over (checksum only works on files, not objects).
-        #--------------------------------------------------------------
-
-    saved_obj_filename = paste0 ("tmp_for_checksum__ok_to_delete_if_left_after_run.rds")
-    full_saved_obj_path = file.path (normalizePath (base_outdir),
-                                     saved_obj_filename)
-    saveRDS (obj_with_UUID_and_checksum, full_saved_obj_path)
-
-        #-----------------------------------------------------
-        #  Now ready to compute the checksum
-        #  and get rid of the temporary file created for it.
-        #-----------------------------------------------------
-
-    checksum = tools::md5sum (full_saved_obj_path)
-    if (file.exists (full_saved_obj_path)) file.remove (full_saved_obj_path)
-
-#docaids::doc_vars_in_this_func_once ()
-    return (checksum)
-    }
-
-#===============================================================================
-
-#' Convenience function for computing the object's checksum and setting that slot
-#'
-#' This function computes the checksum and sets the checksum slot in the object,
-#' then returns the modified object.  It just packages those up for convenience.
-#'
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{base_outdir}{
-#' \preformatted{
-#' base_outdir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-#' }}
-#' \subsection{obj}{
-#' \preformatted{
-#' obj : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-#' }}
-#'
-#' @param obj object whose checksum is to be computed
-#' @param base_outdir directory where temporary file for use in checksum
-#'     computation will be written and then deleted
-#'
-#' @return  the same object that was passed in except that its checksum is
-#'     now set
-
-compute_and_set_obj_checksum <- function (obj, base_outdir=".")
-    {
-    obj@checksum <- compute_obj_checksum (obj, base_outdir)
-
-#docaids::doc_vars_in_this_func_once ()
-    return (obj)
     }
 
 #===============================================================================
