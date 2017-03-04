@@ -249,7 +249,7 @@ gen_multi_bdprob = function (parameters,
             }
         }
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (combined_bdprob)
     }
 

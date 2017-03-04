@@ -75,8 +75,7 @@ create_eligible_PU_set <- function (Xu_dep_set,
         eligible_PUs = extra_PUs
 
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (eligible_PUs)
     }
 
@@ -139,8 +138,7 @@ trim_abundances = function (rounded_abundances,
         rounded_abundances [(rounded_abundances <= max_abund) &
                             (rounded_abundances >= min_abund), drop=FALSE]
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (trimmed_rounded_abund_per_spp)
     }
 
@@ -379,8 +377,7 @@ remove_base_spp_abundances_from_wrapping_distribution <-
             }
         }
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (extra_spp_abund)
     }
 

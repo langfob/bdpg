@@ -652,7 +652,7 @@ cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 #'
 #' @return Returns input object with its checksum slot filled
 
-save_rsprob <- function (rsprob, starting_dir)
+save_rsprob <- function (rsprob, exp_root_dir)
     {
     base_outdir = get_RSprob_path_topdir (rsprob, exp_root_dir)
     rsprob      = save_obj_with_checksum (rsprob,

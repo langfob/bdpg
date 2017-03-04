@@ -496,8 +496,7 @@ gen_single_bdprob_COR = function (exp_root_dir,
 
     Xu_bdprob_cor <- save_rsprob (Xu_bdprob_cor, exp_root_dir)
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (Xu_bdprob_cor)
     }
 

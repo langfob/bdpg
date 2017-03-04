@@ -903,7 +903,7 @@ search_for_approximating_lognormal <- function (seed_value,
         cat ("\n")
         }
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (lognormal_result)
 
     }  #  end function - search_for_approximating_lognormal ()

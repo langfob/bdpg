@@ -22,3 +22,69 @@ RETURN_DESCRIPTION
 \description{
 Create an apparent problem from a correct problem.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{app_dir_name_stem}{
+\preformatted{
+app_dir_name_stem :  chr "app"
+}}
+\subsection{APP_prob_info}{
+\preformatted{
+APP_prob_info : Formal class 'APP_prob_info_class' [package "bdpg"] with 9 slots
+}}
+\subsection{base_prob_name_stem}{
+\preformatted{
+base_prob_name_stem :  chr "base_prob"
+}}
+\subsection{bdpg_error_codes}{
+\preformatted{
+bdpg_error_codes : List of 6
+ $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+ $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+ $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+ $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+ $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+ $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+}}
+\subsection{integerize}{
+\preformatted{
+integerize : function (x, digits = 0)
+}}
+\subsection{parameters}{
+\preformatted{
+parameters : List of 66
+ $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1844_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+ ...
+ $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1844_marxan_simulated_annealing.inprogress"
+}}
+\subsection{ret_vals_from_apply_errors}{
+\preformatted{
+ret_vals_from_apply_errors : List of 9
+ $ original_FP_const_rate : num 0.1
+ $ original_FN_const_rate : num 0.1
+ $ match_error_counts     : logi TRUE
+ $ FP_const_rate          : num 0.000588
+ $ FN_const_rate          : num 0.1
+ $ app_PU_spp_pair_indices:'data.frame':	3022 obs. of  2 variables:
+ $ app_spp_occupancy_data : num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
+ $ app_num_spp            : int 1268
+ $ app_num_PUs            : int 397
+}}
+\subsection{starting_dir}{
+\preformatted{
+starting_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1844_marxan_simulated_annealing.inprogress"
+}}
+\subsection{Xu_bdprob_APP}{
+\preformatted{
+Xu_bdprob_APP : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+}}
+\subsection{Xu_bdprob_COR}{
+\preformatted{
+Xu_bdprob_COR : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
+}}
+}
+

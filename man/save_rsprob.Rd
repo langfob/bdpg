@@ -4,10 +4,13 @@
 \alias{save_rsprob}
 \title{Save bd problem to disk}
 \usage{
-save_rsprob(rsprob, starting_dir)
+save_rsprob(rsprob, exp_root_dir)
 }
 \arguments{
 \item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}
+
+\item{exp_root_dir}{character string path to root directory of an
+experiment, usually parameters$fullOutputDir_NO_slash}
 }
 \value{
 Returns input object with its checksum slot filled
