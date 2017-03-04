@@ -55,6 +55,32 @@
 #'
 #' Run marxan program
 #'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{marxan_dir}{
+#' \preformatted{
+#' marxan_dir :  chr "/Users/bill/tzar/modelcode/marxanLibrary_1360018653/"
+#' }}
+#' \subsection{marxan_executable_name}{
+#' \preformatted{
+#' marxan_executable_name :  chr "MarOpt_v243_Mac64"
+#' }}
+#' \subsection{original_dir}{
+#' \preformatted{
+#' original_dir :  chr "/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper"
+#' }}
+#' \subsection{retval}{
+#' \preformatted{
+#' retval :  int 0
+#' }}
+#' \subsection{system.command.run.marxan}{
+#' \preformatted{
+#' system.command.run.marxan :  chr "./MarOpt_v243_Mac64 -s"
+#' }}
+#'
 #' @param marxan_dir character string
 #' @param marxan_executable_name character string
 #'
@@ -109,6 +135,193 @@ run_marxan = function (marxan_dir, marxan_executable_name)
 #' Set marxan controls and run marxan
 #'
 #' Set marxan controls and run marxan
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{current_os}{
+#' \preformatted{
+#' current_os :  chr "darwin13.4.0"
+#' }}
+#' \subsection{input_dat_cp_cmd}{
+#' \preformatted{
+#' input_dat_cp_cmd :  chr "cp /Users/bill/tzar/modelcode/marxanLibrary_1360018653/input.dat /Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_"| __truncated__
+#' }}
+#' \subsection{marxan_BLM}{
+#' \preformatted{
+#' marxan_BLM :  num 1
+#' }}
+#' \subsection{marxan_CLUMPTYPE}{
+#' \preformatted{
+#' marxan_CLUMPTYPE :  num 0
+#' }}
+#' \subsection{marxan_COSTTHRESH}{
+#' \preformatted{
+#' marxan_COSTTHRESH :  chr "0.00000000000000E+0000"
+#' }}
+#' \subsection{marxan_executable_name}{
+#' \preformatted{
+#' marxan_executable_name :  chr "MarOpt_v243_Mac64"
+#' }}
+#' \subsection{marxan_HEURTYPE}{
+#' \preformatted{
+#' marxan_HEURTYPE :  num -1
+#' }}
+#' \subsection{marxan_input_dir}{
+#' \preformatted{
+#' marxan_input_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{marxan_input_file_conn}{
+#' \preformatted{
+#' marxan_input_file_conn :  chr "/Users/bill/tzar/modelcode/marxanLibrary_1360018653/input.dat"
+#' }}
+#' \subsection{marxan_input_parameters_file_name}{
+#' \preformatted{
+#' marxan_input_parameters_file_name :  chr "/Users/bill/tzar/modelcode/marxanLibrary_1360018653/input.dat"
+#' }}
+#' \subsection{marxan_INPUTDIR}{
+#' \preformatted{
+#' marxan_INPUTDIR :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{marxan_IO_dir}{
+#' \preformatted{
+#' marxan_IO_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{marxan_ITIMPTYPE}{
+#' \preformatted{
+#' marxan_ITIMPTYPE :  num 0
+#' }}
+#' \subsection{marxan_MISSLEVEL}{
+#' \preformatted{
+#' marxan_MISSLEVEL :  num 1
+#' }}
+#' \subsection{marxan_NUMITNS}{
+#' \preformatted{
+#' marxan_NUMITNS :  chr "1000000"
+#' }}
+#' \subsection{marxan_NUMREPS}{
+#' \preformatted{
+#' marxan_NUMREPS :  num 4
+#' }}
+#' \subsection{marxan_NUMTEMP}{
+#' \preformatted{
+#' marxan_NUMTEMP :  num 10000
+#' }}
+#' \subsection{marxan_output_dir}{
+#' \preformatted{
+#' marxan_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{marxan_OUTPUTDIR}{
+#' \preformatted{
+#' marxan_OUTPUTDIR :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{marxan_PROP}{
+#' \preformatted{
+#' marxan_PROP :  num 0.5
+#' }}
+#' \subsection{marxan_PUNAME}{
+#' \preformatted{
+#' marxan_PUNAME :  chr "pu.dat"
+#' }}
+#' \subsection{marxan_PUVSPRNAME}{
+#' \preformatted{
+#' marxan_PUVSPRNAME :  chr "puvspr.dat"
+#' }}
+#' \subsection{marxan_RANDSEED}{
+#' \preformatted{
+#' marxan_RANDSEED :  num 10102
+#' }}
+#' \subsection{marxan_RUNMODE}{
+#' \preformatted{
+#' marxan_RUNMODE :  num 1
+#' }}
+#' \subsection{marxan_SAVEBEST}{
+#' \preformatted{
+#' marxan_SAVEBEST :  num 3
+#' }}
+#' \subsection{marxan_SAVELOG}{
+#' \preformatted{
+#' marxan_SAVELOG :  num 2
+#' }}
+#' \subsection{marxan_SAVEPENALTY}{
+#' \preformatted{
+#' marxan_SAVEPENALTY :  num 3
+#' }}
+#' \subsection{marxan_SAVERUN}{
+#' \preformatted{
+#' marxan_SAVERUN :  num 3
+#' }}
+#' \subsection{marxan_SAVESCEN}{
+#' \preformatted{
+#' marxan_SAVESCEN :  num 3
+#' }}
+#' \subsection{marxan_SAVESOLUTIONSMATRIX}{
+#' \preformatted{
+#' marxan_SAVESOLUTIONSMATRIX :  num 3
+#' }}
+#' \subsection{marxan_SAVESUMMARY}{
+#' \preformatted{
+#' marxan_SAVESUMMARY :  num 3
+#' }}
+#' \subsection{marxan_SAVESUMSOLN}{
+#' \preformatted{
+#' marxan_SAVESUMSOLN :  num 3
+#' }}
+#' \subsection{marxan_SAVETARGMET}{
+#' \preformatted{
+#' marxan_SAVETARGMET :  num 3
+#' }}
+#' \subsection{marxan_SCENNAME}{
+#' \preformatted{
+#' marxan_SCENNAME :  chr "output"
+#' }}
+#' \subsection{marxan_SPECNAME}{
+#' \preformatted{
+#' marxan_SPECNAME :  chr "spec.dat"
+#' }}
+#' \subsection{marxan_STARTTEMP}{
+#' \preformatted{
+#' marxan_STARTTEMP :  num -1
+#' }}
+#' \subsection{marxan_THRESHPEN1}{
+#' \preformatted{
+#' marxan_THRESHPEN1 :  chr "1.40000000000000E+0001"
+#' }}
+#' \subsection{marxan_THRESHPEN2}{
+#' \preformatted{
+#' marxan_THRESHPEN2 :  chr "1.00000000000000E+0000"
+#' }}
+#' \subsection{marxan_VERBOSITY}{
+#' \preformatted{
+#' marxan_VERBOSITY :  num 3
+#' }}
+#' \subsection{parameters}{
+#' \preformatted{
+#' parameters : List of 66
+#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+#'  ...
+#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{retVal}{
+#' \preformatted{
+#' retVal : List of 14
+#'  $ marxan_PROP      : num 0.5
+#'  $ marxan_RANDSEED  : num 10102
+#'  $ marxan_NUMREPS   : num 4
+#'  $ marxan_NUMITNS   : chr "1000000"
+#'  $ marxan_STARTTEMP : num -1
+#'  $ marxan_NUMTEMP   : num 10000
+#'  $ marxan_COSTTHRESH: chr "0.00000000000000E+0000"
+#'  $ marxan_THRESHPEN1: chr "1.40000000000000E+0001"
+#'  $ marxan_THRESHPEN2: chr "1.00000000000000E+0000"
+#'  $ marxan_RUNMODE   : num 1
+#'  $ marxan_MISSLEVEL : num 1
+#'  $ marxan_ITIMPTYPE : num 0
+#'  $ marxan_HEURTYPE  : num -1
+#'  $ marxan_CLUMPTYPE : num 0
+#' }}
 #'
 #' @param marxan_input_dir character string
 #' @param marxan_output_dir character string

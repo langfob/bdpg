@@ -15,19 +15,51 @@
 
 #===============================================================================
 
-#' Write marxan planning units input file (pu.dat)  given vectors of cost and status values.
+#' Write marxan pu.dat from vectors
+#'
+#' Write marxan planning units input file (pu.dat) given vectors of cost
+#' and status values.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{cost_values}{
+#' \preformatted{
+#' cost_values :  num [1:407] 1 1 1 1 1 1 1 1 1 1 ...
+#' }}
+#' \subsection{num_PUs}{
+#' \preformatted{
+#' num_PUs :  int 407
+#' }}
+#' \subsection{pu_cost_status_table}{
+#' \preformatted{
+#' pu_cost_status_table : 'data.frame':	407 obs. of  3 variables:
+#'  $ id    : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ cost  : num  1 1 1 1 1 1 1 1 1 1 ...
+#'  $ status: num  0 0 0 0 0 0 0 0 0 0 ...
+#' }}
+#' \subsection{PU_IDs}{
+#' \preformatted{
+#' PU_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{status_values}{
+#' \preformatted{
+#' status_values :  num 0
+#' }}
 #'
 #' @param PU_IDs A vector of planning unit IDs
 #' @param cost_values A vector of costs
 #' @param status_values A vector of status values
 #' @export
-#' @return nothing.
+#' @return Returns nothing
 #' @examples
 #' \dontrun{
 #' PU_IDs = 1:5
 #' cost_values = c(2,3,8,1,4)
 #' status_values = c(0,0,0,0,0)
-#' write_marxan_spec.dat_input_file_from_vectors (PU_IDs, cost_values, status_values)
+#' write_marxan_pu.dat_input_file_from_vectors (PU_IDs, cost_values, status_values)
 #'          }
 
 write_marxan_pu.dat_input_file_from_vectors = function (PU_IDs,
@@ -44,7 +76,7 @@ write_marxan_pu.dat_input_file_from_vectors = function (PU_IDs,
                  sep=",",
                  quote=FALSE,
                  row.names=FALSE)
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     }
 
 #-------------------------------------------------------------------------------
@@ -82,7 +114,34 @@ docaids::doc_vars_in_this_func_once ()
 
 #===============================================================================
 
+#' Write marxan spec.dat from vectors
+#'
 #' Write species input file (spec.dat) given vectors of target and spf values.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{spf_values}{
+#' \preformatted{
+#' spf_values :  num 950
+#' }}
+#' \subsection{spp_IDs}{
+#' \preformatted{
+#' spp_IDs :  int [1:1277] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{spp_target_spf_table}{
+#' \preformatted{
+#' spp_target_spf_table : 'data.frame':	1277 obs. of  3 variables:
+#'  $ id    : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ target: num  1 1 1 1 1 1 1 1 1 1 ...
+#'  $ spf   : num  950 950 950 950 950 950 950 950 950 950 ...
+#' }}
+#' \subsection{target_values}{
+#' \preformatted{
+#' target_values :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
+#' }}
 #'
 #' @param spp_IDs A vector of species IDs
 #' @param spf_values A vector of species penalty factors
@@ -109,7 +168,7 @@ write_marxan_spec.dat_input_file_from_vectors =
                  sep=",",
                  quote=FALSE,
                  row.names=FALSE)
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     }
 
 #-------------------------------------------------------------------------------
@@ -147,7 +206,22 @@ docaids::doc_vars_in_this_func_once ()
 
 #===============================================================================
 
+#' Write marxan puvspr input file
+#'
 #' Write planning unit vs. species input file (puvspr.dat).
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{spp_PU_amount_table}{
+#' \preformatted{
+#' spp_PU_amount_table : 'data.frame':	3037 obs. of  3 variables:
+#'  $ species: num  1 1 65 88 139 215 227 256 259 262 ...
+#'  $ pu     : num  1 2 2 2 2 2 2 2 2 2 ...
+#'  $ amount : num  1 1 1 1 1 1 1 1 1 1 ...
+#' }}
 #'
 #' @param spp_PU_amount_table A data frame of species IDs vs planning unit IDs
 #' @export
@@ -176,12 +250,51 @@ write_marxan_puvspr.dat_input_file = function (spp_PU_amount_table)
                  sep=",",
                  quote=FALSE,
                  row.names=FALSE)
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================
 
+#' Write all marxan input files
+#'
 #' Write all marxan input files except bound.dat and input.dat using constant values for individual elements.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{costs}{
+#' \preformatted{
+#' costs :  num [1:407] 1 1 1 1 1 1 1 1 1 1 ...
+#' }}
+#' \subsection{PU_IDs}{
+#' \preformatted{
+#' PU_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{spf_const}{
+#' \preformatted{
+#' spf_const :  num 950
+#' }}
+#' \subsection{spp_IDs}{
+#' \preformatted{
+#' spp_IDs :  int [1:1277] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{spp_PU_amount_table}{
+#' \preformatted{
+#' spp_PU_amount_table : 'data.frame':	3037 obs. of  3 variables:
+#'  $ species: num  1 1 65 88 139 215 227 256 259 262 ...
+#'  $ pu     : num  1 2 2 2 2 2 2 2 2 2 ...
+#'  $ amount : num  1 1 1 1 1 1 1 1 1 1 ...
+#' }}
+#' \subsection{status_const}{
+#' \preformatted{
+#' status_const :  num 0
+#' }}
+#' \subsection{targets}{
+#' \preformatted{
+#' targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
+#' }}
 #'
 #' @param PU_IDs A vector of planning unit IDs
 #' @param spp_IDs A vector of species IDs
@@ -232,7 +345,7 @@ write_all_marxan_input_files = function (PU_IDs,
     write_marxan_pu.dat_input_file_from_vectors (PU_IDs, costs, status_const)
     write_marxan_spec.dat_input_file_from_vectors (spp_IDs, spf_const, targets)
     write_marxan_puvspr.dat_input_file (spp_PU_amount_table)
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     }
 
 #-------------------------------------------------------------------------------

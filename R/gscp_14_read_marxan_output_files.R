@@ -156,8 +156,55 @@ load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_pat
 
 #-------------------------------------------------------------------------------
 
-load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <- function (marxan_output_dir_path,
-                                                                        all_correct_node_IDs)
+#' Load marxan best data frame from file, sort, add missing PUs
+#'
+#' Load marxan best data from file and sort in increasing order by planning
+#' unit ID.  Also add any missing planning units.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{all_correct_node_IDs}{
+#' \preformatted{
+#' all_correct_node_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{marxan_best_df_sorted}{
+#' \preformatted{
+#' marxan_best_df_sorted : 'data.frame':	407 obs. of  2 variables:
+#'  $ PUID    : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ SOLUTION: int  0 1 0 1 0 1 0 1 0 1 ...
+#' }}
+#' \subsection{marxan_best_df_unsorted}{
+#' \preformatted{
+#' marxan_best_df_unsorted : 'data.frame':	407 obs. of  2 variables:
+#'  $ PUID    : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ SOLUTION: int  0 1 0 1 0 1 0 1 0 1 ...
+#' }}
+#' \subsection{marxan_best_df_unsorted_without_missing_rows}{
+#' \preformatted{
+#' marxan_best_df_unsorted_without_missing_rows : 'data.frame':	407 obs. of  2 variables:
+#'  $ PUID    : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ SOLUTION: int  0 1 0 1 0 1 0 1 0 1 ...
+#' }}
+#' \subsection{marxan_output_best_file_name}{
+#' \preformatted{
+#' marxan_output_best_file_name :  chr "output_best.csv"
+#' }}
+#' \subsection{marxan_output_dir_path}{
+#' \preformatted{
+#' marxan_output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#'
+#' @param marxan_output_dir_path character string
+#' @param all_correct_node_IDs integer vector
+#'
+#' @return Returns marxan_best_df_sorted data frame
+
+load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <-
+                                            function (marxan_output_dir_path,
+                                                      all_correct_node_IDs)
     {
     marxan_output_best_file_name     = "output_best.csv"
 
@@ -188,11 +235,86 @@ load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <- function (marxan_o
 
     marxan_best_df_sorted = plyr::arrange (marxan_best_df_unsorted, PUID)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (marxan_best_df_sorted)
     }
 
 #-------------------------------------------------------------------------------
+
+#' Load marxan solutions matrix from file, sort, add missing PUs
+#'
+#' Load marxan solutions matrix from file, sort, add missing PUs
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{cur_idx}{
+#' \preformatted{
+#' cur_idx :  num 407
+#' }}
+#' \subsection{cur_PU_ID}{
+#' \preformatted{
+#' cur_PU_ID :  num 407
+#' }}
+#' \subsection{cur_PU_name}{
+#' \preformatted{
+#' cur_PU_name :  chr "P407"
+#' }}
+#' \subsection{largest_PU_ID}{
+#' \preformatted{
+#' largest_PU_ID :  num 407
+#' }}
+#' \subsection{marxan_output_dir_path}{
+#' \preformatted{
+#' marxan_output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{marxan_output_solutionsmatrix_df_unsorted_without_missing_rows}{
+#' \preformatted{
+#' marxan_output_solutionsmatrix_df_unsorted_without_missing_rows : 'data.frame':	4 obs. of  408 variables:
+#'  $ SolutionsMatrix: chr  "S1" "S2" "S3" "S4"
+#'  $ P1             : int  0 0 0 0
+#'  $ P2             : int  1 1 1 1
+#'  ...
+#'  $ P98            : int  1 1 1 1
+#'   [list output truncated]
+#' }}
+#' \subsection{marxan_solutions_matrix}{
+#' \preformatted{
+#' marxan_solutions_matrix :  num [1:4, 1:407] 0 0 0 0 1 1 1 1 0 0 ...
+#' }}
+#' \subsection{marxan_solutions_matrix_and_num_solutions}{
+#' \preformatted{
+#' marxan_solutions_matrix_and_num_solutions : List of 2
+#'  $ marxan_solutions_matrix: num [1:4, 1:407] 0 0 0 0 1 1 1 1 0 0 ...
+#'  $ num_marxan_solutions   : int 4
+#' }}
+#' \subsection{num_marxan_solutions}{
+#' \preformatted{
+#' num_marxan_solutions :  int 4
+#' }}
+#' \subsection{num_PU_IDs_in_solutionsmatrix}{
+#' \preformatted{
+#' num_PU_IDs_in_solutionsmatrix :  int 407
+#' }}
+#' \subsection{output_solutionsmatrix_file_name}{
+#' \preformatted{
+#' output_solutionsmatrix_file_name :  chr "output_solutionsmatrix.csv"
+#' }}
+#' \subsection{PU_IDs_in_solutions}{
+#' \preformatted{
+#' PU_IDs_in_solutions :  num [1:407] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{PU_names}{
+#' \preformatted{
+#' PU_names :  chr [1:407] "P1" "P2" "P3" "P4" "P5" "P6" "P7" "P8" "P9" "P10" ...
+#' }}
+#'
+#' @param marxan_output_dir_path character string
+#' @param largest_PU_ID integer
+#'
+#' @return Returns marxan_solutions_matrix_and_num_solutions
 
 load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
     function (marxan_output_dir_path,
@@ -254,12 +376,58 @@ load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
         list (marxan_solutions_matrix = marxan_solutions_matrix,
               num_marxan_solutions    = num_marxan_solutions)
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (marxan_solutions_matrix_and_num_solutions)
     }
 
 #===============================================================================
+
+#' Read COR marxan output files
+#'
+#' Read CORRECT marxan output files
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{COR_bd_prob}{
+#' \preformatted{
+#' COR_bd_prob : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
+#' }}
+#' \subsection{marxan_output_dir}{
+#' \preformatted{
+#' marxan_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#' \subsection{marxan_output_values}{
+#' \preformatted{
+#' marxan_output_values : List of 3
+#'  $ marxan_best_df_sorted:'data.frame':	407 obs. of  2 variables:
+#'  $ marxan_ssoln_df      :'data.frame':	407 obs. of  2 variables:
+#'  $ marxan_mvbest_df     :'data.frame':	1277 obs. of  10 variables:
+#' }}
+#' \subsection{parameters}{
+#' \preformatted{
+#' parameters : List of 66
+#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+#'  ...
+#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{rsrun}{
+#' \preformatted{
+#' rsrun : Formal class 'RSrun' [package "bdpg"] with 12 slots
+#' }}
+#' \subsection{top_dir}{
+#' \preformatted{
+#' top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#'
+#' @param rsrun an RSrun object
+#' @param COR_bd_prob a Xu_bd_problem object
+#' @param parameters list
+#'
+#' @return Returns marxan_output_values list
+#' @export
 
 read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
     {
@@ -285,11 +453,61 @@ read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
                                         rsrun@targets
                                       )
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (marxan_output_values)
     }
 
 #===============================================================================
+
+#' Read APP marxan output files
+#'
+#' Read APPARENT marxan output files.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#' \subsection{APP_bd_prob}{
+#' \preformatted{
+#' APP_bd_prob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+#' }}
+#' \subsection{COR_bd_prob}{
+#' \preformatted{
+#' COR_bd_prob : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
+#' }}
+#' \subsection{marxan_output_dir}{
+#' \preformatted{
+#' marxan_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-APP-Wrap-Marxan_SA.3"| __truncated__
+#' }}
+#' \subsection{marxan_output_values}{
+#' \preformatted{
+#' marxan_output_values : List of 3
+#'  $ marxan_best_df_sorted:'data.frame':	407 obs. of  2 variables:
+#'  $ marxan_ssoln_df      :'data.frame':	407 obs. of  2 variables:
+#'  $ marxan_mvbest_df     :'data.frame':	1277 obs. of  10 variables:
+#' }}
+#' \subsection{parameters}{
+#' \preformatted{
+#' parameters : List of 66
+#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+#'  ...
+#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{rsrun}{
+#' \preformatted{
+#' rsrun : Formal class 'RSrun' [package "bdpg"] with 12 slots
+#' }}
+#' \subsection{top_dir}{
+#' \preformatted{
+#' top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#'
+#' @param rsrun an RSrun object
+#' @param APP_bd_prob a Xu_bd_problem object
+#' @param COR_bd_prob a Xu_bd_problem object
+#' @param parameters list
+#'
+#' @return Returns marxan_output_values
 
 read_APP_marxan_output_files <- function (rsrun,
                                           APP_bd_prob,
@@ -319,7 +537,7 @@ read_APP_marxan_output_files <- function (rsrun,
                                         rsrun@targets
                                       )
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (marxan_output_values)
     }
 

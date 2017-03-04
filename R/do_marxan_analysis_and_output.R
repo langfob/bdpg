@@ -8,6 +8,55 @@
 #
 #===============================================================================
 
+#' Create an RSrun
+#'
+#' Create a run of a reserve selector
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{basic_or_wrapped_or_comb_str}{
+#' \preformatted{
+#' basic_or_wrapped_or_comb_str :  chr "Wrap"
+#' }}
+#' \subsection{cor_or_app_str}{
+#' \preformatted{
+#' cor_or_app_str :  chr "COR"
+#' }}
+#' \subsection{method_name}{
+#' \preformatted{
+#' method_name :  chr "Marxan_SA"
+#' }}
+#' \subsection{prob_UUID}{
+#' \preformatted{
+#' prob_UUID :  chr "9b4b5b43-8be8-4e9c-bd7d-d1938d9921bd"
+#' }}
+#' \subsection{rsrun}{
+#' \preformatted{
+#' rsrun : Formal class 'RSrun' [package "bdpg"] with 12 slots
+#' }}
+#' \subsection{starting_dir}{
+#' \preformatted{
+#' starting_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{targets}{
+#' \preformatted{
+#' targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
+#' }}
+#'
+#' @param prob_UUID UUID for the biodiversity problem the reserve selector is
+#'     run over
+#' @param targets numeric vector
+#' @param starting_dir character string
+#' @param cor_or_app_str character string
+#' @param basic_or_wrapped_or_comb_str character string
+#' @param method_name character string for reserve selection method, e.g.,
+#'     "marxan_sa"
+#'
+#' @return Returns an RSrun object
+
 create_RSrun <- function (prob_UUID,
                           targets,
                           starting_dir,
@@ -40,7 +89,7 @@ create_RSrun <- function (prob_UUID,
 
     rsrun <- save_rsprob (rsrun, starting_dir)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (rsrun)
     }
 

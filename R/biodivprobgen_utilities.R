@@ -229,6 +229,56 @@ see_if_there_are_any_duplicate_links = function (occ_matrix,
 
 #===============================================================================
 
+#' Build PU spp pair indices from occ matrix
+#'
+#' Build planning unit vs. species indices from occupancy matrix.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{cur_PU_col}{
+#' \preformatted{
+#' cur_PU_col :  int 407
+#' }}
+#' \subsection{cur_PU_spp_row_idx}{
+#' \preformatted{
+#' cur_PU_spp_row_idx :  num 3022
+#' }}
+#' \subsection{cur_spp_row}{
+#' \preformatted{
+#' cur_spp_row :  int 1277
+#' }}
+#' \subsection{num_PU_spp_pairs}{
+#' \preformatted{
+#' num_PU_spp_pairs :  num 3022
+#' }}
+#' \subsection{num_PUs}{
+#' \preformatted{
+#' num_PUs :  num 407
+#' }}
+#' \subsection{num_spp}{
+#' \preformatted{
+#' num_spp :  int 1277
+#' }}
+#' \subsection{occ_matrix}{
+#' \preformatted{
+#' occ_matrix :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
+#' }}
+#' \subsection{PU_spp_pair_indices}{
+#' \preformatted{
+#' PU_spp_pair_indices : 'data.frame':	3022 obs. of  2 variables:
+#'  $ PU_ID : int  1 3 5 6 7 8 9 10 209 335 ...
+#'  $ spp_ID: int  1 2 3 3 4 4 5 5 5 5 ...
+#' }}
+#'
+#' @param occ_matrix matrix
+#' @param num_PUs integer
+#' @param num_spp integer
+#'
+#' @return Returns PU_spp_pair_indices data frame
+
 build_PU_spp_pair_indices_from_occ_matrix = function (occ_matrix,
                                                       num_PUs, num_spp)
     {
@@ -258,7 +308,7 @@ build_PU_spp_pair_indices_from_occ_matrix = function (occ_matrix,
             }  #  end for - all PU cols
         }  #  end for - all soo rows
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (PU_spp_pair_indices)
     }
 
@@ -680,10 +730,29 @@ strip_trailing_slash <- function (path)
 
 #===============================================================================
 
-    #  Imitate unix touch function to create an empty file.
-    #  I couldn't find an existing function for this, but did find a
-    #  stack overflow question that suggested using write.table() on an
-    #  empty table, so that's what I've done.
+
+#' Touch
+#'
+#'  Imitate unix touch function to create an empty file.
+#'  I couldn't find an existing function for this, but did find a
+#'  stack overflow question that suggested using write.table() on an
+#'  empty table, so that's what I've done.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{file_path_to_touch}{
+#' \preformatted{
+#' file_path_to_touch :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/OK_marxan_solution_IS_appar"| __truncated__
+#' }}
+
+#'
+#' @param file_path_to_touch character string
+#'
+#' @return Returns nothing
+#' @export
 
 touch <- function (file_path_to_touch)
     {
@@ -692,7 +761,7 @@ touch <- function (file_path_to_touch)
     write.table (data.frame(),
                  file = file_path_to_touch,
                  col.names=FALSE)
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================

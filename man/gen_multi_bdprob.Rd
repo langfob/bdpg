@@ -59,3 +59,64 @@ Dummy code that was in here to demonstrate high-level parts of that
  found in github versions of the code up until around commit 1c0fbba6
  on Feb 4, 2017.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{bdpg_error_codes}{
+\preformatted{
+bdpg_error_codes : List of 6
+ $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
+ $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
+ $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
+ $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
+ $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
+ $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
+}}
+\subsection{bdprob_1}{
+\preformatted{
+bdprob_1 : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+}}
+\subsection{combined_bdprob}{
+\preformatted{
+combined_bdprob : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
+}}
+\subsection{given_correct_solution_cost}{
+\preformatted{
+given_correct_solution_cost :  num 420
+}}
+\subsection{infile_name}{
+\preformatted{
+infile_name :  chr ""
+}}
+\subsection{integerize}{
+\preformatted{
+integerize : function (x, digits = 0)
+}}
+\subsection{max_allowed_num_spp}{
+\preformatted{
+max_allowed_num_spp :  num 2000
+}}
+\subsection{parameters}{
+\preformatted{
+parameters : List of 66
+ $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+ ...
+ $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+\subsection{read_Xu_problem_from_Xu_file}{
+\preformatted{
+read_Xu_problem_from_Xu_file :  logi FALSE
+}}
+\subsection{starting_dir}{
+\preformatted{
+starting_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
+}}
+\subsection{wrap_lognormal_dist_around_Xu}{
+\preformatted{
+wrap_lognormal_dist_around_Xu :  logi TRUE
+}}
+}
+

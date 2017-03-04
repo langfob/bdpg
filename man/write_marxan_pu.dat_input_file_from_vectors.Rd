@@ -2,7 +2,7 @@
 % Please edit documentation in R/write_marxan_input_files.R
 \name{write_marxan_pu.dat_input_file_from_vectors}
 \alias{write_marxan_pu.dat_input_file_from_vectors}
-\title{Write marxan planning units input file (pu.dat)  given vectors of cost and status values.}
+\title{Write marxan pu.dat from vectors}
 \usage{
 write_marxan_pu.dat_input_file_from_vectors(PU_IDs, cost_values, status_values)
 }
@@ -14,16 +14,48 @@ write_marxan_pu.dat_input_file_from_vectors(PU_IDs, cost_values, status_values)
 \item{status_values}{A vector of status values}
 }
 \value{
-nothing.
+Returns nothing
 }
 \description{
-Write marxan planning units input file (pu.dat)  given vectors of cost and status values.
+Write marxan planning units input file (pu.dat) given vectors of cost
+and status values.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{cost_values}{
+\preformatted{
+cost_values :  num [1:407] 1 1 1 1 1 1 1 1 1 1 ...
+}}
+\subsection{num_PUs}{
+\preformatted{
+num_PUs :  int 407
+}}
+\subsection{pu_cost_status_table}{
+\preformatted{
+pu_cost_status_table : 'data.frame':	407 obs. of  3 variables:
+ $ id    : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ cost  : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ status: num  0 0 0 0 0 0 0 0 0 0 ...
+}}
+\subsection{PU_IDs}{
+\preformatted{
+PU_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
+}}
+\subsection{status_values}{
+\preformatted{
+status_values :  num 0
+}}
+}
+
 \examples{
 \dontrun{
 PU_IDs = 1:5
 cost_values = c(2,3,8,1,4)
 status_values = c(0,0,0,0,0)
-write_marxan_spec.dat_input_file_from_vectors (PU_IDs, cost_values, status_values)
+write_marxan_pu.dat_input_file_from_vectors (PU_IDs, cost_values, status_values)
          }
 }

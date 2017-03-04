@@ -790,6 +790,49 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
 
 #-------------------------------------------------------------------------------
 
+#' Plot marxan best soltion scores COR and APP
+#'
+#' Plot marxan best solution scores for both CORRECT and APPARENT
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{app_marxan_solution_scores}{
+#' \preformatted{
+#' app_marxan_solution_scores : 'data.frame':	4 obs. of  3 variables:
+#'  $ solution_num  : int  1 2 3 4
+#'  $ representation: num  1 1 1 1
+#'  $ cost          : num  0.15 0.15 0.15 0.15
+#' }}
+#' \subsection{best_solution_ID_according_to_marxan}{
+#' \preformatted{
+#' best_solution_ID_according_to_marxan :  int 1
+#' }}
+#' \subsection{cor_app_prefix_string}{
+#' \preformatted{
+#' cor_app_prefix_string :  chr "app"
+#' }}
+#' \subsection{cor_marxan_solution_scores}{
+#' \preformatted{
+#' cor_marxan_solution_scores : 'data.frame':	4 obs. of  3 variables:
+#'  $ solution_num  : int  1 2 3 4
+#'  $ representation: num  1 1 1 1
+#'  $ cost          : num  0.15 0.15 0.15 0.15
+#' }}
+#' \subsection{plot_output_dir}{
+#' \preformatted{
+#' plot_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
+#' }}
+#'
+#' @param plot_output_dir character string
+#' @param cor_marxan_solution_scores data frame
+#' @param best_solution_ID_according_to_marxan integer
+#' @param app_marxan_solution_scores data frame
+#'
+#' @return Returns nothing
+
 plot_marxan_best_solution_scores_COR_and_APP <- function (plot_output_dir,
                                                             cor_marxan_solution_scores,
                                                             best_solution_ID_according_to_marxan,

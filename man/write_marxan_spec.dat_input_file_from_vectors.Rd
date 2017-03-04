@@ -2,7 +2,7 @@
 % Please edit documentation in R/write_marxan_input_files.R
 \name{write_marxan_spec.dat_input_file_from_vectors}
 \alias{write_marxan_spec.dat_input_file_from_vectors}
-\title{Write species input file (spec.dat) given vectors of target and spf values.}
+\title{Write marxan spec.dat from vectors}
 \usage{
 write_marxan_spec.dat_input_file_from_vectors(spp_IDs, spf_values,
   target_values)
@@ -20,6 +20,33 @@ nothing.
 \description{
 Write species input file (spec.dat) given vectors of target and spf values.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{spf_values}{
+\preformatted{
+spf_values :  num 950
+}}
+\subsection{spp_IDs}{
+\preformatted{
+spp_IDs :  int [1:1277] 1 2 3 4 5 6 7 8 9 10 ...
+}}
+\subsection{spp_target_spf_table}{
+\preformatted{
+spp_target_spf_table : 'data.frame':	1277 obs. of  3 variables:
+ $ id    : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ target: num  1 1 1 1 1 1 1 1 1 1 ...
+ $ spf   : num  950 950 950 950 950 950 950 950 950 950 ...
+}}
+\subsection{target_values}{
+\preformatted{
+target_values :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
+}}
+}
+
 \examples{
 \dontrun{
 spp_IDs = 1:5

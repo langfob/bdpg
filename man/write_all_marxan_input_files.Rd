@@ -2,7 +2,7 @@
 % Please edit documentation in R/write_marxan_input_files.R
 \name{write_all_marxan_input_files}
 \alias{write_all_marxan_input_files}
-\title{Write all marxan input files except bound.dat and input.dat using constant values for individual elements.}
+\title{Write all marxan input files}
 \usage{
 write_all_marxan_input_files(PU_IDs, spp_IDs, spp_PU_amount_table,
   targets = rep(1, length(spp_IDs)), costs = rep(1, length(PU_IDs)),
@@ -39,6 +39,45 @@ other columns.  See source code for the test function
 \code{gen_random_spp_PU_amount_table} for an example of creating
 this table.
 }
+\section{Local Variable Structures and examples}{
+
+Here is the output of str() for each variable visible in the function.
+Note that the particular counts and values given are just examples to show
+what the data might look like.
+
+\subsection{costs}{
+\preformatted{
+costs :  num [1:407] 1 1 1 1 1 1 1 1 1 1 ...
+}}
+\subsection{PU_IDs}{
+\preformatted{
+PU_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
+}}
+\subsection{spf_const}{
+\preformatted{
+spf_const :  num 950
+}}
+\subsection{spp_IDs}{
+\preformatted{
+spp_IDs :  int [1:1277] 1 2 3 4 5 6 7 8 9 10 ...
+}}
+\subsection{spp_PU_amount_table}{
+\preformatted{
+spp_PU_amount_table : 'data.frame':	3037 obs. of  3 variables:
+ $ species: num  1 1 65 88 139 215 227 256 259 262 ...
+ $ pu     : num  1 2 2 2 2 2 2 2 2 2 ...
+ $ amount : num  1 1 1 1 1 1 1 1 1 1 ...
+}}
+\subsection{status_const}{
+\preformatted{
+status_const :  num 0
+}}
+\subsection{targets}{
+\preformatted{
+targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
+}}
+}
+
 \examples{
 \dontrun{
 num_PUs = 100
