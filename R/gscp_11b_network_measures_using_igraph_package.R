@@ -8,10 +8,23 @@
 
 #===============================================================================
 
-    # The last clustering measures relies on the functions ccBip
-    # written by Gabor Csardi, while ccLowDot and ccTopDot are
-    # essentially the same function with only a minor change
-#' ccBip function
+#' ccLowDot
+#'
+#' ccLowDot
+#'
+#' The last clustering measures relies on the functions ccBip
+#' written by Gabor Csardi, while ccLowDot and ccTopDot are
+#' essentially the same function with only a minor change
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{bg}{
+#' \preformatted{
+#' bg : IGRAPH UN-B 936 1628 --
+#' }}
 #'
 #' @param bg not sure
 #'
@@ -48,11 +61,33 @@ ccBip <- function (bg)
                         )
                 }
             )
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (ccBip_retval)
     }
 
+
+#' ccLowDot
+#'
+#' ccLowDot
+#'
+#' The last clustering measures relies on the functions ccBip
+#' written by Gabor Csardi, while ccLowDot and ccTopDot are
+#' essentially the same function with only a minor change
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{bg}{
+#' \preformatted{
+#' bg : IGRAPH UN-B 936 1628 --
+#' }}
+#'
+#' @param bg
+#'
 #' @import igraph
+
 ccLowDot <- function (bg)
     {
     if (! "name" %in% list.vertex.attributes(bg))
@@ -81,11 +116,32 @@ ccLowDot_retval <-    lapply (proj,
                         )
                 }
             )
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (ccLowDot_retval)
     }
 
+#' ccTopDot
+#'
+#' ccTopDot
+#'
+#' The last clustering measures relies on the functions ccBip
+#' written by Gabor Csardi, while ccLowDot and ccTopDot are
+#' essentially the same function with only a minor change
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{bg}{
+#' \preformatted{
+#' bg : IGRAPH UN-B 936 1628 --
+#' }}
+#'
+#' @param bg
+#'
 #' @import igraph
+
 ccTopDot <- function (bg)
     {
     if (! "name" %in% list.vertex.attributes(bg))
@@ -113,33 +169,55 @@ ccTopDot <- function (bg)
                         )
                 }
            )
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (ccTopDot_retval)
     }
 
 #===============================================================================
 
-###  Latapy et al redundancy measure...
-
-#  The code above is missing the code for the final (and possibly most important)
-#  metric in the Latapy et al paper, i.e., the redundancy coefficient.  That
-#  measure is provided in the python NetworkX package:
-#
-#  http://networkx.lanl.gov/reference/generated/networkx.algorithms.bipartite.redundancy.node_redundancy.html
-#
-#  Python source code for the function is at:
-#
-#  http://networkx.lanl.gov/_modules/networkx/algorithms/bipartite/redundancy.html#node_redundancy
-#
-#  Simone Gabbriellini has tried to code the redundancy function in R and asked
-#  some questions about it on at least one mailing list.  The exchanges are
-#  pretty long, so I won't insert them right here.  I'll insert a couple of the
-#  posts and followups at the bottom of this file so that you don't have to
-#  go chase up the sources for what I've done here.
-
-#===============================================================================
-
+#' Latapy et al redundancy measure
+#'
+#' Latapy et al redundancy measure
+#'
+#'  The code above is missing the code for the final (and possibly most important)
+#'  metric in the Latapy et al paper, i.e., the redundancy coefficient.  That
+#'  measure is provided in the python NetworkX package:
+#'
+#'  http://networkx.lanl.gov/reference/generated/networkx.algorithms.bipartite.redundancy.node_redundancy.html
+#'
+#'  Python source code for the function is at:
+#'
+#'  http://networkx.lanl.gov/_modules/networkx/algorithms/bipartite/redundancy.html#node_redundancy
+#'
+#'  Simone Gabbriellini has tried to code the redundancy function in R and asked
+#'  some questions about it on at least one mailing list.  The exchanges are
+#'  pretty long, so I won't insert them right here.  I'll insert a couple of the
+#'  posts and followups at the bottom of this file so that you don't have to
+#'  go chase up the sources for what I've done here.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{c}{
+#' \preformatted{
+#' c :  int 1
+#' }}
+#' \subsection{comb}{
+#' \preformatted{
+#' comb :  int [1:2, 1] 868 926
+#' }}
+#' \subsection{g}{
+#' \preformatted{
+#' g : IGRAPH UN-B 936 1628 --
+#' }}
+#'
+#' @param g graph
+#' @param top_bottom_vertex_type
+#'
 #' @import igraph
+
 redundancy <- function (g
                             #  Added by BTL since this only seemed to do bottom.
                         , top_bottom_vertex_type=FALSE
@@ -187,13 +265,31 @@ redundancy <- function (g
         redundancy <- append(redundancy, overlap*norm)
         }
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return(redundancy)
     }
 
 #===============================================================================
 
+#' Compute igraph-related network measures
+#'
+#' Compute igraph-related network measures
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{bg}{
+#' \preformatted{
+#' bg : IGRAPH UN-B 936 1628 --
+#' }}
+#'
+#' @param rsprob a reserve selection problem
+#' @param top_dir character string
+#'
 #' @import igraph
+
 compute_igraph_related_network_measures <-
                     #  2016 03 29 - BTL.
                     #  Trying to make this routine more generic so that it
@@ -549,8 +645,7 @@ compute_igraph_related_network_measures <-
                row.names=FALSE
                )
 
-docaids::doc_vars_in_this_func_once ()
-
+#docaids::doc_vars_in_this_func_once ()
     return (bipartite_metrics_from_igraph_package_df)
     }
 

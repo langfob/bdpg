@@ -12,6 +12,36 @@
 #' graph metrics should be computed for the problem.  It also sets the
 #' corresponding slot's value for each of the flags in the RSprob object.
 #'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{bipartite_metrics_to_use}{
+#' \preformatted{
+#' bipartite_metrics_to_use :  chr "quick_test"
+#' }}
+#' \subsection{compute_network_metrics}{
+#' \preformatted{
+#' compute_network_metrics :  logi TRUE
+#' }}
+#' \subsection{rsprob}{
+#' \preformatted{
+#' rsprob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
+#' }}
+#' \subsection{top_dir}{
+#' \preformatted{
+#' top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1848_marxan_simulated_annealing.inprogress"
+#' }}
+#' \subsection{use_bipartite_metrics}{
+#' \preformatted{
+#' use_bipartite_metrics :  logi TRUE
+#' }}
+#' \subsection{use_igraph_metrics}{
+#' \preformatted{
+#' use_igraph_metrics :  logi FALSE
+#' }}
+#'
 #' @param rsprob An RSprob reserve selection problem object to run graph metrics
 #'     over if desired
 #' @param compute_network_metrics boolean flag indicating whether any graph
@@ -103,15 +133,7 @@ init_object_graph_data <- function (rsprob,
                                                         )
         }
 
-########################################################################################
-#  TEMPORARY:  Echo information about data structures of all currently active variables.
-cat("\n\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
-print (sys.call())
-v=ls();
-sapply (v,function(x){cat ("\n", x, "\n", sep='');str(get(x),vec.len=1,max.level=1)});
-cat("\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-########################################################################################
-
+#docaids::doc_vars_in_this_func_once ()
     return (rsprob)
     }
 

@@ -133,25 +133,84 @@ verify_that_generated_solution_really_is_a_solution =
 #  Create a data frame using NAMES of the elements rather than their INDICES.
 #===============================================================================
 
-    #  Though the two data frames carry identical information, it looks
-    #  like both of them are necessary because different network packages
-    #  expect different inputs.  The bipartite package creates an
-    #  adjacency matrix based on the indices, but the igraph package
-    #  creates a bipartite graph using either the indices or the vertex names.
-
-    #  However, if I later decide to use the vertex indices, I need to go
-    #  back and renumber either the spp vertices or the PU vertices so
-    #  that they don't overlap the other set.  That may end up being the
-    #  better strategy when graphs get big, but at the moment, giving them
-    #  names seems less likely to introduce some kind of indexing bug.
-
-    #  Will create names for PU vertices by prepending the vertex ID with a "p".
-    #  Similarly, spp vertices will be named by prepending with an "s".
-    #
-    #  NOTE: We have to either uniquely name the vertices or we have to
-    #  renumber either the spp or the PUs.  This is because the numbering of
-    #  both sets of vertices starts at 1 and that means the vertex IDs are
-    #  not unique when the two sets are combined.
+#' Create PU spp pair indices
+#'
+#' Create planning unit / species pair indices.
+#'
+#'  Though the two data frames carry identical information, it looks
+#'  like both of them are necessary because different network packages
+#'  expect different inputs.  The bipartite package creates an
+#'  adjacency matrix based on the indices, but the igraph package
+#'  creates a bipartite graph using either the indices or the vertex names.
+#'
+#'  However, if I later decide to use the vertex indices, I need to go
+#'  back and renumber either the spp vertices or the PU vertices so
+#'  that they don't overlap the other set.  That may end up being the
+#'  better strategy when graphs get big, but at the moment, giving them
+#'  names seems less likely to introduce some kind of indexing bug.
+#'
+#'  Will create names for PU vertices by prepending the vertex ID with a "p".
+#'  Similarly, spp vertices will be named by prepending with an "s".
+#'
+#'  NOTE: We have to either uniquely name the vertices or we have to
+#'  renumber either the spp or the PUs.  This is because the numbering of
+#'  both sets of vertices starts at 1 and that means the vertex IDs are
+#'  not unique when the two sets are combined.
+#'
+#'@section Local Variable Structures and examples:
+#'Here is the output of str() for each variable visible in the function.
+#'Note that the particular counts and values given are just examples to show
+#'what the data might look like.
+#'
+#' \subsection{PU_col_name}{
+#' \preformatted{
+#' PU_col_name :  chr "PU_ID"
+#' }}
+#' \subsection{PU_spp_pair_indices}{
+#' \preformatted{
+#' PU_spp_pair_indices : 'data.frame':	1628 obs. of  2 variables:
+#'  $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
+#'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
+#' }}
+#' \subsection{PU_spp_pair_names}{
+#' \preformatted{
+#' PU_spp_pair_names : 'data.frame':	1628 obs. of  2 variables:
+#'  $ PU_ID : chr  "p1" "p2" "p3" "p4" ...
+#'  $ spp_ID: chr  "s1" "s1" "s2" "s2" ...
+#' }}
+#' \subsection{PU_spp_pair_names_triple}{
+#' \preformatted{
+#' PU_spp_pair_names_triple : List of 3
+#'  $ PU_spp_pair_names:'data.frame':	1628 obs. of  2 variables:
+#'  $ PU_vertex_names  : chr [1:122] "p1" "p2" "p3" "p4" ...
+#'  $ spp_vertex_names : chr [1:814] "s1" "s2" "s3" "s4" ...
+#' }}
+#' \subsection{PU_vertex_indices}{
+#' \preformatted{
+#' PU_vertex_indices :  int [1:122] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{PU_vertex_names}{
+#' \preformatted{
+#' PU_vertex_names :  chr [1:122] "p1" "p2" "p3" "p4" "p5" "p6" "p7" "p8" "p9" "p10" ...
+#' }}
+#' \subsection{spp_col_name}{
+#' \preformatted{
+#' spp_col_name :  chr "spp_ID"
+#' }}
+#' \subsection{spp_vertex_indices}{
+#' \preformatted{
+#' spp_vertex_indices :  int [1:814] 1 2 3 4 5 6 7 8 9 10 ...
+#' }}
+#' \subsection{spp_vertex_names}{
+#' \preformatted{
+#' spp_vertex_names :  chr [1:814] "s1" "s2" "s3" "s4" "s5" "s6" "s7" "s8" "s9" "s10" ...
+#' }}
+#'
+#' @param PU_spp_pair_indices data frame
+#' @param PU_col_name character string
+#' @param spp_col_name character string
+#'
+#' @return PU_spp_pair_names_triple plist
 
 create_PU_spp_pair_names =
         function (
@@ -192,7 +251,7 @@ create_PU_spp_pair_names =
                   PU_vertex_names=PU_vertex_names,
                   spp_vertex_names=spp_vertex_names)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
 
     return (PU_spp_pair_names_triple)
     }
