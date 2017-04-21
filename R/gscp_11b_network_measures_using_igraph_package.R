@@ -343,7 +343,7 @@ compute_igraph_related_network_measures <-
         #-------------------------------------------------------------------
 
     PU_spp_pair_indices = rsprob@PU_spp_pair_indices
-    network_output_dir  = get_RSprob_path_networks (rsprob, starting_dir)
+    network_output_dir  = get_RSprob_path_networks (rsprob, top_dir)
     PU_col_name         = rsprob@PU_col_name
     spp_col_name        = rsprob@spp_col_name
 
