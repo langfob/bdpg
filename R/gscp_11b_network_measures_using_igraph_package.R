@@ -637,7 +637,8 @@ compute_igraph_related_network_measures <-
 
     igraph_metrics_csv_file_name =
         file.path (network_output_dir,
-                   "bipartite_metrics_from_igraph_package_df")
+#                   "bipartite_metrics_from_igraph_package_df")
+                   "bipartite_metrics_from_igraph_package_df.csv")
 
     write.csv (bipartite_metrics_from_igraph_package_df,
                file = igraph_metrics_csv_file_name,
