@@ -206,17 +206,26 @@ compute_network_measures_using_bipartite_package = function (rsprob,
         #  not to use "ALLBUTDD" there.
         #-----------------------------------------------------------------------
 
+    cat ("\nIn compute_network_measures_using_bipartite_package():  metrics_to_use = '",
+         parameters$bipartite_metrics_to_use, "'", sep='')
+
     if (parameters$bipartite_metrics_to_use == "ALLBUTDD")
         {
         metrics_to_use = "ALLBUTDD"
-        cat ("\nIn compute_network_measures_using_bipartite_package():  metrics_to_use = '",
-             parameters$bipartite_metrics_to_use, "'", sep='')
 
         } else if (parameters$bipartite_metrics_to_use == "quick_test")
         {
         metrics_to_use = quick_test
-        cat ("\nIn compute_network_measures_using_bipartite_package():  metrics_to_use = '",
-             parameters$bipartite_metrics_to_use, "'", sep='')
+
+        } else if (parameters$bipartite_metrics_to_use == "all_except_slow_indices")
+        {
+        metrics_to_use = all_except_slow_indices
+
+        } else
+        {
+        stop (paste0 ("\n\ncompute_network_measures_using_bipartite_package(): ",
+                      "parameters$bipartite_metrics_to_use must be one of {",
+                      "ALLBUTDD, quick_test, all_except_slow_indices}\n"))
         }
 
     bipartite_metrics_from_bipartite_package <-
