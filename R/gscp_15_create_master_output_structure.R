@@ -513,6 +513,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
       #  by tzar.  Not sure what I'll do in the long run.
       #  2015 03 09 - BTL
   results_df$runset_abbrev [cur_result_row]                                    = parameters$runset_name    #  parameters$runset_abbrev
+  results_df$runset_name [cur_result_row]                                      = parameters$runset_name
 
   results_df$exceeded_thresh_for_num_spp                                       = FALSE
 
@@ -521,19 +522,36 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   results_df$num_spp_per_PU [cur_result_row]                                   = num_spp / num_PUs
   results_df$seed [cur_result_row]                                             = parameters$seed
 
+        #  Xu
+{
         #  Xu options
     results_df$n__num_groups [cur_result_row]                                    = base_Xu_params@n__num_groups
     results_df$alpha__ [cur_result_row]                                          = base_Xu_params@alpha__
     results_df$p__prop_of_links_between_groups [cur_result_row]                  = base_Xu_params@p__prop_of_links_between_groups
     results_df$r__density [cur_result_row]                                       = base_Xu_params@r__density
 
+        #  Derived Xu options
+    results_df$num_nodes_per_group [cur_result_row]                             = derived_Xu_params@num_nodes_per_group
+    results_df$tot_num_nodes [cur_result_row]                                   = derived_Xu_params@tot_num_nodes
+    results_df$num_independent_set_nodes [cur_result_row]                       = derived_Xu_params@num_independent_set_nodes
+    results_df$num_dependent_set_nodes [cur_result_row]                         = derived_Xu_params@num_dependent_set_nodes
+    results_df$num_rounds_of_linking_between_groups [cur_result_row]            = derived_Xu_params@num_rounds_of_linking_between_groups
+    results_df$target_num_links_between_2_groups_per_round [cur_result_row]     = derived_Xu_params@target_num_links_between_2_groups_per_round
+    results_df$num_links_within_one_group [cur_result_row]                      = derived_Xu_params@num_links_within_one_group
+    results_df$tot_num_links_inside_groups [cur_result_row]                     = derived_Xu_params@tot_num_links_inside_groups
+    results_df$max_possible_num_links_between_groups [cur_result_row]           = derived_Xu_params@max_possible_num_links_between_groups
+    results_df$max_possible_tot_num_links [cur_result_row]                      = derived_Xu_params@max_possible_tot_num_links
+}
+
+        #  Correct
+{
         #  Correct results as computed by bdpg
     results_df$opt_solution_as_frac_of_tot_num_nodes [cur_result_row]            = opt_solution_as_frac_of_tot_num_nodes
     results_df$cor_num_patches_in_solution [cur_result_row]                      = cor_num_patches_in_solution
     results_df$marxan_best_num_patches_in_solution [cur_result_row]              = marxan_best_num_patches_in_solution
     results_df$abs_marxan_best_solution_cost_err_frac [cur_result_row]           = abs_marxan_best_solution_cost_err_frac
     results_df$marxan_best_solution_cost_err_frac [cur_result_row]               = marxan_best_solution_cost_err_frac
-
+{
     results_df$cor_spp_rep_shortfall [cur_result_row]                = cor_results_list$spp_rep_shortfall
     results_df$cor_NUM_spp_covered [cur_result_row]                  = cor_results_list$num_spp_covered
     results_df$cor_FRAC_spp_covered [cur_result_row]                 = cor_results_list$frac_spp_covered
@@ -561,8 +579,13 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
     results_df$cor_prod_cSe_cSp [cur_result_row]                     = cor_results_list$prod_cSe_cSp
     results_df$cor_euc_cSe_cSp [cur_result_row]                      = cor_results_list$euc_cSe_cSp
     results_df$cor_acc_err_mag [cur_result_row]                      = cor_results_list$acc_err_mag
+}
+}
 
+        #  Apparent
+{
         #  Apparent results as computed by bdpg
+{
     results_df$app_spp_rep_shortfall [cur_result_row]                = app_results_list$spp_rep_shortfall
     results_df$app_solution_NUM_spp_covered [cur_result_row]         = app_results_list$num_spp_covered
     results_df$app_solution_FRAC_spp_covered [cur_result_row]        = app_results_list$frac_spp_covered
@@ -590,6 +613,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
     results_df$app_prod_cSe_cSp [cur_result_row]                     = app_results_list$prod_cSe_cSp
     results_df$app_euc_cSe_cSp [cur_result_row]                      = app_results_list$euc_cSe_cSp
     results_df$app_acc_err_mag [cur_result_row]                      = app_results_list$acc_err_mag
+}
 
         #  Apparent results as computed by Marxan
     results_df$app_spp_rep_shortfall__fromMarxan [cur_result_row]                = app_spp_rep_shortfall__fromMarxan
@@ -603,20 +627,10 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
     results_df$match_error_counts [cur_result_row]                              = match_error_counts
     results_df$original_FP_const_rate [cur_result_row]                          = original_FP_const_rate
     results_df$original_FN_const_rate [cur_result_row]                          = original_FN_const_rate
-
-        #  Derived Xu options
-    results_df$num_nodes_per_group [cur_result_row]                             = derived_Xu_params@num_nodes_per_group
-    results_df$tot_num_nodes [cur_result_row]                                   = derived_Xu_params@tot_num_nodes
-    results_df$num_independent_set_nodes [cur_result_row]                       = derived_Xu_params@num_independent_set_nodes
-    results_df$num_dependent_set_nodes [cur_result_row]                         = derived_Xu_params@num_dependent_set_nodes
-    results_df$num_rounds_of_linking_between_groups [cur_result_row]            = derived_Xu_params@num_rounds_of_linking_between_groups
-    results_df$target_num_links_between_2_groups_per_round [cur_result_row]     = derived_Xu_params@target_num_links_between_2_groups_per_round
-    results_df$num_links_within_one_group [cur_result_row]                      = derived_Xu_params@num_links_within_one_group
-    results_df$tot_num_links_inside_groups [cur_result_row]                     = derived_Xu_params@tot_num_links_inside_groups
-    results_df$max_possible_num_links_between_groups [cur_result_row]           = derived_Xu_params@max_possible_num_links_between_groups
-    results_df$max_possible_tot_num_links [cur_result_row]                      = derived_Xu_params@max_possible_tot_num_links
+}
 
         #  Marxan options
+{
     results_df$marxan_spf_const [cur_result_row]                                 = spf_const
     results_df$marxan_PROP [cur_result_row]                                      = marxan_PROP
     results_df$marxan_RANDSEED [cur_result_row]                                  = marxan_RANDSEED
@@ -638,9 +652,8 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
     results_df$marxan_ITIMPTYPE [cur_result_row]                                 = marxan_ITIMPTYPE
     results_df$marxan_HEURTYPE [cur_result_row]                                  = marxan_HEURTYPE
     results_df$marxan_CLUMPTYPE [cur_result_row]                                 = marxan_CLUMPTYPE
+}
 
-      #  Full runset name
-  results_df$runset_name [cur_result_row]                                      = parameters$runset_name
 }
 
 
