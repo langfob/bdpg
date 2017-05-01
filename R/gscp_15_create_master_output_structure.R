@@ -323,12 +323,12 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 
 
   #browser()
-  solutions_df = data.frame (puid = marxan_best_df_sorted$PUID,
-                             optimal_solution = cor_solution_vector,
+  solutions_df = data.frame (puid                 = marxan_best_df_sorted$PUID,
+                             optimal_solution     = cor_solution_vector,
                              marxan_best_solution = marxan_best_df_sorted$SOLUTION, #  assumes already sorted by PU_ID
-                             marxan_votes = marxan_ssoln_df$number,
-                             cor_signed_diff = cor_signed_difference,
-                             cor_abs_val_diff = cor_abs_val_signed_difference,
+                             marxan_votes         = marxan_ssoln_df$number,
+                             cor_signed_diff      = cor_signed_difference,
+                             cor_abs_val_diff     = cor_abs_val_signed_difference,
           #  2015 06 19 - BTL
           #  Until now (3:04 pm), this said:
           #       cor_num_spp_on_patch = final_link_counts_for_each_node$freq
@@ -356,11 +356,11 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 {
       #  Find which PUs marxan chose for its best solution.
   marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
-  marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
-      cat ("\nmarxan_best_num_patches_in_solution =", marxan_best_num_patches_in_solution)
 
       #  Compute error in cost of best marxan solution.
       #  Assumes equal cost for all patches, i.e., cost per patch = 1.
+  marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
+      cat ("\nmarxan_best_num_patches_in_solution =", marxan_best_num_patches_in_solution)
   marxan_best_solution_cost_err_frac = (marxan_best_num_patches_in_solution - cor_num_patches_in_solution) / cor_num_patches_in_solution
   abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
       cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
