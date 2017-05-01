@@ -321,6 +321,10 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 
       }
 
+#  2017 05 01 - BTL
+#  Why was I creating the solutions_df?  Is this vestigial?
+#  Right now, it looks like the only column used in it is the optimal solution
+#  column and it's juust a copy of cor_solution_vector.
 
   #browser()
   solutions_df = data.frame (puid                 = marxan_best_df_sorted$PUID,
