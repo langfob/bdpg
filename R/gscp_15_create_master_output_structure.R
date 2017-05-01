@@ -173,6 +173,8 @@ initialize_results_df <- function ()
                       #  Full runset name
                   runset_name = rep (NA, num_runs)
                   )
+
+    return (results_df)
     }
 
 #===============================================================================
@@ -318,6 +320,8 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
       opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
 
       }
+
+
   #browser()
   solutions_df = data.frame (puid = marxan_best_df_sorted$PUID,
                              optimal_solution = cor_solution_vector,
@@ -349,6 +353,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #               Summarize marxan solution features.
   #---------------------------------------------------------------------------
 
+{
       #  Find which PUs marxan chose for its best solution.
   marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
   marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
@@ -360,6 +365,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
       cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
       cat ("\nabs_marxan_best_solution_cost_err_frac =", abs_marxan_best_solution_cost_err_frac)
+}
 
   #===============================================================================
   #       Compute correct and apparent scores for marxan solution.
@@ -372,6 +378,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #               Apparent scores as computed by marxan
   #---------------------------------------------------------------------------
 
+ {
   app_solution_NUM_spp_covered__fromMarxan = sum (marxan_mvbest_df$MPM)
 
   app_solution_FRAC_spp_covered__fromMarxan = app_solution_NUM_spp_covered__fromMarxan / num_spp
@@ -383,11 +390,13 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
       cat ("\napp_solution_NUM_spp_covered__fromMarxan =", app_solution_NUM_spp_covered__fromMarxan)
       cat ("\napp_solution_FRAC_spp_covered__fromMarxan =", app_solution_FRAC_spp_covered__fromMarxan)
       cat ("\napp_spp_rep_shortfall__fromMarxan =", app_spp_rep_shortfall__fromMarxan)
+}
 
   #---------------------------------------------------------------------------
   #               Apparent scores as computed by bdpg...
   #---------------------------------------------------------------------------
 
+{
   app_results_list = compute_solution_vector_scores (bpm,
                                                      num_PUs,
                                                       marxan_best_solution_PU_IDs,
@@ -423,12 +432,14 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #     cat ("\napp_solution_NUM_spp_covered =", app_solution_NUM_spp_covered)
   #     cat ("\napp_solution_FRAC_spp_covered =", app_solution_FRAC_spp_covered)
   #     cat ("\napp_spp_rep_shortfall =", app_spp_rep_shortfall)
+}
 
   #---------------------------------------------------------------------------
   #               Correct scores as computed by bdpg...
   #---------------------------------------------------------------------------
 
-  cor_results_list = compute_solution_vector_scores (cor_bpm,
+{
+    cor_results_list = compute_solution_vector_scores (cor_bpm,
                                                      num_PUs,
                                                       marxan_best_solution_PU_IDs,
                                                       marxan_best_num_patches_in_solution,
@@ -462,6 +473,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   #     cat ("\ncor_NUM_spp_covered =", cor_NUM_spp_covered)
   #     cat ("\ncor_FRAC_spp_covered =", cor_FRAC_spp_covered)
   #     cat ("\ncor_spp_rep_shortfall =", cor_spp_rep_shortfall)
+}
 
   #===============================================================================
 
@@ -475,9 +487,11 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 
   #     ALSO STILL NEED TO ADD THE FP AND FN RATES AND OTHER ERROR MODEL
   #     ATTRIBUTES TO THE OUTPUT DATA FRAME AND CSV FILE.
+  #             2017 05 01 - Is this still true?
 
   #-------------------------------------------------------------------------------
 
+ {
   num_runs = 1    #  Vestigial?  Not sure it will ever be anything but 1.
                   #  2015 05 09 - BTL.
 
@@ -486,6 +500,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   cur_result_row = 0
 
   #-------------------------------------------------------------------------------
+
 
   cur_result_row = cur_result_row + 1
 
@@ -622,7 +637,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 
       #  Full runset name
   results_df$runset_name [cur_result_row]                                      = parameters$runset_name
-
+}
 
 
   #  Getting an error.  Not sure why...  Is it because the free variable names
