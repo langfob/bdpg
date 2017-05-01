@@ -39,6 +39,144 @@
 
 #===============================================================================
 
+initialize_results_df <- function ()
+    {
+    results_df =
+      data.frame (runset_abbrev = rep (NA, num_runs),
+                  run_ID = rep (NA, num_runs),
+
+                  exceeded_thresh_for_num_spp = rep (NA, num_runs),
+
+                  num_PUs = rep (NA, num_runs),
+                  num_spp = rep (NA, num_runs),
+                  num_spp_per_PU = rep (NA, num_runs),
+                  seed = rep (NA, num_runs),
+
+                      #  Xu options
+                  n__num_groups = rep (NA, num_runs),
+                  alpha__ = rep (NA, num_runs),
+                  p__prop_of_links_between_groups = rep (NA, num_runs),
+                  r__density = rep (NA, num_runs),
+
+                      #  Correct results as computed by bdpg
+                  opt_solution_as_frac_of_tot_num_nodes = rep (NA, num_runs),
+                  cor_num_patches_in_solution = rep (NA, num_runs),
+                  marxan_best_num_patches_in_solution = rep (NA, num_runs),
+                  abs_marxan_best_solution_cost_err_frac = rep (NA, num_runs),
+                  marxan_best_solution_cost_err_frac = rep (NA, num_runs),
+
+                  cor_spp_rep_shortfall = rep (NA, num_runs),
+                  cor_NUM_spp_covered = rep (NA, num_runs),
+                  cor_FRAC_spp_covered = rep (NA, num_runs),
+
+                  cor_TP = rep (NA, num_runs),
+                  cor_TN = rep (NA, num_runs),
+                  cor_FP = rep (NA, num_runs),
+                  cor_FN = rep (NA, num_runs),
+
+                  cor_cSe = rep (NA, num_runs),
+                  cor_cSp = rep (NA, num_runs),
+                  cor_cPPV = rep (NA, num_runs),
+                  cor_cNPV = rep (NA, num_runs),
+
+                  cor_acc_frac = rep (NA, num_runs),
+                  cor_acc_err_frac = rep (NA, num_runs),
+                  cor_cost_savings = rep (NA, num_runs),
+
+                  cor_opt_cost_savings = rep (NA, num_runs),
+
+                  cor_TSS = rep (NA, num_runs),
+                  cor_max_cSe_cSp = rep (NA, num_runs),
+                  cor_min_cSe_cSp = rep (NA, num_runs),
+                  cor_mean_cSe_cSp = rep (NA, num_runs),
+                  cor_prod_cSe_cSp = rep (NA, num_runs),
+                  cor_euc_cSe_cSp = rep (NA, num_runs),
+                  cor_acc_err_mag = rep (NA, num_runs),
+
+                      #  Apparent results as computed by bdpg
+                  app_spp_rep_shortfall = rep (NA, num_runs),
+                  app_solution_NUM_spp_covered = rep (NA, num_runs),
+                  app_solution_FRAC_spp_covered = rep (NA, num_runs),
+
+                  app_TP = rep (NA, num_runs),
+                  app_TN = rep (NA, num_runs),
+                  app_FP = rep (NA, num_runs),
+                  app_FN = rep (NA, num_runs),
+
+                  app_cSe = rep (NA, num_runs),
+                  app_cSp = rep (NA, num_runs),
+                  app_cPPV = rep (NA, num_runs),
+                  app_cNPV = rep (NA, num_runs),
+
+                  app_acc_frac = rep (NA, num_runs),
+                  app_acc_err_frac = rep (NA, num_runs),
+                  app_cost_savings = rep (NA, num_runs),
+
+                  app_opt_cost_savings = rep (NA, num_runs),
+
+                  app_TSS = rep (NA, num_runs),
+                  app_max_cSe_cSp = rep (NA, num_runs),
+                  app_min_cSe_cSp = rep (NA, num_runs),
+                  app_mean_cSe_cSp = rep (NA, num_runs),
+                  app_prod_cSe_cSp = rep (NA, num_runs),
+                  app_euc_cSe_cSp = rep (NA, num_runs),
+                  app_acc_err_mag = rep (NA, num_runs),
+
+                      #  Apparent results as computed by Marxan
+                  app_spp_rep_shortfall__fromMarxan = rep (NA, num_runs),
+                  app_solution_NUM_spp_covered__fromMarxan = rep (NA, num_runs),
+                  app_solution_FRAC_spp_covered__fromMarxan = rep (NA, num_runs),
+
+                      #  Error generation parameters
+                  add_error = rep (NA, num_runs),
+                  FP_const_rate = rep (NA, num_runs),
+                  FN_const_rate = rep (NA, num_runs),
+                  match_error_counts = rep (NA, num_runs),
+                  original_FP_const_rate = rep (NA, num_runs),
+                  original_FN_const_rate = rep (NA, num_runs),
+
+                      #  Derived options
+                  num_nodes_per_group = rep (NA, num_runs),
+                  tot_num_nodes = rep (NA, num_runs),
+                  num_independent_set_nodes = rep (NA, num_runs),
+                  num_dependent_set_nodes = rep (NA, num_runs),
+                  num_rounds_of_linking_between_groups = rep (NA, num_runs),
+                  target_num_links_between_2_groups_per_round = rep (NA, num_runs),
+                  num_links_within_one_group = rep (NA, num_runs),
+                  tot_num_links_inside_groups = rep (NA, num_runs),
+                  max_possible_num_links_between_groups = rep (NA, num_runs),
+                  max_possible_tot_num_links = rep (NA, num_runs),
+
+                      #  Marxan options
+                  marxan_spf_const = rep (NA, num_runs),
+                  marxan_PROP = rep (NA, num_runs),
+                  marxan_RANDSEED = rep (NA, num_runs),
+                  marxan_NUMREPS = rep (NA, num_runs),
+
+                      #  Marxan Annealing Parameters
+                  marxan_NUMITNS = rep (NA, num_runs),
+                  marxan_STARTTEMP = rep (NA, num_runs),
+                  marxan_NUMTEMP = rep (NA, num_runs),
+
+                      #  Marxan Cost Threshold
+                  marxan_COSTTHRESH = rep (NA, num_runs),
+                  marxan_THRESHPEN1 = rep (NA, num_runs),
+                  marxan_THRESHPEN2 = rep (NA, num_runs),
+
+                      #  Marxan Program control
+                  marxan_RUNMODE = rep (NA, num_runs),
+                  marxan_MISSLEVEL = rep (NA, num_runs),
+                  marxan_ITIMPTYPE = rep (NA, num_runs),
+                  marxan_HEURTYPE = rep (NA, num_runs),
+                  marxan_CLUMPTYPE = rep (NA, num_runs),
+
+                      #  Full runset name
+                  runset_name = rep (NA, num_runs)
+                  )
+    }
+
+#===============================================================================
+
 create_master_output_structure <-
         function (read_Xu_problem_from_Xu_file,
 
@@ -343,138 +481,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   num_runs = 1    #  Vestigial?  Not sure it will ever be anything but 1.
                   #  2015 05 09 - BTL.
 
-  results_df =
-      data.frame (runset_abbrev = rep (NA, num_runs),
-                  run_ID = rep (NA, num_runs),
-
-                  exceeded_thresh_for_num_spp = rep (NA, num_runs),
-
-                  num_PUs = rep (NA, num_runs),
-                  num_spp = rep (NA, num_runs),
-                  num_spp_per_PU = rep (NA, num_runs),
-                  seed = rep (NA, num_runs),
-
-                      #  Xu options
-                  n__num_groups = rep (NA, num_runs),
-                  alpha__ = rep (NA, num_runs),
-                  p__prop_of_links_between_groups = rep (NA, num_runs),
-                  r__density = rep (NA, num_runs),
-
-                      #  Correct results as computed by bdpg
-                  opt_solution_as_frac_of_tot_num_nodes = rep (NA, num_runs),
-                  cor_num_patches_in_solution = rep (NA, num_runs),
-                  marxan_best_num_patches_in_solution = rep (NA, num_runs),
-                  abs_marxan_best_solution_cost_err_frac = rep (NA, num_runs),
-                  marxan_best_solution_cost_err_frac = rep (NA, num_runs),
-
-                  cor_spp_rep_shortfall = rep (NA, num_runs),
-                  cor_NUM_spp_covered = rep (NA, num_runs),
-                  cor_FRAC_spp_covered = rep (NA, num_runs),
-
-                  cor_TP = rep (NA, num_runs),
-                  cor_TN = rep (NA, num_runs),
-                  cor_FP = rep (NA, num_runs),
-                  cor_FN = rep (NA, num_runs),
-
-                  cor_cSe = rep (NA, num_runs),
-                  cor_cSp = rep (NA, num_runs),
-                  cor_cPPV = rep (NA, num_runs),
-                  cor_cNPV = rep (NA, num_runs),
-
-                  cor_acc_frac = rep (NA, num_runs),
-                  cor_acc_err_frac = rep (NA, num_runs),
-                  cor_cost_savings = rep (NA, num_runs),
-
-                  cor_opt_cost_savings = rep (NA, num_runs),
-
-                  cor_TSS = rep (NA, num_runs),
-                  cor_max_cSe_cSp = rep (NA, num_runs),
-                  cor_min_cSe_cSp = rep (NA, num_runs),
-                  cor_mean_cSe_cSp = rep (NA, num_runs),
-                  cor_prod_cSe_cSp = rep (NA, num_runs),
-                  cor_euc_cSe_cSp = rep (NA, num_runs),
-                  cor_acc_err_mag = rep (NA, num_runs),
-
-                      #  Apparent results as computed by bdpg
-                  app_spp_rep_shortfall = rep (NA, num_runs),
-                  app_solution_NUM_spp_covered = rep (NA, num_runs),
-                  app_solution_FRAC_spp_covered = rep (NA, num_runs),
-
-                  app_TP = rep (NA, num_runs),
-                  app_TN = rep (NA, num_runs),
-                  app_FP = rep (NA, num_runs),
-                  app_FN = rep (NA, num_runs),
-
-                  app_cSe = rep (NA, num_runs),
-                  app_cSp = rep (NA, num_runs),
-                  app_cPPV = rep (NA, num_runs),
-                  app_cNPV = rep (NA, num_runs),
-
-                  app_acc_frac = rep (NA, num_runs),
-                  app_acc_err_frac = rep (NA, num_runs),
-                  app_cost_savings = rep (NA, num_runs),
-
-                  app_opt_cost_savings = rep (NA, num_runs),
-
-                  app_TSS = rep (NA, num_runs),
-                  app_max_cSe_cSp = rep (NA, num_runs),
-                  app_min_cSe_cSp = rep (NA, num_runs),
-                  app_mean_cSe_cSp = rep (NA, num_runs),
-                  app_prod_cSe_cSp = rep (NA, num_runs),
-                  app_euc_cSe_cSp = rep (NA, num_runs),
-                  app_acc_err_mag = rep (NA, num_runs),
-
-                      #  Apparent results as computed by Marxan
-                  app_spp_rep_shortfall__fromMarxan = rep (NA, num_runs),
-                  app_solution_NUM_spp_covered__fromMarxan = rep (NA, num_runs),
-                  app_solution_FRAC_spp_covered__fromMarxan = rep (NA, num_runs),
-
-                      #  Error generation parameters
-                  add_error = rep (NA, num_runs),
-                  FP_const_rate = rep (NA, num_runs),
-                  FN_const_rate = rep (NA, num_runs),
-                  match_error_counts = rep (NA, num_runs),
-                  original_FP_const_rate = rep (NA, num_runs),
-                  original_FN_const_rate = rep (NA, num_runs),
-
-                      #  Derived options
-                  num_nodes_per_group = rep (NA, num_runs),
-                  tot_num_nodes = rep (NA, num_runs),
-                  num_independent_set_nodes = rep (NA, num_runs),
-                  num_dependent_set_nodes = rep (NA, num_runs),
-                  num_rounds_of_linking_between_groups = rep (NA, num_runs),
-                  target_num_links_between_2_groups_per_round = rep (NA, num_runs),
-                  num_links_within_one_group = rep (NA, num_runs),
-                  tot_num_links_inside_groups = rep (NA, num_runs),
-                  max_possible_num_links_between_groups = rep (NA, num_runs),
-                  max_possible_tot_num_links = rep (NA, num_runs),
-
-                      #  Marxan options
-                  marxan_spf_const = rep (NA, num_runs),
-                  marxan_PROP = rep (NA, num_runs),
-                  marxan_RANDSEED = rep (NA, num_runs),
-                  marxan_NUMREPS = rep (NA, num_runs),
-
-                      #  Marxan Annealing Parameters
-                  marxan_NUMITNS = rep (NA, num_runs),
-                  marxan_STARTTEMP = rep (NA, num_runs),
-                  marxan_NUMTEMP = rep (NA, num_runs),
-
-                      #  Marxan Cost Threshold
-                  marxan_COSTTHRESH = rep (NA, num_runs),
-                  marxan_THRESHPEN1 = rep (NA, num_runs),
-                  marxan_THRESHPEN2 = rep (NA, num_runs),
-
-                      #  Marxan Program control
-                  marxan_RUNMODE = rep (NA, num_runs),
-                  marxan_MISSLEVEL = rep (NA, num_runs),
-                  marxan_ITIMPTYPE = rep (NA, num_runs),
-                  marxan_HEURTYPE = rep (NA, num_runs),
-                  marxan_CLUMPTYPE = rep (NA, num_runs),
-
-                      #  Full runset name
-                  runset_name = rep (NA, num_runs)
-                  )
+  results_df <- initialize_results_df ()
 
   cur_result_row = 0
 
