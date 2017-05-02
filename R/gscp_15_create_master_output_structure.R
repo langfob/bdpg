@@ -548,6 +548,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
         #  Correct results as computed by bdpg
     results_df$opt_solution_as_frac_of_tot_num_nodes [cur_result_row]            = opt_solution_as_frac_of_tot_num_nodes
     results_df$cor_num_patches_in_solution [cur_result_row]                      = cor_num_patches_in_solution
+
     results_df$marxan_best_num_patches_in_solution [cur_result_row]              = marxan_best_num_patches_in_solution
     results_df$abs_marxan_best_solution_cost_err_frac [cur_result_row]           = abs_marxan_best_solution_cost_err_frac
     results_df$marxan_best_solution_cost_err_frac [cur_result_row]               = marxan_best_solution_cost_err_frac
@@ -621,12 +622,14 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
     results_df$app_solution_FRAC_spp_covered__fromMarxan [cur_result_row]        = app_solution_FRAC_spp_covered__fromMarxan
 
         #  Error generation parameters
+{
     results_df$add_error [cur_result_row]                                       = add_error
     results_df$FP_const_rate [cur_result_row]                                   = FP_const_rate
     results_df$FN_const_rate [cur_result_row]                                   = FN_const_rate
     results_df$match_error_counts [cur_result_row]                              = match_error_counts
     results_df$original_FP_const_rate [cur_result_row]                          = original_FP_const_rate
     results_df$original_FN_const_rate [cur_result_row]                          = original_FN_const_rate
+}
 }
 
         #  Marxan options
@@ -669,6 +672,10 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   if (parameters$compute_network_metrics)
       {
           #  Need to bind the network measures to the data frame too.
+#  2017 05 01 - BTL
+#  Are these graph metrics only computed over the correct problem or
+#  only over the apparent problem?
+#  Seems like both may be important to know for prediction.
       results_df = cbind (results_df,
                           bipartite_metrics_from_bipartite_package,
                           bipartite_metrics_from_igraph_package_df
@@ -680,4 +687,375 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 }
 
 #===============================================================================
+
+        #  OLD CODE FOR COR - FROM BDPROBDIFF.
+        #  This is just here to give context for how create_master...()
+        #  was called, particularly, in terms of what the arguments were.
+
+# #===============================================================================
+# #                   Save the values for the "correct" problem.
+# #===============================================================================
+#
+#     #  The problem structures built so far represent the correct values.
+#     #  Adding error to the problem structure will create an apparent
+#     #  problem structure that is probably different from the correct
+#     #  structure.
+#     #  When we compute scores at the end of all this, we need to compute
+#     #  them with respect to the correct problem rather than the apparent.
+#     #  So, before we add error, we need to save the values defining the
+#     #  correct structure.
+#
+# cor_PU_spp_pair_indices = bdprob@PU_spp_pair_indices
+# cor_bpm                 = bdprob@bpm
+# cor_num_PUs             = bdprob@num_PUs
+# cor_num_spp             = bdprob@num_spp
+# cor_nodes               = bdprob@nodes
+# cor_optimum_cost        = bdprob@cor_optimum_cost  #  BUG?  HOW IS THIS LOADED FOR XU FROM FILE?
+# cor_PU_costs            = bdprob@PU_costs
+# PU_col_name             = bdprob@PU_col_name
+# spp_col_name            = bdprob@spp_col_name
+#
+# cor_PU_IDs              = bdprob@all_PU_IDs
+# cor_spp_IDs             = bdprob@all_spp_IDs
+#
+# cat ("\n\nAbout to set all_correct_node_IDs.\n")
+# #browser()
+#     #  Some nodes may be unusued in cor_nodes, particularly if building a
+#     #  compound problem, e.g., if wrapping a distribution around a Xu problem.
+#     #  Need to add them into this list since it will be used to index array
+#     #  entries, you can't have any missing indices.
+# #all_correct_node_IDs = cor_nodes$node_ID
+# all_correct_node_IDs = 1:max(cor_nodes$node_ID)
+#
+# presences_col_name = "freq"
+#
+# #===============================================================================
+#
+# cor_or_app_subdir_name = "cor"
+#
+#         #  NOTE:  2016 06 12 - Need to add writing of flags resulting from
+#         #                       reading Xu file, e.g., prob_generator_params_known.
+#         #                       This is because learning alg downstream needs to
+#         #                       know things like whether the generator's params
+#         #                       are even known, so that it doesn't try to learn
+#         #                       something from missing data.
+#
+# CALL TO do_graph...().  DEFN OF do_graph...() IS GIVEN BELOW.
+# do_graph_and_marxan_analysis (cor_or_app_subdir_name,
+#
+#                                             #  input parameters
+#                                           parameters,
+#                                           emulatingTzar,
+#                                           DEBUG_LEVEL,
+#                                           #derived_bdpg_parameters,   #  BUG?  UNKNOWN FOR XU FROM FILE?
+#                                           derived_bdpg_parameters$current_os,
+#
+#                                             #  parameters from gen prob.
+# #                                          bdprob$derived_Xu_params,
+#                                           bdprob@Xu_parameters,
+#                                           bdprob@read_Xu_problem_from_Xu_file,
+#
+# #            PU_spp_pair_names,  #NO
+#
+#                                             #  From bdprob structure, i.e., results of gen prob routine
+#                                           cor_num_spp,
+#                                           cor_num_PUs,
+#                                           cor_PU_spp_pair_indices,
+#     cor_PU_IDs, #####!!!!!#####
+#     cor_spp_IDs,  #####!!!!!#####
+#                                           cor_bpm,
+#
+#                             cor_PU_costs,
+#                                           cor_optimum_cost,
+#                                           cor_nodes,
+#                                           spp_col_name,
+#                                           PU_col_name,
+#
+#                                             #  Immediately after bdprob struct vars above.
+#                                           presences_col_name, #  hard-coded as "freq"
+# #####!!!!!#####                                          all_correct_node_IDs,
+#
+#                                             #  Results of adding error.
+#                                             cor_num_spp,
+#                                             cor_num_PUs,
+#                                           cor_PU_spp_pair_indices,
+#                                           cor_bpm,
+#
+#                                             #  input parameters for error model.
+#                                           add_error=FALSE,
+#                                           match_error_counts=FALSE,
+#                                           FP_const_rate=0,
+#                                           FN_const_rate=0,
+#                                           original_FP_const_rate=0,
+#                                           original_FN_const_rate=0
+#                                           )
+
+
+# DEFN OF do_graph...().  CALL TO do_graph...() IS GIVEN ABOVE.
+# #===============================================================================
+#
+#         #  NOTE:  2016 06 12 - Need to add writing of flags resulting from
+#         #                       reading Xu file, e.g., prob_generator_params_known.
+#         #                       This is because learning alg downstream needs to
+#         #                       know things like whether the generator's params
+#         #                       are even known, so that it doesn't try to learn
+#         #                       something from missing data.
+#
+# do_graph_and_marxan_analysis <- function (cor_or_app_subdir_name,
+#
+#                                             #  input parameters
+#                                           parameters,
+#                                           emulatingTzar,
+#                                           DEBUG_LEVEL,
+#
+#                                           current_os,   #### derived_bdpg_parameters$current_os
+#                                           #derived_bdpg_parameters,  # only used to get dirs and current_os, so should separate those out !!
+#
+#                                             #  parameters from gen prob.
+#                                             #  They're only used in creating
+#                                             #  the master output structure.
+#                                           Xu_parameters,
+#                                           read_Xu_problem_from_Xu_file,
+#
+#                                             #  From bdprob structure, i.e., results of gen prob routine
+#                                           cor_num_spp,
+#                                           cor_num_PUs,
+#                                           cor_PU_spp_pair_indices,
+#     cor_PU_IDs, #####!!!!!#####
+#     cor_spp_IDs,  #####!!!!!#####
+#                                           cor_bpm,
+#
+#                             cor_PU_costs,
+#                                           cor_optimum_cost,
+#                                           cor_nodes,
+#                                           spp_col_name,
+#                                           PU_col_name,
+#
+#                                             #  Immediately after bdprob struct vars above.
+#                                           presences_col_name, #  hard-coded as "freq"
+# #####!!!!!#####                                          all_correct_node_IDs,
+#
+#                                             #  Results of adding error.
+#                                             app_num_spp,
+#                                             app_num_PUs,
+#                                           app_PU_spp_pair_indices,
+#                                           app_bpm,
+#
+#                                             #  input parameters for error model.
+#                                             #  Only used to create master output structure?
+#                                           add_error,
+#                                           match_error_counts,
+#                                           FP_const_rate,
+#                                           FN_const_rate,
+#                                           original_FP_const_rate,
+#                                           original_FN_const_rate
+#                                           )
+# {
+# derived_bdpg_dir_names = create_dir_structure (cor_or_app_subdir_name)
+# ...
+# }
+
+
+
+
+create_COR_master_output_structure <- function (marxan_control_values,
+                                        marxan_output_values,
+                                        parameters,
+
+                                        COR_bd_prob,
+                                        COR_marxan_run
+                                        )
+{
+#xxxxx
+#===============================================================================
+#                   Dump all of the different kinds of results.
+#===============================================================================
+
+
+        #  NOTE:  2016 06 12 - Need to add writing of flags resulting from
+        #                       reading Xu file, e.g., prob_generator_params_known.
+        #                       This is because learning alg downstream needs to
+        #                       know things like whether the generator's params
+        #                       are even known, so that it doesn't try to learn
+        #                       something from missing data.
+
+  create_master_output_structure (
+                          read_Xu_problem_from_Xu_file,
+                          Xu_parameters,
+
+              #  These used to say just num_spp and num_PUs.
+              #  For the moment, I'm going to make them cor_...
+              #  since there is neither num_spp nor app_num_spp, etc.
+              #  This needs fixing though.
+                                        #num_PUs,  #  cor_num_PUs?  app_num_PUs?
+                                        #num_spp,  #  cor_num_spp?  app_num_spp?
+                          cor_num_PUs,  #  cor_num_PUs?  app_num_PUs?
+                          cor_num_spp,  #  cor_num_spp?  app_num_spp?
+
+                          cor_optimum_cost,
+
+              #  Using cor_nodes for now
+                                      #nodes,  #  cor_nodes?  app_nodes?
+                          cor_nodes,
+
+                          cor_final_link_counts_for_each_node,
+                          app_bpm,
+                          DEBUG_LEVEL,
+                          cor_bpm,
+                          parameters,
+                          add_error,
+                          match_error_counts,
+                          FP_const_rate,
+                          FN_const_rate,
+                          original_FP_const_rate,
+                          original_FN_const_rate,
+
+                          marxan_control_values$spf_const,
+  #                        spf_const,
+
+                          app_bipartite_metrics_from_bipartite_package,
+                          app_bipartite_metrics_from_igraph_package_df,
+
+                          app_marxan_output_values$marxan_best_df_sorted,
+                          app_marxan_output_values$marxan_ssoln_df,
+                          app_marxan_output_values$marxan_mvbest_df,
+
+                          marxan_control_values$marxan_PROP,
+                          marxan_control_values$marxan_RANDSEED,
+                          marxan_control_values$marxan_NUMREPS,
+                          marxan_control_values$marxan_NUMITNS,
+                          marxan_control_values$marxan_STARTTEMP,
+                          marxan_control_values$marxan_NUMTEMP,
+                          marxan_control_values$marxan_COSTTHRESH,
+                          marxan_control_values$marxan_THRESHPEN1,
+                          marxan_control_values$marxan_THRESHPEN2,
+                          marxan_control_values$marxan_RUNMODE,
+                          marxan_control_values$marxan_MISSLEVEL,
+                          marxan_control_values$marxan_ITIMPTYPE,
+                          marxan_control_values$marxan_HEURTYPE,
+                          marxan_control_values$marxan_CLUMPTYPE
+                                              )
+
+
+#xxxxx
+    }
+
+#===============================================================================
+
+        #  OLD CODE FOR APP - FROM BDPROBDIFF.
+        #  This is just here to give context for how create_master...()
+        #  was called, particularly, in terms of what the arguments were.
+
+# #===============================================================================
+# #                   Add error to the species occupancy data.
+# #===============================================================================
+#
+# add_error = FALSE
+# if (! is.null (parameters$add_error_to_spp_occupancy_data))
+#     add_error = parameters$add_error_to_spp_occupancy_data
+#
+# if (add_error)
+#     {
+#     ret_vals_from_add_errors =
+#         add_error_to_spp_occupancy_data (parameters, cor_bpm,
+#                                          cor_num_PU_spp_pairs,
+#                                          cor_num_PUs, cor_num_spp,
+#                                          bdpg_error_codes)
+#
+#         #  Save the chosen error parameters to output later with results.
+#     original_FP_const_rate = ret_vals_from_add_errors$original_FP_const_rate
+#     original_FN_const_rate = ret_vals_from_add_errors$original_FN_const_rate
+#     match_error_counts     = ret_vals_from_add_errors$match_error_counts
+#     FP_const_rate          = ret_vals_from_add_errors$FP_const_rate
+#     FN_const_rate          = ret_vals_from_add_errors$FN_const_rate
+#     app_num_spp            = ret_vals_from_add_errors$app_num_spp
+#     app_num_PUs            = ret_vals_from_add_errors$app_num_PUs
+#
+#         #  Set the values for the apparent problem structure.
+#     app_PU_spp_pair_indices      = ret_vals_from_add_errors$app_PU_spp_pair_indices
+#     app_bpm                      = ret_vals_from_add_errors$app_spp_occupancy_data
+#
+# #=================================
+#
+#         #  Create subdirectory name for this apparent problem.
+#         #  In the future, we may allow more than 1 app per cor, so
+#         #  I'll add an app count to the end of the subdirectory name and
+#         #  nest it under a more general "app" directory that corresponds to
+#         #  the "cor" directory.
+#
+#     cur_app_num = 1
+#     cor_or_app_subdir_name = paste0 ("app", .Platform$file.sep, "app.", cur_app_num)
+#
+#     do_graph_and_marxan_analysis (cor_or_app_subdir_name,
+#
+#                                                 #  input parameters
+#                                               parameters,
+#                                               emulatingTzar,
+#                                               DEBUG_LEVEL,
+#                                               #derived_bdpg_parameters,   #  BUG?  UNKNOWN FOR XU FROM FILE?
+#                                               derived_bdpg_parameters$current_os,
+#
+#                                                 #  parameters from gen prob.
+# #                                              bdprob$derived_Xu_params,
+#                                               bdprob@Xu_parameters,
+#                                               bdprob@read_Xu_problem_from_Xu_file,
+#
+#     #            PU_spp_pair_names,  #NO
+#
+#                                                 #  From bdprob structure, i.e., results of gen prob routine
+#                                               cor_num_spp,
+#                                               cor_num_PUs,
+#                                               cor_PU_spp_pair_indices,
+#     cor_PU_IDs, #####!!!!!#####
+#     cor_spp_IDs,  #####!!!!!#####
+#                                               cor_bpm,
+#
+#                             cor_PU_costs,
+#                                               cor_optimum_cost,
+#                                               cor_nodes,
+#                                               spp_col_name,
+#                                               PU_col_name,
+#
+#                                                 #  Immediately after bdprob struct vars above.
+#                                               presences_col_name, #  hard-coded as "freq"
+# #####!!!!!#####                                              all_correct_node_IDs,
+#
+#                                                 #  Results of adding error.
+#                                                 app_num_spp,
+#                                                 app_num_PUs,
+#                                               app_PU_spp_pair_indices,
+#                                               app_bpm,
+#
+#                                                 #  input parameters for error model.
+#                                               add_error,
+#                                               match_error_counts,
+#                                               FP_const_rate,
+#                                               FN_const_rate,
+#                                               original_FP_const_rate,
+#                                               original_FN_const_rate
+#                                               )
+#     } #####else    #  Don't add error.
+# #     {         #  Since no error is being added, correct and apparent are the same.
+# #
+# #     app_PU_spp_pair_indices      = cor_PU_spp_pair_indices
+# #     app_bpm                      = cor_bpm
+# #     }
+
+
+                                        #  Guessing at these args for now...
+create_APP_master_output_structure <- function (marxan_control_values,
+                                        marxan_output_values,
+                                        parameters,
+
+                                        COR_bd_prob,
+                                        APP_bd_prob,
+                                        APP_marxan_run
+                                        )
+{
+}
+
+#===============================================================================
+
+
+
 
