@@ -6,6 +6,7 @@
 \usage{
 wrap_abundance_dist_around_Xu_problem(starting_dir, rounded_abundances,
   Xu_bdprob, dep_set_PUs_eligible, tot_num_PUs_in_landscape, bdpg_error_codes,
+  search_outfile_name_base, search_outfile_name,
   wrap_prob_name_stem = "wrap_prob", cor_dir_name_stem = "cor")
 }
 \arguments{
@@ -18,6 +19,10 @@ wrap_abundance_dist_around_Xu_problem(starting_dir, rounded_abundances,
 \item{dep_set_PUs_eligible}{DESCRIPTION.}
 
 \item{tot_num_PUs_in_landscape}{DESCRIPTION.}
+
+\item{search_outfile_name_base}{character string}
+
+\item{search_outfile_name}{character string}
 }
 \value{
 Returns wrapped_bdprob

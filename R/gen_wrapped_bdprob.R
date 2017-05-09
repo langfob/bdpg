@@ -803,6 +803,8 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 #' @param Xu_bdprob DESCRIPTION.
 #' @param dep_set_PUs_eligible DESCRIPTION.
 #' @param tot_num_PUs_in_landscape DESCRIPTION.
+#' @param search_outfile_name_base character string
+#' @param search_outfile_name character string
 #'
 #' @return Returns wrapped_bdprob
 #' @export
@@ -813,16 +815,21 @@ wrap_abundance_dist_around_Xu_problem = function (starting_dir,
                                                   dep_set_PUs_eligible,
                                                   tot_num_PUs_in_landscape,
                                                   bdpg_error_codes,
+                                                  search_outfile_name_base,
+                                                  search_outfile_name,
                                             wrap_prob_name_stem = "wrap_prob",
                                             cor_dir_name_stem = "cor"
                                                   )
     {
+        #  Get values for local variables to be used throughout the
+        #  computations in this function.
+
     Xu_nodes = Xu_bdprob@nodes
     Xu_dep_set = get_dependent_node_IDs (Xu_nodes)
     Xu_dep_and_indep_set = c(get_independent_node_IDs (Xu_nodes), Xu_dep_set)
 
-largest_PU_ID = max (Xu_nodes$node_ID)
-#    extra_PUs = (Xu_bdprob@num_PUs + 1) : tot_num_PUs_in_landscape
+    largest_PU_ID = max (Xu_nodes$node_ID)
+    #    extra_PUs = (Xu_bdprob@num_PUs + 1) : tot_num_PUs_in_landscape
     extra_PUs = (largest_PU_ID + 1) : tot_num_PUs_in_landscape
 
     eligible_PUs =
@@ -834,8 +841,8 @@ largest_PU_ID = max (Xu_nodes$node_ID)
     #---------------------------------------------------------------------------
     #---------------------------------------------------------------------------
 
-        #  Now have the rounded distribution of species abundances to
-        #  wrap around the given Xu problem, so do the wrap to generate a
+        #  Given the rounded distribution of species abundances to
+        #  wrap around the given Xu problem, do the wrap to generate a
         #  table of pairs of indices of PUs and species.
 
     wrapped_PU_spp_indices =
@@ -852,11 +859,13 @@ largest_PU_ID = max (Xu_nodes$node_ID)
 
     wrapped_PU_vector = wrapped_PU_spp_indices [, Xu_bdprob@PU_col_name]
     unique_wrapped_PUs = sort (unique (wrapped_PU_vector))
+
             #  Highest PU_ID may not be occupied, so old counts like
             #  wrapped_highest_PU_ID and wrapped_num_PUs are wrong.
             #  This is especially important because these are the numbers that
-            #  drives the dimensions of the bpm and costs and
+            #  drive the dimensions of the bpm and costs and
             #  the length of marxan boolean solution indicator vectors.
+
     wrapped_highest_PU_ID = tot_num_PUs_in_landscape    #max (unique_wrapped_PUs)
     wrapped_num_PUs = tot_num_PUs_in_landscape          #length (unique_wrapped_PUs)
 
@@ -865,15 +874,19 @@ largest_PU_ID = max (Xu_nodes$node_ID)
         cat ("\n\nXu_bdprob@num_PUs = \n", Xu_bdprob@num_PUs)
         cat ("\nsetdiff (unique_wrapped_PUs, 1:wrapped_highest_PU_ID) = \n")
         print (setdiff (unique_wrapped_PUs, 1:wrapped_highest_PU_ID))
+
         missing_PU_IDs = setdiff (1:wrapped_highest_PU_ID, unique_wrapped_PUs)
+
         cat ("\nMissing ", length (missing_PU_IDs),
            " PU_IDs = setdiff (1:wrapped_highest_PU_ID, unique_wrapped_PUs) = \n")
         print (setdiff (1:wrapped_highest_PU_ID, unique_wrapped_PUs))
         cat ("\n")
+
         message (paste0 ("\n\nwrapped_num_PUs (", wrapped_num_PUs,
                          ") != wrapped_highest_PU_ID (", wrapped_highest_PU_ID,
                          ")")
                 )
+
         if (min (missing_PU_IDs) > Xu_bdprob@num_PUs)
             {
             message (paste0 ("\nProbably just didn't draw some PU_IDs in ",
@@ -931,6 +944,8 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
     all_spp_IDs = 1:wrapped_highest_spp_ID
 
+      #---------------------------------------------------------------------------
+      #---------------------------------------------------------------------------
       #---------------------------------------------------------------------------
 
               #-----------------------------------------------------------
@@ -1085,11 +1100,28 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
                                    wrapped_bdprob)
 
         #-----------------------------------------------------------------
+        #  Tracking of details of the search for a wrapping distribution
+        #  were written to a file in the top directory of the tzar run
+        #  before the final directory for the wrapped problem was known.
+        #  Move search tracking file to the newly created dir of the
+        #  wrapped problem.
+        #-----------------------------------------------------------------
+
+    if (file.exists (search_outfile_name))
+        {
+        file.rename (search_outfile_name,
+                     file.path (get_RSprob_path_topdir (wrapped_bdprob,
+                                                        starting_dir),
+                              search_outfile_name_base))
+        }
+
+        #-----------------------------------------------------------------
         #  Compute and save the distribution and network metrics for the
         #  problem.
         #-----------------------------------------------------------------
 
         #  Summarize and plot graph and distribution structure information.
+
     wrapped_bdprob@final_link_counts_for_each_node =
         summarize_and_plot_graph_and_distribution_structure_information (
                   wrapped_bdprob@PU_spp_pair_indices,
@@ -1105,6 +1137,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
                   )
 
         #  Compute network metrics.
+
     wrapped_bdprob <- init_object_graph_data (wrapped_bdprob,
                                               starting_dir,
                                               parameters$compute_network_metrics_wrapped,
@@ -1252,8 +1285,12 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
 
         tot_num_PUs_in_landscape = round (get_num_nodes (base_bdprob@nodes) /
                                           solution_frac_of_landscape)
-        search_outfile_name      = paste0 (parameters$fullOutputDirWithSlash,
-                                           "wrap_search_outfile.csv")
+
+        # search_outfile_name      = paste0 (parameters$fullOutputDirWithSlash,
+        #                                    "wrap_search_outfile.csv")
+        search_outfile_name_base = "wrap_search_outfile.csv"
+        search_outfile_name      = file.path (starting_dir,
+                                              search_outfile_name_base)
 
             #-----------------------------------------------------------
             #  Search for a set of lognormal parameters that fit the
@@ -1270,7 +1307,6 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                               max_search_iterations,
                                               add_one_to_lognormal_abundances,
                                               search_outfile_name)
-
 
             #--------------------------------------------------------------
             #  Wrap the generated lognormal around the Xu base problem.
@@ -1293,7 +1329,9 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                                    base_bdprob,
                                                    dep_set_PUs_eligible,
                                                    tot_num_PUs_in_landscape,
-                                                   bdpg_error_codes)
+                                                   bdpg_error_codes,
+                                                   search_outfile_name_base,
+                                                   search_outfile_name)
 
         } else  #  lognormal wrap not chosen and that's the only kind allowed
         {       #  at the moment, so quit
