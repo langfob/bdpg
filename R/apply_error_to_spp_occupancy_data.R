@@ -479,6 +479,8 @@ apply_error_to_spp_occupancy_data =
                   cor_num_PUs, cor_num_spp,
                   bdpg_error_codes)
     {
+cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
+browser()
     FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters,
                                                        bdpg_error_codes)
 
