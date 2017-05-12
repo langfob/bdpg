@@ -324,8 +324,9 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 #  2017 05 01 - BTL
 #  Why was I creating the solutions_df?  Is this vestigial?
 #  Right now, it looks like the only column used in it is the optimal solution
-#  column and it's juust a copy of cor_solution_vector.
+#  column and it's just a copy of cor_solution_vector.
 
+{
   #browser()
   solutions_df = data.frame (puid                 = marxan_best_df_sorted$PUID,
                              optimal_solution     = cor_solution_vector,
@@ -352,6 +353,7 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
   cor_num_patches_in_solution = sum (solutions_df$optimal_solution)
       #cor_num_patches_in_solution = cor_optimum_cost    #  assuming cost = number of patches
       cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
+}
 
   #---------------------------------------------------------------------------
   #               Summarize marxan solution features.
@@ -1041,6 +1043,43 @@ create_COR_master_output_structure <- function (marxan_control_values,
 # #     app_bpm                      = cor_bpm
 # #     }
 
+#-------------------------------------------------------------------------------
+
+    #----------------------------
+    #  Inputs to create master:
+    #----------------------------
+
+        #  Problem generator parameters
+
+# Xu_parameters
+
+        #  Reserve selector inputs and outputs
+
+    #  Need to make these work for something other than just marxan_sa,
+    #  so that it's easy to plug in zonation emulator and/or linear programming.
+    #  To do that, need to look more closely at exactly the questions that
+    #  you want to ask at the end, so that you know which values are crucial.
+    #  You'll still have to learn separate predictors for each kind of
+    #  reserve selector because input controls like marxan's number of of
+    #  iterations affect output error.
+    #  Still, another interesting question could be what you're able to predict
+    #  across all different reserve selectors, i.e., are some problems harder
+    #  than others for everyone?  That might be phrased as error(prob_A) >
+    #  error(prob_B) for all reserve selectors...
+
+# marxan_control_values
+# app_marxan_output_values
+
+        #  Network measures
+
+# app_bipartite_metrics_from_bipartite_package
+# app_bipartite_metrics_from_igraph_package_dfy
+
+        #  Output scores
+
+# ???
+
+#-------------------------------------------------------------------------------
 
                                         #  Guessing at these args for now...
 create_APP_master_output_structure <- function (marxan_control_values,
