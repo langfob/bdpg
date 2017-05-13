@@ -334,46 +334,42 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
 
 #-------------------------------------------------------------------------------
 
+#  2017 05 13 - BTL
+#  solutions_df is no longer used at all, so commenting all of this part out,
+#  but don't want to get rid of it completely yet because it's useful
+#  information about what these various vectors represent.
+#  Should probably just make a more explicit bit of documentation about that.
+
 #  2017 05 01 - BTL
 #  Why was I creating the solutions_df?  Is this vestigial?
 #  Right now, it looks like the only column used in it is the optimal solution
 #  column and it's just a copy of cor_solution_vector.
 
-{
-  #browser()
-  solutions_df = data.frame (puid                 = marxan_best_df_sorted$PUID,
-                             optimal_solution     = cor_solution_vector,
-                             marxan_best_solution = marxan_best_df_sorted$SOLUTION, #  assumes already sorted by PU_ID
-                             marxan_votes         = marxan_ssoln_df$number,
-                             cor_signed_diff      = cor_signed_difference,
-                             cor_abs_val_diff     = cor_abs_val_signed_difference,
-          #  2015 06 19 - BTL
-          #  Until now (3:04 pm), this said:
-          #       cor_num_spp_on_patch = final_link_counts_for_each_node$freq
-          #  That means that it was using the apparent, not the correct,
-          #  final link counts for each node.
-          #  I have now changed this to say cor_... instead.
-          #  Not sure if this was a source of unknown bugs before or will be
-          #  a source now.  Need to look more closely at this to see the
-          #  consequences where solutions_df$cor_num_spp_on_patch is used
-          #  downstream of here.  However, since this is the only place it
-          #  appears in this file and this file (gscp_15) is at the end of
-          #  the whole program, maybe it doesn't matter at all except being
-          #  echoed in some output file.
-                             cor_num_spp_on_patch = cor_final_link_counts_for_each_node$freq
-                             )
-
-        #  Replace use of solutions_df here because it seems to be the only
-        #  place it's ever used and it's unnecessary to use it since the
-        #  solutions_df$optimal_solution is just a copy of cor_solution_vector.
-        #  2017 05 13 - BTL.
-
-#  cor_num_patches_in_solution = sum (solutions_df$optimal_solution)
-  cor_num_patches_in_solution = sum (cor_solution_vector)
-
-      #cor_num_patches_in_solution = cor_optimum_cost    #  assuming cost = number of patches
-      cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
-}
+# {
+#   #browser()
+#   solutions_df = data.frame (puid                 = marxan_best_df_sorted$PUID,
+#                              optimal_solution     = cor_solution_vector,
+#                              marxan_best_solution = marxan_best_df_sorted$SOLUTION, #  assumes already sorted by PU_ID
+#                              marxan_votes         = marxan_ssoln_df$number,
+#                              cor_signed_diff      = cor_signed_difference,
+#                              cor_abs_val_diff     = cor_abs_val_signed_difference,
+#           #  2015 06 19 - BTL
+#           #  Until now (3:04 pm), this said:
+#           #       cor_num_spp_on_patch = final_link_counts_for_each_node$freq
+#           #  That means that it was using the apparent, not the correct,
+#           #  final link counts for each node.
+#           #  I have now changed this to say cor_... instead.
+#           #  Not sure if this was a source of unknown bugs before or will be
+#           #  a source now.  Need to look more closely at this to see the
+#           #  consequences where solutions_df$cor_num_spp_on_patch is used
+#           #  downstream of here.  However, since this is the only place it
+#           #  appears in this file and this file (gscp_15) is at the end of
+#           #  the whole program, maybe it doesn't matter at all except being
+#           #  echoed in some output file.
+#                              cor_num_spp_on_patch = cor_final_link_counts_for_each_node$freq
+#                              )
+#
+# }
 
 #-------------------------------------------------------------------------------
 
@@ -382,6 +378,10 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
   #---------------------------------------------------------------------------
 
 {
+  cor_num_patches_in_solution = sum (cor_solution_vector)
+
+      #cor_num_patches_in_solution = cor_optimum_cost    #  assuming cost = number of patches
+      cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
       #  Find which PUs marxan chose for its best solution.
   marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
 
