@@ -40,38 +40,37 @@
 #===============================================================================
 
 save_rsprob_results_data_for_Xu_read_from_file <- function ()
-      {
-      cor_solution_vector = rep (NA, num_PUs)
-      cor_signed_difference = rep (NA, num_PUs)
-      cor_abs_val_signed_difference = rep (NA, num_PUs)
+    {
+        #  Xu options
+    n__num_groups = NA
+    alpha__ = NA
+    p__prop_of_links_between_groups = NA
+    r__density = NA
 
-              #  Xu options
-      n__num_groups = NA
-      alpha__ = NA
-      p__prop_of_links_between_groups = NA
-      r__density = NA
+        #  Derived Xu options
+    num_nodes_per_group = NA
+    tot_num_nodes = num_PUs
+    num_independent_set_nodes = tot_num_nodes - cor_optimum_cost
+    num_dependent_set_nodes = cor_optimum_cost
+    num_rounds_of_linking_between_groups = NA
+    target_num_links_between_2_groups_per_round = NA
+    num_links_within_one_group = NA
+    tot_num_links_inside_groups = NA
+    max_possible_num_links_between_groups = NA
+    max_possible_tot_num_links = NA
 
-          #  Derived Xu options
-      num_nodes_per_group = NA
-      tot_num_nodes = num_PUs
-      num_independent_set_nodes = tot_num_nodes - cor_optimum_cost
-      num_dependent_set_nodes = cor_optimum_cost
-      num_rounds_of_linking_between_groups = NA
-      target_num_links_between_2_groups_per_round = NA
-      num_links_within_one_group = NA
-      tot_num_links_inside_groups = NA
-      max_possible_num_links_between_groups = NA
-      max_possible_tot_num_links = NA
-
-      opt_solution_as_frac_of_tot_num_nodes = cor_optimum_cost / tot_num_nodes
-
-      }
+        #  Values computed at end of save_rsprob_results_data_for_Xu_NOT...
+    cor_solution_vector = rep (NA, num_PUs)
+    cor_signed_difference = rep (NA, num_PUs)
+    cor_abs_val_signed_difference = rep (NA, num_PUs)
+    opt_solution_as_frac_of_tot_num_nodes = cor_optimum_cost / tot_num_nodes
+    }
 
 #===============================================================================
 
 save_rsprob_results_data_for_Xu_NOT_read_from_file <- function ()
     {
-cat ("\n\nJust before things requiring major fix in gscp_15:\n")
+    cat ("\n\nJust before things requiring major fix in gscp_15:\n")
 #browser()
 # biodivprobgen_utilities.R:235:    #  like nodes$dependent_set_member.
 # biodivprobgen_utilities.R:238:    #       Error in marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member :
@@ -108,17 +107,14 @@ cat ("\n\nJust before things requiring major fix in gscp_15:\n")
 #                IT REALLY DOES COVER THE SET, I.E., IT IS A CORRECT SOLUTION.
 
 
+    cor_solution_vector = nodes$dependent_set_member
 
-
-
-      cor_solution_vector = nodes$dependent_set_member
 cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
-#browser()
-      cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
-      cor_abs_val_signed_difference = abs (cor_signed_difference)
+    cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
+    cor_abs_val_signed_difference = abs (cor_signed_difference)
 
 #      opt_solution_as_frac_of_tot_num_nodes = Xu_parameters$opt_solution_as_frac_of_tot_num_nodes
-      opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
+    opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
     }
 
 #===============================================================================
