@@ -310,9 +310,9 @@ derived_Xu_params    = Xu_parameters@derived_params
 base_Xu_params       = Xu_parameters@base_params
 bdpg_extended_params = Xu_parameters@bdpg_extended_params
 
-  #-------------------------------------------------------------------------------
-  #      Initialize the data frame holding correct and apparent solutions.
-  #-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#      Initialize the data frame holding correct and apparent solutions.
+#-------------------------------------------------------------------------------
 
       #---------------------------------------------------------------------
       #  Need to separate the case of reading a Xu problem from one of his
@@ -331,6 +331,8 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
       {
       save_rsprob_results_data_for_Xu_NOT_read_from_file ()
       }
+
+#-------------------------------------------------------------------------------
 
 #  2017 05 01 - BTL
 #  Why was I creating the solutions_df?  Is this vestigial?
@@ -361,10 +363,19 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
                              cor_num_spp_on_patch = cor_final_link_counts_for_each_node$freq
                              )
 
-  cor_num_patches_in_solution = sum (solutions_df$optimal_solution)
+        #  Replace use of solutions_df here because it seems to be the only
+        #  place it's ever used and it's unnecessary to use it since the
+        #  solutions_df$optimal_solution is just a copy of cor_solution_vector.
+        #  2017 05 13 - BTL.
+
+#  cor_num_patches_in_solution = sum (solutions_df$optimal_solution)
+  cor_num_patches_in_solution = sum (cor_solution_vector)
+
       #cor_num_patches_in_solution = cor_optimum_cost    #  assuming cost = number of patches
       cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
 }
+
+#-------------------------------------------------------------------------------
 
   #---------------------------------------------------------------------------
   #               Summarize marxan solution features.
