@@ -39,6 +39,90 @@
 
 #===============================================================================
 
+save_rsprob_results_data_for_Xu_read_from_file <- function ()
+      {
+      cor_solution_vector = rep (NA, num_PUs)
+      cor_signed_difference = rep (NA, num_PUs)
+      cor_abs_val_signed_difference = rep (NA, num_PUs)
+
+              #  Xu options
+      n__num_groups = NA
+      alpha__ = NA
+      p__prop_of_links_between_groups = NA
+      r__density = NA
+
+          #  Derived Xu options
+      num_nodes_per_group = NA
+      tot_num_nodes = num_PUs
+      num_independent_set_nodes = tot_num_nodes - cor_optimum_cost
+      num_dependent_set_nodes = cor_optimum_cost
+      num_rounds_of_linking_between_groups = NA
+      target_num_links_between_2_groups_per_round = NA
+      num_links_within_one_group = NA
+      tot_num_links_inside_groups = NA
+      max_possible_num_links_between_groups = NA
+      max_possible_tot_num_links = NA
+
+      opt_solution_as_frac_of_tot_num_nodes = cor_optimum_cost / tot_num_nodes
+
+      }
+
+#===============================================================================
+
+save_rsprob_results_data_for_Xu_NOT_read_from_file <- function ()
+    {
+cat ("\n\nJust before things requiring major fix in gscp_15:\n")
+#browser()
+# biodivprobgen_utilities.R:235:    #  like nodes$dependent_set_member.
+# biodivprobgen_utilities.R:238:    #       Error in marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member :
+# gen_bdprob.R:738:largest_PU_ID = max (Xu_nodes$node_ID)
+# generateSetCoverProblem.R:242:#all_correct_node_IDs = cor_nodes$node_ID
+# generateSetCoverProblem.R:243:all_correct_node_IDs = 1:max(cor_nodes$node_ID)
+# gscp_15_create_master_output_structure.R:131:2016 07 16 - nodes$dependent_set_member ONLY HAS THE NUMBER OF PLANNING UNITS
+# gscp_15_create_master_output_structure.R:159:      cor_solution_vector = nodes$dependent_set_member
+# gscp_15_create_master_output_structure.R:162:      cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
+#
+#
+# 2016 07 16 - nodes$dependent_set_member ONLY HAS THE NUMBER OF PLANNING UNITS
+#           THAT WERE IN THE ORIGINAL XU PROBLEM, NOT THE WRAPPED PROBLEM.
+#           MEANWHILE, THE MARXAN SOLUTION DOES HAVE THE WRAPPED PROBLEM PUs SO
+#           THE LENGTHS DO NOT MATCH.  NEED TO MAKE SURE THAT EVERYTHING IN THE
+#           WRAPPED PROBLEM HAS THE CORRECT DIMENSIONS AND VALUES.
+#             This is part of a larger problem of making sure that the problem
+#             returned by wrapping is correctly sized in every way to allow
+#             subsequent operations to act on it exactly as they would act on
+#             a base Xu problem.  One test of that is to make sure that all of
+#             the dimensions of the object elements include all planning units
+#             of the wrapped problem.  This may also be complicated by the
+#             application of error to generate an apparent problem.  That means
+#             you will also need to verify the problem dimensions and values
+#             again, after you have generated the apparent version.
+#
+#           ANOTHER PROBLEM HERE IS THAT THE XU SOLUTION IS NOT NECESSARILY
+#           THE ONLY CORRECT SOLUTION.  THIS MATCHING OF NODES TO A SOLUTION CAN
+#           BE WRONG IF MARXAN HAS FOUND A DIFFERENT CORRECT SOLUTION.
+#           NEED TO AT LEAST CHECK WHETHER
+#             A) MARXAN SOLUTION IS THE CORRECT SIZE (I.E., COST)
+#             AND
+#             B) IF IT IS THE CORRECT SIZE, THEN YOU ALSO NEED TO CHECK THAT
+#                IT REALLY DOES COVER THE SET, I.E., IT IS A CORRECT SOLUTION.
+
+
+
+
+
+      cor_solution_vector = nodes$dependent_set_member
+cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
+#browser()
+      cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
+      cor_abs_val_signed_difference = abs (cor_signed_difference)
+
+#      opt_solution_as_frac_of_tot_num_nodes = Xu_parameters$opt_solution_as_frac_of_tot_num_nodes
+      opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
+    }
+
+#===============================================================================
+
 initialize_results_df <- function ()
     {
     results_df =
@@ -241,84 +325,11 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
 
   if (read_Xu_problem_from_Xu_file)
       {
-      cor_solution_vector = rep (NA, num_PUs)
-      cor_signed_difference = rep (NA, num_PUs)
-      cor_abs_val_signed_difference = rep (NA, num_PUs)
-
-              #  Xu options
-      n__num_groups = NA
-      alpha__ = NA
-      p__prop_of_links_between_groups = NA
-      r__density = NA
-
-          #  Derived Xu options
-      num_nodes_per_group = NA
-      tot_num_nodes = num_PUs
-      num_independent_set_nodes = tot_num_nodes - cor_optimum_cost
-      num_dependent_set_nodes = cor_optimum_cost
-      num_rounds_of_linking_between_groups = NA
-      target_num_links_between_2_groups_per_round = NA
-      num_links_within_one_group = NA
-      tot_num_links_inside_groups = NA
-      max_possible_num_links_between_groups = NA
-      max_possible_tot_num_links = NA
-
-      opt_solution_as_frac_of_tot_num_nodes = cor_optimum_cost / tot_num_nodes
+      save_rsprob_results_data_for_Xu_read_from_file ()
 
       } else  #  generated the problem
       {
-
-
-
-cat ("\n\nJust before things requiring major fix in gscp_15:\n")
-#browser()
-# biodivprobgen_utilities.R:235:    #  like nodes$dependent_set_member.
-# biodivprobgen_utilities.R:238:    #       Error in marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member :
-# gen_bdprob.R:738:largest_PU_ID = max (Xu_nodes$node_ID)
-# generateSetCoverProblem.R:242:#all_correct_node_IDs = cor_nodes$node_ID
-# generateSetCoverProblem.R:243:all_correct_node_IDs = 1:max(cor_nodes$node_ID)
-# gscp_15_create_master_output_structure.R:131:2016 07 16 - nodes$dependent_set_member ONLY HAS THE NUMBER OF PLANNING UNITS
-# gscp_15_create_master_output_structure.R:159:      cor_solution_vector = nodes$dependent_set_member
-# gscp_15_create_master_output_structure.R:162:      cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
-#
-#
-# 2016 07 16 - nodes$dependent_set_member ONLY HAS THE NUMBER OF PLANNING UNITS
-#           THAT WERE IN THE ORIGINAL XU PROBLEM, NOT THE WRAPPED PROBLEM.
-#           MEANWHILE, THE MARXAN SOLUTION DOES HAVE THE WRAPPED PROBLEM PUs SO
-#           THE LENGTHS DO NOT MATCH.  NEED TO MAKE SURE THAT EVERYTHING IN THE
-#           WRAPPED PROBLEM HAS THE CORRECT DIMENSIONS AND VALUES.
-#             This is part of a larger problem of making sure that the problem
-#             returned by wrapping is correctly sized in every way to allow
-#             subsequent operations to act on it exactly as they would act on
-#             a base Xu problem.  One test of that is to make sure that all of
-#             the dimensions of the object elements include all planning units
-#             of the wrapped problem.  This may also be complicated by the
-#             application of error to generate an apparent problem.  That means
-#             you will also need to verify the problem dimensions and values
-#             again, after you have generated the apparent version.
-#
-#           ANOTHER PROBLEM HERE IS THAT THE XU SOLUTION IS NOT NECESSARILY
-#           THE ONLY CORRECT SOLUTION.  THIS MATCHING OF NODES TO A SOLUTION CAN
-#           BE WRONG IF MARXAN HAS FOUND A DIFFERENT CORRECT SOLUTION.
-#           NEED TO AT LEAST CHECK WHETHER
-#             A) MARXAN SOLUTION IS THE CORRECT SIZE (I.E., COST)
-#             AND
-#             B) IF IT IS THE CORRECT SIZE, THEN YOU ALSO NEED TO CHECK THAT
-#                IT REALLY DOES COVER THE SET, I.E., IT IS A CORRECT SOLUTION.
-
-
-
-
-
-      cor_solution_vector = nodes$dependent_set_member
-cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
-#browser()
-      cor_signed_difference = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
-      cor_abs_val_signed_difference = abs (cor_signed_difference)
-
-#      opt_solution_as_frac_of_tot_num_nodes = Xu_parameters$opt_solution_as_frac_of_tot_num_nodes
-      opt_solution_as_frac_of_tot_num_nodes = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
-
+      save_rsprob_results_data_for_Xu_NOT_read_from_file ()
       }
 
 #  2017 05 01 - BTL
