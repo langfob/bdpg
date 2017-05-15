@@ -480,7 +480,7 @@ apply_error_to_spp_occupancy_data =
                   bdpg_error_codes)
     {
 cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
-browser()
+#browser()
     FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters,
                                                        bdpg_error_codes)
 
