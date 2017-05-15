@@ -125,7 +125,8 @@ gen_multi_bdprob = function (parameters,
                              given_correct_solution_cost,
                              max_allowed_num_spp,
                              bdpg_error_codes,
-                             integerize)  #parameters, bdpg_error_codes, integerize)
+                             integerize,
+                             bdprob_1 = NULL)
     {
         #----------------------------------------------------------------------
         #  Make sure that the base problem for the multiproblem is not one of
@@ -158,14 +159,17 @@ gen_multi_bdprob = function (parameters,
                    # ,
                    # "base_prob.1")
 
-    bdprob_1 = gen_single_bdprob_COR (starting_dir,
-                                      parameters,
-                                      read_Xu_problem_from_Xu_file,
-                                      infile_name,
-                                      given_correct_solution_cost,
-                                      max_allowed_num_spp,
-                                      bdpg_error_codes,
-                                      integerize)
+    if (is.null (bdprob_1))
+        {
+        bdprob_1 = gen_single_bdprob_COR (starting_dir,
+                                          parameters,
+                                          read_Xu_problem_from_Xu_file,
+                                          infile_name,
+                                          given_correct_solution_cost,
+                                          max_allowed_num_spp,
+                                          bdpg_error_codes,
+                                          integerize)
+        }
 
     if (! bdprob_1@prob_is_ok)
         {

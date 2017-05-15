@@ -64,11 +64,13 @@
 #' @param parameters parameter list, generally from project.yaml
 #' @param bdpg_error_codes list of error codes and corresponding error numbers
 #' @param integerize function to use in converting floats to integers
+#' @param base_bdprob NULL or an existing bdprob to use in creating multi_bdproblem
 #'
 #' @return biodiversity problems
 #' @export
 
-gen_bdprob  = function (parameters, bdpg_error_codes, integerize)
+gen_bdprob  = function (parameters, bdpg_error_codes, integerize,
+                        base_bdprob = NULL)
     {
         #  May need to test these parameters to see if they even exist
         #  and if they don't for this particular run, then set them to
@@ -95,7 +97,8 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize)
                                    given_correct_solution_cost,
                                    max_allowed_num_spp,
                                    bdpg_error_codes,
-                                   integerize)
+                                   integerize,
+                                   base_bdprob)
 
         } else
         {
