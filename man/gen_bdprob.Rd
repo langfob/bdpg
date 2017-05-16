@@ -4,7 +4,7 @@
 \alias{gen_bdprob}
 \title{Generate a biodiversity problem}
 \usage{
-gen_bdprob(parameters, bdpg_error_codes, integerize)
+gen_bdprob(parameters, bdpg_error_codes, integerize, base_bdprob = NULL)
 }
 \arguments{
 \item{parameters}{parameter list, generally from project.yaml}
@@ -12,6 +12,8 @@ gen_bdprob(parameters, bdpg_error_codes, integerize)
 \item{bdpg_error_codes}{list of error codes and corresponding error numbers}
 
 \item{integerize}{function to use in converting floats to integers}
+
+\item{base_bdprob}{NULL or an existing bdprob to use in creating multi_bdproblem}
 }
 \value{
 biodiversity problems
