@@ -190,23 +190,23 @@ get_marxan_solution_choice_string = function (marxan_best_cost,
                                               sorted_best_cost,
                                               sorted_best_rep)
     {
-    solution_choice_string = "OK_marxan_solution_IS_apparent_best"
+    solution_choice_string = "OK__marxan_solution_IS_apparent_best"
     if (marxan_best_cost > sorted_best_cost)
         {
             #  marxan's chosen best is NOT the best cost
         if (marxan_best_rep < sorted_best_rep)
             {
                 #  marxan's chosen best is also NOT the best representation
-            solution_choice_string = "BAD_marxan_solution_NEITHER_best"
+            solution_choice_string = "BAD__marxan_solution_NEITHER_best"
             } else
             {
                 #  marxan's chosen best is not best score but is best representation
-            solution_choice_string = "BAD_HALF_marxan_solution_NOT_apparent_best_cost_and_IS_apparent_best_rep"
+            solution_choice_string = "BAD__HALF_of_marxan_solution_NOT_apparent_best_cost_and_IS_apparent_best_rep"
             }
         } else if (marxan_best_rep < sorted_best_rep)
         {
             #  marxan's chosen best is best score but is NOT best representation
-        solution_choice_string = "BAD_HALF_marxan_solution_IS_apparent_best_cost_and_NOT_apparent_best_rep"
+        solution_choice_string = "BAD__HALF_of_marxan_solution_IS_apparent_best_cost_and_NOT_apparent_best_rep"
         }
 
 #docaids::doc_vars_in_this_func_once ()
