@@ -226,21 +226,21 @@ get_marxan_solution_choice_string = function (marxan_best_cost,
 #' indicates whether marxan really did return its best guess. This will make it
 #' easy to quickly search a bunch of runs to see whether any of them had a bad
 #' marxan choice for best run by just looking for the existance of any files
-#' whose names begin with "BAD_".  This should never happen, but this function
-#' is run to make sure.
+#' whose names begin with "BAD__" or "HALF_BAD__.  This should never happen,
+#' but this function is run to make sure.
 #'
 #' The empty file that is written has one of the following names:
 #'
-#' - OK_marxan_solution_IS_apparent_best:  If marxan's chosen best cost solution
+#' - OK__marxan_solution_IS_apparent_best_cost_and_best_rep:  If marxan's chosen best cost solution
 #' really is its best cost solution
 #'
-#' - BAD_marxan_solution_NEITHER_best:  If marxan's chosen best is also neither
+#' - BAD__marxan_solution_NEITHER_best_cost_nor_best_rep:  If marxan's chosen best is also neither
 #' the best cost nor the best representation
 #'
-#' - BAD_HALF_marxan_solution_NOT_apparent_best_cost_and_IS_apparent_best_rep:
+#' - HALF_BAD__marxan_solution_NOT_apparent_best_cost_but_IS_apparent_best_rep:
 #' If marxan's chosen best is not best cost but is best representation
 #'
-#' - BAD_HALF_marxan_solution_IS_apparent_best_cost_and_NOT_apparent_best_rep:
+#' - HALF_BAD__marxan_solution_IS_apparent_best_cost_but_NOT_apparent_best_rep:
 #' If marxan's chosen best is best cost but is NOT best representation
 #'
 #'@section Local Variable Structures and examples:
@@ -297,7 +297,9 @@ get_marxan_solution_choice_string = function (marxan_best_cost,
 see_if_marxan_best_was_actually_best <-
                             function (best_solution_ID_according_to_marxan,
                                       app_marxan_solution_scores,
-                                      out_dir)
+#                                      out_dir
+                                      marxan_output_dir
+                                      )
     {
     marxan_best_cost = app_marxan_solution_scores [best_solution_ID_according_to_marxan, "cost"]
     marxan_best_rep  = app_marxan_solution_scores [best_solution_ID_according_to_marxan, "representation"]
@@ -314,9 +316,9 @@ see_if_marxan_best_was_actually_best <-
       #  This will make it easy to quickly search a bunch of runs to see
       #  whether any of them had a bad marxan choice for best run by
       #  just looking for the existance of any files whose names begin
-      #  with "BAD_".
+      #  with "BAD__" or "HALF_BAD__".
 
-    flag_file_name = paste0 (out_dir, marxan_solution_choice_check_string)
+    flag_file_name = file.path (marxan_output_dir, marxan_solution_choice_check_string)
 
     #    system (paste ("touch", flag_file_name), wait=FALSE)
     touch (flag_file_name)
@@ -1032,6 +1034,7 @@ plot_marxan_best_solution_scores_COR_and_APP <- function (plot_output_dir,
 #' @param largest_PU_ID integer
 #' @param largest_spp_ID integer
 #' @param targets numeric vector
+#' @param marxan_top_dir character string
 #'
 #' @return Returns nothing
 
@@ -1047,7 +1050,9 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
                                         largest_PU_ID,
                                         largest_spp_ID,
 
-                                        targets
+                                        targets,
+
+                                        marxan_top_dir
                                         )
     {
     marxan_solutions_matrix_and_num_solutions <-
@@ -1164,7 +1169,9 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
 
     see_if_marxan_best_was_actually_best (best_solution_ID_according_to_marxan,
                                           app_marxan_solution_scores,
-                                          parameters$fullOutputDirWithSlash)
+#                                          parameters$fullOutputDirWithSlash
+                                          marxan_top_dir
+                                          )
 
 #docaids::doc_vars_in_this_func_once ()
 

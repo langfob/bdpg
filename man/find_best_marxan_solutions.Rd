@@ -6,7 +6,7 @@
 \usage{
 find_best_marxan_solutions(marxan_output_dir_path, num_spp, cor_PU_costs,
   cor_bpm, app_bpm, marxan_best_df_sorted_as_vector, plot_output_dir,
-  largest_PU_ID, largest_spp_ID, targets)
+  largest_PU_ID, largest_spp_ID, targets, marxan_top_dir)
 }
 \arguments{
 \item{marxan_output_dir_path}{character string}
@@ -28,6 +28,8 @@ find_best_marxan_solutions(marxan_output_dir_path, num_spp, cor_PU_costs,
 \item{largest_spp_ID}{integer}
 
 \item{targets}{numeric vector}
+
+\item{marxan_top_dir}{character string}
 }
 \value{
 Returns nothing

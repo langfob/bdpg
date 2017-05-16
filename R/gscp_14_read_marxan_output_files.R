@@ -433,6 +433,8 @@ read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
     {
     top_dir = parameters$fullOutputDir_NO_slash
     marxan_output_dir = get_RSrun_path_output (rsrun, top_dir)
+    marxan_top_dir = get_RSrun_path_topdir (rsrun, top_dir)
+
 
     marxan_output_values <- read_marxan_output_files (
                                         marxan_output_dir,
@@ -450,7 +452,9 @@ read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
                                         largest_PU_ID = COR_bd_prob@num_PUs,
                                         largest_spp_ID = COR_bd_prob@num_spp,
 
-                                        rsrun@targets
+                                        rsrun@targets,
+
+                                        marxan_top_dir
                                       )
 
 #docaids::doc_vars_in_this_func_once ()
@@ -517,8 +521,9 @@ read_APP_marxan_output_files <- function (rsrun,
     {
     top_dir = parameters$fullOutputDir_NO_slash
     marxan_output_dir = get_RSrun_path_output (rsrun, top_dir)
+    marxan_top_dir = get_RSrun_path_topdir (rsrun, top_dir)
 
-    marxan_output_values <-read_marxan_output_files (
+    marxan_output_values <- read_marxan_output_files (
                                         marxan_output_dir,
                                         COR_bd_prob@all_PU_IDs,                                                #all_correct_node_IDs
                                 #COR_bd_prob@num_PUs,                                                   #num_PUs
@@ -534,7 +539,9 @@ read_APP_marxan_output_files <- function (rsrun,
                                         largest_PU_ID = COR_bd_prob@num_PUs,
                                         largest_spp_ID = COR_bd_prob@num_spp,
 
-                                        rsrun@targets
+                                        rsrun@targets,
+
+                                        marxan_top_dir
                                       )
 
 #docaids::doc_vars_in_this_func_once ()
@@ -657,7 +664,7 @@ read_APP_marxan_output_files <- function (rsrun,
 #' targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
 #' }}
 #'
-#' @param marxan_output_dir character string
+#' @param marxan_output_dir character string output directory for the marxan run
 #' @param all_correct_node_IDs integer vector
 #' @param num_spp integer
 #' @param cor_bpm matrix
@@ -668,6 +675,7 @@ read_APP_marxan_output_files <- function (rsrun,
 #' @param correct_solution_cost numeric
 #' @param largest_PU_ID integer
 #' @param largest_spp_ID integer
+#' @param marxan_top_dir character string top directory of the marxan run
 #'
 #' @return Returns list
 
@@ -686,7 +694,9 @@ read_marxan_output_files <- function (marxan_output_dir_path,
                                         largest_PU_ID,
                                         largest_spp_ID,
 
-                                        targets
+                                        targets,
+
+                                        marxan_top_dir
                                       )
     {
     marxan_best_df_sorted <-
@@ -708,7 +718,9 @@ read_marxan_output_files <- function (marxan_output_dir_path,
                                 largest_PU_ID,
                                 largest_spp_ID,
 
-                                targets
+                                targets,
+
+                                marxan_top_dir
                                 )
 
     marxan_mvbest_df_sorted_by_ConservationFeature <-

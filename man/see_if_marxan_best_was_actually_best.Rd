@@ -5,7 +5,7 @@
 \title{Verify whether the solution marxan chose as best was actually its best}
 \usage{
 see_if_marxan_best_was_actually_best(best_solution_ID_according_to_marxan,
-  app_marxan_solution_scores, out_dir)
+  app_marxan_solution_scores, marxan_output_dir)
 }
 \arguments{
 \item{best_solution_ID_according_to_marxan}{integer}
@@ -28,21 +28,21 @@ Writes an empty file in the marxan output directory and the name of the file
 indicates whether marxan really did return its best guess. This will make it
 easy to quickly search a bunch of runs to see whether any of them had a bad
 marxan choice for best run by just looking for the existance of any files
-whose names begin with "BAD_".  This should never happen, but this function
-is run to make sure.
+whose names begin with "BAD__" or "HALF_BAD__.  This should never happen,
+but this function is run to make sure.
 
 The empty file that is written has one of the following names:
 
-- OK_marxan_solution_IS_apparent_best:  If marxan's chosen best cost solution
+- OK__marxan_solution_IS_apparent_best_cost_and_best_rep:  If marxan's chosen best cost solution
 really is its best cost solution
 
-- BAD_marxan_solution_NEITHER_best:  If marxan's chosen best is also neither
+- BAD__marxan_solution_NEITHER_best_cost_nor_best_rep:  If marxan's chosen best is also neither
 the best cost nor the best representation
 
-- BAD_HALF_marxan_solution_NOT_apparent_best_cost_and_IS_apparent_best_rep:
+- HALF_BAD__marxan_solution_NOT_apparent_best_cost_but_IS_apparent_best_rep:
 If marxan's chosen best is not best cost but is best representation
 
-- BAD_HALF_marxan_solution_IS_apparent_best_cost_and_NOT_apparent_best_rep:
+- HALF_BAD__marxan_solution_IS_apparent_best_cost_but_NOT_apparent_best_rep:
 If marxan's chosen best is best cost but is NOT best representation
 }
 \section{Local Variable Structures and examples}{

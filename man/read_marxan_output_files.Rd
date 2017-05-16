@@ -6,7 +6,7 @@
 \usage{
 read_marxan_output_files(marxan_output_dir_path, all_correct_node_IDs, num_spp,
   cor_bpm, plot_output_dir, parameters, app_bpm, cor_PU_costs,
-  correct_solution_cost, largest_PU_ID, largest_spp_ID, targets)
+  correct_solution_cost, largest_PU_ID, largest_spp_ID, targets, marxan_top_dir)
 }
 \arguments{
 \item{all_correct_node_IDs}{integer vector}
@@ -29,7 +29,9 @@ read_marxan_output_files(marxan_output_dir_path, all_correct_node_IDs, num_spp,
 
 \item{largest_spp_ID}{integer}
 
-\item{marxan_output_dir}{character string}
+\item{marxan_top_dir}{character string top directory of the marxan run}
+
+\item{marxan_output_dir}{character string output directory for the marxan run}
 }
 \value{
 Returns list
