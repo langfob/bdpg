@@ -87,7 +87,9 @@ create_RSrun <- function (prob_UUID,
 
     create_RSrun_dir_and_subdirs (rsrun, starting_dir)
 
-    rsrun <- save_rsprob (rsrun, starting_dir)
+#####Shouldn't this be save_rsrun?
+#    rsrun <- save_rsprob (rsrun, starting_dir)
+    rsrun <- save_rsrun (rsrun, starting_dir)
 
 #docaids::doc_vars_in_this_func_once ()
     return (rsrun)
