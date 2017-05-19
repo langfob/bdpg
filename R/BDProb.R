@@ -261,7 +261,7 @@ setClass ("Xu_bd_problem",
                                 #-----------------------
 
                             num_spp                          = "numeric",                  #  bd_prob  #  CAN BE DERIVED, SO MAKE IT A FUNCTION?
-                            all_spp_IDs                      = "numeric",                  #  bd_prob  #  CAN BE DERIVED, SO MAKE IT A FUNCTION?
+                            all_spp_IDs                      = "numeric",                  #  bd_prob  #  CAN BE DERIVED, SO MAKE IT A FUNCTION?  #  Shouldn't this be vector?
                                                                                            #  SHOULD EITHER BE A TABLE WITH MORE IN IT OR THAT TABLE SHOULD ALSO EXIST SEPARATELY.
                                                                                            #  TABLE SHOULD CONTAIN ONE ROW PER SPECIES AND THE FOLLOWING COLUMNS:
                                                                                            #        SPP_ID, SPP_NAME, TOT_SPP_OCCUPANCY, SPP_TARGET, SPP_WEIGHT, SPP_BASE_PROB_UUID, SPP_ID_IN_BASE_PROB, (spp_name_in_base_prob-could be looked up)
@@ -273,7 +273,7 @@ setClass ("Xu_bd_problem",
                                 #-----------------------------
 
                             num_PUs                          = "numeric",                  #  bd_prob  #  CAN BE DERIVED, SO MAKE IT A FUNCTION?
-                            all_PU_IDs                       = "numeric",                  #  bd_prob  #  CAN BE DERIVED, SO MAKE IT A FUNCTION?
+                            all_PU_IDs                       = "numeric",                  #  bd_prob  #  CAN BE DERIVED, SO MAKE IT A FUNCTION?  #  Shouldn't this be vector?
 
                             PU_costs                         = "vector",   #  of numeric   #  bd_prob [COR and APP values]
 
