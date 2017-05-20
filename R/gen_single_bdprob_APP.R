@@ -89,12 +89,25 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
                         app_dir_name_stem = "app"
                                     )
     {
-
         #------------------------------------------------------------
         #  Save data known so far for the newly created Xu problem.
+        #  Note that the base class here may be a basic Xu problem
+        #  or a wrapped one.
+        #  If it's not a basic one, then extra data may need to be
+        #  copied into the APP problem.
         #------------------------------------------------------------
 
-    Xu_bdprob_APP = new ("Xu_bd_problem")
+#    Xu_bdprob_APP = new ("Xu_bd_problem")
+    Xu_bdprob_APP = new (class (Xu_bdprob_COR))
+
+        #------------------------------------------------------------
+        #  If the COR problem is a wrapped problem,
+        #  then you need to copy the UUID of its base problem.
+        #------------------------------------------------------------
+
+    if (Xu_bdprob_COR@basic_or_wrapped_or_comb_str == "Wrap")
+        Xu_bdprob_APP@UUID_of_base_problem_that_is_wrapped =
+            Xu_bdprob_COR@UUID_of_base_problem_that_is_wrapped
 
         #---------------------------------------------------------------
         #  Assign a unique identifier to this newly generated problem.
@@ -287,6 +300,10 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
     Xu_bdprob_APP@prob_is_ok = TRUE
 
     Xu_bdprob_APP <- save_rsprob (Xu_bdprob_APP, starting_dir)
+
+    save_rsprob_results_data_for_Xu_NOT_read_from_file (Xu_bdprob_APP,
+                                                        starting_dir,
+                                                        parameters)
 
 #docaids::doc_vars_in_this_func_once ()
     return (Xu_bdprob_APP)

@@ -1166,6 +1166,10 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
     wrapped_bdprob <- save_rsprob (wrapped_bdprob, starting_dir)
 
+    save_rsprob_results_data_for_Xu_NOT_read_from_file (wrapped_bdprob,
+                                                        starting_dir,
+                                                        parameters)
+
 #docaids::doc_vars_in_this_func_once ()
 
     return (wrapped_bdprob)  #  end function - wrap_abundance_dist_around_Xu_problem
