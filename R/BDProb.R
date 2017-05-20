@@ -27,7 +27,16 @@ setClass ("Xu_base_params",
                             n__num_groups                   = "numeric",
                             p__prop_of_links_between_groups = "numeric",
                             r__density                      = "numeric"
-                            )
+                     ),
+
+          #-----------------------------------------------------------------
+
+          prototype (
+                            alpha__                         = as.numeric (NA),
+                            n__num_groups                   = as.numeric (NA),
+                            p__prop_of_links_between_groups = as.numeric (NA),
+                            r__density                      = as.numeric (NA)
+                    )
             )
 
 #===============================================================================
@@ -61,8 +70,29 @@ setClass ("Xu_bdpg_extended_params",
                             integerize                                                 = "function"
                             ),
           prototype (
-                          num_independent_nodes_per_group = 1,
-                          integerize                      = round
+                            alpha___lower_bound                                        = as.numeric (NA),
+                            alpha___upper_bound                                        = as.numeric (NA),
+                            derive_alpha_from_n__num_groups_and_opt_frac_0.5           = NA,
+                            use_unif_rand_alpha__                                      = NA,
+
+                            n__num_groups                                              = as.numeric (NA),
+                            n__num_groups_lower_bound                                  = as.numeric (NA),
+                            n__num_groups_upper_bound                                  = as.numeric (NA),
+                            use_unif_rand_n__num_groups                                = NA,
+
+                        num_independent_nodes_per_group                            = 1,
+
+                            use_unif_rand_p__prop_of_links_between_groups              = NA,
+                            p__prop_of_links_between_groups_lower_bound                = as.numeric (NA),
+                            p__prop_of_links_between_groups_upper_bound                = as.numeric (NA),
+                            base_for_target_num_links_between_2_groups_per_round       = as.character (NA),
+                            at_least_1_for_target_num_links_between_2_groups_per_round = NA,
+
+                            use_unif_rand_r__density                                   = NA,
+                            r__density_lower_bound                                     = as.numeric (NA),
+                            r__density_upper_bound                                     = as.numeric (NA),
+
+                        integerize                      = round
                     )
 
             )
@@ -89,7 +119,28 @@ setClass ("Xu_derived_params",
                             opt_solution_as_frac_of_tot_num_nodes       = "numeric"  #,
 #                            base_for_target_num_links_between_2_groups_per_round       = "numeric",
 #                            at_least_1_for_target_num_links_between_2_groups_per_round = "numeric"
-                            )
+                     ),
+
+          #-----------------------------------------------------------------
+
+          prototype (
+                            num_nodes_per_group                         = as.numeric (NA),
+                            num_rounds_of_linking_between_groups        = as.numeric (NA),
+                            target_num_links_between_2_groups_per_round = as.numeric (NA),
+                            num_links_within_one_group                  = as.numeric (NA),
+                            tot_num_links_inside_groups                 = as.numeric (NA),
+                            max_possible_num_links_between_groups       = as.numeric (NA),
+                            max_possible_tot_num_links                  = as.numeric (NA),
+                            max_possible_tot_num_node_link_pairs        = as.numeric (NA),
+
+                            num_independent_nodes_per_group             = as.numeric (NA),
+                            num_independent_set_nodes                   = as.numeric (NA),
+                            tot_num_nodes                               = as.numeric (NA),
+                            num_dependent_set_nodes                     = as.numeric (NA),
+                            opt_solution_as_frac_of_tot_num_nodes       = as.numeric (NA)  #,
+#                            base_for_target_num_links_between_2_groups_per_round       = as.numeric (NA),
+#                            at_least_1_for_target_num_links_between_2_groups_per_round = as.numeric (NA)
+                    )
             )
 
 #===============================================================================
@@ -129,7 +180,28 @@ setClass ("PU_spp_pair_info_class",
                             nodes                            = "data.frame",    #  Xu only?  or at least rename?
                             PU_costs                         = "vector",
                             prob_generator_params_known      = "logical"    #  Doesn't belong in this structure?
-                            )
+                     ),
+
+          #-----------------------------------------------------------------
+
+          prototype (
+#                            PU_spp_pair_indices              = "data.frame",
+
+    #  Need to make these constant names like Xu_bd_problem does
+    #  AND make sure they have the same values in both classes.
+        PU_col_name                      = "PU_ID",
+        spp_col_name                     = "spp_ID",
+
+                            num_PUs                          = as.numeric (NA),
+                            num_spp                          = as.numeric (NA),
+                            correct_solution_cost            = as.numeric (NA),
+#                            Xu_parameters                    = "Xu_params",    #  Xu only
+                            correct_solution_vector_is_known = NA,
+#                            dependent_node_IDs               = "vector",    #  Xu only?  or at least rename?
+#                            nodes                            = "data.frame",    #  Xu only?  or at least rename?
+#                            PU_costs                         = "vector",
+                            prob_generator_params_known      = NA
+                    )
         )
 
 #===============================================================================
@@ -141,7 +213,16 @@ setClass ("Xu_prob_gen_info_class",
                             read_Xu_problem_from_Xu_file     = "logical",
                             infile_name                      = "character",
                             Xu_parameters                    = "Xu_params"
-                            )
+                     ),
+
+          #-----------------------------------------------------------------
+
+          prototype (
+                            read_Xu_problem_from_Xu_file     = NA,
+                            infile_name                      = as.character (NA)
+#                            ,
+#                            Xu_parameters                    = "Xu_params"
+                    )
         )
 
 #===============================================================================
@@ -162,15 +243,24 @@ setClass ("APP_prob_info_class",
                             app_num_PUs = "numeric",  #  ret_vals_from_apply_errors$app_num_PUs
 
                             app_PU_spp_pair_indices = "data.frame"  #  ret_vals_from_apply_errors$app_PU_spp_pair_indices
-                            )
+                     ),
 
-          # #-----------------------------------------------------------------
-          #
-          # prototype (
-          #               read_Xu_problem_from_Xu_file     = FALSE,
-          #               infile_name                      = NA_character_,
-          #               Xu_parameters                    = NULL    #  Don't know what else to put here.  It won't accept NA.
-          #           )
+          #-----------------------------------------------------------------
+
+          prototype (
+                            UUID_of_base_problem_that_has_err_added = as.character (NA),  #  UUID string
+
+                            original_FP_const_rate = as.numeric (NA),  #  ret_vals_from_apply_errors$original_FP_const_rate
+                            original_FN_const_rate = as.numeric (NA),  #  ret_vals_from_apply_errors$original_FN_const_rate
+                            match_error_counts     = NA,  #  ret_vals_from_apply_errors$match_error_counts
+                            FP_const_rate          = as.numeric (NA),  #  ret_vals_from_apply_errors$FP_const_rate
+                            FN_const_rate          = as.numeric (NA),  #  ret_vals_from_apply_errors$FN_const_rate
+
+                            app_num_spp = as.numeric (NA),  #  ret_vals_from_apply_errors$app_num_spp
+                            app_num_PUs = as.numeric (NA)    #,  #  ret_vals_from_apply_errors$app_num_PUs
+
+#                            app_PU_spp_pair_indices = "data.frame"  #  ret_vals_from_apply_errors$app_PU_spp_pair_indices
+                    )
         )
 
 #===============================================================================
