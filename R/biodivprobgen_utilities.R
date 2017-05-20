@@ -22,16 +22,27 @@ safe_sample = function (x,...) { if (length (x) == 1) x else sample (x,...) }
 
 #===============================================================================
 
-    #  This function is used two different ways.
-    #  It's called when the program quits because there are too many species
-    #  or it's called when the program runs successfully.
-    #  It's declared here because you don't know which path the program
-    #  will take.
-    #  It should go in a file of misc utilities, but it might be the only
-    #  thing in that file at the moment.
+#' Write results to files
+#'
+#' This function is used two different ways.
+#' It's called when the program quits because there are too many species
+#' or it's called when the program runs successfully.
+#'
+#' @param results_df  data frame containing the results
+#' @param out_dir  character string telling what directory to put the results
+#'                 file in
+#' @param cur_result_row integer row number in data frame where run_ID should
+#'                       be added
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Returns nothing.
 
-write_results_to_files = function (results_df, parameters,
-                                   cur_result_row)    #  Added 2016 03 28 - BTL.
+write_results_to_files = function (results_df,
+                                   parameters,
+                                   out_dir,
+                                   cur_result_row=1    #  Added 2016 03 28 - BTL.
+                                  )
     {
         #  Write the results out to 2 separate and nearly identical files.
         #  The only difference between the two files is that the run ID in
@@ -43,12 +54,21 @@ write_results_to_files = function (results_df, parameters,
         #  think that the run outputs don't match.  If they both have 0 run ID,
         #  then diff's output will correctly flag whether there are differences
         #  in the outputs.
+        #
+        #  File names currently in project.yaml:
+        #      summary_filename: $$output_path$$prob_diff_results.csv
+        #      summary_without_run_id_filename: $$output_path$$prob_diff_results_with_0_run_id.csv
 
+cat ("\n\nIn write_results_to_files():\n")
+#browser()
+
+    summary_WITHOUT_run_id_path = file.path (out_dir, parameters$summary_without_run_id_filename)
     results_df$run_ID [cur_result_row] = 0
-    write.csv (results_df, file = parameters$summary_without_run_id_filename, row.names = FALSE)
+    write.csv (results_df, file = summary_WITHOUT_run_id_path, row.names = FALSE)
 
+    summary_WITH_run_id_path = file.path (out_dir, parameters$summary_filename)
     results_df$run_ID [cur_result_row] = parameters$run_id
-    write.csv (results_df, file = parameters$summary_filename, row.names = FALSE)
+    write.csv (results_df, file = summary_WITH_run_id_path, row.names = FALSE)
 
 docaids::doc_vars_in_this_func_once ()
     }
