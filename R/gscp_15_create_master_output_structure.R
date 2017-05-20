@@ -68,7 +68,8 @@
 #---------------------------------------------------------------------
 
 save_rsprob_results_data_for_Xu_read_from_file <-
-    function (num_PUs, num_spp,
+    function (rsprob, exp_root_dir,
+              num_PUs, num_spp,
               cor_optimum_cost,
               parameters
               )
@@ -91,64 +92,228 @@ save_rsprob_results_data_for_Xu_read_from_file <-
 
     write_results_to_files (as.data.frame (results_list),
                             parameters,
-                            cur_result_row)    #  Added 2016 03 28 - BTL.
+                            get_RSprob_path_topdir (rsprob, exp_root_dir)
+                            , cur_result_row    #  Added 2016 03 28 - BTL.
+                            )
     }
 
 #===============================================================================
 
 save_rsprob_results_data_for_Xu_NOT_read_from_file <-
-    function (num_PUs, num_spp,
-              base_Xu_params, derived_Xu_params,
-              add_error, FP_const_rate, FN_const_rate, match_error_counts,
-              original_FP_const_rate, original_FN_const_rate,
-              parameters
-              )
+    function (rsprob, exp_root_dir, parameters)
+        # ,
+        #       num_PUs, num_spp,
+        #       base_Xu_params, derived_Xu_params,
+        #       add_error, FP_const_rate, FN_const_rate, match_error_counts,
+        #       original_FP_const_rate, original_FN_const_rate,
+        #       parameters
+        #       )
     {
+    # approx_number_of_list_entries = 60
+    # results_list = vector ("list", approx_number_of_list_entries)
     results_list = list()
 
     #---------------------------------------------------------------------------
 
-    results_list$num_PUs                                                           = num_PUs
-    results_list$num_spp                                                           = num_spp
-    results_list$num_spp_per_PU                                                    = num_spp / num_PUs
-    results_list$seed                                                              = parameters$seed
+    results_list$run_ID                                                         = 0
 
-        #  Xu options
-    results_list$n__num_groups                                                     = base_Xu_params@n__num_groups
-    results_list$alpha__                                                           = base_Xu_params@alpha__
-    results_list$p__prop_of_links_between_groups                                   = base_Xu_params@p__prop_of_links_between_groups
-    results_list$r__density                                                        = base_Xu_params@r__density
+    results_list$base_COR_prob_UUID                                             = rsprob@UUID
+    results_list$cor_or_app_str                                                 = rsprob@cor_or_app_str
+    results_list$basic_or_wrapped_or_comb_str                                   = rsprob@basic_or_wrapped_or_comb_str
+    results_list$file_name_prefix                                               = rsprob@file_name_prefix
 
-        #  Derived Xu options
-    results_list$num_nodes_per_group                                              = derived_Xu_params@num_nodes_per_group
-    results_list$tot_num_nodes                                                    = derived_Xu_params@tot_num_nodes
-    results_list$num_independent_set_nodes                                        = derived_Xu_params@num_independent_set_nodes
-    results_list$num_dependent_set_nodes                                          = derived_Xu_params@num_dependent_set_nodes
-    results_list$num_rounds_of_linking_between_groups                             = derived_Xu_params@num_rounds_of_linking_between_groups
-    results_list$target_num_links_between_2_groups_per_round                      = derived_Xu_params@target_num_links_between_2_groups_per_round
-    results_list$num_links_within_one_group                                       = derived_Xu_params@num_links_within_one_group
-    results_list$tot_num_links_inside_groups                                      = derived_Xu_params@tot_num_links_inside_groups
-    results_list$max_possible_num_links_between_groups                            = derived_Xu_params@max_possible_num_links_between_groups
-    results_list$max_possible_tot_num_links                                       = derived_Xu_params@max_possible_tot_num_links
+    results_list$prob_is_ok                                                     = rsprob@prob_is_ok
+    results_list$prob_generator_params_known                                    = rsprob@prob_generator_params_known
 
-    results_list$opt_solution_as_frac_of_tot_num_nodes                            = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
+        #  prob_gen_info
+    results_list$read_Xu_problem_from_Xu_file                                   = rsprob@prob_gen_info@read_Xu_problem_from_Xu_file
+    results_list$infile_name                                                    = rsprob@prob_gen_info@infile_name
 
     #---------------------------------------------------------------------------
 
-        #  For APPARENT problem only:
+        #  Xu_parameters
+    Xu_parameters           = rsprob@prob_gen_info@Xu_parameters
+    Xu_base_params          = Xu_parameters@base_params
+    Xu_bdpg_extended_params = Xu_parameters@bdpg_extended_params
+    Xu_derived_params       = Xu_parameters@derived_params
+
+    #------------------------------------------
+
+        #  Xu_base_params
+    results_list$alpha__                         = Xu_base_params@alpha__
+#num(0)    results_list$n__num_groups                   = Xu_base_params@n__num_groups
+#results_list$n__num_groups                   = NA
+results_list$n__num_groups                   = Xu_base_params@n__num_groups
+    results_list$p__prop_of_links_between_groups = Xu_base_params@p__prop_of_links_between_groups
+    results_list$r__density                      = Xu_base_params@r__density
+
+    #-----------------------------
+
+# cat ("\n\nIn gscp_15...\n")
+# browser()
+        #  Xu_bdpg_extended_params
+#num(0)    results_list$alpha___lower_bound                                            = Xu_bdpg_extended_params@alpha___lower_bound
+#results_list$alpha___lower_bound                                            = NA
+results_list$alpha___lower_bound                                            = Xu_bdpg_extended_params@alpha___lower_bound
+
+#num(0)    results_list$alpha___upper_bound                                            = Xu_bdpg_extended_params@alpha___upper_bound
+#results_list$alpha___upper_bound                                            = NA
+results_list$alpha___upper_bound                                            = Xu_bdpg_extended_params@alpha___upper_bound
+
+    results_list$derive_alpha_from_n__num_groups_and_opt_frac_0.5               = Xu_bdpg_extended_params@derive_alpha_from_n__num_groups_and_opt_frac_0.5
+#logi(0)    results_list$use_unif_rand_alpha__                                          = Xu_bdpg_extended_params@use_unif_rand_alpha__
+#results_list$use_unif_rand_alpha__                                          = NA
+results_list$use_unif_rand_alpha__                                          = Xu_bdpg_extended_params@use_unif_rand_alpha__
+
+#num(0)    results_list$n__num_groups                                                  = Xu_bdpg_extended_params@n__num_groups
+#results_list$n__num_groups                                                  = NA
+results_list$n__num_groups                                                  = Xu_bdpg_extended_params@n__num_groups
+
+    results_list$n__num_groups_lower_bound                                      = Xu_bdpg_extended_params@n__num_groups_lower_bound
+    results_list$n__num_groups_upper_bound                                      = Xu_bdpg_extended_params@n__num_groups_upper_bound
+    results_list$use_unif_rand_n__num_groups                                    = Xu_bdpg_extended_params@use_unif_rand_n__num_groups
+
+    results_list$num_independent_nodes_per_group                                = Xu_bdpg_extended_params@num_independent_nodes_per_group
+
+    results_list$use_unif_rand_p__prop_of_links_between_groups                  = Xu_bdpg_extended_params@use_unif_rand_p__prop_of_links_between_groups
+    results_list$p__prop_of_links_between_groups_lower_bound                    = Xu_bdpg_extended_params@p__prop_of_links_between_groups_lower_bound
+    results_list$p__prop_of_links_between_groups_upper_bound                    = Xu_bdpg_extended_params@p__prop_of_links_between_groups_upper_bound
+    results_list$base_for_target_num_links_between_2_groups_per_round           = Xu_bdpg_extended_params@base_for_target_num_links_between_2_groups_per_round
+    results_list$at_least_1_for_target_num_links_between_2_groups_per_round     = Xu_bdpg_extended_params@at_least_1_for_target_num_links_between_2_groups_per_round  #  Not used?  See comment in gscp_5...R.
+
+    results_list$use_unif_rand_r__density                                       = Xu_bdpg_extended_params@use_unif_rand_r__density
+    results_list$r__density_lower_bound                                         = Xu_bdpg_extended_params@r__density_lower_bound
+    results_list$r__density_upper_bound                                         = Xu_bdpg_extended_params@r__density_upper_bound
+
+    #-----------------------------
+
+        #  Xu_derived_params
+    results_list$num_nodes_per_group                                            = Xu_derived_params@num_nodes_per_group
+    results_list$num_rounds_of_linking_between_groups                           = Xu_derived_params@num_rounds_of_linking_between_groups
+    results_list$target_num_links_between_2_groups_per_round                    = Xu_derived_params@target_num_links_between_2_groups_per_round
+    results_list$num_links_within_one_group                                     = Xu_derived_params@num_links_within_one_group
+    results_list$tot_num_links_inside_groups                                    = Xu_derived_params@tot_num_links_inside_groups
+    results_list$max_possible_num_links_between_groups                          = Xu_derived_params@max_possible_num_links_between_groups
+    results_list$max_possible_tot_num_links                                     = Xu_derived_params@max_possible_tot_num_links
+    results_list$max_possible_tot_num_node_link_pairs                           = Xu_derived_params@max_possible_tot_num_node_link_pairs
+
+#num(0) DUPLICATE from Extended?    results_list$num_independent_nodes_per_group                                = Xu_derived_params@num_independent_nodes_per_group
+results_list$num_independent_nodes_per_group                                = Xu_derived_params@num_independent_nodes_per_group
+
+    results_list$num_independent_set_nodes                                      = Xu_derived_params@num_independent_set_nodes
+    results_list$tot_num_nodes                                                  = Xu_derived_params@tot_num_nodes
+    results_list$num_dependent_set_nodes                                        = Xu_derived_params@num_dependent_set_nodes
+    results_list$opt_solution_as_frac_of_tot_num_nodes                          = Xu_derived_params@opt_solution_as_frac_of_tot_num_nodes
+
+    #---------------------------------------------------------------------------
+
+    results_list$num_PUs                                                        = rsprob@num_PUs
+    results_list$num_spp                                                        = rsprob@num_spp
+    results_list$num_spp_per_PU                                                 = rsprob@num_spp / rsprob@num_PUs
+#    results_list$seed                                                           = parameters$seed
+
+    results_list$correct_solution_cost                                          = rsprob@correct_solution_cost
+    results_list$correct_solution_vector_is_known                               = rsprob@correct_solution_vector_is_known
+
+        #  Post-generation measures
+    results_list$compute_network_metrics                                        = rsprob@compute_network_metrics
+    results_list$use_igraph_metrics                                             = rsprob@use_igraph_metrics
+    results_list$use_bipartite_metrics                                          = rsprob@use_bipartite_metrics
+    results_list$bipartite_metrics_to_use                                       = rsprob@bipartite_metrics_to_use
+
+    #---------------------------------------------------------------------------
+
+    if (rsprob@cor_or_app_str == "APP")
+        {
+            #  This is an apparent problem, so retrieve APP controls.
+        APP_prob_info = rsprob@APP_prob_info
+
+        } else  #  This is a correct problem, so initialize empty APP controls.
+        {
+        APP_prob_info = new ("APP_prob_info_class")
+        }
+
             #  Error generation parameters
-    results_list$add_error                                                        = add_error
-    results_list$FP_const_rate                                                    = FP_const_rate
-    results_list$FN_const_rate                                                    = FN_const_rate
-    results_list$match_error_counts                                               = match_error_counts
-    results_list$original_FP_const_rate                                           = original_FP_const_rate
-    results_list$original_FN_const_rate                                           = original_FN_const_rate
+            #  Even those these values are meaningless for COR problems,
+            #  I'm going to write something out for them anyway
+            #  just to keep the output tables having the same size and
+            #  column headings, which should make merging tables simpler.
+
+    results_list$UID_of_base_problem_that_has_err_added                         = APP_prob_info@UUID_of_base_problem_that_has_err_added
+
+    results_list$original_FP_const_rate                                         = APP_prob_info@original_FP_const_rate
+    results_list$original_FN_const_rate                                         = APP_prob_info@original_FN_const_rate
+    results_list$match_error_counts                                             = APP_prob_info@match_error_counts
+    results_list$FP_const_rate                                                  = APP_prob_info@FP_const_rate
+    results_list$FN_const_rate                                                  = APP_prob_info@FN_const_rate
+
+    results_list$app_num_spp                                                    = APP_prob_info@app_num_spp
+    results_list$app_num_PUs                                                    = APP_prob_info@app_num_PUs
 
     #---------------------------------------------------------------------------
+
+# cat ("\nAt end of gscp_15 call:  Look at call stack now, then Continue...\n")
+# browser()
+
+        #  Should we also be writing out the wrapping parameters?
+
+    if (rsprob@basic_or_wrapped_or_comb_str == "Wrap")
+        {
+        results_list$UUID_of_base_problem_that_is_wrapped                       = rsprob@UUID_of_base_problem_that_is_wrapped
+
+        } else  #  Not a wrapped problem, so just write a dummy value.
+        {
+        results_list$UUID_of_base_problem_that_is_wrapped                       = as.character (NA)
+        }
+
+    #---------------------------------------------------------------------------
+    #
+    # results_list$num_PUs                                                           = num_PUs
+    # results_list$num_spp                                                           = num_spp
+    # results_list$num_spp_per_PU                                                    = num_spp / num_PUs
+    # results_list$seed                                                              = parameters$seed
+    #
+    #     #  Xu options
+    # results_list$n__num_groups                                                     = base_Xu_params@n__num_groups
+    # results_list$alpha__                                                           = base_Xu_params@alpha__
+    # results_list$p__prop_of_links_between_groups                                   = base_Xu_params@p__prop_of_links_between_groups
+    # results_list$r__density                                                        = base_Xu_params@r__density
+    #
+    #     #  Derived Xu options
+    # results_list$num_nodes_per_group                                              = derived_Xu_params@num_nodes_per_group
+    # results_list$tot_num_nodes                                                    = derived_Xu_params@tot_num_nodes
+    # results_list$num_independent_set_nodes                                        = derived_Xu_params@num_independent_set_nodes
+    # results_list$num_dependent_set_nodes                                          = derived_Xu_params@num_dependent_set_nodes
+    # results_list$num_rounds_of_linking_between_groups                             = derived_Xu_params@num_rounds_of_linking_between_groups
+    # results_list$target_num_links_between_2_groups_per_round                      = derived_Xu_params@target_num_links_between_2_groups_per_round
+    # results_list$num_links_within_one_group                                       = derived_Xu_params@num_links_within_one_group
+    # results_list$tot_num_links_inside_groups                                      = derived_Xu_params@tot_num_links_inside_groups
+    # results_list$max_possible_num_links_between_groups                            = derived_Xu_params@max_possible_num_links_between_groups
+    # results_list$max_possible_tot_num_links                                       = derived_Xu_params@max_possible_tot_num_links
+    #
+    # results_list$opt_solution_as_frac_of_tot_num_nodes                            = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
+    #
+    # #---------------------------------------------------------------------------
+    #
+    #     #  For APPARENT problem only:
+    #         #  Error generation parameters
+    # results_list$add_error                                                        = add_error
+    # results_list$FP_const_rate                                                    = FP_const_rate
+    # results_list$FN_const_rate                                                    = FN_const_rate
+    # results_list$match_error_counts                                               = match_error_counts
+    # results_list$original_FP_const_rate                                           = original_FP_const_rate
+    # results_list$original_FN_const_rate                                           = original_FN_const_rate
+    #
+    #---------------------------------------------------------------------------
+
+cat ("\n\nAt end of gscp_15, just before call to write_results_to_files():\n")
+#browser()
 
     write_results_to_files (as.data.frame (results_list),
                             parameters,
-                            cur_result_row)    #  Added 2016 03 28 - BTL.
+                            get_RSprob_path_topdir (rsprob, exp_root_dir)
+                            # , cur_result_row    #  Added 2016 03 28 - BTL.
+                            )
     }
 
 #===============================================================================
@@ -485,7 +650,8 @@ cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 
     #---------------------------------------------------------------------------
 
-    write_results_to_files (results_list, parameters,
+    write_results_to_files (results_list,
+                            parameters,
                             cur_result_row)    #  Added 2016 03 28 - BTL.
     }
 
@@ -547,7 +713,8 @@ save_RS_options <- function ()
 
     #---------------------------------------------------------------------------
 
-    write_results_to_files (results_list, parameters,
+    write_results_to_files (results_list,
+                            parameters,
                             cur_result_row)    #  Added 2016 03 28 - BTL.
     }
 
