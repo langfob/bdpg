@@ -55,7 +55,7 @@ setClass ("Xu_bdpg_extended_params",
                             n__num_groups_upper_bound                                  = "numeric",
                             use_unif_rand_n__num_groups                                = "logical",
 
-                            num_independent_nodes_per_group                            = "numeric",
+                        num_independent_nodes_per_group                            = "numeric",
 
                             use_unif_rand_p__prop_of_links_between_groups              = "logical",
                             p__prop_of_links_between_groups_lower_bound                = "numeric",
@@ -112,7 +112,7 @@ setClass ("Xu_derived_params",
                             max_possible_tot_num_links                  = "numeric",
                             max_possible_tot_num_node_link_pairs        = "numeric",
 
-                            num_independent_nodes_per_group             = "numeric",
+                        num_independent_nodes_per_group             = "numeric",
                             num_independent_set_nodes                   = "numeric",
                             tot_num_nodes                               = "numeric",
                             num_dependent_set_nodes                     = "numeric",
@@ -133,7 +133,7 @@ setClass ("Xu_derived_params",
                             max_possible_tot_num_links                  = as.numeric (NA),
                             max_possible_tot_num_node_link_pairs        = as.numeric (NA),
 
-                            num_independent_nodes_per_group             = as.numeric (NA),
+                        num_independent_nodes_per_group             = as.numeric (NA),
                             num_independent_set_nodes                   = as.numeric (NA),
                             tot_num_nodes                               = as.numeric (NA),
                             num_dependent_set_nodes                     = as.numeric (NA),
@@ -408,7 +408,7 @@ setClass ("Xu_bd_problem",
                             use_bipartite_metrics                    = "logical",
                             bipartite_metrics_to_use                 = "character",
 
-                            bipartite_metrics_from_bipartite_package = "data.frame",                  #  bd_prob [COR and APP values]
+                            bipartite_metrics_from_bipartite_package = "data.frame",                 #  bd_prob [COR and APP values]
                             bipartite_metrics_from_igraph_package_df = "data.frame"                  #  bd_prob [COR and APP values]
 
                      ),
@@ -416,12 +416,40 @@ setClass ("Xu_bd_problem",
           #-----------------------------------------------------------------
 
           prototype (
+                            UUID                             = as.character (NA),
+                            checksum                         = as.character (NA),
+
+                            obj_type_str                     = as.character (NA),
+                            cor_or_app_str                   = as.character (NA),
+                            basic_or_wrapped_or_comb_str     = as.character (NA),
+                            file_name_prefix                 = as.character (NA),
+
+                            prob_is_ok                       = NA,
+                            prob_generator_params_known      = NA,
+                            prob_type                        = as.character (NA),
+
                           PU_col_name                      = "PU_ID",
                           spp_col_name                     = "spp_ID",
                           presences_col_name               = "freq",
 
                           plot_output_dir                  = "plots",
-                          network_output_dir               = "networks"
+                          network_output_dir               = "networks",
+
+                            correct_solution_cost            = as.numeric (NA),
+                            correct_solution_vector_is_known = NA,
+                            dependent_node_IDs               = as.numeric (NA),
+
+                            num_spp                          = as.numeric (NA),
+                            all_spp_IDs                      = as.numeric (NA),
+
+                            num_PUs                          = as.numeric (NA),
+                            all_PU_IDs                       = as.numeric (NA),
+
+                            compute_network_metrics                  = NA,
+                            use_igraph_metrics                       = NA,
+                            use_bipartite_metrics                    = NA,
+                            bipartite_metrics_to_use                 = as.character (NA)
+
                     )
          )
 
@@ -474,6 +502,17 @@ setClass ("RSrun",
           #-----------------------------------------------------------------
 
           prototype (
+                            UUID        = as.character (NA),
+                            checksum    = as.character (NA),
+
+                            run_on_prob_UUID = as.character (NA),
+
+                            obj_type_str     = as.character (NA),
+                            cor_or_app_str   = as.character (NA),
+                            basic_or_wrapped_or_comb_str = as.character (NA),
+                            rs_method_name   = as.character (NA),
+                            file_name_prefix = as.character (NA),
+
                     input_dir_name  = "input",
                     output_dir_name = "output",
                     plot_dir_name   = "plots"
