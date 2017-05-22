@@ -39,6 +39,17 @@
 
 #===============================================================================
 
+#  2017 05 22 - BTL
+#  Shouldn't rely on this routine for writing out results from Xu problems
+#  read from Xu benchmark files.
+#  It's pretty much just a half-assed placeholder at the
+#  moment.  I haven't spent much time on it in the current revamping of
+#  writing results because I'm not sure it will even be used.
+#  If you do rework it, you may be able to just clone the code below that's
+#  for the Xu problems NOT read from files and write nearly everything out
+#  as NA (since none of the generator stuff is known when bencmarke problems
+#  are read from file).
+#
 # #  2017 02 17 - BTL
 # #  I don't think that this "Xu read from file" works anymore.
 # #  When you go down and look at the loading of the final results dataframe,
