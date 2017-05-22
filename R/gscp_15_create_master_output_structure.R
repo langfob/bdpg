@@ -278,44 +278,6 @@ results_list$num_independent_nodes_per_group                                = Xu
         }
 
     #---------------------------------------------------------------------------
-    #
-    # results_list$num_PUs                                                           = num_PUs
-    # results_list$num_spp                                                           = num_spp
-    # results_list$num_spp_per_PU                                                    = num_spp / num_PUs
-    # results_list$seed                                                              = parameters$seed
-    #
-    #     #  Xu options
-    # results_list$n__num_groups                                                     = base_Xu_params@n__num_groups
-    # results_list$alpha__                                                           = base_Xu_params@alpha__
-    # results_list$p__prop_of_links_between_groups                                   = base_Xu_params@p__prop_of_links_between_groups
-    # results_list$r__density                                                        = base_Xu_params@r__density
-    #
-    #     #  Derived Xu options
-    # results_list$num_nodes_per_group                                              = derived_Xu_params@num_nodes_per_group
-    # results_list$tot_num_nodes                                                    = derived_Xu_params@tot_num_nodes
-    # results_list$num_independent_set_nodes                                        = derived_Xu_params@num_independent_set_nodes
-    # results_list$num_dependent_set_nodes                                          = derived_Xu_params@num_dependent_set_nodes
-    # results_list$num_rounds_of_linking_between_groups                             = derived_Xu_params@num_rounds_of_linking_between_groups
-    # results_list$target_num_links_between_2_groups_per_round                      = derived_Xu_params@target_num_links_between_2_groups_per_round
-    # results_list$num_links_within_one_group                                       = derived_Xu_params@num_links_within_one_group
-    # results_list$tot_num_links_inside_groups                                      = derived_Xu_params@tot_num_links_inside_groups
-    # results_list$max_possible_num_links_between_groups                            = derived_Xu_params@max_possible_num_links_between_groups
-    # results_list$max_possible_tot_num_links                                       = derived_Xu_params@max_possible_tot_num_links
-    #
-    # results_list$opt_solution_as_frac_of_tot_num_nodes                            = derived_Xu_params@opt_solution_as_frac_of_tot_num_nodes
-    #
-    # #---------------------------------------------------------------------------
-    #
-    #     #  For APPARENT problem only:
-    #         #  Error generation parameters
-    # results_list$add_error                                                        = add_error
-    # results_list$FP_const_rate                                                    = FP_const_rate
-    # results_list$FN_const_rate                                                    = FN_const_rate
-    # results_list$match_error_counts                                               = match_error_counts
-    # results_list$original_FP_const_rate                                           = original_FP_const_rate
-    # results_list$original_FN_const_rate                                           = original_FN_const_rate
-    #
-    #---------------------------------------------------------------------------
 
 cat ("\n\nAt end of gscp_15, just before call to write_results_to_files():\n")
 #browser()
