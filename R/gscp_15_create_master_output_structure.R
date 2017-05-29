@@ -913,6 +913,148 @@ initialize_results_list <- function ()
 
 #===============================================================================
 
+save_rsrun_results_data <- function (rsrun, exp_root_dir, parameters,
+
+                                     marxan_mvbest_df,
+
+                                     app_bpm,
+                                                        app_num_PUs,
+                                                        marxan_best_solution_PU_IDs,
+                                                        marxan_best_num_patches_in_solution,
+                                                        cor_num_patches_in_solution,
+                                                        spp_rep_targets,
+                                                    app_num_spp,
+                                                        DEBUG_LEVEL,
+                                                        FP_const_rate,
+                                                        FN_const_rate
+
+                                     )
+    {
+    results_list = list()
+
+    #---------------------------------------------------------------------------
+
+    results_list$rsr_rsrun_UUID                                                 = rsrun@UUID
+    results_list$rsr_rs_run_checksum                                            = rsrun@checksum
+
+    results_list$rsr_run_on_prob_UUID                                           = rsrun@run_on_prob_UUID
+
+    #---------------------------------------------------------------------------
+
+    results_list$rsr_run_on_prob_UUID                                           = rsrun@run_on_prob_UUID
+
+    results_list$rsr_cor_or_app_str                                             = rsrun@cor_or_app_str
+    results_list$rsr_basic_or_wrapped_or_comb_str                               = rsrun@basic_or_wrapped_or_comb_str
+    results_list$rsr_rs_method_name                                             = rsrun@rs_method_name
+
+    results_list$rsr_input_dir_name                                             = rsrun@input_dir_name
+    results_list$rsr_output_dir_name                                            = rsrun@output_dir_name
+    results_list$rsr_plot_dir_name                                              = rsrun@plot_dir_name
+
+    #---------------------------------------------------------------------------
+
+    APP_scores_according_to_RS_marxan_sa =
+        compute_and_verify_APP_scores_according_to_RS (marxan_mvbest_df,
+
+                                                    app_num_spp)    #  Is "app" right for this?
+
+    APP_scores_according_to_bdpg =
+        compute_and_verify_APP_scores_according_to_bdpg (app_bpm,
+
+                                                    app_num_PUs,    #  Is "app" right for this?
+                                                        marxan_best_solution_PU_IDs,
+                                                        marxan_best_num_patches_in_solution,
+                                                        cor_num_patches_in_solution,
+                                                        spp_rep_targets,
+                                                    app_num_spp,    #  Is "app" right for this?
+                                                        DEBUG_LEVEL,
+                                                        FP_const_rate,
+                                                        FN_const_rate)
+
+    #---------------------------------------------------------------------------
+
+    results_list = c (results_list,
+                      APP_scores_according_to_RS_marxan_sa,
+                      APP_scores_according_to_bdpg)
+
+    #---------------------------------------------------------------------------
+
+cat ("\n\nAt end of gscp_15, just before call to write_results_to_files():\n")
+#browser()
+
+    write_results_to_files (as.data.frame (results_list),
+                            parameters,
+                            get_RSprob_path_topdir (rsprob, exp_root_dir)
+                            # , cur_result_row    #  Added 2016 03 28 - BTL.
+                            )
+    }
+
+#===============================================================================
+
+#  The old call to create_master_output_structure() in bdprobdiff pkg inside
+#  function do_marxan_analysis_and_output():
+#
+  # create_master_output_structure (
+  #                         read_Xu_problem_from_Xu_file,
+  #                         Xu_parameters,
+  #
+  #             #  These used to say just num_spp and num_PUs.
+  #             #  For the moment, I'm going to make them cor_...
+  #             #  since there is neither num_spp nor app_num_spp, etc.
+  #             #  This needs fixing though.
+  #                                       #num_PUs,  #  cor_num_PUs?  app_num_PUs?
+  #                                       #num_spp,  #  cor_num_spp?  app_num_spp?
+  #                         cor_num_PUs,  #  cor_num_PUs?  app_num_PUs?
+  #                         cor_num_spp,  #  cor_num_spp?  app_num_spp?
+  #
+  #                         cor_optimum_cost,
+  #
+  #             #  Using cor_nodes for now
+  #                                     #nodes,  #  cor_nodes?  app_nodes?
+  #                         cor_nodes,
+  #
+  #                         cor_final_link_counts_for_each_node,
+  #                         app_bpm,
+  #                         DEBUG_LEVEL,
+  #                         cor_bpm,
+  #                         parameters,
+  #                         add_error,
+  #                         match_error_counts,
+  #                         FP_const_rate,
+  #                         FN_const_rate,
+  #                         original_FP_const_rate,
+  #                         original_FN_const_rate,
+  #
+  #                         marxan_control_values$spf_const,
+  # #                        spf_const,
+  #
+  #                         app_bipartite_metrics_from_bipartite_package,
+  #                         app_bipartite_metrics_from_igraph_package_df,
+  #
+  #                         app_marxan_output_values$marxan_best_df_sorted,
+  #                         app_marxan_output_values$marxan_ssoln_df,
+  #                         app_marxan_output_values$marxan_mvbest_df,
+  #
+  #                         marxan_control_values$marxan_PROP,
+  #                         marxan_control_values$marxan_RANDSEED,
+  #                         marxan_control_values$marxan_NUMREPS,
+  #                         marxan_control_values$marxan_NUMITNS,
+  #                         marxan_control_values$marxan_STARTTEMP,
+  #                         marxan_control_values$marxan_NUMTEMP,
+  #                         marxan_control_values$marxan_COSTTHRESH,
+  #                         marxan_control_values$marxan_THRESHPEN1,
+  #                         marxan_control_values$marxan_THRESHPEN2,
+  #                         marxan_control_values$marxan_RUNMODE,
+  #                         marxan_control_values$marxan_MISSLEVEL,
+  #                         marxan_control_values$marxan_ITIMPTYPE,
+  #                         marxan_control_values$marxan_HEURTYPE,
+  #                         marxan_control_values$marxan_CLUMPTYPE
+  #                                             )
+
+
+
+
+
 create_master_output_structure <-
         function (read_Xu_problem_from_Xu_file,
 
