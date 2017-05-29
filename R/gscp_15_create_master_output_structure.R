@@ -394,13 +394,14 @@ compute_and_verify_APP_scores_according_to_bdpg <-
     #               Apparent scores as computed by bdpg...
     #---------------------------------------------------------------------------
 
-    app_results_list = compute_solution_vector_scores (bpm,
-                                                     num_PUs,
+    app_results_list = compute_solution_vector_scores (app_bpm,
+
+                                                app_num_PUs,    #  Is "app" right for this?
                                                       marxan_best_solution_PU_IDs,
                                                       marxan_best_num_patches_in_solution,
                                                       cor_num_patches_in_solution,
                                                       spp_rep_targets,
-                                                      num_spp,
+                                                app_num_spp,    #  Is "app" right for this?
                                                       DEBUG_LEVEL,
                                                       FP_const_rate,
                                                       FN_const_rate)
