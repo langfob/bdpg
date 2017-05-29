@@ -291,8 +291,8 @@ cat ("\n\nAt end of gscp_15, just before call to write_results_to_files():\n")
 
 #===============================================================================
 
-compute_and_verify_APP_scores_according_to_RS <-
-    function ()
+compute_and_verify_APP_scores_according_to_RS_marxan_sa <-
+    function (marxan_mvbest_df, num_spp)
     {
     results_list = list()
 
