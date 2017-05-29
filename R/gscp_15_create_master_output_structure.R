@@ -964,7 +964,7 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
 #-------------------------------------------------------------------------------
 
       #---------------------------------------------------------------------
-      #  Need to separate the case of reading a Xu problem from one of his
+      #  Need to separate the case of reading a Xu problem from one of
       #  his benchmark files vs. generating a problem from scratch.
       #  When you read it from a benchmark file, the correct solution cost
       #  is known, but not the correct solution vector.
