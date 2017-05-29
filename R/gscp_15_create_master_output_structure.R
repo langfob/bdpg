@@ -1473,7 +1473,151 @@ create_APP_master_output_structure <- function (marxan_control_values,
 }
 
 #===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+
+# Pseudocode for creating csv (Excel) output files
+#
+# - One for each reserve selection run on a given problem:
+#     - problem could be correct or apparent
+#     - problem could be wrapped or not
+#
+# - In all cases below:
+#     - values should have been saved inside of the corresponding directory for the constituent object
+#
+# Composed of:
+# - tzar run ID information for this RSrun
+#     - tzar run IDs for each constituent object can be derived from their UUIDs,
+#       assuming those have been saved in the objects.
+#         - Are they saved in the objects?
+# - Xu characteristics for the given problem (where known, NA otherwise)
+#     - if problem is Xu-generated
+#         - Xu base parameters
+#         - Xu derived parameters
+#     - if problem is read from Xu file or not generated from Xu
+#         - NA
+# - non-Xu characteristics for the given problem (num_PUs, num_spp, anything else?)
+#     - correct non-Xu characteristics
+#     - apparent non-Xu characteristics
+# - error generator characteristics
+#     - if apparent, from object
+#     - if correct, 0 or NA
+# - classification scores for the given problem
+#     - correct classification scores
+#     - apparent classification scores
+# - representation scores for the given problem
+#     - correct representation scores
+#     - apparent representation scores
+# - graph measures for the given problem
+#     - igraph measures
+#     - bipartite measures
+
+#===============================================================================
+
+read_prob_characteristics_list <- function (rsprob)
+    {
+# - Xu characteristics for the given problem (where known, NA otherwise)
+#     - if problem is Xu-generated
+#         - Xu base parameters
+#         - Xu derived parameters
+#     - if problem is read from Xu file or not generated from Xu
+#         - NA
+# - non-Xu characteristics for the given problem (num_PUs, num_spp, anything else?)
+#     - correct non-Xu characteristics
+#     - apparent non-Xu characteristics
+# - error generator characteristics
+#     - if apparent, from object
+#     - if correct, 0 or NA
+
+    results_list = list (xu1=100, xu2=101)
+
+    return (results_list)
+    }
+
+#-------------------------------------------------------------------------------
+
+read_igraph_measures_list <- function (rsprob)
+    {
+    results_list = list (ig1=200, ig2=201, ig3=202)
+
+    return (results_list)
+    }
+
+#-------------------------------------------------------------------------------
+
+read_bipartite_measures_list <- function (rsprob)
+    {
+    results_list = list (bi1=300)
+
+    return (results_list)
+    }
+
+#-------------------------------------------------------------------------------
+
+build_and_write_CLS_scores_list <- function (rsrun)
+    {
+    results_list = list (cls1=400, cls2=401)
+
+    return (results_list)
+    }
+
+#-------------------------------------------------------------------------------
+
+build_and_write_REP_scores_list <- function (rsrun)
+    {
+    results_list = list (rep1=500, rep2=501, rep3=502)
+
+    return (results_list)
+    }
+
+#-------------------------------------------------------------------------------
+
+build_full_output_df_for_one_RSrun <- function (rsrun = NULL,
+                                                rsprob = NULL,
+                                                tzar_run_ID = 0)
+    {
+    tzar_run_ID_list          = list (tzar_run_ID = tzar_run_ID)
+
+    prob_characteristics_list = read_prob_characteristics_list (rsprob)
+    igraph_measures_list      = read_igraph_measures_list (rsprob)
+    bipartite_measures_list   = read_bipartite_measures_list (rsprob)
+
+    cls_scores_list           = build_and_write_CLS_scores_list (rsrun)
+    rep_scores_list           = build_and_write_REP_scores_list (rsrun)
 
 
+    results_list = c (tzar_run_ID_list,
+                      prob_characteristics_list,
+                      igraph_measures_list,
+                      bipartite_measures_list,
+                      cls_scores_list,
+                      rep_scores_list
+                    )
 
+#browser()
+
+    return (as.data.frame (results_list))
+    }
+
+#-------------------------------------------------------------------------------
+
+test_build_full_output_df_for_one_RSrun <- function ()
+    {
+    r1 = build_full_output_df_for_one_RSrun ()
+    r2 = 10 + build_full_output_df_for_one_RSrun ()
+    r3 = 20 + build_full_output_df_for_one_RSrun ()
+
+    rbind (r1, r2, r3)
+}
+
+if (FALSE) test_build_full_output_df_for_one_RSrun ()
+
+#===============================================================================
 
