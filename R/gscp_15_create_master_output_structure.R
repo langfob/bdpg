@@ -307,10 +307,10 @@ compute_and_verify_APP_scores_according_to_RS_marxan_sa <-
     #               Apparent scores as computed by marxan
     #---------------------------------------------------------------------------
 
-    app_solution_NUM_spp_covered__fromMarxan = sum (marxan_mvbest_df$MPM)
+    app_solution_NUM_spp_covered__fromMarxan  = sum (marxan_mvbest_df$MPM)
 
     app_solution_FRAC_spp_covered__fromMarxan = app_solution_NUM_spp_covered__fromMarxan / num_spp
-    app_spp_rep_shortfall__fromMarxan = 1 - app_solution_FRAC_spp_covered__fromMarxan
+    app_spp_rep_shortfall__fromMarxan         = 1 - app_solution_FRAC_spp_covered__fromMarxan
 
       cat ("\n\n----------------------------------")
       cat ("\nAPP_ VALUES AS COMPUTED BY MARXAN:")
