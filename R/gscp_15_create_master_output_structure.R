@@ -322,23 +322,36 @@ compute_and_verify_APP_scores_according_to_RS_marxan_sa <-
     #---------------------------------------------------------------------------
 
         #  Apparent results as computed by Marxan
-    results_list$app_spp_rep_shortfall__fromMarxan                                 = app_spp_rep_shortfall__fromMarxan
-    results_list$app_solution_NUM_spp_covered__fromMarxan                          = app_solution_NUM_spp_covered__fromMarxan
-    results_list$app_solution_FRAC_spp_covered__fromMarxan                         = app_solution_FRAC_spp_covered__fromMarxan
+    results_list$rsr_app_spp_rep_shortfall__fromMarxan                          = app_spp_rep_shortfall__fromMarxan
+    results_list$rsr_app_solution_NUM_spp_covered__fromMarxan                   = app_solution_NUM_spp_covered__fromMarxan
+    results_list$rsr_app_solution_FRAC_spp_covered__fromMarxan                  = app_solution_FRAC_spp_covered__fromMarxan
 
     #---------------------------------------------------------------------------
 
-    write_results_to_files (as.data.frame (results_list),
-                            parameters,
-                            cur_result_row)    #  Added 2016 03 28 - BTL.
+    # write_results_to_files (as.data.frame (results_list),
+    #                         parameters,
+    #                         cur_result_row)    #  Added 2016 03 28 - BTL.
+
+    return (results_list)
     }
 
 #===============================================================================
 
-compute_and_verify_APP_scores_according_to_bdpg <- function ()
+compute_and_verify_APP_scores_according_to_bdpg <-
+    function (app_bpm,
+
+            app_num_PUs,    #  Is "app" right for this?
+                marxan_best_solution_PU_IDs,
+                marxan_best_num_patches_in_solution,
+                cor_num_patches_in_solution,
+                spp_rep_targets,
+            app_num_spp,    #  Is "app" right for this?
+                DEBUG_LEVEL,
+                FP_const_rate,
+                FN_const_rate)
     {
-    num_runs = 1    #  Vestigial?  Not sure it will ever be anything but 1.
-                    #  2015 05 09 - BTL.
+    # num_runs = 1    #  Vestigial?  Not sure it will ever be anything but 1.
+    #                 #  2015 05 09 - BTL.
 
     results_list = list()
       # data.frame (
@@ -423,38 +436,43 @@ compute_and_verify_APP_scores_according_to_bdpg <- function ()
 
         #  Apparent results as computed by bdpg
 
-    results_list$app_spp_rep_shortfall                                 = app_results_list$spp_rep_shortfall
-    results_list$app_solution_NUM_spp_covered                          = app_results_list$num_spp_covered
-    results_list$app_solution_FRAC_spp_covered                         = app_results_list$frac_spp_covered
+    results_list$rsr_app_solution_spp_rep_fracs                            = app_solution_spp_rep_fracs
+    results_list$rsr_app_solution_unmet_spp_rep_frac_indices               = app_solution_unmet_spp_rep_frac_indices
 
-    results_list$app_TP                                                = app_results_list$TP
-    results_list$app_TN                                                = app_results_list$TN
-    results_list$app_FP                                                = app_results_list$FP
-    results_list$app_FN                                                = app_results_list$FN
+    results_list$rsr_app_spp_rep_shortfall                                 = app_results_list$spp_rep_shortfall
+    results_list$rsr_app_solution_NUM_spp_covered                          = app_results_list$num_spp_covered
+    results_list$rsr_app_solution_FRAC_spp_covered                         = app_results_list$frac_spp_covered
 
-    results_list$app_cSe                                               = app_results_list$cSe
-    results_list$app_cSp                                               = app_results_list$cSp
-    results_list$app_cPPV                                              = app_results_list$cPPV
-    results_list$app_cNPV                                              = app_results_list$cNPV
+    results_list$rsr_app_TP                                                = app_results_list$TP
+    results_list$rsr_app_TN                                                = app_results_list$TN
+    results_list$rsr_app_FP                                                = app_results_list$FP
+    results_list$rsr_app_FN                                                = app_results_list$FN
 
-    results_list$app_acc_frac                                          = app_results_list$acc_frac
-    results_list$app_acc_err_frac                                      = app_results_list$acc_err_frac
-    results_list$app_cost_savings                                      = app_results_list$cost_savings
+    results_list$rsr_app_cSe                                               = app_results_list$cSe
+    results_list$rsr_app_cSp                                               = app_results_list$cSp
+    results_list$rsr_app_cPPV                                              = app_results_list$cPPV
+    results_list$rsr_app_cNPV                                              = app_results_list$cNPV
 
-    results_list$app_opt_cost_savings                                  = app_results_list$opt_cost_savings
+    results_list$rsr_app_acc_frac                                          = app_results_list$acc_frac
+    results_list$rsr_app_acc_err_frac                                      = app_results_list$acc_err_frac
+    results_list$rsr_app_cost_savings                                      = app_results_list$cost_savings
 
-    results_list$app_TSS                                               = app_results_list$TSS
-    results_list$app_max_cSe_cSp                                       = app_results_list$max_cSe_cSp
-    results_list$app_min_cSe_cSp                                       = app_results_list$min_cSe_cSp
-    results_list$app_mean_cSe_cSp                                      = app_results_list$mean_cSe_cSp
-    results_list$app_prod_cSe_cSp                                      = app_results_list$prod_cSe_cSp
-    results_list$app_euc_cSe_cSp                                       = app_results_list$euc_cSe_cSp
-    results_list$app_acc_err_mag                                       = app_results_list$acc_err_mag
+    results_list$rsr_app_opt_cost_savings                                  = app_results_list$opt_cost_savings
+
+    results_list$rsr_app_TSS                                               = app_results_list$TSS
+    results_list$rsr_app_max_cSe_cSp                                       = app_results_list$max_cSe_cSp
+    results_list$rsr_app_min_cSe_cSp                                       = app_results_list$min_cSe_cSp
+    results_list$rsr_app_mean_cSe_cSp                                      = app_results_list$mean_cSe_cSp
+    results_list$rsr_app_prod_cSe_cSp                                      = app_results_list$prod_cSe_cSp
+    results_list$rsr_app_euc_cSe_cSp                                       = app_results_list$euc_cSe_cSp
+    results_list$rsr_app_acc_err_mag                                       = app_results_list$acc_err_mag
 
     #---------------------------------------------------------------------------
 
-    write_results_to_files (results_list, parameters,
-                            cur_result_row)    #  Added 2016 03 28 - BTL.
+    # write_results_to_files (results_list, parameters,
+    #                         cur_result_row)    #  Added 2016 03 28 - BTL.
+
+    return (results_list)
     }
 
 #===============================================================================
