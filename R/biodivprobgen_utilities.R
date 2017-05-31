@@ -40,8 +40,9 @@ safe_sample = function (x,...) { if (length (x) == 1) x else sample (x,...) }
 
 write_results_to_files = function (results_df,
                                    parameters,
-                                   out_dir,
-                                   cur_result_row=1    #  Added 2016 03 28 - BTL.
+                                   out_dir
+                                   # ,
+                                   # cur_result_row=1    #  Added 2016 03 28 - BTL.
                                   )
     {
         #  Write the results out to 2 separate and nearly identical files.
@@ -63,11 +64,13 @@ cat ("\n\nIn write_results_to_files():\n")
 #browser()
 
     summary_WITHOUT_run_id_path = file.path (out_dir, parameters$summary_without_run_id_filename)
-    results_df$run_ID [cur_result_row] = 0
+#    results_df$run_ID [cur_result_row] = 0
+    results_df$run_ID = 0
     write.csv (results_df, file = summary_WITHOUT_run_id_path, row.names = FALSE)
 
     summary_WITH_run_id_path = file.path (out_dir, parameters$summary_filename)
-    results_df$run_ID [cur_result_row] = parameters$run_id
+#    results_df$run_ID [cur_result_row] = parameters$run_id
+    results_df$run_ID = parameters$run_id
     write.csv (results_df, file = summary_WITH_run_id_path, row.names = FALSE)
 
 docaids::doc_vars_in_this_func_once ()
