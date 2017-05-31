@@ -111,7 +111,8 @@ save_rsprob_results_data_for_Xu_read_from_file <-
 #===============================================================================
 
 save_rsprob_results_data_for_Xu_NOT_read_from_file <-
-    function (rsprob, exp_root_dir, parameters, tzar_run_ID)
+    function (rsprob, exp_root_dir, parameters    #, tzar_run_ID
+              )
         # ,
         #       num_PUs, num_spp,
         #       base_Xu_params, derived_Xu_params,
@@ -126,6 +127,7 @@ save_rsprob_results_data_for_Xu_NOT_read_from_file <-
 
     #---------------------------------------------------------------------------
 
+    tzar_run_ID = parameters$run_id
     results_list$rsp_tzar_run_ID                                                = tzar_run_ID    #0    #  tzar run ID, not RSrun ID
 
     results_list$rsp_base_COR_prob_UUID                                         = rsprob@UUID
@@ -279,12 +281,10 @@ results_list$rsp_num_independent_nodes_per_group                                
 
     #---------------------------------------------------------------------------
 
-cat ("\n\nAt end of gscp_15, just before call to write_results_to_files():\n")
-#browser()
-
     write_results_to_files (as.data.frame (results_list),
                             parameters,
-                            get_RSprob_path_topdir (rsprob, exp_root_dir)
+                            get_RSprob_path_topdir (rsprob, exp_root_dir),
+                            "rsp_tzar_run_ID"
                             # , cur_result_row    #  Added 2016 03 28 - BTL.
                             )
     }
@@ -1740,13 +1740,17 @@ build_and_write_REP_scores_list <- function (rsrun)
 
 #-------------------------------------------------------------------------------
 
-build_full_output_df_for_one_RSrun <- function (rsrun = NULL,
-                                                rsprob = NULL,
-                                                tzar_run_ID = 0)
-    {
-    tzar_run_ID_list          = list (tzar_run_ID = tzar_run_ID)
+#save_rsrun_results_data
 
-    prob_characteristics_list = read_prob_characteristics_list (rsprob)
+build_full_output_df_for_one_RSrun <- function (parameters, rsrun, rsprob)
+    {
+    tzar_run_ID               = parameters$run_id
+    tzar_run_ID_list          = list (rsr_tzar_run_ID = tzar_run_ID)
+
+    exp_root_dir = parameters$fullOutputDir_NO_slash
+
+    prob_characteristics_list = read_prob_characteristics_list (rsprob,
+                                                                exp_root_dir)
     igraph_measures_list      = read_igraph_measures_list (rsprob)
     bipartite_measures_list   = read_bipartite_measures_list (rsprob)
 
