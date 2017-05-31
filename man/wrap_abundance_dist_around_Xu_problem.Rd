@@ -4,13 +4,19 @@
 \alias{wrap_abundance_dist_around_Xu_problem}
 \title{Wrap abundance distribution around Xu problem}
 \usage{
-wrap_abundance_dist_around_Xu_problem(starting_dir, rounded_abundances,
-  Xu_bdprob, dep_set_PUs_eligible, tot_num_PUs_in_landscape, bdpg_error_codes,
+wrap_abundance_dist_around_Xu_problem(starting_dir,
+  compute_network_metrics_for_this_prob, rounded_abundances, Xu_bdprob,
+  dep_set_PUs_eligible, tot_num_PUs_in_landscape, bdpg_error_codes,
   search_outfile_name_base, search_outfile_name,
   wrap_prob_name_stem = "wrap_prob", cor_dir_name_stem = "cor")
 }
 \arguments{
 \item{starting_dir}{character string}
+
+\item{compute_network_metrics_for_this_prob}{boolean indicating whether to
+compute network metrics for the current problem; TRUE indicates to
+compute one or more network metrics specified elsewhere and FALSE
+indicate not compute any network metrics for the current problem.}
 
 \item{rounded_abundances}{DESCRIPTION.}
 
@@ -20,12 +26,14 @@ wrap_abundance_dist_around_Xu_problem(starting_dir, rounded_abundances,
 
 \item{tot_num_PUs_in_landscape}{DESCRIPTION.}
 
+\item{bdpg_error_codes}{list of error names and corresponding error codes}
+
 \item{search_outfile_name_base}{character string}
 
 \item{search_outfile_name}{character string}
 }
 \value{
-Returns wrapped_bdprob
+Returns a Xu_wrapped_bd_problem
 }
 \description{
 Wrap abundance distribution around Xu problem

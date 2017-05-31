@@ -103,6 +103,10 @@
 #'     whether that species occupies that planning unit; 1 indicates the
 #'     species does occupy the planning unit and 0 indicates it does not.
 #'     Same as occ_matrix.
+#' @param compute_network_metrics_for_this_prob boolean indicating whether to
+#'     compute network metrics for the current problem; TRUE indicates to
+#'     compute one or more network metrics specified elsewhere and FALSE
+#'     indicate not compute any network metrics for the current problem.
 #' @param cor_or_app_label character string for labelling as Correct or Apparent
 #' @param correct_solution_vector_is_known boolean flag indicating whether
 #'     a correct optimal solution vector is known for the problem (as opposed
@@ -203,6 +207,7 @@ std_param_defns <-
             bdpg_error_codes,
             bdpg_error_name,
             bpm,
+            compute_network_metrics_for_this_prob,
             cor_or_app_label,
             correct_solution_vector_is_known,
             dependent_node_IDs,

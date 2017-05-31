@@ -5,14 +5,14 @@
 \title{Standardized parameter definitions for reuse across all functions}
 \usage{
 std_param_defns(all_correct_node_IDs, base_outdir_for_checksum,
-  bdpg_error_codes, bdpg_error_name, bpm, cor_or_app_label,
-  correct_solution_vector_is_known, dependent_node_IDs, duplicate_links_allowed,
-  edge_list, exp_root_dir, final_link_counts_for_each_node,
-  final_node_counts_for_each_link, given_correct_solution_cost, integerize,
-  integerize_string, marxan_solution, max_allowed_num_spp,
-  max_possible_tot_num_links, n__num_groups, nodes, num_nodes_per_group,
-  num_PUs, num_rounds_of_linking_between_groups, num_spp, obj,
-  obj_with_UUID_and_checksum, occ_matrix, parameters, plot_output_dir,
+  bdpg_error_codes, bdpg_error_name, bpm, compute_network_metrics_for_this_prob,
+  cor_or_app_label, correct_solution_vector_is_known, dependent_node_IDs,
+  duplicate_links_allowed, edge_list, exp_root_dir,
+  final_link_counts_for_each_node, final_node_counts_for_each_link,
+  given_correct_solution_cost, integerize, integerize_string, marxan_solution,
+  max_allowed_num_spp, max_possible_tot_num_links, n__num_groups, nodes,
+  num_nodes_per_group, num_PUs, num_rounds_of_linking_between_groups, num_spp,
+  obj, obj_with_UUID_and_checksum, occ_matrix, parameters, plot_output_dir,
   PU_col_name, PU_costs, PU_set_to_test, PU_spp_pair_indices,
   read_Xu_problem_from_Xu_file, rsprob, spp_col_name, spp_rep_fracs,
   spp_rep_targets, spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
@@ -36,6 +36,11 @@ and one column for each planning unit.  Each matrix entry specifies
 whether that species occupies that planning unit; 1 indicates the
 species does occupy the planning unit and 0 indicates it does not.
 Same as occ_matrix.}
+
+\item{compute_network_metrics_for_this_prob}{boolean indicating whether to
+compute network metrics for the current problem; TRUE indicates to
+compute one or more network metrics specified elsewhere and FALSE
+indicate not compute any network metrics for the current problem.}
 
 \item{cor_or_app_label}{character string for labelling as Correct or Apparent}
 

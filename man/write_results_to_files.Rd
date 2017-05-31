@@ -4,7 +4,7 @@
 \alias{write_results_to_files}
 \title{Write results to files}
 \usage{
-write_results_to_files(results_df, parameters, out_dir, cur_result_row = 1)
+write_results_to_files(results_df, parameters, out_dir, tzar_run_id_field_name)
 }
 \arguments{
 \item{results_df}{data frame containing the results}

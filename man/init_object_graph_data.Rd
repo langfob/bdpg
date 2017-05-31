@@ -6,8 +6,8 @@
 flags in the RSprob.}
 \usage{
 init_object_graph_data(rsprob, top_dir, compute_network_metrics,
-  use_igraph_metrics, use_bipartite_metrics,
-  bipartite_metrics_to_use = "ALLBUTDD")
+  compute_network_metrics_COR_APP_WRAP, use_igraph_metrics,
+  use_bipartite_metrics, bipartite_metrics_to_use = "ALLBUTDD")
 }
 \arguments{
 \item{rsprob}{An RSprob reserve selection problem object to run graph metrics

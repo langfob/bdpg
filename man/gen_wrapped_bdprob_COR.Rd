@@ -4,16 +4,23 @@
 \alias{gen_wrapped_bdprob_COR}
 \title{Generate COR wrapped bd problem}
 \usage{
-gen_wrapped_bdprob_COR(starting_dir, parameters, base_bdprob, bdpg_error_codes)
+gen_wrapped_bdprob_COR(starting_dir, compute_network_metrics_for_this_prob,
+  parameters, base_bdprob, bdpg_error_codes)
 }
 \arguments{
 \item{starting_dir}{character string}
 
-\item{parameters}{list}
+\item{compute_network_metrics_for_this_prob}{boolean indicating whether to
+compute network metrics for the current problem; TRUE indicates to
+compute one or more network metrics specified elsewhere and FALSE
+indicate not compute any network metrics for the current problem.}
+
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
 
 \item{base_bdprob}{Xu_bd_problem}
 
-\item{bdpg_error_codes}{list}
+\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 Returns wrapped_bdprob_COR
