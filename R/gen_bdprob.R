@@ -61,15 +61,15 @@
 #' wrap_lognormal_dist_around_Xu :  logi TRUE
 #' }}
 #'
-#' @param parameters parameter list, generally from project.yaml
-#' @param bdpg_error_codes list of error codes and corresponding error numbers
-#' @param integerize function to use in converting floats to integers
 #' @param base_bdprob NULL or an existing bdprob to use in creating multi_bdproblem
+#' @inheritParams std_param_defns
 #'
 #' @return biodiversity problems
 #' @export
 
-gen_bdprob  = function (parameters, bdpg_error_codes, integerize,
+gen_bdprob  = function (parameters,
+                                    compute_network_metrics_for_this_prob,
+                        bdpg_error_codes, integerize,
                         base_bdprob = NULL)
     {
         #  May need to test these parameters to see if they even exist
@@ -91,6 +91,7 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize,
     if (gen_multi_bdproblem)
         {
         bdprob = gen_multi_bdprob (parameters,
+                                    compute_network_metrics_for_this_prob,
                                    wrap_lognormal_dist_around_Xu,
                                    read_Xu_problem_from_Xu_file,
                                    infile_name,
@@ -106,6 +107,7 @@ gen_bdprob  = function (parameters, bdpg_error_codes, integerize,
         #     file.path (normalizePath (parameters$fullOutputDirWithSlash),
         #                "base_prob.1")
         bdprob = gen_single_bdprob_COR (parameters$fullOutputDirWithSlash,  #starting_dir,
+                                    compute_network_metrics_for_this_prob,
                                         parameters,
                                         read_Xu_problem_from_Xu_file,
                                         infile_name,

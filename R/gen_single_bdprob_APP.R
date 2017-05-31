@@ -72,15 +72,15 @@
 #' Xu_bdprob_COR : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
 #' }}
 #'
+#' @inheritParams std_param_defns
 #' @param Xu_bdprob_COR correct Xu problem that is to have error added to it
-#' @param parameters named list of all parameters, generally from project.yaml file
-#' @param bdpg_error_codes DESCRIPTION.
-#' @param integerize DESCRIPTION.
 #'
-#' @return RETURN_DESCRIPTION
+#' @return Returns apparent version of either a Xu_bd_problem or a
+#'     Xu_wrapped_bd_problem
 #' @export
 
 gen_single_bdprob_APP = function (Xu_bdprob_COR,
+                                  compute_network_metrics_for_this_prob,
                                     #starting_dir,    #  not needed?  take from cor?
                                     parameters,
                                     bdpg_error_codes,
@@ -284,7 +284,9 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
         #  Compute network metrics.
     Xu_bdprob_APP <- init_object_graph_data (Xu_bdprob_APP,
                                              starting_dir,
-                                             parameters$compute_network_metrics_APP,
+                                             parameters$compute_network_metrics,
+                                #parameters$compute_network_metrics_APP,
+                                compute_network_metrics_for_this_prob,
                                              parameters$use_igraph_metrics,
                                              parameters$use_bipartite_metrics,
                                              parameters$bipartite_metrics_to_use)

@@ -293,6 +293,7 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' @export
 
 gen_single_bdprob_COR = function (exp_root_dir,
+                                  compute_network_metrics_for_this_prob,
                                   parameters,
                         read_Xu_problem_from_Xu_file,
                         Xu_bench_infile_name,
@@ -461,7 +462,9 @@ gen_single_bdprob_COR = function (exp_root_dir,
         #  Compute network metrics.
     Xu_bdprob_cor <- init_object_graph_data (Xu_bdprob_cor,
                                              exp_root_dir,
-                                             parameters$compute_network_metrics_COR,
+                                             parameters$compute_network_metrics,
+                                #parameters$compute_network_metrics_COR,
+                                compute_network_metrics_for_this_prob,
                                              parameters$use_igraph_metrics,
                                              parameters$use_bipartite_metrics,
                                              parameters$bipartite_metrics_to_use)

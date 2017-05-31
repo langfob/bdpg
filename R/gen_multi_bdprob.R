@@ -119,6 +119,7 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
 #' @export
 
 gen_multi_bdprob = function (parameters,
+                                    compute_network_metrics_for_this_prob,
                              wrap_lognormal_dist_around_Xu,
                              read_Xu_problem_from_Xu_file,
                              infile_name,
@@ -187,6 +188,7 @@ gen_multi_bdprob = function (parameters,
                            # "wrap_prob.1")
 
             combined_bdprob = gen_wrapped_bdprob_COR (starting_dir,
+                                    compute_network_metrics_for_this_prob,
                                                       parameters,
                                                       bdprob_1,
                                                       bdpg_error_codes)

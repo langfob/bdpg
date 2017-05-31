@@ -193,6 +193,13 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
         #  Dump all of the different kinds of results.
         #-----------------------------------------------
 
+    build_full_output_df_for_one_RSrun (parameters,
+                                        COR_marxan_run,
+                                        COR_bd_prob
+                                        # ,
+                                        # parameters$run_ID
+                                        )
+
     if (FALSE)  #  2017 02 23 - BTL - rebuilding this code, so don't run it yet
     {
     create_COR_master_output_structure (marxan_control_values,
@@ -312,9 +319,16 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
 
 #docaids::doc_vars_in_this_func_once ()
 
-            #-----------------------------------------------
+        #-----------------------------------------------
         #  Dump all of the different kinds of results.
         #-----------------------------------------------
+
+    build_full_output_df_for_one_RSrun (parameters,
+                                        APP_marxan_run,
+                                        APP_bd_prob
+                                        # ,
+                                        # parameters$run_ID
+                                        )
 
     if (FALSE)  #  2017 02 23 - BTL - rebuilding this code, so don't run it yet
     {

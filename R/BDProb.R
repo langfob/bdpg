@@ -403,7 +403,9 @@ setClass ("Xu_bd_problem",
                                 #---------------------------------------
 
                                         #  Post-generation measures
-                            compute_network_metrics                  = "logical",
+                            compute_network_metrics                  = "logical",    #  Toggles whether to ignore all other network metric flags or not.
+
+                            compute_network_metrics_COR_APP_WRAP     = "logical",
                             use_igraph_metrics                       = "logical",
                             use_bipartite_metrics                    = "logical",
                             bipartite_metrics_to_use                 = "character",
@@ -446,6 +448,7 @@ setClass ("Xu_bd_problem",
                             all_PU_IDs                       = as.numeric (NA),
 
                             compute_network_metrics                  = NA,
+                            compute_network_metrics_COR_APP_WRAP     = NA,
                             use_igraph_metrics                       = NA,
                             use_bipartite_metrics                    = NA,
                             bipartite_metrics_to_use                 = as.character (NA)

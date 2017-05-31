@@ -798,6 +798,7 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 #'  $ dependent_set_member: logi  FALSE TRUE FALSE TRUE FALSE TRUE ...
 #' }}
 #'
+#' @inheritParams std_param_defns
 #' @param starting_dir character string
 #' @param rounded_abundances DESCRIPTION.
 #' @param Xu_bdprob DESCRIPTION.
@@ -806,10 +807,11 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 #' @param search_outfile_name_base character string
 #' @param search_outfile_name character string
 #'
-#' @return Returns wrapped_bdprob
+#' @return Returns a Xu_wrapped_bd_problem
 #' @export
 
 wrap_abundance_dist_around_Xu_problem = function (starting_dir,
+                                                  compute_network_metrics_for_this_prob,
                                                   rounded_abundances,
                                                   Xu_bdprob,
                                                   dep_set_PUs_eligible,
@@ -1140,7 +1142,9 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
     wrapped_bdprob <- init_object_graph_data (wrapped_bdprob,
                                               starting_dir,
-                                              parameters$compute_network_metrics_wrapped,
+                                              parameters$compute_network_metrics,
+                                #parameters$compute_network_metrics_wrapped_COR,
+                                compute_network_metrics_for_this_prob,
                                               parameters$use_igraph_metrics,
                                               parameters$use_bipartite_metrics,
                                               parameters$bipartite_metrics_to_use)
@@ -1256,15 +1260,15 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 #' wrapped_bdprob_COR : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
 #' }}
 #'
+#' @inheritParams std_param_defns
 #' @param starting_dir character string
-#' @param parameters list
 #' @param base_bdprob Xu_bd_problem
-#' @param bdpg_error_codes list
 #'
 #' @return Returns wrapped_bdprob_COR
 #' @export
 
 gen_wrapped_bdprob_COR <- function (starting_dir,
+                                    compute_network_metrics_for_this_prob,
                                     parameters,
                                     base_bdprob,
                                     bdpg_error_codes)
@@ -1329,6 +1333,7 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
 
         wrapped_bdprob_COR =
             wrap_abundance_dist_around_Xu_problem (starting_dir,
+                                                   compute_network_metrics_for_this_prob,
                                                    rounded_abundances,
                                                    base_bdprob,
                                                    dep_set_PUs_eligible,
