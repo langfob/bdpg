@@ -1682,7 +1682,7 @@ create_APP_master_output_structure <- function (marxan_control_values,
 
 #===============================================================================
 
-read_prob_characteristics_list <- function (rsprob)
+read_prob_characteristics_list <- function (rsprob, exp_root_dir)
     {
 # - Xu characteristics for the given problem (where known, NA otherwise)
 #     - if problem is Xu-generated
@@ -1697,7 +1697,13 @@ read_prob_characteristics_list <- function (rsprob)
 #     - if apparent, from object
 #     - if correct, 0 or NA
 
-    results_list = list (xu1=100, xu2=101)
+    prob_characteristics_dir = get_RSprob_path_topdir (rsprob, exp_root_dir)
+    results_df = read.csv (file.path (prob_characteristics_dir,
+                                      parameters$summary_filename),
+                           header=TRUE)
+
+#    results_list = list (xu1=100, xu2=101)
+    results_list = as.list (results_df)
 
     return (results_list)
     }
@@ -1766,23 +1772,12 @@ build_full_output_df_for_one_RSrun <- function (parameters, rsrun, rsprob)
                       rep_scores_list
                     )
 
-#browser()
+    exp_root_dir = parameters$fullOutputDir_NO_slash
+    out_dir = get_RSrun_path_topdir (rsrun, exp_root_dir)
 
-    return (as.data.frame (results_list))
+    write_results_to_files (as.data.frame (results_list), parameters, out_dir,
+                            "rsr_tzar_run_ID")
     }
-
-#-------------------------------------------------------------------------------
-
-test_build_full_output_df_for_one_RSrun <- function ()
-    {
-    r1 = build_full_output_df_for_one_RSrun ()
-    r2 = 10 + build_full_output_df_for_one_RSrun ()
-    r3 = 20 + build_full_output_df_for_one_RSrun ()
-
-    rbind (r1, r2, r3)
-}
-
-if (FALSE) test_build_full_output_df_for_one_RSrun ()
 
 #===============================================================================
 
