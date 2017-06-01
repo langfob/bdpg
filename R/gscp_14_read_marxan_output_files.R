@@ -706,6 +706,31 @@ read_marxan_output_files <- function (marxan_output_dir_path,
     marxan_best_df_sorted_as_vector = as.vector (t(marxan_best_df_sorted [,"SOLUTION"]))
     app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)
 
+
+#     find_best_marxan_solutions (marxan_output_dir_path,
+# #                                num_PUs,     #  should this be largest_PU_ID?
+#                                 num_spp,     #  should this be largest_spp_ID?
+#                                 cor_PU_costs,
+#                                 cor_bpm,
+#                                 app_bpm,
+#                                 marxan_best_df_sorted_as_vector,
+#                                 plot_output_dir,
+#
+#                                 largest_PU_ID,
+#                                 largest_spp_ID,
+#
+#                                 targets,
+#
+#                                 marxan_top_dir
+#                                 )
+
+    marxan_mvbest_df_sorted_by_ConservationFeature <-
+        load_marxan_mvbest_df_from_file_and_sort_by_CF (marxan_output_dir_path)
+
+    marxan_ssoln_df_sorted_by_PU  <-
+        load_marxan_ssoln_df_from_file_and_sort_by_PU (marxan_output_dir_path,
+                                                       all_correct_node_IDs)
+
     find_best_marxan_solutions (marxan_output_dir_path,
 #                                num_PUs,     #  should this be largest_PU_ID?
                                 num_spp,     #  should this be largest_spp_ID?
@@ -723,12 +748,6 @@ read_marxan_output_files <- function (marxan_output_dir_path,
                                 marxan_top_dir
                                 )
 
-    marxan_mvbest_df_sorted_by_ConservationFeature <-
-        load_marxan_mvbest_df_from_file_and_sort_by_CF (marxan_output_dir_path)
-
-    marxan_ssoln_df_sorted_by_PU  <-
-        load_marxan_ssoln_df_from_file_and_sort_by_PU (marxan_output_dir_path,
-                                                       all_correct_node_IDs)
 
         # Plot how marxan is actually doing vs. how it thinks it's doing
     plot_incremental_marxan_summed_solution_reps_for_COR_and_APP (marxan_ssoln_df_sorted_by_PU,
