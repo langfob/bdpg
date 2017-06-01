@@ -335,6 +335,9 @@ setClass ("Xu_bd_problem",
                             plot_output_dir                  = "character",
                             network_output_dir               = "character",
 
+                            bipartite_metrics_file_name_stem = "character",
+                            igraph_metrics_file_name_stem    = "character",
+
                                 #------------------------
                                 #  Solution information
                                 #------------------------
@@ -436,6 +439,9 @@ setClass ("Xu_bd_problem",
 
                           plot_output_dir                  = "plots",
                           network_output_dir               = "networks",
+
+                          bipartite_metrics_file_name_stem  = "bipartite_metrics_from_bipartite_pkg_df",
+                          igraph_metrics_file_name_stem     = "bipartite_metrics_from_igraph_pkg_df",
 
                             correct_solution_cost            = as.numeric (NA),
                             correct_solution_vector_is_known = NA,

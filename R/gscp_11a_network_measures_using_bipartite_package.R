@@ -311,7 +311,8 @@ compute_network_measures_using_bipartite_package = function (rsprob,
 
     bipartite_metrics_csv_file_name =
         file.path (get_RSprob_path_networks (rsprob, exp_root_dir),
-                   "bipartite_metrics_from_bipartite_package.csv")
+                   paste0 (rsprob@bipartite_metrics_file_name_stem, ".csv"))
+#                   "bipartite_metrics_from_bipartite_package.csv")
 
     write.csv (bipartite_metrics_from_bipartite_package,
                file = bipartite_metrics_csv_file_name,
