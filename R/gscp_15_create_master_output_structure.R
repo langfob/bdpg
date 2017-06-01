@@ -1688,6 +1688,7 @@ read_results_list_from_csv_file <- function (csv_file)
         {
         results_df = read.csv (csv_file, header=TRUE)
         results_list = as.list (results_df)
+
         } else
         {
         results_list = NULL
@@ -1700,31 +1701,25 @@ read_results_list_from_csv_file <- function (csv_file)
 
 read_prob_characteristics_list <- function (rsprob, exp_root_dir, parameters)
     {
-# - Xu characteristics for the given problem (where known, NA otherwise)
-#     - if problem is Xu-generated
-#         - Xu base parameters
-#         - Xu derived parameters
-#     - if problem is read from Xu file or not generated from Xu
-#         - NA
-# - non-Xu characteristics for the given problem (num_PUs, num_spp, anything else?)
-#     - correct non-Xu characteristics
-#     - apparent non-Xu characteristics
-# - error generator characteristics
-#     - if apparent, from object
-#     - if correct, 0 or NA
+        #-----------------------------------------------------------------------
+        # - Xu characteristics for the given problem (where known, NA otherwise)
+        #     - if problem is Xu-generated
+        #         - Xu base parameters
+        #         - Xu derived parameters
+        #     - if problem is read from Xu file or not generated from Xu
+        #         - NA
+        # - non-Xu characteristics for the given problem (num_PUs, num_spp,
+        #   anything else?)
+        #     - correct non-Xu characteristics
+        #     - apparent non-Xu characteristics
+        # - error generator characteristics
+        #     - if apparent, from object
+        #     - if correct, 0 or NA
+        #-----------------------------------------------------------------------
 
     prob_characteristics_file =
         file.path (get_RSprob_path_topdir (rsprob, exp_root_dir),
                    parameters$summary_filename)
-
-#     prob_characteristics_dir = get_RSprob_path_topdir (rsprob, exp_root_dir)
-#     results_df = read.csv (file.path (prob_characteristics_dir,
-#                                       parameters$summary_filename),
-#                            header=TRUE)
-#
-#
-# #    results_list = list (xu1=100, xu2=101)
-#     results_list = as.list (results_df)
 
     results_list = read_results_list_from_csv_file (prob_characteristics_file)
 
@@ -1735,20 +1730,9 @@ read_prob_characteristics_list <- function (rsprob, exp_root_dir, parameters)
 
 read_bipartite_measures_list <- function (rsprob, exp_root_dir)
     {
-#    results_list = list (bi1=300)
-
     bipartite_file = file.path (get_RSprob_path_networks (rsprob, exp_root_dir),
                                 paste0 (rsprob@bipartite_metrics_file_name_stem,
                                         ".csv"))
-
-    # if (file.exists (bipartite_file))
-    #     {
-    #     results_df = read.csv (bipartite_file, header=TRUE)
-    #     results_list = as.list (results_df)
-    #     } else
-    #     {
-    #     results_list = NULL
-    #     }
 
     results_list = read_results_list_from_csv_file (bipartite_file)
 
@@ -1759,17 +1743,9 @@ read_bipartite_measures_list <- function (rsprob, exp_root_dir)
 
 read_igraph_measures_list <- function (rsprob, exp_root_dir)
     {
-#    results_list = list (ig1=200, ig2=201, ig3=202)
-
     igraph_file = file.path (get_RSprob_path_networks (rsprob, exp_root_dir),
                                 paste0 (rsprob@igraph_metrics_file_name_stem,
                                         ".csv"))
-
-    # results_df = read.csv (file.path (get_RSprob_path_networks (rsprob, exp_root_dir),
-    #                                   paste0 (rsprob@igraph_metrics_file_name_stem, ".csv")),
-    #                        header=TRUE)
-    #
-    # results_list = as.list (results_df)
 
     results_list = read_results_list_from_csv_file (igraph_file)
 
@@ -1797,17 +1773,16 @@ build_and_write_REP_scores_list <- function (rsrun)
 #-------------------------------------------------------------------------------
 
 save_rsrun_results_data_for_one_rsrun<- function (parameters, rsrun, rsprob)
-#build_full_output_df_for_one_RSrun <- function (parameters, rsrun, rsprob)
     {
     tzar_run_ID  = parameters$run_id
     exp_root_dir = parameters$fullOutputDir_NO_slash
     out_dir      = get_RSrun_path_topdir (rsrun, exp_root_dir)
 
-    #----------
-
+        #-----------------------------------------------------------------------
         #  Build or read a list for each aspect of the run.
         #  Make a NULL list for any section that doesn't apply in this run,
         #  e.g., if a type of network metric was not computed for this problem.
+        #-----------------------------------------------------------------------
 
     tzar_run_ID_list          = list (rsr_tzar_run_ID = tzar_run_ID)
 
@@ -1820,10 +1795,10 @@ save_rsrun_results_data_for_one_rsrun<- function (parameters, rsrun, rsprob)
     cls_scores_list           = build_and_write_CLS_scores_list (rsrun)
     rep_scores_list           = build_and_write_REP_scores_list (rsrun)
 
-    #----------
-
+        #----------------------------------------------------------------
         #  Concatenate all of the lists and write the full list to file
         #  as a data frame.
+        #----------------------------------------------------------------
 
     results_list = c (tzar_run_ID_list,
                       prob_characteristics_list,
