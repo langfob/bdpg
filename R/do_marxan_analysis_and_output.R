@@ -193,7 +193,8 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
         #  Dump all of the different kinds of results.
         #-----------------------------------------------
 
-    build_full_output_df_for_one_RSrun (parameters,
+    save_rsrun_results_data_for_one_rsrun (parameters,
+#    build_full_output_df_for_one_RSrun (parameters,
                                         COR_marxan_run,
                                         COR_bd_prob
                                         # ,
@@ -323,7 +324,8 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
         #  Dump all of the different kinds of results.
         #-----------------------------------------------
 
-    build_full_output_df_for_one_RSrun (parameters,
+    save_rsrun_results_data_for_one_rsrun (parameters,
+#    build_full_output_df_for_one_RSrun (parameters,
                                         APP_marxan_run,
                                         APP_bd_prob
                                         # ,
