@@ -301,7 +301,7 @@ compute_network_measures_using_bipartite_package = function (rsprob,
         #  graph results data frame to disk.
         #-----------------------------------------------------------------
 
-    uuid_col = data.frame (prob_UUID=rsprob@UUID)
+    uuid_col = data.frame (bip_rsp_UUID=rsprob@UUID)
     bipartite_metrics_from_bipartite_package =
         cbind (uuid_col, bipartite_metrics_from_bipartite_package)
 

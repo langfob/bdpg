@@ -590,7 +590,7 @@ compute_igraph_related_network_measures <-
     #===============================================================================
 
     bipartite_metrics_from_igraph_package_df =
-        data.frame (prob_UUID = rsprob@UUID,
+        data.frame (ig_rsp_UUID = rsprob@UUID,
                   ig_top = top,
                   ig_bottom = bottom,
                   ig_num_edges_m = m,
