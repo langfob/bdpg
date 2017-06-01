@@ -278,8 +278,15 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bp
 #-------------------------------------------------------------
 
     solution_vector_scores =
-        list (spp_rep_fracs = spp_rep_fracs,
+        list (
+                    #  These 2 are vectors, while all the rest in the
+                    #  solution_vector_scores list are scalars.
+                    #  Should I remove these 2 from this list?
+
+                spp_rep_fracs                        = spp_rep_fracs,
                 indices_of_spp_with_unmet_rep_frac = indices_of_spp_with_unmet_rep_frac,
+
+
 
                 num_spp_covered = num_spp_covered,
                 frac_spp_covered = frac_spp_covered,
