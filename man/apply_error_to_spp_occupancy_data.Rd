@@ -4,21 +4,19 @@
 \alias{apply_error_to_spp_occupancy_data}
 \title{Apply error to spp occ data}
 \usage{
-apply_error_to_spp_occupancy_data(parameters, cor_bpm, cor_num_PU_spp_pairs,
-  cor_num_PUs, cor_num_spp, bdpg_error_codes)
+apply_error_to_spp_occupancy_data(cor_num_PUs, cor_num_spp, cor_bpm,
+  FP_rates_matrix, FN_rates_matrix, bdpg_error_codes)
 }
 \arguments{
-\item{parameters}{list}
-
-\item{cor_bpm}{matrix}
-
-\item{cor_num_PU_spp_pairs}{integer}
-
 \item{cor_num_PUs}{integer}
 
 \item{cor_num_spp}{integer}
 
-\item{bdpg_error_codes}{list}
+\item{cor_bpm}{matrix}
+
+\item{bdpg_error_codes}{list of error names and corresponding error codes}
+
+\item{cor_num_PU_spp_pairs}{integer}
 }
 \value{
 Returns ret_vals_from_apply_errors list

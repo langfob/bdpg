@@ -7,15 +7,24 @@
 set_const_FP_and_FN_rates(parameters, bdpg_error_codes)
 }
 \arguments{
-\item{parameters}{list}
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
 
-\item{bdpg_error_codes}{list}
+\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 Returns FP_and_FN_const_rates list
 }
 \description{
-Set constant False Positive and False Negative error rates.
+Set the False Positive and False Negative error rate to either a
+given constant value or a constant value chosen from a uniform random
+distribution whose upper and lower bounds are given.
+}
+\details{
+As a result, the False
+Positive error rate for every PU/spp pair in the problem will be identical.
+The False Negative error rate for every PU/spp pair will also be identical
+but not necessarily the same value as the False Positive rate.
 }
 \section{Local Variable Structures and examples}{
 

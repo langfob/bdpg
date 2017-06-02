@@ -8,19 +8,23 @@ apply_const_error_to_spp_occupancy_data(bpm, FP_rates, FN_rates, num_PUs,
   num_spp, random_values, bdpg_error_codes)
 }
 \arguments{
-\item{bpm}{matrix}
+\item{bpm}{bipartite matrix; integer matrix with one row for each species
+and one column for each planning unit.  Each matrix entry specifies
+whether that species occupies that planning unit; 1 indicates the
+species does occupy the planning unit and 0 indicates it does not.
+Same as occ_matrix.}
 
 \item{FP_rates}{numeric vector}
 
 \item{FN_rates}{numeric vector}
 
-\item{num_PUs}{integer}
+\item{num_PUs}{integer number of planning units}
 
-\item{num_spp}{integer}
+\item{num_spp}{integer number of species in the problem}
 
 \item{random_values}{numeric vector}
 
-\item{bdpg_error_codes}{list}
+\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 Returns bpm matrix

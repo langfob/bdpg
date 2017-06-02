@@ -165,21 +165,35 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
     APP_prob_info@UUID_of_base_problem_that_has_err_added = Xu_bdprob_COR@UUID
 
+    ret_vals_from_build_const_err =
+        build_const_err_FP_and_FN_matrices (parameters,
+                                            Xu_bdprob_COR@bpm,     #cor_bpm,
+                                                        #cor_num_PU_spp_pairs,
+                                            Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
+                                            Xu_bdprob_COR@num_spp,     #cor_num_spp,
+                                            bdpg_error_codes)
+
+    APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
+    APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
+    APP_prob_info@match_error_counts     = ret_vals_from_build_const_err$match_error_counts
+    APP_prob_info@FP_const_rate          = ret_vals_from_build_const_err$FP_const_rate
+    APP_prob_info@FN_const_rate          = ret_vals_from_build_const_err$FN_const_rate
+
     ret_vals_from_apply_errors =
-        apply_error_to_spp_occupancy_data (parameters,
-                                         Xu_bdprob_COR@bpm,     #  cor_bpm,
-                                         Xu_bdprob_COR@num_PU_spp_pairs,     #  cor_num_PU_spp_pairs,
-                                         Xu_bdprob_COR@num_PUs,     #  cor_num_PUs,
-                                         Xu_bdprob_COR@num_spp,     #  cor_num_spp,
-                                         bdpg_error_codes)
+        apply_error_to_spp_occupancy_data (Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
+                                           Xu_bdprob_COR@num_spp,     #cor_num_spp,
+                                           Xu_bdprob_COR@bpm,         #cor_bpm,
+                                           ret_vals_from_build_const_err$FP_rates_matrix,     #FP_rates_matrix,
+                                           ret_vals_from_build_const_err$FN_rates_matrix,     #FN_rates_matrix,
+                                           bdpg_error_codes)
+        # apply_error_to_spp_occupancy_data (parameters,
+        #                                  Xu_bdprob_COR@bpm,     #  cor_bpm,
+        #                                  Xu_bdprob_COR@num_PU_spp_pairs,     #  cor_num_PU_spp_pairs,
+        #                                  Xu_bdprob_COR@num_PUs,     #  cor_num_PUs,
+        #                                  Xu_bdprob_COR@num_spp,     #  cor_num_spp,
+        #                                  bdpg_error_codes)
 
         #  Save the chosen error parameters to output later with results.
-
-    APP_prob_info@original_FP_const_rate = ret_vals_from_apply_errors$original_FP_const_rate
-    APP_prob_info@original_FN_const_rate = ret_vals_from_apply_errors$original_FN_const_rate
-    APP_prob_info@match_error_counts     = ret_vals_from_apply_errors$match_error_counts
-    APP_prob_info@FP_const_rate          = ret_vals_from_apply_errors$FP_const_rate
-    APP_prob_info@FN_const_rate          = ret_vals_from_apply_errors$FN_const_rate
 
 #THIS MAY DIFFER FROM COR IF A SPECIES IS MISSING IN APPARENT DATA?
 #NOT SURE WHAT ALL IT'S USED FOR THOUGH.  IF DIMENSIONING ARRAYS, IT

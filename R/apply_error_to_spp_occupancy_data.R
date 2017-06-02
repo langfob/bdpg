@@ -364,6 +364,67 @@ match_FP_and_FN_counts_to_smaller_of_the_two = function (num_TPs, num_TNs,
 
 #===============================================================================
 
+build_const_err_FP_and_FN_matrices <- function (parameters,
+                                                cor_bpm,
+                                                                    #cor_num_PU_spp_pairs,
+                                                cor_num_PUs,
+                                                cor_num_spp,
+                                                bdpg_error_codes)
+    {
+cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
+
+    FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters,
+                                                 bdpg_error_codes)
+
+    FP_const_rate = FP_and_FN_const_rates$FP_const_rate
+    FN_const_rate = FP_and_FN_const_rates$FN_const_rate
+
+    match_error_counts = FALSE
+    if (! is.null (parameters$match_error_counts))
+        match_error_counts = parameters$match_error_counts
+
+    if (match_error_counts)
+        {
+        num_TPs = sum (cor_bpm)
+        num_TNs = length (cor_bpm) - num_TPs
+
+        FP_FN_const_rate_pair =
+          match_FP_and_FN_counts_to_smaller_of_the_two (num_TPs, num_TNs,
+                                                        FP_const_rate,
+                                                        FN_const_rate)
+
+        FP_const_rate = FP_FN_const_rate_pair$FP_const_rate
+        FN_const_rate = FP_FN_const_rate_pair$FN_const_rate
+        }
+
+    FP_rates_matrix = matrix (rep (FP_const_rate, (cor_num_PUs * cor_num_spp)),
+                          nrow=cor_num_spp,
+                          ncol=cor_num_PUs,
+                          byrow=TRUE)
+
+    FN_rates_matrix = matrix (rep (FN_const_rate, (cor_num_PUs * cor_num_spp)),
+                          nrow=cor_num_spp,
+                          ncol=cor_num_PUs,
+                          byrow=TRUE)
+
+    ret_vals_from_build_const_err_FP_and_FN_matrices =
+        list (original_FP_const_rate    = FP_and_FN_const_rates$FP_const_rate,
+                original_FN_const_rate  = FP_and_FN_const_rates$FN_const_rate,
+                match_error_counts      = match_error_counts,
+                FP_const_rate           = FP_const_rate,
+                FN_const_rate           = FN_const_rate,
+#                app_PU_spp_pair_indices = app_PU_spp_pair_indices,
+#                app_spp_occupancy_data  = app_spp_occupancy_data,
+#                app_num_spp             = app_num_spp,
+#                app_num_PUs             = app_num_PUs,
+              FP_rates_matrix = FP_rates_matrix,
+              FN_rates_matrix = FN_rates_matrix)
+
+    return (ret_vals_from_build_const_err_FP_and_FN_matrices)
+    }
+
+#===============================================================================
+
 #-------------------------------------------------------------------------------
 
 #' Apply error to spp occ data
@@ -498,67 +559,44 @@ match_FP_and_FN_counts_to_smaller_of_the_two = function (num_TPs, num_TNs,
 
 #-------------------------------------------------------------------------------
 
-apply_error_to_spp_occupancy_data =
-        function (parameters, cor_bpm, cor_num_PU_spp_pairs,
-                  cor_num_PUs, cor_num_spp,
-                  bdpg_error_codes)
+apply_error_to_spp_occupancy_data <- function (cor_num_PUs,
+                                               cor_num_spp,
+                                               cor_bpm,
+                                               FP_rates_matrix,
+                                               FN_rates_matrix,
+                                               bdpg_error_codes)
     {
 cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
 
-    FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters,
-                                                       bdpg_error_codes)
+      random_values = matrix (runif (cor_num_PUs * cor_num_spp),
+                              nrow=cor_num_spp,
+                              ncol=cor_num_PUs,
+                              byrow=TRUE)
 
-    FP_const_rate = FP_and_FN_const_rates$FP_const_rate
-    FN_const_rate = FP_and_FN_const_rates$FN_const_rate
+          #--------------------------------------------------------------------
+          #  Ready to apply the errors now and create both the occupancy
+          #  matrix and the PU_spp_pair table.
+          #--------------------------------------------------------------------
 
-    match_error_counts = FALSE
-    if (! is.null (parameters$match_error_counts))
-        match_error_counts = parameters$match_error_counts
+      app_spp_occupancy_data =
+          apply_const_error_to_spp_occupancy_data (cor_bpm,
+                                                  FP_rates_matrix,
+                                                  FN_rates_matrix,
+                                                  cor_num_PUs,
+                                                  cor_num_spp,
+                                                  random_values,
+                                                  bdpg_error_codes)
 
-    if (match_error_counts)
-        {
-        num_TPs = sum (cor_bpm)
-        num_TNs = length (cor_bpm) - num_TPs
+      app_PU_spp_pair_indices =
+          build_PU_spp_pair_indices_from_occ_matrix (app_spp_occupancy_data,
+                                                      cor_num_PUs, cor_num_spp)
 
-        FP_FN_const_rate_pair =
-            match_FP_and_FN_counts_to_smaller_of_the_two (num_TPs, num_TNs,
-                                                          FP_const_rate,
-                                                          FN_const_rate)
 
-        FP_const_rate = FP_FN_const_rate_pair$FP_const_rate
-        FN_const_rate = FP_FN_const_rate_pair$FN_const_rate
-        }
 
-    FP_rates = matrix (rep (FP_const_rate, (cor_num_PUs * cor_num_spp)),
-                        nrow=cor_num_spp,
-                        ncol=cor_num_PUs,
-                        byrow=TRUE)
+#NEED TO _MEASURE_ and save THE RESULTING FP AND FN RATES to put in results !!
 
-    FN_rates = matrix (rep (FN_const_rate, (cor_num_PUs * cor_num_spp)),
-                        nrow=cor_num_spp,
-                        ncol=cor_num_PUs,
-                        byrow=TRUE)
 
-    random_values = matrix (runif (cor_num_PUs * cor_num_spp),
-                            nrow=cor_num_spp,
-                            ncol=cor_num_PUs,
-                            byrow=TRUE)
 
-        #--------------------------------------------------------------------
-        #  Ready to apply the errors now and create both the occupancy
-        #  matrix and the PU_spp_pair table.
-        #--------------------------------------------------------------------
-
-    app_spp_occupancy_data =
-        apply_const_error_to_spp_occupancy_data (cor_bpm,
-                                                FP_rates, FN_rates,
-                                                cor_num_PUs, cor_num_spp,
-                                                random_values,
-                                               bdpg_error_codes)
-
-    app_PU_spp_pair_indices =
-        build_PU_spp_pair_indices_from_occ_matrix (app_spp_occupancy_data,
-                                                    cor_num_PUs, cor_num_spp)
 
         #--------------------------------------------------------------------
         #  Make sure the spp and PU counts are still OK after adding error.
@@ -590,23 +628,24 @@ cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
         app_ct_error = TRUE
         }
 
-    if (app_ct_error)  stop()
+#    if (app_ct_error)  stop()
 
         #--------------------------------------------------------------------
 
-    ret_vals_from_apply_errors <-
-        list (original_FP_const_rate    = FP_and_FN_const_rates$FP_const_rate,
-                original_FN_const_rate  = FP_and_FN_const_rates$FN_const_rate,
-                match_error_counts      = match_error_counts,
-                FP_const_rate           = FP_const_rate,
-                FN_const_rate           = FN_const_rate,
+    ret_vals_from_apply_error_to_spp_occupancy_data <-
+        list (
+                # original_FP_const_rate    = FP_and_FN_const_rates$FP_const_rate,
+                # original_FN_const_rate  = FP_and_FN_const_rates$FN_const_rate,
+                # match_error_counts      = match_error_counts,
+                # FP_const_rate           = FP_const_rate,
+                # FN_const_rate           = FN_const_rate,
                 app_PU_spp_pair_indices = app_PU_spp_pair_indices,
                 app_spp_occupancy_data  = app_spp_occupancy_data,
                 app_num_spp             = app_num_spp,
                 app_num_PUs             = app_num_PUs)
 
 #docaids::doc_vars_in_this_func_once ()
-    return (ret_vals_from_apply_errors)
+    return (ret_vals_from_apply_error_to_spp_occupancy_data)
     }
 
 #===============================================================================

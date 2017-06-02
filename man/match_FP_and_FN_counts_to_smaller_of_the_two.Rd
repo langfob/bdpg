@@ -20,28 +20,20 @@ match_FP_and_FN_counts_to_smaller_of_the_two(num_TPs, num_TNs, FP_const_rate,
 Returns FP_FN_const_rate_pair list
 }
 \description{
-Usually, the number of TNs and TPs will be unbalanced.
+Usually, the number of TNs and TPs will be unbalanced (i.e., there will
+ usually be far more absences (TNs) than presences (TPs).
  Therefore, there will be far more opportunities to inject
  FPs than FNs or vice versa.
  Consequently, even if the FP and FN rates are set to the
  same value, there are likely to be far more FPs than FNs
- or vice versa in the apparent matrix.
- If you want to keep the opportunities for each of them
- to be more balanced, then you can multiply the dominant
- one by the lesser one's fraction of occurrence and
- reset the rate for the dominant so that both end up
- with the same counts.
+ or vice versa in the apparent matrix.  In many ecological cases, this would
+ yield an unreasonable number of False Positives since False Positives
+ are generally much less likely than False Negatives in field studies.
 }
 \details{
-Example: if there are
-      - 100 entries total
-      - 70 TNs
-      - 30 TPs
- and you want 0.1 probability of FN, then you should get
- approximately 3 FNs.  If you want the FPs to match the FNs,
- then x * 70 FPs must equal 3 FPs too.
- So, the multiplier x = 3 / 70 ~ 0.0429
- i.e., the adjusted_P(FP) = num_FNs / num_TNs
+So, this routine will adjust the error rate of the dominant value to
+ yield the same _count_ as the other, e.g., if TNs are dominant, then the
+ adjusted_P(FP) = num_FNs / num_TNs
 }
 \section{Local Variable Structures and examples}{
 
