@@ -547,29 +547,50 @@ cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
         build_PU_spp_pair_indices_from_occ_matrix (app_spp_occupancy_data,
                                                     cor_num_PUs, cor_num_spp)
 
+        #--------------------------------------------------------------------
+        #  Make sure the spp and PU counts are still OK after adding error.
+        #  This should never be a problem, but this check should be made
+        #  to avoid downstream errors where the counts are assumed to be
+        #  unchanged.
+        #  Also, check both counts before deciding whether to stop so that
+        #  you don't have to re-run everything to find out that both of
+        #  the counts were wrong.
+        #--------------------------------------------------------------------
+
     app_num_spp = length (unique (app_PU_spp_pair_indices [,"spp_ID"]))
     app_num_PUs = length (unique (app_PU_spp_pair_indices [,"PU_ID"]))
 
+    app_ct_error = FALSE
     if (app_num_spp != cor_num_spp)
+        {
         cat ("\n\nAfter adding error:  app_num_spp (", app_num_spp,
              ") now differs from original cor_num_spp (", cor_num_spp,
              ").")
+        app_ct_error = TRUE
+        }
 
     if (app_num_PUs != cor_num_PUs)
+        {
         cat ("\n\nAfter adding error:  app_num_PUs (", app_num_PUs,
              ") now differs from original cor_num_PUs (", cor_num_PUs,
              ").")
-#browser()
+        app_ct_error = TRUE
+        }
 
-    ret_vals_from_apply_errors <- list (original_FP_const_rate = FP_and_FN_const_rates$FP_const_rate,
-                  original_FN_const_rate = FP_and_FN_const_rates$FN_const_rate,
-                  match_error_counts = match_error_counts,
-                  FP_const_rate = FP_const_rate,
-                  FN_const_rate = FN_const_rate,
-                  app_PU_spp_pair_indices = app_PU_spp_pair_indices,
-                  app_spp_occupancy_data = app_spp_occupancy_data,
-                  app_num_spp = app_num_spp,
-                  app_num_PUs = app_num_PUs)
+    if (app_ct_error)  stop()
+
+        #--------------------------------------------------------------------
+
+    ret_vals_from_apply_errors <-
+        list (original_FP_const_rate    = FP_and_FN_const_rates$FP_const_rate,
+                original_FN_const_rate  = FP_and_FN_const_rates$FN_const_rate,
+                match_error_counts      = match_error_counts,
+                FP_const_rate           = FP_const_rate,
+                FN_const_rate           = FN_const_rate,
+                app_PU_spp_pair_indices = app_PU_spp_pair_indices,
+                app_spp_occupancy_data  = app_spp_occupancy_data,
+                app_num_spp             = app_num_spp,
+                app_num_PUs             = app_num_PUs)
 
 #docaids::doc_vars_in_this_func_once ()
     return (ret_vals_from_apply_errors)
