@@ -4,8 +4,6 @@
 
 #===============================================================================
 
-#-------------------------------------------------------------------------------
-
 #' Apply constant error to spp occ data
 #'
 #'  Walk through the occupancy matrix (PU vs spp) and randomly
@@ -16,6 +14,8 @@
 #'  flipped.  Update PU_spp_pair_indices at the end so that you don't
 #'  have to constantly resize this big array as you go along.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -64,13 +64,12 @@
 #' random_values :  num [1:1277, 1:407] 0.133 0.307 0.519 0.987 0.753 ...
 #' }}
 #'
-#' @param bpm matrix
+#-------------------------------------------------------------------------------
+
 #' @param FP_rates numeric vector
 #' @param FN_rates numeric vector
-#' @param num_PUs integer
-#' @param num_spp integer
 #' @param random_values numeric vector
-#' @param bdpg_error_codes list
+#' @inheritParams std_param_defns
 #'
 #' @return Returns bpm matrix
 
@@ -123,8 +122,17 @@ apply_const_error_to_spp_occupancy_data =
 
 #' Set constant FP and FN rates
 #'
-#' Set constant False Positive and False Negative error rates.
+#' Set the False Positive and False Negative error rate to either a
+#' given constant value or a constant value chosen from a uniform random
+#' distribution whose upper and lower bounds are given.
 #'
+#' As a result, the False
+#' Positive error rate for every PU/spp pair in the problem will be identical.
+#' The False Negative error rate for every PU/spp pair will also be identical
+#' but not necessarily the same value as the False Positive rate.
+#'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -170,8 +178,9 @@ apply_const_error_to_spp_occupancy_data =
 #' spp_occ_FP_error_type :  chr "CONSTANT"
 #' }}
 #'
-#' @param parameters list
-#' @param bdpg_error_codes list
+#-------------------------------------------------------------------------------
+
+#' @inheritParams std_param_defns
 #'
 #' @return Returns FP_and_FN_const_rates list
 
@@ -186,7 +195,7 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
     spp_occ_FP_error_type = parameters$spp_occ_FP_error_type
 
     FP_const_rate = NA
-    if (spp_occ_FP_error_type == "CONSTANT")
+    if (spp_occ_FP_error_type            == "CONSTANT")
         {
         FP_const_rate = parameters$spp_occ_FP_const_rate
 
@@ -197,7 +206,7 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
 
         FP_const_rate = runif (1, min=lower_bound, max=upper_bound)
 
-        } else  #  unknown type of error to add
+        } else                           #  unknown type of error to add
         {
         cat ("\n\nERROR: Unknown spp_occ_FP_error_type = '",
              spp_occ_FP_error_type, "'.\n", sep='')
@@ -211,7 +220,7 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
     spp_occ_FN_error_type = parameters$spp_occ_FN_error_type
 
     FN_const_rate = NA
-    if (spp_occ_FN_error_type == "CONSTANT")
+    if (spp_occ_FN_error_type            == "CONSTANT")
         {
         FN_const_rate = parameters$spp_occ_FN_const_rate
 
@@ -222,7 +231,7 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
 
         FN_const_rate = runif (1, min=lower_bound, max=upper_bound)
 
-        } else  #  unknown type of error to add
+        } else                           #  unknown type of error to add
         {
         cat ("\n\nERROR: Unknown spp_occ_FN_error_type = '",
              spp_occ_FN_error_type, "'.\n", sep='')
@@ -244,28 +253,22 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
 
 #'  Match FP and FN counts to smaller of the two
 #'
-#'  Usually, the number of TNs and TPs will be unbalanced.
+#'  Usually, the number of TNs and TPs will be unbalanced (i.e., there will
+#'  usually be far more absences (TNs) than presences (TPs).
 #'  Therefore, there will be far more opportunities to inject
 #'  FPs than FNs or vice versa.
 #'  Consequently, even if the FP and FN rates are set to the
 #'  same value, there are likely to be far more FPs than FNs
-#'  or vice versa in the apparent matrix.
-#'  If you want to keep the opportunities for each of them
-#'  to be more balanced, then you can multiply the dominant
-#'  one by the lesser one's fraction of occurrence and
-#'  reset the rate for the dominant so that both end up
-#'  with the same counts.
+#'  or vice versa in the apparent matrix.  In many ecological cases, this would
+#'  yield an unreasonable number of False Positives since False Positives
+#'  are generally much less likely than False Negatives in field studies.
 #'
-#'  Example: if there are
-#'       - 100 entries total
-#'       - 70 TNs
-#'       - 30 TPs
-#'  and you want 0.1 probability of FN, then you should get
-#'  approximately 3 FNs.  If you want the FPs to match the FNs,
-#'  then x * 70 FPs must equal 3 FPs too.
-#'  So, the multiplier x = 3 / 70 ~ 0.0429
-#'  i.e., the adjusted_P(FP) = num_FNs / num_TNs
+#'  So, this routine will adjust the error rate of the dominant value to
+#'  yield the same _count_ as the other, e.g., if TNs are dominant, then the
+#'  adjusted_P(FP) = num_FNs / num_TNs
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -301,6 +304,8 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
 #' \preformatted{
 #' num_TPs :  num 3037
 #' }}
+#-------------------------------------------------------------------------------
+
 #'
 #' @param num_TPs integer
 #' @param num_TNs integer
@@ -365,6 +370,8 @@ match_FP_and_FN_counts_to_smaller_of_the_two = function (num_TPs, num_TNs,
 #'
 #' Apply error to species occupancy data.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -479,12 +486,13 @@ match_FP_and_FN_counts_to_smaller_of_the_two = function (num_TPs, num_TNs,
 #'  $ app_num_PUs            : int 397
 #' }}
 #'
-#' @param parameters list
+#-------------------------------------------------------------------------------
+
 #' @param cor_bpm matrix
 #' @param cor_num_PU_spp_pairs integer
 #' @param cor_num_PUs integer
 #' @param cor_num_spp integer
-#' @param bdpg_error_codes list
+#' @inheritParams std_param_defns
 #'
 #' @return Returns ret_vals_from_apply_errors list
 
@@ -496,7 +504,7 @@ apply_error_to_spp_occupancy_data =
                   bdpg_error_codes)
     {
 cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
-#browser()
+
     FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters,
                                                        bdpg_error_codes)
 
@@ -535,6 +543,11 @@ cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
                             nrow=cor_num_spp,
                             ncol=cor_num_PUs,
                             byrow=TRUE)
+
+        #--------------------------------------------------------------------
+        #  Ready to apply the errors now and create both the occupancy
+        #  matrix and the PU_spp_pair table.
+        #--------------------------------------------------------------------
 
     app_spp_occupancy_data =
         apply_const_error_to_spp_occupancy_data (cor_bpm,
