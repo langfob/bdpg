@@ -182,24 +182,28 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
         #  Collect marxan results.
         #---------------------------
 
-                                            #  Guessing at these args for now...
-    marxan_output_values = read_COR_marxan_output_files (COR_marxan_run,
-                                                         COR_bd_prob,
-                                                         parameters)
-
-#docaids::doc_vars_in_this_func_once ()
-
-        #-----------------------------------------------
-        #  Dump all of the different kinds of results.
-        #-----------------------------------------------
-
+#                                             #  Guessing at these args for now...
+#     marxan_output_values = read_COR_marxan_output_files (COR_marxan_run,
+#                                                          COR_bd_prob,
+#                                                          parameters)
+#
+# #docaids::doc_vars_in_this_func_once ()
+#
+#         #-----------------------------------------------
+#         #  Dump all of the different kinds of results.
+#         #-----------------------------------------------
+#
+# #     save_rsrun_results_data_for_one_rsrun (parameters,
+# # #    build_full_output_df_for_one_RSrun (parameters,
+# #                                         COR_marxan_run,
+# #                                         COR_bd_prob
+# #                                         # ,
+# #                                         # parameters$run_ID
+# #                                         )
     save_rsrun_results_data_for_one_rsrun (parameters,
-#    build_full_output_df_for_one_RSrun (parameters,
-                                        COR_marxan_run,
-                                        COR_bd_prob
-                                        # ,
-                                        # parameters$run_ID
-                                        )
+                                              COR_marxan_run,
+                                              COR_bd_prob,
+                                              COR_bd_prob)
 
     if (FALSE)  #  2017 02 23 - BTL - rebuilding this code, so don't run it yet
     {
@@ -313,24 +317,28 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
         #  Collect marxan results.
         #---------------------------
 
-    marxan_output_values = read_APP_marxan_output_files (APP_marxan_run,
-                                                         APP_bd_prob,
-                                                         COR_bd_prob,
-                                                         parameters)
-
-#docaids::doc_vars_in_this_func_once ()
-
-        #-----------------------------------------------
-        #  Dump all of the different kinds of results.
-        #-----------------------------------------------
-
+#     marxan_output_values = read_APP_marxan_output_files (APP_marxan_run,
+#                                                          APP_bd_prob,
+#                                                          COR_bd_prob,
+#                                                          parameters)
+#
+# #docaids::doc_vars_in_this_func_once ()
+#
+#         #-----------------------------------------------
+#         #  Dump all of the different kinds of results.
+#         #-----------------------------------------------
+#
+# #     save_rsrun_results_data_for_one_rsrun (parameters,
+# # #    build_full_output_df_for_one_RSrun (parameters,
+# #                                         APP_marxan_run,
+# #                                         APP_bd_prob
+# #                                         # ,
+# #                                         # parameters$run_ID
+# #                                         )
     save_rsrun_results_data_for_one_rsrun (parameters,
-#    build_full_output_df_for_one_RSrun (parameters,
-                                        APP_marxan_run,
-                                        APP_bd_prob
-                                        # ,
-                                        # parameters$run_ID
-                                        )
+                                              APP_marxan_run,
+                                              COR_bd_prob,
+                                              APP_bd_prob)
 
     if (FALSE)  #  2017 02 23 - BTL - rebuilding this code, so don't run it yet
     {
