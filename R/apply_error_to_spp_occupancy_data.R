@@ -4,6 +4,8 @@
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Apply constant error to spp occ data
 #'
 #'  Walk through the occupancy matrix (PU vs spp) and randomly
@@ -72,6 +74,8 @@
 #'
 #' @return Returns bpm matrix
 
+#-------------------------------------------------------------------------------
+
 apply_const_error_to_spp_occupancy_data =
         function (bpm, FP_rates, FN_rates, num_PUs, num_spp,
                   random_values,   #  passing these in to make it easier to test
@@ -88,7 +92,7 @@ apply_const_error_to_spp_occupancy_data =
 #             cat ("\n[", cur_spp_row, ",",
 #                  cur_PU_col,
 #                  "]", sep='')
-            if (bpm [cur_spp_row, cur_PU_col])
+            if (bpm [cur_spp_row, cur_PU_col])    #  is this spp on this PU?
                 {
                     #  TP:  This species DOES exist on this planning unit.
                     #       Randomly choose whether to replace a given TP
@@ -114,6 +118,8 @@ apply_const_error_to_spp_occupancy_data =
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Set constant FP and FN rates
 #'
@@ -168,6 +174,8 @@ apply_const_error_to_spp_occupancy_data =
 #' @param bdpg_error_codes list
 #'
 #' @return Returns FP_and_FN_const_rates list
+
+#-------------------------------------------------------------------------------
 
 set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
     {
@@ -231,6 +239,8 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #'  Match FP and FN counts to smaller of the two
 #'
@@ -299,6 +309,8 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
 #'
 #' @return Returns FP_FN_const_rate_pair list
 
+#-------------------------------------------------------------------------------
+
 match_FP_and_FN_counts_to_smaller_of_the_two = function (num_TPs, num_TNs,
                                       FP_const_rate, FN_const_rate)
     {
@@ -346,6 +358,8 @@ match_FP_and_FN_counts_to_smaller_of_the_two = function (num_TPs, num_TNs,
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Apply error to spp occ data
 #'
@@ -473,6 +487,8 @@ match_FP_and_FN_counts_to_smaller_of_the_two = function (num_TPs, num_TNs,
 #' @param bdpg_error_codes list
 #'
 #' @return Returns ret_vals_from_apply_errors list
+
+#-------------------------------------------------------------------------------
 
 apply_error_to_spp_occupancy_data =
         function (parameters, cor_bpm, cor_num_PU_spp_pairs,
