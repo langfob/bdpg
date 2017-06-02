@@ -628,7 +628,9 @@ cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
         app_ct_error = TRUE
         }
 
-#    if (app_ct_error)  stop()
+2017 06 02 - BTL
+CRASHES HERE BECAUSE BOTH COUNTS ARE WRONG.  NEED TO FIGURE THIS OUT.
+    if (app_ct_error)  stop()
 
         #--------------------------------------------------------------------
 
