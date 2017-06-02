@@ -99,19 +99,17 @@
 #'
 #' @return list of solution vector scores
 
-compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bpm or app_bpm
+#===============================================================================
 
-                                                #  Identical args from here down
-                                                #  for cor and app.
-                                            num_PUs,
-                                            cand_sol_PU_IDs,
-                                            num_PUs_in_cand_solution,
-                                            num_PUs_in_optimal_solution,
-                                            spp_rep_targets,
-                                            num_spp,
-                                            input_err_FP = 0,
-                                            input_err_FN = 0)
+compute_and_verify_APP_rep_scores_according_to_bdpg <-
+    function (ref_spp_occ_matrix, cand_sol_PU_IDs, spp_rep_targets, num_spp)
     {
+    results_list = list()
+
+    #---------------------------------------------------------------------------
+    #           Apparent representation scores as computed by bdpg
+    #---------------------------------------------------------------------------
+
         #----------------------------------------------------------------------
         #  For each species, compute what fraction of its representation
         #  target has been met by the candidate solution's vector of PU_IDs.
@@ -138,131 +136,220 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bp
     frac_spp_covered = num_spp_covered  /  num_spp
     spp_rep_shortfall = 1  -  frac_spp_covered
 
-                    cat ("\n\n-------------------------------------------------------------------------")
-                    cat ("\nIn compute_solution_vector_scores(), SCORES AS COMPUTED BY BIODIVPROBGEN:")
-                    cat ("\n-------------------------------------------------------------------------")
+                    cat ("\n\n----------------------------------------------------------------")
+                    cat ("\nIn compute_solution_vector_scores(), SCORES AS COMPUTED BY BDPG:")
+                    cat ("\n----------------------------------------------------------------")
                     cat ("\nlength (indices_of_spp_with_unmet_rep_frac) = ",
                        length (indices_of_spp_with_unmet_rep_frac))
                     cat ("\nnum_spp_covered =", num_spp_covered)
                     cat ("\nfrac_spp_covered =", frac_spp_covered)
                     cat ("\nspp_rep_shortfall =", spp_rep_shortfall)
 
-        #-------------------------------------------------------------
-        #  Classification counts to base confusion matrix on
-        #-------------------------------------------------------------
 
-    num_cand_1s = num_PUs_in_cand_solution
-    num_cand_0s = num_PUs - num_cand_1s
+    #---------------------------------------------------------------------------
 
-    num_optimum_1s = num_PUs_in_optimal_solution
-    num_optimum_0s = num_PUs - num_optimum_1s
+        #  Apparent results as computed by Marxan
+    results_list$rsr_app_spp_rep_shortfall__fromBDPG                          = spp_rep_shortfall
+    results_list$rsr_app_solution_NUM_spp_covered__fromBDPG                   = num_spp_covered
+    results_list$rsr_app_solution_FRAC_spp_covered__fromBDPG                  = frac_spp_covered
 
-        #-------------------------------------------------------------
-        #  Confusion matrix fractions
-        #
-        #  Note that the TP and TN values are computed as the min
-        #  of the candidate and correct values.
-        #  This is because the number of "trues" for the candidate
-        #  can't exceed the number of "trues" in the correct
-        #  solution by definition.
-        #  Similarly, any count of TP or TN that falls short of the
-        #  corresponding counts in the correct solution represents
-        #  the number of TP or TN that the candidate got right and
-        #  using the number of TP or TN from the correct would
-        #  overstate the candidate's performance.
-        #-------------------------------------------------------------
 
-    TP = min (num_cand_1s, num_optimum_1s) / num_PUs
-    TN = min (num_cand_0s, num_optimum_0s) / num_PUs
-    FP = max (0, num_cand_1s - num_optimum_1s) / num_PUs
-    FN = max (0, num_cand_0s - num_optimum_0s) / num_PUs
+                #     #  These 2 are vectors, while all the rest in the
+                #     #  solution_vector_scores list are scalars.
+                #     #  Should I remove these 2 from this list?
+                #
+                # spp_rep_fracs                        = spp_rep_fracs,
+                # indices_of_spp_with_unmet_rep_frac = indices_of_spp_with_unmet_rep_frac,
+#
+#                 num_spp_covered = num_spp_covered,
+#                 frac_spp_covered = frac_spp_covered,
+#                 spp_rep_shortfall = spp_rep_shortfall,
 
-        #-------------------------------------------------------------
-        #  Base evaluation measures over the confusion matrix
-        #-------------------------------------------------------------
-        #  These, particularly sensitivity and specificity, are
-        #  the ingredients for many other compound measures
-        #  such as TSS.
-        #  I'm preceding their names with "c" to indicate that
-        #  they are with respect to 0/1 classification of the
-        #  PUs.
-        #  I'm doing this because I am also experimenting with
-        #  some other compound measures that have the same algebraic
-        #  form, but different constituents, e.g., a pseudo-TSS
-        #  based on cost savings and species representation
-        #  shortfall instead of classifications.
-        #  I will precede this experimental measures with
-        #-------------------------------------------------------------
 
-        #  cSe = sensitivity = fraction of correct presences (1's) predicted
-    cSe = TP / (TP + FN)
-        #  cSp = specificity = fraction of correct absences (0's) predicted
-    cSp = TN / (TN + FP)
-        #  cPPV = fraction of predicted presences (1's) that are correct
-    cPPV = TP / (TP + FP)
-        #  cNPV = fraction of predicted absences (0's) that are correct
-    cNPV = TN / (TN + FN)
 
-        #-------------------------------------------------------------
-        #  Common, simple compound measures
-        #-------------------------------------------------------------
+    return (results_list)
+    }
 
-    acc_frac = TP + TN
-    acc_err_frac = 1 - acc_frac
+#===============================================================================
 
-    cost_savings = 1 - (num_cand_1s / num_PUs)
-    opt_cost_savings = 1 - (num_optimum_1s / num_PUs)
+# compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bpm or app_bpm
+#
+#                                                 #  Identical args from here down
+#                                                 #  for cor and app.
+#                                             num_PUs,
+#                                             cand_sol_PU_IDs,
+#                                             num_PUs_in_cand_solution,
+#                                             num_PUs_in_optimal_solution,
+#                                             spp_rep_targets,
+#                                             num_spp,
+#                                             input_err_FP = 0,
+#                                             input_err_FN = 0)
+#     {
+#
+#
+#     #     #----------------------------------------------------------------------
+#     #     #  For each species, compute what fraction of its representation
+#     #     #  target has been met by the candidate solution's vector of PU_IDs.
+#     #     #  If the ref_spp_occ_matrix is the app_bpm, then the result will
+#     #     #  be the representation fraction that the candidate solution APPEARS
+#     #     #  to meet.  If the ref_spp_occ_matrix is the cor_bpm, then the
+#     #     #  result will be the representation fraction actually achieved by
+#     #     #  the candidate solution.
+#     #     #----------------------------------------------------------------------
+#     #
+#     # spp_rep_fracs = compute_rep_fraction (ref_spp_occ_matrix,
+#     #                                       cand_sol_PU_IDs,
+#     #                                       spp_rep_targets)
+#     #
+#     #
+#     #     #------------------------------------------------------------------
+#     #     #  Compute what fraction of all the species (appear to) have met
+#     #     #  their target.
+#     #     #  A representation fraction of 1 implies that the target is met.
+#     #     #------------------------------------------------------------------
+#     #
+#     # indices_of_spp_with_unmet_rep_frac =  which (spp_rep_fracs < 1)
+#     # num_spp_covered = num_spp  -  length (indices_of_spp_with_unmet_rep_frac)
+#     # frac_spp_covered = num_spp_covered  /  num_spp
+#     # spp_rep_shortfall = 1  -  frac_spp_covered
+#     #
+#     #                 cat ("\n\n-------------------------------------------------------------------------")
+#     #                 cat ("\nIn compute_solution_vector_scores(), SCORES AS COMPUTED BY BIODIVPROBGEN:")
+#     #                 cat ("\n-------------------------------------------------------------------------")
+#     #                 cat ("\nlength (indices_of_spp_with_unmet_rep_frac) = ",
+#     #                    length (indices_of_spp_with_unmet_rep_frac))
+#     #                 cat ("\nnum_spp_covered =", num_spp_covered)
+#     #                 cat ("\nfrac_spp_covered =", frac_spp_covered)
+#     #                 cat ("\nspp_rep_shortfall =", spp_rep_shortfall)
+#     #
 
-    TSS = cSe + cSp - 1
-    max_cSe_cSp = max (cSe, cSp)
-    min_cSe_cSp = min (cSe, cSp)
-    mean_cSe_cSp = (cSe + cSp) / 2
-    prod_cSe_cSp = cSe * cSp
-    euc_cSe_cSp = sqrt (cSe^2 + cSp^2) / sqrt (2)
 
-    #--------------------
 
-        #-------------------------------------------------------------
-        #  Error magnification with respect to input errors
-        #  added in experiments.
-        #  I base the magnfication on the larger of the two input
-        #  errors to make the magnification more conservative,
-        #  a little less sensational.
-        #-------------------------------------------------------------
+compute_confusion_matrix_based_scores <- function (num_PUs_in_cand_solution,
+                                                    num_PUs,
+                                                    num_PUs_in_optimal_solution,
+                                                  frac_spp_covered,
+                                                    input_err_FP = 0,
+                                                    input_err_FN = 0
+                                                    )
+    {
+          #-------------------------------------------------------------
+          #  Classification counts to base confusion matrix on
+          #-------------------------------------------------------------
 
-    mag_base = max (input_err_FP, input_err_FN)
-    if (mag_base == 0)
-        {
-        acc_err_mag = NA
+      num_cand_1s = num_PUs_in_cand_solution
+      num_cand_0s = num_PUs - num_cand_1s
 
-        } else
-        {
-        acc_err_mag = acc_err_frac / mag_base
-        }
+      num_optimum_1s = num_PUs_in_optimal_solution
+      num_optimum_0s = num_PUs - num_optimum_1s
 
-    #--------------------
+          #-------------------------------------------------------------
+          #  Confusion matrix fractions
+          #
+          #  Note that the TP and TN values are computed as the min
+          #  of the candidate and correct values.
+          #  This is because the number of "trues" for the candidate
+          #  can't exceed the number of "trues" in the correct
+          #  solution by definition.
+          #  Similarly, any count of TP or TN that falls short of the
+          #  corresponding counts in the correct solution represents
+          #  the number of TP or TN that the candidate got right and
+          #  using the number of TP or TN from the correct would
+          #  overstate the candidate's performance.
+          #-------------------------------------------------------------
 
-        #-------------------------------------------------------------
-        #  Experimental compound measures
-        #-------------------------------------------------------------
+      TP = min (num_cand_1s, num_optimum_1s) / num_PUs
+      TN = min (num_cand_0s, num_optimum_0s) / num_PUs
+      FP = max (0, num_cand_1s - num_optimum_1s) / num_PUs
+      FN = max (0, num_cand_0s - num_optimum_0s) / num_PUs
 
-    pseudoTSS = TSS + frac_spp_covered - 1
-    pseudo2TSS = TSS + (frac_spp_covered^2) - 1
+          #-------------------------------------------------------------
+          #  Base evaluation measures over the confusion matrix
+          #-------------------------------------------------------------
+          #  These, particularly sensitivity and specificity, are
+          #  the ingredients for many other compound measures
+          #  such as TSS.
+          #  I'm preceding their names with "c" to indicate that
+          #  they are with respect to 0/1 classification of the
+          #  PUs.
+          #  I'm doing this because I am also experimenting with
+          #  some other compound measures that have the same algebraic
+          #  form, but different constituents, e.g., a pseudo-TSS
+          #  based on cost savings and species representation
+          #  shortfall instead of classifications.
+          #  I will precede this experimental measures with
+          #-------------------------------------------------------------
 
-    acc_TSS = acc_frac + frac_spp_covered - 1
-    acc2_TSS = acc_frac + (frac_spp_covered^2) - 1
+          #  cSe = sensitivity = fraction of correct presences (1's) predicted
+      cSe = TP / (TP + FN)
+          #  cSp = specificity = fraction of correct absences (0's) predicted
+      cSp = TN / (TN + FP)
+          #  cPPV = fraction of predicted presences (1's) that are correct
+      cPPV = TP / (TP + FP)
+          #  cNPV = fraction of predicted absences (0's) that are correct
+      cNPV = TN / (TN + FN)
 
-    savings_TSS = cost_savings + frac_spp_covered - 1
-    savings2_TSS = cost_savings + (frac_spp_covered^2) - 1
+          #-------------------------------------------------------------
+          #  Common, simple compound measures
+          #-------------------------------------------------------------
 
-    savings_TSS_opt = opt_cost_savings
-    savings2_TSS_opt = opt_cost_savings
+      acc_frac = TP + TN
+      acc_err_frac = 1 - acc_frac
 
-    diff_savings_TSS = savings_TSS_opt - savings_TSS
-    diff_savings2_TSS = savings2_TSS_opt - savings2_TSS
+      cost_savings = 1 - (num_cand_1s / num_PUs)
+      opt_cost_savings = 1 - (num_optimum_1s / num_PUs)
 
-    ratio_savings_TSS = savings_TSS_opt / savings_TSS
-    ratio_savings2_TSS = savings2_TSS_opt / savings2_TSS
+      TSS = cSe + cSp - 1
+      max_cSe_cSp = max (cSe, cSp)
+      min_cSe_cSp = min (cSe, cSp)
+      mean_cSe_cSp = (cSe + cSp) / 2
+      prod_cSe_cSp = cSe * cSp
+      euc_cSe_cSp = sqrt (cSe^2 + cSp^2) / sqrt (2)
+
+      #--------------------
+
+          #-------------------------------------------------------------
+          #  Error magnification with respect to input errors
+          #  added in experiments.
+          #  I base the magnfication on the larger of the two input
+          #  errors to make the magnification more conservative,
+          #  a little less sensational.
+          #-------------------------------------------------------------
+
+      mag_base = max (input_err_FP, input_err_FN)
+      if (mag_base == 0)
+          {
+          acc_err_mag = NA
+
+          } else
+          {
+          acc_err_mag = acc_err_frac / mag_base
+          }
+
+      #--------------------
+
+          #-------------------------------------------------------------
+          #  Experimental compound measures
+          #-------------------------------------------------------------
+
+      pseudoTSS = TSS + frac_spp_covered - 1
+      pseudo2TSS = TSS + (frac_spp_covered^2) - 1
+
+      acc_TSS = acc_frac + frac_spp_covered - 1
+      acc2_TSS = acc_frac + (frac_spp_covered^2) - 1
+
+      savings_TSS = cost_savings + frac_spp_covered - 1
+      savings2_TSS = cost_savings + (frac_spp_covered^2) - 1
+
+      savings_TSS_opt = opt_cost_savings
+      savings2_TSS_opt = opt_cost_savings
+
+      diff_savings_TSS = savings_TSS_opt - savings_TSS
+      diff_savings2_TSS = savings2_TSS_opt - savings2_TSS
+
+      ratio_savings_TSS = savings_TSS_opt / savings_TSS
+      ratio_savings2_TSS = savings2_TSS_opt / savings2_TSS
+#        }
 
         #-------------------------------------------------------------
         # Measures still missing:
@@ -277,21 +364,8 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bp
 
 #-------------------------------------------------------------
 
-    solution_vector_scores =
+    results_list =
         list (
-                    #  These 2 are vectors, while all the rest in the
-                    #  solution_vector_scores list are scalars.
-                    #  Should I remove these 2 from this list?
-
-                spp_rep_fracs                        = spp_rep_fracs,
-                indices_of_spp_with_unmet_rep_frac = indices_of_spp_with_unmet_rep_frac,
-
-
-
-                num_spp_covered = num_spp_covered,
-                frac_spp_covered = frac_spp_covered,
-                spp_rep_shortfall = spp_rep_shortfall,
-
                 TP = TP,
                 TN = TN,
                 FP = FP,
@@ -319,7 +393,7 @@ compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bp
 
 docaids::doc_vars_in_this_func_once ()
 
-    return (solution_vector_scores)
+    return (results_list)
     }
 
 #===============================================================================

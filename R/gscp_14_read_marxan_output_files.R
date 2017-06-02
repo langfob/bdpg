@@ -550,6 +550,63 @@ read_APP_marxan_output_files <- function (rsrun,
 
 #===============================================================================
 
+    #  Moved this code out into a separate function because it doesn't
+    #  return anything.  It's only used for some verification and
+    #  plotting side effects.
+    #  BTL - 2017 06 01
+
+find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP <-
+        function (marxan_output_dir_path,
+                  num_spp,
+                  cor_PU_costs,
+                  cor_bpm,
+                  app_bpm,
+            marxan_best_df_sorted,
+                  plot_output_dir,
+                  largest_PU_ID,
+                  largest_spp_ID,
+                  targets,
+                  marxan_top_dir,
+            marxan_ssoln_df_sorted_by_PU,
+                  correct_solution_cost
+                  #   ,
+                  # app_optimum_cost
+                )
+    {
+    marxan_best_df_sorted_as_vector = as.vector (t(marxan_best_df_sorted [,"SOLUTION"]))
+    find_best_marxan_solutions (marxan_output_dir_path,
+  #                                num_PUs,     #  should this be largest_PU_ID?
+                                  num_spp,     #  should this be largest_spp_ID?
+                                  cor_PU_costs,
+                                  cor_bpm,
+                                  app_bpm,
+                                  marxan_best_df_sorted_as_vector,
+                                  plot_output_dir,
+
+                                  largest_PU_ID,
+                                  largest_spp_ID,
+
+                                  targets,
+
+                                  marxan_top_dir
+                                  )
+
+
+          # Plot how marxan is actually doing vs. how it thinks it's doing
+    app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)
+    plot_incremental_marxan_summed_solution_reps_for_COR_and_APP (marxan_ssoln_df_sorted_by_PU,
+                                                                      cor_PU_costs,
+                                                                      correct_solution_cost,
+                                                                      app_optimum_cost,
+                                                                      cor_bpm,
+                                                                      app_bpm,
+                                                                      num_spp,
+                                                                      plot_output_dir
+                                                                      )
+    }
+
+#===============================================================================
+
 #'  Read various marxan outputs into this program.
 #'
 #'  Should include these in the marxan package.
@@ -679,25 +736,27 @@ read_APP_marxan_output_files <- function (rsrun,
 #'
 #' @return Returns list
 
+# read_marxan_output_files <- function (marxan_output_dir_path,
+#                         all_correct_node_IDs,
+#                                 #num_PUs,
+#                                         num_spp,
+#                                         cor_bpm,
+#                                         plot_output_dir,
+#                                         parameters,
+#                                         app_bpm,
+#
+#                                         cor_PU_costs,
+#                                         correct_solution_cost,
+#
+#                                         largest_PU_ID,
+#                                         largest_spp_ID,
+#
+#                                         targets,
+#
+#                                         marxan_top_dir
+#                                       )
 read_marxan_output_files <- function (marxan_output_dir_path,
-                                        all_correct_node_IDs,
-                                #num_PUs,
-                                        num_spp,
-                                        cor_bpm,
-                                        plot_output_dir,
-                                        parameters,
-                                        app_bpm,
-
-                                        cor_PU_costs,
-                                        correct_solution_cost,
-
-                                        largest_PU_ID,
-                                        largest_spp_ID,
-
-                                        targets,
-
-                                        marxan_top_dir
-                                      )
+                                      all_correct_node_IDs)
     {
     marxan_best_df_sorted <-
         load_marxan_best_df_from_file_and_sort_and_add_missing_PUs (marxan_output_dir_path,
@@ -713,7 +772,7 @@ read_marxan_output_files <- function (marxan_output_dir_path,
 #                                 cor_PU_costs,
 #                                 cor_bpm,
 #                                 app_bpm,
-#                                 marxan_best_df_sorted_as_vector,
+#                                 #marxan_best_df_sorted_as_vector,
 #                                 plot_output_dir,
 #
 #                                 largest_PU_ID,
@@ -731,34 +790,20 @@ read_marxan_output_files <- function (marxan_output_dir_path,
         load_marxan_ssoln_df_from_file_and_sort_by_PU (marxan_output_dir_path,
                                                        all_correct_node_IDs)
 
-    find_best_marxan_solutions (marxan_output_dir_path,
-#                                num_PUs,     #  should this be largest_PU_ID?
-                                num_spp,     #  should this be largest_spp_ID?
-                                cor_PU_costs,
-                                cor_bpm,
-                                app_bpm,
-                                marxan_best_df_sorted_as_vector,
-                                plot_output_dir,
-
-                                largest_PU_ID,
-                                largest_spp_ID,
-
-                                targets,
-
-                                marxan_top_dir
-                                )
-
-
-        # Plot how marxan is actually doing vs. how it thinks it's doing
-    plot_incremental_marxan_summed_solution_reps_for_COR_and_APP (marxan_ssoln_df_sorted_by_PU,
-                                                                    cor_PU_costs,
-                                                                    correct_solution_cost,
-                                                                    app_optimum_cost,
-                                                                    cor_bpm,
-                                                                    app_bpm,
-                                                                    num_spp,
-                                                                    plot_output_dir
-                                                                    )
+    #     #  Moving this code out into a separate function because it doesn't
+    #     #  return anything.  It's only used for some verification and
+    #     #  plotting side effects.
+    #     #  BTL - 2017 06 01
+    #
+    # find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
+    #     marxan_output_dir_path, num_spp, cor_PU_costs, cor_bpm, app_bpm,
+    #     #marxan_best_df_sorted_as_vector,
+    #     plot_output_dir, largest_PU_ID,
+    #     largest_spp_ID, targets, marxan_top_dir, marxan_ssoln_df_sorted_by_PU,
+    #     correct_solution_cost
+    #     #,
+    #     #app_optimum_cost
+    #     )
 
   #---------------------------------
 

@@ -291,7 +291,7 @@ results_list$rsp_num_independent_nodes_per_group                                
 
 #===============================================================================
 
-compute_and_verify_APP_scores_according_to_RS_marxan_sa <-
+compute_and_verify_APP_rep_scores_according_to_RS_marxan_sa <-
     function (marxan_mvbest_df, num_spp)
     {
     results_list = list()
@@ -304,7 +304,7 @@ compute_and_verify_APP_scores_according_to_RS_marxan_sa <-
       #             )
 
     #---------------------------------------------------------------------------
-    #               Apparent scores as computed by marxan
+    #           Apparent representation scores as computed by marxan
     #---------------------------------------------------------------------------
 
     app_solution_NUM_spp_covered__fromMarxan  = sum (marxan_mvbest_df$MPM)
@@ -312,9 +312,9 @@ compute_and_verify_APP_scores_according_to_RS_marxan_sa <-
     app_solution_FRAC_spp_covered__fromMarxan = app_solution_NUM_spp_covered__fromMarxan / num_spp
     app_spp_rep_shortfall__fromMarxan         = 1 - app_solution_FRAC_spp_covered__fromMarxan
 
-      cat ("\n\n----------------------------------")
-      cat ("\nAPP_ VALUES AS COMPUTED BY MARXAN:")
-      cat ("\n----------------------------------")
+      cat ("\n\n--------------------------------------")
+      cat ("\nAPP_ REP VALUES AS COMPUTED BY MARXAN:")
+      cat ("\n--------------------------------------")
       cat ("\napp_solution_NUM_spp_covered__fromMarxan =", app_solution_NUM_spp_covered__fromMarxan)
       cat ("\napp_solution_FRAC_spp_covered__fromMarxan =", app_solution_FRAC_spp_covered__fromMarxan)
       cat ("\napp_spp_rep_shortfall__fromMarxan =", app_spp_rep_shortfall__fromMarxan)
@@ -326,14 +326,26 @@ compute_and_verify_APP_scores_according_to_RS_marxan_sa <-
     results_list$rsr_app_solution_NUM_spp_covered__fromMarxan                   = app_solution_NUM_spp_covered__fromMarxan
     results_list$rsr_app_solution_FRAC_spp_covered__fromMarxan                  = app_solution_FRAC_spp_covered__fromMarxan
 
-    #---------------------------------------------------------------------------
-
-    # write_results_to_files (as.data.frame (results_list),
-    #                         parameters,
-    #                         cur_result_row)    #  Added 2016 03 28 - BTL.
-
     return (results_list)
     }
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+    #  This routine is a placeholder for something more generic to be
+    #  developed later when there is more than one reserve selector.
+    #  It's just a reminder that the work will need to be done at some point.
+    #  2017 06 01 - BTL
+
+compute_and_verify_APP_rep_scores_according_to_RS <-
+    function (marxan_mvbest_df, num_spp)
+        {
+        results_list =
+            compute_and_verify_APP_rep_scores_according_to_RS_marxan_sa (
+                marxan_mvbest_df, num_spp)
+
+        return (results_list)
+        }
 
 #===============================================================================
 
@@ -754,28 +766,30 @@ document_solutions_df <- function ()
 
 #===============================================================================
 
-summarize_RS_solution_features <- function ()
+summarize_RS_solution_scores <- function (#marxan_best_solution_PU_IDs,
+                                          cor_solution_vector,
+                                          marxan_best_num_patches_in_solution)
     {
 
     #---------------------------------------------------------------------------
     #               Summarize marxan solution features.
     #---------------------------------------------------------------------------
 
-    cor_num_patches_in_solution = sum (cor_solution_vector)
-
-      #cor_num_patches_in_solution = cor_optimum_cost    #  assuming cost = number of patches
-      cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
-      #  Find which PUs marxan chose for its best solution.
-    marxan_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
-
       #  Compute error in cost of best marxan solution.
       #  Assumes equal cost for all patches, i.e., cost per patch = 1.
-    marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
-      cat ("\nmarxan_best_num_patches_in_solution =", marxan_best_num_patches_in_solution)
-    marxan_best_solution_cost_err_frac = (marxan_best_num_patches_in_solution - cor_num_patches_in_solution) / cor_num_patches_in_solution
-    abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
-      cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
-      cat ("\nabs_marxan_best_solution_cost_err_frac =", abs_marxan_best_solution_cost_err_frac)
+
+    # marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
+    #   cat ("\nmarxan_best_num_patches_in_solution =", marxan_best_num_patches_in_solution)
+
+      cor_num_patches_in_solution = sum (cor_solution_vector)
+        #cor_num_patches_in_solution = cor_optimum_cost    #  assuming cost = number of patches
+        cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
+
+      marxan_best_solution_cost_err_frac = (marxan_best_num_patches_in_solution - cor_num_patches_in_solution) / cor_num_patches_in_solution
+        cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
+
+      abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
+        cat ("\nabs_marxan_best_solution_cost_err_frac =", abs_marxan_best_solution_cost_err_frac)
     }
 
 #===============================================================================
@@ -1139,7 +1153,7 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
                                         #       problems.  ***
 
     document_solutions_df ()
-    summarize_RS_solution_features ()
+    summarize_RS_solution_scores ()
     compute_and_verify_APP_scores_according_to_RS ()
     compute_and_verify_APP_scores_according_to_bdpg ()
     compute_and_verify_COR_scores_according_to_bdpg ()
@@ -1755,25 +1769,338 @@ read_igraph_measures_list <- function (rsprob, exp_root_dir)
 
 #-------------------------------------------------------------------------------
 
-build_and_write_CLS_scores_list <- function (rsrun)
+# build_and_write_REP_scores_list <- function (  #rsrun,
+#                                              marxan_mvbest_df,
+#                                              marxan_best_df_sorted,
+#                                              num_spp,
+#                                              cor_bpm,
+#                                              app_bpm,
+#                                              spp_rep_targets)
+#     {
+# #    results_list = list (rep1=500, rep2=501, rep3=502)
+#
+# #    document_solutions_df ()
+#
+#
+# #  read marxan output files before calling this routine (to get mvbest)?
+#
+#
+#         #  Find which PUs the reserve selector (marxan only, for now)
+#         #  chose for its best solution.
+#
+#     rs_best_solution_PU_IDs = which (marxan_best_df_sorted$SOLUTION > 0)
+#
+#     app_rs_solution_summary_scores_list =
+#         summarize_RS_solution_scores (rs_best_solution_PU_IDs)
+#
+#     #----------
+#
+#     cor_rep_scores_list_according_to_bdpg =
+#         compute_and_verify_APP_rep_scores_according_to_bdpg (cor_bpm,
+#                                                              rs_best_solution_PU_IDs,
+#                                                              spp_rep_targets,
+#                                                              num_spp)
+#
+#     app_rep_scores_list_according_to_bdpg =
+#         compute_and_verify_APP_rep_scores_according_to_bdpg (app_bpm,
+#                                                              rs_best_solution_PU_IDs,
+#                                                              spp_rep_targets,
+#                                                              num_spp)
+#
+#     #----------
+#
+#     app_rep_scores_list_according_to_RS =
+#         compute_and_verify_APP_rep_scores_according_to_RS (marxan_mvbest_df,
+#                                                            num_spp)
+#
+#     #----------
+#
+#     results_list = c (app_rs_solution_summary_scores_list,
+#                       cor_rep_scores_list_according_to_bdpg,
+#                       app_rep_scores_list_according_to_bdpg,
+#                       app_rep_scores_list_according_to_RS)
+#
+#     return (results_list)
+#     }
+
+#-------------------------------------------------------------------------------
+
+#     # confusion_matrix_based_scores_list           =
+#     #     build_and_write_confusion_matrix_based_scores_list (rsrun,
+#     #                                                         marxan_best_num_patches_in_solution,    #num_PUs_in_cand_solution,
+#     #                                                         num_PUs,
+#     #                                                         cor_num_patches_in_solution,            #num_PUs_in_optimal_solution,
+#     #                                                         cor_rep_scores_list$frac_spp_covered,   #frac_spp_covered,
+#     #                                                         app_rep_scores_list$frac_spp_covered,   #frac_spp_covered,
+#     #                                                         FP_const_rate,                          #input_err_FP = 0,
+#     #                                                         FN_const_rate
+#     #                                                         )
+#
+# build_and_write_confusion_matrix_based_scores_list <-
+#     function (rsrun,
+#                 marxan_best_num_patches_in_solution,    #num_PUs_in_cand_solution,
+#                 num_PUs,
+#                 cor_num_patches_in_solution,            #num_PUs_in_optimal_solution,
+#                 cor_frac_spp_covered,                   #cor_rep_scores_list$frac_spp_covered,  #frac_spp_covered,
+#                 app_frac_spp_covered,                   #app_rep_scores_list$frac_spp_covered,  #frac_spp_covered,
+#                 FP_const_rate,                          #input_err_FP = 0,
+#                 FN_const_rate
+#                 )
+#     {
+# #    results_list = list (cls1=400, cls2=401)
+#
+#     #----------
+#
+# # app_results_list = compute_solution_vector_scores (app_bpm = ref_spp_occ_matrix, ...
+#
+#     app_confusion_matrix_based_error_measures_list =
+#         compute_confusion_matrix_based_scores (marxan_best_num_patches_in_solution,    #num_PUs_in_cand_solution,
+#                                                 num_PUs,
+#                                                 cor_num_patches_in_solution,           #num_PUs_in_optimal_solution,
+#                                                 app_rep_scores_list$frac_spp_covered,  #frac_spp_covered,
+#                                                 FP_const_rate,                         #input_err_FP = 0,
+#                                                 FN_const_rate                          #input_err_FN = 0,
+#                                                )
+#
+#     #----------
+#
+#     results_list = c (cor_confusion_matrix_based_error_measures_list,
+#                       app_confusion_matrix_based_error_measures_list
+#                      )
+#
+#     return (results_list)
+#     }
+#
+#     #----------
+#
+# # app_results_list = compute_solution_vector_scores (app_bpm = ref_spp_occ_matrix, ...
+#
+#     app_confusion_matrix_based_error_measures_list =
+#         compute_confusion_matrix_based_scores (marxan_best_num_patches_in_solution,    #num_PUs_in_cand_solution,
+#                                                 num_PUs,
+#                                                 cor_num_patches_in_solution,           #num_PUs_in_optimal_solution,
+#                                                 app_rep_scores_list$frac_spp_covered,  #frac_spp_covered,
+#                                                 FP_const_rate,                         #input_err_FP = 0,
+#                                                 FN_const_rate                          #input_err_FN = 0,
+#                                                )
+
+#-------------------------------------------------------------------------------
+
+#         # build_and_write_COR_scores_list (
+#         # cor_bpm, rs_best_solution_PU_IDs, spp_rep_targets, num_spp,
+#         # marxan_best_num_patches_in_solution, num_PUs,
+#         # cor_num_patches_in_solution, cor_rep_scores_list,
+#         # FP_const_rate, FN_const_rate)
+#
+# build_and_write_COR_scores_list <-
+#     function (rsrun,
+#                 marxan_best_num_patches_in_solution,    #num_PUs_in_cand_solution,
+#                 num_PUs,
+#                 cor_num_patches_in_solution,            #num_PUs_in_optimal_solution,
+#                 cor_frac_spp_covered,                   #cor_rep_scores_list$frac_spp_covered,  #frac_spp_covered,
+#                 app_frac_spp_covered,                   #app_rep_scores_list$frac_spp_covered,  #frac_spp_covered,
+#                 FP_const_rate,                          #input_err_FP = 0,
+#                 FN_const_rate
+#                 )
+#     {
+# #    results_list = list (cls1=400, cls2=401)
+#
+#     #----------
+#
+#       cor_rep_scores_list_according_to_bdpg =
+#   #        compute_and_verify_APP_rep_scores_according_to_bdpg (cor_bpm,
+#           compute_and_verify_COR_rep_scores_according_to_bdpg (cor_bpm,
+#                                                                rs_best_solution_PU_IDs,
+#                                                                spp_rep_targets,
+#                                                                num_spp)
+#
+#       #----------
+#
+#   # cor_results_list = compute_solution_vector_scores (cor_bpm = ref_spp_occ_matrix, ...
+#
+#
+#       cor_confusion_matrix_based_error_measures_list =
+#           compute_confusion_matrix_based_scores (marxan_best_num_patches_in_solution,                      #num_PUs_in_cand_solution,
+#                                                   num_PUs,
+#                                                   cor_num_patches_in_solution,                             #num_PUs_in_optimal_solution,
+#                                                   cor_rep_scores_list_according_to_bdpg$frac_spp_covered,  #frac_spp_covered,
+#                                                   FP_const_rate,                                           #input_err_FP = 0,
+#                                                   FN_const_rate                                            #input_err_FN = 0,
+#                                                  )
+#
+#     #----------
+#
+#     results_list = c (cor_rep_scores_list_according_to_bdpg,
+#                       cor_confusion_matrix_based_error_measures_list
+#                      )
+#
+#     return (results_list)
+#     }
+#
+# #-------------------------------------------------------------------------------
+#
+# build_and_write_APP_scores_list <-
+#     function (rsrun,
+#               app_bpm,
+#               rs_best_solution_PU_IDs,
+#               spp_rep_targets,
+#               num_spp,
+#               marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
+#               num_PUs,
+#               cor_num_patches_in_solution,             #num_PUs_in_optimal_solution,
+#               app_rep_scores_list,
+#               FP_const_rate,
+#               FN_const_rate
+#               )
+#
+#         # rsrun,
+#         #         marxan_best_num_patches_in_solution,    #num_PUs_in_cand_solution,
+#         #         num_PUs,
+#         #         cor_num_patches_in_solution,            #num_PUs_in_optimal_solution,
+#         #         app_frac_spp_covered,                   #app_rep_scores_list$frac_spp_covered,  #frac_spp_covered,
+#         #         FP_const_rate,                          #input_err_FP = 0,
+#         #         FN_const_rate
+#                 # )
+#     {
+#   #    results_list = list (cls1=400, cls2=401)
+#
+#       #----------
+#
+#       app_rep_scores_list_according_to_bdpg =
+#           compute_and_verify_APP_rep_scores_according_to_bdpg (app_bpm,
+#                                                                rs_best_solution_PU_IDs,
+#                                                                spp_rep_targets,
+#                                                                num_spp)
+#
+#       #----------
+#
+#   # app_results_list = compute_solution_vector_scores (app_bpm = ref_spp_occ_matrix, ...
+#
+#       app_confusion_matrix_based_error_measures_list =
+#           compute_confusion_matrix_based_scores (marxan_best_num_patches_in_solution,                      #num_PUs_in_cand_solution,
+#                                                   num_PUs,
+#                                                   cor_num_patches_in_solution,                             #num_PUs_in_optimal_solution,
+#                                                   app_rep_scores_list_according_to_bdpg$frac_spp_covered,  #frac_spp_covered,
+#                                                   FP_const_rate,                                           #input_err_FP = 0,
+#                                                   FN_const_rate                                            #input_err_FN = 0,
+#                                                  )
+#
+#     #----------
+#
+#     results_list = c (app_rep_scores_list_according_to_bdpg,
+#                       app_confusion_matrix_based_error_measures_list
+#                      )
+#
+#     return (results_list)
+#     }
+#
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+build_and_write_scores_list <-
+    function (rsrun,
+        app_bpm,    #bpm,
+              rs_best_solution_PU_IDs,
+              spp_rep_targets,
+              num_spp,
+              marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
+              num_PUs,
+              cor_num_patches_in_solution,             #num_PUs_in_optimal_solution,
+              FP_const_rate,
+              FN_const_rate
+              )
+
+        # rsrun,
+        #         marxan_best_num_patches_in_solution,    #num_PUs_in_cand_solution,
+        #         num_PUs,
+        #         cor_num_patches_in_solution,            #num_PUs_in_optimal_solution,
+        #         app_frac_spp_covered,                   #app_rep_scores_list$frac_spp_covered,  #frac_spp_covered,
+        #         FP_const_rate,                          #input_err_FP = 0,
+        #         FN_const_rate
+                # )
     {
-    results_list = list (cls1=400, cls2=401)
+  #    results_list = list (cls1=400, cls2=401)
+
+      #----------
+
+      app_rep_scores_list_according_to_bdpg =
+          compute_and_verify_APP_rep_scores_according_to_bdpg (app_bpm,
+                                                               rs_best_solution_PU_IDs,
+                                                               spp_rep_targets,
+                                                               num_spp)
+
+      #----------
+
+  # app_results_list = compute_solution_vector_scores (app_bpm = ref_spp_occ_matrix, ...
+
+      app_confusion_matrix_based_error_measures_list =
+          compute_confusion_matrix_based_scores (marxan_best_num_patches_in_solution,                      #num_PUs_in_cand_solution,
+                                                  num_PUs,
+                                                  cor_num_patches_in_solution,                             #num_PUs_in_optimal_solution,
+                                                  app_rep_scores_list_according_to_bdpg$frac_spp_covered,  #frac_spp_covered,
+                                                  FP_const_rate,                                           #input_err_FP = 0,
+                                                  FN_const_rate                                            #input_err_FN = 0,
+                                                 )
+
+    #----------
+
+    results_list = c (app_rep_scores_list_according_to_bdpg,
+                      app_confusion_matrix_based_error_measures_list
+                     )
 
     return (results_list)
     }
 
-#-------------------------------------------------------------------------------
-
-build_and_write_REP_scores_list <- function (rsrun)
-    {
-    results_list = list (rep1=500, rep2=501, rep3=502)
-
-    return (results_list)
-    }
 
 #-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
-save_rsrun_results_data_for_one_rsrun <- function (parameters, rsrun, rsprob)
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+save_rsrun_results_data_for_one_rsrun <- function (parameters,
+                                                  rsrun,
+
+                                                        #rsprob,
+                                                  COR_bd_prob,
+                                                  APP_bd_prob    #,
+
+                                                    #rs_output_dir_path,    #marxan_output_dir_path,
+                                                    #rs_plot_output_dir,    #plot_output_dir,
+                                                    #rs_top_dir             #,            #marxan_top_dir,
+
+                                                        #num_spp,
+
+                                                        #num_PUs,
+                                                        #all_PU_IDs,
+
+                                                        #cor_PU_costs,
+
+                                                        #correct_solution_cost,
+                                                    #cor_num_patches_in_solution,
+
+                                                        #spp_rep_targets,
+                                                        #targets,
+
+                                                        #bpm,
+                                                        #cor_bpm,
+                                                        #app_bpm,
+
+                                                        #marxan_ssoln_df_sorted_by_PU,
+                                                        #marxan_best_num_patches_in_solution,
+
+                                                        #FP_const_rate,
+                                                        #FN_const_rate
+                                                  )
     {
     tzar_run_ID  = parameters$run_id
     exp_root_dir = parameters$fullOutputDir_NO_slash
@@ -1785,16 +2112,155 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters, rsrun, rsprob)
         #  e.g., if a type of network metric was not computed for this problem.
         #-----------------------------------------------------------------------
 
-    tzar_run_ID_list          = list (rsr_tzar_run_ID = tzar_run_ID)
+    tzar_run_ID_list          = list (rsr_tzar_run_ID = tzar_run_ID)  #  dummy list with just one element to allow concatenating with other lists
 
-    prob_characteristics_list = read_prob_characteristics_list (rsprob,
-                                                                exp_root_dir,
-                                                                parameters)
-    bipartite_measures_list   = read_bipartite_measures_list (rsprob, exp_root_dir)
-    igraph_measures_list      = read_igraph_measures_list (rsprob, exp_root_dir)
+    prob_characteristics_list = read_prob_characteristics_list (APP_bd_prob,     #rsprob,
+                                                      exp_root_dir,
+                                                      parameters)
+    bipartite_measures_list   = read_bipartite_measures_list (APP_bd_prob,    #rsprob,
+                                                    exp_root_dir)
+    igraph_measures_list      = read_igraph_measures_list (APP_bd_prob,    #rsprob,
+                                                 exp_root_dir)
 
-    cls_scores_list           = build_and_write_CLS_scores_list (rsrun)
-    rep_scores_list           = build_and_write_REP_scores_list (rsrun)
+
+        #-----------------------------------------------------------------------
+
+    marxan_output_values = read_marxan_output_files (get_RSrun_path_output (rsrun, exp_root_dir),     #rs_output_dir_path,
+                                   COR_bd_prob@all_PU_IDs  #all_correct_node_IDs
+                                   )
+
+        #-----------------------------------------------------------------------
+
+# 2016 07 16 - nodes$dependent_set_member ONLY HAS THE NUMBER OF PLANNING UNITS
+#           THAT WERE IN THE ORIGINAL XU PROBLEM, NOT THE WRAPPED PROBLEM.
+#           MEANWHILE, THE MARXAN SOLUTION DOES HAVE THE WRAPPED PROBLEM PUs SO
+#           THE LENGTHS DO NOT MATCH.  NEED TO MAKE SURE THAT EVERYTHING IN THE
+#           WRAPPED PROBLEM HAS THE CORRECT DIMENSIONS AND VALUES.
+#             This is part of a larger problem of making sure that the problem
+#             returned by wrapping is correctly sized in every way to allow
+#             subsequent operations to act on it exactly as they would act on
+#             a base Xu problem.  One test of that is to make sure that all of
+#             the dimensions of the object elements include all planning units
+#             of the wrapped problem.  This may also be complicated by the
+#             application of error to generate an apparent problem.  That means
+#             you will also need to verify the problem dimensions and values
+#             again, after you have generated the apparent version.
+#
+#           ANOTHER PROBLEM HERE IS THAT THE XU SOLUTION IS NOT NECESSARILY
+#           THE ONLY CORRECT SOLUTION.  THIS MATCHING OF NODES TO A SOLUTION CAN
+#           BE WRONG IF MARXAN HAS FOUND A DIFFERENT CORRECT SOLUTION.
+#           NEED TO AT LEAST CHECK WHETHER
+#             A) MARXAN SOLUTION IS THE CORRECT SIZE (I.E., COST)
+#             AND
+#             B) IF IT IS THE CORRECT SIZE, THEN YOU ALSO NEED TO CHECK THAT
+#                IT REALLY DOES COVER THE SET, I.E., IT IS A CORRECT SOLUTION.
+
+
+#####    cor_solution_vector = nodes$dependent_set_member
+nodes = COR_bd_prob@nodes
+cor_solution_vector = nodes$dependent_set_member
+
+cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
+    cor_signed_difference         = marxan_output_values$marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
+    cor_abs_val_signed_difference = abs (cor_signed_difference)
+
+cor_num_patches_in_solution = sum (cor_solution_vector)
+
+        #-----------------------------------------------------------------------
+
+        #-----------------------------------------------------------------------
+        #  These calls used to be part of read_marxan_output_files(), but
+        #  they didn't need to be in there since they return nothing and
+        #  are only called for their verificationa and plotting side effects.
+        #-----------------------------------------------------------------------
+
+    find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
+                          get_RSrun_path_output (rsrun, exp_root_dir),     #rs_output_dir_path,
+                          COR_bd_prob@num_spp,
+                          COR_bd_prob@PU_costs,    #cor_PU_costs,
+                  COR_bd_prob@bpm,
+              COR_bd_prob@bpm,
+                    marxan_output_values$marxan_best_df_sorted,
+                        get_RSrun_path_plots (rsrun, exp_root_dir),    #plot_output_dir,
+                          COR_bd_prob@num_PUs,     #largest_PU_ID,
+                          COR_bd_prob@num_spp,     #largest_spp_ID,
+                          rsrun@targets,           #targets,
+                          get_RSrun_path_output (rsrun, exp_root_dir),    #topdir),    #rs_top_dir,
+                    marxan_output_values$marxan_ssoln_df,    #marxan_ssoln_df_sorted_by_PU,
+                          COR_bd_prob@correct_solution_cost    #correct_solution_cost
+                          )
+
+    find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
+                          get_RSrun_path_output (rsrun, exp_root_dir),     #rs_output_dir_path,
+                          COR_bd_prob@num_spp,
+                          COR_bd_prob@PU_costs,    #cor_PU_costs,
+                  COR_bd_prob@bpm,
+              APP_bd_prob@bpm,
+                    marxan_output_values$marxan_best_df_sorted,
+                        get_RSrun_path_plots (rsrun, exp_root_dir),    #plot_output_dir,
+                          COR_bd_prob@num_PUs,     #largest_PU_ID,
+                          COR_bd_prob@num_spp,     #largest_spp_ID,
+                          rsrun@targets,           #targets,
+                          get_RSrun_path_output (rsrun, exp_root_dir),    #topdir),    #rs_top_dir,
+                    marxan_output_values$marxan_ssoln_df,    #marxan_ssoln_df_sorted_by_PU,
+                          COR_bd_prob@correct_solution_cost    #correct_solution_cost
+                          )
+
+        #-----------------------------------------------------------------------
+
+        #  Find which PUs the reserve selector (marxan only, for now)
+        #  chose for its best solution.
+
+    rs_best_solution_PU_IDs = which (marxan_output_values$marxan_best_df_sorted$SOLUTION > 0)
+
+    rs_best_num_patches_in_solution = length (rs_best_solution_PU_IDs)
+    cat ("\nrs_best_num_patches_in_solution =", rs_best_num_patches_in_solution)
+
+    app_rs_solution_summary_scores_list =
+        summarize_RS_solution_scores (    #rs_best_solution_PU_IDs,
+                                      cor_solution_vector,
+                                      rs_best_num_patches_in_solution)
+
+        #-----------------------------------------------------------------------
+
+    app_rep_scores_list_according_to_RS =
+        compute_and_verify_APP_rep_scores_according_to_RS (marxan_output_values$marxan_mvbest_df,
+                                                           COR_bd_prob@num_spp)
+
+    if (class (APP_bd_prob) == "APP_prob_info_class")
+        {
+        FP_const_rate = APP_bd_prob@FP_const_rate
+        FN_const_rate = APP_bd_prob@FN_const_rate
+
+        } else
+        {
+        FP_const_rate = 0
+        FN_const_rate = 0
+        }
+
+    cor_scores_list = build_and_write_scores_list (rsrun,
+                COR_bd_prob@bpm,                         #cor_bpm,
+                rs_best_solution_PU_IDs,
+                rsrun@targets,                           #spp_rep_targets,
+                COR_bd_prob@num_spp,
+                rs_best_num_patches_in_solution,         #marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
+                COR_bd_prob@num_PUs,
+        cor_num_patches_in_solution,             #num_PUs_in_optimal_solution,
+            FP_const_rate,
+            FN_const_rate
+                )
+
+    app_scores_list = build_and_write_scores_list (rsrun,
+                APP_bd_prob@bpm,                         #app_bpm,
+                rs_best_solution_PU_IDs,
+                rsrun@targets,                           #spp_rep_targets,
+                COR_bd_prob@num_spp,
+                rs_best_num_patches_in_solution,         #marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
+                COR_bd_prob@num_PUs,
+        cor_num_patches_in_solution,             #num_PUs_in_optimal_solution,
+            FP_const_rate,
+            FN_const_rate
+                )
 
         #----------------------------------------------------------------
         #  Concatenate all of the lists and write the full list to file
@@ -1805,8 +2271,12 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters, rsrun, rsprob)
                       prob_characteristics_list,
                       igraph_measures_list,
                       bipartite_measures_list,
-                      cls_scores_list,
-                      rep_scores_list
+
+                      app_rs_solution_summary_scores_list,
+                      app_rep_scores_list_according_to_RS,
+
+                      cor_scores_list,
+                      app_scores_list
                     )
 
     write_results_to_files (as.data.frame (results_list),
