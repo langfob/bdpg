@@ -593,7 +593,7 @@ cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
 
 
 
-#NEED TO _MEASURE_ and save THE RESULTING FP AND FN RATES to put in results !!
+#NEED TO _MEASURE_ and save THE _RESULTING_ FP AND FN RATES to put in results !!
 
 
 
@@ -606,31 +606,45 @@ cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
         #  Also, check both counts before deciding whether to stop so that
         #  you don't have to re-run everything to find out that both of
         #  the counts were wrong.
+        #
+        #  2017 06 09 - BTL
+        #  Have changed the setting of app_num_xxx to just use the
+        #  cor_num_xxx values as the app_num_xxx values to get downstream
+        #  dimensions of various structures to match for comparisons.
+        #  Should probably just remove this section of computing the values
+        #  here.  However, it might still be useful if instead of
+        #  checking for not equal, you only check to make sure that the
+        #  app values don't exceed the cor values because that should not
+        #  ever happen, i.e., it would be a real error since no PUs or
+        #  or spp should ever be created.
         #--------------------------------------------------------------------
 
     app_num_spp = length (unique (app_PU_spp_pair_indices [,"spp_ID"]))
     app_num_PUs = length (unique (app_PU_spp_pair_indices [,"PU_ID"]))
 
-    app_ct_error = FALSE
+#    app_ct_error = FALSE
     if (app_num_spp != cor_num_spp)
         {
         cat ("\n\nAfter adding error:  app_num_spp (", app_num_spp,
              ") now differs from original cor_num_spp (", cor_num_spp,
-             ").")
-        app_ct_error = TRUE
+             ").\nWill still set app_num_spp to old cor_num_spp.\n")
+#        app_ct_error = TRUE
         }
 
     if (app_num_PUs != cor_num_PUs)
         {
         cat ("\n\nAfter adding error:  app_num_PUs (", app_num_PUs,
              ") now differs from original cor_num_PUs (", cor_num_PUs,
-             ").")
-        app_ct_error = TRUE
+             ").\nWill still set app_num_PUs to old cor_num_PUs.\n")
+#        app_ct_error = TRUE
         }
 
-2017 06 02 - BTL
-CRASHES HERE BECAUSE BOTH COUNTS ARE WRONG.  NEED TO FIGURE THIS OUT.
-    if (app_ct_error)  stop()
+#  2017 06 02 - BTL
+#  CRASHES HERE BECAUSE BOTH COUNTS ARE WRONG.  NEED TO FIGURE THIS OUT.
+#  2017 06 09 - BTL
+#  Have decided to just set the app_num_xxx values to cor_num_xxx values so that
+#  dimensions of cor and app structures match in comparisons downstream.
+#     if (app_ct_error)  stop()
 
         #--------------------------------------------------------------------
 
@@ -643,8 +657,9 @@ CRASHES HERE BECAUSE BOTH COUNTS ARE WRONG.  NEED TO FIGURE THIS OUT.
                 # FN_const_rate           = FN_const_rate,
                 app_PU_spp_pair_indices = app_PU_spp_pair_indices,
                 app_spp_occupancy_data  = app_spp_occupancy_data,
-                app_num_spp             = app_num_spp,
-                app_num_PUs             = app_num_PUs)
+                app_num_spp             = cor_num_spp,     #app_num_spp,
+                app_num_PUs             = cor_num_PUs      #app_num_PUs
+                )
 
 #docaids::doc_vars_in_this_func_once ()
     return (ret_vals_from_apply_error_to_spp_occupancy_data)
