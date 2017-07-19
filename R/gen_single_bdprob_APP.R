@@ -4,10 +4,14 @@
     #  Generate an APPARENT Xu problem from a CORRECT one.
     #-------------------------------------------------------
 
+#-------------------------------------------------------------------------------
+
 #' Generate a single biodiversity problem with error added to it
 #'
 #' Create an apparent problem from a correct problem.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -72,12 +76,16 @@
 #' Xu_bdprob_COR : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #' @param Xu_bdprob_COR correct Xu problem that is to have error added to it
 #'
 #' @return Returns apparent version of either a Xu_bd_problem or a
 #'     Xu_wrapped_bd_problem
 #' @export
+
+#-------------------------------------------------------------------------------
 
 gen_single_bdprob_APP = function (Xu_bdprob_COR,
                                   compute_network_metrics_for_this_prob,
