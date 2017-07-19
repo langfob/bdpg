@@ -11,7 +11,14 @@ You can install bdpg from github with:
 
 ``` r
 # install.packages ("devtools")  
-devtools::install_github ("langfob/bdpg")
+    #  if repo is public
+#devtools::install_github ("langfob/bdpg")
+    #  if repo is private and token is not stored in GITHUB_PAT 
+    #  environment variable
+#devtools::install_github ("langfob/bdpg", 
+#                          auth_token = "devtools::github_pat()"YOUR TOKEN")
+    #  if repo is private and token is stored in GITHUB_PAT environment variable
+devtools::install_github ("langfob/bdpg", auth_token = devtools::github_pat())
 ```
 
 Example (still boilerplate)
