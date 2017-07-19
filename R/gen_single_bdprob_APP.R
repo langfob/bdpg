@@ -147,6 +147,70 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
 
 #===============================================================================
 
+        #--------------------------------------------
+        #  Add error to the species occupancy data.
+        #--------------------------------------------
+
+create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
+                                                                  Xu_bdprob_APP,
+                                                                  parameters,
+                                                                  bdpg_error_codes
+                                                                  )
+    {
+    APP_prob_info = new ("APP_prob_info_class")
+
+    APP_prob_info@UUID_of_base_problem_that_has_err_added = Xu_bdprob_COR@UUID
+
+    ret_vals_from_build_const_err =
+      build_const_err_FP_and_FN_matrices (parameters,
+                                          Xu_bdprob_COR@bpm,     #cor_bpm,
+                                                      #cor_num_PU_spp_pairs,
+                                          Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
+                                          Xu_bdprob_COR@num_spp,     #cor_num_spp,
+                                          bdpg_error_codes)
+
+    APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
+    APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
+    APP_prob_info@match_error_counts     = ret_vals_from_build_const_err$match_error_counts
+    APP_prob_info@FP_const_rate          = ret_vals_from_build_const_err$FP_const_rate
+    APP_prob_info@FN_const_rate          = ret_vals_from_build_const_err$FN_const_rate
+
+    ret_vals_from_apply_errors =
+        apply_const_error_to_spp_occupancy_data (Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
+                                                 Xu_bdprob_COR@num_spp,     #cor_num_spp,
+                                                 Xu_bdprob_COR@bpm,         #cor_bpm,
+                                                 ret_vals_from_build_const_err$FP_rates_matrix,     #FP_rates_matrix,
+                                                 ret_vals_from_build_const_err$FN_rates_matrix,     #FN_rates_matrix,
+                                                 bdpg_error_codes)
+          # apply_const_error_to_spp_occupancy_data (parameters,
+          #                                  Xu_bdprob_COR@bpm,     #  cor_bpm,
+          #                                  Xu_bdprob_COR@num_PU_spp_pairs,     #  cor_num_PU_spp_pairs,
+          #                                  Xu_bdprob_COR@num_PUs,     #  cor_num_PUs,
+          #                                  Xu_bdprob_COR@num_spp,     #  cor_num_spp,
+          #                                  bdpg_error_codes)
+
+        #  Save the chosen error parameters to output later with results.
+
+        #THIS MAY DIFFER FROM COR IF A SPECIES IS MISSING IN APPARENT DATA?
+        #NOT SURE WHAT ALL IT'S USED FOR THOUGH.  IF DIMENSIONING ARRAYS, IT
+        #PROBABLY NEEDS TO STAY THE SAME VALUE AS COR AND JUST ALLOW SOME 0 VALUES.
+    APP_prob_info@app_num_spp            = ret_vals_from_apply_errors$app_num_spp
+        #THIS NEEDS TO MATCH COR_NUM_PUS DOESN'T IT?
+    APP_prob_info@app_num_PUs            = ret_vals_from_apply_errors$app_num_PUs
+
+        #  Set the values for the apparent problem structure.
+    APP_prob_info@app_PU_spp_pair_indices      = ret_vals_from_apply_errors$app_PU_spp_pair_indices
+
+    Xu_bdprob_APP@APP_prob_info = APP_prob_info
+
+    #NEEDS TO HAVE SAME DIMENSIONS AND ROW/COLUMN NAMES AS COR.
+    Xu_bdprob_APP@bpm                      = ret_vals_from_apply_errors$app_spp_occupancy_data
+
+    return (Xu_bdprob_APP)
+    }
+
+#===============================================================================
+
 #' Generate a single biodiversity problem with error added to it
 #'
 #-------------------------------------------------------------------------------
@@ -240,60 +304,13 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
     #---------------------------------------------------------------------------
 
-        #--------------------------------------------
-        #  Add error to the species occupancy data.
-        #--------------------------------------------
-
-    APP_prob_info = new ("APP_prob_info_class")
-
-    APP_prob_info@UUID_of_base_problem_that_has_err_added = Xu_bdprob_COR@UUID
-
-    ret_vals_from_build_const_err =
-        build_const_err_FP_and_FN_matrices (parameters,
-                                            Xu_bdprob_COR@bpm,     #cor_bpm,
-                                                        #cor_num_PU_spp_pairs,
-                                            Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
-                                            Xu_bdprob_COR@num_spp,     #cor_num_spp,
-                                            bdpg_error_codes)
-
-    APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
-    APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
-    APP_prob_info@match_error_counts     = ret_vals_from_build_const_err$match_error_counts
-    APP_prob_info@FP_const_rate          = ret_vals_from_build_const_err$FP_const_rate
-    APP_prob_info@FN_const_rate          = ret_vals_from_build_const_err$FN_const_rate
-
-    ret_vals_from_apply_errors =
-        apply_const_error_to_spp_occupancy_data (Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
-                                           Xu_bdprob_COR@num_spp,     #cor_num_spp,
-                                           Xu_bdprob_COR@bpm,         #cor_bpm,
-                                           ret_vals_from_build_const_err$FP_rates_matrix,     #FP_rates_matrix,
-                                           ret_vals_from_build_const_err$FN_rates_matrix,     #FN_rates_matrix,
-                                           bdpg_error_codes)
-        # apply_const_error_to_spp_occupancy_data (parameters,
-        #                                  Xu_bdprob_COR@bpm,     #  cor_bpm,
-        #                                  Xu_bdprob_COR@num_PU_spp_pairs,     #  cor_num_PU_spp_pairs,
-        #                                  Xu_bdprob_COR@num_PUs,     #  cor_num_PUs,
-        #                                  Xu_bdprob_COR@num_spp,     #  cor_num_spp,
-        #                                  bdpg_error_codes)
-
-        #  Save the chosen error parameters to output later with results.
-
-#THIS MAY DIFFER FROM COR IF A SPECIES IS MISSING IN APPARENT DATA?
-#NOT SURE WHAT ALL IT'S USED FOR THOUGH.  IF DIMENSIONING ARRAYS, IT
-#PROBABLY NEEDS TO STAY THE SAME VALUE AS COR AND JUST ALLOW SOME 0 VALUES.
-    APP_prob_info@app_num_spp            = ret_vals_from_apply_errors$app_num_spp
-#THIS NEEDS TO MATCH COR_NUM_PUS DOESN'T IT?
-    APP_prob_info@app_num_PUs            = ret_vals_from_apply_errors$app_num_PUs
-
-        #  Set the values for the apparent problem structure.
-    APP_prob_info@app_PU_spp_pair_indices      = ret_vals_from_apply_errors$app_PU_spp_pair_indices
-
-    Xu_bdprob_APP@APP_prob_info          = APP_prob_info
+    Xu_bdprob_APP =
+        create_APP_prob_info_by_adding_error_to_spp_occ_data (Xu_bdprob_COR,
+                                                              Xu_bdprob_APP,
+                                                              parameters,
+                                                              bdpg_error_codes)
 
     #---------------------------------------------------------------------------
-
-    #NEEDS TO HAVE SAME DIMENSIONS AND ROW/COLUMN NAMES AS COR.
-    Xu_bdprob_APP@bpm                      = ret_vals_from_apply_errors$app_spp_occupancy_data
 
     starting_dir = parameters$fullOutputDir_NO_slash
 
