@@ -22,7 +22,7 @@ You can store this token in an environment variable called GITHUB\_PAT on your m
 While the repo is still private, the devtools call looks like:
 
 ``` r
-devtools::install_github ("langfob/bdpg", auth_token = "INSERT YOUR TOKEN HERE")
+devtools::install_github ("langfob/bdpg", auth_token = "INSERT YOUR TOKEN STRING HERE")
 ```
 
 or
