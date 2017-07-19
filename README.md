@@ -44,6 +44,8 @@ install.packages ("devtools")    #  if not installed already
 devtools::install_github ("langfob/bdpg", auth_token = devtools::github_pat())
 ```
 
+Note that install\_github() also has an optional "ref" argument that allows you to specify a particular 'commit, tag, or branch name, or a call to github\_pull. Defaults to "master"'.
+
 Example (still boilerplate)
 ---------------------------
 
