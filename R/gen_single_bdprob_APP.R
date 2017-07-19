@@ -73,6 +73,7 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR)
 #I SUSPECT IT'S ONLY USED IN GENERATION OF THE ORIGINAL XU PROBLEM.
     Xu_bdprob_APP@nodes                     = Xu_bdprob_COR@nodes
 
+#docaids::doc_vars_in_this_func_once ()
     return (Xu_bdprob_APP)
     }
 
@@ -100,6 +101,7 @@ create_dirs_for_APP_prob <- function (Xu_bdprob_APP,
         #  Create directories.
     create_RSprob_dir_and_subdirs (starting_dir, Xu_bdprob_APP)
 
+#docaids::doc_vars_in_this_func_once ()
     return (Xu_bdprob_APP)
     }
 
@@ -142,6 +144,7 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
                                              parameters$use_bipartite_metrics,
                                              parameters$bipartite_metrics_to_use)
 
+#docaids::doc_vars_in_this_func_once ()
     return (Xu_bdprob_APP)
     }
 
@@ -206,6 +209,7 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
     #NEEDS TO HAVE SAME DIMENSIONS AND ROW/COLUMN NAMES AS COR.
     Xu_bdprob_APP@bpm                      = ret_vals_from_apply_errors$app_spp_occupancy_data
 
+#docaids::doc_vars_in_this_func_once ()
     return (Xu_bdprob_APP)
     }
 
@@ -300,19 +304,16 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
                         app_dir_name_stem = "app"
                                     )
     {
-    Xu_bdprob_APP = create_and_init_APP_bdprob (Xu_bdprob_COR)
+    starting_dir = parameters$fullOutputDir_NO_slash
 
-    #---------------------------------------------------------------------------
+    Xu_bdprob_APP =
+        create_and_init_APP_bdprob (Xu_bdprob_COR)
 
     Xu_bdprob_APP =
         create_APP_prob_info_by_adding_error_to_spp_occ_data (Xu_bdprob_COR,
                                                               Xu_bdprob_APP,
                                                               parameters,
                                                               bdpg_error_codes)
-
-    #---------------------------------------------------------------------------
-
-    starting_dir = parameters$fullOutputDir_NO_slash
 
     Xu_bdprob_APP =
         create_dirs_for_APP_prob (Xu_bdprob_APP,
@@ -325,8 +326,6 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
                                                             compute_network_metrics_for_this_prob,
                                                             starting_dir,
                                                             parameters)
-
-    #---------------------------------------------------------------------------
 
         #------------------------------------------------------------
         #  Everything seems to have worked.
