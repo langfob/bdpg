@@ -28,7 +28,7 @@ Returns apparent version of either a Xu_bd_problem or a
     Xu_wrapped_bd_problem
 }
 \description{
-Create an apparent problem from a correct problem.
+Generate a single biodiversity problem with error added to it
 }
 \section{Local Variable Structures and examples}{
 
