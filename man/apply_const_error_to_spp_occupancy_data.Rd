@@ -4,39 +4,25 @@
 \alias{apply_const_error_to_spp_occupancy_data}
 \title{Apply constant error to spp occ data}
 \usage{
-apply_const_error_to_spp_occupancy_data(bpm, FP_rates, FN_rates, num_PUs,
-  num_spp, random_values, bdpg_error_codes)
+apply_const_error_to_spp_occupancy_data(cor_num_PUs, cor_num_spp, cor_bpm,
+  FP_rates_matrix, FN_rates_matrix, bdpg_error_codes)
 }
 \arguments{
-\item{bpm}{bipartite matrix; integer matrix with one row for each species
-and one column for each planning unit.  Each matrix entry specifies
-whether that species occupies that planning unit; 1 indicates the
-species does occupy the planning unit and 0 indicates it does not.
-Same as occ_matrix.}
+\item{cor_num_PUs}{integer}
 
-\item{FP_rates}{numeric vector}
+\item{cor_num_spp}{integer}
 
-\item{FN_rates}{numeric vector}
-
-\item{num_PUs}{integer number of planning units}
-
-\item{num_spp}{integer number of species in the problem}
-
-\item{random_values}{numeric vector}
+\item{cor_bpm}{matrix}
 
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
+
+\item{cor_num_PU_spp_pairs}{integer}
 }
 \value{
-Returns bpm matrix
+Returns ret_vals_from_apply_errors list
 }
 \description{
-Walk through the occupancy matrix (PU vs spp) and randomly
- choose to flip some of the TPs to FNs and TNs to FPs based on the
- given FP and FN error rates.
- Update the occupancy matrix (bpm) as you go along, but don't update
- the PU_spp_pair_indices until you know all locations that have
- flipped.  Update PU_spp_pair_indices at the end so that you don't
- have to constantly resize this big array as you go along.
+Apply constant error to spp occ data
 }
 \section{Local Variable Structures and examples}{
 
@@ -44,6 +30,24 @@ Here is the output of str() for each variable visible in the function.
 Note that the particular counts and values given are just examples to show
 what the data might look like.
 
+\subsection{app_num_PUs}{
+\preformatted{
+app_num_PUs :  int 397
+}}
+\subsection{app_num_spp}{
+\preformatted{
+app_num_spp :  int 1268
+}}
+\subsection{app_PU_spp_pair_indices}{
+\preformatted{
+app_PU_spp_pair_indices : 'data.frame':	3022 obs. of  2 variables:
+ $ PU_ID : int  1 3 5 6 7 8 9 10 209 335 ...
+ $ spp_ID: int  1 2 3 3 4 4 5 5 5 5 ...
+}}
+\subsection{app_spp_occupancy_data}{
+\preformatted{
+app_spp_occupancy_data :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
+}}
 \subsection{bdpg_error_codes}{
 \preformatted{
 bdpg_error_codes : List of 6
@@ -54,37 +58,85 @@ bdpg_error_codes : List of 6
  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
 }}
-\subsection{bpm}{
+\subsection{cor_bpm}{
 \preformatted{
-bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
+cor_bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
 }}
-\subsection{cur_PU_col}{
+\subsection{cor_num_PU_spp_pairs}{
 \preformatted{
-cur_PU_col :  int 407
+cor_num_PU_spp_pairs : no slot of name "num_PU_spp_pairs" for this object of class "Xu_wrapped_bd_problem"
 }}
-\subsection{cur_spp_row}{
+\subsection{cor_num_PUs}{
 \preformatted{
-cur_spp_row :  int 1277
+cor_num_PUs :  num 407
+}}
+\subsection{cor_num_spp}{
+\preformatted{
+cor_num_spp :  int 1277
+}}
+\subsection{FN_const_rate}{
+\preformatted{
+FN_const_rate :  num 0.1
 }}
 \subsection{FN_rates}{
 \preformatted{
 FN_rates :  num [1:1277, 1:407] 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 ...
 }}
+\subsection{FP_and_FN_const_rates}{
+\preformatted{
+FP_and_FN_const_rates : List of 2
+ $ FP_const_rate: num 0.1
+ $ FN_const_rate: num 0.1
+}}
+\subsection{FP_const_rate}{
+\preformatted{
+FP_const_rate :  num 0.000588
+}}
+\subsection{FP_FN_const_rate_pair}{
+\preformatted{
+FP_FN_const_rate_pair : List of 2
+ $ FP_const_rate: num 0.000588
+ $ FN_const_rate: num 0.1
+}}
 \subsection{FP_rates}{
 \preformatted{
 FP_rates :  num [1:1277, 1:407] 0.000588 0.000588 0.000588 0.000588 0.000588 ...
 }}
-\subsection{num_PUs}{
+\subsection{match_error_counts}{
 \preformatted{
-num_PUs :  num 407
+match_error_counts :  logi TRUE
 }}
-\subsection{num_spp}{
+\subsection{num_TNs}{
 \preformatted{
-num_spp :  int 1277
+num_TNs :  num 516702
+}}
+\subsection{num_TPs}{
+\preformatted{
+num_TPs :  num 3037
+}}
+\subsection{parameters}{
+\preformatted{
+parameters : List of 66
+ $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
+ ...
+ $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
 }}
 \subsection{random_values}{
 \preformatted{
 random_values :  num [1:1277, 1:407] 0.133 0.307 0.519 0.987 0.753 ...
+}}
+\subsection{ret_vals_from_apply_errors}{
+\preformatted{
+ret_vals_from_apply_errors : List of 9
+ $ original_FP_const_rate : num 0.1
+ $ original_FN_const_rate : num 0.1
+ $ match_error_counts     : logi TRUE
+ $ FP_const_rate          : num 0.000588
+ $ FN_const_rate          : num 0.1
+ $ app_PU_spp_pair_indices:'data.frame':	3022 obs. of  2 variables:
+ $ app_spp_occupancy_data : num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
+ $ app_num_spp            : int 1268
+ $ app_num_PUs            : int 397
 }}
 }
 

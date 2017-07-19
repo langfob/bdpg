@@ -188,13 +188,13 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
     APP_prob_info@FN_const_rate          = ret_vals_from_build_const_err$FN_const_rate
 
     ret_vals_from_apply_errors =
-        apply_error_to_spp_occupancy_data (Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
+        apply_const_error_to_spp_occupancy_data (Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
                                            Xu_bdprob_COR@num_spp,     #cor_num_spp,
                                            Xu_bdprob_COR@bpm,         #cor_bpm,
                                            ret_vals_from_build_const_err$FP_rates_matrix,     #FP_rates_matrix,
                                            ret_vals_from_build_const_err$FN_rates_matrix,     #FN_rates_matrix,
                                            bdpg_error_codes)
-        # apply_error_to_spp_occupancy_data (parameters,
+        # apply_const_error_to_spp_occupancy_data (parameters,
         #                                  Xu_bdprob_COR@bpm,     #  cor_bpm,
         #                                  Xu_bdprob_COR@num_PU_spp_pairs,     #  cor_num_PU_spp_pairs,
         #                                  Xu_bdprob_COR@num_PUs,     #  cor_num_PUs,

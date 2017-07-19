@@ -4,7 +4,7 @@
 
 #===============================================================================
 
-#' Apply constant error to spp occ data
+#' Apply error to species occupancy data.
 #'
 #'  Walk through the occupancy matrix (PU vs spp) and randomly
 #'  choose to flip some of the TPs to FNs and TNs to FPs based on the
@@ -75,14 +75,14 @@
 
 #-------------------------------------------------------------------------------
 
-apply_const_error_to_spp_occupancy_data =
+apply_error_to_spp_occupancy_data =
         function (bpm, FP_rates, FN_rates, num_PUs, num_spp,
                   random_values,   #  passing these in to make it easier to test
                                    #  in a reproducible way
                   bdpg_error_codes
                   )
     {
-    cat ("\nStarting apply_const_error_to_spp_occupancy_data loop.\n\n")
+    cat ("\nStarting apply_error_to_spp_occupancy_data loop.\n\n")
 
     for (cur_spp_row in 1:num_spp)
         {
@@ -427,9 +427,7 @@ cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
 
 #-------------------------------------------------------------------------------
 
-#' Apply error to spp occ data
-#'
-#' Apply error to species occupancy data.
+#' Apply constant error to spp occ data
 #'
 #-------------------------------------------------------------------------------
 
@@ -559,14 +557,14 @@ cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
 
 #-------------------------------------------------------------------------------
 
-apply_error_to_spp_occupancy_data <- function (cor_num_PUs,
+apply_const_error_to_spp_occupancy_data <- function (cor_num_PUs,
                                                cor_num_spp,
                                                cor_bpm,
                                                FP_rates_matrix,
                                                FN_rates_matrix,
                                                bdpg_error_codes)
     {
-cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
+cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
 
       random_values = matrix (runif (cor_num_PUs * cor_num_spp),
                               nrow=cor_num_spp,
@@ -579,7 +577,7 @@ cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
           #--------------------------------------------------------------------
 
       app_spp_occupancy_data =
-          apply_const_error_to_spp_occupancy_data (cor_bpm,
+          apply_error_to_spp_occupancy_data (cor_bpm,
                                                   FP_rates_matrix,
                                                   FN_rates_matrix,
                                                   cor_num_PUs,
@@ -648,7 +646,7 @@ cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
 
         #--------------------------------------------------------------------
 
-    ret_vals_from_apply_error_to_spp_occupancy_data <-
+    ret_vals_from_apply_const_error_to_spp_occupancy_data <-
         list (
                 # original_FP_const_rate    = FP_and_FN_const_rates$FP_const_rate,
                 # original_FN_const_rate  = FP_and_FN_const_rates$FN_const_rate,
@@ -662,7 +660,7 @@ cat ("\n\nIN apply_error_to_spp_occupancy_data()\n\n")
                 )
 
 #docaids::doc_vars_in_this_func_once ()
-    return (ret_vals_from_apply_error_to_spp_occupancy_data)
+    return (ret_vals_from_apply_const_error_to_spp_occupancy_data)
     }
 
 #===============================================================================
