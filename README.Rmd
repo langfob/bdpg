@@ -28,7 +28,9 @@ as a collaborator and pass a github personal access token to see it.
 If you don't have a token yet, you can get one by following the instructions at:  
 
 [Personal access tokens](https://github.com/settings/tokens)  
+
 or  
+
 [Creating a personal access token for the command line](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)  
 
 You can store this token in an environment variable called GITHUB_PAT on your 
@@ -38,8 +40,7 @@ by using devtools::github_pat() as shown below.
 
 While the repo is still private, the devtools call looks like:  
 ```R
-devtools::install_github ("langfob/bdpg", 
-                          auth_token = "INSERT YOUR TOKEN HERE")
+devtools::install_github ("langfob/bdpg", auth_token = "INSERT YOUR TOKEN HERE")
 ```
 or
 ```R
@@ -53,7 +54,7 @@ devtools::install_github ("langfob/bdpg")
 So, assuming that the repo is still private and you've stored a token in the 
 GITHUB_PAT environment variable, you can download the package as follows:  
 ```R
-# install.packages ("devtools")  
+install.packages ("devtools")    #  if not installed already
 devtools::install_github ("langfob/bdpg", auth_token = devtools::github_pat())
 ```
 
