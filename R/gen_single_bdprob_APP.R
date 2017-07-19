@@ -238,6 +238,8 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
     {
     Xu_bdprob_APP = create_and_init_APP_bdprob (Xu_bdprob_COR)
 
+    #---------------------------------------------------------------------------
+
         #--------------------------------------------
         #  Add error to the species occupancy data.
         #--------------------------------------------
@@ -288,59 +290,10 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
     Xu_bdprob_APP@APP_prob_info          = APP_prob_info
 
-#===============================================================================
-
-        #--------------------------
-        #  Save adjacency matrix.
-        #--------------------------
+    #---------------------------------------------------------------------------
 
     #NEEDS TO HAVE SAME DIMENSIONS AND ROW/COLUMN NAMES AS COR.
     Xu_bdprob_APP@bpm                      = ret_vals_from_apply_errors$app_spp_occupancy_data
-
-#===============================================================================
-
-            #-------------------------------------------------------
-            #  Old code not needed anymore?
-            #----------------------------------------------------
-
-                        #----------------------------------------------------
-                        #  Convert PU/spp data structure into other formats
-                        #  needed downstream.
-                        #----------------------------------------------------
-
-                    # bpm =
-                        # create_adj_matrix_with_spp_rows_vs_PU_cols (Xu_bdprob_APP@num_spp,
-                        #                                             Xu_bdprob_APP@num_PUs,
-                        #                                             Xu_bdprob_APP@PU_spp_pair_indices,
-                        #                                     Xu_bdprob_APP@PU_costs,
-                        #                                             Xu_bdprob_APP@spp_col_name,
-                        #                                             Xu_bdprob_APP@PU_col_name,
-                        #                                             PU_spp_pair_info@dependent_node_IDs,
-                        #                                             PU_spp_pair_info@correct_solution_vector_is_known,
-                        #                                             bdpg_error_codes)
-
-                #    Xu_bdprob_APP@bpm = app_bpm
-
-
-                        #-------------------------------------------------------------
-                        #  Quit if there are any duplicate edges/spp in the problem.
-                        #-------------------------------------------------------------
-
-                # CHANGE THIS?
-                #  2017 02 10 - BTL
-                #  Getting error when I run this, but I don't think it should be an error
-                #  because if you add false positives, then I think that would allow you to get
-                #  duplicate links.  So, I'm going to remove this call for apparent, but not
-                #  for correct.
-
-                #     see_if_there_are_any_duplicate_links (Xu_bdprob_APP@bpm,
-                #
-                # #                                          Xu_bdprob_APP@num_spp,
-                #                                           Xu_bdprob_COR@num_spp,   #  correct?
-                #
-                #                                           bdpg_error_codes)
-
-#===============================================================================
 
     starting_dir = parameters$fullOutputDir_NO_slash
 
@@ -355,6 +308,8 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
                                                             compute_network_metrics_for_this_prob,
                                                             starting_dir,
                                                             parameters)
+
+    #---------------------------------------------------------------------------
 
         #------------------------------------------------------------
         #  Everything seems to have worked.
