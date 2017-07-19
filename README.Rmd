@@ -69,7 +69,6 @@ that code using tzar emulation:
 ```R
 library(bdpgxupaper)
 runtip()
-...
 ```
 
 ## Overview  (still boilerplate)
