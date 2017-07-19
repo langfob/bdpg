@@ -17,7 +17,7 @@ or
 
 [Creating a personal access token for the command line](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
 
-You can store this token in an environment variable called GITHUB\_PAT on your machine for future use without having to hard-code it into functions calls. You can then access it in a devtools::install\_github() call's "auth" argument by using devtools::github\_pat() as shown below.
+You can store this token in an environment variable called GITHUB\_PAT on your machine. This allows future use of the personal access token without having to hard-code it into functions calls. You can then retrieve it in a devtools::install\_github() call's "auth" argument by using devtools::github\_pat() as shown below.
 
 While the repo is still private, the devtools call looks like:
 
@@ -40,7 +40,7 @@ devtools::install_github ("langfob/bdpg")
 So, assuming that the repo is still private and you've stored a token in the GITHUB\_PAT environment variable, you can download the package as follows:
 
 ``` r
-install.packages ("devtools")    #  if not installed already
+install.packages ("devtools")    #  if devtools not installed already
 devtools::install_github ("langfob/bdpg", auth_token = devtools::github_pat())
 ```
 
