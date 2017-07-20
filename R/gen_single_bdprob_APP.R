@@ -221,7 +221,7 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
         #  Save the chosen error parameters to output later with results.
 
-        #THIS MAY DIFFER FROM COR IF A SPECIES IS MISSING IN APPARENT DATA?
+        #APP num_spp MAY DIFFER FROM COR IF A SPECIES IS MISSING IN APPARENT DATA?
         #NOT SURE WHAT ALL IT'S USED FOR THOUGH.  IF DIMENSIONING ARRAYS, IT
         #PROBABLY NEEDS TO STAY THE SAME VALUE AS COR AND JUST ALLOW SOME 0 VALUES.
     APP_prob_info@app_num_spp            = ret_vals_from_apply_errors$app_num_spp
@@ -233,7 +233,7 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
     Xu_bdprob_APP@APP_prob_info = APP_prob_info
 
-    #NEEDS TO HAVE SAME DIMENSIONS AND ROW/COLUMN NAMES AS COR.
+        #NEEDS TO HAVE SAME DIMENSIONS AND ROW/COLUMN NAMES AS COR.
     Xu_bdprob_APP@bpm                      = ret_vals_from_apply_errors$app_spp_occupancy_data
 
 #docaids::doc_vars_in_this_func_once ()
