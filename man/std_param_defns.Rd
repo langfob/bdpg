@@ -9,13 +9,15 @@ std_param_defns(all_correct_node_IDs, base_outdir_for_checksum,
   cor_or_app_label, correct_solution_vector_is_known, dependent_node_IDs,
   duplicate_links_allowed, edge_list, exp_root_dir,
   final_link_counts_for_each_node, final_node_counts_for_each_link,
-  given_correct_solution_cost, integerize, integerize_string, marxan_solution,
-  max_allowed_num_spp, max_possible_tot_num_links, n__num_groups, nodes,
-  num_nodes_per_group, num_PUs, num_rounds_of_linking_between_groups, num_spp,
-  obj, obj_with_UUID_and_checksum, occ_matrix, parameters, plot_output_dir,
-  PU_col_name, PU_costs, PU_set_to_test, PU_spp_pair_indices,
-  read_Xu_problem_from_Xu_file, rsprob, spp_col_name, spp_rep_fracs,
-  spp_rep_targets, spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
+  final_rank_abundance_dist, given_correct_solution_cost, integerize,
+  integerize_string, marxan_solution, max_allowed_num_spp,
+  max_possible_tot_num_links, n__num_groups, nodes, num_nodes_per_group,
+  num_PUs, num_rounds_of_linking_between_groups, num_spp, obj,
+  obj_with_UUID_and_checksum, occ_matrix, parameters, plot_output_dir,
+  presences_col_name, PU_col_name, PU_costs, PU_set_to_test,
+  PU_spp_pair_indices, read_Xu_problem_from_Xu_file, rsprob, rsrun,
+  spp_col_name, spp_rep_fracs, spp_rep_targets,
+  spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
   target_num_links_between_2_groups_per_round, top_dir, Xu_bench_infile_name)
 }
 \arguments{
@@ -68,6 +70,10 @@ of links for each node, i.e., number of species for each planning unit}
 \item{final_node_counts_for_each_link}{integer vector of counts of number
 of nodes for each link, i.e., number of planning units for each species
 (same as final_rank_abundance_dist)}
+
+\item{final_rank_abundance_dist}{integer vector of counts of number
+of nodes for each link, i.e., number of planning units for each species
+(same as final_node_counts_for_each_link)}
 
 \item{given_correct_solution_cost}{boolean indicating whether the correct
 optimal solution cost is given for a reserve selection problem}
@@ -124,6 +130,9 @@ and can have a varying number and set of elements depending on the run}
 \item{plot_output_dir}{character string giving pat to directory where plot
 should be written}
 
+\item{presences_col_name}{character string giving column name for species
+counts (presences) in data frames}
+
 \item{PU_col_name}{character string giving planning unit column name in data frames}
 
 \item{PU_costs}{numeric vector of planning unit costs}
@@ -140,6 +149,8 @@ read from a benchmark problem description file created by Xu;
 FALSE if problem is to be created from scratch.}
 
 \item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}
+
+\item{rsrun}{an RSrun (reserve selection run) object, e.g., a marxan run}
 
 \item{spp_col_name}{character string giving species column name in data frames}
 
@@ -164,15 +175,6 @@ information and the UUID of the object, e.g.,
 ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587}
 
 \item{Xu_bench_infile_name}{filename of Xu benchmark problem file}
-
-\item{final_rank_abundance_dist}{integer vector of counts of number
-of nodes for each link, i.e., number of planning units for each species
-(same as final_node_counts_for_each_link)}
-
-\item{presences_col_name}{character string giving column name for species
-counts (presences) in data frames}
-
-\item{rsrun}{an RSrun (reserve selection run) object, e.g., a marxan run}
 }
 \description{
 This function should never be called.  It is intended strictly as a
