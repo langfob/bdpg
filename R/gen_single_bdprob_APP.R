@@ -1,13 +1,18 @@
 #===============================================================================
 
-    #-------------------------------------------------------
-    #  Generate an APPARENT Xu problem from a CORRECT one.
-    #-------------------------------------------------------
+#                       gen_single_bdprob_APP.R
+
+#  Generate an APPARENT Xu problem from a CORRECT one.
+
+#===============================================================================
 
 #-------------------------------------------------------------------------------
-
 #' Create and initialize apparent bdproblem from a correct problem.
 #'
+#-------------------------------------------------------------------------------
+#' @param Xu_bdprob_COR a Xu_bd_problem
+#'
+#' @return an apparent Xu_bd_problem
 #-------------------------------------------------------------------------------
 
 create_and_init_APP_bdprob <- function (Xu_bdprob_COR)
@@ -79,9 +84,16 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR)
 
 #===============================================================================
 
-    #-------------------------------------------------
-    #  Create directories for this apparent problem.
-    #-------------------------------------------------
+#-------------------------------------------------------------------------------
+#' Create directories for this apparent problem.
+#'
+#-------------------------------------------------------------------------------
+#' @param Xu_bdprob_APP an apparent Xu_bd_problem
+#' @param basic_or_wrapped_or_comb_str a character string
+#' @param starting_dir a character string
+#'
+#' @return an apparent Xu_bd_problem
+#-------------------------------------------------------------------------------
 
 create_dirs_for_APP_prob <- function (Xu_bdprob_APP,
                                       basic_or_wrapped_or_comb_str,
@@ -107,10 +119,18 @@ create_dirs_for_APP_prob <- function (Xu_bdprob_APP,
 
 #===============================================================================
 
-    #-----------------------------------------------------------------
-    #  Compute and save the distribution and network metrics for the
-    #  problem.
-    #-----------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#' Compute and save the distribution and network metrics for the problem.
+#'
+#-------------------------------------------------------------------------------
+#' @inheritParams std_param_defns
+#' @param Xu_bdprob_APP an apparent Xu_bd_problem
+#' @param Xu_bdprob_COR a Xu_bd_problem
+#' @param compute_network_metrics_for_this_prob a boolean
+#' @param starting_dir a character string
+#'
+#' @return an apparent Xu_bd_problem
+#-------------------------------------------------------------------------------
 
 compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
                                                                 Xu_bdprob_COR,
@@ -150,9 +170,16 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
 
 #===============================================================================
 
-        #--------------------------------------------
-        #  Add error to the species occupancy data.
-        #--------------------------------------------
+#-------------------------------------------------------------------------------
+#' Add error to the species occupancy data and save to APP_prob_info structure.
+#'
+#-------------------------------------------------------------------------------
+#' @inheritParams std_param_defns
+#' @param Xu_bdprob_COR a Xu_bd_problem
+#' @param Xu_bdprob_APP an apparent Xu_bd_problem
+#'
+#' @return an apparent Xu_bd_problem
+#-------------------------------------------------------------------------------
 
 create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
                                                                   Xu_bdprob_APP,

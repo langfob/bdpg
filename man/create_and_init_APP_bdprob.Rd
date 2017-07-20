@@ -6,6 +6,12 @@
 \usage{
 create_and_init_APP_bdprob(Xu_bdprob_COR)
 }
+\arguments{
+\item{Xu_bdprob_COR}{a Xu_bd_problem}
+}
+\value{
+an apparent Xu_bd_problem
+}
 \description{
 Create and initialize apparent bdproblem from a correct problem.
 }
