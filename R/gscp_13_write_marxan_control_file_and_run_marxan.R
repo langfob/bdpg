@@ -55,11 +55,15 @@
 #'
 #' Run marxan program
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
 #'what the data might look like.
 #'
+#-------------------------------------------------------------------------------
+
 #' \subsection{marxan_dir}{
 #' \preformatted{
 #' marxan_dir :  chr "/Users/bill/tzar/modelcode/marxanLibrary_1360018653/"
@@ -81,11 +85,15 @@
 #' system.command.run.marxan :  chr "./MarOpt_v243_Mac64 -s"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param marxan_dir character string
 #' @param marxan_executable_name character string
 #'
 #' @return Returns system return code from running marxan
 #' @export
+
+#-------------------------------------------------------------------------------
 
 run_marxan = function (marxan_dir, marxan_executable_name)
     {
@@ -136,11 +144,15 @@ run_marxan = function (marxan_dir, marxan_executable_name)
 #'
 #' Set marxan controls and run marxan
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
 #'what the data might look like.
 #'
+#-------------------------------------------------------------------------------
+
 #' \subsection{current_os}{
 #' \preformatted{
 #' current_os :  chr "darwin13.4.0"
@@ -323,6 +335,8 @@ run_marxan = function (marxan_dir, marxan_executable_name)
 #'  $ marxan_CLUMPTYPE : num 0
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param marxan_input_dir character string
 #' @param marxan_output_dir character string
 #' @param parameters list
@@ -330,6 +344,8 @@ run_marxan = function (marxan_dir, marxan_executable_name)
 #'
 #' @return Returns list
 #' @export
+
+#-------------------------------------------------------------------------------
 
 set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
                                                 marxan_output_dir,
@@ -614,11 +630,15 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 #' Convenience function to call set_up_for_and_run_marxan with proper
 #' arguments for a correct Xu_bd_problem.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
 #'what the data might look like.
 #'
+#-------------------------------------------------------------------------------
+
 #' \subsection{COR_bd_prob}{
 #' \preformatted{
 #' COR_bd_prob : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
@@ -654,12 +674,16 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 #'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param COR_bd_prob a correct Xu_bd_problem (or subclass)
 #' @param marxan_run an RSrun object (or subclass)
 #' @param parameters parameters list for the run, usually derived from project.yaml
 #'
 #' @return list containing marxan_control_values and updated COR_bd_prob
 #' @export
+
+#-------------------------------------------------------------------------------
 
 set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                            marxan_run,
@@ -689,11 +713,15 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
 #' Convenience function to call set_up_for_and_run_marxan with proper
 #' arguments for an apparent Xu_bd_problem
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
 #'what the data might look like.
 #'
+#-------------------------------------------------------------------------------
+
 #' \subsection{APP_bd_prob}{
 #' \preformatted{
 #' APP_bd_prob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
@@ -733,6 +761,8 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
 #'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param APP_bd_prob an apparent Xu_bd_problem (or subclass)
 #' @param COR_bd_prob the correct Xu_bd_problem (or subclass) that the apparent problem is derived from
 #' @param marxan_run an RSrun object (or subclass)
@@ -740,6 +770,8 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
 #'
 #' @return list containing marxan_control_values and updated APP_bd_prob
 #' @export
+
+#-------------------------------------------------------------------------------
 
 set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                            COR_bd_prob,
@@ -770,11 +802,15 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
 #'
 #' Set up for and run marxan for either COR or APP
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
 #'what the data might look like.
 #'
+#-------------------------------------------------------------------------------
+
 #' \subsection{marxan_control_values}{
 #' \preformatted{
 #' marxan_control_values : List of 15
@@ -852,6 +888,8 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
 #' topdir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param PU_spp_pair_indices data frame
 #' @param PU_IDs integer vector
 #' @param spp_IDs integer vector
@@ -863,6 +901,8 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
 #'
 #' @return Returns marxan control values list
 #' @export
+
+#-------------------------------------------------------------------------------
 
 set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values if running on app
                                       PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?

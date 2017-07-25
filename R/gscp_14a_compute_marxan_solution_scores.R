@@ -4,9 +4,6 @@
 
 #===============================================================================
 
-
-#===============================================================================
-
 dist_between_marxan_solutions = function (solution_1, solution_2)
     {
 #browser()
@@ -15,12 +12,14 @@ dist_between_marxan_solutions = function (solution_1, solution_2)
     return (dist_between_solutions)
     }
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #' Compute marxan solution scores
 #'
 #' Compute marxan solution scores
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -82,6 +81,8 @@ dist_between_marxan_solutions = function (solution_1, solution_2)
 #' total_landscape_cost :  num 407
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU matrix
 #' @param marxan_solution_PU_IDs numeric vector
 #' @param targets numeric vector
@@ -93,6 +94,8 @@ dist_between_marxan_solutions = function (solution_1, solution_2)
 #' @param total_landscape_cost numeric
 #'
 #' @return Returns marxan_solution_scores data frame
+
+#-------------------------------------------------------------------------------
 
 compute_marxan_solution_scores <- function (spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
                                             marxan_solution_PU_IDs,
@@ -145,13 +148,14 @@ compute_marxan_solution_scores <- function (spp_rows_by_PU_cols_matrix_of_spp_ct
     return (marxan_solution_scores)
     }
 
+#===============================================================================
 
+#' Get marxan solution choice string
+#'
+#' Get marxan solution choice string
+#'
 #-------------------------------------------------------------------------------
 
-#' Get marxan solution choice string
-#'
-#' Get marxan solution choice string
-#'
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -178,12 +182,16 @@ compute_marxan_solution_scores <- function (spp_rows_by_PU_cols_matrix_of_spp_ct
 #' sorted_best_rep :  num 1
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param marxan_best_cost numeric
 #' @param marxan_best_rep numeric
 #' @param sorted_best_cost numeric
 #' @param sorted_best_rep numeric
 #'
 #' @return Returns character string
+
+#-------------------------------------------------------------------------------
 
 get_marxan_solution_choice_string = function (marxan_best_cost,
                                               marxan_best_rep,
@@ -213,7 +221,7 @@ get_marxan_solution_choice_string = function (marxan_best_cost,
     return (solution_choice_string)
     }
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #' Verify whether the solution marxan chose as best was actually its best
 #'
@@ -243,6 +251,8 @@ get_marxan_solution_choice_string = function (marxan_best_cost,
 #' - HALF_BAD__marxan_solution_IS_apparent_best_cost_but_NOT_apparent_best_rep:
 #' If marxan's chosen best is best cost but is NOT best representation
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -288,11 +298,15 @@ get_marxan_solution_choice_string = function (marxan_best_cost,
 #' sorted_best_rep :  num 1
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param best_solution_ID_according_to_marxan integer
 #' @param app_marxan_solution_scores data frame
 #' @param out_dir character string
 #'
 #' @return Returns nothing
+
+#-------------------------------------------------------------------------------
 
 see_if_marxan_best_was_actually_best <-
                             function (best_solution_ID_according_to_marxan,
@@ -325,8 +339,7 @@ see_if_marxan_best_was_actually_best <-
 #docaids::doc_vars_in_this_func_once ()
     }
 
-#-------------------------------------------------------------------------------
-
+#===============================================================================
 
 #' Plot incrementatl marxan summed solution representations
 #'
@@ -335,6 +348,8 @@ see_if_marxan_best_was_actually_best <-
 #'  when all PUs with the same number of votes or more are included in the
 #'  solution.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -483,6 +498,8 @@ see_if_marxan_best_was_actually_best <-
 #' total_landscape_cost :  num 407
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param marxan_ssoln_df data frame
 #' @param cor_PU_costs numeric vector
 #' @param optimum_cost numeric
@@ -492,6 +509,8 @@ see_if_marxan_best_was_actually_best <-
 #' @param plot_output_dir character string
 #'
 #' @return Returns nothing
+
+#-------------------------------------------------------------------------------
 
 plot_incremental_marxan_summed_solution_representations =
     function (marxan_ssoln_df,
@@ -697,7 +716,7 @@ plot_incremental_marxan_summed_solution_representations =
 #docaids::doc_vars_in_this_func_once ()
     }
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #' Plot how marxan is actually doing vs. how marxan things it's doing
 #'
@@ -705,6 +724,8 @@ plot_incremental_marxan_summed_solution_representations =
 #'  problem structure and the apparent problem structure, i.e.,
 #'  how marxan is really doing vs. how marxan thinks it's doing.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -745,6 +766,8 @@ plot_incremental_marxan_summed_solution_representations =
 #' plot_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param marxan_ssoln_df data frame
 #' @param cor_PU_costs numeric vector
 #' @param correct_solution_cost numeric
@@ -755,6 +778,8 @@ plot_incremental_marxan_summed_solution_representations =
 #' @param plot_output_dir character string
 #'
 #' @return Returns nothing
+
+#-------------------------------------------------------------------------------
 
 plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
     function (marxan_ssoln_df,
@@ -790,12 +815,14 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
 #docaids::doc_vars_in_this_func_once ()
     }
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #' Plot marxan best soltion scores COR and APP
 #'
 #' Plot marxan best solution scores for both CORRECT and APPARENT
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -828,12 +855,16 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
 #' plot_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param plot_output_dir character string
 #' @param cor_marxan_solution_scores data frame
 #' @param best_solution_ID_according_to_marxan integer
 #' @param app_marxan_solution_scores data frame
 #'
 #' @return Returns nothing
+
+#-------------------------------------------------------------------------------
 
 plot_marxan_best_solution_scores_COR_and_APP <- function (plot_output_dir,
                                                             cor_marxan_solution_scores,
@@ -886,7 +917,7 @@ plot_marxan_best_solution_scores_COR_and_APP <- function (plot_output_dir,
 #docaids::doc_vars_in_this_func_once ()
     }
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 # Variables and their structures
 #
@@ -904,12 +935,14 @@ plot_marxan_best_solution_scores_COR_and_APP <- function (plot_output_dir,
 # num_marxan_solutions:  integer
 # total_landscape_cost:  integer
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #' Find best marxan solutions
 #'
 #' Find best marxan soltuions
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -1024,6 +1057,8 @@ plot_marxan_best_solution_scores_COR_and_APP <- function (plot_output_dir,
 #' total_landscape_cost :  num 407
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param marxan_output_dir_path character string
 #' @param num_spp integer
 #' @param cor_PU_costs numeric vector
@@ -1037,6 +1072,8 @@ plot_marxan_best_solution_scores_COR_and_APP <- function (plot_output_dir,
 #' @param marxan_top_dir character string
 #'
 #' @return Returns nothing
+
+#-------------------------------------------------------------------------------
 
 find_best_marxan_solutions <- function (marxan_output_dir_path,
                                         #num_PUs,     #  should this be largest_PU_ID?

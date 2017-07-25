@@ -9,18 +9,22 @@ convert_name_str_to_ID_num = function (str, lead_str="P")
     return (as.numeric (stringr::str_replace (str, lead_str, "")))
     }
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #' Load marxan mvbest df from file and sort by CF
 #'
 #' Load marxan's best solution data frame from a file and sort it by
 #' conservation features (i.e., species).
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
 #'what the data might look like.
 #'
+#-------------------------------------------------------------------------------
+
 #' \subsection{marxan_mvbest_df}{
 #' \preformatted{
 #' marxan_mvbest_df : 'data.frame':	1277 obs. of  10 variables:
@@ -44,9 +48,13 @@ convert_name_str_to_ID_num = function (str, lead_str="P")
 #' marxan_output_mvbest_file_name :  chr "output_mvbest.csv"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param marxan_output_dir_path character string
 #'
 #' @return Returns marxan mvbest data frame
+
+#-------------------------------------------------------------------------------
 
 load_marxan_mvbest_df_from_file_and_sort_by_CF <- function (marxan_output_dir_path)
     {
@@ -85,13 +93,15 @@ load_marxan_mvbest_df_from_file_and_sort_by_CF <- function (marxan_output_dir_pa
     return (marxan_mvbest_df)
     }
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #'  Load marxan's summed solutions vector from its marxan output file.
 #'
 #'  For each PU ID, it shows the number of solution vectors that
 #'  included that PU in the solution.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -128,10 +138,14 @@ load_marxan_mvbest_df_from_file_and_sort_by_CF <- function (marxan_output_dir_pa
 #'  $ number       : int  0 0 0 0 0 0 0 0 0 0 ...
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param marxan_output_dir_path character string
 #' @param all_correct_node_IDs integer vector
 #'
 #' @return Returns marxan_ssoln_df data frame
+
+#-------------------------------------------------------------------------------
 
 load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_path,
                                                            all_correct_node_IDs)
@@ -154,13 +168,15 @@ load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_pat
     return (marxan_ssoln_df)
     }
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #' Load marxan best data frame from file, sort, add missing PUs
 #'
 #' Load marxan best data from file and sort in increasing order by planning
 #' unit ID.  Also add any missing planning units.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -197,10 +213,14 @@ load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_pat
 #' marxan_output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param marxan_output_dir_path character string
 #' @param all_correct_node_IDs integer vector
 #'
 #' @return Returns marxan_best_df_sorted data frame
+
+#-------------------------------------------------------------------------------
 
 load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <-
                                             function (marxan_output_dir_path,
@@ -239,12 +259,14 @@ load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <-
     return (marxan_best_df_sorted)
     }
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #' Load marxan solutions matrix from file, sort, add missing PUs
 #'
 #' Load marxan solutions matrix from file, sort, add missing PUs
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -311,10 +333,14 @@ load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <-
 #' PU_names :  chr [1:407] "P1" "P2" "P3" "P4" "P5" "P6" "P7" "P8" "P9" "P10" ...
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param marxan_output_dir_path character string
 #' @param largest_PU_ID integer
 #'
 #' @return Returns marxan_solutions_matrix_and_num_solutions
+
+#-------------------------------------------------------------------------------
 
 load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
     function (marxan_output_dir_path,
@@ -386,6 +412,8 @@ load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
 #'
 #' Read CORRECT marxan output files
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -422,12 +450,16 @@ load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
 #' top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param rsrun an RSrun object
 #' @param COR_bd_prob a Xu_bd_problem object
 #' @param parameters list
 #'
 #' @return Returns marxan_output_values list
 #' @export
+
+#-------------------------------------------------------------------------------
 
 read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
     {
@@ -467,6 +499,8 @@ read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
 #'
 #' Read APPARENT marxan output files.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -506,12 +540,16 @@ read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
 #' top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param rsrun an RSrun object
 #' @param APP_bd_prob a Xu_bd_problem object
 #' @param COR_bd_prob a Xu_bd_problem object
 #' @param parameters list
 #'
 #' @return Returns marxan_output_values
+
+#-------------------------------------------------------------------------------
 
 read_APP_marxan_output_files <- function (rsrun,
                                           APP_bd_prob,
@@ -550,10 +588,14 @@ read_APP_marxan_output_files <- function (rsrun,
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
     #  Moved this code out into a separate function because it doesn't
     #  return anything.  It's only used for some verification and
     #  plotting side effects.
     #  BTL - 2017 06 01
+
+#-------------------------------------------------------------------------------
 
 find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP <-
         function (marxan_output_dir_path,
@@ -623,6 +665,8 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and
 #'  output_penalty.csv
 #'  output_sen.dat
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -721,6 +765,8 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and
 #' targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param marxan_output_dir character string output directory for the marxan run
 #' @param all_correct_node_IDs integer vector
 #' @param num_spp integer
@@ -735,6 +781,8 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and
 #' @param marxan_top_dir character string top directory of the marxan run
 #'
 #' @return Returns list
+
+#-------------------------------------------------------------------------------
 
 # read_marxan_output_files <- function (marxan_output_dir_path,
 #                         all_correct_node_IDs,

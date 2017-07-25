@@ -59,6 +59,10 @@
 #' be appropriate to raise the SPF for these features. Once again, see the
 #' MGPH for more detail on setting SPFs.
 #'
+#===============================================================================
+
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -88,12 +92,16 @@
 #' spf_rule_to_use :  chr "POWER_OF_10"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param spf_rule_to_use character string
 #' @param num_spp integer
 #' @param parameters list
 #'
 #' @return numeric
 #' @export
+
+#-------------------------------------------------------------------------------
 
 compute_marxan_species_penalty_factor <- function (spf_rule_to_use,
                                                    num_spp,
@@ -220,6 +228,8 @@ compute_marxan_species_penalty_factor <- function (spf_rule_to_use,
 #' targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param PU_spp_pair_indices data frame
 #' @param PU_IDs integer vector
 #' @param spp_IDs integer vector
@@ -234,6 +244,8 @@ compute_marxan_species_penalty_factor <- function (spf_rule_to_use,
 #'
 #' @return numeric spf_const
 #' @export
+
+#-------------------------------------------------------------------------------
 
 write_network_to_marxan_files = function (PU_spp_pair_indices,       #  app values if running on app
                                           PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?
