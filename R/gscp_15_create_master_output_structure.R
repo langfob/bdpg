@@ -2227,10 +2227,10 @@ cor_num_patches_in_solution = sum (cor_solution_vector)
         compute_and_verify_APP_rep_scores_according_to_RS (marxan_output_values$marxan_mvbest_df,
                                                            COR_bd_prob@num_spp)
 
-    if (class (APP_bd_prob) == "APP_prob_info_class")
+    if (APP_bd_prob@cor_or_app_str == "APP")
         {
-        FP_const_rate = APP_bd_prob@FP_const_rate
-        FN_const_rate = APP_bd_prob@FN_const_rate
+        FP_const_rate = APP_bd_prob@APP_prob_info@FP_const_rate
+        FN_const_rate = APP_bd_prob@APP_prob_info@FN_const_rate
 
         } else
         {
