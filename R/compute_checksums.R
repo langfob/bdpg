@@ -61,9 +61,9 @@ compute_obj_checksum <- function (obj_with_UUID_and_checksum,
         #  when two objects are identical other than those two fields.
         #------------------------------------------------------------------
 
-    if ("UUID" %in% slotNames (obj_with_UUID_and_checksum))
+    if ("UUID" %in% methods::slotNames (obj_with_UUID_and_checksum))
         obj_with_UUID_and_checksum@UUID <- ""
-    if ("checksum" %in% slotNames (obj_with_UUID_and_checksum))
+    if ("checksum" %in% methods::slotNames (obj_with_UUID_and_checksum))
         obj_with_UUID_and_checksum@checksum <- ""
 
         #--------------------------------------------------------------
