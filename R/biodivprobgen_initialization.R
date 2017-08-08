@@ -173,13 +173,13 @@ init_for_bdpg <- function (parameters)
         #  file.open() like this, it will double up the slash in the
         #  output since file.open() only strips a trailing slash from the
         #  LAST ENTRY in its list of args.  For example, assume that
-        #  parameters$fullOutputDirWithSlash was "tzarout/", then :
-        #       file.open (parameters$fullOutputDirWithSlash, "abc/")
+        #  parameters$full_output_dir_with_slash was "tzarout/", then :
+        #       file.open (parameters$full_output_dir_with_slash, "abc/")
         #  would return "tzarout//abc", rather than the desired "tzarout/abc".
         #-----------------------------------------------------------------------
 
     parameters$fullOutputDir_NO_slash <-
-        normalizePath (strip_trailing_slash (parameters$fullOutputDirWithSlash),
+        normalizePath (strip_trailing_slash (parameters$full_output_dir_with_slash),
                        mustWork=FALSE)
 
     params_and_error_codes <- list (parameters = parameters,

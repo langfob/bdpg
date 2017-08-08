@@ -108,7 +108,7 @@ verify_that_generated_solution_really_is_a_solution =
         cat ("\n\nbpm = \n")
         print (bpm)
 
-        if (getOption ("bdpg.emulatingTzar", default=FALSE))  browser ()
+        if (getOption ("bdpg.emulating_tzar", default=FALSE))  browser ()
         quit (save="no", status=bdpg_error_codes$ERROR_STATUS_optimal_solution_is_not_optimal)
         }
 

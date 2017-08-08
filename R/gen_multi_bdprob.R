@@ -156,7 +156,7 @@ gen_multi_bdprob = function (parameters,
 
     cat ("\n\n>>>>>>>>>>>>>>>>>>>>>>  ABOUT TO build base Xu problem for multi-problem  <<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
     starting_dir =
-        file.path (normalizePath (parameters$fullOutputDirWithSlash))
+        file.path (normalizePath (parameters$full_output_dir_with_slash))
                    # ,
                    # "base_prob.1")
 
@@ -183,7 +183,7 @@ gen_multi_bdprob = function (parameters,
         if (wrap_lognormal_dist_around_Xu)  #parameters$wrap_lognormal_around_Xu)
             {
             starting_dir =
-                file.path (normalizePath (parameters$fullOutputDirWithSlash))
+                file.path (normalizePath (parameters$full_output_dir_with_slash))
                            # ,
                            # "wrap_prob.1")
 
@@ -211,7 +211,7 @@ gen_multi_bdprob = function (parameters,
             #
             # tot_num_PUs_in_landscape = round (get_num_nodes (bdprob_1@nodes) /
             #                                   solution_frac_of_landscape)
-            # search_outfile_name      = paste0 (parameters$fullOutputDirWithSlash,
+            # search_outfile_name      = paste0 (parameters$full_output_dir_with_slash,
             #                                    "wrap_search_outfile.csv")
             #
             #     #-----------------------------------------------------------

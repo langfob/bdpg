@@ -1206,7 +1206,7 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
 
     see_if_marxan_best_was_actually_best (best_solution_ID_according_to_marxan,
                                           app_marxan_solution_scores,
-#                                          parameters$fullOutputDirWithSlash
+#                                          parameters$full_output_dir_with_slash
                                           marxan_top_dir
                                           )
 

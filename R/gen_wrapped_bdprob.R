@@ -1294,7 +1294,7 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
         tot_num_PUs_in_landscape = round (get_num_nodes (base_bdprob@nodes) /
                                           solution_frac_of_landscape)
 
-        # search_outfile_name      = paste0 (parameters$fullOutputDirWithSlash,
+        # search_outfile_name      = paste0 (parameters$full_output_dir_with_slash,
         #                                    "wrap_search_outfile.csv")
         search_outfile_name_base = "wrap_search_outfile.csv"
         search_outfile_name      = file.path (starting_dir,

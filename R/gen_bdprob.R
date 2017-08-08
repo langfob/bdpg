@@ -104,9 +104,9 @@ gen_bdprob  = function (parameters,
         } else
         {
         # starting_dir =
-        #     file.path (normalizePath (parameters$fullOutputDirWithSlash),
+        #     file.path (normalizePath (parameters$full_output_dir_with_slash),
         #                "base_prob.1")
-        bdprob = gen_single_bdprob_COR (parameters$fullOutputDirWithSlash,  #starting_dir,
+        bdprob = gen_single_bdprob_COR (parameters$full_output_dir_with_slash,  #starting_dir,
                                     compute_network_metrics_for_this_prob,
                                         parameters,
                                         read_Xu_problem_from_Xu_file,

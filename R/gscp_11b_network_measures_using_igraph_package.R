@@ -302,7 +302,7 @@ compute_igraph_related_network_measures <-
 #               num_PUs,
 #               app_PU_spp_pair_indices,
 #               PU_spp_pair_names,
-#               emulatingTzar,
+#               emulating_tzar,
 #               DEBUG_LEVEL,
 #               network_output_dir
 #               )
@@ -423,7 +423,7 @@ compute_igraph_related_network_measures <-
     cat ("\n\n=====>  Under igraph, is.bipartite (bg) = ", is.bipartite (bg), "\n")
     #Echo results...
 
-    if (getOption ("bdpg.emulatingTzar", default=FALSE) &
+    if (getOption ("bdpg.emulating_tzar", default=FALSE) &
         (getOption ("bdpg.DEBUG_LEVEL", default=0) > 0))
         {
         print(bg)

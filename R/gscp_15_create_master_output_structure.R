@@ -1301,7 +1301,7 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
 #
 #                                             #  input parameters
 #                                           parameters,
-#                                           emulatingTzar,
+#                                           emulating_tzar,
 #                                           DEBUG_LEVEL,
 #                                           #derived_bdpg_parameters,   #  BUG?  UNKNOWN FOR XU FROM FILE?
 #                                           derived_bdpg_parameters$current_os,
@@ -1361,7 +1361,7 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
 #
 #                                             #  input parameters
 #                                           parameters,
-#                                           emulatingTzar,
+#                                           emulating_tzar,
 #                                           DEBUG_LEVEL,
 #
 #                                           current_os,   #### derived_bdpg_parameters$current_os
@@ -1546,7 +1546,7 @@ create_COR_master_output_structure <- function (marxan_control_values,
 #
 #                                                 #  input parameters
 #                                               parameters,
-#                                               emulatingTzar,
+#                                               emulating_tzar,
 #                                               DEBUG_LEVEL,
 #                                               #derived_bdpg_parameters,   #  BUG?  UNKNOWN FOR XU FROM FILE?
 #                                               derived_bdpg_parameters$current_os,

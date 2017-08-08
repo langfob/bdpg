@@ -416,7 +416,7 @@ derive_Xu_control_parameters = function (parameters,
              tot_num_links_inside_groups,
              ") < 1.\n\n")
 
-        if (getOption ("bdpg.emulatingTzar", default=FALSE))  browser ()
+        if (getOption ("bdpg.emulating_tzar", default=FALSE))  browser ()
 
         quit (status=bdpg_error_codes$ERROR_STATUS_num_inside_or_within_group_links_less_than_one,
               save="no")
