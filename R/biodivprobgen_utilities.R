@@ -76,7 +76,7 @@ write_results_to_files = function (results_df,
     results_df[[tzar_run_id_field_name]] = parameters$run_id
     write.csv (results_df, file = summary_WITH_run_id_path, row.names = FALSE)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================
@@ -353,7 +353,7 @@ find_indices_of_spp_with_unmet_rep = function (spp_occ_matrix,
                                           spp_rep_targets
                                           )
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (which (spp_rep_fracs < 1))
     }
 
@@ -373,7 +373,7 @@ compute_frac_spp_covered =
                                             spp_rep_targets
                                             )
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (1 - (length (indices_of_spp_with_unmet_rep) / num_spp))
     }
 
@@ -704,7 +704,7 @@ save_rsrun <- function (rsrun, starting_dir)
                                           #saved_rsrun_filename,
                                           base_outdir)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
     return (rsrun)
     }
 

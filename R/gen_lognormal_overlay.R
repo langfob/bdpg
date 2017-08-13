@@ -54,7 +54,7 @@ plot_hist_and_normal_curve_for_sampled_lognormal_data =
     curve (dnorm (x, mean=meanlog, sd=sdlog), add=TRUE, lwd=2)
 
     plot (sort(rounded_abundances, decreasing=TRUE))
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
 
     }  #  end function - plot_hist_and_normal_curve_for_sampled_lognormal_data ()
 
@@ -285,7 +285,7 @@ gen_lognormal = function (num_spp_to_generate,
     #     }
     # return (rounded_abundances_without_nonexistant_spp)
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
 
     return (rounded_abundances)
 
@@ -339,7 +339,7 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
                           )
                 )
         }
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
 
     }
 

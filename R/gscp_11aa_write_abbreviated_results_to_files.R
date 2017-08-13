@@ -197,7 +197,7 @@ write_abbreviated_results_to_files =
     write_results_to_files (initialized_output_df, parameters,
                             cur_result_row)    #  Added 2016 03 28 - BTL.
 
-docaids::doc_vars_in_this_func_once ()
+#docaids::doc_vars_in_this_func_once ()
 
     }
 
