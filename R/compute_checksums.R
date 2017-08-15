@@ -143,6 +143,14 @@ compute_and_set_obj_checksum <- function (obj_with_UUID_and_checksum,
 #'
 #' Save the object to disk with its checksum slot set.
 #'
+#' Note that there may be a way to compress these files when they're saved,
+#' but I don't quite understand from the saveRDS() help file whether you
+#' have to do the compression by calling gzfile() or some argument to saveRDS().
+#' It may be worth looking into more if these objects get large because of
+#' the adjacency matrix, since the examples in the help file for readRDS()
+#' look like readRDS() can directly restore an R object that's been saved
+#' using saveRDS() and then had gzip() applied to it.
+#'
 #-------------------------------------------------------------------------------
 
 #'@section Local Variable Structures and examples:
