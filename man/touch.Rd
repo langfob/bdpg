@@ -2,7 +2,7 @@
 % Please edit documentation in R/biodivprobgen_utilities.R
 \name{touch}
 \alias{touch}
-\title{Touch}
+\title{Imitate unix touch function to create an empty file.}
 \usage{
 touch(file_path_to_touch)
 }
@@ -13,8 +13,7 @@ touch(file_path_to_touch)
 Returns nothing
 }
 \description{
-Imitate unix touch function to create an empty file.
- I couldn't find an existing function for this, but did find a
+I couldn't find an existing function for this, but did find a
  stack overflow question that suggested using write.table() on an
  empty table, so that's what I've done.
 }
