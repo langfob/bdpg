@@ -742,6 +742,13 @@ save_rsrun <- function (rsrun, starting_dir)
 
 #===============================================================================
 
+load_obj_from_file <- function (path_to_file)
+    {
+    return (readRDS (path_to_file))
+    }
+
+#===============================================================================
+
 #' Strip Trailing Slash Off Of Path If There Is One
 #'
 #' Tzar puts a slash on the end of the output path and this causes problems
