@@ -6,6 +6,17 @@
 
 #-------------------------------------------------------------------------------
 
+#' @param COR_prob_src string indicating whether this COR problem is
+#' generated from scratch ("generator"), read from a saved R object
+#' ("R_obj_dump_file"), or read from a Xu benchmark file ("Xu_bench_file")
+#' @param R_obj_dump_file_path string containing full path (including
+#' file name) to the file containing an R object that was saved
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Returns a COR Xu_bd_problem
+#' @export
+
 #-------------------------------------------------------------------------------
 
 gen_single_bdprob_COR <- function (COR_prob_src=NULL,

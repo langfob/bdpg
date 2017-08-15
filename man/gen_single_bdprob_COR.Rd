@@ -2,14 +2,23 @@
 % Please edit documentation in R/gen_single_bdprob.R
 \name{gen_single_bdprob_COR}
 \alias{gen_single_bdprob_COR}
-\title{Generate a single biodiversity problem}
+\title{Generate a single biodiversity problem from scratch of from a file}
 \usage{
-gen_single_bdprob_COR(exp_root_dir, compute_network_metrics_for_this_prob,
-  parameters, read_Xu_problem_from_Xu_file, Xu_bench_infile_name,
-  given_correct_solution_cost, max_allowed_num_spp, bdpg_error_codes,
-  integerize, base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
+gen_single_bdprob_COR(COR_prob_src = NULL, R_obj_dump_file_path = NULL,
+  exp_root_dir = NULL, compute_network_metrics_for_this_prob = NULL,
+  parameters = NULL, read_Xu_problem_from_Xu_file = NULL,
+  Xu_bench_infile_name = NULL, given_correct_solution_cost = NULL,
+  max_allowed_num_spp = NULL, bdpg_error_codes = NULL, integerize = NULL,
+  base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
 }
 \arguments{
+\item{COR_prob_src}{string indicating whether this COR problem is
+generated from scratch ("generator"), read from a saved R object
+("R_obj_dump_file"), or read from a Xu benchmark file ("Xu_bench_file")}
+
+\item{R_obj_dump_file_path}{string containing full path (including
+file name) to the file containing an R object that was saved}
+
 \item{exp_root_dir}{character string path to root directory of an
 experiment, usually parameters$fullOutputDir_NO_slash}
 
@@ -39,87 +48,8 @@ to keep the run-time down)}
 \item{integerize}{function to use in converting floats to ints}
 }
 \value{
-Returns a new Xu_bd_problem
+Returns a COR Xu_bd_problem
 }
 \description{
-Read a Xu problem from files of ones already created by Xu or
-create one from scratch.
+Generate a single biodiversity problem from scratch of from a file
 }
-\details{
-**NOTE that if other kinds of problems are created, this routine will have
-to be replaced or cloned into something appropriate for the new problem
-type.**
-}
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{base_prob_name_stem}{
-\preformatted{
-base_prob_name_stem :  chr "base_prob"
-}}
-\subsection{bdpg_error_codes}{
-\preformatted{
-bdpg_error_codes : List of 6
- $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
- $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
- $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
- $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
- $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
- $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-}}
-\subsection{bpm}{
-\preformatted{
-bpm :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
-}}
-\subsection{cor_dir_name_stem}{
-\preformatted{
-cor_dir_name_stem :  chr "cor"
-}}
-\subsection{given_correct_solution_cost}{
-\preformatted{
-given_correct_solution_cost :  num 420
-}}
-\subsection{Xu_bench_infile_name}{
-\preformatted{
-Xu_bench_infile_name :  chr ""
-}}
-\subsection{integerize}{
-\preformatted{
-integerize : function (x, digits = 0)
-}}
-\subsection{max_allowed_num_spp}{
-\preformatted{
-max_allowed_num_spp :  num 2000
-}}
-\subsection{parameters}{
-\preformatted{
-parameters : List of 66
- $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
- ...
- $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-}}
-\subsection{PU_spp_pair_info}{
-\preformatted{
-PU_spp_pair_info : Formal class 'PU_spp_pair_info_class' [package "bdpg"] with 12 slots
-}}
-\subsection{read_Xu_problem_from_Xu_file}{
-\preformatted{
-read_Xu_problem_from_Xu_file :  logi FALSE
-}}
-\subsection{exp_root_dir}{
-\preformatted{
-exp_root_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-}}
-\subsection{Xu_bdprob_cor}{
-\preformatted{
-Xu_bdprob_cor : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-}}
-\subsection{Xu_prob_gen_info}{
-\preformatted{
-Xu_prob_gen_info : Formal class 'Xu_prob_gen_info_class' [package "bdpg"] with 3 slots
-}}
-}
-
