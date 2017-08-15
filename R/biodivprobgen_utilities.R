@@ -101,6 +101,8 @@ get_PU_costs = function (num_PUs) { return (rep (1, num_PUs)) }
 #'  edges, i.e., more than one species occurring on the same pair of
 #'  patches.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -165,11 +167,15 @@ get_PU_costs = function (num_PUs) { return (rep (1, num_PUs)) }
 #' rows_to_delete :  list()
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns an edge list, a two column integer matrix of
 #'     node IDs with one row for each edge and columns for the 2 ends of
 #'     the edge; quits if any duplicate edges are found.
+
+#-------------------------------------------------------------------------------
 
 see_if_there_are_any_duplicate_links = function (occ_matrix,
                                                  num_spp,
@@ -259,6 +265,8 @@ see_if_there_are_any_duplicate_links = function (occ_matrix,
 #'
 #' Build planning unit vs. species indices from occupancy matrix.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -299,11 +307,15 @@ see_if_there_are_any_duplicate_links = function (occ_matrix,
 #'  $ spp_ID: int  1 2 3 3 4 4 5 5 5 5 ...
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param occ_matrix matrix
 #' @param num_PUs integer
 #' @param num_spp integer
 #'
 #' @return Returns PU_spp_pair_indices data frame
+
+#-------------------------------------------------------------------------------
 
 build_PU_spp_pair_indices_from_occ_matrix = function (occ_matrix,
                                                       num_PUs, num_spp)
@@ -410,6 +422,8 @@ compute_frac_spp_covered =
 #' for this function was: add_missing_PUs_to_marxan_solutions().  Probably
 #' don't need to track that anymoe, but will leave it here for the moment.
 
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -442,12 +456,16 @@ compute_frac_spp_covered =
 #' PU_col_name :  chr "PU_ID"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns \code{marxan solution} data frame that includes all planning
 #'     unit IDs from the correct problem rather than only the IDs that occurred
 #'     in the apparent problem (see description of \code{marxan_solution} in
 #'     input argument list for this function)
+
+#-------------------------------------------------------------------------------
 
 add_missing_PU_rows_to_PU_Count_dataframe = function (marxan_solution,
                                                 all_correct_node_IDs,
@@ -518,6 +536,8 @@ clean_up_final_link_counts_for_each_node <- function (PU_spp_pair_indices,
 
 #' Compute final PU and species counts and plot degree and abundance distributions.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -566,6 +586,8 @@ clean_up_final_link_counts_for_each_node <- function (PU_spp_pair_indices,
 #' spp_col_name :  chr "spp_ID"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return final_link_counts_for_each_node, i.e., species count for each node, i.e., 2 column data frame of PU_IDs vs. number of species on corresponding PU
@@ -591,6 +613,8 @@ clean_up_final_link_counts_for_each_node <- function (PU_spp_pair_indices,
 #'                                               "freq")
 #'          }
 #'
+#-------------------------------------------------------------------------------
+
 summarize_and_plot_graph_and_distribution_structure_information =
     function (PU_spp_pair_indices,  #  either correct or apparent
               cor_or_app_label,     #  either correct or apparent
@@ -648,6 +672,8 @@ cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 #' to regenerate the problem.  Saving it is also useful for reproducibility
 #' in that it allows re-creation of exactly the problem used in an experiment.
 #'
+#-------------------------------------------------------------------------------
+
 #' @details
 #' Writes to a file whose name contains:
 #' \itemize{
@@ -656,6 +682,8 @@ cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 #'  \item{whether it's a correct or an apparent problem}
 #' }
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -674,9 +702,13 @@ cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 #' exp_root_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns input object with its checksum slot filled
+
+#-------------------------------------------------------------------------------
 
 save_rsprob <- function (rsprob, exp_root_dir)
     {
@@ -716,6 +748,8 @@ save_rsrun <- function (rsrun, starting_dir)
 #' when using it to build full paths to file names.  This function is
 #' primarily here to strip that off but can be used on any path.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -730,12 +764,16 @@ save_rsrun <- function (rsrun, starting_dir)
 #' path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param path character string containing a path that may or may not end in a
 #'     slash
 #'
 #' @return character string containing original path argument with trailing
 #'     slash removed if there was one, otherwise, same as original
 #' @export
+
+#-------------------------------------------------------------------------------
 
 strip_trailing_slash <- function (path)
     {
@@ -756,14 +794,14 @@ strip_trailing_slash <- function (path)
 
 #===============================================================================
 
-
-#' Touch
-#'
 #'  Imitate unix touch function to create an empty file.
+#'
 #'  I couldn't find an existing function for this, but did find a
 #'  stack overflow question that suggested using write.table() on an
 #'  empty table, so that's what I've done.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -773,12 +811,15 @@ strip_trailing_slash <- function (path)
 #' \preformatted{
 #' file_path_to_touch :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/OK_marxan_solution_IS_appar"| __truncated__
 #' }}
-
 #'
+#-------------------------------------------------------------------------------
+
 #' @param file_path_to_touch character string
 #'
 #' @return Returns nothing
 #' @export
+
+#-------------------------------------------------------------------------------
 
 touch <- function (file_path_to_touch)
     {

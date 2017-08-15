@@ -21,6 +21,8 @@
 #' temporary file.  Then, a checksum is computed for that temporary file and
 #' file.  The modified original object is not returned from the function.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -47,10 +49,14 @@
 #' saved_obj_with_checksum_filename :  chr "tmp_for_checksum__ok_to_delete_if_left_after_run.rds"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return character string checksum of the object when object has been written
 #'     out as a file
+
+#-------------------------------------------------------------------------------
 
 compute_obj_checksum <- function (obj_with_UUID_and_checksum,
                                   base_outdir_for_checksum=".")
@@ -95,6 +101,8 @@ compute_obj_checksum <- function (obj_with_UUID_and_checksum,
 #' This function computes the checksum and sets the checksum slot in the object,
 #' then returns the modified object.  It just packages those up for convenience.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -109,10 +117,14 @@ compute_obj_checksum <- function (obj_with_UUID_and_checksum,
 #' obj_with_UUID_and_checksum : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return  the same object that was passed in except that its checksum is
 #'     now set
+
+#-------------------------------------------------------------------------------
 
 compute_and_set_obj_checksum <- function (obj_with_UUID_and_checksum,
                                           base_outdir_for_checksum=".")
@@ -131,6 +143,8 @@ compute_and_set_obj_checksum <- function (obj_with_UUID_and_checksum,
 #'
 #' Save the object to disk with its checksum slot set.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -153,9 +167,13 @@ compute_and_set_obj_checksum <- function (obj_with_UUID_and_checksum,
 #' saved_obj_with_checksum_filename :  chr "saved.RSprob-COR-Base.d0729e1c-eadc-4899-a382-8cb7ac2c08d7.rds"
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns input object with its checksum slot filled
+
+#-------------------------------------------------------------------------------
 
 save_obj_with_checksum = function (obj_with_UUID_and_checksum,
 #  no longer used?                                   saved_obj_with_checksum_filename,
