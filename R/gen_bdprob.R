@@ -52,9 +52,9 @@
 #'  ...
 #'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1842_marxan_simulated_annealing.inprogress"
 #' }}
-#' \subsection{read_Xu_problem_from_Xu_file}{
+#' \subsection{read_Xu_problem_from_Xu_bench_file}{
 #' \preformatted{
-#' read_Xu_problem_from_Xu_file :  logi FALSE
+#' read_Xu_problem_from_Xu_bench_file :  logi FALSE
 #' }}
 #' \subsection{wrap_lognormal_dist_around_Xu}{
 #' \preformatted{
@@ -76,7 +76,7 @@ gen_bdprob  = function (parameters,
         #  and if they don't for this particular run, then set them to
         #  something like NULL.
 
-    read_Xu_problem_from_Xu_file   = parameters$read_Xu_problem_from_Xu_file
+    read_Xu_problem_from_Xu_bench_file   = parameters$read_Xu_problem_from_Xu_bench_file
     infile_name                    = parameters$infile_name
     if (is.null (infile_name)) infile_name = ""
     given_correct_solution_cost    = parameters$given_correct_solution_cost
@@ -93,7 +93,7 @@ gen_bdprob  = function (parameters,
         bdprob = gen_multi_bdprob (parameters,
                                     compute_network_metrics_for_this_prob,
                                    wrap_lognormal_dist_around_Xu,
-                                   read_Xu_problem_from_Xu_file,
+                                   read_Xu_problem_from_Xu_bench_file,
                                    infile_name,
                                    given_correct_solution_cost,
                                    max_allowed_num_spp,
@@ -109,7 +109,7 @@ gen_bdprob  = function (parameters,
         bdprob = gen_single_bdprob_COR (parameters$full_output_dir_with_slash,  #starting_dir,
                                     compute_network_metrics_for_this_prob,
                                         parameters,
-                                        read_Xu_problem_from_Xu_file,
+                                        read_Xu_problem_from_Xu_bench_file,
                                         infile_name,
                                         given_correct_solution_cost,
                                         max_allowed_num_spp,

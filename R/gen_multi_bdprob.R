@@ -121,7 +121,7 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
 gen_multi_bdprob = function (parameters,
                                     compute_network_metrics_for_this_prob,
                              wrap_lognormal_dist_around_Xu,
-                             read_Xu_problem_from_Xu_file,
+                             read_Xu_problem_from_Xu_bench_file,
                              infile_name,
                              given_correct_solution_cost,
                              max_allowed_num_spp,
@@ -137,7 +137,7 @@ gen_multi_bdprob = function (parameters,
         #----------------------------------------------------------------------
 
     if (wrap_lognormal_dist_around_Xu &   #(parameters$wrap_lognormal_around_Xu &
-        read_Xu_problem_from_Xu_file)   # parameters$read_Xu_problem_from_Xu_file)
+        read_Xu_problem_from_Xu_bench_file)   # parameters$read_Xu_problem_from_Xu_file)
         {
         stop (paste0 ("\n\nParameters wrap_lognormal_dist_around_Xu and ",
                       "read_Xu_problem_from_Xu_file ",

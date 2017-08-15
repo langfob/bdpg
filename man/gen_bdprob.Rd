@@ -75,9 +75,9 @@ parameters : List of 66
  ...
  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1842_marxan_simulated_annealing.inprogress"
 }}
-\subsection{read_Xu_problem_from_Xu_file}{
+\subsection{read_Xu_problem_from_Xu_bench_file}{
 \preformatted{
-read_Xu_problem_from_Xu_file :  logi FALSE
+read_Xu_problem_from_Xu_bench_file :  logi FALSE
 }}
 \subsection{wrap_lognormal_dist_around_Xu}{
 \preformatted{

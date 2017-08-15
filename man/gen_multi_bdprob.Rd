@@ -6,9 +6,9 @@
 problem(s)}
 \usage{
 gen_multi_bdprob(parameters, compute_network_metrics_for_this_prob,
-  wrap_lognormal_dist_around_Xu, read_Xu_problem_from_Xu_file, infile_name,
-  given_correct_solution_cost, max_allowed_num_spp, bdpg_error_codes,
-  integerize, bdprob_1 = NULL)
+  wrap_lognormal_dist_around_Xu, read_Xu_problem_from_Xu_bench_file,
+  infile_name, given_correct_solution_cost, max_allowed_num_spp,
+  bdpg_error_codes, integerize, bdprob_1 = NULL)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
@@ -22,11 +22,6 @@ indicate not compute any network metrics for the current problem.}
 \item{wrap_lognormal_dist_around_Xu}{boolean indicating whether to wrap a
 lognormal distribution around a base Xu problem; TRUE implies wrapping
 should be done; FALSE implies not}
-
-\item{read_Xu_problem_from_Xu_file}{boolean indicating whether to read a
-Xu problem from one of Xu's benchmark problem files; TRUE implies that
-the problem should be read from one of those files; FALSE implies that
-the problem should be generated from scratch}
 
 \item{infile_name}{string containing the name of the Xu benchmark file to
 read a problem from if reading from a Xu benchmark file}
@@ -42,6 +37,11 @@ faster tests in development)}
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
+
+\item{read_Xu_problem_from_Xu_file}{boolean indicating whether to read a
+Xu problem from one of Xu's benchmark problem files; TRUE implies that
+the problem should be read from one of those files; FALSE implies that
+the problem should be generated from scratch}
 }
 \value{
 Returns a multi-BD_Prob
