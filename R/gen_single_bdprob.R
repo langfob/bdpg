@@ -1,10 +1,78 @@
 #===============================================================================
 
+#' Generate a single biodiversity problem from scratch of from a file
+#'
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+
+gen_single_bdprob_COR <- function (COR_prob_src=NULL,
+                                   R_obj_dump_file_path=NULL,
+                                        exp_root_dir=NULL,
+                                        compute_network_metrics_for_this_prob=NULL,
+                                        parameters=NULL,
+                                    read_Xu_problem_from_Xu_file=NULL,
+                                    Xu_bench_infile_name=NULL,
+                                        given_correct_solution_cost=NULL,
+                                        max_allowed_num_spp=NULL,
+                                        bdpg_error_codes=NULL,
+                                        integerize=NULL,
+                                    base_prob_name_stem = "base_prob",
+                                    cor_dir_name_stem = "cor"
+                                   )
+    {
+    prob_from_generator       = "generator"
+    prob_from_R_obj_dump_file = "R_obj_dump_file"
+    prob_from_Xu_bench_file   = "Xu_bench_file"
+
+    if (is.null (COR_prob_src))
+        {
+        cat ("\n\nERROR: no COR_prob_src given.\n", sep='')
+        quit (save="no", bdpg_error_codes$ERROR_STATUS_no_COR_prob_src_given)
+
+        } else if (COR_prob_src == prob_from_generator |
+                   COR_prob_src == prob_from_Xu_bench_file)
+        {
+            Xu_bdprob_cor =
+                gen_single_bdprob_COR_from_scratch_or_Xu_bench_file (
+                                    exp_root_dir,
+                                    compute_network_metrics_for_this_prob,
+                                    parameters,
+                                read_Xu_problem_from_Xu_file,
+                                Xu_bench_infile_name,
+                                    given_correct_solution_cost,
+                                    max_allowed_num_spp,
+                                    bdpg_error_codes,
+                                    integerize,
+                                base_prob_name_stem = "base_prob",
+                                cor_dir_name_stem = "cor"
+                                )
+
+        } else if (COR_prob_src == prob_from_R_obj_dump_file)
+        {
+            Xu_bdprob_cor =
+                load_saved_obj_from_file (normalizePath (R_obj_dump_file_path))
+
+        } else
+        {
+        cat ("\n\nERROR: unknown COR_prob_src = '", COR_prob_src, "'.\n", sep='')
+        quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_COR_prob_src)
+        }
+
+    return (Xu_bdprob_cor)
+    }
+
+#===============================================================================
+
 #' Generate a Xu problem from scratch
 #'
 #' Generate a Xu biodiversity problem based on 4 input control parameters
 #' rather than reading it from a file.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -79,9 +147,13 @@
 #' Xu_parameters : Formal class 'Xu_params' [package "bdpg"] with 3 slots
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a PU_spp_pair_info_class object
+
+#-------------------------------------------------------------------------------
 
 create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
                                             parameters,
@@ -216,6 +288,8 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' to be replaced or cloned into something appropriate for the new problem
 #' type.**
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -287,23 +361,28 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' Xu_prob_gen_info : Formal class 'Xu_prob_gen_info_class' [package "bdpg"] with 3 slots
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a new Xu_bd_problem
 #' @export
 
-gen_single_bdprob_COR = function (exp_root_dir,
-                                  compute_network_metrics_for_this_prob,
-                                  parameters,
-                        read_Xu_problem_from_Xu_file,
-                        Xu_bench_infile_name,
-                                  given_correct_solution_cost,
-                                  max_allowed_num_spp,
-                                  bdpg_error_codes,
-                                  integerize,
-                        base_prob_name_stem = "base_prob",
-                        cor_dir_name_stem = "cor"
-                        )
+#-------------------------------------------------------------------------------
+
+gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
+    function (exp_root_dir,
+                compute_network_metrics_for_this_prob,
+                parameters,
+            read_Xu_problem_from_Xu_file,
+            Xu_bench_infile_name,
+                given_correct_solution_cost,
+                max_allowed_num_spp,
+                bdpg_error_codes,
+                integerize,
+            base_prob_name_stem = "base_prob",
+            cor_dir_name_stem = "cor"
+            )
     {
         #-------------------------------------------------------------------
         #  Determine whether to create the problem from scratch or read it

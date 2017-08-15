@@ -742,7 +742,7 @@ save_rsrun <- function (rsrun, starting_dir)
 
 #===============================================================================
 
-load_obj_from_file <- function (path_to_file)
+load_saved_obj_from_file <- function (path_to_file)
     {
     return (readRDS (path_to_file))
     }
