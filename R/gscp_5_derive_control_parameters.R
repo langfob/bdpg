@@ -6,6 +6,8 @@
 
 #' Derive full Xu control params from 4 base params
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -129,9 +131,13 @@
 #' Xu_parameters : Formal class 'Xu_params' [package "bdpg"] with 3 slots
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return a Xu_parameters object
+
+#-------------------------------------------------------------------------------
 
 derive_Xu_control_parameters = function (parameters,
                                          bdpg_error_codes,
