@@ -8,8 +8,8 @@
 
 #' @param COR_prob_src string indicating whether this COR problem is
 #' generated from scratch ("generator"), read from a saved R object
-#' ("R_obj_dump_file"), or read from a Xu benchmark file ("Xu_bench_file")
-#' @param R_obj_dump_file_path string containing full path (including
+#' ("rds_file"), or read from a Xu benchmark file ("Xu_bench_file")
+#' @param rds_file_path string containing full path (including
 #' file name) to the file containing an R object that was saved
 #'
 #' @inheritParams std_param_defns
@@ -20,7 +20,7 @@
 #-------------------------------------------------------------------------------
 
 gen_single_bdprob_COR <- function (COR_prob_src=NULL,
-                                   R_obj_dump_file_path=NULL,
+                                   rds_file_path=NULL,
                                         exp_root_dir=NULL,
                                         compute_network_metrics_for_this_prob=NULL,
                                         parameters=NULL,
@@ -35,7 +35,7 @@ gen_single_bdprob_COR <- function (COR_prob_src=NULL,
                                    )
     {
     prob_from_generator       = "generator"
-    prob_from_R_obj_dump_file = "R_obj_dump_file"
+    prob_from_rds_file        = "rds_file"
     prob_from_Xu_bench_file   = "Xu_bench_file"
 
     if (is.null (COR_prob_src))
@@ -61,10 +61,10 @@ gen_single_bdprob_COR <- function (COR_prob_src=NULL,
                                 cor_dir_name_stem = "cor"
                                 )
 
-        } else if (COR_prob_src == prob_from_R_obj_dump_file)
+        } else if (COR_prob_src == prob_from_rds_file)
         {
             Xu_bdprob_cor =
-                load_saved_obj_from_file (normalizePath (R_obj_dump_file_path))
+                load_saved_obj_from_file (normalizePath (rds_file_path))
 
         } else
         {
@@ -589,7 +589,7 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
 
     Xu_bdprob_cor <- save_rsprob (Xu_bdprob_cor, exp_root_dir)
 
-    save_rsprob_results_data_for_Xu_NOT_read_from_file (Xu_bdprob_cor,
+    save_rsprob_results_data_for_Xu_NOT_read_from_bench_file (Xu_bdprob_cor,
                                                         exp_root_dir,
                                                         parameters)
 

@@ -78,7 +78,7 @@
 
 #---------------------------------------------------------------------
 
-save_rsprob_results_data_for_Xu_read_from_file <-
+save_rsprob_results_data_for_Xu_read_from_bench_file <-
     function (rsprob, exp_root_dir,
               num_PUs, num_spp,
               cor_optimum_cost,
@@ -110,7 +110,7 @@ save_rsprob_results_data_for_Xu_read_from_file <-
 
 #===============================================================================
 
-save_rsprob_results_data_for_Xu_NOT_read_from_file <-
+save_rsprob_results_data_for_Xu_NOT_read_from_bench_file <-
     function (rsprob, exp_root_dir, parameters    #, tzar_run_ID
               )
         # ,
@@ -1132,11 +1132,11 @@ bdpg_extended_params = Xu_parameters@bdpg_extended_params
 
   if (read_Xu_problem_from_Xu_file)
       {
-      save_rsprob_results_data_for_Xu_read_from_file ()
+      save_rsprob_results_data_for_Xu_read_from_bench_file ()
 
       } else  #  generated the problem
       {
-      save_rsprob_results_data_for_Xu_NOT_read_from_file ()
+      save_rsprob_results_data_for_Xu_NOT_read_from_bench_file ()
       }
 
   #===============================================================================
