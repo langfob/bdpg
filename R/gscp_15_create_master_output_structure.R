@@ -2113,22 +2113,25 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
         #  e.g., if a type of network metric was not computed for this problem.
         #-----------------------------------------------------------------------
 
-    tzar_run_ID_list          = list (rsr_tzar_run_ID = tzar_run_ID)  #  dummy list with just one element to allow concatenating with other lists
+    tzar_run_ID_list          = list (rsr_tzar_run_ID = tzar_run_ID,
+                                      rsr_UUID = rsrun@UUID,
+                                      rsr_checksum = rsrun@checksum)
 
     prob_characteristics_list = read_prob_characteristics_list (APP_bd_prob,     #rsprob,
-                                                      exp_root_dir,
-                                                      parameters)
+                                                                exp_root_dir,
+                                                                parameters)
     bipartite_measures_list   = read_bipartite_measures_list (APP_bd_prob,    #rsprob,
-                                                    exp_root_dir)
+                                                              exp_root_dir)
     igraph_measures_list      = read_igraph_measures_list (APP_bd_prob,    #rsprob,
-                                                 exp_root_dir)
+                                                           exp_root_dir)
 
 
         #-----------------------------------------------------------------------
 
-    marxan_output_values = read_marxan_output_files (get_RSrun_path_output (rsrun, exp_root_dir),     #rs_output_dir_path,
-                                   COR_bd_prob@all_PU_IDs  #all_correct_node_IDs
-                                   )
+    marxan_output_values =
+        read_marxan_output_files (get_RSrun_path_output (rsrun, exp_root_dir),     #rs_output_dir_path,
+                                  COR_bd_prob@all_PU_IDs  #all_correct_node_IDs
+                                  )
 
         #-----------------------------------------------------------------------
 
