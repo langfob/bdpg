@@ -338,6 +338,8 @@ compute_and_verify_APP_rep_scores_according_to_RS_marxan_sa <-
     #  It's just a reminder that the work will need to be done at some point.
     #  2017 06 01 - BTL
 
+#---------------------------------------------------------------------
+
 compute_and_verify_APP_rep_scores_according_to_RS <-
     function (marxan_mvbest_df, num_spp)
         {
@@ -1067,9 +1069,7 @@ initialize_results_list <- function ()
   #                         marxan_control_values$marxan_CLUMPTYPE
   #                                             )
 
-
-
-
+#---------------------------------------------------------------------
 
 create_master_output_structure <-
         function (read_Xu_problem_from_Xu_file,
