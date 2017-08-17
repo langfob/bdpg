@@ -6,12 +6,6 @@
 
 #-------------------------------------------------------------------------------
 
-#' @param COR_prob_src string indicating whether this COR problem is
-#' generated from scratch ("generator"), read from a saved R object
-#' ("rds_file"), or read from a Xu benchmark file ("Xu_bench_file")
-#' @param rds_file_path string containing full path (including
-#' file name) to the file containing an R object that was saved
-#'
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a COR Xu_bd_problem
@@ -19,32 +13,34 @@
 
 #-------------------------------------------------------------------------------
 
-gen_single_bdprob_COR <- function (COR_prob_src=NULL,
-                                   rds_file_path=NULL,
-                                        exp_root_dir=NULL,
-                                        compute_network_metrics_for_this_prob=NULL,
-                                        parameters=NULL,
-                                    read_Xu_problem_from_Xu_file=NULL,
-                                    Xu_bench_infile_name=NULL,
-                                        given_correct_solution_cost=NULL,
-                                        max_allowed_num_spp=NULL,
-                                        bdpg_error_codes=NULL,
-                                        integerize=NULL,
-                                    base_prob_name_stem = "base_prob",
-                                    cor_dir_name_stem = "cor"
-                                   )
+gen_single_bdprob_COR <- function (exp_root_dir=NULL,
+                                    compute_network_metrics_for_this_prob=NULL,
+                                    parameters=NULL,
+                                read_Xu_problem_from_Xu_file=NULL,
+                                Xu_bench_infile_name=NULL,
+                                    given_correct_solution_cost=NULL,
+                                    max_allowed_num_spp=NULL,
+                                    bdpg_error_codes=NULL,
+                                    integerize=NULL,
+                                base_prob_name_stem = "base_prob",
+                                cor_dir_name_stem = "cor"
+                               )
     {
-    prob_from_generator       = "generator"
-    prob_from_rds_file        = "rds_file"
-    prob_from_Xu_bench_file   = "Xu_bench_file"
+    prob_from_generator                    = "generator"
+    prob_from_rds_file                     = "rds_file"
+    prob_from_rds_file_set_from_file       = "rds_file_set_from_file"
+    prob_from_rds_file_set_from_yaml_array = "rds_file_set_from_yaml_array"
+    prob_from_Xu_bench_file                = "Xu_bench_file"
 
-    if (is.null (COR_prob_src))
+    prob_src = parameters$COR_prob_src
+
+    if (is.null (prob_src))
         {
-        cat ("\n\nERROR: no COR_prob_src given.\n", sep='')
+        cat ("\n\nERROR: no prob_src given.\n", sep='')
         quit (save="no", bdpg_error_codes$ERROR_STATUS_no_COR_prob_src_given)
 
-        } else if (COR_prob_src == prob_from_generator |
-                   COR_prob_src == prob_from_Xu_bench_file)
+        } else if (prob_src == prob_from_generator |
+                   prob_src == prob_from_Xu_bench_file)
         {
             Xu_bdprob_cor =
                 gen_single_bdprob_COR_from_scratch_or_Xu_bench_file (
@@ -61,14 +57,37 @@ gen_single_bdprob_COR <- function (COR_prob_src=NULL,
                                 cor_dir_name_stem = "cor"
                                 )
 
-        } else if (COR_prob_src == prob_from_rds_file)
+        } else if (prob_src == prob_from_rds_file)
         {
+            rds_file_path = parameters$COR_rds_file_path
+
+            Xu_bdprob_cor =
+                load_saved_obj_from_file (normalizePath (rds_file_path))
+
+        } else if (prob_src == prob_from_rds_file_set_from_file)
+        {
+            rds_file_set_path = parameters$COR_rds_file_set_path
+            rds_file_set = readLines (rds_file_set_path)
+
+            rds_file_set_element_idx = parameters$COR_rds_file_set_element_idx
+            rds_file_path = rds_file_set [rds_file_set_element_idx]
+
+            Xu_bdprob_cor =
+                load_saved_obj_from_file (normalizePath (rds_file_path))
+
+        } else if (prob_src == prob_from_rds_file_set_from_yaml_array)
+        {
+            rds_file_set = parameters$COR_rds_file_set_yaml_array
+
+            rds_file_set_element_idx = parameters$COR_rds_file_set_element_idx
+            rds_file_path = rds_file_set [rds_file_set_element_idx]
+
             Xu_bdprob_cor =
                 load_saved_obj_from_file (normalizePath (rds_file_path))
 
         } else
         {
-        cat ("\n\nERROR: unknown COR_prob_src = '", COR_prob_src, "'.\n", sep='')
+        cat ("\n\nERROR: unknown prob_src = '", prob_src, "'.\n", sep='')
         quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_COR_prob_src)
         }
 
