@@ -32,12 +32,12 @@ gen_single_bdprob_COR <- function (exp_root_dir=NULL,
     prob_from_rds_file_set_from_yaml_array = "rds_file_set_from_yaml_array"
     prob_from_Xu_bench_file                = "Xu_bench_file"
 
-    prob_src = parameters$COR_prob_src
+    prob_src = parameters$prob_src
 
     if (is.null (prob_src))
         {
         cat ("\n\nERROR: no prob_src given.\n", sep='')
-        quit (save="no", bdpg_error_codes$ERROR_STATUS_no_COR_prob_src_given)
+        quit (save="no", bdpg_error_codes$ERROR_STATUS_no_prob_src_given)
 
         } else if (prob_src == prob_from_generator |
                    prob_src == prob_from_Xu_bench_file)
@@ -59,17 +59,17 @@ gen_single_bdprob_COR <- function (exp_root_dir=NULL,
 
         } else if (prob_src == prob_from_rds_file)
         {
-            rds_file_path = parameters$COR_rds_file_path
+            rds_file_path = parameters$rds_file_path
 
             Xu_bdprob_cor =
                 load_saved_obj_from_file (normalizePath (rds_file_path))
 
         } else if (prob_src == prob_from_rds_file_set_from_file)
         {
-            rds_file_set_path = parameters$COR_rds_file_set_path
+            rds_file_set_path = parameters$rds_file_set_path
             rds_file_set = readLines (rds_file_set_path)
 
-            rds_file_set_element_idx = parameters$COR_rds_file_set_element_idx
+            rds_file_set_element_idx = parameters$rds_file_set_element_idx
             rds_file_path = rds_file_set [rds_file_set_element_idx]
 
             Xu_bdprob_cor =
@@ -77,9 +77,9 @@ gen_single_bdprob_COR <- function (exp_root_dir=NULL,
 
         } else if (prob_src == prob_from_rds_file_set_from_yaml_array)
         {
-            rds_file_set = parameters$COR_rds_file_set_yaml_array
+            rds_file_set = parameters$rds_file_set_yaml_array
 
-            rds_file_set_element_idx = parameters$COR_rds_file_set_element_idx
+            rds_file_set_element_idx = parameters$rds_file_set_element_idx
             rds_file_path = rds_file_set [rds_file_set_element_idx]
 
             Xu_bdprob_cor =
@@ -88,7 +88,7 @@ gen_single_bdprob_COR <- function (exp_root_dir=NULL,
         } else
         {
         cat ("\n\nERROR: unknown prob_src = '", prob_src, "'.\n", sep='')
-        quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_COR_prob_src)
+        quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_prob_src)
         }
 
     return (Xu_bdprob_cor)
