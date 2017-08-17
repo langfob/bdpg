@@ -252,7 +252,7 @@ results_list$rsp_num_independent_nodes_per_group                                
             #  just to keep the output tables having the same size and
             #  column headings, which should make merging tables simpler.
 
-    results_list$rsp_UID_of_base_problem_that_has_err_added                         = APP_prob_info@UUID_of_base_problem_that_has_err_added
+    results_list$rsp_UUID_of_base_problem_that_has_err_added                         = APP_prob_info@UUID_of_base_problem_that_has_err_added
 
     results_list$rsp_original_FP_const_rate                                         = APP_prob_info@original_FP_const_rate
     results_list$rsp_original_FN_const_rate                                         = APP_prob_info@original_FN_const_rate
