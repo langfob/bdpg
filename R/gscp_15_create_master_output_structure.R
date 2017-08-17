@@ -130,7 +130,7 @@ save_rsprob_results_data_for_Xu_NOT_read_from_bench_file <-
     tzar_run_ID = parameters$run_id
     results_list$rsp_tzar_run_ID                                                = tzar_run_ID    #0    #  tzar run ID, not RSrun ID
 
-    results_list$rsp_base_COR_prob_UUID                                         = rsprob@UUID
+    results_list$rsp_UUID                                                       = rsprob@UUID
     results_list$rsp_cor_or_app_str                                             = rsprob@cor_or_app_str
     results_list$rsp_basic_or_wrapped_or_comb_str                               = rsprob@basic_or_wrapped_or_comb_str
     results_list$rsp_file_name_prefix                                           = rsprob@file_name_prefix
