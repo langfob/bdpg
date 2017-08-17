@@ -4,21 +4,14 @@
 \alias{gen_single_bdprob_COR}
 \title{Generate a single biodiversity problem from scratch of from a file}
 \usage{
-gen_single_bdprob_COR(COR_prob_src = NULL, rds_file_path = NULL,
-  exp_root_dir = NULL, compute_network_metrics_for_this_prob = NULL,
-  parameters = NULL, read_Xu_problem_from_Xu_file = NULL,
-  Xu_bench_infile_name = NULL, given_correct_solution_cost = NULL,
-  max_allowed_num_spp = NULL, bdpg_error_codes = NULL, integerize = NULL,
+gen_single_bdprob_COR(exp_root_dir = NULL,
+  compute_network_metrics_for_this_prob = NULL, parameters = NULL,
+  read_Xu_problem_from_Xu_file = NULL, Xu_bench_infile_name = NULL,
+  given_correct_solution_cost = NULL, max_allowed_num_spp = NULL,
+  bdpg_error_codes = NULL, integerize = NULL,
   base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
 }
 \arguments{
-\item{COR_prob_src}{string indicating whether this COR problem is
-generated from scratch ("generator"), read from a saved R object
-("rds_file"), or read from a Xu benchmark file ("Xu_bench_file")}
-
-\item{rds_file_path}{string containing full path (including
-file name) to the file containing an R object that was saved}
-
 \item{exp_root_dir}{character string path to root directory of an
 experiment, usually parameters$fullOutputDir_NO_slash}
 
