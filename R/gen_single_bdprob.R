@@ -8,7 +8,7 @@
 
 #' @inheritParams std_param_defns
 #'
-#' @return Returns a COR Xu_bd_problem
+#' @return Returns a Xu_bd_problem
 #' @export
 
 #-------------------------------------------------------------------------------
@@ -33,6 +33,7 @@ gen_single_bdprob_COR <- function (exp_root_dir=NULL,
     prob_from_Xu_bench_file                = "Xu_bench_file"
 
     prob_src = parameters$prob_src
+    prob_src_type = parameters$prob_src_type
 
     if (is.null (prob_src))
         {
@@ -42,7 +43,9 @@ gen_single_bdprob_COR <- function (exp_root_dir=NULL,
         } else if (prob_src == prob_from_generator |
                    prob_src == prob_from_Xu_bench_file)
         {
-            Xu_bdprob_cor =
+        if (prob_src_type == "COR_base")
+            {
+            Xu_bdprob =
                 gen_single_bdprob_COR_from_scratch_or_Xu_bench_file (
                                     exp_root_dir,
                                     compute_network_metrics_for_this_prob,
@@ -56,12 +59,14 @@ gen_single_bdprob_COR <- function (exp_root_dir=NULL,
                                 base_prob_name_stem = "base_prob",
                                 cor_dir_name_stem = "cor"
                                 )
+            } else stop (paste0 ("prob_src_type != 'COR_base' in gen_single_bdprob_COR().\n"))
+
 
         } else if (prob_src == prob_from_rds_file)
         {
             rds_file_path = parameters$rds_file_path
 
-            Xu_bdprob_cor =
+            Xu_bdprob =
                 load_saved_obj_from_file (normalizePath (rds_file_path))
 
         } else if (prob_src == prob_from_rds_file_set_from_file)
@@ -72,7 +77,7 @@ gen_single_bdprob_COR <- function (exp_root_dir=NULL,
             rds_file_set_element_idx = parameters$rds_file_set_element_idx
             rds_file_path = rds_file_set [rds_file_set_element_idx]
 
-            Xu_bdprob_cor =
+            Xu_bdprob =
                 load_saved_obj_from_file (normalizePath (rds_file_path))
 
         } else if (prob_src == prob_from_rds_file_set_from_yaml_array)
@@ -82,7 +87,7 @@ gen_single_bdprob_COR <- function (exp_root_dir=NULL,
             rds_file_set_element_idx = parameters$rds_file_set_element_idx
             rds_file_path = rds_file_set [rds_file_set_element_idx]
 
-            Xu_bdprob_cor =
+            Xu_bdprob =
                 load_saved_obj_from_file (normalizePath (rds_file_path))
 
         } else
@@ -91,7 +96,7 @@ gen_single_bdprob_COR <- function (exp_root_dir=NULL,
         quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_prob_src)
         }
 
-    return (Xu_bdprob_cor)
+    return (Xu_bdprob)
     }
 
 #===============================================================================
