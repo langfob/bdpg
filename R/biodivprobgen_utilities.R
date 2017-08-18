@@ -22,6 +22,38 @@ safe_sample = function (x,...) { if (length (x) == 1) x else sample (x,...) }
 
 #===============================================================================
 
+#' Get parameter value that should be integer and return 1 if value is null
+#'
+#' @param value a value that is probably a number, but could be anything
+#'
+#' @return Returns a value that is probably an integer but is definitely not null
+#' @export
+
+#-------------------------------------------------------------------------------
+
+value_or_1_if_null <- function (value)
+    {
+    if (is.null (value)) 1 else value
+    }
+
+#-------------------------------------------------------------------------------
+
+#' Get parameter value that should be boolean and return FALSE if value is null
+#'
+#' @param value a value that is probably a boolean, but could be anything
+#'
+#' @return Returns a value that is probably a boolean but is definitely not null
+#' @export
+
+#-------------------------------------------------------------------------------
+
+value_or_FALSE_if_null <- function (value)
+    {
+    if (is.null (value)) FALSE else value
+    }
+
+#===============================================================================
+
 #' Write results to files
 #'
 #' This function is used two different ways.
