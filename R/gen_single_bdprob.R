@@ -2,101 +2,46 @@
 
 #' Generate a single biodiversity problem from scratch of from a file
 #'
-#-------------------------------------------------------------------------------
+#===============================================================================
 
-#-------------------------------------------------------------------------------
-
+#' Generate a single correct Xu biodiversity problem
+#'
+#' @param base_prob_name_stem a character string
+#' @param cor_dir_name_stem a character string
 #' @inheritParams std_param_defns
 #'
-#' @return Returns a Xu_bd_problem
+#' @return Returns a correct Xu biodiversity problem
 #' @export
 
 #-------------------------------------------------------------------------------
 
-gen_single_bdprob_COR <- function (exp_root_dir=NULL,
-                                    compute_network_metrics_for_this_prob=NULL,
-                                    parameters=NULL,
-                                read_Xu_problem_from_Xu_file=NULL,
-                                Xu_bench_infile_name=NULL,
-                                    given_correct_solution_cost=NULL,
-                                    max_allowed_num_spp=NULL,
-                                    bdpg_error_codes=NULL,
-                                    integerize=NULL,
-                                base_prob_name_stem = "base_prob",
-                                cor_dir_name_stem = "cor"
-                               )
+gen_single_bdprob_COR <- function (parameters,
+                                   bdpg_error_codes,
+                                   integerize,
+                                   base_prob_name_stem = "base_prob",
+                                   cor_dir_name_stem = "cor"
+                                   )
     {
-    prob_from_generator                    = "generator"
-    prob_from_rds_file                     = "rds_file"
-    prob_from_rds_file_set_from_file       = "rds_file_set_from_file"
-    prob_from_rds_file_set_from_yaml_array = "rds_file_set_from_yaml_array"
-    prob_from_Xu_bench_file                = "Xu_bench_file"
+    exp_root_dir = file.path (normalizePath (parameters$full_output_dir_with_slash))
+    Xu_bench_infile_name = parameters$infile_name
+    if (is.null (Xu_bench_infile_name)) Xu_bench_infile_name = ""
 
-    prob_src = parameters$prob_src
-    prob_src_type = parameters$prob_src_type
-
-    if (is.null (prob_src))
-        {
-        cat ("\n\nERROR: no prob_src given.\n", sep='')
-        quit (save="no", bdpg_error_codes$ERROR_STATUS_no_prob_src_given)
-
-        } else if (prob_src == prob_from_generator |
-                   prob_src == prob_from_Xu_bench_file)
-        {
-        if (prob_src_type == "COR_base")
-            {
-            Xu_bdprob =
-                gen_single_bdprob_COR_from_scratch_or_Xu_bench_file (
-                                    exp_root_dir,
-                                    compute_network_metrics_for_this_prob,
-                                    parameters,
-                                read_Xu_problem_from_Xu_file,
+    COR_Xu_bdprob =
+        gen_single_bdprob_COR_from_scratch_or_Xu_bench_file (
+                                exp_root_dir,
+                                parameters$compute_network_metrics_COR,
+                                parameters,
+                                parameters$read_Xu_problem_from_Xu_bench_file,
                                 Xu_bench_infile_name,
-                                    given_correct_solution_cost,
-                                    max_allowed_num_spp,
-                                    bdpg_error_codes,
-                                    integerize,
+                                parameters$given_correct_solution_cost,
+                                parameters$max_allowed_num_spp,
+                                bdpg_error_codes,
+                                integerize,
                                 base_prob_name_stem = "base_prob",
                                 cor_dir_name_stem = "cor"
                                 )
-            } else stop (paste0 ("prob_src_type != 'COR_base' in gen_single_bdprob_COR().\n"))
 
-
-        } else if (prob_src == prob_from_rds_file)
-        {
-            rds_file_path = parameters$rds_file_path
-
-            Xu_bdprob =
-                load_saved_obj_from_file (normalizePath (rds_file_path))
-
-        } else if (prob_src == prob_from_rds_file_set_from_file)
-        {
-            rds_file_set_path = parameters$rds_file_set_path
-            rds_file_set = readLines (rds_file_set_path)
-
-            rds_file_set_element_idx = parameters$rds_file_set_element_idx
-            rds_file_path = rds_file_set [rds_file_set_element_idx]
-
-            Xu_bdprob =
-                load_saved_obj_from_file (normalizePath (rds_file_path))
-
-        } else if (prob_src == prob_from_rds_file_set_from_yaml_array)
-        {
-            rds_file_set = parameters$rds_file_set_yaml_array
-
-            rds_file_set_element_idx = parameters$rds_file_set_element_idx
-            rds_file_path = rds_file_set [rds_file_set_element_idx]
-
-            Xu_bdprob =
-                load_saved_obj_from_file (normalizePath (rds_file_path))
-
-        } else
-        {
-        cat ("\n\nERROR: unknown prob_src = '", prob_src, "'.\n", sep='')
-        quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_prob_src)
-        }
-
-    return (Xu_bdprob)
+    return (COR_Xu_bdprob)
     }
 
 #===============================================================================
