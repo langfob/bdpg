@@ -71,7 +71,9 @@ get_bdprob_from_rds_file <- function (prob_src,
 #' @return Returns nothing.
 #' @export
 
-single_action_using_tzar_reps <- function (parameters)
+single_action_using_tzar_reps <- function (parameters,
+                                           bdpg_error_codes,
+                                           integerize)
     {
         #------------------------------------------------------
         #  Make sure that exactly one action has been chosen.
