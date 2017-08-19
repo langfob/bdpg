@@ -8,10 +8,17 @@ get_bdprob_from_rds_file <- function (prob_src,
                                       cur_input_prob_idx,
                                       rds_file_set_path,
                                       rds_file_set_yaml_array,
-                                      rds_file_path
+                                      rds_file_path,
+                                      bdpg_error_codes
                                       )
     {
-    prob_src = parameters$prob_src
+#    prob_from_generator                    = "generator"
+    prob_from_rds_file                     = "rds_file"
+    prob_from_rds_file_set_from_file       = "rds_file_set_from_file"
+    prob_from_rds_file_set_from_yaml_array = "rds_file_set_from_yaml_array"
+#    prob_from_Xu_bench_file                = "Xu_bench_file"
+
+##    prob_src = parameters$prob_src
 
     if (is.null (prob_src))
         {
@@ -20,17 +27,17 @@ get_bdprob_from_rds_file <- function (prob_src,
 
         } else if (prob_src == prob_from_rds_file)
         {
-            rds_file_path = parameters$rds_file_path
+##            rds_file_path = parameters$rds_file_path
 
             Xu_bdprob =
                 load_saved_obj_from_file (normalizePath (rds_file_path))
 
         } else if (prob_src == prob_from_rds_file_set_from_file)
         {
-            rds_file_set_path = parameters$rds_file_set_path
+##            rds_file_set_path = parameters$rds_file_set_path
             rds_file_set = readLines (rds_file_set_path)
 
-            cur_input_prob_idx = parameters$cur_input_prob_idx
+##            cur_input_prob_idx = parameters$cur_input_prob_idx
             rds_file_path = rds_file_set [cur_input_prob_idx]
 
             Xu_bdprob =
@@ -38,9 +45,9 @@ get_bdprob_from_rds_file <- function (prob_src,
 
         } else if (prob_src == prob_from_rds_file_set_from_yaml_array)
         {
-            rds_file_set = parameters$rds_file_set_yaml_array
+##            rds_file_set = parameters$rds_file_set_yaml_array
 
-            cur_input_prob_idx = parameters$cur_input_prob_idx
+##            cur_input_prob_idx = parameters$cur_input_prob_idx
             rds_file_path = rds_file_set [cur_input_prob_idx]
 
             Xu_bdprob =
