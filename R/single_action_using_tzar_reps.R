@@ -90,17 +90,19 @@ single_action_using_tzar_reps <- function (parameters,
     gen_COR_prob  = value_or_FALSE_if_null (parameters$gen_COR_prob)
     gen_WRAP_prob = value_or_FALSE_if_null (parameters$gen_WRAP_prob)
     gen_APP_prob  = value_or_FALSE_if_null (parameters$gen_APP_prob)
-    do_rsrun      = value_or_FALSE_if_null (parameters$do_rsrun)
+    run_rs_on_COR_prob      = value_or_FALSE_if_null (parameters$run_rs_on_COR_prob)
+    run_rs_on_APP_prob      = value_or_FALSE_if_null (parameters$run_rs_on_APP_prob)
 
     num_actions_chosen = gen_COR_prob + gen_WRAP_prob + gen_APP_prob +
-                         do_rsrun
+                         run_rs_on_COR_prob + run_rs_on_APP_prob
 
     if (num_actions_chosen != 1)
         stop (paste0 ("\nMust set 1 and only 1 of these variables to TRUE: ",
                       "gen_COR_prob (", gen_COR_prob, "), ",
                       "gen_WRAP_prob (", gen_WRAP_prob, "), ",
                       "gen_APP_prob (", gen_APP_prob, "), ",
-                      "do_rsrun (", do_rsrun, "), ",
+                      "run_rs_on_COR_prob (", run_rs_on_COR_prob, "), ",
+                      "run_rs_on_APP_prob (", run_rs_on_APP_prob, "), ",
                       "\n"))
 
     #---------------------------------------------------------------------------
@@ -126,7 +128,6 @@ single_action_using_tzar_reps <- function (parameters,
 
     if (gen_WRAP_prob)
         {
-browser()
         bdprob_to_wrap =
             get_bdprob_from_rds_file (parameters$WRAP_input_prob_src,
                                       parameters$cur_input_prob_idx,
@@ -173,7 +174,7 @@ browser()
         #  Run a reserve selector if requested.
         #----------------------------------------
 
-    if (do_rsrun)
+    if (run_rs_on_COR_prob | run_rs_on_APP_prob)
         {
         num_actions_chosen = run_rs_on_COR_prob + run_rs_on_APP_prob
 
