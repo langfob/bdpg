@@ -126,12 +126,14 @@ single_action_using_tzar_reps <- function (parameters,
 
     if (gen_WRAP_prob)
         {
+browser()
         bdprob_to_wrap =
             get_bdprob_from_rds_file (parameters$WRAP_input_prob_src,
                                       parameters$cur_input_prob_idx,
                                       parameters$WRAP_input_rds_file_set_path,
                                       parameters$WRAP_input_rds_file_set_yaml_array,
-                                      parameters$WRAP_rds_file_path
+                                      parameters$WRAP_rds_file_path,
+                                      bdpg_error_codes
                                      )
 
         bdpg::gen_single_bdprob_WRAP (bdprob_to_wrap,
@@ -153,7 +155,8 @@ single_action_using_tzar_reps <- function (parameters,
                                       parameters$cur_input_prob_idx,
                                       parameters$APP_input_rds_file_set_path,
                                       parameters$APP_input_rds_file_set_yaml_array,
-                                      parameters$APP_rds_file_path
+                                      parameters$APP_rds_file_path,
+                                      bdpg_error_codes
                                       )
 
         bdpg::gen_single_bdprob_APP (bdprob_to_add_error_to,
@@ -187,7 +190,8 @@ single_action_using_tzar_reps <- function (parameters,
                                       parameters$cur_input_prob_idx,
                                       parameters$RS_cor_input_rds_file_set_path,
                                       parameters$RS_cor_input_rds_file_set_yaml_array,
-                                      parameters$RS_cor_rds_file_path
+                                      parameters$RS_cor_rds_file_path,
+                                      bdpg_error_codes
                                       )
 
         if (run_rs_on_COR_prob)
@@ -202,7 +206,8 @@ single_action_using_tzar_reps <- function (parameters,
                                           parameters$cur_input_prob_idx,
                                           parameters$RS_app_input_rds_file_set_path,
                                           parameters$RS_app_input_rds_file_set_yaml_array,
-                                          parameters$RS_app_rds_file_path
+                                          parameters$RS_app_rds_file_path,
+                                          bdpg_error_codes
                                           )
 
             bdpg::do_APP_marxan_analysis_and_output (app_bdprob,
