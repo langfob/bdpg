@@ -572,7 +572,7 @@ compute_and_verify_COR_scores_according_to_bdpg <- function ()
 
     cor_solution_vector = nodes$dependent_set_member
 
-cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
+#cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
     cor_signed_difference         = marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
     cor_abs_val_signed_difference = abs (cor_signed_difference)
 
