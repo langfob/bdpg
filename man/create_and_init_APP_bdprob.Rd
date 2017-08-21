@@ -4,14 +4,23 @@
 \alias{create_and_init_APP_bdprob}
 \title{Create and initialize apparent bdproblem from a correct problem.}
 \usage{
-create_and_init_APP_bdprob(Xu_bdprob_COR)
+create_and_init_APP_bdprob(Xu_bdprob_COR, forced_seed = NULL)
 }
 \arguments{
 \item{Xu_bdprob_COR}{a Xu_bd_problem}
+
+\item{forced_seed}{an integer value to be used as random number seed when
+a specific seed is desired in creating this object (e.g., for
+reproducing a previous execution of the code).}
 }
 \value{
 an apparent Xu_bd_problem
 }
 \description{
-Create and initialize apparent bdproblem from a correct problem.
+Note that the forced_seed argument should normally be omitted.  It's only
+there to allow the reproduction of a previous execution of the code that
+generates this object.  If omitted, a seed is randomly chosen and saved
+as the rand_seed slot in the object.  If you want to reproduce the generation
+of the current object, you would use the value stored in the rand_seed
+slot as the value of the forced_seed argument in this function call.
 }

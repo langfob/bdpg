@@ -8,7 +8,8 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(exp_root_dir,
   compute_network_metrics_for_this_prob, parameters,
   read_Xu_problem_from_Xu_file, Xu_bench_infile_name,
   given_correct_solution_cost, max_allowed_num_spp, bdpg_error_codes,
-  integerize, base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
+  integerize, base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor",
+  forced_seed = NULL)
 }
 \arguments{
 \item{exp_root_dir}{character string path to root directory of an
@@ -38,6 +39,10 @@ to keep the run-time down)}
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
+
+\item{forced_seed}{an integer value to be used as random number seed when
+a specific seed is desired in creating this object (e.g., for
+reproducing a previous execution of the code).}
 }
 \value{
 Returns a new Xu_bd_problem
@@ -50,6 +55,13 @@ create one from scratch.
 **NOTE that if other kinds of problems are created, this routine will have
 to be replaced or cloned into something appropriate for the new problem
 type.**
+
+Note that the forced_seed argument should normally be omitted.  It's only
+there to allow the reproduction of a previous execution of the code that
+generates this object.  If omitted, a seed is randomly chosen and saved
+as the rand_seed slot in the object.  If you want to reproduce the generation
+of the current object, you would use the value stored in the rand_seed
+slot as the value of the forced_seed argument in this function call.
 }
 \section{Local Variable Structures and examples}{
 
