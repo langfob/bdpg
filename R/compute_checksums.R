@@ -62,15 +62,19 @@ compute_obj_checksum <- function (obj_with_UUID_and_checksum,
                                   base_outdir_for_checksum=".")
     {
         #------------------------------------------------------------------
-        #  Clear the UUID and checksum fields if they exist,
+        #  Clear the UUID, checksum, and rand_seed fields if they exist,
         #  since we don't want them to cause the checksum to be different
-        #  when two objects are identical other than those two fields.
+        #  when two objects are identical other than those fields.
+        #  Doesn't really matter what values these fields get, as long
+        #  as they are the same for every object.
         #------------------------------------------------------------------
 
     if ("UUID" %in% methods::slotNames (obj_with_UUID_and_checksum))
         obj_with_UUID_and_checksum@UUID <- ""
     if ("checksum" %in% methods::slotNames (obj_with_UUID_and_checksum))
         obj_with_UUID_and_checksum@checksum <- ""
+    if ("rand_seed" %in% methods::slotNames (obj_with_UUID_and_checksum))
+        obj_with_UUID_and_checksum@rand_seed <- 0
 
         #--------------------------------------------------------------
         #  Write the object to a temporary file that checksum can be
