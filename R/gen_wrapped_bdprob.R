@@ -11,6 +11,8 @@
 #'
 #' Currently just a placeholder...
 
+#-------------------------------------------------------------------------------
+
 do_sanity_checks <- function ()
     {
     cat ("\n\nDummy sanity check for wrap_...().\n\n")
@@ -30,6 +32,8 @@ do_sanity_checks <- function ()
 #' that target set of planning units based on the value of the
 #' dep_set_PUs_eligible flag passed to it.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -52,6 +56,8 @@ do_sanity_checks <- function ()
 #' Xu_dep_set :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param Xu_dep_set integer vector of planning unit IDs for the solution set
 #'     of the original Xu problem being wrapped around
 #' @param extra_PUs integer vector of plannning unit IDs being added to the
@@ -63,6 +69,8 @@ do_sanity_checks <- function ()
 #'     instances can only be added to the newly added planning units
 #'
 #' @return set of planning unit IDs where new species can be placed
+
+#-------------------------------------------------------------------------------
 
 create_eligible_PU_set <- function (Xu_dep_set,
                                     extra_PUs,
@@ -101,6 +109,8 @@ create_eligible_PU_set <- function (Xu_dep_set,
 #'  That version is in the git repository in case it needs to be
 #'  resurrected for some reason.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -123,11 +133,15 @@ create_eligible_PU_set <- function (Xu_dep_set,
 #' trimmed_rounded_abund_per_spp :  num [1:1277] 2 2 3 3 2 2 2 2 2 2 ...
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param rounded_abundances vector of abundances to be trimmed
 #' @param min_abund lowest abundance to allow in the trimmed set
 #' @param max_abund largest abundance to allow in the trimmed set
 #'
 #' @return vector of abundances whose values lie in the specified range
+
+#-------------------------------------------------------------------------------
 
 trim_abundances = function (rounded_abundances,
                             min_abund=2,
@@ -158,6 +172,8 @@ trim_abundances = function (rounded_abundances,
 #' strips that inside distribution out of the full wrapped distribution and
 #' returns a set of abundances ready for spreading.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -237,6 +253,8 @@ trim_abundances = function (rounded_abundances,
 #'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param Xu_PU_spp_table PU_spp table for original Xu problem being wrapped
 #'     around
 #' @param trimmed_rounded_abund_per_spp vector of abundances of all species in
@@ -247,6 +265,8 @@ trim_abundances = function (rounded_abundances,
 #'
 #' @return vector of abundances in the wrapping abundance distribution that are
 #'     not also in the original Xu problem
+
+#-------------------------------------------------------------------------------
 
 remove_base_spp_abundances_from_wrapping_distribution <-
     function (Xu_PU_spp_table,
@@ -390,6 +410,8 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 #' problem has a specified distribution, but retains the original problem's
 #' solution.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -484,6 +506,8 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 #'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param dep_set integer vector
 #' @param eligible_set integer vector
 #' @param rounded_abund_per_spp integer vector
@@ -494,6 +518,8 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 #' @param spp_col_name character string
 #'
 #' @return Returns PU_spp_table data frame
+
+#-------------------------------------------------------------------------------
 
 wrap_abundances_around_eligible_set <- function (dep_set,
                                                  eligible_set,
@@ -633,16 +659,23 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 
 #===============================================================================
 
-    #  Note that this function doesn't care where you got the abundances,
-    #  i.e., they don't have to have come from the lognormal generator.
-    #  It can be any abundance set that you want, as long as it contains
-    #  at least as many species sitting on exactly 2 patches as the base
-    #  Xu problem has.  It can have more than the Xu problem, but not less.
+#' Wrap abundance distribution around Xu problem
+#'
+#'  Note that this function doesn't care where you got the abundances,
+#'  i.e., they don't have to have come from the lognormal generator.
+#'  It can be any abundance set that you want, as long as it contains
+#'  at least as many species sitting on exactly 2 patches as the base
+#'  Xu problem has.  It can have more than the Xu problem, but not less.
+#'
+#' Note that the forced_seed argument should normally be omitted.  It's only
+#' there to allow the reproduction of a previous execution of the code that
+#' generates this object.  If omitted, a seed is randomly chosen and saved
+#' as the rand_seed slot in the object.  If you want to reproduce the generation
+#' of the current object, you would use the value stored in the rand_seed
+#' slot as the value of the forced_seed argument in this function call.
+#'
+#-------------------------------------------------------------------------------
 
-#' Wrap abundance distribution around Xu problem
-#'
-#' Wrap abundance distribution around Xu problem
-#'
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -798,6 +831,8 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 #'  $ dependent_set_member: logi  FALSE TRUE FALSE TRUE FALSE TRUE ...
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #' @param starting_dir character string
 #' @param rounded_abundances DESCRIPTION.
@@ -810,6 +845,8 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 #' @return Returns a Xu_wrapped_bd_problem
 #' @export
 
+#-------------------------------------------------------------------------------
+
 wrap_abundance_dist_around_Xu_problem = function (starting_dir,
                                                   compute_network_metrics_for_this_prob,
                                                   rounded_abundances,
@@ -820,9 +857,12 @@ wrap_abundance_dist_around_Xu_problem = function (starting_dir,
                                                   search_outfile_name_base,
                                                   search_outfile_name,
                                             wrap_prob_name_stem = "wrap_prob",
-                                            cor_dir_name_stem = "cor"
+                                            cor_dir_name_stem = "cor",
+                                            forced_seed=NULL
                                                   )
     {
+    new_seed = get_and_set_new_rand_seed (forced_seed)
+
         #  Get values for local variables to be used throughout the
         #  computations in this function.
 
@@ -1001,6 +1041,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob@UUID_of_base_problem_that_is_wrapped = Xu_bdprob@UUID
 
     wrapped_bdprob@prob_is_ok                           = FALSE
+    wrapped_bdprob@rand_seed                            = new_seed
 
     #----------
 
@@ -1185,6 +1226,8 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 #'
 #' Generate COR wrapped bd problem
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -1260,12 +1303,16 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 #' wrapped_bdprob_COR : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #' @param starting_dir character string
 #' @param base_bdprob Xu_bd_problem
 #'
 #' @return Returns wrapped_bdprob_COR
 #' @export
+
+#-------------------------------------------------------------------------------
 
 gen_wrapped_bdprob_COR <- function (starting_dir,
                                     compute_network_metrics_for_this_prob,

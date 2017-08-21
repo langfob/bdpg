@@ -9,14 +9,25 @@
 #-------------------------------------------------------------------------------
 #' Create and initialize apparent bdproblem from a correct problem.
 #'
+#' Note that the forced_seed argument should normally be omitted.  It's only
+#' there to allow the reproduction of a previous execution of the code that
+#' generates this object.  If omitted, a seed is randomly chosen and saved
+#' as the rand_seed slot in the object.  If you want to reproduce the generation
+#' of the current object, you would use the value stored in the rand_seed
+#' slot as the value of the forced_seed argument in this function call.
+#'
 #-------------------------------------------------------------------------------
 #' @param Xu_bdprob_COR a Xu_bd_problem
+#' @inheritParams std_param_defns
 #'
 #' @return an apparent Xu_bd_problem
 #-------------------------------------------------------------------------------
 
-create_and_init_APP_bdprob <- function (Xu_bdprob_COR)
+create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
+                                        forced_seed=NULL)
     {
+    new_seed = get_and_set_new_rand_seed (forced_seed)
+
         #------------------------------------------------------------
         #  Save data known so far for the newly created Xu problem.
         #  Note that the base class here may be a basic Xu problem
@@ -46,7 +57,9 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR)
         #---------------------------------------------------------------
 
     Xu_bdprob_APP@UUID = uuid::UUIDgenerate()
+
     Xu_bdprob_APP@prob_is_ok                       = FALSE
+    Xu_bdprob_APP@rand_seed                        = new_seed
 
         #------------------------------------------------------------------
         #  Save whatever information is known about the problem generator

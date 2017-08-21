@@ -268,6 +268,13 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' to be replaced or cloned into something appropriate for the new problem
 #' type.**
 #'
+#' Note that the forced_seed argument should normally be omitted.  It's only
+#' there to allow the reproduction of a previous execution of the code that
+#' generates this object.  If omitted, a seed is randomly chosen and saved
+#' as the rand_seed slot in the object.  If you want to reproduce the generation
+#' of the current object, you would use the value stored in the rand_seed
+#' slot as the value of the forced_seed argument in this function call.
+#'
 #-------------------------------------------------------------------------------
 
 #'@section Local Variable Structures and examples:
@@ -361,9 +368,11 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
                 bdpg_error_codes,
                 integerize,
             base_prob_name_stem = "base_prob",
-            cor_dir_name_stem = "cor"
-            )
+            cor_dir_name_stem = "cor",
+            forced_seed=NULL)
     {
+    new_seed = get_and_set_new_rand_seed (forced_seed)
+
         #-------------------------------------------------------------------
         #  Determine whether to create the problem from scratch or read it
         #  from a Xu benchmark file, then create the problem.
@@ -413,7 +422,9 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
         #---------------------------------------------------------------
 
     Xu_bdprob_cor@UUID = uuid::UUIDgenerate()
+
     Xu_bdprob_cor@prob_is_ok                       = FALSE
+    Xu_bdprob_cor@rand_seed                        = new_seed
 
         #---------------------------------------------------------------
         #  Build file and dir naming prefix.
