@@ -894,7 +894,7 @@ get_and_set_new_rand_seed <- function (location_string, forced_seed = NULL)
     if (is.null (forced_seed))
         {
         systime_num = as.numeric (Sys.time())
-        new_seed = (systime_num - floor (systime_num)) * 2e9
+        new_seed = as.integer ((systime_num - floor (systime_num)) * 2e9)
         cat ("\nnew rand_seed = ", new_seed, "\n")
 
         } else
