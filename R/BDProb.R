@@ -282,6 +282,17 @@ setClass ("APP_prob_info_class",
 
                             #  SAME IDEA FOR RESERVE SELECTORS?
 
+                            #  2017 08 21 - BTL
+                            #  Since I don't know what form all of these will
+                            #  take and there are issues with backward
+                            #  compatibility if the class definintion changes,
+                            #  I think that I'll have to handle these kinds of
+                            #  changes in the future by deriving a new class,
+                            #  e.g., by inheriting from this one - though
+                            #  I'm not sure what that will do to wrapped
+                            #  problems, which already inherit from this one.
+                            #  Might need to use multiple inheritance?
+
 setClass ("Xu_bd_problem",
           representation (
                                 #-----------------------
@@ -290,6 +301,8 @@ setClass ("Xu_bd_problem",
 
                             UUID                             = "character",                  #  bd_prob
                             checksum                         = "character",
+
+                            rand_seed                        = "numeric",    #  Random seed set at the start of building this object.
 
                             obj_type_str                     = "character",    #  e.g., "RSprob" - used in building name for file and dir names
                             cor_or_app_str                   = "character",    #  "COR" or "APP" - used in building file and dir names
@@ -489,6 +502,8 @@ setClass ("RSrun",
           representation (
                             UUID        = "character",
                             checksum    = "character",
+
+                            rand_seed        = "numeric",    #  Random seed set at the start of building this object.
 
                                 #  UUID of the problem the reserve selector
                                 #  is running on.

@@ -129,6 +129,9 @@
 #' @param final_rank_abundance_dist integer vector of counts of number
 #'     of nodes for each link, i.e., number of planning units for each species
 #'     (same as final_node_counts_for_each_link)
+#' @param forced_seed an integer value to be used as random number seed when
+#'     a specific seed is desired in creating this object (e.g., for
+#'     reproducing a previous execution of the code).
 #' @param given_correct_solution_cost boolean indicating whether the correct
 #'     optimal solution cost is given for a reserve selection problem
 #' @param integerize function to use in converting floats to ints
