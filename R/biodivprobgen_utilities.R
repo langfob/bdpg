@@ -872,5 +872,39 @@ touch <- function (file_path_to_touch)
 
 #===============================================================================
 
+#' Get and set a new seed for the random number generator
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Returns an integer
+#' @export
+
+#-------------------------------------------------------------------------------
+
+get_and_set_new_rand_seed <- function (forced_seed = NULL)
+    {
+#https://stackoverflow.com/questions/10910698/questions-about-set-seed-in-r
+#Fhnuzoag Jun 6 '12 at 9:28
+#https://stackoverflow.com/questions/10910698/questions-about-set-seed-in-r
+
+
+    if (is.null (forced_seed))
+        {
+        systime_num = as.numeric (Sys.time())
+        new_seed = (systime_num - floor (systime_num)) * 2e9
+        cat ("\nnew rand_seed = ", new_seed, "\n")
+
+        } else
+        {
+        new_seed = forced_seed
+        }
+
+    set.seed (new_seed)
+
+    return (new_seed)
+    }
+
+#===============================================================================
+
 
 
