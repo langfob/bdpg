@@ -874,6 +874,8 @@ touch <- function (file_path_to_touch)
 
 #' Get and set a new seed for the random number generator
 #'
+#'@param location_string a string to print indicating where this function is
+#'       called
 #' @inheritParams std_param_defns
 #'
 #' @return Returns an integer
@@ -881,12 +883,13 @@ touch <- function (file_path_to_touch)
 
 #-------------------------------------------------------------------------------
 
-get_and_set_new_rand_seed <- function (forced_seed = NULL)
+get_and_set_new_rand_seed <- function (location_string, forced_seed = NULL)
     {
 #https://stackoverflow.com/questions/10910698/questions-about-set-seed-in-r
 #Fhnuzoag Jun 6 '12 at 9:28
 #https://stackoverflow.com/questions/10910698/questions-about-set-seed-in-r
 
+    cat ("\n\nget_and_set_new_rand_seed: ", location_string, "\n")
 
     if (is.null (forced_seed))
         {

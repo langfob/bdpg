@@ -861,7 +861,8 @@ wrap_abundance_dist_around_Xu_problem = function (starting_dir,
                                             forced_seed=NULL
                                                   )
     {
-    new_seed = get_and_set_new_rand_seed (forced_seed)
+    new_seed = get_and_set_new_rand_seed ("Start of wrap_abundance_dist_around_Xu_problem()",
+                                          forced_seed)
 
         #  Get values for local variables to be used throughout the
         #  computations in this function.

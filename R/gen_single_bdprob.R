@@ -371,7 +371,8 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
             cor_dir_name_stem = "cor",
             forced_seed=NULL)
     {
-    new_seed = get_and_set_new_rand_seed (forced_seed)
+    new_seed = get_and_set_new_rand_seed ("Start of gen_single_bdprob_COR_from_scratch_or_Xu_bench_file()",
+                                          forced_seed)
 
         #-------------------------------------------------------------------
         #  Determine whether to create the problem from scratch or read it

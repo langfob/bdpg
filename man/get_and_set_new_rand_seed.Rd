@@ -4,9 +4,12 @@
 \alias{get_and_set_new_rand_seed}
 \title{Get and set a new seed for the random number generator}
 \usage{
-get_and_set_new_rand_seed(forced_seed = NULL)
+get_and_set_new_rand_seed(location_string, forced_seed = NULL)
 }
 \arguments{
+\item{location_string}{a string to print indicating where this function is
+called}
+
 \item{forced_seed}{an integer value to be used as random number seed when
 a specific seed is desired in creating this object (e.g., for
 reproducing a previous execution of the code).}

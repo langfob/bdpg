@@ -26,7 +26,8 @@
 create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
                                         forced_seed=NULL)
     {
-    new_seed = get_and_set_new_rand_seed (forced_seed)
+    new_seed = get_and_set_new_rand_seed ("Start of create_and_init_APP_bdprob()",
+                                          forced_seed)
 
         #------------------------------------------------------------
         #  Save data known so far for the newly created Xu problem.

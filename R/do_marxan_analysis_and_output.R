@@ -79,7 +79,8 @@ create_RSrun <- function (prob_UUID,
                           forced_seed=NULL
                           )
     {
-    new_seed = get_and_set_new_rand_seed (forced_seed)
+    new_seed = get_and_set_new_rand_seed ("Start of create_RSrun()",
+                                          forced_seed)
 
     rsrun <- new ("RSrun")
 
