@@ -132,6 +132,7 @@ save_rsprob_results_data_for_Xu_NOT_read_from_bench_file <-
 
     results_list$rsp_UUID                                                       = rsprob@UUID
     results_list$rsp_checksum                                                   = rsprob@checksum
+    results_list$rsp_rand_seed                                                  = rsprob@rand_seed
     results_list$rsp_cor_or_app_str                                             = rsprob@cor_or_app_str
     results_list$rsp_basic_or_wrapped_or_comb_str                               = rsprob@basic_or_wrapped_or_comb_str
     results_list$rsp_file_name_prefix                                           = rsprob@file_name_prefix
@@ -2115,7 +2116,8 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 
     tzar_run_ID_list          = list (rsr_tzar_run_ID = tzar_run_ID,
                                       rsr_UUID = rsrun@UUID,
-                                      rsr_checksum = rsrun@checksum)
+                                      rsr_checksum = rsrun@checksum,
+                                      rsr_rand_seed = rsrun@rand_seed)
 
     prob_characteristics_list = read_prob_characteristics_list (APP_bd_prob,     #rsprob,
                                                                 exp_root_dir,
