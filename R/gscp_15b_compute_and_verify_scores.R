@@ -4,6 +4,17 @@
 
 #===============================================================================
 
+#  2017 08 22 - BTL
+#  None of the routines in this file seem to be called anymore, but
+#  they were all a part of that giant gscp_15_create_master... file a long time
+#  ago, I think.
+#  They may all have some diagnostic use or have been accidentally left out
+#  when I did some overhaul of gscp_15_create_master_output_structure in the
+#  past, so I'm going to leave them here until I know for sure.
+#  However, I do know for sure that at the moment, no one calls any of them.
+
+#===============================================================================
+
 compute_and_verify_APP_rep_scores_according_to_RS_marxan_sa <-
     function (marxan_mvbest_df, num_spp)
     {
@@ -375,34 +386,6 @@ browser()    #  Should this call have been commented out when the APP version
     write_results_to_files (results_list,
                             parameters,
                             cur_result_row)    #  Added 2016 03 28 - BTL.
-    }
-
-#===============================================================================
-
-summarize_RS_solution_scores <- function (#marxan_best_solution_PU_IDs,
-                                          cor_solution_vector,
-                                          marxan_best_num_patches_in_solution)
-    {
-
-    #---------------------------------------------------------------------------
-    #               Summarize marxan solution features.
-    #---------------------------------------------------------------------------
-
-      #  Compute error in cost of best marxan solution.
-      #  Assumes equal cost for all patches, i.e., cost per patch = 1.
-
-    # marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
-    #   cat ("\nmarxan_best_num_patches_in_solution =", marxan_best_num_patches_in_solution)
-
-      cor_num_patches_in_solution = sum (cor_solution_vector)
-        #cor_num_patches_in_solution = cor_optimum_cost    #  assuming cost = number of patches
-        cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
-
-      marxan_best_solution_cost_err_frac = (marxan_best_num_patches_in_solution - cor_num_patches_in_solution) / cor_num_patches_in_solution
-        cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
-
-      abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
-        cat ("\nabs_marxan_best_solution_cost_err_frac =", abs_marxan_best_solution_cost_err_frac)
     }
 
 #===============================================================================

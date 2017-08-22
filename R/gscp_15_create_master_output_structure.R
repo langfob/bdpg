@@ -4,38 +4,31 @@
 
 #===============================================================================
 
-#  Build a master table containing:
-    #  planning unit IDs
-            #  marxan_best_df_sorted$PUID
-    #  correct (optimal) answer (as boolean flags on sorted planning units)
-    #  best marxan guess
-            #  marxan_best_df_sorted$SOLUTION
-    #  marxan number of votes for each puid
-            #  marxan_ssoln_df$number
-    #  difference between correct and best (i.e., (cor - best), FP, FN, etc)
-    #  absolute value of difference (to make counting them easier)
-    #  number of species on each patch (i.e., simple richness)
+summarize_RS_solution_scores <- function (#marxan_best_solution_PU_IDs,
+                                          cor_solution_vector,
+                                          marxan_best_num_patches_in_solution)
+    {
 
-#  Need to bind together:
-#   problem setup
-#       - planning unit IDs (goes with all of these, even if they're split
-#         into separate tables)
-#       - number of species (simple richness) on patch as counts
-#   correct/optimal solution
-#       - correct/optimal solution as 0/1
-#   marxan solution(s)
-#       - marxan best solution as 0/1
-#       - marxan solution votes as counts
-#   performance measure(s)
-#       - difference between marxan best and optimal solution to represent
-#         error direction (e.g., FP, FN, etc.)
-#       - abs (difference) to represent error or no error
+    #---------------------------------------------------------------------------
+    #               Summarize marxan solution features.
+    #---------------------------------------------------------------------------
 
-    #  *** Need to be sure that the puid column matches in the nodes data frame
-    #  and the marxan data frames.  Otherwise, there could be a mismatch in
-    #  the assignments for inclusion or exclusion of patches in the solutions.
+      #  Compute error in cost of best marxan solution.
+      #  Assumes equal cost for all patches, i.e., cost per patch = 1.
 
-    #  Create table holding all the information to compare solutions.
+    # marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
+    #   cat ("\nmarxan_best_num_patches_in_solution =", marxan_best_num_patches_in_solution)
+
+      cor_num_patches_in_solution = sum (cor_solution_vector)
+        #cor_num_patches_in_solution = cor_optimum_cost    #  assuming cost = number of patches
+        cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
+
+      marxan_best_solution_cost_err_frac = (marxan_best_num_patches_in_solution - cor_num_patches_in_solution) / cor_num_patches_in_solution
+        cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
+
+      abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
+        cat ("\nabs_marxan_best_solution_cost_err_frac =", abs_marxan_best_solution_cost_err_frac)
+    }
 
 #===============================================================================
 

@@ -4,6 +4,41 @@
 
 #===============================================================================
 
+#  Build a master table containing:
+    #  planning unit IDs
+            #  marxan_best_df_sorted$PUID
+    #  correct (optimal) answer (as boolean flags on sorted planning units)
+    #  best marxan guess
+            #  marxan_best_df_sorted$SOLUTION
+    #  marxan number of votes for each puid
+            #  marxan_ssoln_df$number
+    #  difference between correct and best (i.e., (cor - best), FP, FN, etc)
+    #  absolute value of difference (to make counting them easier)
+    #  number of species on each patch (i.e., simple richness)
+
+#  Need to bind together:
+#   problem setup
+#       - planning unit IDs (goes with all of these, even if they're split
+#         into separate tables)
+#       - number of species (simple richness) on patch as counts
+#   correct/optimal solution
+#       - correct/optimal solution as 0/1
+#   marxan solution(s)
+#       - marxan best solution as 0/1
+#       - marxan solution votes as counts
+#   performance measure(s)
+#       - difference between marxan best and optimal solution to represent
+#         error direction (e.g., FP, FN, etc.)
+#       - abs (difference) to represent error or no error
+
+    #  *** Need to be sure that the puid column matches in the nodes data frame
+    #  and the marxan data frames.  Otherwise, there could be a mismatch in
+    #  the assignments for inclusion or exclusion of patches in the solutions.
+
+    #  Create table holding all the information to compare solutions.
+
+#===============================================================================
+
 document_solutions_df <- function ()
     {
     #  2017 05 13 - BTL
