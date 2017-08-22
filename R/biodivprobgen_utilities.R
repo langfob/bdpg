@@ -60,6 +60,10 @@ value_or_FALSE_if_null <- function (value)
 #' It's called when the program quits because there are too many species
 #' or it's called when the program runs successfully.
 #'
+#-------------------------------------------------------------------------------
+
+#' @param csv_outfile_name  Name of the csv file to write results to, not
+#'        including csv extension but not including path
 #' @param results_df  data frame containing the results
 #' @param out_dir  character string telling what directory to put the results
 #'                 file in
@@ -70,7 +74,10 @@ value_or_FALSE_if_null <- function (value)
 #'
 #' @return Returns nothing.
 
-write_results_to_files = function (results_df,
+#-------------------------------------------------------------------------------
+
+write_results_to_files = function (csv_outfile_name,
+                                   results_df,
                                    parameters,
                                    out_dir,
                                    tzar_run_id_field_name
@@ -96,19 +103,24 @@ write_results_to_files = function (results_df,
 #cat ("\n\nIn write_results_to_files():\n")
 #browser()
 
-    summary_WITHOUT_run_id_path = file.path (out_dir, parameters$summary_without_run_id_filename)
-# #    results_df$run_ID [cur_result_row] = 0
-#     results_df$tzar_run_ID = 0
+        #  Build file name and path for auxiliary file where run_id is
+        #  zeroed out.
+    csv_outfile_name_base = tools::file_path_sans_ext (csv_outfile_name)
+    csv_outfile_name_ext  = tools::file_ext (csv_outfile_name)    #  Probably "csv" but just being cautious here...
+    csv_outfile_name_with_0_run_id = paste0 (csv_outfile_name_base,
+                                             "_with_0_run_id.",
+                                             csv_outfile_name_ext)
+    summary_WITHOUT_run_id_path = file.path (out_dir, csv_outfile_name_with_0_run_id)
+                                             ##parameters$summary_without_run_id_filename)
+
+
     results_df[[tzar_run_id_field_name]] = 0
     write.csv (results_df, file = summary_WITHOUT_run_id_path, row.names = FALSE)
 
-    summary_WITH_run_id_path = file.path (out_dir, parameters$summary_filename)
-# #    results_df$run_ID [cur_result_row] = parameters$run_id
-#     results_df$tzar_run_ID = parameters$run_id
+    summary_WITH_run_id_path = file.path (out_dir, csv_outfile_name)
+                                          ##parameters$summary_filename)
     results_df[[tzar_run_id_field_name]] = parameters$run_id
     write.csv (results_df, file = summary_WITH_run_id_path, row.names = FALSE)
-
-#docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================

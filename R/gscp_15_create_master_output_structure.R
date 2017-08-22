@@ -613,8 +613,11 @@ cor_num_patches_in_solution = sum (cor_solution_vector)
                       app_scores_list
                     )
 
-    write_results_to_files (as.data.frame (results_list),
-                            parameters, out_dir, "rsr_tzar_run_ID")
+    write_results_to_files ("rsrun_results.csv",
+                            as.data.frame (results_list),
+                            parameters,
+                            out_dir,
+                            "rsr_tzar_run_ID")
     }
 
 #===============================================================================

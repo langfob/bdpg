@@ -248,7 +248,8 @@ results_list$rsp_num_independent_nodes_per_group                                
 
     #---------------------------------------------------------------------------
 
-    write_results_to_files (as.data.frame (results_list),
+    write_results_to_files ("prob_characteristics.csv",
+                            as.data.frame (results_list),
                             parameters,
                             get_RSprob_path_topdir (rsprob, exp_root_dir),
                             "rsp_tzar_run_ID"

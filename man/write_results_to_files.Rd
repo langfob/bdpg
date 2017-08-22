@@ -4,9 +4,13 @@
 \alias{write_results_to_files}
 \title{Write results to files}
 \usage{
-write_results_to_files(results_df, parameters, out_dir, tzar_run_id_field_name)
+write_results_to_files(csv_outfile_name, results_df, parameters, out_dir,
+  tzar_run_id_field_name)
 }
 \arguments{
+\item{csv_outfile_name}{Name of the csv file to write results to, not
+including csv extension but not including path}
+
 \item{results_df}{data frame containing the results}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml

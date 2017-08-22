@@ -194,11 +194,12 @@ write_abbreviated_results_to_files =
     initialized_output_df$runset_name [cur_result_row]                                      = parameters$runset_name
 
         #  Write data frame to file.
-    write_results_to_files (initialized_output_df, parameters,
-                            cur_result_row)    #  Added 2016 03 28 - BTL.
-
-#docaids::doc_vars_in_this_func_once ()
-
+    write_results_to_files ("abbreviated_results.csv",
+                            initialized_output_df,
+                            parameters,
+                            get_RSprob_path_topdir (),
+                            "rsp_tzar_run_ID"
+                            )
     }
 
 #===============================================================================
