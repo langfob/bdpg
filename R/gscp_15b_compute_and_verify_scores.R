@@ -369,6 +369,9 @@ compute_and_verify_COR_scores_according_to_bdpg <- function ()
 
     #---------------------------------------------------------------------------
 
+browser()    #  Should this call have been commented out when the APP version
+             #  of it in the previous routine was commented out?
+             #  Should it return (results_list)?
     write_results_to_files (results_list,
                             parameters,
                             cur_result_row)    #  Added 2016 03 28 - BTL.
