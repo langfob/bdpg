@@ -9,6 +9,14 @@
 #-------------------------------------------------------------------------------
 #' Create and initialize apparent bdproblem from a correct problem.
 #'
+#'  All values that are altered for the apparent problem should be assumed to
+#'  be altered in the APP_prob_info_class object in the problem's APP_prob_info
+#'  slot.
+#'  Values in the main part of the Xu_bdprob_APP object should be the same
+#'  as the values for the underlying COR problem that the APP problem is
+#'  adding error to, with the exception of a few object-specific things
+#'  like the UUID of the APP problem itself.
+#'
 #' Note that the forced_seed argument should normally be omitted.  It's only
 #' there to allow the reproduction of a previous execution of the code that
 #' generates this object.  If omitted, a seed is randomly chosen and saved
@@ -37,7 +45,6 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
         #  copied into the APP problem.
         #------------------------------------------------------------
 
-#    Xu_bdprob_APP = new ("Xu_bd_problem")
     Xu_bdprob_APP = new (class (Xu_bdprob_COR))
 
         #------------------------------------------------------------
@@ -62,10 +69,11 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
     Xu_bdprob_APP@prob_is_ok                       = FALSE
     Xu_bdprob_APP@rand_seed                        = new_seed
 
-        #------------------------------------------------------------------
-        #  Save whatever information is known about the problem generator
-        #  that produced this problem.
-        #------------------------------------------------------------------
+        #-----------------------------------------------------------------
+        #  Copy main problem values from the COR problem the APP problem
+        #  is adding error to.  APP_prob_info_class values will be set
+        #  outside this function.
+        #-----------------------------------------------------------------
 
     Xu_bdprob_APP@prob_type     = Xu_bdprob_COR@prob_type
     Xu_bdprob_APP@prob_gen_info = Xu_bdprob_COR@prob_gen_info
@@ -73,26 +81,29 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
     Xu_bdprob_APP@prob_generator_params_known      = Xu_bdprob_COR@prob_generator_params_known
     Xu_bdprob_APP@correct_solution_vector_is_known = Xu_bdprob_COR@correct_solution_vector_is_known
 
-#CHANGE THESE?
     Xu_bdprob_APP@PU_spp_pair_indices       = Xu_bdprob_COR@PU_spp_pair_indices
-# DO THE IDS NEED TO BE SAME AS COR THOUGH?
+
     Xu_bdprob_APP@all_PU_IDs                = Xu_bdprob_COR@all_PU_IDs
     Xu_bdprob_APP@all_spp_IDs               = Xu_bdprob_COR@all_spp_IDs
 
-#CHANGE THESE?
     Xu_bdprob_APP@PU_col_name               = Xu_bdprob_COR@PU_col_name
     Xu_bdprob_APP@spp_col_name              = Xu_bdprob_COR@spp_col_name
     Xu_bdprob_APP@num_PUs                   = Xu_bdprob_COR@num_PUs
     Xu_bdprob_APP@num_spp                   = Xu_bdprob_COR@num_spp
-    Xu_bdprob_APP@correct_solution_cost          = Xu_bdprob_COR@correct_solution_cost
-#IN FUTURE ERROR MODELS, THESE COSTS COULD BE CHANGED.
-    Xu_bdprob_APP@PU_costs                  = Xu_bdprob_COR@PU_costs
+    Xu_bdprob_APP@correct_solution_cost     = Xu_bdprob_COR@correct_solution_cost
 
-#WHAT IS STORED IN NODES?  NOT SURE IF IT NEEDS TO CHANGE OR NOT.
-#I SUSPECT IT'S ONLY USED IN GENERATION OF THE ORIGINAL XU PROBLEM.
     Xu_bdprob_APP@nodes                     = Xu_bdprob_COR@nodes
 
-#docaids::doc_vars_in_this_func_once ()
+        #------------------------------------------------------------------
+        #  IN FUTURE ERROR MODELS, PU_COSTS COULD BE CHANGED.
+        #  IF THE COSTS ARE CHANGED THOUGH, THAT SHOULD BE DONE IN THE
+        #  APP_prob_info OBJECT, NOT IN THE MAIN PROBLEM OBJECT.
+        #  The COR costs should still be retained here for comparison and
+        #  error calculations.
+        #------------------------------------------------------------------
+
+    Xu_bdprob_APP@PU_costs                  = Xu_bdprob_COR@PU_costs
+
     return (Xu_bdprob_APP)
     }
 
@@ -257,6 +268,14 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 #===============================================================================
 
 #' Generate a single biodiversity problem with error added to it
+#'
+#'  All values that are altered for the apparent problem should be assumed to
+#'  be altered in the APP_prob_info_class object in the problem's APP_prob_info
+#'  slot.
+#'  Values in the main part of the Xu_bdprob_APP object should be the same
+#'  as the values for the underlying COR problem that the APP problem is
+#'  adding error to, with the exception of a few object-specific things
+#'  like the UUID of the APP problem itself.
 #'
 #-------------------------------------------------------------------------------
 

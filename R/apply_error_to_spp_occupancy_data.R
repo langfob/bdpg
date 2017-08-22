@@ -614,7 +614,9 @@ cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
         #  checking for not equal, you only check to make sure that the
         #  app values don't exceed the cor values because that should not
         #  ever happen, i.e., it would be a real error since no PUs or
-        #  or spp should ever be created.
+        #  or spp should ever be created (though in the future, it might
+        #  be that an error type is added to allow for identifying a spp
+        #  that isn't really there, i.e., misidentifying a cryptic spp).
         #--------------------------------------------------------------------
 
     app_num_spp = length (unique (app_PU_spp_pair_indices [,"spp_ID"]))
@@ -637,8 +639,6 @@ cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
 #        app_ct_error = TRUE
         }
 
-#  2017 06 02 - BTL
-#  CRASHES HERE BECAUSE BOTH COUNTS ARE WRONG.  NEED TO FIGURE THIS OUT.
 #  2017 06 09 - BTL
 #  Have decided to just set the app_num_xxx values to cor_num_xxx values so that
 #  dimensions of cor and app structures match in comparisons downstream.
