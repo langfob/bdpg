@@ -332,7 +332,8 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 nodes = COR_bd_prob@nodes
 cor_solution_vector = nodes$dependent_set_member
 
-cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
+###2017 08 22 - BTL - I don't think this is valid anymore, so commenting in out for now.
+###cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
     cor_signed_difference         = marxan_output_values$marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
     cor_abs_val_signed_difference = abs (cor_signed_difference)
 
