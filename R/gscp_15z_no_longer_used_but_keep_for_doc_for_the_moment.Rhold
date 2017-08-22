@@ -850,5 +850,169 @@ create_APP_master_output_structure <- function (marxan_control_values,
 
 #===============================================================================
 
+#  2017 08 22 - BTL - Every call to this is commented out, so I think it's
+#                     vestigial.
+create_master_output_structure <-
+        function (read_Xu_problem_from_Xu_file,
+
+                    Xu_parameters,  #  most param values for problem
+
+                    num_PUs,
+                    num_spp,
+                    cor_optimum_cost,
+                    nodes,
+                    cor_final_link_counts_for_each_node,
+                    bpm,
+                    DEBUG_LEVEL,
+                    cor_bpm,
+                    parameters,
+                    add_error,
+                    match_error_counts,
+                    FP_const_rate,
+                    FN_const_rate,
+                    original_FP_const_rate,
+                    original_FN_const_rate,
+                    spf_const,
+                    bipartite_metrics_from_bipartite_package,
+                    bipartite_metrics_from_igraph_package_df,
+
+                    marxan_best_df_sorted,
+                    marxan_ssoln_df,
+                    marxan_mvbest_df,
+                    marxan_PROP,
+                    marxan_RANDSEED,
+                    marxan_NUMREPS,
+                    marxan_NUMITNS,
+                    marxan_STARTTEMP,
+                    marxan_NUMTEMP,
+                    marxan_COSTTHRESH,
+                    marxan_THRESHPEN1,
+                    marxan_THRESHPEN2,
+                    marxan_RUNMODE,
+                    marxan_MISSLEVEL,
+                    marxan_ITIMPTYPE,
+                    marxan_HEURTYPE,
+                    marxan_CLUMPTYPE
+                    )
+{
+derived_Xu_params    = Xu_parameters@derived_params
+base_Xu_params       = Xu_parameters@base_params
+bdpg_extended_params = Xu_parameters@bdpg_extended_params
+
+#-------------------------------------------------------------------------------
+#      Initialize the data frame holding correct and apparent solutions.
+#-------------------------------------------------------------------------------
+
+      #---------------------------------------------------------------------
+      #  Need to separate the case of reading a Xu problem from one of
+      #  his benchmark files vs. generating a problem from scratch.
+      #  When you read it from a benchmark file, the correct solution cost
+      #  is known, but not the correct solution vector.
+      #  So, when reading a problem from a benchmark file, initialize all
+      #  kinds of things to NA.
+      #---------------------------------------------------------------------
+
+  if (read_Xu_problem_from_Xu_file)
+      {
+      save_rsprob_results_data_for_Xu_read_from_bench_file ()
+
+      } else  #  generated the problem
+      {
+      save_rsprob_results_data_for_Xu_NOT_read_from_bench_file ()
+      }
+
+  #===============================================================================
+  #       Compute correct and apparent scores for marxan solution.
+  #===============================================================================
+
+  cat ("\n\nnum_spp =", num_spp)
+  spp_rep_targets = rep (1, num_spp)    #  Seems like this should already have been set long before now.
+                                        #  In fact, they are now a variable (called "targets") inside of the RSrun class structure.
+                                        #  Are they ever set there?
+                                        #  ***  Actually, shouldn't targets be part of the RSprob instead of RSrun,
+                                        #       i.e., the targets are part of what makes a problem hard or easy.
+                                        #       They're also a basic structuring assumption in building the Xu
+                                        #       problems.  ***
+
+    document_solutions_df ()
+    summarize_RS_solution_scores ()
+    compute_and_verify_APP_scores_according_to_RS ()
+    compute_and_verify_APP_scores_according_to_bdpg ()
+    compute_and_verify_COR_scores_according_to_bdpg ()
+
+  #===============================================================================
+
+  #  Supporting data not in binding
+  #   species vs planning units (database?) to allow computation of performance
+  #   measures related to which species are covered in solutions
+  #   (e.g., SELECT species WHERE planning unit ID == curPlanningUnitID)
+  #   (e.g., SELECT planning unit ID WHERE species == curSpeciesID))
+  #       - planning unit IDs
+  #       - set of species on planning unit
+
+  #     ALSO STILL NEED TO ADD THE FP AND FN RATES AND OTHER ERROR MODEL
+  #     ATTRIBUTES TO THE OUTPUT DATA FRAME AND CSV FILE.
+  #             2017 05 01 - Is this still true?
+
+  #-------------------------------------------------------------------------------
+
+  num_runs = 1    #  Vestigial?  Not sure it will ever be anything but 1.
+                  #  2015 05 09 - BTL.
+
+  results_list <- initialize_results_list ()
+
+  cur_result_row = 0
+
+  #-------------------------------------------------------------------------------
+
+  cur_result_row = cur_result_row + 1
+
+      #  Filling in the runset_abbrev with the full runset name for the moment,
+      #  because it's more reliably correct since it's automatically captured
+      #  by tzar.  Not sure what I'll do in the long run.
+      #  2015 03 09 - BTL
+  results_list$runset_abbrev                                                     = parameters$runset_name    #  parameters$runset_abbrev
+  results_list$runset_name                                                       = parameters$runset_name
+
+  results_list$exceeded_thresh_for_num_spp                                       = FALSE
+
+  #-------------------------------------------------------------------------------
+
+    compute_and_verify_APP_scores_according_to_bdpg ()
+    compute_and_verify_COR_scores_according_to_bdpg ()
+    compute_and_verify_APP_scores_according_to_RS ()
+
+    save_RS_options ()
+
+  #-------------------------------------------------------------------------------
+
+  #  Getting an error.  Not sure why...  Is it because the free variable names
+  #  like num_PUs, are the same as the list element names, like results_list$num_PUs?
+  #
+  #  Error in `$<-.data.frame`(`*tmp*`, "num_PUs", value = c(NA, 12L)) :
+  #    replacement has 2 rows, data has 1
+  #  Calls: source ... withVisible -> eval -> eval -> $<- -> $<-.data.frame
+  #  Execution halted
+
+
+  if (parameters$compute_network_metrics)
+      {
+          #  Need to bind the network measures to the data frame too.
+#  2017 05 01 - BTL
+#  Are these graph metrics only computed over the correct problem or
+#  only over the apparent problem?
+#  Seems like both may be important to know for prediction.
+      results_list = cbind (results_list,
+                          bipartite_metrics_from_bipartite_package,
+                          bipartite_metrics_from_igraph_package_df
+                          )
+      }
+
+  write_results_to_files (results_list, parameters,
+                          cur_result_row)    #  Added 2016 03 28 - BTL.
+}
+
+#===============================================================================
+
 
 
