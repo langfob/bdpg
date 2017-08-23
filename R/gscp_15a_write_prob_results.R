@@ -227,6 +227,9 @@ results_list$rsp_num_independent_nodes_per_group                                
     results_list$rsp_FP_const_rate                                                  = APP_prob_info@FP_const_rate
     results_list$rsp_FN_const_rate                                                  = APP_prob_info@FN_const_rate
 
+    results_list$rsp_realized_FP_rate                                               = APP_prob_info@realized_FP_rate
+    results_list$rsp_realized_FN_rate                                               = APP_prob_info@realized_FN_rate
+
     results_list$rsp_app_num_spp                                                    = APP_prob_info@app_num_spp
     results_list$rsp_app_num_PUs                                                    = APP_prob_info@app_num_PUs
 
