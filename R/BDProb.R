@@ -253,11 +253,14 @@ setClass ("APP_prob_info_class",
           prototype (
                             UUID_of_base_problem_that_has_err_added = as.character (NA),  #  UUID string
 
-                            original_FP_const_rate = as.numeric (NA),  #  ret_vals_from_apply_errors$original_FP_const_rate
-                            original_FN_const_rate = as.numeric (NA),  #  ret_vals_from_apply_errors$original_FN_const_rate
-                            match_error_counts     = NA,  #  ret_vals_from_apply_errors$match_error_counts
-                            FP_const_rate          = as.numeric (NA),  #  ret_vals_from_apply_errors$FP_const_rate
-                            FN_const_rate          = as.numeric (NA),  #  ret_vals_from_apply_errors$FN_const_rate
+                            original_FP_const_rate = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$original_FP_const_rate
+                            original_FN_const_rate = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$original_FN_const_rate
+                            match_error_counts     = NA,               #  ret_vals_from_apply_errors$match_error_counts
+                            FP_const_rate          = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$FP_const_rate
+                            FN_const_rate          = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$FN_const_rate
+
+                            realized_FP_rate       = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$realized_FP_rate
+                            realized_FN_rate       = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$realized_FN_rate
 
                             app_num_spp = as.numeric (NA),  #  ret_vals_from_apply_errors$app_num_spp
                             app_num_PUs = as.numeric (NA)    #,  #  ret_vals_from_apply_errors$app_num_PUs
