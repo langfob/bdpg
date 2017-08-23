@@ -79,9 +79,18 @@ read_prob_characteristics_list <- function (rsprob, exp_root_dir, parameters)
 
     prob_characteristics_file =
         file.path (get_RSprob_path_topdir (rsprob, exp_root_dir),
-                   parameters$summary_filename)
+#                   parameters$summary_filename)
+                   "prob_characteristics.csv")
 
-    results_list = read_results_list_from_csv_file (prob_characteristics_file)
+    if (file.exists (prob_characteristics_file))
+        {
+        results_list = read_results_list_from_csv_file (prob_characteristics_file)
+        } else
+        {
+        stop (paste0 ("\n\nIn read_prob_characteristics_list() - ",
+                      "prob_characteristics_file does not exist:",
+                      "\n    '", prob_characteristics_file, "'\n"))
+        }
 
     return (results_list)
     }
