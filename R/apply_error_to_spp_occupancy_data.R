@@ -446,7 +446,7 @@ compute_realized_error_rates <- function (cor_bpm, app_bpm,
     FP_rate = num_FPs / num_TNs
 
         #  Echo results for verification.
-    cat ("\n")
+    cat ("\n-----  Realized error rates  -----\n")
     cat ("\nnum_TPs = ", num_TPs)
     cat ("\nnum_TNs = ", num_TNs)
 
@@ -460,7 +460,7 @@ compute_realized_error_rates <- function (cor_bpm, app_bpm,
         cat ("\ntarget_FP_rate = ", target_FP_rate)
     if (! is.na (target_FP_rate))
         cat ("\ntarget_FN_rate = ", target_FN_rate)
-    cat ("\n")
+    cat ("\n\n-----  End realized error rates  -----\n")
 
     realized_error_rates = list (FN_ct=num_FNs, FN_rate=FN_rate,
                                  FP_ct=num_FPs, FP_rate=FP_rate)
@@ -478,6 +478,7 @@ test_compute_realized_error_rates <- function ()
 
     #  SHOULD OUTPUT:
     #
+    # -----  Realized error rates  -----
     #
     # num_TPs =  3
     # num_TNs =  3
@@ -485,6 +486,8 @@ test_compute_realized_error_rates <- function ()
     # num_FPs =  2
     # FN_rate =  0.3333333
     # FP_rate =  0.6666667
+    #
+    # -----  End realized error rates  -----
     # $FN_ct
     # [1] 1
     #
