@@ -118,8 +118,6 @@ apply_error_to_spp_occupancy_data =
 
 #===============================================================================
 
-#-------------------------------------------------------------------------------
-
 #' Set constant FP and FN rates
 #'
 #' Set the False Positive and False Negative error rate to either a
@@ -425,7 +423,83 @@ cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
 
 #===============================================================================
 
+#' Compute realized error rates in apparent problem
+
+#'  Since errors are generated stochastically, the realized error rates
+#'  in the apparent spp vs PU matrix are unlikely to exactly match
+#'  the error generator's target rates, so measure the error rates
+#'  that actually resulted after adding error.
+
 #-------------------------------------------------------------------------------
+
+compute_realized_error_rates <- function (cor_bpm, app_bpm,
+                                          target_FP_rate=NA,  # optional, only for display
+                                          target_FN_rate=NA)  # optional, only for display
+    {
+    num_TPs = sum (cor_bpm)    #  Assuming all entries are 0/1, not abundances
+    num_TNs = length (cor_bpm) - num_TPs
+
+    num_FNs = sum (cor_bpm > app_bpm)
+    num_FPs = sum (cor_bpm < app_bpm)
+
+    FN_rate = num_FNs / num_TPs
+    FP_rate = num_FPs / num_TNs
+
+        #  Echo results for verification.
+    cat ("\n")
+    cat ("\nnum_TPs = ", num_TPs)
+    cat ("\nnum_TNs = ", num_TNs)
+
+    cat ("\nnum_FNs = ", num_FNs)
+    cat ("\nnum_FPs = ", num_FPs)
+
+    cat ("\nFN_rate = ", FN_rate)
+    cat ("\nFP_rate = ", FP_rate)
+
+    if (! is.na (target_FP_rate))
+        cat ("\ntarget_FP_rate = ", target_FP_rate)
+    if (! is.na (target_FP_rate))
+        cat ("\ntarget_FN_rate = ", target_FN_rate)
+    cat ("\n")
+
+    realized_error_rates = list (FN_ct=num_FNs, FN_rate=FN_rate,
+                                 FP_ct=num_FPs, FP_rate=FP_rate)
+    return (realized_error_rates)
+    }
+
+#-------------------------------------------------------------------------------
+
+test_compute_realized_error_rates <- function ()
+    {
+    cor_bpm = matrix (c(1,1,1,0,0,0), nrow=2, ncol=3, byrow=TRUE)
+    app_bpm = matrix (c(0,1,1,1,1,0), nrow=2, ncol=3, byrow=TRUE)
+
+    compute_realized_error_rates (cor_bpm, app_bpm)
+
+    #  SHOULD OUTPUT:
+    #
+    #
+    # num_TPs =  3
+    # num_TNs =  3
+    # num_FNs =  1
+    # num_FPs =  2
+    # FN_rate =  0.3333333
+    # FP_rate =  0.6666667
+    # $FN_ct
+    # [1] 1
+    #
+    # $FN_rate
+    # [1] 0.3333333
+    #
+    # $FP_ct
+    # [1] 2
+    #
+    # $FP_rate
+    # [1] 0.6666667
+    #
+    }
+
+#===============================================================================
 
 #' Apply constant error to spp occ data
 #'
@@ -566,35 +640,46 @@ apply_const_error_to_spp_occupancy_data <- function (cor_num_PUs,
     {
 cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
 
-      random_values = matrix (runif (cor_num_PUs * cor_num_spp),
-                              nrow=cor_num_spp,
-                              ncol=cor_num_PUs,
-                              byrow=TRUE)
+    random_values = matrix (runif (cor_num_PUs * cor_num_spp),
+                          nrow=cor_num_spp,
+                          ncol=cor_num_PUs,
+                          byrow=TRUE)
 
-          #--------------------------------------------------------------------
-          #  Ready to apply the errors now and create both the occupancy
-          #  matrix and the PU_spp_pair table.
-          #--------------------------------------------------------------------
+        #--------------------------------------------------------------------
+        #  Ready to apply the errors now and create both the occupancy
+        #  matrix
+        #  app_spp_occupancy_data is the cor_bpm matrix with error added
+        #  to it.
+        #--------------------------------------------------------------------
 
-      app_spp_occupancy_data =
-          apply_error_to_spp_occupancy_data (cor_bpm,
-                                                  FP_rates_matrix,
-                                                  FN_rates_matrix,
-                                                  cor_num_PUs,
-                                                  cor_num_spp,
-                                                  random_values,
-                                                  bdpg_error_codes)
+    app_spp_occupancy_data =
+        apply_error_to_spp_occupancy_data (cor_bpm,
+                                            FP_rates_matrix,
+                                            FN_rates_matrix,
+                                            cor_num_PUs,
+                                            cor_num_spp,
+                                            random_values,
+                                            bdpg_error_codes)
 
-      app_PU_spp_pair_indices =
-          build_PU_spp_pair_indices_from_occ_matrix (app_spp_occupancy_data,
-                                                      cor_num_PUs, cor_num_spp)
+        #-----------------------------------------------------------------
+        #  Since the errors are generated stochastically, the realized
+        #  error rates in the apparent bpm are unlikely to exactly match
+        #  the error generator's target rates, so measure the realized
+        #  error rates now.
+        #-----------------------------------------------------------------
 
+    realized_error_rates = compute_realized_error_rates (cor_bpm,
+                                                         app_spp_occupancy_data)
 
+        #---------------------------------------------------------------
+        #  Now create the and the erroneous PU_spp_pair table from the
+        #  erroneous bpm matrix.
+        #---------------------------------------------------------------
 
-#NEED TO _MEASURE_ and save THE _RESULTING_ FP AND FN RATES to put in results !!
-
-
-
+    app_PU_spp_pair_indices =
+        build_PU_spp_pair_indices_from_occ_matrix (app_spp_occupancy_data,
+                                                    cor_num_PUs,
+                                                   cor_num_spp)
 
         #--------------------------------------------------------------------
         #  Make sure the spp and PU counts are still OK after adding error.
@@ -653,13 +738,17 @@ cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
                 # match_error_counts      = match_error_counts,
                 # FP_const_rate           = FP_const_rate,
                 # FN_const_rate           = FN_const_rate,
+
                 app_PU_spp_pair_indices = app_PU_spp_pair_indices,
                 app_spp_occupancy_data  = app_spp_occupancy_data,
+
+                realized_FP_rate        = realized_error_rates$FP_rate,
+                realized_FN_rate        = realized_error_rates$FN_rate,
+
                 app_num_spp             = cor_num_spp,     #app_num_spp,
                 app_num_PUs             = cor_num_PUs      #app_num_PUs
                 )
 
-#docaids::doc_vars_in_this_func_once ()
     return (ret_vals_from_apply_const_error_to_spp_occupancy_data)
     }
 

@@ -244,6 +244,12 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
           #                                  Xu_bdprob_COR@num_spp,     #  cor_num_spp,
           #                                  bdpg_error_codes)
 
+
+        #  Save the realized error rates.
+
+    APP_prob_info@realized_FP_rate          = ret_vals_from_apply_errors$realized_FP_rate
+    APP_prob_info@realized_FN_rate          = ret_vals_from_apply_errors$realized_FN_rate
+
         #  Save the chosen error parameters to output later with results.
 
         #APP num_spp MAY DIFFER FROM COR IF A SPECIES IS MISSING IN APPARENT DATA?
@@ -261,7 +267,6 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
         #NEEDS TO HAVE SAME DIMENSIONS AND ROW/COLUMN NAMES AS COR.
     Xu_bdprob_APP@bpm                      = ret_vals_from_apply_errors$app_spp_occupancy_data
 
-#docaids::doc_vars_in_this_func_once ()
     return (Xu_bdprob_APP)
     }
 
