@@ -28,7 +28,13 @@ Returns apparent version of either a Xu_bd_problem or a
     Xu_wrapped_bd_problem
 }
 \description{
-Generate a single biodiversity problem with error added to it
+All values that are altered for the apparent problem should be assumed to
+ be altered in the APP_prob_info_class object in the problem's APP_prob_info
+ slot.
+ Values in the main part of the Xu_bdprob_APP object should be the same
+ as the values for the underlying COR problem that the APP problem is
+ adding error to, with the exception of a few object-specific things
+ like the UUID of the APP problem itself.
 }
 \section{Local Variable Structures and examples}{
 

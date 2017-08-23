@@ -17,6 +17,15 @@ reproducing a previous execution of the code).}
 an apparent Xu_bd_problem
 }
 \description{
+All values that are altered for the apparent problem should be assumed to
+ be altered in the APP_prob_info_class object in the problem's APP_prob_info
+ slot.
+ Values in the main part of the Xu_bdprob_APP object should be the same
+ as the values for the underlying COR problem that the APP problem is
+ adding error to, with the exception of a few object-specific things
+ like the UUID of the APP problem itself.
+}
+\details{
 Note that the forced_seed argument should normally be omitted.  It's only
 there to allow the reproduction of a previous execution of the code that
 generates this object.  If omitted, a seed is randomly chosen and saved
