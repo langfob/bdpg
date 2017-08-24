@@ -59,14 +59,6 @@ plot_hist_and_normal_curve_for_sampled_lognormal_data =
     }  #  end function - plot_hist_and_normal_curve_for_sampled_lognormal_data ()
 
 #===============================================================================
-#
-#                       gen_rounded_abundances ()
-#
-
-
-
-#
-#===============================================================================
 
 #' Generate rounded abundances
 #'
@@ -79,6 +71,8 @@ plot_hist_and_normal_curve_for_sampled_lognormal_data =
 #'  This means that the number of species returned may be less than the value
 #'  of num_spp_to_generate specified in the inputs.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -128,6 +122,8 @@ plot_hist_and_normal_curve_for_sampled_lognormal_data =
 #' sdlog :  num 0.1
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param num_spp_to_generate integer
 #' @param meanlog numeric
 #' @param sdlog numeric
@@ -135,6 +131,8 @@ plot_hist_and_normal_curve_for_sampled_lognormal_data =
 #' @param plot_rounded_abundances boolean
 #'
 #' @return Returns a vector with one count for each species
+
+#-------------------------------------------------------------------------------
 
 gen_rounded_abundances = function (num_spp_to_generate, meanlog, sdlog,
                                    add_one_to_abundances,
@@ -186,7 +184,6 @@ gen_rounded_abundances = function (num_spp_to_generate, meanlog, sdlog,
 #  element value (max_max_abundance) and the maximum allowed number
 #  of individual elements whose value is exactly 2 (max_frac_spp_on_2_PUs).
 #
-#===============================================================================
 
 gen_lognormal = function (num_spp_to_generate,
                           max_frac_spp_on_2_PUs, max_max_abundance,
@@ -401,6 +398,8 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
 #'because "fn" is the argument name that EF gets assigned to when passed to
 #'optim().
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -498,6 +497,8 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
 #' warn_on_constraint_violation :  logi TRUE
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param seed_value integer
 #' @param num_spp_to_generate integer
 #' @param min_num_spp_on_2_PUs integer
@@ -511,6 +512,8 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
 #' @return Returns numeric score from evaluating the given lognormal; the
 #'     closer to 0 the better
 #' @export
+
+#-------------------------------------------------------------------------------
 
 EF = function (seed_value,
                num_spp_to_generate,
@@ -681,6 +684,8 @@ EF = function (seed_value,
 #'          the given max value (max_max_abundance).}
 #'}
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -755,6 +760,8 @@ EF = function (seed_value,
 #' target_max_abundance_ct :  num 142
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param seed_value random seed to pass to optim function
 #' @param num_spp_to_generate number of species to generate in distribution
 #' @param min_num_spp_on_2_PUs minimum number of species that occur on exactly 2 patches in distribution
@@ -862,6 +869,7 @@ search_for_approximating_lognormal <- function (seed_value,
     result <- optim (par = c(initial_meanlog, initial_sdlog),
              EF,
              control=c(maxit=max_iterations),
+
              seed_value = seed_value,
              num_spp_to_generate = num_spp_to_generate,
              min_num_spp_on_2_PUs = min_num_spp_on_2_PUs,
@@ -917,6 +925,8 @@ search_for_approximating_lognormal <- function (seed_value,
 #' given Xu problem and meet the other curve shape criteria given in the
 #' argument list.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -1049,6 +1059,8 @@ search_for_approximating_lognormal <- function (seed_value,
 #' Xu_tot_num_spp :  int 814
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @param Xu_bdprob a Xu_bd_problem object
 #' @param desired_Xu_spp_frac_of_all_spp numeric
 #' @param solution_frac_of_landscape numeric
@@ -1060,6 +1072,8 @@ search_for_approximating_lognormal <- function (seed_value,
 #' @inheritParams std_param_defns
 #'
 #' @return Returns numeric vector of abundances
+
+#-------------------------------------------------------------------------------
 
 find_lognormal_to_wrap_around_Xu = function (Xu_bdprob, parameters,
                                              desired_Xu_spp_frac_of_all_spp,

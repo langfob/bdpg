@@ -1332,7 +1332,7 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
         desired_max_abundance_frac      = parameters$desired_max_abundance_frac
         dep_set_PUs_eligible            = parameters$dep_set_PUs_eligible
         add_one_to_lognormal_abundances = parameters$add_one_to_lognormal_abundances
-        seed_value_for_search           = parameters$seed_value_for_search
+seed_value_for_search           = parameters$seed_value_for_search
         max_search_iterations           = parameters$max_search_iterations
 
             #-----------------------
@@ -1359,7 +1359,7 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                               desired_Xu_spp_frac_of_all_spp,
                                               solution_frac_of_landscape,
                                               desired_max_abundance_frac,
-                                              seed_value_for_search,
+seed_value_for_search,
                                               max_search_iterations,
                                               add_one_to_lognormal_abundances,
                                               search_outfile_name)
