@@ -180,14 +180,16 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
                   )
 
         #  Compute network metrics.
-    Xu_bdprob_APP <- init_object_graph_data (Xu_bdprob_APP,
-                                             starting_dir,
-                                             parameters$compute_network_metrics,
-                                #parameters$compute_network_metrics_APP,
-                                compute_network_metrics_for_this_prob,
-                                             parameters$use_igraph_metrics,
-                                             parameters$use_bipartite_metrics,
-                                             parameters$bipartite_metrics_to_use)
+    Xu_bdprob_APP =
+        init_object_graph_data (
+            Xu_bdprob_APP,
+            starting_dir,
+            value_or_FALSE_if_null (parameters$compute_network_metrics),
+            #parameters$compute_network_metrics_APP,
+            compute_network_metrics_for_this_prob,
+            value_or_FALSE_if_null (parameters$use_igraph_metrics),
+            value_or_FALSE_if_null (parameters$use_bipartite_metrics),
+            parameters$bipartite_metrics_to_use)
 
 #docaids::doc_vars_in_this_func_once ()
     return (Xu_bdprob_APP)

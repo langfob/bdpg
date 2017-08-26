@@ -28,18 +28,18 @@ gen_single_bdprob_COR <- function (parameters,
 
     COR_Xu_bdprob =
         gen_single_bdprob_COR_from_scratch_or_Xu_bench_file (
-                                exp_root_dir,
-                                parameters$compute_network_metrics_COR,
-                                parameters,
-                                parameters$read_Xu_problem_from_Xu_bench_file,
-                                Xu_bench_infile_name,
-                                parameters$given_correct_solution_cost,
-                                parameters$max_allowed_num_spp,
-                                bdpg_error_codes,
-                                integerize,
-                                base_prob_name_stem = "base_prob",
-                                cor_dir_name_stem = "cor"
-                                )
+            exp_root_dir,
+            value_or_FALSE_if_null (parameters$compute_network_metrics_COR),
+            parameters,
+            value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file),
+            Xu_bench_infile_name,
+            value_or_FALSE_if_null (parameters$given_correct_solution_cost),
+            parameters$max_allowed_num_spp,
+            bdpg_error_codes,
+            integerize,
+            base_prob_name_stem = "base_prob",
+            cor_dir_name_stem = "cor",
+            forced_seed=NULL)
 
     return (COR_Xu_bdprob)
     }

@@ -1182,14 +1182,16 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
         #  Compute network metrics.
 
-    wrapped_bdprob <- init_object_graph_data (wrapped_bdprob,
-                                              starting_dir,
-                                              parameters$compute_network_metrics,
-                                #parameters$compute_network_metrics_wrapped_COR,
-                                compute_network_metrics_for_this_prob,
-                                              parameters$use_igraph_metrics,
-                                              parameters$use_bipartite_metrics,
-                                              parameters$bipartite_metrics_to_use)
+    wrapped_bdprob =
+        init_object_graph_data (
+            wrapped_bdprob,
+            starting_dir,
+            value_or_FALSE_if_null (parameters$compute_network_metrics),
+            #parameters$compute_network_metrics_wrapped_COR,
+            compute_network_metrics_for_this_prob,
+            value_or_FALSE_if_null (parameters$use_igraph_metrics),
+            value_or_FALSE_if_null (parameters$use_bipartite_metrics),
+            parameters$bipartite_metrics_to_use)
 
         #------------------------------------------------------------
         #  Everything seems to have worked.
@@ -1321,7 +1323,7 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                     base_bdprob,
                                     bdpg_error_codes)
     {
-    if (parameters$wrap_lognormal_dist_around_Xu)
+    if (value_or_FALSE_if_null (parameters$wrap_lognormal_dist_around_Xu))
         {
             #---------------------------------
             #  Control parameters from user.
