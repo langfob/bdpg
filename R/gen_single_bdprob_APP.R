@@ -167,7 +167,9 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
         #  Summarize and plot graph and distribution structure information.
     Xu_bdprob_APP@final_link_counts_for_each_node =
         summarize_and_plot_graph_and_distribution_structure_information (
-                  Xu_bdprob_APP@PU_spp_pair_indices,
+#                  Xu_bdprob_APP@PU_spp_pair_indices,
+                  Xu_bdprob_APP@APP_prob_info@app_PU_spp_pair_indices,
+
                   "APP",
                   Xu_bdprob_COR@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
 
