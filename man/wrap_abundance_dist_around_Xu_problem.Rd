@@ -6,10 +6,9 @@
 \usage{
 wrap_abundance_dist_around_Xu_problem(starting_dir,
   compute_network_metrics_for_this_prob, rounded_abundances, Xu_bdprob,
-  dep_set_PUs_eligible, tot_num_PUs_in_landscape, bdpg_error_codes,
-  search_outfile_name_base, search_outfile_name,
-  wrap_prob_name_stem = "wrap_prob", cor_dir_name_stem = "cor",
-  forced_seed = NULL)
+  dep_set_PUs_eligible, tot_num_PUs_in_landscape, seed_value_for_search,
+  bdpg_error_codes, search_outfile_name_base, search_outfile_name,
+  wrap_prob_name_stem = "wrap_prob", cor_dir_name_stem = "cor")
 }
 \arguments{
 \item{starting_dir}{character string}
@@ -32,10 +31,6 @@ indicate not compute any network metrics for the current problem.}
 \item{search_outfile_name_base}{character string}
 
 \item{search_outfile_name}{character string}
-
-\item{forced_seed}{an integer value to be used as random number seed when
-a specific seed is desired in creating this object (e.g., for
-reproducing a previous execution of the code).}
 }
 \value{
 Returns a Xu_wrapped_bd_problem
@@ -46,14 +41,6 @@ Note that this function doesn't care where you got the abundances,
  It can be any abundance set that you want, as long as it contains
  at least as many species sitting on exactly 2 patches as the base
  Xu problem has.  It can have more than the Xu problem, but not less.
-}
-\details{
-Note that the forced_seed argument should normally be omitted.  It's only
-there to allow the reproduction of a previous execution of the code that
-generates this object.  If omitted, a seed is randomly chosen and saved
-as the rand_seed slot in the object.  If you want to reproduce the generation
-of the current object, you would use the value stored in the rand_seed
-slot as the value of the forced_seed argument in this function call.
 }
 \section{Local Variable Structures and examples}{
 

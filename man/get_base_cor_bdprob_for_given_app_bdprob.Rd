@@ -15,6 +15,19 @@ and can have a varying number and set of elements depending on the run}
 \value{
 Returns the COR Xu_bd_problem that the apparent problem added error
 to
+Get COR problem that given APP problem is based on
+
+ The parameters list needs to show locations for both the APP problems
+ and the COR problems that they're based on, so the project.yaml file
+ needs to have a section like this:
+
+   run_rs_on_APP_prob: TRUE
+
+   RS_app_input_prob_src: "rds_file_set_from_file"
+   RS_app_input_rds_file_set_path: "/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/Tzar_input_files/APP_rds_input_file_paths.txt"
+
+   RS_cor_input_prob_src: "rds_file_set_from_file"
+   RS_cor_input_rds_file_set_path: "/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/Tzar_input_files/COR_rds_input_file_paths.txt"
 }
 \description{
 Get the COR bdprob whose UUID is the base UUID for the given APP bdprob

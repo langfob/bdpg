@@ -6,7 +6,7 @@
 \title{Set marxan controls and run marxan}
 \usage{
 set_marxan_controls_and_run_marxan(marxan_input_dir, marxan_output_dir,
-  marxan_IO_dir, parameters)
+  marxan_IO_dir, parameters, rand_seed)
 }
 \arguments{
 \item{marxan_input_dir}{character string}
@@ -16,6 +16,8 @@ set_marxan_controls_and_run_marxan(marxan_input_dir, marxan_output_dir,
 \item{marxan_IO_dir}{character string}
 
 \item{parameters}{list}
+
+\item{rand_seed}{integer}
 }
 \value{
 Returns list

@@ -15,7 +15,8 @@ get_bdprob_from_rds_file(prob_src, cur_input_prob_idx, rds_file_set_path,
 \item{cor_bdprob}{a correct bdprob}
 }
 \value{
-Returns a Xu_bd_problem
+Returns a list containing named elements related to the source
+        problem, i.e. src_Xu_bd_problem and src_rds_file_dir
 }
 \description{
 Takes a file name for an R rds output file that contains a saved Xu_bd_problem
