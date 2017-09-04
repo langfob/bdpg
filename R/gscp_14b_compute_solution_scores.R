@@ -98,6 +98,8 @@
 #'     correct problem to create the apparent problem
 #'
 #' @return list of solution vector scores
+#' @export
+#'
 
 #===============================================================================
 

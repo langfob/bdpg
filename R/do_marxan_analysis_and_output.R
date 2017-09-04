@@ -177,6 +177,7 @@ create_RSrun <- function (prob_UUID,
 
 #' @param COR_bd_prob a Xu_bd_problem
 #' @param parameters list
+#' @param src_rds_file_dir character string
 #' @param targets numeric vector
 #'
 #' @return Returns nothing
@@ -185,6 +186,7 @@ create_RSrun <- function (prob_UUID,
 #-------------------------------------------------------------------------------
 
 do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
+                                               src_rds_file_dir=NULL,
                                                targets=rep(1,COR_bd_prob@num_spp))
     {
         #---------------
@@ -228,7 +230,8 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
     save_rsrun_results_data_for_one_rsrun (parameters,
                                               COR_marxan_run,
                                               COR_bd_prob,
-                                              COR_bd_prob)
+                                              COR_bd_prob,
+                                           src_rds_file_dir)
 
     if (FALSE)  #  2017 02 23 - BTL - rebuilding this code, so don't run it yet
     {
@@ -314,6 +317,7 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
 #' @param APP_bd_prob a Xu_bd_problem
 #' @param COR_bd_prob a Xu_bd_problem
 #' @param parameters list
+#' @param src_rds_file_dir character string
 #' @param targets numeric vector
 #'
 #' @return Returns nothing
@@ -324,6 +328,7 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
 do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
+                                               src_rds_file_dir=NULL,
                                                targets=rep(1,COR_bd_prob@num_spp)
                                                )
     {
@@ -369,7 +374,8 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
     save_rsrun_results_data_for_one_rsrun (parameters,
                                               APP_marxan_run,
                                               COR_bd_prob,
-                                              APP_bd_prob)
+                                              APP_bd_prob,
+                                           src_rds_file_dir)
 
     if (FALSE)  #  2017 02 23 - BTL - rebuilding this code, so don't run it yet
     {

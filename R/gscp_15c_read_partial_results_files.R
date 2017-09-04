@@ -59,7 +59,11 @@ read_results_list_from_csv_file <- function (csv_file)
 
 #-------------------------------------------------------------------------------
 
-read_prob_characteristics_list <- function (rsprob, exp_root_dir, parameters)
+read_prob_characteristics_list <- function (rsprob,
+                                            src_rds_file_dir,
+                                            exp_root_dir,
+                                            use_src_rds_file_dir,
+                                            parameters)
     {
         #-----------------------------------------------------------------------
         # - Xu characteristics for the given problem (where known, NA otherwise)
@@ -77,31 +81,47 @@ read_prob_characteristics_list <- function (rsprob, exp_root_dir, parameters)
         #     - if correct, 0 or NA
         #-----------------------------------------------------------------------
 
-    prob_characteristics_file =
-        file.path (get_RSprob_path_topdir (rsprob, exp_root_dir),
-#                   parameters$summary_filename)
-                   "prob_characteristics.csv")
-
-    if (file.exists (prob_characteristics_file))
+    if (use_src_rds_file_dir)
         {
-        results_list = read_results_list_from_csv_file (prob_characteristics_file)
+            #  BD problem came from an rds file.
+        prob_characteristics_file =
+            file.path (src_rds_file_dir, "prob_characteristics.csv")
+
         } else
         {
-        stop (paste0 ("\n\nIn read_prob_characteristics_list() - ",
-                      "prob_characteristics_file does not exist:",
-                      "\n    '", prob_characteristics_file, "'\n"))
+            #  BD problem not from an rds file.
+        prob_characteristics_file =
+            file.path (get_RSprob_path_topdir (rsprob, exp_root_dir),
+    #                   parameters$summary_filename)
+                       "prob_characteristics.csv")
         }
+
+    results_list = read_results_list_from_csv_file (prob_characteristics_file)
 
     return (results_list)
     }
 
 #-------------------------------------------------------------------------------
 
-read_bipartite_measures_list <- function (rsprob, exp_root_dir)
+read_bipartite_measures_list <- function (rsprob,
+                                          src_rds_file_dir,
+                                          exp_root_dir,
+                                          use_src_rds_file_dir)
     {
-    bipartite_file = file.path (get_RSprob_path_networks (rsprob, exp_root_dir),
-                                paste0 (rsprob@bipartite_metrics_file_name_stem,
-                                        ".csv"))
+    if (use_src_rds_file_dir)
+        {
+            #  BD problem came from an rds file.
+        bipartite_file =
+            file.path (src_rds_file_dir,
+                       paste0 (rsprob@bipartite_metrics_file_name_stem, ".csv"))
+
+        } else
+        {
+            #  BD problem not from an rds file.
+        bipartite_file =
+            file.path (get_RSprob_path_networks (rsprob, exp_root_dir),
+                       paste0 (rsprob@bipartite_metrics_file_name_stem, ".csv"))
+        }
 
     results_list = read_results_list_from_csv_file (bipartite_file)
 
@@ -110,11 +130,25 @@ read_bipartite_measures_list <- function (rsprob, exp_root_dir)
 
 #-------------------------------------------------------------------------------
 
-read_igraph_measures_list <- function (rsprob, exp_root_dir)
+read_igraph_measures_list <- function (rsprob,
+                                       src_rds_file_dir,
+                                       exp_root_dir,
+                                       use_src_rds_file_dir)
     {
-    igraph_file = file.path (get_RSprob_path_networks (rsprob, exp_root_dir),
-                                paste0 (rsprob@igraph_metrics_file_name_stem,
-                                        ".csv"))
+    if (use_src_rds_file_dir)
+        {
+            #  BD problem came from an rds file.
+        igraph_file =
+            file.path (src_rds_file_dir,
+                       paste0 (rsprob@igraph_metrics_file_name_stem, ".csv"))
+
+        } else
+        {
+            #  BD problem not from an rds file.
+        igraph_file =
+            file.path (get_RSprob_path_networks (rsprob, exp_root_dir),
+                       paste0 (rsprob@igraph_metrics_file_name_stem, ".csv"))
+        }
 
     results_list = read_results_list_from_csv_file (igraph_file)
 

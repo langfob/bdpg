@@ -52,7 +52,8 @@
 #'
 #' @return Returns spp_rep_fracs numeric vector of fractions of species
 #'     representation targets achieved by a given set of planning units
-
+#' @export
+#'
 compute_rep_fraction =
     function (spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
               PU_set_to_test,

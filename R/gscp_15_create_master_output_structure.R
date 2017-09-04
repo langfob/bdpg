@@ -233,7 +233,7 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 
                                                         #rsprob,
                                                   COR_bd_prob,
-                                                  APP_bd_prob    #,
+                                                  APP_bd_prob,
 
                                                     #rs_output_dir_path,    #marxan_output_dir_path,
                                                     #rs_plot_output_dir,    #plot_output_dir,
@@ -261,6 +261,8 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 
                                                         #FP_const_rate,
                                                         #FN_const_rate
+
+                                                  src_rds_file_dir=NULL
                                                   )
     {
     tzar_run_ID  = parameters$run_id
@@ -278,14 +280,23 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                                       rsr_checksum = rsrun@checksum,
                                       rsr_rand_seed = rsrun@rand_seed)
 
-    prob_characteristics_list = read_prob_characteristics_list (APP_bd_prob,     #rsprob,
-                                                                exp_root_dir,
-                                                                parameters)
-    bipartite_measures_list   = read_bipartite_measures_list (APP_bd_prob,    #rsprob,
-                                                              exp_root_dir)
-    igraph_measures_list      = read_igraph_measures_list (APP_bd_prob,    #rsprob,
-                                                           exp_root_dir)
+    use_src_rds_file_dir = ! (is.null (src_rds_file_dir))
 
+    prob_characteristics_list = read_prob_characteristics_list (APP_bd_prob,     #rsprob,
+                                                                src_rds_file_dir,
+                                                                exp_root_dir,
+                                                                use_src_rds_file_dir,
+                                                                parameters)
+
+    bipartite_measures_list   = read_bipartite_measures_list (APP_bd_prob,    #rsprob,
+                                                              src_rds_file_dir,
+                                                              exp_root_dir,
+                                                              use_src_rds_file_dir)
+
+    igraph_measures_list      = read_igraph_measures_list (APP_bd_prob,    #rsprob,
+                                                           src_rds_file_dir,
+                                                           exp_root_dir,
+                                                           use_src_rds_file_dir)
 
         #-----------------------------------------------------------------------
 

@@ -1217,7 +1217,12 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
 #' Generate COR wrapped bd problem
 #'
-#' Generate COR wrapped bd problem
+#' Note that the forced_seed argument should normally be omitted.  It's only
+#' there to allow the reproduction of a previous execution of the code that
+#' generates this object.  If omitted, a seed is randomly chosen and saved
+#' as the rand_seed slot in the object.  If you want to reproduce the generation
+#' of the current object, you would use the value stored in the rand_seed
+#' slot as the value of the forced_seed argument in this function call.
 #'
 #-------------------------------------------------------------------------------
 
@@ -1311,7 +1316,8 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                     compute_network_metrics_for_this_prob,
                                     parameters,
                                     base_bdprob,
-                                    bdpg_error_codes)
+                                    bdpg_error_codes,
+                                    forced_seed=NULL)
     {
     if (value_or_FALSE_if_null (parameters$wrap_lognormal_dist_around_Xu))
         {
@@ -1458,14 +1464,16 @@ gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
             # "wrap_prob.1")
 
         compute_network_metrics_for_this_prob =
-            value_or_FALSE_if_null (parameters$compute_network_metrics_for_this_prob)
+#            value_or_FALSE_if_null (parameters$compute_network_metrics_for_this_prob)
+            value_or_FALSE_if_null (parameters$compute_network_metrics_wrapped_COR)
 
         WRAP_prob =
             gen_wrapped_bdprob_COR (starting_dir,
                                     compute_network_metrics_for_this_prob,
                                     parameters,
                                     bdprob_to_wrap,
-                                    bdpg_error_codes)
+                                    bdpg_error_codes,
+                                    forced_seed)
         } else
         {
         stop (paste0 ("\n\nwrap_lognormal_dist_around_Xu is not set to TRUE.  ",
