@@ -341,6 +341,7 @@ run_marxan = function (marxan_dir, marxan_executable_name)
 #' @param marxan_output_dir character string
 #' @param parameters list
 #' @param marxan_IO_dir character string
+#' @param rand_seed integer
 #'
 #' @return Returns list
 #' @export
@@ -350,7 +351,8 @@ run_marxan = function (marxan_dir, marxan_executable_name)
 set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
                                                 marxan_output_dir,
                                                 marxan_IO_dir,
-                                                parameters
+                                                parameters,
+                                                rand_seed
                                                )
     {
         #-----------------------------------------------------------------------
@@ -386,7 +388,7 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
         #           so that I get reproducible results.
         #*******
 
-    marxan_RANDSEED  = parameters$seed    #  Default to same seed as the R code.
+    marxan_RANDSEED  = rand_seed    #parameters$seed    #  Default to same seed as the R code.
     marxan_NUMREPS  = 10
 
         #  Annealing Parameters
@@ -482,12 +484,12 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 
         #-------------------
 
-        #  Need to pull the random seed out of this and always set it myself.
-        #  A good default would be to use the same random seed as my R code is using
-        #  here.
-
-    if (! is.null (parameters$marxan_seed))
-        { marxan_RANDSEED  = parameters$marxan_seed }
+    #     #  Need to pull the random seed out of this and always set it myself.
+    #     #  A good default would be to use the same random seed as my R code is using
+    #     #  here.
+    #
+    # if (! is.null (parameters$marxan_seed))
+    #     { marxan_RANDSEED  = parameters$marxan_seed }
 
         #  If not using default input parameters, use any values that are
         #  specified in the yaml file for the following variables.
@@ -956,7 +958,8 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
         set_marxan_controls_and_run_marxan (marxan_input_dir,
                                             marxan_output_dir,
                                             marxan_IO_dir,
-                                            parameters
+                                            parameters,
+                                            rsrun@rand_seed
                                            )
 
         #  Document what spf_const value was computed before the run of marxan

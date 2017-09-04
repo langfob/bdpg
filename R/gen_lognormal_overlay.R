@@ -515,7 +515,9 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
 
 #-------------------------------------------------------------------------------
 
-EF = function (seed_value,
+EF = function (
+
+seed_value,
                num_spp_to_generate,
                min_num_spp_on_2_PUs,
                max_max_abundance,
@@ -524,18 +526,18 @@ EF = function (seed_value,
                outfile,
                mean_sd_pair)
     {
-#     cat ("\n\nStarting EF:",
-#          "\n    seed_value              = ", seed_value,
-#          "\n    num_spp_to_generate     = ", num_spp_to_generate,
-#          "\n    min_num_spp_on_2_PUs    = ", min_num_spp_on_2_PUs,
-#          "\n    max_max_abundance       = ", max_max_abundance,
-#          "\n    target_max_abundance_ct = ", target_max_abundance_ct,
-#          "\n    add_one_to_abundances   = ", add_one_to_abundances,
-#          "\n    mean_sd_pair [1]        = ", mean_sd_pair [1],
-#          "\n    mean_sd_pair [2]        = ", mean_sd_pair [2],
-#          "\n", sep='')
+    cat ("\n\nStarting EF:",
+"\n    seed_value              = ", seed_value,
+         "\n    num_spp_to_generate     = ", num_spp_to_generate,
+         "\n    min_num_spp_on_2_PUs    = ", min_num_spp_on_2_PUs,
+         "\n    max_max_abundance       = ", max_max_abundance,
+         "\n    target_max_abundance_ct = ", target_max_abundance_ct,
+         "\n    add_one_to_abundances   = ", add_one_to_abundances,
+         "\n    mean_sd_pair [1]        = ", mean_sd_pair [1],
+         "\n    mean_sd_pair [2]        = ", mean_sd_pair [2],
+         "\n", sep='')
 
-    set.seed (seed_value)
+#set.seed (seed_value)
     abundance_data = gen_rounded_abundances (num_spp_to_generate,
                                              mean_sd_pair [1],
                                              mean_sd_pair [2],
@@ -652,7 +654,7 @@ EF = function (seed_value,
                             min_num_spp_on_2_PUs,
                             target_max_abundance_ct,
                             max_max_abundance,
-                            seed_value,
+                    seed_value,
                             num_spp_to_generate,
                             add_one_to_abundances,
                             sep=',')
@@ -820,7 +822,8 @@ EF = function (seed_value,
 #         DEoptim(fn, lower, upper, control = DEoptim.control(), ..., fnMap=NULL)
 #-------------------------------------------------------------------------------
 
-search_for_approximating_lognormal <- function (seed_value,
+search_for_approximating_lognormal <- function (
+                                        seed_value,
                                                 num_spp_to_generate,
                                                 min_num_spp_on_2_PUs,
                                                 max_max_abundance,
@@ -834,7 +837,7 @@ search_for_approximating_lognormal <- function (seed_value,
     {
 
     cat ("\n\nStart of search_for_approximating_lognormal:",
-         "\n    seed_value = ", seed_value,
+"\n    seed_value = ", seed_value,
          "\n    num_spp_to_generate = ", num_spp_to_generate,
          "\n    min_num_spp_on_2_PUs = ", min_num_spp_on_2_PUs,
          "\n    max_max_abundance = ", max_max_abundance,
@@ -867,19 +870,18 @@ search_for_approximating_lognormal <- function (seed_value,
         #-------------------------------------------------------------------
 
     result <- optim (par = c(initial_meanlog, initial_sdlog),
-             EF,
-             control=c(maxit=max_iterations),
+                     EF,
+                     control=c(maxit=max_iterations),
+                seed_value = seed_value,
+                     num_spp_to_generate = num_spp_to_generate,
+                     min_num_spp_on_2_PUs = min_num_spp_on_2_PUs,
+                     max_max_abundance = max_max_abundance,
+                     target_max_abundance_ct = target_max_abundance_ct,
+                     add_one_to_abundances = add_one_to_abundances,
+                     outfile = outfile
+                     )
 
-             seed_value = seed_value,
-             num_spp_to_generate = num_spp_to_generate,
-             min_num_spp_on_2_PUs = min_num_spp_on_2_PUs,
-             max_max_abundance = max_max_abundance,
-             target_max_abundance_ct = target_max_abundance_ct,
-             add_one_to_abundances = add_one_to_abundances,
-             outfile = outfile
-             )
-
-    set.seed (seed_value)
+#set.seed (seed_value)
     abundance_data = gen_rounded_abundances (num_spp_to_generate,
                                              result$par [1],
                                              result$par [2],
@@ -1079,7 +1081,7 @@ find_lognormal_to_wrap_around_Xu = function (Xu_bdprob, parameters,
                                              desired_Xu_spp_frac_of_all_spp,
                                              solution_frac_of_landscape,
                                              desired_max_abundance_frac,
-                                             seed_value_for_search,
+                    seed_value_for_search,
                                              max_search_iterations,
                                              add_one_to_lognormal_abundances,
                                              search_outfile_name)
@@ -1176,7 +1178,9 @@ find_lognormal_to_wrap_around_Xu = function (Xu_bdprob, parameters,
     options (bdpg.EF_num = 0)
 
     lognormal_search_results =
-        search_for_approximating_lognormal (seed_value_for_search,
+        search_for_approximating_lognormal (
+
+seed_value_for_search,
                                             num_spp_to_generate,
                                             min_num_spp_on_2_PUs,
                                             max_max_abundance_ct,

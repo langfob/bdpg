@@ -20,7 +20,8 @@
 #' @param cor_bdprob a correct bdprob
 #' @inheritParams std_param_defns
 #'
-#' @return Returns a Xu_bd_problem
+#' @return Returns a list containing named elements related to the source
+#'         problem, i.e. src_Xu_bd_problem and src_rds_file_dir
 #'
 #-------------------------------------------------------------------------------
 

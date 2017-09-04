@@ -667,13 +667,6 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 #'  at least as many species sitting on exactly 2 patches as the base
 #'  Xu problem has.  It can have more than the Xu problem, but not less.
 #'
-#' Note that the forced_seed argument should normally be omitted.  It's only
-#' there to allow the reproduction of a previous execution of the code that
-#' generates this object.  If omitted, a seed is randomly chosen and saved
-#' as the rand_seed slot in the object.  If you want to reproduce the generation
-#' of the current object, you would use the value stored in the rand_seed
-#' slot as the value of the forced_seed argument in this function call.
-#'
 #-------------------------------------------------------------------------------
 
 #'@section Local Variable Structures and examples:
@@ -853,17 +846,14 @@ wrap_abundance_dist_around_Xu_problem = function (starting_dir,
                                                   Xu_bdprob,
                                                   dep_set_PUs_eligible,
                                                   tot_num_PUs_in_landscape,
+                            seed_value_for_search,
                                                   bdpg_error_codes,
                                                   search_outfile_name_base,
                                                   search_outfile_name,
                                             wrap_prob_name_stem = "wrap_prob",
-                                            cor_dir_name_stem = "cor",
-                                            forced_seed=NULL
+                                            cor_dir_name_stem = "cor"
                                                   )
     {
-    new_seed = get_and_set_new_rand_seed ("Start of wrap_abundance_dist_around_Xu_problem()",
-                                          forced_seed)
-
         #  Get values for local variables to be used throughout the
         #  computations in this function.
 
@@ -1042,7 +1032,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob@UUID_of_base_problem_that_is_wrapped = Xu_bdprob@UUID
 
     wrapped_bdprob@prob_is_ok                           = FALSE
-    wrapped_bdprob@rand_seed                            = new_seed
+    wrapped_bdprob@rand_seed                            = seed_value_for_search
 
     #----------
 
@@ -1334,8 +1324,11 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
         desired_max_abundance_frac      = parameters$desired_max_abundance_frac
         dep_set_PUs_eligible            = parameters$dep_set_PUs_eligible
         add_one_to_lognormal_abundances = parameters$add_one_to_lognormal_abundances
-seed_value_for_search           = parameters$seed_value_for_search
         max_search_iterations           = parameters$max_search_iterations
+
+#seed_value_for_search           = parameters$seed_value_for_search
+seed_value_for_search = get_and_set_new_rand_seed ("Start of wrap_abundance_dist_around_Xu_problem()",
+                                          forced_seed)
 
             #-----------------------
             #  Derived parameters.
@@ -1388,6 +1381,7 @@ seed_value_for_search,
                                                    base_bdprob,
                                                    dep_set_PUs_eligible,
                                                    tot_num_PUs_in_landscape,
+                                        seed_value_for_search,
                                                    bdpg_error_codes,
                                                    search_outfile_name_base,
                                                    search_outfile_name)
@@ -1411,6 +1405,8 @@ seed_value_for_search,
 #' Generate a single wrapped Xu biodiversity problem
 #'
 #' @param bdprob_to_wrap a bdproblem to wrap a distribution around
+#' @param src_rds_file_dir character string
+#' @param forced_seed integer
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a wrapped Xu biodiversity problem
@@ -1420,7 +1416,9 @@ seed_value_for_search,
 
 gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
                                     parameters,
-                                    bdpg_error_codes)
+                                    bdpg_error_codes,
+                                    src_rds_file_dir=NULL,
+                                    forced_seed=NULL)
     {
     wrap_lognormal_dist_around_Xu =
         value_or_FALSE_if_null (parameters$wrap_lognormal_dist_around_Xu)
