@@ -16,14 +16,14 @@ compute_RS_solution_cost_scores <- function (rs_solution_PU_IDs_vec,
                                               PU_costs_vec)
     rs_solution_cost = compute_solution_cost (rs_solution_PU_IDs_vec,
                                               PU_costs_vec)
-    rs_solution_cost_cost_err_frac = (rs_solution_cost - cor_optimum_cost) /
-                                     cor_optimum_cost
-    abs_rs_solution_cost_cost_err_frac = abs (rs_solution_cost_cost_err_frac)
+    rs_solution_cost_err_frac = (rs_solution_cost - cor_optimum_cost) /
+                                cor_optimum_cost
+    abs_rs_solution_cost_err_frac = abs (rs_solution_cost_err_frac)
 
     return (list (cor_optimum_cost = cor_optimum_cost,
                   rs_solution_cost = rs_solution_cost,
-                  rs_solution_cost_cost_err_frac = rs_solution_cost_cost_err_frac,
-                  abs_rs_solution_cost_cost_err_frac = abs_rs_solution_cost_cost_err_frac
+                  rs_solution_cost_err_frac = rs_solution_cost_err_frac,
+                  abs_rs_solution_cost_err_frac = abs_rs_solution_cost_err_frac
                  ))
     }
 
