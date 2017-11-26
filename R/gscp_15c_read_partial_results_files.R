@@ -52,6 +52,8 @@ read_results_list_from_csv_file <- function (csv_file)
         } else
         {
         results_list = NULL
+        cat ("\n\ncsv file does not exist, so not read.\n    File name = '",
+             csv_file, "'\n")
         }
 
     return (results_list)
