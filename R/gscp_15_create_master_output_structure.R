@@ -35,32 +35,6 @@ summarize_RS_solution_scores <- function (#marxan_best_solution_PU_IDs,
 save_RS_options <- function ()
     {
     results_list = list()
-      # data.frame (
-      #                 #  Marxan options
-      #             marxan_spf_const = rep (NA, num_runs),
-      #             marxan_PROP = rep (NA, num_runs),
-      #             marxan_RANDSEED = rep (NA, num_runs),
-      #             marxan_NUMREPS = rep (NA, num_runs),
-      #
-      #                 #  Marxan Annealing Parameters
-      #             marxan_NUMITNS = rep (NA, num_runs),
-      #             marxan_STARTTEMP = rep (NA, num_runs),
-      #             marxan_NUMTEMP = rep (NA, num_runs),
-      #
-      #                 #  Marxan Cost Threshold
-      #             marxan_COSTTHRESH = rep (NA, num_runs),
-      #             marxan_THRESHPEN1 = rep (NA, num_runs),
-      #             marxan_THRESHPEN2 = rep (NA, num_runs),
-      #
-      #                 #  Marxan Program control
-      #             marxan_RUNMODE = rep (NA, num_runs),
-      #             marxan_MISSLEVEL = rep (NA, num_runs),
-      #             marxan_ITIMPTYPE = rep (NA, num_runs),
-      #             marxan_HEURTYPE = rep (NA, num_runs),
-      #             marxan_CLUMPTYPE = rep (NA, num_runs)
-      #             )
-
-    #---------------------------------------------------------------------------
 
         #  Marxan options
 
@@ -130,7 +104,7 @@ initialize_results_list <- function ()
 
                   cor_acc_frac = rep (NA, num_runs),
                   cor_acc_err_frac = rep (NA, num_runs),
-                  cor_cost_savings = rep (NA, num_runs),
+                  cor_cost_savings = rep (NA, num_runs),    #  NEVER USED?  BTL - 2017 11 26
 
                   cor_opt_cost_savings = rep (NA, num_runs),
 
@@ -420,7 +394,7 @@ cor_num_patches_in_solution = sum (cor_solution_vector)
                 rs_best_solution_PU_IDs,
                 rsrun@targets,                           #spp_rep_targets,
                 COR_bd_prob@num_spp,
-                rs_best_num_patches_in_solution,         #marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
+        rs_best_num_patches_in_solution,         #marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
                 COR_bd_prob@num_PUs,
         cor_num_patches_in_solution,             #num_PUs_in_optimal_solution,
             FP_const_rate,
@@ -432,7 +406,7 @@ cor_num_patches_in_solution = sum (cor_solution_vector)
                 rs_best_solution_PU_IDs,
                 rsrun@targets,                           #spp_rep_targets,
                 COR_bd_prob@num_spp,
-                rs_best_num_patches_in_solution,         #marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
+        rs_best_num_patches_in_solution,         #marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
                 COR_bd_prob@num_PUs,
         cor_num_patches_in_solution,             #num_PUs_in_optimal_solution,
             FP_const_rate,
