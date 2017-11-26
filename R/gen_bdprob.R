@@ -76,11 +76,11 @@ gen_bdprob  = function (parameters,
         #  and if they don't for this particular run, then set them to
         #  something like NULL.
 
-    read_Xu_problem_from_Xu_bench_file   = parameters$read_Xu_problem_from_Xu_bench_file
-    infile_name                    = parameters$infile_name
+    read_Xu_problem_from_Xu_bench_file = value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file)
+    infile_name                        = parameters$infile_name
     if (is.null (infile_name)) infile_name = ""
-    given_correct_solution_cost    = parameters$given_correct_solution_cost
-    max_allowed_num_spp            = parameters$max_allowed_num_spp
+    given_correct_solution_cost        = parameters$given_correct_solution_cost
+    max_allowed_num_spp                = parameters$max_allowed_num_spp
 
 ##    wrap_lognormal_dist_around_Xu    = TRUE    #  temp for testing only...
     wrap_lognormal_dist_around_Xu  = parameters$wrap_lognormal_dist_around_Xu
