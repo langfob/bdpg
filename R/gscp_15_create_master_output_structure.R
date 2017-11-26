@@ -4,30 +4,27 @@
 
 #===============================================================================
 
-summarize_RS_solution_scores <- function (#marxan_best_solution_PU_IDs,
-                                          cor_solution_vector,
-                                          marxan_best_num_patches_in_solution)
+compute_RS_solution_cost_scores <- function (rs_solution_PU_IDs_vec,
+                                             cor_solution_PU_IDs_vec,
+                                             PU_costs_vec)
     {
-
     #---------------------------------------------------------------------------
-    #               Summarize marxan solution features.
+    #         Compute error in cost of reserve selector's solution.
     #---------------------------------------------------------------------------
 
-      #  Compute error in cost of best marxan solution.
-      #  Assumes equal cost for all patches, i.e., cost per patch = 1.
+    cor_optimum_cost = compute_solution_cost (cor_solution_PU_IDs_vec,
+                                              PU_costs_vec)
+    rs_solution_cost = compute_solution_cost (rs_solution_PU_IDs_vec,
+                                              PU_costs_vec)
+    rs_solution_cost_cost_err_frac = (rs_solution_cost - cor_optimum_cost) /
+                                     cor_optimum_cost
+    abs_rs_solution_cost_cost_err_frac = abs (rs_solution_cost_cost_err_frac)
 
-    # marxan_best_num_patches_in_solution = length (marxan_best_solution_PU_IDs)
-    #   cat ("\nmarxan_best_num_patches_in_solution =", marxan_best_num_patches_in_solution)
-
-      cor_num_patches_in_solution = sum (cor_solution_vector)
-        #cor_num_patches_in_solution = cor_optimum_cost    #  assuming cost = number of patches
-        cat ("\n\ncor_num_patches_in_solution =", cor_num_patches_in_solution)
-
-      marxan_best_solution_cost_err_frac = (marxan_best_num_patches_in_solution - cor_num_patches_in_solution) / cor_num_patches_in_solution
-        cat ("\nmarxan_best_solution_cost_err_frac =", marxan_best_solution_cost_err_frac)
-
-      abs_marxan_best_solution_cost_err_frac = abs (marxan_best_solution_cost_err_frac)
-        cat ("\nabs_marxan_best_solution_cost_err_frac =", abs_marxan_best_solution_cost_err_frac)
+    return (list (cor_optimum_cost = cor_optimum_cost,
+                  rs_solution_cost = rs_solution_cost,
+                  rs_solution_cost_cost_err_frac = rs_solution_cost_cost_err_frac,
+                  abs_rs_solution_cost_cost_err_frac = abs_rs_solution_cost_cost_err_frac
+                 ))
     }
 
 #===============================================================================
@@ -306,16 +303,18 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 #                IT REALLY DOES COVER THE SET, I.E., IT IS A CORRECT SOLUTION.
 
 
-#####    cor_solution_vector = nodes$dependent_set_member
-nodes = COR_bd_prob@nodes
-cor_solution_vector = nodes$dependent_set_member
+    nodes = COR_bd_prob@nodes
+    cor_solution_vector = nodes$dependent_set_member
 
 ###2017 08 22 - BTL - I don't think this is valid anymore, so commenting in out for now.
 ###cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
-    cor_signed_difference         = marxan_output_values$marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
-    cor_abs_val_signed_difference = abs (cor_signed_difference)
+##  2017 11 26 - BTL - Are these 2 difference values ever used now?
+    # cor_signed_difference         = marxan_output_values$marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
+    # cor_abs_val_signed_difference = abs (cor_signed_difference)
 
-cor_num_patches_in_solution = sum (cor_solution_vector)
+    cor_PU_costs_vec = COR_bd_prob@PU_costs
+
+    cor_num_patches_in_solution = sum (cor_solution_vector)
 
         #-----------------------------------------------------------------------
 
@@ -361,18 +360,27 @@ cor_num_patches_in_solution = sum (cor_solution_vector)
 
         #  Find which PUs the reserve selector (marxan only, for now)
         #  chose for its best solution.
+        #  Then, compute costs and cost error measures for the chosen solution.
 
     rs_best_solution_PU_IDs = which (marxan_output_values$marxan_best_df_sorted$SOLUTION > 0)
 
-    rs_best_num_patches_in_solution = length (rs_best_solution_PU_IDs)
-    cat ("\nrs_best_num_patches_in_solution =", rs_best_num_patches_in_solution)
-
-    app_rs_solution_summary_scores_list =
-        summarize_RS_solution_scores (    #rs_best_solution_PU_IDs,
-                                      cor_solution_vector,
-                                      rs_best_num_patches_in_solution)
+#  2017 11 26 - BTL
+#  Here, we are only computing the cost score against the correct
+#  costs.  Need to add another call to compute against apparent
+#  costs and add those results to the output.
+#  However, that requires adding a new element for apparent costs
+#  in the app_prob_info structure, so I'm going to postpone
+#  doing that until I know the changes I've just made here in
+#  computing the correct cost scores are working correctly.
+    app_cost_scores_list =
+        compute_RS_solution_cost_scores (rs_best_solution_PU_IDs,
+                                         cor_solution_vector,
+                                         cor_PU_costs_vec)
 
         #-----------------------------------------------------------------------
+
+    rs_best_num_patches_in_solution = length (rs_best_solution_PU_IDs)
+    cat ("\nrs_best_num_patches_in_solution =", rs_best_num_patches_in_solution)
 
     app_rep_scores_list_according_to_RS =
         compute_and_verify_APP_rep_scores_according_to_RS (marxan_output_values$marxan_mvbest_df,
@@ -423,7 +431,7 @@ cor_num_patches_in_solution = sum (cor_solution_vector)
                       igraph_measures_list,
                       bipartite_measures_list,
 
-                      app_rs_solution_summary_scores_list,
+                      app_cost_scores_list,
                       app_rep_scores_list_according_to_RS,
 
                       cor_scores_list,
