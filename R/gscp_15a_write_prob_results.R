@@ -12,7 +12,7 @@
 #  writing results because I'm not sure it will even be used.
 #  If you do rework it, you may be able to just clone the code below that's
 #  for the Xu problems NOT read from files and write nearly everything out
-#  as NA (since none of the generator stuff is known when bencmarke problems
+#  as NA (since none of the generator stuff is known when benchmark problems
 #  are read from file).
 #
 # #  2017 02 17 - BTL
@@ -44,8 +44,10 @@
 #---------------------------------------------------------------------
 
 save_rsprob_results_data_for_Xu_read_from_bench_file <-
-    function (rsprob, exp_root_dir,
-              num_PUs, num_spp,
+    function (rsprob,
+              exp_root_dir,
+              num_PUs,
+              num_spp,
               cor_optimum_cost,
               parameters
               )
@@ -92,8 +94,7 @@ save_rsprob_results_data_for_Xu_NOT_read_from_bench_file <-
 
     #---------------------------------------------------------------------------
 
-    tzar_run_ID = parameters$run_id
-    results_list$rsp_tzar_run_ID                                                = tzar_run_ID    #0    #  tzar run ID, not RSrun ID
+    results_list$rsp_tzar_run_ID                                                = parameters$run_id    #  tzar run ID, not RSrun ID
 
     results_list$rsp_UUID                                                       = rsprob@UUID
     results_list$rsp_checksum                                                   = rsprob@checksum
@@ -121,33 +122,20 @@ save_rsprob_results_data_for_Xu_NOT_read_from_bench_file <-
 
         #  Xu_base_params
     results_list$rsp_alpha__                         = Xu_base_params@alpha__
-#num(0)    results_list$rsp_n__num_groups                   = Xu_base_params@n__num_groups
-#results_list$rsp_n__num_groups                   = NA
-results_list$rsp_n__num_groups                   = Xu_base_params@n__num_groups
+    results_list$rsp_n__num_groups                   = Xu_base_params@n__num_groups
     results_list$rsp_p__prop_of_links_between_groups = Xu_base_params@p__prop_of_links_between_groups
     results_list$rsp_r__density                      = Xu_base_params@r__density
 
     #-----------------------------
 
-# cat ("\n\nIn gscp_15...\n")
-# browser()
         #  Xu_bdpg_extended_params
-#num(0)    results_list$rsp_alpha___lower_bound                                            = Xu_bdpg_extended_params@alpha___lower_bound
-#results_list$rsp_alpha___lower_bound                                            = NA
-results_list$rsp_alpha___lower_bound                                            = Xu_bdpg_extended_params@alpha___lower_bound
-
-#num(0)    results_list$rsp_alpha___upper_bound                                            = Xu_bdpg_extended_params@alpha___upper_bound
-#results_list$rsp_alpha___upper_bound                                            = NA
-results_list$rsp_alpha___upper_bound                                            = Xu_bdpg_extended_params@alpha___upper_bound
+    results_list$rsp_alpha___lower_bound                                            = Xu_bdpg_extended_params@alpha___lower_bound
+    results_list$rsp_alpha___upper_bound                                            = Xu_bdpg_extended_params@alpha___upper_bound
 
     results_list$rsp_derive_alpha_from_n__num_groups_and_opt_frac_0.5               = Xu_bdpg_extended_params@derive_alpha_from_n__num_groups_and_opt_frac_0.5
-#logi(0)    results_list$rsp_use_unif_rand_alpha__                                          = Xu_bdpg_extended_params@use_unif_rand_alpha__
-#results_list$rsp_use_unif_rand_alpha__                                          = NA
-results_list$rsp_use_unif_rand_alpha__                                          = Xu_bdpg_extended_params@use_unif_rand_alpha__
+    results_list$rsp_use_unif_rand_alpha__                                          = Xu_bdpg_extended_params@use_unif_rand_alpha__
 
-#num(0)    results_list$rsp_n__num_groups                                                  = Xu_bdpg_extended_params@n__num_groups
-#results_list$rsp_n__num_groups                                                  = NA
-results_list$rsp_n__num_groups                                                  = Xu_bdpg_extended_params@n__num_groups
+    results_list$rsp_n__num_groups                                                  = Xu_bdpg_extended_params@n__num_groups
 
     results_list$rsp_n__num_groups_lower_bound                                      = Xu_bdpg_extended_params@n__num_groups_lower_bound
     results_list$rsp_n__num_groups_upper_bound                                      = Xu_bdpg_extended_params@n__num_groups_upper_bound
@@ -177,8 +165,8 @@ results_list$rsp_n__num_groups                                                  
     results_list$rsp_max_possible_tot_num_links                                     = Xu_derived_params@max_possible_tot_num_links
     results_list$rsp_max_possible_tot_num_node_link_pairs                           = Xu_derived_params@max_possible_tot_num_node_link_pairs
 
-#num(0) DUPLICATE from Extended?    results_list$rsp_num_independent_nodes_per_group                                = Xu_derived_params@num_independent_nodes_per_group
-results_list$rsp_num_independent_nodes_per_group                                = Xu_derived_params@num_independent_nodes_per_group
+    #  Isn't this a DUPLICATE from Xu_bdpg_extended_params?
+    results_list$rsp_num_independent_nodes_per_group                                = Xu_derived_params@num_independent_nodes_per_group
 
     results_list$rsp_num_independent_set_nodes                                      = Xu_derived_params@num_independent_set_nodes
     results_list$rsp_tot_num_nodes                                                  = Xu_derived_params@tot_num_nodes
@@ -219,7 +207,7 @@ results_list$rsp_num_independent_nodes_per_group                                
             #  just to keep the output tables having the same size and
             #  column headings, which should make merging tables simpler.
 
-    results_list$rsp_UUID_of_base_problem_that_has_err_added                         = APP_prob_info@UUID_of_base_problem_that_has_err_added
+    results_list$rsp_UUID_of_base_problem_that_has_err_added                        = APP_prob_info@UUID_of_base_problem_that_has_err_added
 
     results_list$rsp_original_FP_const_rate                                         = APP_prob_info@original_FP_const_rate
     results_list$rsp_original_FN_const_rate                                         = APP_prob_info@original_FN_const_rate
