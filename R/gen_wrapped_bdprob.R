@@ -1204,9 +1204,8 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
     wrapped_bdprob <- save_rsprob (wrapped_bdprob, starting_dir)
 
-    save_rsprob_results_data_for_Xu_NOT_read_from_bench_file (wrapped_bdprob,
-                                                        starting_dir,
-                                                        parameters)
+#    save_rsprob_results_data_for_Xu_NOT_read_from_bench_file (wrapped_bdprob,
+    save_rsprob_results_data (wrapped_bdprob, starting_dir, parameters)
 
 #docaids::doc_vars_in_this_func_once ()
 

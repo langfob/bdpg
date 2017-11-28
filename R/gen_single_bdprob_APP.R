@@ -408,9 +408,8 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
 
     Xu_bdprob_APP <- save_rsprob (Xu_bdprob_APP, starting_dir)
 
-    save_rsprob_results_data_for_Xu_NOT_read_from_bench_file (Xu_bdprob_APP,
-                                                        starting_dir,
-                                                        parameters)
+#    save_rsprob_results_data_for_Xu_NOT_read_from_bench_file (Xu_bdprob_APP,
+    save_rsprob_results_data (Xu_bdprob_APP, starting_dir, parameters)
 
 #docaids::doc_vars_in_this_func_once ()
     return (Xu_bdprob_APP)
