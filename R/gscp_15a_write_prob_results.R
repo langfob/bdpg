@@ -272,7 +272,7 @@ save_rsprob_results_data <- function (rsprob,
 
     #---------------------------------------------------------------------------
 
-    if (rsprob@read_Xu_problem_from_Xu_file)
+    if (rsprob@prob_gen_info@read_Xu_problem_from_Xu_file)
         {
                   #  A Xu benchmark problem read from a file.
         results_list =
