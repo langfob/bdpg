@@ -8,6 +8,26 @@ load_results_output_values_common_to_all_Xu_problems <- function (results_list,
                                                                   rsprob,
                                                                   parameters)
     {
+    #---------------------------------------------------------------------------
+
+    results_list$rsp_tzar_run_ID                                                = parameters$run_id    #  tzar run ID, not RSrun ID
+
+    results_list$rsp_UUID                                                       = rsprob@UUID
+    results_list$rsp_checksum                                                   = rsprob@checksum
+    results_list$rsp_rand_seed                                                  = rsprob@rand_seed
+    results_list$rsp_cor_or_app_str                                             = rsprob@cor_or_app_str
+    results_list$rsp_basic_or_wrapped_or_comb_str                               = rsprob@basic_or_wrapped_or_comb_str
+    results_list$rsp_file_name_prefix                                           = rsprob@file_name_prefix
+
+    results_list$rsp_prob_is_ok                                                 = rsprob@prob_is_ok
+    results_list$rsp_prob_generator_params_known                                = rsprob@prob_generator_params_known
+
+        #  prob_gen_info
+    results_list$rsp_read_Xu_problem_from_Xu_file                               = rsprob@prob_gen_info@read_Xu_problem_from_Xu_file
+    results_list$rsp_infile_name                                                = rsprob@prob_gen_info@infile_name
+
+    #---------------------------------------------------------------------------
+
     results_list$rsp_num_PUs                                                        = rsprob@num_PUs
     results_list$rsp_num_spp                                                        = rsprob@num_spp
     results_list$rsp_num_spp_per_PU                                                 = rsprob@num_spp / rsprob@num_PUs#    results_list$rsp_seed                                                           = parameters$rsp_seed
