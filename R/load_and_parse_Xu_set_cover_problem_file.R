@@ -110,6 +110,11 @@ load_and_parse_Xu_set_cover_problem_file <- function (infile_name)
     cat ("\n\nIn load_and_parse_Xu_set_cover_problem_file()",
          "\n\tinfile_name = '", infile_name, "'\n", sep='')
 
+    if (! file.exists (infile_name))
+        {
+        stop ("\n\nERROR in load_and_parse_Xu_set_cover_problem_file():  Xu benchmark input file does not exist.\n\n")
+        }
+
         #  I don't really get the "" argument here, but it works.
         #  It seems to be telling the scan routine that the data is
         #  character data.  I tried lots of other things like "integer",
