@@ -98,7 +98,7 @@ load_results_output_values_common_to_all_Xu_problems <- function (results_list,
 #===============================================================================
 
 load_results_output_values_specific_to_Xu_benchmark_problems <-
-    function (results_list)
+    function (results_list, rsprob)
     {
         #------------------------------------------------------------------
         #  Load variables known for the benchmark results output but that
@@ -296,7 +296,7 @@ save_rsprob_results_data <- function (rsprob,
         {
                   #  A Xu benchmark problem read from a file.
         results_list =
-            load_results_output_values_specific_to_Xu_benchmark_problems (results_list)
+            load_results_output_values_specific_to_Xu_benchmark_problems (results_list, rsprob)
 
         } else    #  Not a Xu benchmark problem,
                   #  so many more values are known and can be written out.
