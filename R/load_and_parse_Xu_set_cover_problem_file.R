@@ -279,14 +279,14 @@ read_Xu_problem_from_Xu_file <- function (infile_name, correct_solution_cost)
     PU_spp_pair_info =
         load_Xu_problem_from_Xu_file (infile_name, correct_solution_cost)
 
-    PU_spp_pair_info@Xu_parameters                    = NULL
+#    PU_spp_pair_info@Xu_parameters                    = NA    #NULL
     PU_spp_pair_info@correct_solution_vector_is_known = FALSE
-    PU_spp_pair_info@dependent_node_IDs               = NULL
+#    PU_spp_pair_info@dependent_node_IDs               = NA    #NULL
             #  Is there actually a way that these nodes ARE known at this point?
             #  Not immediately obvious.
             #  Not even sure if it's even useful to know them necessary though
             #  for this case where the file is read in.
-    PU_spp_pair_info@nodes                            = NULL
+#    PU_spp_pair_info@nodes                            = NA    #NULL
 
         #-------------------------------------------------------------------
         #  Also need to create costs, but hadn't decoded the num_PUs until
