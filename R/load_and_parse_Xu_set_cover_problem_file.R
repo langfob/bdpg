@@ -259,11 +259,23 @@ load_Xu_problem_from_Xu_file =
 #       Generate a problem, i.e, create the Xu graph nodes and edge_list.
 #===============================================================================
 
-    #  Read a Xu problem formatted according to the format proposed by Xu.
-
-#' FUNCTION_TITLE
+#-------------------------------------------------------------------------------
+#' Read a Xu benchmark problem formatted according to the format proposed by Xu.
 #'
-#' FUNCTION_DESCRIPTION
+#' Xu defined a file format for storing benchmark problems created using his
+#' method.  This format stores attributes of the problem, but doesn't store
+#' the correct solution or the parameters used to create the problem.
+#' bdpg can still use these files and problems as inputs to create a problem
+#' that can be used as input to reserve selectors.  The names of the files
+#' provided by Xu contain the cost of the correct solution even though no
+#' information is given about which nodes provide that solution.
+#' Consequently, you can know the cost of the solution that should be returned
+#' by the reserve selector, but not know the solution itself.  This means
+#' that you can also generate apparent solutions as well, since they generally
+#' don't need to know what nodes were in the correct solution.  However,
+#' it means that you can't generate wrapped problems using the benchmark
+#' problems because the wrapping (at least right now) relies on knowing which
+#' nodes are in the correct solution.
 #'
 #' @param infile_name File path describing a Xu problem
 #' @param correct_solution_cost Numeric value of cost of solution (since
@@ -274,6 +286,9 @@ load_Xu_problem_from_Xu_file =
 #' @export
 #' @examples
 #' # ADD_EXAMPLES_HERE
+#'
+#-------------------------------------------------------------------------------
+
 read_Xu_problem_from_Xu_file <- function (infile_name, correct_solution_cost)
     {
     PU_spp_pair_info =
