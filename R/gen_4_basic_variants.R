@@ -47,7 +47,7 @@ cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
     #  Generate an APPARENT problem from the base problem, i.e., apply errors.
     #===============================================================================
 
-    if (parameters$apply_error_to_spp_occupancy_data)
+    if (value_or_FALSE_if_null (parameters$apply_error_to_spp_occupancy_data))
         {
         base_APP_bd_prob =
             bdpg::gen_single_bdprob_APP (base_COR_bd_prob,
@@ -112,7 +112,7 @@ cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
     #  Generate an APPARENT problem from the wrapped problem, i.e., apply errors.
     #===============================================================================
 
-        if (parameters$apply_error_to_spp_occupancy_data)
+        if (value_or_FALSE_if_null (parameters$apply_error_to_spp_occupancy_data))
             {
             wrapped_APP_bd_prob =
                 gen_single_bdprob_APP (wrapped_COR_bd_prob,
