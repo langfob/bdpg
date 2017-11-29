@@ -69,7 +69,8 @@ cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
     #       Generate a wrapped problem around the base problem.
     #===============================================================================
 
-    if (parameters$wrap_lognormal_dist_around_Xu)
+    if (value_or_FALSE_if_null (parameters$wrap_lognormal_dist_around_Xu) &
+        ! value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file))
         {
         wrapped_COR_bd_prob =
             gen_bdprob (parameters,
