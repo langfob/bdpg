@@ -23,7 +23,7 @@ gen_single_bdprob_COR <- function (parameters,
                                    )
     {
     exp_root_dir = file.path (normalizePath (parameters$full_output_dir_with_slash))
-    Xu_bench_infile_name = parameters$infile_name
+    Xu_bench_infile_name = parameters$Xu_bench_infile_name
     if (is.null (Xu_bench_infile_name)) Xu_bench_infile_name = ""
 
     COR_Xu_bdprob =
