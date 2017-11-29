@@ -5,15 +5,16 @@
 #===============================================================================
 
 compute_RS_solution_cost_scores <- function (rs_solution_PU_IDs_vec,
-                                             cor_solution_PU_IDs_vec,
+                                             cor_optimum_cost,    #  cor_solution_PU_IDs_vec,
                                              PU_costs_vec)
     {
     #---------------------------------------------------------------------------
     #         Compute error in cost of reserve selector's solution.
     #---------------------------------------------------------------------------
 
-    cor_optimum_cost = compute_solution_cost (cor_solution_PU_IDs_vec,
-                                              PU_costs_vec)
+    # cor_optimum_cost = compute_solution_cost (cor_solution_PU_IDs_vec,
+    #                                           PU_costs_vec)
+
     rs_solution_cost = compute_solution_cost (rs_solution_PU_IDs_vec,
                                               PU_costs_vec)
     rs_solution_cost_err_frac = (rs_solution_cost - cor_optimum_cost) /
@@ -374,7 +375,7 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 #  computing the correct cost scores are working correctly.
     app_cost_scores_list =
         compute_RS_solution_cost_scores (rs_best_solution_PU_IDs,
-                                         cor_solution_vector,
+                                         COR_bd_prob@correct_solution_cost,    #  cor_solution_vector,
                                          cor_PU_costs_vec)
 
         #-----------------------------------------------------------------------
