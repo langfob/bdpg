@@ -11,6 +11,8 @@ convert_name_str_to_ID_num = function (str, lead_str="P")
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Load marxan mvbest df from file and sort by CF
 #'
 #' Load marxan's best solution data frame from a file and sort it by
@@ -95,6 +97,8 @@ load_marxan_mvbest_df_from_file_and_sort_by_CF <- function (marxan_output_dir_pa
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #'  Load marxan's summed solutions vector from its marxan output file.
 #'
 #'  For each PU ID, it shows the number of solution vectors that
@@ -169,6 +173,8 @@ load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_pat
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Load marxan best data frame from file, sort, add missing PUs
 #'
@@ -260,6 +266,8 @@ load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <-
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Load marxan solutions matrix from file, sort, add missing PUs
 #'
@@ -408,6 +416,8 @@ load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Read COR marxan output files
 #'
 #' Read CORRECT marxan output files
@@ -494,6 +504,8 @@ read_COR_marxan_output_files <- function (rsrun, COR_bd_prob, parameters)
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Read APP marxan output files
 #'
@@ -649,6 +661,8 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #'  Read various marxan outputs into this program.
 #'
 #'  Should include these in the marxan package.
@@ -803,6 +817,9 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and
 #
 #                                         marxan_top_dir
 #                                       )
+
+#-------------------------------------------------------------------------------
+
 read_marxan_output_files <- function (marxan_output_dir_path,
                                       all_correct_node_IDs)
     {
@@ -813,6 +830,8 @@ read_marxan_output_files <- function (marxan_output_dir_path,
     marxan_best_df_sorted_as_vector = as.vector (t(marxan_best_df_sorted [,"SOLUTION"]))
     app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)
 
+
+  #---------------------------------
 
 #     find_best_marxan_solutions (marxan_output_dir_path,
 # #                                num_PUs,     #  should this be largest_PU_ID?
@@ -831,12 +850,16 @@ read_marxan_output_files <- function (marxan_output_dir_path,
 #                                 marxan_top_dir
 #                                 )
 
+  #---------------------------------
+
     marxan_mvbest_df_sorted_by_ConservationFeature <-
         load_marxan_mvbest_df_from_file_and_sort_by_CF (marxan_output_dir_path)
 
     marxan_ssoln_df_sorted_by_PU  <-
         load_marxan_ssoln_df_from_file_and_sort_by_PU (marxan_output_dir_path,
                                                        all_correct_node_IDs)
+
+  #---------------------------------
 
     #     #  Moving this code out into a separate function because it doesn't
     #     #  return anything.  It's only used for some verification and
