@@ -106,8 +106,6 @@ create_RSrun <- function (prob_UUID,
 
     create_RSrun_dir_and_subdirs (rsrun, starting_dir)
 
-#####Shouldn't this be save_rsrun?
-#    rsrun <- save_rsprob (rsrun, starting_dir)
     rsrun <- save_rsrun (rsrun, starting_dir)
 
 #docaids::doc_vars_in_this_func_once ()
@@ -209,41 +207,11 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
         #  Collect marxan results.
         #---------------------------
 
-#                                             #  Guessing at these args for now...
-#     marxan_output_values = read_COR_marxan_output_files (COR_marxan_run,
-#                                                          COR_bd_prob,
-#                                                          parameters)
-#
-# #docaids::doc_vars_in_this_func_once ()
-#
-#         #-----------------------------------------------
-#         #  Dump all of the different kinds of results.
-#         #-----------------------------------------------
-#
-# #     save_rsrun_results_data_for_one_rsrun (parameters,
-# # #    build_full_output_df_for_one_RSrun (parameters,
-# #                                         COR_marxan_run,
-# #                                         COR_bd_prob
-# #                                         # ,
-# #                                         # parameters$run_ID
-# #                                         )
     save_rsrun_results_data_for_one_rsrun (parameters,
                                               COR_marxan_run,
                                               COR_bd_prob,
                                               COR_bd_prob,
                                            src_rds_file_dir)
-
-    if (FALSE)  #  2017 02 23 - BTL - rebuilding this code, so don't run it yet
-    {
-    create_COR_master_output_structure (marxan_control_values,
-                                        marxan_output_values,
-                                        parameters,
-
-                                        COR_bd_prob,
-                                        COR_marxan_run
-                                        )
-
-    }
 
     }  #  end function - do_COR_marxan_analysis_and_output
 
@@ -353,42 +321,12 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
         #  Collect marxan results.
         #---------------------------
 
-#     marxan_output_values = read_APP_marxan_output_files (APP_marxan_run,
-#                                                          APP_bd_prob,
-#                                                          COR_bd_prob,
-#                                                          parameters)
-#
-# #docaids::doc_vars_in_this_func_once ()
-#
-#         #-----------------------------------------------
-#         #  Dump all of the different kinds of results.
-#         #-----------------------------------------------
-#
-# #     save_rsrun_results_data_for_one_rsrun (parameters,
-# # #    build_full_output_df_for_one_RSrun (parameters,
-# #                                         APP_marxan_run,
-# #                                         APP_bd_prob
-# #                                         # ,
-# #                                         # parameters$run_ID
-# #                                         )
     save_rsrun_results_data_for_one_rsrun (parameters,
                                               APP_marxan_run,
                                               COR_bd_prob,
                                               APP_bd_prob,
                                            src_rds_file_dir)
 
-    if (FALSE)  #  2017 02 23 - BTL - rebuilding this code, so don't run it yet
-    {
-                                        #  Guessing at these args for now...
-    create_APP_master_output_structure (marxan_control_values,
-                                        marxan_output_values,
-                                        parameters,
-
-                                        COR_bd_prob,
-                                        APP_bd_prob,
-                                        APP_marxan_run
-                                        )
-    }
     }  #  end function - do_APP_marxan_analysis_and_output
 
 #===============================================================================
