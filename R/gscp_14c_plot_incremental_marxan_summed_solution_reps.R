@@ -385,7 +385,7 @@ plot_incremental_marxan_summed_solution_representations =
 
 #-------------------------------------------------------------------------------
 
-#' Plot how marxan is actually doing vs. how marxan things it's doing
+#' Plot how marxan is actually doing vs. how marxan thinks it's doing
 #'
 #'  Evaluate apparent summed solutions as a function of the correct
 #'  problem structure and the apparent problem structure, i.e.,
@@ -486,7 +486,7 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
 
 #-------------------------------------------------------------------------------
 
-#' Plot marxan best soltion scores COR and APP
+#' Plot marxan best solution scores COR and APP
 #'
 #' Plot marxan best solution scores for both CORRECT and APPARENT
 #'
