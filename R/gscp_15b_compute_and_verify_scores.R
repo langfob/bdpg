@@ -4,17 +4,6 @@
 
 #===============================================================================
 
-#  2017 08 22 - BTL
-#  None of the routines in this file seem to be called anymore, but
-#  they were all a part of that giant gscp_15_create_master... file a long time
-#  ago, I think.
-#  They may all have some diagnostic use or have been accidentally left out
-#  when I did some overhaul of gscp_15_create_master_output_structure in the
-#  past, so I'm going to leave them here until I know for sure.
-#  However, I do know for sure that at the moment, no one calls any of them.
-
-#===============================================================================
-
 compute_and_verify_APP_rep_scores_according_to_RS_marxan_sa <-
     function (marxan_mvbest_df, num_spp)
     {
@@ -54,7 +43,6 @@ compute_and_verify_APP_rep_scores_according_to_RS_marxan_sa <-
     }
 
 #-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
 
     #  This routine is a placeholder for something more generic to be
     #  developed later when there is more than one reserve selector.
@@ -74,6 +62,8 @@ compute_and_verify_APP_rep_scores_according_to_RS <-
         }
 
 #===============================================================================
+
+#  2017 11 30 - BTL - No longer used?
 
 compute_and_verify_APP_scores_according_to_bdpg <-
     function (app_bpm,
@@ -215,6 +205,8 @@ compute_and_verify_APP_scores_according_to_bdpg <-
     }
 
 #===============================================================================
+
+#  2017 11 30 - BTL - No longer used?
 
 compute_and_verify_COR_scores_according_to_bdpg <- function ()
     {
