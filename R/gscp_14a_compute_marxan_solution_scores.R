@@ -228,13 +228,17 @@ choose_a_best_solution_ID_according_to_marxan <- function (num_marxan_solutions,
 
 compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs <-
     function (given_bpm,
-              given_PU_costs
+              given_PU_costs,
+              num_marxan_solutions,
+              marxan_solutions_matrix,
+              targets,
+              num_spp
               )
     {
-    marxan_solution_scores_wrt_GIVEN_reps_and_costs
-                            = data.frame (solution_num=1:num_marxan_solutions,
-                                          representation=0,
-                                          cost=0)
+    marxan_solution_scores_wrt_GIVEN_reps_and_costs =
+                            data.frame (solution_num=1:num_marxan_solutions,
+                                        representation=0,
+                                        cost=0)
 
     total_landscape_cost = sum (given_PU_costs)
 
@@ -468,11 +472,21 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
 
     marxan_solution_scores_wrt_COR_reps_and_costs =
         compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs (cor_bpm,
-                                                                      cor_PU_costs)
+                                                                      cor_PU_costs,
+                                                                      num_marxan_solutions,
+                                                                      marxan_solutions_matrix,
+                                                                      targets,
+                                                                      num_spp)
+
+app_PU_costs = cor_PU_costs    #  for the moment, since no app costs stored yet?  2017 11 30 - BTL
 
     marxan_solution_scores_wrt_APP_reps_and_costs =
         compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs (app_bpm,
-                                                                      app_PU_costs)
+                                                                      app_PU_costs,
+                                                                      num_marxan_solutions,
+                                                                      marxan_solutions_matrix,
+                                                                      targets,
+                                                                      num_spp)
 
     #---------------------------------------------------------------------------
 
