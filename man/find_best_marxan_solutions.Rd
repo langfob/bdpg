@@ -47,9 +47,9 @@ what the data might look like.
 \preformatted{
 app_bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
 }}
-\subsection{app_marxan_solution_scores}{
+\subsection{marxan_solution_scores_wrt_APP_reps_and_costs}{
 \preformatted{
-app_marxan_solution_scores : 'data.frame':	4 obs. of  3 variables:
+marxan_solution_scores_wrt_APP_reps_and_costs : 'data.frame':	4 obs. of  3 variables:
  $ solution_num  : int  1 2 3 4
  $ representation: num  1 1 1 1
  $ cost          : num  0.15 0.15 0.15 0.15
@@ -62,9 +62,9 @@ best_solution_ID_according_to_marxan :  int 1
 \preformatted{
 cor_bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
 }}
-\subsection{cor_marxan_solution_scores}{
+\subsection{marxan_solution_scores_wrt_COR_reps_and_costs}{
 \preformatted{
-cor_marxan_solution_scores : 'data.frame':	4 obs. of  3 variables:
+marxan_solution_scores_wrt_COR_reps_and_costs : 'data.frame':	4 obs. of  3 variables:
  $ solution_num  : int  1 2 3 4
  $ representation: num  1 1 1 1
  $ cost          : num  0.15 0.15 0.15 0.15
