@@ -4,6 +4,8 @@
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Apply error to species occupancy data.
 #'
 #'  Walk through the occupancy matrix (PU vs spp) and randomly
@@ -117,6 +119,8 @@ apply_error_to_spp_occupancy_data =
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Set constant FP and FN rates
 #'
@@ -423,6 +427,8 @@ cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Compute realized error rates in apparent problem
 
 #'  Since errors are generated stochastically, the realized error rates
@@ -503,6 +509,8 @@ test_compute_realized_error_rates <- function ()
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Apply constant error to spp occ data
 #'
