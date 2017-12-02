@@ -220,39 +220,65 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
     APP_prob_info@UUID_of_base_problem_that_has_err_added = Xu_bdprob_COR@UUID
 
-    ret_vals_from_build_const_err =
-      build_const_err_FP_and_FN_matrices (parameters,
-                                          Xu_bdprob_COR@bpm,     #cor_bpm,
-                                                      #cor_num_PU_spp_pairs,
-                                          Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
-                                          Xu_bdprob_COR@num_spp,     #cor_num_spp,
-                                          bdpg_error_codes)
+#-------------------------------------------------------------------------
+#  2017 12 02 - BTL
+#  Need to add APP costs to the object structure and set its value here.
+#  Also need to have a way to specify an error model for APP costs.
+#-------------------------------------------------------------------------
 
-    APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
-    APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
-    APP_prob_info@match_error_counts     = ret_vals_from_build_const_err$match_error_counts
-    APP_prob_info@FP_const_rate          = ret_vals_from_build_const_err$FP_const_rate
-    APP_prob_info@FN_const_rate          = ret_vals_from_build_const_err$FN_const_rate
+#  ???  app costs = cor costs  ???
 
-    ret_vals_from_apply_errors =
-        apply_const_error_to_spp_occupancy_data (Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
-                                                 Xu_bdprob_COR@num_spp,     #cor_num_spp,
-                                                 Xu_bdprob_COR@bpm,         #cor_bpm,
-                                                 ret_vals_from_build_const_err$FP_rates_matrix,     #FP_rates_matrix,
-                                                 ret_vals_from_build_const_err$FN_rates_matrix,     #FN_rates_matrix,
-                                                 bdpg_error_codes)
-          # apply_const_error_to_spp_occupancy_data (parameters,
-          #                                  Xu_bdprob_COR@bpm,     #  cor_bpm,
-          #                                  Xu_bdprob_COR@num_PU_spp_pairs,     #  cor_num_PU_spp_pairs,
-          #                                  Xu_bdprob_COR@num_PUs,     #  cor_num_PUs,
-          #                                  Xu_bdprob_COR@num_spp,     #  cor_num_spp,
-          #                                  bdpg_error_codes)
+#-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+#  2017 12 02 - BTL
+#  Most, if not all, of this section needs to change for different kinds
+#  of errors.  Right now it just assumes all errors will be constant.
+#
+#  Need to figure out how to express that generically
+#  both for the function calls to make and
+#  for the values to return in the results output file.
+#-------------------------------------------------------------------------
+
+ret_vals_from_build_const_err =
+  build_const_err_FP_and_FN_matrices (parameters,
+                                      Xu_bdprob_COR@bpm,     #cor_bpm,
+                                                  #cor_num_PU_spp_pairs,
+                                      Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
+                                      Xu_bdprob_COR@num_spp,     #cor_num_spp,
+                                      bdpg_error_codes)
+
+APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
+APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
+APP_prob_info@match_error_counts     = ret_vals_from_build_const_err$match_error_counts
+APP_prob_info@FP_const_rate          = ret_vals_from_build_const_err$FP_const_rate
+APP_prob_info@FN_const_rate          = ret_vals_from_build_const_err$FN_const_rate
+
+ret_vals_from_apply_errors =
+    apply_const_error_to_spp_occupancy_data (Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
+                                             Xu_bdprob_COR@num_spp,     #cor_num_spp,
+                                             Xu_bdprob_COR@bpm,         #cor_bpm,
+                                             ret_vals_from_build_const_err$FP_rates_matrix,     #FP_rates_matrix,
+                                             ret_vals_from_build_const_err$FN_rates_matrix,     #FN_rates_matrix,
+                                             bdpg_error_codes)
+      # apply_const_error_to_spp_occupancy_data (parameters,
+      #                                  Xu_bdprob_COR@bpm,     #  cor_bpm,
+      #                                  Xu_bdprob_COR@num_PU_spp_pairs,     #  cor_num_PU_spp_pairs,
+      #                                  Xu_bdprob_COR@num_PUs,     #  cor_num_PUs,
+      #                                  Xu_bdprob_COR@num_spp,     #  cor_num_spp,
+      #                                  bdpg_error_codes)
 
 
-        #  Save the realized error rates.
+    #  Save the realized error rates.
 
-    APP_prob_info@realized_FP_rate          = ret_vals_from_apply_errors$realized_FP_rate
-    APP_prob_info@realized_FN_rate          = ret_vals_from_apply_errors$realized_FN_rate
+APP_prob_info@realized_FP_rate          = ret_vals_from_apply_errors$realized_FP_rate
+APP_prob_info@realized_FN_rate          = ret_vals_from_apply_errors$realized_FN_rate
+
+#-------------------------------------------------------------------------
+#  2017 12 02 - BTL
+#  This section probably needs to be solidified as either only using
+#  the COR values or reporting the APP values but never using them
+#  for any dimensioning and only using them as values to report.
+#-------------------------------------------------------------------------
 
         #  Save the chosen error parameters to output later with results.
 
@@ -265,6 +291,8 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
         #  Set the values for the apparent problem structure.
     APP_prob_info@app_PU_spp_pair_indices      = ret_vals_from_apply_errors$app_PU_spp_pair_indices
+
+#-------------------------------------------------------------------------
 
     Xu_bdprob_APP@APP_prob_info = APP_prob_info
 
