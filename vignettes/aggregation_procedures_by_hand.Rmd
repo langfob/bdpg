@@ -1,0 +1,126 @@
+---
+title: "Procedure for aggregating bdpgxupaper data by hand"
+author: "Bill Langford"
+date: "25 November 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+### Background
+
+- Googled "bash how to execute command on each line of input file"
+    - https://stackoverflow.com/questions/13939038/how-do-you-run-a-command-for-each-line-of-a-file
+    - https://stackoverflow.com/questions/2711001/how-to-apply-shell-command-to-each-line-of-a-command-output
+    - https://unix.stackexchange.com/questions/149726/how-to-pass-each-line-of-a-text-file-as-an-argument-to-a-command
+    - https://unix.stackexchange.com/questions/7558/execute-a-command-once-per-line-of-piped-input
+
+### Overall idea
+
+- Each bit of analysis is done by a separate R operation and written to its own output file in a tzar output directory for the runset.
+- Each of the run files is linked by various UUIDs.  
+- Need to find all output directories/files for each kind of analysis and then build a compound file.  
+    - The compound file will sometimes be built by joining columns from runs on the same data and then matching lines via a UUID.  For example,  
+        - Generating a problem produces a UUID for that problem (sometimes referred to as an rsp_UUID) and that UUID is written to a column in the output file for that problem. 
+        - Running the graph algorithms on that problem results in a file with a line that has a column containing the UUID of the problem that the graph algorithm was applied to.  
+        - There is a file for the igraph metrics and a separate file for the bipartite metrics.  Each of these files needs to be joined into the aggregate file for the associated problem in a way that has the igraph and bipartite metrics on the same line as the original problem's data.  
+        - Similarly, there is an output file for the reserve selection done on the problem and it has to have its output on the same line as the corresponding problem, igraph, and bipartite outputs.
+        
+- This whole procedure needs to be done for each problem type, i.e., for:  
+    - correct base problem
+    - apparent versions of the correct base problem
+    - correct wraps of correct base problem
+    - apparent versions of correct wraps
+        
+
+###  Basic idea
+
+- So, for each problem type, the basic idea is the following:
+    - Remove extraneous testing and debugging runs
+        - Because I've been doing a fair bit of testing and debugging, some of the runset directories have extra output files in them that need to be removed from the analysis.  
+            - For example, in bdpgxupaper_single_action_COR_prob, there are 10 runs in there that were practice runs and need to be removed, i.e., runs 
+                - 1_marxan_simulated_annealing
+                - ...
+                - 10_marxan_simulated_annealing
+        - I'm taking care of this by:
+            - Duplicating the entire runset to have as a backup and move that into a Temp area
+```
+#  Something like:
+#cp xxx Temp/xxx_copy
+```
+            - Deleting the practice runs in the original directory to leave just the real runs.
+```
+#  Something like:
+#rm -r ?_marxan_simulated_annealing
+#rm -r 10_marxan_simulated_annealing
+```
+        - When we get down to the real experiments, the runsets will be created from scratch and will not have any practice runs in them.  I'm only having to do this now because we're still debugging.
+    - Produce a list of all the output files for that problem type and concatenate the output lines from those files into a single cvs file  
+```
+cd /Users/bill/D/Projects/ProblemDifficulty/ProbDiff_Notes/Temp
+pwd
+find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset | grep "prob_characteristics.csv" > cor.txt
+cat cor.txt
+wc < cor.txt
+```
+    - Concatenate the output lines from those files into a single cvs file  
+```
+cat cor.txt | xargs -n1 cat > cor.csv
+cat cor.csv
+
+ls -l
+```
+    - Load the csv file into Excel.
+    - Sort the file by the UUID column.
+    - Since each of the files was written with a row of column headers, delete all but one of those lines so that just the one column header line appears
+        - Resort the whole file telling Excel that there is a column header line.
+    - Repeat the whole procedure for the igraph metrics.
+```
+cd /Users/bill/D/Projects/ProblemDifficulty/ProbDiff_Notes/Temp
+pwd
+find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset | grep "bipartite_metrics_from_igraph_pkg_df.csv" > cor_igraph.txt
+cat cor_igraph.txt
+wc < cor_igraph.txt
+
+cat cor_igraph.txt | xargs -n1 cat > cor_igraph.csv
+cat cor_igraph.csv
+
+ls -l
+```
+    - And the bipartite metrics...
+```
+cd /Users/bill/D/Projects/ProblemDifficulty/ProbDiff_Notes/Temp
+pwd
+find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset | grep "bipartite_metrics_from_bipartite_pkg_df.csv" > cor_bipartite.txt
+cat cor_bipartite.txt
+wc < cor_bipartite.txt
+
+cat cor_bipartite.txt | xargs -n1 cat > cor_bipartite.csv
+cat cor_bipartite.csv
+
+ls -l
+```
+    - And the marxan runs that were done on this problem set...
+```
+cd /Users/bill/D/Projects/ProblemDifficulty/ProbDiff_Notes/Temp
+pwd
+find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_MARXAN_on_COR_BASE_prob/default_runset | grep "rsrun_results.csv" > cor_marxan.txt
+cat cor_marxan.txt
+wc < cor_marxan.txt
+
+cat cor_marxan.txt | xargs -n1 cat > cor_marxan.csv
+cat cor_marxan.csv
+wc < cor_marxan.csv
+
+ls -l
+```
+    - Copy each of the 4 files side by side into a merge file.
+        - Might want to make a merge file that has 5 sheets in it, one for each of the base files and then a combined sheet with the 4 others side by side.
+        - Each of the 4 different output files should have the same number of lines and the same UUID for each line after they've been sorted.
+            - Should probably verify this by adding some columns that compare the  UUIDs from each of the files to make sure that all UUIDs on the same line are identical.
+    - Should now have a complete Excel file for the analysis of one type of problem.
+    
+
+    
+
