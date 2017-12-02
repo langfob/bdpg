@@ -28,9 +28,9 @@ counts in RSprob-related data.}
 column name for the fractions of all species that meet their targets
 in marxan_solution_costs data frames.}
 
-\item{\code{mss_frac_of_total_landscape_cost_tgt_col_name}}{character string column
+\item{\code{mss_frac_of_total_landscape_cost_col_name}}{character string column
 name for the fraction of the total landscape cost that each solution's
-absolute cost reperesents in marxan_solutions_costs data frames.}
+absolute cost represents in marxan_solutions_costs data frames.}
 
 \item{\code{mss_solution_num_col_name}}{character string column name for the IDs of
 each solution vector in marxan_solutions_costs data frames.}

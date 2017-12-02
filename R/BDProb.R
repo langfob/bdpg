@@ -594,9 +594,9 @@ setClass ("RSrun",
 #' @slot mss_frac_of_all_spp_meeting_their_tgt_col_name character string
 #'     column name for the fractions of all species that meet their targets
 #'     in marxan_solution_costs data frames.
-#' @slot mss_frac_of_total_landscape_cost_tgt_col_name character string column
+#' @slot mss_frac_of_total_landscape_cost_col_name character string column
 #'     name for the fraction of the total landscape cost that each solution's
-#'     absolute cost reperesents in marxan_solutions_costs data frames.
+#'     absolute cost represents in marxan_solutions_costs data frames.
 #' @slot mss_solution_num_col_name character string column name for the IDs of
 #'     each solution vector in marxan_solutions_costs data frames.
 #' @slot rsprob_plot_output_dir character string directory name for plot
