@@ -106,15 +106,23 @@ gen_bdprob  = function (parameters,
         # starting_dir =
         #     file.path (normalizePath (parameters$full_output_dir_with_slash),
         #                "base_prob.1")
-        bdprob = gen_single_bdprob_COR (parameters$full_output_dir_with_slash,  #starting_dir,
-                                    compute_network_metrics_for_this_prob,
-                                        parameters,
-                                        read_Xu_problem_from_Xu_bench_file,
-                                        infile_name,
-                                        given_correct_solution_cost,
-                                        max_allowed_num_spp,
+
+        # bdprob = gen_single_bdprob_COR (parameters$full_output_dir_with_slash,  #starting_dir,
+        #                             compute_network_metrics_for_this_prob,
+        #                                 parameters,
+        #                                 read_Xu_problem_from_Xu_bench_file,
+        #                                 infile_name,
+        #                                 given_correct_solution_cost,
+        #                                 max_allowed_num_spp,
+        #                                 bdpg_error_codes,
+        #                                 integerize)
+        bdprob = gen_single_bdprob_COR (parameters,
                                         bdpg_error_codes,
-                                        integerize)
+                                        integerize,
+                                        base_prob_name_stem = "base_prob",
+                                        cor_dir_name_stem = "cor"
+                                        )
+
         }
 
 #docaids::doc_vars_in_this_func_once ()
