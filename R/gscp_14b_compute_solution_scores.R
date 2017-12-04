@@ -12,6 +12,8 @@
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Compute scores for candidate solution with respect to a reference
 #' spp occupancy matrix (i.e., COR or APP)
 #'
@@ -69,6 +71,8 @@
 #' measured against data of unknown correctness, which is how nearly all results
 #' are presented in the literature.
 #'
+#-------------------------------------------------------------------------------
+
 #' Source of formulas for measures
 #'
 #' I got nearly all of these measures from one paper a while ago and I can't
@@ -80,6 +84,8 @@
 #'
 #' Measuring and comparing the accuracy of species distribution models
 #' with presence–absence data. C Liu, M White, G Newell - Ecography, 2011
+
+#-------------------------------------------------------------------------------
 
 #' @param ref_spp_occ_matrix reference species occupancy matrix, e.g.,
 #'     correct or apparent species occupancy matrix
@@ -101,7 +107,7 @@
 #' @export
 #'
 
-#===============================================================================
+#-------------------------------------------------------------------------------
 
 compute_and_verify_APP_rep_scores_according_to_bdpg <-
     function (ref_spp_occ_matrix, cand_sol_PU_IDs, spp_rep_targets, num_spp)
@@ -174,6 +180,8 @@ compute_and_verify_APP_rep_scores_according_to_bdpg <-
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 # compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bpm or app_bpm
 #
 #                                                 #  Identical args from here down
@@ -225,7 +233,7 @@ compute_and_verify_APP_rep_scores_according_to_bdpg <-
 #     #                 cat ("\nspp_rep_shortfall =", spp_rep_shortfall)
 #     #
 
-
+#-------------------------------------------------------------------------------
 
 compute_confusion_matrix_based_scores <- function (num_PUs_in_cand_solution,
                                                     num_PUs,
