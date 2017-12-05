@@ -321,7 +321,14 @@ plot_incremental_marxan_summed_solution_representations =
           xlab="Solution cost",
           ylab="Fraction of spp meeting target")
 
-    lines (suppressWarnings (loess (frac_of_all_spp_meeting_their_target ~ cost)))    #  good fit
+#  2017 12 04 - BTL - Commenting loess() call out because it crashed when running Xu benchmark file.
+                        # >>>>> For marxan summed solution:
+                        # cor_cost_thresh_for_all_spp_meeting_targets = 450
+                        # cor_landscape_frac_cost_thresh_for_all_spp_meeting_targets = 1
+                        # cor_optimal_frac_cost_thresh_for_all_spp_meeting_targets = 1.071429
+                        # Error in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
+                        #   span is too small
+#    lines (suppressWarnings (loess (frac_of_all_spp_meeting_their_target ~ cost)))    #  good fit
     #lines (lowess (cost, frac_of_all_spp_meeting_their_target))    #  terrible fit
 
 # splined_data <- stats::splinefun (cost, frac_of_all_spp_meeting_their_target,
@@ -344,7 +351,14 @@ plot_incremental_marxan_summed_solution_representations =
           main="Marxan summed solutions\nFraction of spp meeting targets vs. Normalized costs",
           xlab="Solution cost as fraction of total landscape cost",
           ylab="Fraction of spp meeting target")
-    lines (suppressWarnings (loess (frac_of_all_spp_meeting_their_target ~ landscape_frac_cost)))    #  good fit
+#  2017 12 04 - BTL - Commenting loess() call out because it crashed when running Xu benchmark file.
+                        # >>>>> For marxan summed solution:
+                        # cor_cost_thresh_for_all_spp_meeting_targets = 450
+                        # cor_landscape_frac_cost_thresh_for_all_spp_meeting_targets = 1
+                        # cor_optimal_frac_cost_thresh_for_all_spp_meeting_targets = 1.071429
+                        # Error in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
+                        #   span is too small
+#    lines (suppressWarnings (loess (frac_of_all_spp_meeting_their_target ~ landscape_frac_cost)))    #  good fit
     abline (v=correct_optimum_landscape_frac_cost, lty=4)
     abline (h=1.0, lty=4)
     dev.off()
@@ -363,7 +377,14 @@ plot_incremental_marxan_summed_solution_representations =
           main="Marxan summed solutions\nFraction of spp meeting targets vs. Fraction of optimal cost",
           xlab="Solution cost as fraction of optimal cost",
           ylab="Fraction of spp meeting target")
-    lines (suppressWarnings (loess (frac_of_all_spp_meeting_their_target ~ optimal_frac_cost)))    #  good fit
+#  2017 12 04 - BTL - Commenting loess() call out because it crashed when running Xu benchmark file.
+                        # >>>>> For marxan summed solution:
+                        # cor_cost_thresh_for_all_spp_meeting_targets = 450
+                        # cor_landscape_frac_cost_thresh_for_all_spp_meeting_targets = 1
+                        # cor_optimal_frac_cost_thresh_for_all_spp_meeting_targets = 1.071429
+                        # Error in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,  :
+                        #   span is too small
+#    lines (suppressWarnings (loess (frac_of_all_spp_meeting_their_target ~ optimal_frac_cost)))    #  good fit
     abline (v=1, lty=5)
     abline (h=1.0, lty=5)
     dev.off()
