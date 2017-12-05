@@ -81,7 +81,8 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
     Xu_bdprob_APP@prob_generator_params_known      = Xu_bdprob_COR@prob_generator_params_known
     Xu_bdprob_APP@correct_solution_vector_is_known = Xu_bdprob_COR@correct_solution_vector_is_known
 
-    Xu_bdprob_APP@PU_spp_pair_indices       = Xu_bdprob_COR@PU_spp_pair_indices
+#    Xu_bdprob_APP@PU_spp_pair_indices       = Xu_bdprob_COR@PU_spp_pair_indices
+    Xu_bdprob_APP@cor_PU_spp_pair_indices       = Xu_bdprob_COR@cor_PU_spp_pair_indices
 
     Xu_bdprob_APP@all_PU_IDs                = Xu_bdprob_COR@all_PU_IDs
     Xu_bdprob_APP@all_spp_IDs               = Xu_bdprob_COR@all_spp_IDs

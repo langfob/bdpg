@@ -342,7 +342,14 @@ compute_igraph_related_network_measures <-
         #  is being passed in, they can all be derived here.
         #-------------------------------------------------------------------
 
-    PU_spp_pair_indices = rsprob@PU_spp_pair_indices
+    if (rsprob@cor_or_app_str == "APP")
+        {
+        PU_spp_pair_indices = rsprob@APP_prob_info@app_PU_spp_pair_indices
+        } else
+        {
+        PU_spp_pair_indices = rsprob@cor_PU_spp_pair_indices
+        }
+
     network_output_dir  = get_RSprob_path_networks (rsprob, top_dir)
     PU_col_name         = rsprob@PU_col_name
     spp_col_name        = rsprob@spp_col_name

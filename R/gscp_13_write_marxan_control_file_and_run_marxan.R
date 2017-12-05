@@ -692,7 +692,8 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                            parameters)
     {
     marxan_control_values =
-        set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
+#        set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
+        set_up_for_and_run_marxan (COR_bd_prob@cor_PU_spp_pair_indices,
                                     COR_bd_prob@all_PU_IDs,
                                     COR_bd_prob@all_spp_IDs,
                                     COR_bd_prob@PU_col_name,

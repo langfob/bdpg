@@ -409,7 +409,8 @@ setClass ("Xu_bd_problem",
                                 #  Occupancy information
                                 #-------------------------
 
-                            PU_spp_pair_indices              = "data.frame",            #  bd_prob - but may be different forms [COR and APP values]  {DOES THIS ALSO (NEED TO) REFLECT ABUNDANCE/DENSITY/PROBABILITY/LIKELIHOOD(A LA MAXENT)?}
+#                            PU_spp_pair_indices              = "data.frame",            #  bd_prob - but may be different forms [COR and APP values]  {DOES THIS ALSO (NEED TO) REFLECT ABUNDANCE/DENSITY/PROBABILITY/LIKELIHOOD(A LA MAXENT)?}
+                            cor_PU_spp_pair_indices           = "data.frame",            #  bd_prob - but may be different forms [COR and APP values]  {DOES THIS ALSO (NEED TO) REFLECT ABUNDANCE/DENSITY/PROBABILITY/LIKELIHOOD(A LA MAXENT)?}
                                                                                         #  THIS SHOULD INCLUDE "ABUNDANCE/DENSITY/PROBABILITY/LIKELIHOOD(A LA MAXENT)" AS ANOTHER COLUMN
                                                                                         #  Table has one row for each PU/SPP pair where the spp occurs on the PU (where "occurs" means non-zero value for ABUND... above)
                             bpm                              = "matrix",                  #  bd_prob  [COR and APP values]
