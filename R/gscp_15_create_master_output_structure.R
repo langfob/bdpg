@@ -21,10 +21,37 @@ compute_RS_solution_cost_scores <- function (rs_solution_PU_IDs_vec,
                                 cor_optimum_cost
     abs_rs_solution_cost_err_frac = abs (rs_solution_cost_err_frac)
 
+    #---------------------------------------------------------------------
+    #  Giving errors as a fraction of the correct optimum cost
+    #  may be misleading sometimes, e.g., when the correct optimum cost
+    #  is nearly the cost of the full landscape.
+    #  Even just guessing the cost of the whole landscape would not give
+    #  much percentage error in that case.
+    #  So, we'll also compute the error as a fraction of the maximum
+    #  possible over-optimum or under-optimum error to see if that is
+    #  more informative/predictable than guessing the usual percentage
+    #  error.
+    #---------------------------------------------------------------------
+
+    rs_over_opt_cost_err_frac_of_possible_overcost = NA
+    total_landscape_cost = sum (PU_costs_vec)
+    rs_max_overcost = total_landscape_cost - cor_optimum_cost
+    if (rs_solution_cost_err_frac > 0)
+        rs_over_opt_cost_err_frac_of_possible_overcost =
+            (rs_solution_cost - cor_optimum_cost) / rs_max_overcost
+
+    rs_under_opt_cost_err_frac_of_possible_undercost = NA
+    if (rs_solution_cost_err_frac < 0)
+        rs_under_opt_cost_err_frac_of_possible_undercost = abs_rs_solution_cost_err_frac
+
+    #---------------------------------------------------------------------
+
     return (list (cor_optimum_cost = cor_optimum_cost,
                   rs_solution_cost = rs_solution_cost,
                   rs_solution_cost_err_frac = rs_solution_cost_err_frac,
-                  abs_rs_solution_cost_err_frac = abs_rs_solution_cost_err_frac
+                  abs_rs_solution_cost_err_frac = abs_rs_solution_cost_err_frac,
+                  rs_over_opt_cost_err_frac_of_possible_overcost = rs_over_opt_cost_err_frac_of_possible_overcost,
+                  rs_under_opt_cost_err_frac_of_possible_undercost = rs_under_opt_cost_err_frac_of_possible_undercost
                  ))
     }
 
