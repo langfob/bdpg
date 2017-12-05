@@ -781,7 +781,11 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                            parameters)
     {
     marxan_control_values =
-        set_up_for_and_run_marxan (APP_bd_prob@PU_spp_pair_indices,
+
+            #  2017 12 04 - BTL - Does this fix a bug now?
+
+#        set_up_for_and_run_marxan (APP_bd_prob@PU_spp_pair_indices,
+        set_up_for_and_run_marxan (APP_bd_prob@APP_prob_info@app_PU_spp_pair_indices,
 
                                         COR_bd_prob@all_PU_IDs,
                                         COR_bd_prob@all_spp_IDs,
