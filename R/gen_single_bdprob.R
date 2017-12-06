@@ -369,19 +369,31 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
         #  stored in problem object as NA.
         #------------------------------------------------------------------
 
-    new_seed = as.numeric (NA)
-    if (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects))
-        {
-        forced_seed =
-            get_forced_seed_value_if_necessary (is_rsrun = FALSE,
-                                                is_rsprob = TRUE,
-                                                parameters,
-                                                cor_or_app = "COR",
-                                                basic_or_wrapped_or_comb_str = "BASE")
+    # new_seed = as.numeric (NA)
+    # if (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects))
+    #     {
+    #     forced_seed =
+    #         get_forced_seed_value_if_necessary (is_rsrun = FALSE,
+    #                                             is_rsprob = TRUE,
+    #                                             parameters,
+    #                                             cor_or_app = "COR",
+    #                                             basic_or_wrapped_or_comb_str = "BASE")
+    #
+    #     new_seed = get_and_set_new_rand_seed ("Start of gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(),COR,BASE",
+    #                                           forced_seed)
+    # }
 
-        new_seed = get_and_set_new_rand_seed ("Start of gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(),COR,BASE",
-                                              forced_seed)
-        }
+    forced_seed =
+        get_forced_seed_value_if_necessary (is_rsrun = FALSE,
+                                            is_rsprob = TRUE,
+                                            parameters,
+                                            cor_or_app = "COR",
+                                            basic_or_wrapped_or_comb_str = "BASE")
+
+    new_seed =
+        set_new_or_forced_rand_seed_if_necessary (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
+                                                  "Start of gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(),COR,BASE",
+                                                  forced_seed)
 
         #-------------------------------------------------------------------
         #  Determine whether to create the problem from scratch or read it

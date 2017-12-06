@@ -34,20 +34,33 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
         #  stored in problem object as NA.
         #------------------------------------------------------------------
 
-    new_seed = as.numeric (NA)
-    if (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects))
-        {
-        forced_seed =
-            get_forced_seed_value_if_necessary (is_rsrun = FALSE,
-                                                is_rsprob = TRUE,
-                                                parameters,
-                                                cor_or_app = "APP",
-                                                Xu_bdprob_COR@basic_or_wrapped_or_comb_str)
+    # new_seed = as.numeric (NA)
+    # if (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects))
+    #     {
+    #     forced_seed =
+    #         get_forced_seed_value_if_necessary (is_rsrun = FALSE,
+    #                                             is_rsprob = TRUE,
+    #                                             parameters,
+    #                                             cor_or_app = "APP",
+    #                                             Xu_bdprob_COR@basic_or_wrapped_or_comb_str)
+    #
+    #     new_seed = get_and_set_new_rand_seed (paste0 ("Start of create_and_init_APP_bdprob(),APP,",
+    #                                                   Xu_bdprob_COR@basic_or_wrapped_or_comb_str),
+    #                                           forced_seed)
+    #     }
 
-        new_seed = get_and_set_new_rand_seed (paste0 ("Start of create_and_init_APP_bdprob(),APP,",
-                                                      Xu_bdprob_COR@basic_or_wrapped_or_comb_str),
-                                              forced_seed)
-        }
+    forced_seed =
+        get_forced_seed_value_if_necessary (is_rsrun = FALSE,
+                                            is_rsprob = TRUE,
+                                            parameters,
+                                            "APP",
+                                            Xu_bdprob_COR@basic_or_wrapped_or_comb_str)
+
+    new_seed =
+        set_new_or_forced_rand_seed_if_necessary (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
+                                                  paste0 ("Start of create_and_init_APP_bdprob(),APP,",
+                                                          Xu_bdprob_COR@basic_or_wrapped_or_comb_str),
+                                                  forced_seed)
 
         #------------------------------------------------------------
         #  Save data known so far for the newly created Xu problem.

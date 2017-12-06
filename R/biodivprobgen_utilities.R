@@ -1026,25 +1026,105 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
 
 #-------------------------------------------------------------------------------
 
-get_and_set_new_rand_seed <- function (location_string, forced_seed = NULL)
+# get_and_set_new_rand_seed <- function (location_string, forced_seed = NULL)
+#     {
+#     cat ("\n\nget_and_set_new_rand_seed: ", location_string,
+#          "\n    forced_seed = '", forced_seed, "'\n")
+#
+# browser()
+#
+#     if (is.null (forced_seed))
+#         {
+#         systime_num = as.numeric (Sys.time())
+#         new_seed = as.integer ((systime_num - floor (systime_num)) * 2e9)
+#         cat ("\nnew rand_seed = ", new_seed, "\n")
+#
+#         } else
+#         {
+#         new_seed = forced_seed
+#         }
+#
+#     set.seed (new_seed)
+#
+#     return (new_seed)
+#     }
+
+#===============================================================================
+
+gen_new_seed <- function ()
     {
-    cat ("\n\nget_and_set_new_rand_seed: ", location_string, "\n")
+    systime_num = as.numeric (Sys.time())
+    new_seed = as.integer ((systime_num - floor (systime_num)) * 2e9)
+    cat ("\nnew rand_seed = ", new_seed, "\n", sep='')
 
-    if (is.null (forced_seed))
-        {
-        systime_num = as.numeric (Sys.time())
-        new_seed = as.integer ((systime_num - floor (systime_num)) * 2e9)
-        cat ("\nnew rand_seed = ", new_seed, "\n")
+    return (new_seed)
+    }
 
-        } else
-        {
-        new_seed = forced_seed
-        }
+#===============================================================================
 
+always_set_new_or_forced_rand_seed <- function (location_string,
+                                                forced_seed = NULL)
+    {
+    cat ("\n\nalways_set_new_or_forced_rand_seed: ", location_string,
+         "\n    forced_seed = '", forced_seed, "'\n", sep='')
+
+    new_seed = if (is.null (forced_seed)) gen_new_seed() else forced_seed
     set.seed (new_seed)
 
     return (new_seed)
     }
+
+#===============================================================================
+
+set_new_or_forced_rand_seed_if_necessary <- function (set_rand_seed_at_creation_of_all_new_major_objects,
+                                                      location_string,
+                                                      forced_seed = NULL)
+    {
+    new_seed = as.numeric (NA)    #  default value
+
+    if (! is.null (forced_seed))
+        {
+        new_seed = forced_seed
+
+        } else if (set_rand_seed_at_creation_of_all_new_major_objects)
+        {
+        new_seed = gen_new_seed ()
+        }
+
+    if (! is.na (new_seed))  set.seed (new_seed)
+
+    cat ("\n\nset_new_or_forced_rand_seed_if_necessary: ",
+         "\n    set_rand_seed_at_creation_of_all_new_major_objects = '",
+         set_rand_seed_at_creation_of_all_new_major_objects, "'",
+         "\n    location_string = '",
+         location_string, "'",
+         "\n    forced_seed = '",
+         forced_seed, "'",
+         "\n    new_seed = '",
+         new_seed, "'\n", sep='')
+
+    return (new_seed)
+    }
+
+#===============================================================================
+
+test_set_new_or_forced_rand_seed_if_necessary <- function ()
+    {
+    cat ("\ntest_set_new_or_forced_rand_seed_if_necessary:\n    ")
+
+    x1 = set_new_or_forced_rand_seed_if_necessary (TRUE, "abc")
+    x2 = set_new_or_forced_rand_seed_if_necessary (TRUE, "abc", 123)
+    x3 = set_new_or_forced_rand_seed_if_necessary (FALSE, "abc")
+    x4 = set_new_or_forced_rand_seed_if_necessary (FALSE, "abc", 123)
+
+    if (is.numeric (x1) & (x1 != 123)) cat (".") else cat("F")
+    if (x2 == 123) cat (".") else cat("F")
+    if (is.na (x3)) cat (".") else cat("F")
+    if (x4 == 123) cat (".") else cat("F")
+    }
+
+if (FALSE)
+    test_set_new_or_forced_rand_seed_if_necessary()
 
 #===============================================================================
 
