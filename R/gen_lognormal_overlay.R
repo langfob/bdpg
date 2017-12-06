@@ -292,10 +292,11 @@ gen_lognormal = function (num_spp_to_generate,
 #
 calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs, sigma, plusOrMinus1)
     {
-    message ("\nnum_PUs_per_spp_ie_rarity = ", num_PUs_per_spp_ie_rarity,
+    cat ("\n\nIn calculate_mu():  num_PUs_per_spp_ie_rarity = ", num_PUs_per_spp_ie_rarity,
              ", num_spp_with_given_num_PUs = ", num_spp_with_given_num_PUs,
              ", sigma = ", sigma,
-             ", plusOrMinus1 = ", plusOrMinus1)
+             ", plusOrMinus1 = ", plusOrMinus1,
+         "\n\n")
 
     error_string = ""
 
