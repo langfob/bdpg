@@ -17,13 +17,6 @@
 #'  adding error to, with the exception of a few object-specific things
 #'  like the UUID of the APP problem itself.
 #'
-#' Note that the forced_seed argument should normally be omitted.  It's only
-#' there to allow the reproduction of a previous execution of the code that
-#' generates this object.  If omitted, a seed is randomly chosen and saved
-#' as the rand_seed slot in the object.  If you want to reproduce the generation
-#' of the current object, you would use the value stored in the rand_seed
-#' slot as the value of the forced_seed argument in this function call.
-#'
 #-------------------------------------------------------------------------------
 #' @param Xu_bdprob_COR a Xu_bd_problem
 #' @inheritParams std_param_defns
@@ -32,10 +25,29 @@
 #-------------------------------------------------------------------------------
 
 create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
-                                        forced_seed=NULL)
+                                        parameters)
     {
-    new_seed = get_and_set_new_rand_seed ("Start of create_and_init_APP_bdprob()",
-                                          forced_seed)
+        #------------------------------------------------------------------
+        #  If supposed to set a new seed at the start of object creation,
+        #  load or create one, depending on option settings.
+        #  If not supposed to do anything, then new_seed will be
+        #  stored in problem object as NA.
+        #------------------------------------------------------------------
+
+    new_seed = as.numeric (NA)
+    if (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects))
+        {
+        forced_seed =
+            get_forced_seed_value_if_necessary (is_rsrun = FALSE,
+                                                is_rsprob = TRUE,
+                                                parameters,
+                                                cor_or_app = "APP",
+                                                Xu_bdprob_COR@basic_or_wrapped_or_comb_str)
+
+        new_seed = get_and_set_new_rand_seed (paste0 ("Start of create_and_init_APP_bdprob(),APP,",
+                                                      Xu_bdprob_COR@basic_or_wrapped_or_comb_str),
+                                              forced_seed)
+        }
 
         #------------------------------------------------------------
         #  Save data known so far for the newly created Xu problem.
@@ -402,16 +414,17 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
                         app_dir_name_stem = "app"             #  NOT USED ANYMORE?
                                     )
     {
-    starting_dir = parameters$fullOutputDir_NO_slash
-
     Xu_bdprob_APP =
-        create_and_init_APP_bdprob (Xu_bdprob_COR)
+        create_and_init_APP_bdprob (Xu_bdprob_COR,
+                                    parameters)
 
     Xu_bdprob_APP =
         create_APP_prob_info_by_adding_error_to_spp_occ_data (Xu_bdprob_COR,
                                                               Xu_bdprob_APP,
                                                               parameters,
                                                               bdpg_error_codes)
+
+    starting_dir = parameters$fullOutputDir_NO_slash
 
     Xu_bdprob_APP =
         create_dirs_for_APP_prob (Xu_bdprob_APP,

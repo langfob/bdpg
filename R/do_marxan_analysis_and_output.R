@@ -12,13 +12,6 @@
 #'
 #' Create a run of a reserve selector
 #'
-#' Note that the forced_seed argument should normally be omitted.  It's only
-#' there to allow the reproduction of a previous execution of the code that
-#' generates this object.  If omitted, a seed is randomly chosen and saved
-#' as the rand_seed slot in the object.  If you want to reproduce the generation
-#' of the current object, you would use the value stored in the rand_seed
-#' slot as the value of the forced_seed argument in this function call.
-#'
 #-------------------------------------------------------------------------------
 
 #'@section Local Variable Structures and examples:
@@ -72,15 +65,40 @@
 
 create_RSrun <- function (prob_UUID,
                           targets,
-                          starting_dir,
+
+                          parameters,
+                  # set_rand_seed_at_creation_of_all_new_major_objects,
+                  #         starting_dir,
+
                           cor_or_app_str,
                           basic_or_wrapped_or_comb_str,
-                          method_name,
-                          forced_seed=NULL
+                          method_name
                           )
     {
-    new_seed = get_and_set_new_rand_seed ("Start of create_RSrun()",
-                                          forced_seed)
+    #------------------------------------------------------------------
+    #  If supposed to set a new seed at the start of object creation,
+    #  load or create one, depending on option settings.
+    #  If not supposed to do anything, then new_seed will be
+    #  stored in problem object as NA.
+    #------------------------------------------------------------------
+
+    new_seed = as.numeric (NA)
+    if (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects))
+        {
+        forced_seed =
+            get_forced_seed_value_if_necessary (is_rsrun = TRUE,
+                                                is_rsprob = FALSE,
+                                                parameters,
+                                                cor_or_app_str,
+                                                basic_or_wrapped_or_comb_str)
+
+        new_seed = get_and_set_new_rand_seed (paste0 ("Start of create_RSrun(),",
+                                                      cor_or_app_str, ",",
+                                                      basic_or_wrapped_or_comb_str),
+                                              forced_seed)
+        }
+
+    #------------------------------------------------------------------
 
     rsrun <- new ("RSrun")
 
@@ -103,6 +121,8 @@ create_RSrun <- function (prob_UUID,
                                    rsrun@basic_or_wrapped_or_comb_str,
                                    rsrun@rs_method_name,
                                    sep='-')
+
+    starting_dir = parameters$fullOutputDir_NO_slash
 
     create_RSrun_dir_and_subdirs (rsrun, starting_dir)
 
@@ -183,7 +203,8 @@ create_RSrun <- function (prob_UUID,
 #'
 #-------------------------------------------------------------------------------
 
-do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
+do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
+                                               parameters,
                                                src_rds_file_dir=NULL,
                                                targets=rep(1,COR_bd_prob@num_spp))
     {
@@ -193,7 +214,12 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob, parameters,
 
     COR_marxan_run <- create_RSrun (COR_bd_prob@UUID,
                                     targets,
-                                    parameters$fullOutputDir_NO_slash,
+
+                            parameters,
+                            # value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
+                            # parameters$rsrun_rand_seed,
+                            #         parameters$fullOutputDir_NO_slash,
+
                                     COR_bd_prob@cor_or_app_str,
                                     COR_bd_prob@basic_or_wrapped_or_comb_str,
                                     method_name = "Marxan_SA"
@@ -306,7 +332,12 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
 
     APP_marxan_run <- create_RSrun (APP_bd_prob@UUID,
                                     targets,
-                                    parameters$fullOutputDir_NO_slash,
+
+                            parameters,
+                            # value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
+                            # parameters$rsrun_rand_seed,
+                            #         parameters$fullOutputDir_NO_slash,
+
                                     APP_bd_prob@cor_or_app_str,
                                     APP_bd_prob@basic_or_wrapped_or_comb_str,
                                     method_name = "Marxan_SA"

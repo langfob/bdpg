@@ -4,14 +4,13 @@
 \alias{create_and_init_APP_bdprob}
 \title{Create and initialize apparent bdproblem from a correct problem.}
 \usage{
-create_and_init_APP_bdprob(Xu_bdprob_COR, forced_seed = NULL)
+create_and_init_APP_bdprob(Xu_bdprob_COR, parameters)
 }
 \arguments{
 \item{Xu_bdprob_COR}{a Xu_bd_problem}
 
-\item{forced_seed}{an integer value to be used as random number seed when
-a specific seed is desired in creating this object (e.g., for
-reproducing a previous execution of the code).}
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
 }
 \value{
 an apparent Xu_bd_problem
@@ -24,12 +23,4 @@ All values that are altered for the apparent problem should be assumed to
  as the values for the underlying COR problem that the APP problem is
  adding error to, with the exception of a few object-specific things
  like the UUID of the APP problem itself.
-}
-\details{
-Note that the forced_seed argument should normally be omitted.  It's only
-there to allow the reproduction of a previous execution of the code that
-generates this object.  If omitted, a seed is randomly chosen and saved
-as the rand_seed slot in the object.  If you want to reproduce the generation
-of the current object, you would use the value stored in the rand_seed
-slot as the value of the forced_seed argument in this function call.
 }

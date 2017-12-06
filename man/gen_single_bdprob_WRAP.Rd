@@ -5,7 +5,7 @@
 \title{Generate a single wrapped Xu biodiversity problem}
 \usage{
 gen_single_bdprob_WRAP(bdprob_to_wrap, parameters, bdpg_error_codes,
-  src_rds_file_dir = NULL, forced_seed = NULL)
+  src_rds_file_dir = NULL)
 }
 \arguments{
 \item{bdprob_to_wrap}{a bdproblem to wrap a distribution around}
@@ -16,8 +16,6 @@ and can have a varying number and set of elements depending on the run}
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{src_rds_file_dir}{character string}
-
-\item{forced_seed}{integer}
 }
 \value{
 Returns a wrapped Xu biodiversity problem

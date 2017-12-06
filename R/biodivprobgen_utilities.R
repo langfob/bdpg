@@ -884,6 +884,137 @@ touch <- function (file_path_to_touch)
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
+#  2017 12 06 - BTL
+#  NOTE:  basic_or_wrapped_or_comb_str = "COMB" does not exist at the moment,
+#  but it's mentioned in BDProb.R, so it's covered here for
+#  future compatibility.
+
+#-------------------------------------------------------------------------------
+
+get_forced_seed_value_if_necessary <- function (is_rsrun,
+                                                is_rsprob,
+                                                parameters,
+                                                cor_or_app,
+                                                basic_or_wrapped_or_comb_str)
+    {
+        #  Make sure that one and only one type of seed is chosen to examine.
+    if ((is_rsrun + is_rsprob) != 1)
+        {
+        stop (paste0 ("\n\nERROR in get_forced_seed_value():",
+                      "\n    one and only one of these arguments must be TRUE:",
+                      "\n    is_rsrun = '", is_rsrun, "'",
+                      "\n    is_rsprob = '", is_rsprob, "'",
+                      "\n\n"))
+        }
+
+        #  Simplify comparisons by making sure string values are upper case.
+    cor_or_app = toupper (cor_or_app)
+    basic_or_wrapped_or_comb_str = toupper (basic_or_wrapped_or_comb_str)
+
+    #---------------------------------------------------------------------------
+    #                       Handle seeds for rs RUNS.
+    #---------------------------------------------------------------------------
+
+    if (is_rsrun)
+    {                           #-----------------------
+    if (cor_or_app == "APP")    #  An apparent problem
+        {                       #-----------------------
+        forced_seed = switch (basic_or_wrapped_or_comb_str,
+                              "BASE" = parameters$app_base_rsrun_rand_seed,
+                              "WRAP" = parameters$app_wrap_rsrun_rand_seed,
+                              "COMB" = parameters$app_comb_rsrun_rand_seed,
+                              NA)
+        # if (!is.null (forced_seed) & is.na (forced_seed))
+        #     bad_basic_or_wrapped_or_comb_str = TRUE
+
+        #------------------------------
+                                           #---------------------
+        } else if (cor_or_app == "COR")    #  A correct problem
+        {                                  #---------------------
+        forced_seed = switch (basic_or_wrapped_or_comb_str,
+                              "BASE" = parameters$cor_base_rsrun_rand_seed,
+                              "WRAP" = parameters$cor_wrap_rsrun_rand_seed,
+                              "COMB" = parameters$cor_comb_rsrun_rand_seed,
+                              NA)
+        # if (!is.null (forced_seed) & is.na (forced_seed))
+        #     bad_basic_or_wrapped_or_comb_str = TRUE
+
+        #------------------------------
+
+        } else    #  Error:  cor_or_app not "APP" or "COR"
+        {
+        stop (paste0 ("\n\nERROR in get_forced_seed_value():",
+                      "\n    Bad string match for cor_or_app arg = '",
+                      cor_or_app, "'",
+                      "\n    Must be BASE or WRAP or COMB.\n\n"))
+        }
+
+    #---------------------------------------------------------------------------
+    #                   Handle seeds for rs PROBLEMS.
+    #---------------------------------------------------------------------------
+
+    } else if (is_rsprob)
+    {                           #-----------------------
+    if (cor_or_app == "APP")    #  An APPARENT problem
+        {                       #-----------------------
+        forced_seed = switch (basic_or_wrapped_or_comb_str,
+                              "BASE" = parameters$app_base_rsprob_rand_seed,
+                              "WRAP" = parameters$app_wrap_rsprob_rand_seed,
+                              "COMB" = parameters$app_comb_rsprob_rand_seed,
+                              NA)
+        # if (!is.null (forced_seed) & is.na (forced_seed))
+        #     bad_basic_or_wrapped_or_comb_str = TRUE
+
+        #------------------------------
+                                           #---------------------
+        } else if (cor_or_app == "COR")    #  A CORRECT problem
+        {                                  #---------------------
+        forced_seed = switch (basic_or_wrapped_or_comb_str,
+                              "BASE" = parameters$cor_base_rsprob_rand_seed,
+                              "WRAP" = parameters$cor_wrap_rsprob_rand_seed,
+                              "COMB" = parameters$cor_comb_rsprob_rand_seed,
+                              NA)
+        # if (!is.null (forced_seed) & is.na (forced_seed))
+        #     bad_basic_or_wrapped_or_comb_str = TRUE
+
+        #------------------------------
+
+        } else    #  ERROR:  cor_or_app not "APP" or "COR"
+        {
+        stop (paste0 ("\n\nERROR in get_forced_seed_value():",
+                      "\n    Bad string match for cor_or_app arg = '",
+                      cor_or_app, "'",
+                      "\n    Must be BASE or WRAP or COMB.\n\n"))
+        }
+    }
+
+    #---------------------------------------------------------------------------
+    #                   Quit if bad problem type strings.
+    #---------------------------------------------------------------------------
+
+#    if (bad_basic_or_wrapped_or_comb_str)
+    if (!is.null (forced_seed))
+        {
+        if (is.na (forced_seed))
+            {
+            stop (paste0 ("\n\nERROR in get_forced_seed_value():",
+                          "\n    Bad string match for basic_or_wrapped_or_comb_str arg = '",
+                          basic_or_wrapped_or_comb_str, "'",
+                          "\n    Must be BASE or WRAP or COMB.\n\n"))
+            }
+        }
+
+    #---------------------------------------------------------------------------
+    #               Return seed if given, NULL otherwise.
+    #---------------------------------------------------------------------------
+
+    return (forced_seed)
+    }
+
+#===============================================================================
+
 #' Get and set a new seed for the random number generator
 #'
 #'@param location_string a string to print indicating where this function is

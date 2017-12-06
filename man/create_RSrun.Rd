@@ -4,8 +4,8 @@
 \alias{create_RSrun}
 \title{Create an RSrun}
 \usage{
-create_RSrun(prob_UUID, targets, starting_dir, cor_or_app_str,
-  basic_or_wrapped_or_comb_str, method_name, forced_seed = NULL)
+create_RSrun(prob_UUID, targets, parameters, cor_or_app_str,
+  basic_or_wrapped_or_comb_str, method_name)
 }
 \arguments{
 \item{prob_UUID}{UUID for the biodiversity problem the reserve selector is
@@ -13,28 +13,20 @@ run over}
 
 \item{targets}{numeric vector}
 
-\item{starting_dir}{character string}
-
 \item{cor_or_app_str}{character string}
 
 \item{basic_or_wrapped_or_comb_str}{character string}
 
 \item{method_name}{character string for reserve selection method, e.g.,
 "marxan_sa"}
+
+\item{starting_dir}{character string}
 }
 \value{
 Returns an RSrun object
 }
 \description{
 Create a run of a reserve selector
-}
-\details{
-Note that the forced_seed argument should normally be omitted.  It's only
-there to allow the reproduction of a previous execution of the code that
-generates this object.  If omitted, a seed is randomly chosen and saved
-as the rand_seed slot in the object.  If you want to reproduce the generation
-of the current object, you would use the value stored in the rand_seed
-slot as the value of the forced_seed argument in this function call.
 }
 \section{Local Variable Structures and examples}{
 

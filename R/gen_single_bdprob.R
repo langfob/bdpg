@@ -38,8 +38,7 @@ gen_single_bdprob_COR <- function (parameters,
             bdpg_error_codes,
             integerize,
             base_prob_name_stem = "base_prob",
-            cor_dir_name_stem = "cor",
-            forced_seed=NULL)
+            cor_dir_name_stem = "cor")
 
     return (COR_Xu_bdprob)
     }
@@ -268,13 +267,6 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' to be replaced or cloned into something appropriate for the new problem
 #' type.**
 #'
-#' Note that the forced_seed argument should normally be omitted.  It's only
-#' there to allow the reproduction of a previous execution of the code that
-#' generates this object.  If omitted, a seed is randomly chosen and saved
-#' as the rand_seed slot in the object.  If you want to reproduce the generation
-#' of the current object, you would use the value stored in the rand_seed
-#' slot as the value of the forced_seed argument in this function call.
-#'
 #-------------------------------------------------------------------------------
 
 #'@section Local Variable Structures and examples:
@@ -368,11 +360,28 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
                 bdpg_error_codes,
                 integerize,
             base_prob_name_stem = "base_prob",
-            cor_dir_name_stem = "cor",
-            forced_seed=NULL)
+            cor_dir_name_stem = "cor")
     {
-    new_seed = get_and_set_new_rand_seed ("Start of gen_single_bdprob_COR_from_scratch_or_Xu_bench_file()",
-                                          forced_seed)
+        #------------------------------------------------------------------
+        #  If supposed to set a new seed at the start of object creation,
+        #  load or create one, depending on option settings.
+        #  If not supposed to do anything, then new_seed will be
+        #  stored in problem object as NA.
+        #------------------------------------------------------------------
+
+    new_seed = as.numeric (NA)
+    if (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects))
+        {
+        forced_seed =
+            get_forced_seed_value_if_necessary (is_rsrun = FALSE,
+                                                is_rsprob = TRUE,
+                                                parameters,
+                                                cor_or_app = "COR",
+                                                basic_or_wrapped_or_comb_str = "BASE")
+
+        new_seed = get_and_set_new_rand_seed ("Start of gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(),COR,BASE",
+                                              forced_seed)
+        }
 
         #-------------------------------------------------------------------
         #  Determine whether to create the problem from scratch or read it

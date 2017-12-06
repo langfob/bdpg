@@ -159,9 +159,14 @@ get_integerize_function <- function (integerize_string)
 init_for_bdpg <- function (parameters)
     {
         #  Set random seed to help reproducibility.
-#        #  Has to be done after startup code that loads parameters structure.
-#    set.seed (parameters$seed)
-    get_and_set_new_rand_seed ("Start of init_for_bdpg()")
+        #  Has to be done after startup code that loads parameters structure.
+        #  If bdpg_run_init_seed is not in the parameters list,
+        #  parameters$bdpg_run_init_seed will be NULL.
+        #  get_and_set_new_rand_seed() ignores its second argument if
+        #  it's null, which is what we want here.
+
+    get_and_set_new_rand_seed ("Start of init_for_bdpg()",
+                               parameters$bdpg_run_init_rand_seed)
 
         #  Initialize error codes.
     bdpg_error_codes        = get_bdpg_error_codes ()

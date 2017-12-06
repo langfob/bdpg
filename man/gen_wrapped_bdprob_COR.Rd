@@ -5,7 +5,7 @@
 \title{Generate COR wrapped bd problem}
 \usage{
 gen_wrapped_bdprob_COR(starting_dir, compute_network_metrics_for_this_prob,
-  parameters, base_bdprob, bdpg_error_codes, forced_seed = NULL)
+  parameters, base_bdprob, bdpg_error_codes)
 }
 \arguments{
 \item{starting_dir}{character string}
@@ -21,21 +21,12 @@ and can have a varying number and set of elements depending on the run}
 \item{base_bdprob}{Xu_bd_problem}
 
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
-
-\item{forced_seed}{an integer value to be used as random number seed when
-a specific seed is desired in creating this object (e.g., for
-reproducing a previous execution of the code).}
 }
 \value{
 Returns wrapped_bdprob_COR
 }
 \description{
-Note that the forced_seed argument should normally be omitted.  It's only
-there to allow the reproduction of a previous execution of the code that
-generates this object.  If omitted, a seed is randomly chosen and saved
-as the rand_seed slot in the object.  If you want to reproduce the generation
-of the current object, you would use the value stored in the rand_seed
-slot as the value of the forced_seed argument in this function call.
+Generate COR wrapped bd problem
 }
 \section{Local Variable Structures and examples}{
 
