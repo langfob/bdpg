@@ -27,28 +27,6 @@
 create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
                                         parameters)
     {
-        #------------------------------------------------------------------
-        #  If supposed to set a new seed at the start of object creation,
-        #  load or create one, depending on option settings.
-        #  If not supposed to do anything, then new_seed will be
-        #  stored in problem object as NA.
-        #------------------------------------------------------------------
-
-    # new_seed = as.numeric (NA)
-    # if (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects))
-    #     {
-    #     forced_seed =
-    #         get_forced_seed_value_if_necessary (is_rsrun = FALSE,
-    #                                             is_rsprob = TRUE,
-    #                                             parameters,
-    #                                             cor_or_app = "APP",
-    #                                             Xu_bdprob_COR@basic_or_wrapped_or_comb_str)
-    #
-    #     new_seed = get_and_set_new_rand_seed (paste0 ("Start of create_and_init_APP_bdprob(),APP,",
-    #                                                   Xu_bdprob_COR@basic_or_wrapped_or_comb_str),
-    #                                           forced_seed)
-    #     }
-
     forced_seed =
         get_forced_seed_value_if_necessary (is_rsrun = FALSE,
                                             is_rsprob = TRUE,

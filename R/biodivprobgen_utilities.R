@@ -938,8 +938,6 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
                               "WRAP" = parameters$cor_wrap_rsrun_rand_seed,
                               "COMB" = parameters$cor_comb_rsrun_rand_seed,
                               NA)
-        # if (!is.null (forced_seed) & is.na (forced_seed))
-        #     bad_basic_or_wrapped_or_comb_str = TRUE
 
         #------------------------------
 
@@ -964,8 +962,6 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
                               "WRAP" = parameters$app_wrap_rsprob_rand_seed,
                               "COMB" = parameters$app_comb_rsprob_rand_seed,
                               NA)
-        # if (!is.null (forced_seed) & is.na (forced_seed))
-        #     bad_basic_or_wrapped_or_comb_str = TRUE
 
         #------------------------------
                                            #---------------------
@@ -976,8 +972,6 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
                               "WRAP" = parameters$cor_wrap_rsprob_rand_seed,
                               "COMB" = parameters$cor_comb_rsprob_rand_seed,
                               NA)
-        # if (!is.null (forced_seed) & is.na (forced_seed))
-        #     bad_basic_or_wrapped_or_comb_str = TRUE
 
         #------------------------------
 
@@ -994,7 +988,6 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
     #                   Quit if bad problem type strings.
     #---------------------------------------------------------------------------
 
-#    if (bad_basic_or_wrapped_or_comb_str)
     if (!is.null (forced_seed))
         {
         if (is.na (forced_seed))
@@ -1012,42 +1005,6 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
 
     return (forced_seed)
     }
-
-#===============================================================================
-
-#' Get and set a new seed for the random number generator
-#'
-#'@param location_string a string to print indicating where this function is
-#'       called
-#' @inheritParams std_param_defns
-#'
-#' @return Returns an integer
-#' @export
-
-#-------------------------------------------------------------------------------
-
-# get_and_set_new_rand_seed <- function (location_string, forced_seed = NULL)
-#     {
-#     cat ("\n\nget_and_set_new_rand_seed: ", location_string,
-#          "\n    forced_seed = '", forced_seed, "'\n")
-#
-# browser()
-#
-#     if (is.null (forced_seed))
-#         {
-#         systime_num = as.numeric (Sys.time())
-#         new_seed = as.integer ((systime_num - floor (systime_num)) * 2e9)
-#         cat ("\nnew rand_seed = ", new_seed, "\n")
-#
-#         } else
-#         {
-#         new_seed = forced_seed
-#         }
-#
-#     set.seed (new_seed)
-#
-#     return (new_seed)
-#     }
 
 #===============================================================================
 

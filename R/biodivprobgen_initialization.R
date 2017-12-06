@@ -162,11 +162,6 @@ init_for_bdpg <- function (parameters)
         #  Has to be done after startup code that loads parameters structure.
         #  If bdpg_run_init_seed is not in the parameters list,
         #  parameters$bdpg_run_init_seed will be NULL.
-    #     #  get_and_set_new_rand_seed() ignores its second argument if
-    #     #  it's null, which is what we want here.
-    #
-    # get_and_set_new_rand_seed ("Start of init_for_bdpg()",
-    #                            parameters$bdpg_run_init_rand_seed)
 
     always_set_new_or_forced_rand_seed ("Start of init_for_bdpg()",
                                         parameters$bdpg_run_init_rand_seed)
