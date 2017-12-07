@@ -116,6 +116,7 @@ compute_and_verify_APP_rep_scores_according_to_bdpg <-
 
     #---------------------------------------------------------------------------
     #           Apparent representation scores as computed by bdpg
+    #           as opposed to as computed by the reserve selector
     #---------------------------------------------------------------------------
 
         #----------------------------------------------------------------------
