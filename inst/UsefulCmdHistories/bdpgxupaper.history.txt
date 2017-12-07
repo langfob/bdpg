@@ -1,0 +1,500 @@
+    3  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+    4  pw
+    5  pwd
+    6  cp model.R.tzar model.R
+    7  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+    8  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+    9  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+   10  copy model.R.tzar model.R
+   11  pwd
+   12  cp model.R.tzar model.R
+   13  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+   14  pwd
+   15  grep -in tzar_emulation_yaml_file_path *.R
+   16  grep -in normalizePath *.R
+   17  pwd
+   18  ls -l
+   19  R
+   20  ls -l
+   21  cat tzar_em
+   22  cat tzar_emulation.yaml 
+   23  h
+   24  R
+   25  R
+   26  pwd
+   27  dir
+   28  cat model.R
+   29  pwd
+   30  ls -l
+   31  ls
+   32  rm console_sink_output.tzar_em.txt 
+   33  ls -l
+   34  rm console_sink_output.tzar_em.txt 
+   35  rm tzar_em_scratch.yaml 
+   36  ls -l
+   37  ls -l
+   38  pwd
+   39  R
+   40  dir /Users/bill/tzar/tzar_emulation_scratch_area/tzar_em_scratch.yaml
+   41  cat /Users/bill/tzar/tzar_emulation_scratch_area/tzar_em_scratch.yaml
+   42  ls -l /Users/bill/tzar/tzar_emulation_scratch_area/tzar_em_scratch.yaml
+   43  pwd
+   44  pwd
+   45  grep -in get_tzar_emulation_flag_and_console_sink_if_requested *.R
+   46  grep -in clean_up_after_tzar_emulation *.R
+   47  grep -in clean_up_console_sink_if_necessary *.R
+   48  grep -in file.path *.R
+   49  grep -in "file\.path" *.R
+   50  pwd
+   51  grep -in tzar_jar_path *.R
+   52  pwd
+   53  grep -in full_output_dir_with_slash *.R
+   54  grep -in get_tzar_output_dir_from_scratch_file *.R
+   55  ls
+   56  grep -in full_output_dir_WITHOUT_slash *.R
+   57  grep -in full_output_dir_WITHOUT_slash *.R
+   58  pwd
+   59  grep -in normalizePath *.R
+   60  grep -in tzar_emulation_yaml_file_path *.R
+   61  grep -in tzar_emulation.yaml *.R
+   62  pwd
+   63  grep -in model_with_possible_tzar_emulation *.R
+   64  cd /Users/bill/D/Projects/ProblemDifficulty/pkgs/tzar
+   65  ls -l
+   66  git status
+   67  git show HEAD
+   68  git show HEAD
+   69  git checkout master
+   70  git merge move-controls-into-yaml
+   71  git merge move-controls-into-yaml
+   72  git branch -d move-controls-into-yaml
+   73  git status
+   74  pwd
+   75  ls -l
+   76  cat model.R
+   77  cat tzar_main.R
+   78  R
+   79  ls -l
+   80  pwd
+   81  h
+   82  pwd
+   83  ls -l
+   84  cat tzar_emulation.yaml 
+   85  cat tzar_emulation.yaml 
+   86  R
+   87  ls -l
+   88  cat model.R
+   89  pwd
+   90  R
+   91  pwd
+   92  ls -l
+   93  R
+   94  R
+   95  h
+   96  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/tzar/inst/tzar_em_example
+   97  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/tzar/inst/tzar_em_example
+   98  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/tzar/inst/tzar_em_example
+   99  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/tzar/inst/tzar_em_example
+  100  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/tzar/inst/tzar_em_example
+  101  R
+  102  h
+  103  pwd
+  104  grep -in tzar_emulation_yaml_file_path *.R
+  105  pwd
+  106  grep -in docaids *.R
+  107  h
+  108  grep -in docaids *.R
+  109  grep -in emulate_running_tzar *.R
+  110  pwd
+  111  pwd
+  112  pwd
+  113  grep -in docaids *.R
+  114  pwd
+  115  grep -in docaids *.R
+  116  pwd
+  117  grep -in docaids *.R
+  118  pwd
+  119  pwd
+  120  grep -in docaids *.R
+  121  pwd
+  122  grep -in read_Xu_problem_from_Xu_file *.R
+  123  grep -in bdpg_error_codes *.R
+  124  grep -in ERROR_STATUS_unknown_spp_occ_FN_error_type *.R
+  125  grep -in save_rsprob *.R
+  126  grep -in save_obj_with_checksum *.R
+  127  grep -in readRDS *.R
+  128  grep-in rsp_n__num *.R
+  129  grep -in rsp_n__num *.R
+  130  grep -in base_params@n__num_groups *.R
+  131  grep -in "@n__num_groups" *.R
+  132  git status
+  133  git status
+  134  git status
+  135  git checkout -b fix-bug-args-imply-diff-num-rows
+  136  git status
+  137  git branch
+  138  git branch
+  139  git status
+  140  git checkout master
+  141  git branch fix-bug-args-imply-diff-num-rows
+  142  git status
+  143  git checkout fix-bug-args-imply-diff-num-rows
+  144  git status
+  145  git checkout master
+  146  git branch -d fix-bug-args-imply-diff-num-rows
+  147  git status
+  148  pwd
+  149  grep -in "pu.dat" *.R
+  150  grep -in "pu\.dat" *.R
+  151  h
+  152  grep -in checksum *.R
+  153  grep -in save_rsprob_results_data_for_Xu_NOT_read_from_file *.R
+  154  grep -in save_rsprob_results_data_for_Xu_NOT_read_from_file *.R
+  155  grep -in save_rsprob_results_data_for_Xu_NOT_read_from_file *.R
+  156  grep -in save_rsprob_results_data_for_Xu_read_from_file *.R
+  157  dir /Users/bill/Downloads/"singapore mel tls"
+  158  ls /Users/bill/Downloads/"singapore mel tls"
+  159  dir /Users/bill/Downloads/"singapore mel tls"
+  160  pwd
+  161  clear
+  162  grep -in checksum *.R
+  163  grep -in 09 01 thru 11 03 - 1800.tiff
+  164  h
+  165  pwd
+  166  ls
+  167  grep -in results_list *.R
+  168  grep -in input.dat *.R
+  169  grep -in input_dat_cp_cmd *.R
+  170  grep -in rsp_base_COR_prob_UUID *.R
+  171  grep -in rsp_base_COR_prob_UUID *.R
+  172  pwd
+  173  grep -in rsp_base_COR_prob_UUID *.R
+  174  gpre -in rsr_UUID *.R
+  175  grep -in rsr_UUID *.R
+  176  grep -in uuid *.R
+  177  grep -in "\@UUID" *.R
+  178  grep -in "run@UUID" *.R
+  179  grep -in run_on_prob_UUID *.R
+  180  grep -in "0_run_id" *.R
+  181  grep -in prob_diff_results_with_0_run_id *.R
+  182  grep -in summary_without_run_id_filename *.R
+  183  grep -in "parameters\$summary_without_run_id_filename" *.R
+  184  grep -in summary_WITHOUT_run_id_path *.R
+  185  grep -in results_df *.R
+  186  grep -in read_results_list_from_csv_file *.R
+  187  grep -in read_prob_characteristics_list *.R
+  188  grep -in quit *.R
+  189  grep -in "quit (" *.R
+  190  grep -in "quit(" *.R
+  191  grep -in prob_src *.R
+  192  grep -in gen_single_bdprob_COR *.R
+  193  grep -in COR_prob_src *.R
+  194  grep -in bdpg_error_codes *.R
+  195  pwd
+  196  pwd
+  197  pwd
+  198  h
+  199  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  200  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  201  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  202  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  203  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  204  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  205  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  206  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  207  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  208  pwd
+  209  cd Downloads
+  210  cd Tzar_input_files/
+  211  ls
+  212  man ls
+  213  ls -R /Users/bill/tzar/outputdata/bdpgxupaper_single_action_WRAP_prob/default_runset
+  214  ls -R /Users/bill/tzar/outputdata/bdpgxupaper_single_action_WRAP_prob/default_runset | grep saved 
+  215  ls /Users/bill/tzar/outputdata/bdpgxupaper_single_action_WRAP_prob/default_runset | echo "blah/"
+  216  ls -R /Users/bill/tzar/outputdata/bdpgxupaper_single_action_WRAP_prob/default_runset | grep saved > WRAP_rds_input_file_paths.txt
+  217  ls -l
+  218  cat WRAP_rds_input_file_paths.txt 
+  219  ls -lR /Users/bill/tzar/outputdata/bdpgxupaper_single_action_WRAP_prob/default_runset | grep saved > WRAP_rds_input_file_paths.txt
+  220  cat WRAP_rds_input_file_paths.txt 
+  221  man ls
+  222  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_WRAP_prob/default_runset
+  223  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_WRAP_prob/default_runset | grep saved
+  224  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_WRAP_prob/default_runset | grep saved |wc
+  225  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_WRAP_prob/default_runset | grep saved > WRAP_rds_input_file_paths.txt
+  226  pwd
+  227  cat /Users/bill/Downloads/Tzar_input_files/WRAP_rds_input_file_paths.txt |wc
+  228  pwd
+  229  grep -in runif *.R
+  230  grep -in rnorm *.R
+  231  grep -in sample *.R
+  232  grep -in safe_sample *.R
+  233  grep -in gen_single_bdprob_APP *.R
+  234  grep -in add_err *.R
+  235  grep -in do_APP_marxan_analysis_and_output *.R
+  236  grep -in gen_single_bdprob_COR *.R
+  237  grep -in gen_single_bdprob_APP *.R
+  238  grep -in "JUST BEFORE ERROR OCCURS" *.R
+  239  grep -in "set\.seed" *.R
+  240  grep -in "STARTING generateSetCoverProblem.R" *.R
+  241  pwd
+  242  grep -n "STARTING" *.R
+  243  pwd
+  244  grep -in generateSetCoverProblem.R *.R
+  245  grep -in generateSetCoverProblem *.R
+  246  grep -in starting *.R
+  247  grep -n STARTING *.R
+  248  grep -in "integerize " *.R
+  249  grep -in prob_from_rds_file *.R
+  250  pwd
+  251  pwd
+  252  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  253  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  254  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  255  grep -n STARTING *.R
+  256  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  257  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  258  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  259  grep -in prob_from_rds_file *.R
+  260  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  261  ls -l /Users/bill/Downloads/COR_rds_input_file_paths.txt
+  262  ls -l /Users/bill/Downloads/COR_rds_input_file_paths.txt
+  263  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  264  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  265  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  266  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  267  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  268  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  269  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  270  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  271  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  272  pwd
+  273  oqs
+  274  pwd
+  275  cd Downloads
+  276  pwd
+  277  cd Tzar_input_files/
+  278  ls
+  279  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_APP_of_cor_base_prob/default_runset | grep saved > /Users/bill/Downloads/Tzar_input_files/APP_cor_rds_input_file_paths.txt
+  280  ls -l
+  281  cat APP_cor_rds_input_file_paths.txt 
+  282  pwd
+  283  ls -l COR_rds_input_file_paths.txt
+  284  cat COR_rds_input_file_paths.txt
+  285  pwd
+  286  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_bdpgxupaper_single_action_APP_of_cor_WRAP_prob/default_runset | grep saved > /Users/bill/Downloads/Tzar_input_files/APP_wrap_rds_input_file_paths.txt
+  287  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_APP_of_cor_WRAP_prob/default_runset | grep saved > /Users/bill/Downloads/Tzar_input_files/APP_wrap_rds_input_file_paths.txt
+  288  cat /Users/bill/Downloads/Tzar_input_files/APP_wrap_rds_input_file_paths.txt | wc
+  289  pwd
+  290  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  291  pwd
+  292  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  293  pwd
+  294  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  295  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  296  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  297  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  298  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  299  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  300  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  301  ls -l ~/tzar
+  302  ls -l ~/tzar/outputdata
+  303  pwd
+  304  grep -in "@example" *.R
+  305  pwd
+  306  cd ..
+  307  pwd
+  308  git checkout -b random-numbers-for-objects
+  309  cd R
+  310  pwd
+  311  grep -in "set\.seed" *.R
+  312  pwd
+  313  grep -in "new Xu_bd_problem" *.R
+  314  grep -in "new " *.R
+  315  grep -in 'new ("Xu' *.R
+  316  grep -in 'new ("RS' *.R
+  317  grep -in "set\.seed" *.R
+  318  pwd
+  319  grep -in "save_rsrun" *.R
+  320  grep -in get_and_set_new_rand_seed *.R
+  321  grep -in save_rsrun *.R
+  322  pwd
+  323  cd ..
+  324  pwd
+  325  git status
+  326  git checkout master
+  327  git status
+  328  git merge random-numbers-for-objects
+  329  git status
+  330  git push origin master
+  331  git status
+  332  git branch -d random-numbers-for-objects
+  333  git status
+  334  git branch -d no-create-master-output-structure
+  335  git status
+  336  pwd
+  337  cd R
+  338  grep -in summary_filename *.R
+  339  grep -in create_master_output_structure *.R
+  340  cd ..
+  341  pwd
+  342  git status
+  343  git checkout -b clarify-results-output
+  344  git status
+  345  pwd
+  346  cd R
+  347  grep -in results_list$rsr_rsrun_UUID *.R
+  348  grep -in "results_list\$rsr_rsrun_UUID" *.R
+  349  grep -in "rsr_rsrun_UUID" *.R
+  350  grep -in create_COR_master_output_structure *.R
+  351  grep -in build_and_write_REP_scores_list *.R
+  352  grep -in build_and_write_confusion_matrix_based_scores_list *.R
+  353  grep -in create_master_output_structure *.R
+  354  grep -in create_master_output_structure *.R
+  355  grep -in "parameters\$summary_filename" *.R
+  356  grep -in prob_characteristics *.R
+  357  grep -in write_abbreviated_results_to_files *.R
+  358  grep -in write_results_to_files *.R
+  359  grep -in rsprob_plot_output_dir *.R
+  360  grep -in Global_Constants_v01 *.R
+  361  grep -in "Global_Constants_v01\@" *.R
+  362  grep -in write_results_to_files *.R
+  363  grep -in strsplit *.R
+  364  grep -in get_RSrun_path_topdir *.R
+  365  grep -in compute_and_verify_COR_scores_according_to_bdpg *.R
+  366  grep -in create_master_output_structure *.R
+  367  grep -in "JUST BEFORE ERROR OCCURS" *.R
+  368  grep -in compute_and_verify_COR_scores_according_to_bdpg *.R
+  369  grep -in compute_and_verify_APP_scores_according_to_bdpg *.R
+  370  grep -in compute_and_verify_APP_rep_scores_according_to_RS_marxan_sa *.R
+  371  grep -in summarize_RS_solution_scores *.R
+  372  grep -in apply_error_to_spp_occupancy_data *.R
+  373  grep -in apply_const_error_to_spp_occupancy_data *.R
+  374  grep -in apply_const_error_to_spp_occupancy_data *.R
+  375  grep -in FP_rate *.R
+  376  grep -in "APP_prob_info@realized_FP_rate" *.R
+  377  grep -in "write_" *.R
+  378  dir /Users/bill/tzar/outputdata/bdpgxupaper_single_action_generate_4_variants/default_runset/11_marxan_simulated_annealing.inprogress/RSprob-COR-Base.bb1c97a9-b043-4235-90bf-af1bf9c2fcb5/prob_diff_results.csv
+  379  ls -l /Users/bill/tzar/outputdata/bdpgxupaper_single_action_generate_4_variants/default_runset/11_marxan_simulated_annealing.inprogress/RSprob-COR-Base.bb1c97a9-b043-4235-90bf-af1bf9c2fcb5/prob_diff_results.csv
+  380  grep -in prob_characteristics *.R
+  381  pwd
+  382  grep -in seed_value_for_search *.R
+  383  grep -in seed_value *.R
+  384  grep -in get_and_set *.R
+  385  grep -in sample *.R
+  386  grep -in "sample (" *.R
+  387  grep -in "sample.(" *.R
+  388  grep -in "runif.(" *.R
+  389  grep -in "rnorm.(" *.R
+  390  grep -in gen_lognormal *.R
+  391  grep -in "sample(" *.R
+  392  grep -in set.seed *.R
+  393  h
+  394  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  395  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  396  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  397  ls /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset/100_Xu_simple_model_hard_case/RSprob-COR-Base.d02d83ff-7cb5-484f-9e95-8fb5e2fbebf5/RSprob-COR-Base.d02d83ff-7cb5-484f-9e95-8fb5e2fbebf5/prob_characteristics.csv
+  398  ls /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset/100_Xu_simple_model_hard_case
+  399  ls /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset/100_Xu_simple_model_hard_case/RSprob-COR-Base.d02d83ff-7cb5-484f-9e95-8fb5e2fbebf5
+  400  pwd
+  401  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  402  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  403  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset | grep saved > /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/COR_rds_input_file_paths.txt
+  404  man sort
+  405  man find
+  406  ls /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset/1_marxan_simulated_annealing/RSprob-COR-Base.489a016d-14fd-40af-89bb-3e1edf38f14f/saved.RSprob-COR-Base.489a016d-14fd-40af-89bb-3e1edf38f14f.rds
+  407  ls /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset/1_marxan_simulated_annealing/RSprob-COR-Base.489a016d-14fd-40af-89bb-3e1edf38f14f
+  408  ls /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob
+  409  ls /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset
+  410  ls /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset/1_marxan_simulated_annealing
+  411  pwd
+  412  cd ../inst
+  413  ls
+  414  cd extdata
+  415  ls
+  416  cd input_files/
+  417  ls
+  418  cd Tzar_input_files/
+  419  ls
+  420  wc < COR_rds_input_file_paths.txt 
+  421  pwd
+  422  cd ../../..
+  423  pwd
+  424  cd ../R
+  425  ls
+  426  pwd
+  427  h
+  428  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  429  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  430  wc < /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/Tzar_input_files/COR_rds_input_file_paths.txt
+  431  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  432  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  433  pwd
+  434  grep -in read_Xu_problem_from_Xu_file *.R
+  435  grep -in gen_single_bdprob_COR_from_scratch_or_Xu_bench_file *.R
+  436  grep -in forced_seed *.R
+  437  grep -in  set_up_for_and_run_marxan_COR *.R
+  438  grep -in create_RSrun *.R
+  439  grep -in get_bdprob_from_rds_file *.R
+  440  grep -in do_APP_marxan_analysis_and_output *.R
+  441  grep -in save_rsrun_results_data_for_one_rsrun *.R
+  442  grep -in read_prob_characteristics_list *.R
+  443  grep -in read_bipartite_measures_list *.R
+  444  grep -in save_rsrun_results_data_for_one_rsrun *.R
+  445  grep -in load_ *.R
+  446  grep -in rds *.R
+  447  grep -in APP_final_rank_abundance_dist *.R
+  448  pwd
+  449  grep -in final_rank_abundance_dist *.R
+  450  grep -in plot_degree_and_abundance_dists_for_node_graph *.R
+  451  grep -in summarize_and_plot_graph_and_distribution_structure_information *.R
+  452  grep -in compute_and_save_dist_and_network_metrics_for_prob *.R
+  453  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_APP_prob/default_runset | grep saved > /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/Tzar_input_files/APP_rds_input_file_paths.txt
+  454  /Users/bill/tzar/outputdata/bdpgxupaper_single_action_APP_of_cor_base_prob/default_runset  | grep saved > /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/Tzar_input_files/APP_rds_input_file_paths.txt
+  455  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_APP_of_cor_base_prob/default_runset | grep saved > /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/Tzar_input_files/APP_rds_input_file_paths.txt
+  456  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_APP_of_cor_base_prob/default_runset | grep saved > /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/Tzar_input_files/APP_rds_input_file_paths.txt
+  457  wc < /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/Tzar_input_files/APP_rds_input_file_paths.txt
+  458  grep -in RS_app_base_input_rds_file_set_path *.R
+  459  grep -in RS_app_base_input_rds_file_set_path *.R
+  460  grep -in look_up_object_by_UUID *.R
+  461  grep -in seed_value_for_search *.R
+  462  grep -n EF *.R
+  463  grep -in "parameters\$seed" *.R
+  464  grep -in set_marxan_controls_and_run_marxan *.R
+  465  grep -in seed_value_for_search *.R
+  466  grep -in search_for_approximating_lognormal *.R
+  467  grep-in wrap_abundance_dist_around_Xu_problem *.R
+  468  grep -in wrap_abundance_dist_around_Xu_problem *.R
+  469  grep -in rds_file_set_element_idx *.R
+  470  grep -in igraph *.R
+  471  grep -in init_object_graph_data *.R
+  472  grep -in randseed *.R
+  473  grep -in set_marxan_controls_and_run_marxan *.R
+  474  grep -in RS_cor_input_rds_file_set_path *.R
+  475  grep -in bipartite_metrics_from_igraph_pkg_df *.R
+  476  grep -in igraph_metrics_file_name_stem *.R
+  477  pwd
+  478  h
+  479  h | grep COR_rds_input
+  480   find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset | grep saved | wc
+  481  h
+  482  h | grep marxan
+  483  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_MARXAN_on_COR_BASE_prob/default_runset | grep saved | wc
+  484  pwd
+  485  ls -l /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/Tzar_input_files/APP_rds_input_file_paths.txt
+  486  grep -in "910f1f81-efa5-44dc-a36a-57e93d18877e" /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/Tzar_input_files/APP_rds_input_file_paths.txt
+  487  pwd
+  488  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  489  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  490  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_MARXAN_on_APP_BASE_prob/default_runset | grep saved | wc 
+  491  find /Users/bill/tzar/outputdata/ bdpgxupaper_single_action_MARXAN_on_APP_COR_prob /default_runset | grep saved | wc 
+  492  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_MARXAN_on_APP_COR_prob /default_runset | grep saved | wc 
+  493  find /Users/bill/tzar/outputdata/bdpgxupaper_single_action_MARXAN_on_APP_COR_prob/default_runset | grep saved | wc 
+  494  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  495  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  496  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  497  pwd
+  498  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  499  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  500  java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+  501  pwd
+  502  h > /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/R/bdpgxupaper.history.txt
