@@ -2,7 +2,7 @@
 % Please edit documentation in R/random_seed_setting_utilities.R
 \name{set_seed_if_necessary_helper}
 \alias{set_seed_if_necessary_helper}
-\title{Set a new or forced random seed if caller specifies that}
+\title{Helper function for setting a seed when necessary}
 \usage{
 
   set_seed_if_necessary_helper(set_rand_seed_at_creation_of_all_new_major_objects,
@@ -10,7 +10,8 @@
 }
 \arguments{
 \item{set_rand_seed_at_creation_of_all_new_major_objects}{boolean indicating
-whether a new seed should be set every time an rsrun or rsproblem is created}
+whether a new seed should be set every time an rsrun or rsproblem object
+is created}
 
 \item{location_string}{string to indicate where this function was called,
 e.g., at the start of the creation of an rsproblem}
@@ -19,8 +20,8 @@ e.g., at the start of the creation of an rsproblem}
 NULL to indicate that no seed has been provided}
 }
 \value{
-Returns a value that is probably an integer but is definitely not null
+Returns an integer seed value or NA
 }
 \description{
-Set a new or forced random seed if caller specifies that
+Helper function for setting a seed when necessary
 }
