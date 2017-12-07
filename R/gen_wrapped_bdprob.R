@@ -1332,17 +1332,25 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
         max_search_iterations           = parameters$max_search_iterations
 
 
-    forced_seed =
-        get_forced_seed_value_if_necessary (is_rsrun = FALSE,
-                                            is_rsprob = TRUE,
-                                            parameters,
-                                            cor_or_app = "COR",
-                                            basic_or_wrapped_or_comb_str = "WRAP")
+    # forced_seed =
+    #     get_forced_seed_value_if_necessary (is_rsrun = FALSE,
+    #                                         is_rsprob = TRUE,
+    #                                         parameters,
+    #                                         cor_or_app = "COR",
+    #                                         basic_or_wrapped_or_comb_str = "WRAP")
+    #
+    # seed_value_for_search =
+    #     set_new_or_forced_rand_seed_if_necessary (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
+    #                                               "Start of wrap_abundance_dist_around_Xu_problem(),COR,WRAP",
+    #                                               forced_seed)
 
     seed_value_for_search =
-        set_new_or_forced_rand_seed_if_necessary (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
-                                                  "Start of wrap_abundance_dist_around_Xu_problem(),COR,WRAP",
-                                                  forced_seed)
+        set_new_or_forced_rand_seed_if_necessary (is_rsrun = FALSE,
+                                                  is_rsprob = TRUE,
+                                                  parameters,
+                                                  cor_or_app_str = "COR",
+                                                  basic_or_wrapped_or_comb_str = "WRAP",
+                                                  location_string = "Start of wrap_abundance_dist_around_Xu_problem(),COR,WRAP")
 
             #-----------------------
             #  Derived parameters.

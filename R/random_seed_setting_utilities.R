@@ -252,47 +252,12 @@ if (FALSE)
 
 #===============================================================================
 
-# gen_single_bdprob.R
-# new_seed = set_new_or_forced_rand_seed_if_necessary (is_rsrun = FALSE,
-#                      is_rsprob = TRUE,
-#                      parameters,
-#                      cor_or_app_str = "COR",
-#                      basic_or_wrapped_or_comb_str = "BASE",
-#                      location_string = "Start of gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(),COR,BASE")
-
-# gen_single_bdprob_APP.R
-# new_seed = set_new_or_forced_rand_seed_if_necessary (is_rsrun = FALSE,
-#                      is_rsprob = TRUE,
-#                      parameters,
-#                      cor_or_app_str = "APP",
-#                      basic_or_wrapped_or_comb_str = Xu_bdprob_COR@basic_or_wrapped_or_comb_str,
-#                      location_string = paste0 ("Start of create_and_init_APP_bdprob(),APP,",
-#                                                Xu_bdprob_COR@basic_or_wrapped_or_comb_str))
-
-# gen_wrapped_bdprob.R
-# new_seed = set_new_or_forced_rand_seed_if_necessary (is_rsrun = FALSE,
-#                      is_rsprob = TRUE,
-#                      parameters,
-#                      cor_or_app_str = "COR",
-#                      basic_or_wrapped_or_comb_str = "WRAP",
-#                      location_string = "Start of wrap_abundance_dist_around_Xu_problem(),COR,WRAP")
-
-# do_marxan_analysis_and_output.R
-# new_seed = set_new_or_forced_rand_seed_if_necessary (is_rsrun = TRUE,
-#                      is_rsprob = FALSE,
-#                      parameters,
-#                      cor_or_app_str,
-#                      basic_or_wrapped_or_comb_str,
-#                      location_string = paste0 ("Start of create_RSrun(),",
-#                                                cor_or_app_str, ",",
-#                                                basic_or_wrapped_or_comb_str))
-
 set_new_or_forced_rand_seed_if_necessary <- function (is_rsrun,
-                                   is_rsprob,
-                                   parameters,
-                                   cor_or_app_str,
-                                   basic_or_wrapped_or_comb_str,
-                                   location_string)
+                                                      is_rsprob,
+                                                      parameters,
+                                                      cor_or_app_str,
+                                                      basic_or_wrapped_or_comb_str,
+                                                      location_string)
     {
     forced_seed =
         get_forced_seed_value_if_necessary (is_rsrun,
