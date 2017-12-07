@@ -10,14 +10,16 @@
 
 #===============================================================================
 
-    #  Compute representation match (shortfall or overrep) given a spp rows by
-    #  PU columns adjacency matrix.
+#-------------------------------------------------------------------------------
 
 #' Compute species representation fractions achieved
 #'
-#' Compute fractions of species representation targets achieved by a given
-#' set of planning units.
+#' Compute fractions of species representation targets (shortfall or overrep)
+#' achieved by a given set of planning units given a spp rows by
+#' PU columns adjacency matrix.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -48,12 +50,16 @@
 #' spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns spp_rep_fracs numeric vector of fractions of species
 #'     representation targets achieved by a given set of planning units
 #' @export
 #'
+#-------------------------------------------------------------------------------
+
 compute_rep_fraction =
     function (spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
               PU_set_to_test,
@@ -102,11 +108,15 @@ compute_rep_fraction =
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Compute cost of given solution vector of PUs to include
 #'
 #' Given a set of planning units to include in a solution, compute the total
 #' cost for that set.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Local Variable Structures and examples:
 #'Here is the output of str() for each variable visible in the function.
 #'Note that the particular counts and values given are just examples to show
@@ -125,9 +135,13 @@ compute_rep_fraction =
 #' solution_cost :  num 61
 #' }}
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns numeric cost of the given solution
+
+#-------------------------------------------------------------------------------
 
 compute_solution_cost =
     function (PU_set_to_test, PU_costs)

@@ -146,6 +146,8 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Generate a new random seed based on the current time
 #'
 #' This function is probably similar to the seed that set.seed() uses when
@@ -157,6 +159,8 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
 #' @return Returns an integer seed value
 #' @export
 
+#-------------------------------------------------------------------------------
+
 gen_new_seed_from_cur_time <- function ()
     {
     systime_num = as.numeric (Sys.time())
@@ -167,6 +171,8 @@ gen_new_seed_from_cur_time <- function ()
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Always set a seed, either by generating a new one or reusing a given one
 #'
@@ -184,6 +190,8 @@ gen_new_seed_from_cur_time <- function ()
 #' @return Returns an integer seed value or NA
 #' @export
 
+#-------------------------------------------------------------------------------
+
 always_set_new_or_forced_rand_seed <- function (location_string,
                                                 forced_seed = NULL)
     {
@@ -199,6 +207,8 @@ always_set_new_or_forced_rand_seed <- function (location_string,
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Helper function for setting a seed when necessary
 #'
 #' @param set_rand_seed_at_creation_of_all_new_major_objects boolean indicating
@@ -210,6 +220,8 @@ always_set_new_or_forced_rand_seed <- function (location_string,
 #' NULL to indicate that no seed has been provided
 #'
 #' @return Returns an integer seed value or NA
+
+#-------------------------------------------------------------------------------
 
 set_seed_if_necessary_helper <- function (set_rand_seed_at_creation_of_all_new_major_objects,
                                           location_string,
@@ -289,7 +301,11 @@ test_set_seed_if_necessary_helper <- function ()
 if (FALSE)
     test_set_seed_if_necessary_helper()
 
+#-------------------------------------------------------------------------------
+
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Set a new or forced random seed if caller specifies that
 #'
