@@ -187,12 +187,12 @@ gen_new_seed_from_cur_time <- function ()
 always_set_new_or_forced_rand_seed <- function (location_string,
                                                 forced_seed = NULL)
     {
-    cat ("\n\nalways_set_new_or_forced_rand_seed: ", location_string,
-         "\n    forced_seed = '", forced_seed, "'\n", sep='')
-
     new_seed =
         if (is.null (forced_seed)) gen_new_seed_from_cur_time() else forced_seed
     set.seed (new_seed)
+
+    cat ("\n\nRAND_SEED - always_set_new_or_forced_rand_seed: ", location_string,
+         "\n    forced_seed = '", forced_seed, "'\n", sep='')
 
     return (new_seed)
     }
@@ -245,7 +245,7 @@ set_seed_if_necessary_helper <- function (set_rand_seed_at_creation_of_all_new_m
         #  an object.
         #----------------------------------------------------------------
 
-    cat ("\n\nset_seed_if_necessary_helper: ",
+    cat ("\n\nRAND_SEED - set_seed_if_necessary_helper: ",
          "\n    set_rand_seed_at_creation_of_all_new_major_objects = '",
          set_rand_seed_at_creation_of_all_new_major_objects, "'",
          "\n    location_string = '",
