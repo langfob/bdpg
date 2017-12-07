@@ -1,0 +1,20 @@
+---
+title: "reproducibility notes"
+author: "Bill Langford"
+date: "7 December 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Different types of reproducibility
+
+All this stuff about setting random seed needs some more documentation and 
+examples of use beyond what I've put in the function documentation.  
+
+However, there's one thing that needs to be discussed related to what kind of 
+reproducibility you're seeking.  Most of what I've been working on has been 
+aimed at reproducing the same exact path through the code for debugging purposes.  However, another type of reproducibility is related to the reproducibility of the statistical properties of a set of experiments, i.e., if you use a different set of data from the same distribution, do you get results that have similar statistical properties to your original results?  This is more of a scientific sense of reproducibility compared to a programming sense of reproducibility.
+
