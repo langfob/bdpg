@@ -883,6 +883,9 @@ touch <- function (file_path_to_touch)
     }
 
 #===============================================================================
+#  Tools for managing the seed in random number generation to make it easier
+#  to reproduce all or part of a run.
+#===============================================================================
 
 #-------------------------------------------------------------------------------
 
@@ -1008,7 +1011,7 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
 
 #===============================================================================
 
-gen_new_seed <- function ()
+gen_new_seed_from_cur_time <- function ()
     {
     systime_num = as.numeric (Sys.time())
     new_seed = as.integer ((systime_num - floor (systime_num)) * 2e9)
@@ -1025,7 +1028,8 @@ always_set_new_or_forced_rand_seed <- function (location_string,
     cat ("\n\nalways_set_new_or_forced_rand_seed: ", location_string,
          "\n    forced_seed = '", forced_seed, "'\n", sep='')
 
-    new_seed = if (is.null (forced_seed)) gen_new_seed() else forced_seed
+    new_seed =
+        if (is.null (forced_seed)) gen_new_seed_from_cur_time() else forced_seed
     set.seed (new_seed)
 
     return (new_seed)
@@ -1045,7 +1049,7 @@ set_new_or_forced_rand_seed_if_necessary <- function (set_rand_seed_at_creation_
 
         } else if (set_rand_seed_at_creation_of_all_new_major_objects)
         {
-        new_seed = gen_new_seed ()
+        new_seed = gen_new_seed_from_cur_time ()
         }
 
     if (! is.na (new_seed))  set.seed (new_seed)
@@ -1064,6 +1068,17 @@ set_new_or_forced_rand_seed_if_necessary <- function (set_rand_seed_at_creation_
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
+
+#  Test code for random number seed setting.
+
+#  2017 12 07 - BTL
+#  This code should eventually be in the test code directory, but the
+#  automatic code testing stuff doesn't work in this package currently,
+#  so I'll leave it here until it does.
+
+#-------------------------------------------------------------------------------
 
 test_set_new_or_forced_rand_seed_if_necessary <- function ()
     {
