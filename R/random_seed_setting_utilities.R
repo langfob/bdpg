@@ -19,7 +19,7 @@
 get_forced_seed_value_if_necessary <- function (is_rsrun,
                                                 is_rsprob,
                                                 parameters,
-                                                cor_or_app,
+                                                cor_or_app_str,
                                                 basic_or_wrapped_or_comb_str)
     {
         #  Make sure that one and only one type of seed is chosen to examine.
@@ -33,7 +33,7 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
         }
 
         #  Simplify comparisons by making sure string values are upper case.
-    cor_or_app = toupper (cor_or_app)
+    cor_or_app_str = toupper (cor_or_app_str)
     basic_or_wrapped_or_comb_str = toupper (basic_or_wrapped_or_comb_str)
 
     #---------------------------------------------------------------------------
@@ -41,9 +41,9 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
     #---------------------------------------------------------------------------
 
     if (is_rsrun)
-    {                           #-----------------------
-    if (cor_or_app == "APP")    #  An apparent problem
-        {                       #-----------------------
+    {                               #-----------------------
+    if (cor_or_app_str == "APP")    #  An apparent problem
+        {                           #-----------------------
         forced_seed = switch (basic_or_wrapped_or_comb_str,
                               "BASE" = parameters$app_base_rsrun_rand_seed,
                               "WRAP" = parameters$app_wrap_rsrun_rand_seed,
@@ -53,9 +53,9 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
         #     bad_basic_or_wrapped_or_comb_str = TRUE
 
         #------------------------------
-                                           #---------------------
-        } else if (cor_or_app == "COR")    #  A correct problem
-        {                                  #---------------------
+                                               #---------------------
+        } else if (cor_or_app_str == "COR")    #  A correct problem
+        {                                      #---------------------
         forced_seed = switch (basic_or_wrapped_or_comb_str,
                               "BASE" = parameters$cor_base_rsrun_rand_seed,
                               "WRAP" = parameters$cor_wrap_rsrun_rand_seed,
@@ -63,12 +63,12 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
                               NA)
 
         #------------------------------
-
-        } else    #  Error:  cor_or_app not "APP" or "COR"
-        {
+                  #---------------------------------------------
+        } else    #  Error:  cor_or_app_str not "APP" or "COR"
+        {         #---------------------------------------------
         stop (paste0 ("\n\nERROR in get_forced_seed_value():",
-                      "\n    Bad string match for cor_or_app arg = '",
-                      cor_or_app, "'",
+                      "\n    Bad string match for cor_or_app_str arg = '",
+                      cor_or_app_str, "'",
                       "\n    Must be BASE or WRAP or COMB.\n\n"))
         }
 
@@ -77,9 +77,9 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
     #---------------------------------------------------------------------------
 
     } else if (is_rsprob)
-    {                           #-----------------------
-    if (cor_or_app == "APP")    #  An APPARENT problem
-        {                       #-----------------------
+    {                               #-----------------------
+    if (cor_or_app_str == "APP")    #  An APPARENT problem
+        {                           #-----------------------
         forced_seed = switch (basic_or_wrapped_or_comb_str,
                               "BASE" = parameters$app_base_rsprob_rand_seed,
                               "WRAP" = parameters$app_wrap_rsprob_rand_seed,
@@ -87,9 +87,9 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
                               NA)
 
         #------------------------------
-                                           #---------------------
-        } else if (cor_or_app == "COR")    #  A CORRECT problem
-        {                                  #---------------------
+                                               #---------------------
+        } else if (cor_or_app_str == "COR")    #  A CORRECT problem
+        {                                      #---------------------
         forced_seed = switch (basic_or_wrapped_or_comb_str,
                               "BASE" = parameters$cor_base_rsprob_rand_seed,
                               "WRAP" = parameters$cor_wrap_rsprob_rand_seed,
@@ -97,12 +97,12 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
                               NA)
 
         #------------------------------
-
-        } else    #  ERROR:  cor_or_app not "APP" or "COR"
-        {
+                  #---------------------------------------------
+        } else    #  ERROR:  cor_or_app_str not "APP" or "COR"
+        {         #---------------------------------------------
         stop (paste0 ("\n\nERROR in get_forced_seed_value():",
-                      "\n    Bad string match for cor_or_app arg = '",
-                      cor_or_app, "'",
+                      "\n    Bad string match for cor_or_app_str arg = '",
+                      cor_or_app_str, "'",
                       "\n    Must be BASE or WRAP or COMB.\n\n"))
         }
     }
@@ -110,10 +110,10 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
     #---------------------------------------------------------------------------
     #                   Quit if bad problem type strings.
     #---------------------------------------------------------------------------
-
-    if (!is.null (forced_seed))
-        {
-        if (is.na (forced_seed))
+                                   #  2017 12 07 - BTL
+    if (!is.null (forced_seed))    #  Had to separate these 2 tests to keep R
+        {                          #  from generating warnings, since I have
+        if (is.na (forced_seed))   #  warnings set to generate errors.
             {
             stop (paste0 ("\n\nERROR in get_forced_seed_value():",
                           "\n    Bad string match for basic_or_wrapped_or_comb_str arg = '",
