@@ -228,41 +228,11 @@ initialize_results_list <- function ()
 #===============================================================================
 
 save_rsrun_results_data_for_one_rsrun <- function (parameters,
-                                                  rsrun,
-
-                                                        #rsprob,
-                                                  COR_bd_prob,
-                                                  APP_bd_prob,
-
-                                                    #rs_output_dir_path,    #marxan_output_dir_path,
-                                                    #rs_plot_output_dir,    #plot_output_dir,
-                                                    #rs_top_dir             #,            #marxan_top_dir,
-
-                                                        #num_spp,
-
-                                                        #num_PUs,
-                                                        #all_PU_IDs,
-
-                                                        #cor_PU_costs,
-
-                                                        #correct_solution_cost,
-                                                    #cor_num_patches_in_solution,
-
-                                                        #spp_rep_targets,
-                                                        #targets,
-
-                                                        #bpm,
-                                                        #cor_bpm,
-                                                        #app_bpm,
-
-                                                        #marxan_ssoln_df_sorted_by_PU,
-                                                        #marxan_best_num_patches_in_solution,
-
-                                                        #FP_const_rate,
-                                                        #FN_const_rate
-
-                                                  src_rds_file_dir=NULL
-                                                  )
+                                                   rsrun,
+                                                   COR_bd_prob,
+                                                   APP_bd_prob,
+                                                   src_rds_file_dir=NULL
+                                                   )
     {
     tzar_run_ID  = parameters$run_id
     exp_root_dir = parameters$fullOutputDir_NO_slash
