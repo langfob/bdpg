@@ -1457,7 +1457,7 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
 
 #-------------------------------------------------------------------------------
 
-gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
+OLD_____gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
                                     parameters,
                                     bdpg_error_codes,
                                     src_rds_file_dir=NULL)
@@ -1475,8 +1475,7 @@ gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
     read_Xu_problem_from_Xu_bench_file =
         value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file)
 
-    if (wrap_lognormal_dist_around_Xu &   #(parameters$wrap_lognormal_around_Xu &
-        read_Xu_problem_from_Xu_bench_file)   # parameters$read_Xu_problem_from_Xu_file)
+    if (wrap_lognormal_dist_around_Xu & read_Xu_problem_from_Xu_bench_file)
         {
         stop (paste0 ("\n\nParameters wrap_lognormal_dist_around_Xu and ",
                     "read_Xu_problem_from_Xu_file ",
@@ -1498,6 +1497,67 @@ gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
         #----------------------------------------------------------------------
 
     if (wrap_lognormal_dist_around_Xu)
+        {
+        starting_dir =
+            file.path (normalizePath (parameters$full_output_dir_with_slash))
+
+        compute_network_metrics_for_this_prob =
+            value_or_FALSE_if_null (parameters$compute_network_metrics_wrapped_COR)
+
+        WRAP_prob =
+            gen_wrapped_bdprob_COR (starting_dir,
+                                    compute_network_metrics_for_this_prob,
+                                    parameters,
+                                    bdprob_to_wrap,
+                                    bdpg_error_codes)
+
+                  #-------------------------------------------------------------
+        } else    #  Wrap request is not for a lognormal distribution, so fail.
+        {         #-------------------------------------------------------------
+
+        stop (paste0 ("\n\nwrap_lognormal_dist_around_Xu is not set to TRUE.  ",
+                    "\n    It is currently the only defined wrap function.\n")
+            )
+        }
+
+    return (WRAP_prob)
+    }
+
+#===============================================================================
+
+gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
+                                    parameters,
+                                    bdpg_error_codes,
+                                    src_rds_file_dir=NULL)
+    {
+        #----------------------------------------------------------------------
+        #  Make sure that the base problem for the multiproblem is not one of
+        #  Xu's benchmark problems read in from a file, since they do not
+        #  contain the correct solution set.  They only contain the correct
+        #  solution cost.
+        #----------------------------------------------------------------------
+
+    if (value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file))
+        {
+        stop (paste0 ("\n\nParameter read_Xu_problem_from_Xu_file is TRUE.",
+                    "\nCannot wrap around Xu problem read from file ",
+                    "because correct solution IDs ",
+                    "\nare not given with the file.",
+                    "\nOnly the correct cost is given.",
+                    "\nQuitting.\n\n")
+            )
+        }
+
+        #----------------------------------------------------------------------
+        #  Base problem is not a Xu benchmark problem, so try to do the wrap
+        #  now.
+        #  At the moment, the only kind of wrap that's available is the
+        #  lognormal, so check to make sure that is the type that has been
+        #  requested.  If not, then fail.  Otherwise, do the lognormal wrap
+        #  now.
+        #----------------------------------------------------------------------
+
+    if (value_or_FALSE_if_null (parameters$wrap_lognormal_dist_around_Xu))
         {
         starting_dir =
             file.path (normalizePath (parameters$full_output_dir_with_slash))
