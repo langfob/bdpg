@@ -24,8 +24,9 @@ Returns spp_rep_fracs numeric vector of fractions of species
     representation targets achieved by a given set of planning units
 }
 \description{
-Compute fractions of species representation targets achieved by a given
-set of planning units.
+Compute fractions of species representation targets (shortfall or overrep)
+achieved by a given set of planning units given a spp rows by
+PU columns adjacency matrix.
 }
 \section{Local Variable Structures and examples}{
 
