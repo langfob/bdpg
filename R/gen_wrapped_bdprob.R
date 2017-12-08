@@ -1514,10 +1514,11 @@ OLD_____gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
 
 #===============================================================================
 
-gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
+options_are_legal_for_single_bdprob_WRAP <- function (bdprob_to_wrap,
                                     parameters,
                                     bdpg_error_codes,
-                                    src_rds_file_dir=NULL)
+                                    src_rds_file_dir=NULL    #  NO LONGER USED?
+                                    )
     {
         #----------------------------------------------------------------------
         #  Make sure that the base problem for the multiproblem is not one of
@@ -1546,7 +1547,33 @@ gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
         #  now.
         #----------------------------------------------------------------------
 
-    if (value_or_FALSE_if_null (parameters$wrap_lognormal_dist_around_Xu))
+    if (! value_or_FALSE_if_null (parameters$wrap_lognormal_dist_around_Xu))
+        {
+            #-------------------------------------------------------------
+            #  Wrap request is not for a lognormal distribution, so fail.
+            #-------------------------------------------------------------
+
+        stop (paste0 ("\n\nwrap_lognormal_dist_around_Xu is not set to TRUE.  ",
+                    "\n    It is currently the only defined wrap function.\n")
+            )
+        }
+
+    return (TRUE)
+    }
+
+#===============================================================================
+
+gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
+                                    parameters,
+                                    bdpg_error_codes,
+                                    src_rds_file_dir=NULL    #  NO LONGER USED?
+                                    )
+    {
+    if (options_are_legal_for_single_bdprob_WRAP (bdprob_to_wrap,
+                                        parameters,
+                                        bdpg_error_codes,
+                                        src_rds_file_dir=NULL    #  NO LONGER USED?
+                                        ))
         {
         starting_dir =
             file.path (normalizePath (parameters$full_output_dir_with_slash))
@@ -1560,14 +1587,6 @@ gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
                                     parameters,
                                     bdprob_to_wrap,
                                     bdpg_error_codes)
-
-                  #-------------------------------------------------------------
-        } else    #  Wrap request is not for a lognormal distribution, so fail.
-        {         #-------------------------------------------------------------
-
-        stop (paste0 ("\n\nwrap_lognormal_dist_around_Xu is not set to TRUE.  ",
-                    "\n    It is currently the only defined wrap function.\n")
-            )
         }
 
     return (WRAP_prob)
