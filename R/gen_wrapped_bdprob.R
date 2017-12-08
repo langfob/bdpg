@@ -2,6 +2,8 @@
 #                           Generate a wrapped problem.
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
     #  Need to do some sanity checks on various wrap parameters
     #  to make sure that they can't generate nonsense or a crash
     #
@@ -19,6 +21,8 @@ do_sanity_checks <- function ()
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Create set of planning units eligible for adding species into
 #'
@@ -89,6 +93,8 @@ create_eligible_PU_set <- function (Xu_dep_set,
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #'  Drop spp from abund dist if on too many or too few patches
 #'
 #'  This function is primarily to get rid of species that occur on
@@ -158,7 +164,9 @@ trim_abundances = function (rounded_abundances,
 
 #===============================================================================
 
-#  New version:
+#-------------------------------------------------------------------------------
+
+#  Remove base species abundances from wrapping distribution
 
 #' Remove base problem's species from the wrapping problems set of species to
 #' be distributed over the planning units
@@ -402,6 +410,8 @@ remove_base_spp_abundances_from_wrapping_distribution <-
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Wrap abundances around eligible set
 #'
@@ -658,6 +668,8 @@ wrap_abundances_around_eligible_set <- function (dep_set,
     }  #  end function - wrap_abundances_around_eligible_set
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Wrap abundance distribution around Xu problem
 #'
@@ -1222,6 +1234,8 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Generate COR wrapped bd problem
 #'
 #-------------------------------------------------------------------------------
@@ -1424,8 +1438,12 @@ seed_value_for_search,
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Generate a single wrapped Xu biodiversity problem
 #'
+#-------------------------------------------------------------------------------
+
 #' @param bdprob_to_wrap a bdproblem to wrap a distribution around
 #' @param src_rds_file_dir character string
 #' @inheritParams std_param_defns
