@@ -32,6 +32,8 @@
 #===============================================================================
 #===============================================================================
 #
+#-------------------------------------------------------------------------------
+
 #            plot_hist_and_normal_curve_for_sampled_lognormal_data ()
 #
 #  Function to plot a histogram for a sampled lognormal distribution and
@@ -39,7 +41,7 @@
 #  approximating.  (Since it's a lognormal distribution, taking the
 #  log of the sampled points should produce a normal distribution.)
 #
-#===============================================================================
+#-------------------------------------------------------------------------------
 
 plot_hist_and_normal_curve_for_sampled_lognormal_data =
                                 function (rounded_abundances, meanlog, sdlog)
@@ -59,6 +61,8 @@ plot_hist_and_normal_curve_for_sampled_lognormal_data =
     }  #  end function - plot_hist_and_normal_curve_for_sampled_lognormal_data ()
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Generate rounded abundances
 #'
@@ -175,6 +179,8 @@ gen_rounded_abundances = function (num_spp_to_generate, meanlog, sdlog,
 
 #===============================================================================
 #
+#-------------------------------------------------------------------------------
+
 #                           gen_lognormal ()
 #
 #  No longer used?
@@ -184,6 +190,8 @@ gen_rounded_abundances = function (num_spp_to_generate, meanlog, sdlog,
 #  element value (max_max_abundance) and the maximum allowed number
 #  of individual elements whose value is exactly 2 (max_frac_spp_on_2_PUs).
 #
+
+#-------------------------------------------------------------------------------
 
 gen_lognormal = function (num_spp_to_generate,
                           max_frac_spp_on_2_PUs, max_max_abundance,
@@ -390,6 +398,8 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
     #--------------------------------------------------------------------
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Evaluation Function to be passed to optim()
 #'
@@ -672,6 +682,8 @@ seed_value,
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Search for approximating lognormal
 #'
 #' Function to search for a lognormal that comes close to meeting the
@@ -920,6 +932,8 @@ search_for_approximating_lognormal <- function (
     }  #  end function - search_for_approximating_lognormal ()
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 #' Find lognormal to wrap around Xu problem
 #'
