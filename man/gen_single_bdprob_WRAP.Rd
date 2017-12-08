@@ -2,24 +2,24 @@
 % Please edit documentation in R/gen_wrapped_bdprob.R
 \name{gen_single_bdprob_WRAP}
 \alias{gen_single_bdprob_WRAP}
-\title{Generate a single wrapped Xu biodiversity problem}
+\title{Generate a single wrapped biodiversity problem from a given base problem}
 \usage{
-gen_single_bdprob_WRAP(bdprob_to_wrap, parameters, bdpg_error_codes,
-  src_rds_file_dir = NULL)
+gen_single_bdprob_WRAP(bdprob_to_wrap, parameters, bdpg_error_codes)
 }
 \arguments{
-\item{bdprob_to_wrap}{a bdproblem to wrap a distribution around}
-
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
 
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 
-\item{src_rds_file_dir}{character string}
+\item{starting_dir}{character string}
+
+\item{base_bdprob}{a correct Xu_bd_problem whose correct solution vector is
+known}
 }
 \value{
-Returns a wrapped Xu biodiversity problem
+Returns a correct wrapped biodiversity problem
 }
 \description{
-Generate a single wrapped Xu biodiversity problem
+Generate a single wrapped biodiversity problem from a given base problem
 }

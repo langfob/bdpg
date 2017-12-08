@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen_wrapped_bdprob.R
 \name{gen_wrapped_bdprob_COR}
 \alias{gen_wrapped_bdprob_COR}
-\title{Generate COR wrapped bd problem}
+\title{Generate a correct wrapped Xu biodiversity problem from a correct base problem}
 \usage{
 gen_wrapped_bdprob_COR(starting_dir, compute_network_metrics_for_this_prob,
   parameters, base_bdprob, bdpg_error_codes)
@@ -18,16 +18,50 @@ indicate not compute any network metrics for the current problem.}
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
 
-\item{base_bdprob}{Xu_bd_problem}
+\item{base_bdprob}{a correct Xu_bd_problem whose correct solution vector is
+known}
 
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
-Returns wrapped_bdprob_COR
+Returns a correct wrapped biodiversity problem
 }
 \description{
-Generate COR wrapped bd problem
+Wrap a given distribution around a given Xu problem's distribution.
+That is, add more planning units and species to the flat Xu distribution's
+set of PUs and species so that the Xu distribution is a proper subset of
+the larger distribution.
 }
+\details{
+This is intended as a way of embedding the Xu problem's unrealistic
+species distribution (i.e., every species occurs on exactly 2 patches)
+inside a more realistic distribution, but one that has exactly the same
+correct solution set as the base Xu problem.
+}
+\section{Restrictions on wrapping distribution}{
+
+At the moment, the only wrapping distribution that there is code for
+generating is the lognormal distribution.  However, the basic idea allows
+for ANY distribution where the base set of Xu species and planning units
+is a proper subset of the final distribution.
+
+To enhance the capabilities of this routine to allow other distributions,
+you would just have to
+
+\itemize{
+   \item{provide some kind of option(s) to choose what kind
+of wrapping distribution to use}
+   \item{provide a function to generate that wrapping distribution}
+   \item{replace the call to find_lognormal_to_wrap_around_Xu() with
+   the new function}
+}
+
+One caveat is that all species that occur on one and only one planning unit
+are removed from the distribution.  This is because those species would
+automatically require their planning unit to be included in the final
+solution and therefore, make the problem simpler for the optimizer.
+}
+
 \section{Local Variable Structures and examples}{
 
 Here is the output of str() for each variable visible in the function.
