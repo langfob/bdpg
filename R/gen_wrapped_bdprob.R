@@ -270,6 +270,106 @@ if (FALSE) test_trim_abundances ()
 
 #===============================================================================
 
+gen_raw_histogram_of_wrapped_dist <-
+    function (Xu_PU_spp_table,
+              trimmed_rounded_abund_per_spp,
+              spp_col_name)
+    {
+                    verbose_remove_base = FALSE    #  just for debugging now...
+                    if (verbose_remove_base)
+                            {
+                            cat ("\n\nStarting ",
+                                 "remove_base_spp_abundances_from_wrapping_distribution():")
+                                            cat ("\n    Xu_PU_spp_table = \n")
+                                            show (Xu_PU_spp_table)
+                                            cat ("\n    trimmed_rounded_abund_per_spp = \n")
+                                            show (trimmed_rounded_abund_per_spp)
+                                            cat ("\n    spp_col_name = \n")
+                                            show (spp_col_name)
+                            }
+
+        #-----------------------------------------------------------------------
+        #  Count the number of occurrences of each species in the base problem.
+        #-----------------------------------------------------------------------
+
+    base_abund_by_spp = plyr::count (Xu_PU_spp_table [,spp_col_name])
+
+                        if (verbose_remove_base)
+                            {
+                            cat ("\n\n    base_abund_by_spp = \n")
+                            show (base_abund_by_spp)
+                            }
+
+        #-----------------------------------------------------------------------
+        #  Count how many times each number of occurrences appears in that set
+        #  (e.g., how many species occur on 2 patches, on 3 patches, etc.).
+#  2017 12 08 - BTL
+#  Shouldn't this always be 2 for every species in the base problem?
+#  Or was this set up to allow wrapping around a wrapped problem too?
+        #-----------------------------------------------------------------------
+
+    base_abund_hist = plyr::count (base_abund_by_spp [,"freq"])
+
+                        if (verbose_remove_base)
+                            {
+                            cat ("\n\n    base_abund_hist = \n")
+                            show (base_abund_hist)
+                            }
+
+        #-----------------------------------------------------------------------
+        #  Do the same for the wrapping abundances.
+        #  They are given as a vector of numbers of occurrences for each
+        #  species in the wrapping distribution, but unlike the base problem
+        #  abundances, no species ID has been assigned yet to these wrapping
+        #  counts.
+        #-----------------------------------------------------------------------
+
+    wrapping_abund_hist     = plyr::count (trimmed_rounded_abund_per_spp)
+
+                        if (verbose_remove_base)
+                            {
+                            cat ("\n\n    wrapping_abund_hist = \n")
+                            show (wrapping_abund_hist)
+                            }
+
+        #-----------------------------------------------------------------------
+        #  There will probably be some different elements in the two histograms.
+        #  For example, the original Xu histogram will only have one entry,
+        #  i.e., the count for abundance = 2, since all species occur on
+        #  exactly 2 patches.  The wrapping histogram will probably (though
+        #  not necessarily) have entries for other patch counts and may have
+        #  a different value than the Xu histogram for the number of species
+        #  occurring on 2 patches.
+        #
+        #  We need to make a single histogram that merges the two sets of
+        #  possible counts.  The merge() function does this by making a single
+        #  data.frame with a column for each of the 2 input histograms,
+        #  labelling one column as x and the other as y.  It adds a row for
+        #  each matching entry in the inputs (e.g., a row for abundance = 2,
+        #  with the x column giving the count for the wrapping histogram and
+        #  the y column giving the count for the Xu histogram).
+        #
+        #  It also adds a row for each entry in either input that doesn't
+        #  appear in the other input (e.g., a row for every abundance other
+        #  than 2 in the wrapping histogram when it's wrapping around an
+        #  original Xu histogram that only has the value for abundance = 2).
+        #-----------------------------------------------------------------------
+
+    wrapped_extra_spp_abund_merge = merge (x=wrapping_abund_hist,
+                                                y=base_abund_hist,
+                                                by="x", all=TRUE)
+
+                        if (verbose_remove_base)
+                            {
+                            cat ("\n\n    wrapped_extra_spp_abund_merge = \n")
+                            show (wrapped_extra_spp_abund_merge)
+                        }
+
+    return (wrapped_extra_spp_abund_merge)
+    }
+
+#===============================================================================
+
 #-------------------------------------------------------------------------------
 
 #  Remove base species abundances from wrapping distribution
@@ -413,80 +513,20 @@ remove_base_spp_abundances_from_wrapping_distribution <-
                                             show (spp_col_name)
                             }
 
-        #-----------------------------------------------------------------------
-        #  Count the number of occurrences of each species in the base problem.
-        #-----------------------------------------------------------------------
+    wrapped_extra_spp_abund_merge =
+        gen_raw_histogram_of_wrapped_dist (Xu_PU_spp_table,
+                                           trimmed_rounded_abund_per_spp,
+                                           spp_col_name)
 
-    base_abund_by_spp = plyr::count (Xu_PU_spp_table [,spp_col_name])
+    extra_spp_abund = clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge)
 
-                        if (verbose_remove_base)
-                            {
-                            cat ("\n\n    base_abund_by_spp = \n")
-                            show (base_abund_by_spp)
-                            }
+    return (extra_spp_abund)
+    }
 
-        #-----------------------------------------------------------------------
-        #  Count how many times each number of occurrences appears in that set
-        #  (e.g., how many species occur on 2 patches, on 3 patches, etc.).
-        #-----------------------------------------------------------------------
+#===============================================================================
 
-    base_abund_hist = plyr::count (base_abund_by_spp [,"freq"])
-
-                        if (verbose_remove_base)
-                            {
-                            cat ("\n\n    base_abund_hist = \n")
-                            show (base_abund_hist)
-                            }
-
-        #-----------------------------------------------------------------------
-        #  Do the same for the wrapping abundances.
-        #  They are given as a vector of numbers of occurrences for each
-        #  species in the wrapping distribution, but unlike the base problem
-        #  abundances, no species ID has been assigned yet to these wrapping
-        #  counts.
-        #-----------------------------------------------------------------------
-
-    wrapping_abund_hist     = plyr::count (trimmed_rounded_abund_per_spp)
-
-                        if (verbose_remove_base)
-                            {
-                            cat ("\n\n    wrapping_abund_hist = \n")
-                            show (wrapping_abund_hist)
-                            }
-
-        #-----------------------------------------------------------------------
-        #  There will probably be some different elements in the two histograms.
-        #  For example, the original Xu histogram will only have one entry,
-        #  i.e., the count for abundance = 2, since all species occur on
-        #  exactly 2 patches.  The wrapping histogram will probably (though
-        #  not necessarily) have entries for other patch counts and may have
-        #  a different value than the Xu histogram for the number of species
-        #  occurring on 2 patches.
-        #
-        #  We need to make a single histogram that merges the two sets of
-        #  possible counts.  The merge() function does this by making a single
-        #  data.frame with a column for each of the 2 input histograms,
-        #  labelling one column as x and the other as y.  It adds a row for
-        #  each matching entry in the inputs (e.g., a row for abundance = 2,
-        #  with the x column giving the count for the wrapping histogram and
-        #  the y column giving the count for the Xu histogram).
-        #
-        #  It also adds a row for each entry in either input that doesn't
-        #  appear in the other input (e.g., a row for every abundance other
-        #  than 2 in the wrapping histogram when it's wrapping around an
-        #  original Xu histogram that only has the value for abundance = 2).
-        #-----------------------------------------------------------------------
-
-    wrapped_extra_spp_abund_merge = merge (x=wrapping_abund_hist,
-                                                y=base_abund_hist,
-                                                by="x", all=TRUE)
-
-                        if (verbose_remove_base)
-                            {
-                            cat ("\n\n    wrapped_extra_spp_abund_merge = \n")
-                            show (wrapped_extra_spp_abund_merge)
-                            }
-
+clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
+    {
         #-----------------------------------------------------------------------
         #  Now we need to clean up this data frame so that NAs are replaced
         #  with 0's and so that any missing abundance values are added to
