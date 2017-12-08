@@ -91,6 +91,29 @@ create_eligible_PU_set <- function (Xu_dep_set,
     return (eligible_PUs)
     }
 
+#-------------------------------------------------------------------------------
+
+test_create_eligible_PU_set <- function ()
+    {
+    Xu_dep_set = c(1,2)
+    extra_PUs = c(3,4)
+    dep_set_PUs_eligible = TRUE
+
+    eligible_PUs = create_eligible_PU_set (Xu_dep_set, extra_PUs, dep_set_PUs_eligible)
+    if (identical (eligible_PUs, c(1,2,3,4))) cat (".") else cat ("F")
+
+    #----------
+
+    Xu_dep_set = c(1,2)
+    extra_PUs = c(3,4)
+    dep_set_PUs_eligible = FALSE
+
+    eligible_PUs = create_eligible_PU_set (Xu_dep_set, extra_PUs, dep_set_PUs_eligible)
+    if (identical (eligible_PUs, c(3,4))) cat (".") else cat ("F")
+    }
+
+if (FALSE) test_create_eligible_PU_set ()
+
 #===============================================================================
 
 #-------------------------------------------------------------------------------
