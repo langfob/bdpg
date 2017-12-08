@@ -282,7 +282,6 @@ remove_base_spp_abundances_from_wrapping_distribution <-
               spp_col_name)
     {
                     verbose_remove_base = FALSE    #  just for debugging now...
-
                     if (verbose_remove_base)
                             {
                             cat ("\n\nStarting ",
@@ -295,35 +294,48 @@ remove_base_spp_abundances_from_wrapping_distribution <-
                                             show (spp_col_name)
                             }
 
+        #-----------------------------------------------------------------------
         #  Count the number of occurrences of each species in the base problem.
+        #-----------------------------------------------------------------------
+
     base_abund_by_spp = plyr::count (Xu_PU_spp_table [,spp_col_name])
+
                         if (verbose_remove_base)
                             {
                             cat ("\n\n    base_abund_by_spp = \n")
                             show (base_abund_by_spp)
                             }
 
+        #-----------------------------------------------------------------------
         #  Count how many times each number of occurrences appears in that set
         #  (e.g., how many species occur on 2 patches, on 3 patches, etc.).
-    base_abund_hist         = plyr::count (base_abund_by_spp [,"freq"])
+        #-----------------------------------------------------------------------
+
+    base_abund_hist = plyr::count (base_abund_by_spp [,"freq"])
+
                         if (verbose_remove_base)
                             {
                             cat ("\n\n    base_abund_hist = \n")
                             show (base_abund_hist)
                             }
 
+        #-----------------------------------------------------------------------
         #  Do the same for the wrapping abundances.
         #  They are given as a vector of numbers of occurrences for each
         #  species in the wrapping distribution, but unlike the base problem
         #  abundances, no species ID has been assigned yet to these wrapping
         #  counts.
+        #-----------------------------------------------------------------------
+
     wrapping_abund_hist     = plyr::count (trimmed_rounded_abund_per_spp)
+
                         if (verbose_remove_base)
                             {
                             cat ("\n\n    wrapping_abund_hist = \n")
                             show (wrapping_abund_hist)
                             }
 
+        #-----------------------------------------------------------------------
         #  There will probably be some different elements in the two histograms.
         #  For example, the original Xu histogram will only have one entry,
         #  i.e., the count for abundance = 2, since all species occur on
@@ -331,6 +343,7 @@ remove_base_spp_abundances_from_wrapping_distribution <-
         #  not necessarily) have entries for other patch counts and may have
         #  a different value than the Xu histogram for the number of species
         #  occurring on 2 patches.
+        #
         #  We need to make a single histogram that merges the two sets of
         #  possible counts.  The merge() function does this by making a single
         #  data.frame with a column for each of the 2 input histograms,
@@ -338,31 +351,34 @@ remove_base_spp_abundances_from_wrapping_distribution <-
         #  each matching entry in the inputs (e.g., a row for abundance = 2,
         #  with the x column giving the count for the wrapping histogram and
         #  the y column giving the count for the Xu histogram).
+        #
         #  It also adds a row for each entry in either input that doesn't
         #  appear in the other input (e.g., a row for every abundance other
         #  than 2 in the wrapping histogram when it's wrapping around an
         #  original Xu histogram that only has the value for abundance = 2).
+        #-----------------------------------------------------------------------
 
     wrapped_extra_spp_abund_merge = merge (x=wrapping_abund_hist,
                                                 y=base_abund_hist,
                                                 by="x", all=TRUE)
+
                         if (verbose_remove_base)
                             {
                             cat ("\n\n    wrapped_extra_spp_abund_merge = \n")
                             show (wrapped_extra_spp_abund_merge)
                             }
 
+        #-----------------------------------------------------------------------
         #  Now we need to clean up this data frame so that NAs are replaced
         #  with 0's and so that any missing abundance values are added to
         #  the data.frame (e.g., if the highest abundance value was 10 but
         #  neither input histogram had any species that occurred on 3, 4, or
         #  9 PUs).
-
-
-
+        #-----------------------------------------------------------------------
 
             #  Replace NA counts with 0s.
     wrapped_extra_spp_abund_merge [is.na (wrapped_extra_spp_abund_merge)] = 0
+
                         if (verbose_remove_base)
                             {
                             cat ("\n\n    After NA replacement with 0, wrapped_extra_spp_abund_merge = \n")
@@ -373,7 +389,9 @@ remove_base_spp_abundances_from_wrapping_distribution <-
         as.data.frame (cbind (wrapped_extra_spp_abund_merge [,"x"],
                               wrapped_extra_spp_abund_merge [, "freq.x"] - wrapped_extra_spp_abund_merge [, "freq.y"]
                               ))
+
     names (wrapped_extra_spp_abund_hist) = c("abund","freq")
+
                         if (verbose_remove_base)
                             {
                             cat ("\n\n    Final wrapped_extra_spp_abund_hist = \n")
@@ -888,9 +906,11 @@ wrap_abundance_dist_around_Xu_problem = function (starting_dir,
     #---------------------------------------------------------------------------
     #---------------------------------------------------------------------------
 
+        #---------------------------------------------------------------
         #  Given the rounded distribution of species abundances to
         #  wrap around the given Xu problem, do the wrap to generate a
         #  table of pairs of indices of PUs and species.
+        #---------------------------------------------------------------
 
     wrapped_PU_spp_indices =
         wrap_abundances_around_eligible_set (Xu_dep_set,
@@ -1225,10 +1245,39 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
 #-------------------------------------------------------------------------------
 
-#' Generate COR wrapped bd problem
+#' Generate a correct wrapped Xu biodiversity problem from a correct base problem
 #'
-#' PROGRAMMING NOTE:  This routine is the main workhorse for generating a
-#' wrapped problem.
+#' Wrap a given distribution around a given Xu problem's distribution.
+#' That is, add more planning units and species to the flat Xu distribution's
+#' set of PUs and species so that the Xu distribution is a proper subset of
+#' the larger distribution.
+#'
+#' This is intended as a way of embedding the Xu problem's unrealistic
+#' species distribution (i.e., every species occurs on exactly 2 patches)
+#' inside a more realistic distribution, but one that has exactly the same
+#' correct solution set as the base Xu problem.
+#'
+#'@section Restrictions on wrapping distribution:
+#' At the moment, the only wrapping distribution that there is code for
+#' generating is the lognormal distribution.  However, the basic idea allows
+#' for ANY distribution where the base set of Xu species and planning units
+#' is a proper subset of the final distribution.
+#'
+#' To enhance the capabilities of this routine to allow other distributions,
+#' you would just have to
+#'
+#' \itemize{
+#'    \item{provide some kind of option(s) to choose what kind
+#' of wrapping distribution to use}
+#'    \item{provide a function to generate that wrapping distribution}
+#'    \item{replace the call to find_lognormal_to_wrap_around_Xu() with
+#'    the new function}
+#'}
+#'
+#' One caveat is that all species that occur on one and only one planning unit
+#' are removed from the distribution.  This is because those species would
+#' automatically require their planning unit to be included in the final
+#' solution and therefore, make the problem simpler for the optimizer.
 #'
 #-------------------------------------------------------------------------------
 
@@ -1311,9 +1360,10 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 
 #' @inheritParams std_param_defns
 #' @param starting_dir character string
-#' @param base_bdprob Xu_bd_problem
+#' @param base_bdprob a correct Xu_bd_problem whose correct solution vector is
+#' known
 #'
-#' @return Returns wrapped_bdprob_COR
+#' @return Returns a correct wrapped biodiversity problem
 #' @export
 
 #-------------------------------------------------------------------------------
@@ -1339,6 +1389,17 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
         add_one_to_lognormal_abundances = value_or_FALSE_if_null (parameters$add_one_to_lognormal_abundances)
         max_search_iterations           = parameters$max_search_iterations
 
+            #-----------------------
+            #  Derived parameters.
+            #-----------------------
+
+        tot_num_PUs_in_landscape = round (get_num_nodes (base_bdprob@nodes) /
+                                          solution_frac_of_landscape)
+
+        search_outfile_name_base = "wrap_search_outfile.csv"
+        search_outfile_name      = file.path (starting_dir,
+                                              search_outfile_name_base)
+
             #-----------------------------------------------------
             #  Set random seed if parameters specify doing that.
             #-----------------------------------------------------
@@ -1350,17 +1411,6 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                                       cor_or_app_str = "COR",
                                                       basic_or_wrapped_or_comb_str = "WRAP",
                                                       location_string = "Start of wrap_abundance_dist_around_Xu_problem(),COR,WRAP")
-
-            #-----------------------
-            #  Derived parameters.
-            #-----------------------
-
-        tot_num_PUs_in_landscape = round (get_num_nodes (base_bdprob@nodes) /
-                                          solution_frac_of_landscape)
-
-        search_outfile_name_base = "wrap_search_outfile.csv"
-        search_outfile_name      = file.path (starting_dir,
-                                              search_outfile_name_base)
 
             #-----------------------------------------------------------
             #  Search for a set of lognormal parameters that fit the
@@ -1415,109 +1465,16 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
 
 #-------------------------------------------------------------------------------
 
-#' Generate a single wrapped Xu biodiversity problem
-#'
-#' Wrap a given distribution around a given Xu problem's distribution.
-#' That is, add more planning units and species to the flat Xu distribution's
-#' set of PUs and species so that the Xu distribution is a proper subset of
-#' the larger distribution.
-#'
-#' This is intended as a way of embedding the Xu problem's unrealistic
-#' species distribution (i.e., every species occurs on exactly 2 patches)
-#' inside a more realistic distribution, but one that has exactly the same
-#' correct solution set as the base Xu problem.
-#'
-#' At the moment, the only wrapping distribution that there is code for
-#' generating is the lognormal distribution.  However, the basic idea allows
-#' for ANY distribution where the base set of Xu species and planning units
-#' is a proper subset of the final distribution.
-#'
-#' One caveat is that all species that occur on one and only one planning unit
-#' are removed from the distribution.  This is because those species would
-#' automatically require their planning unit to be included in the final
-#' solution and therefore, make the problem simpler for the optimizer.
-#'
-#' PROGRAMMING NOTE:  This routine boils down to nothing but a call to the
-#' function gen_wrapped_bdprob_COR() surrounded by lots of error checking.
+#' Check whether options for wrapping have legal values
 #'
 #-------------------------------------------------------------------------------
 
 #' @param bdprob_to_wrap a bdproblem to wrap a distribution around
-#' @param src_rds_file_dir character string
 #' @inheritParams std_param_defns
 #'
-#' @return Returns a wrapped Xu biodiversity problem
-#' @export
+#' @return boolean with TRUE if options are legal and FALSE otherwise
 
 #-------------------------------------------------------------------------------
-
-OLD_____gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
-                                    parameters,
-                                    bdpg_error_codes,
-                                    src_rds_file_dir=NULL)
-    {
-        #----------------------------------------------------------------------
-        #  Make sure that the base problem for the multiproblem is not one of
-        #  Xu's benchmark problems read in from a file, since they do not
-        #  contain the correct solution set.  They only contain the correct
-        #  solution cost.
-        #----------------------------------------------------------------------
-
-    wrap_lognormal_dist_around_Xu =
-        value_or_FALSE_if_null (parameters$wrap_lognormal_dist_around_Xu)
-
-    read_Xu_problem_from_Xu_bench_file =
-        value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file)
-
-    if (wrap_lognormal_dist_around_Xu & read_Xu_problem_from_Xu_bench_file)
-        {
-        stop (paste0 ("\n\nParameters wrap_lognormal_dist_around_Xu and ",
-                    "read_Xu_problem_from_Xu_file ",
-                    "\nare both true.",
-                    "\nCannot wrap around Xu problem read from file ",
-                    "because dependent node IDs ",
-                    "\nare never given with the file.",
-                    "\nQuitting.\n\n")
-            )
-        }
-
-        #----------------------------------------------------------------------
-        #  Base problem is not a Xu benchmark problem, so try to do the wrap
-        #  now.
-        #  At the moment, the only kind of wrap that's available is the
-        #  lognormal, so check to make sure that is the type that has been
-        #  requested.  If not, then fail.  Otherwise, do the lognormal wrap
-        #  now.
-        #----------------------------------------------------------------------
-
-    if (wrap_lognormal_dist_around_Xu)
-        {
-        starting_dir =
-            file.path (normalizePath (parameters$full_output_dir_with_slash))
-
-        compute_network_metrics_for_this_prob =
-            value_or_FALSE_if_null (parameters$compute_network_metrics_wrapped_COR)
-
-        WRAP_prob =
-            gen_wrapped_bdprob_COR (starting_dir,
-                                    compute_network_metrics_for_this_prob,
-                                    parameters,
-                                    bdprob_to_wrap,
-                                    bdpg_error_codes)
-
-                  #-------------------------------------------------------------
-        } else    #  Wrap request is not for a lognormal distribution, so fail.
-        {         #-------------------------------------------------------------
-
-        stop (paste0 ("\n\nwrap_lognormal_dist_around_Xu is not set to TRUE.  ",
-                    "\n    It is currently the only defined wrap function.\n")
-            )
-        }
-
-    return (WRAP_prob)
-    }
-
-#===============================================================================
 
 options_are_legal_for_single_bdprob_WRAP <- function (bdprob_to_wrap,
                                                       parameters,
@@ -1565,6 +1522,22 @@ options_are_legal_for_single_bdprob_WRAP <- function (bdprob_to_wrap,
     }
 
 #===============================================================================
+
+#-------------------------------------------------------------------------------
+
+#' Generate a single wrapped biodiversity problem from a given base problem
+#'
+#-------------------------------------------------------------------------------
+
+#' @inheritParams std_param_defns
+#' @param starting_dir character string
+#' @param base_bdprob a correct Xu_bd_problem whose correct solution vector is
+#' known
+#'
+#' @return Returns a correct wrapped biodiversity problem
+#' @export
+
+#-------------------------------------------------------------------------------
 
 gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
                                     parameters,
