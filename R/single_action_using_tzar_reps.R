@@ -347,8 +347,10 @@ single_action_using_tzar_reps <- function (parameters,
 
         bdpg::gen_single_bdprob_WRAP (src_bdprob_to_wrap,
                                       parameters,
-                                      bdpg_error_codes,
-                                      src_rds_file_dir)
+                                      bdpg_error_codes
+                                      # ,
+                                      # src_rds_file_dir    #  NO LONGER USED?
+                                      )
         }
 
     #---------------------------------------------------------------------------

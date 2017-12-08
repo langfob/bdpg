@@ -1516,8 +1516,9 @@ OLD_____gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
 
 options_are_legal_for_single_bdprob_WRAP <- function (bdprob_to_wrap,
                                     parameters,
-                                    bdpg_error_codes,
-                                    src_rds_file_dir=NULL    #  NO LONGER USED?
+                                    bdpg_error_codes
+                                    # ,
+                                    # src_rds_file_dir=NULL    #  NO LONGER USED?
                                     )
     {
         #----------------------------------------------------------------------
@@ -1565,14 +1566,16 @@ options_are_legal_for_single_bdprob_WRAP <- function (bdprob_to_wrap,
 
 gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
                                     parameters,
-                                    bdpg_error_codes,
-                                    src_rds_file_dir=NULL    #  NO LONGER USED?
+                                    bdpg_error_codes
+                                        # ,
+                                        # src_rds_file_dir=NULL    #  NO LONGER USED?
                                     )
     {
     if (options_are_legal_for_single_bdprob_WRAP (bdprob_to_wrap,
                                         parameters,
-                                        bdpg_error_codes,
-                                        src_rds_file_dir=NULL    #  NO LONGER USED?
+                                        bdpg_error_codes
+                                        # ,
+                                        # src_rds_file_dir=NULL    #  NO LONGER USED?
                                         ))
         {
         starting_dir =
