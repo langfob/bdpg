@@ -4,7 +4,7 @@
 
 #===============================================================================
 
-compute_RS_solution_cost_scores <- function (rs_solution_PU_IDs_vec,
+compute_RS_solution_cost_scores_wrt_COR_costs_vec <- function (rs_solution_PU_IDs_vec,
                                              cor_optimum_cost,    #  cor_solution_PU_IDs_vec,
                                              PU_costs_vec)
     {
@@ -371,10 +371,10 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 #  in the app_prob_info structure, so I'm going to postpone
 #  doing that until I know the changes I've just made here in
 #  computing the correct cost scores are working correctly.
-    app_cost_scores_list =
-        compute_RS_solution_cost_scores (rs_best_solution_PU_IDs,
-                                         COR_bd_prob@correct_solution_cost,    #  cor_solution_vector,
-                                         cor_PU_costs_vec)
+    app_cost_scores_list_wrt_COR_costs_vec =
+        compute_RS_solution_cost_scores_wrt_COR_costs_vec (rs_best_solution_PU_IDs,
+                                                           COR_bd_prob@correct_solution_cost,    #  cor_solution_vector,
+                                                        cor_PU_costs_vec)
 
         #-----------------------------------------------------------------------
 
@@ -430,7 +430,7 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                       igraph_measures_list,
                       bipartite_measures_list,
 
-                      app_cost_scores_list,
+                      app_cost_scores_list_wrt_COR_costs_vec,
                       app_rep_scores_list_according_to_RS,
 
                       cor_scores_list,
