@@ -200,7 +200,8 @@ always_set_new_or_forced_rand_seed <- function (location_string,
     set.seed (new_seed)
 
     cat ("\n\nRAND_SEED - always_set_new_or_forced_rand_seed: ", location_string,
-         "\n    forced_seed = '", forced_seed, "'\n", sep='')
+         "\n    forced_seed = '", forced_seed,
+         "\n    new_seed = '", "'\n", sep='')
 
     return (new_seed)
     }
