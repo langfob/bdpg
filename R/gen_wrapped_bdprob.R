@@ -185,6 +185,89 @@ trim_abundances = function (rounded_abundances,
     return (trimmed_rounded_abund_per_spp)
     }
 
+#-------------------------------------------------------------------------------
+
+test_trim_abundances <- function ()
+    {
+        #  Test endpoints equal to bounds of randomly ordered vector.
+    rounded_abundances = c (8,9,5,3,0,10,7,1,6,2,4)
+    min_abund = 0
+    max_abund = 10
+
+    trimmed_abundances = trim_abundances (rounded_abundances,
+                                          min_abund=min_abund,
+                                          max_abund=max_abund)
+    if (identical (trimmed_abundances, rounded_abundances)) cat (".") else cat ("F")
+
+    #----------
+
+        #  Test some elements < min and > max bounds of randomly ordered vector.
+    rounded_abundances = c (8,9,5,3,0,10,7,1,6,2,4)
+    min_abund = 5
+    max_abund = 6
+
+    trimmed_abundances = trim_abundances (rounded_abundances,
+                                          min_abund=min_abund,
+                                          max_abund=max_abund)
+    if (identical (trimmed_abundances, c(5,6))) cat (".") else cat ("F")
+
+    #----------
+
+        #  Test elements < min bound only.
+    rounded_abundances = 0:10
+    min_abund = 5
+    max_abund = 10
+
+    trimmed_abundances = trim_abundances (rounded_abundances,
+                                          min_abund=min_abund,
+                                          max_abund=max_abund)
+    if (identical (trimmed_abundances, 5:10)) cat (".") else cat ("F")
+
+    #----------
+
+        #  Test elements > max bound only.
+    rounded_abundances = 0:10
+    min_abund = 0
+    max_abund = 8
+
+    trimmed_abundances = trim_abundances (rounded_abundances,
+                                          min_abund=min_abund,
+                                          max_abund=max_abund)
+    if (identical (trimmed_abundances, 0:8)) cat (".") else cat ("F")
+
+    #----------
+
+        #  Test all elements < min OR > max bounds of vector.
+    rounded_abundances = c(0,1,2,3,9,10)
+    min_abund = 4
+    max_abund = 8
+
+    trimmed_abundances = trim_abundances (rounded_abundances,
+                                          min_abund=min_abund,
+                                          max_abund=max_abund)
+    if (length (trimmed_abundances) == 0) cat (".") else cat ("F")
+
+    #----------
+
+        #  Test elements < min bound only with max bound default argument.
+    rounded_abundances = 0:10
+    min_abund = 3
+
+    trimmed_abundances = trim_abundances (rounded_abundances,
+                                          min_abund=min_abund)
+    if (identical (trimmed_abundances, 3:10)) cat (".") else cat ("F")
+
+    #----------
+
+        #  Test elements < min bound only with min and max bound default args.
+    rounded_abundances = 0:10
+
+    trimmed_abundances = trim_abundances (rounded_abundances)
+    if (identical (trimmed_abundances, 2:10)) cat (".") else cat ("F")
+    }
+
+if (FALSE) test_trim_abundances ()
+
 #===============================================================================
 
 #-------------------------------------------------------------------------------
