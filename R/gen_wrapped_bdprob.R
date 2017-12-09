@@ -270,16 +270,15 @@ if (FALSE) test_trim_abundances ()
 
 #===============================================================================
 
-gen_raw_histogram_of_wrapped_dist <-
-    function (Xu_PU_spp_table,
-              trimmed_rounded_abund_per_spp,
-              spp_col_name)
+gen_raw_histogram_of_wrapped_dist <- function (Xu_PU_spp_table,
+                                               trimmed_rounded_abund_per_spp,
+                                               spp_col_name)
     {
                     verbose_remove_base = FALSE    #  just for debugging now...
                     if (verbose_remove_base)
                             {
                             cat ("\n\nStarting ",
-                                 "remove_base_spp_abundances_from_wrapping_distribution():")
+                                 "gen_raw_histogram_of_wrapped_dist():")
                                             cat ("\n    Xu_PU_spp_table = \n")
                                             show (Xu_PU_spp_table)
                                             cat ("\n    trimmed_rounded_abund_per_spp = \n")
@@ -287,6 +286,27 @@ gen_raw_histogram_of_wrapped_dist <-
                                             cat ("\n    spp_col_name = \n")
                                             show (spp_col_name)
                             }
+# Xu_PU_spp_table =
+#     PU_ID spp_ID
+# 1       1      1
+# 2       2      1
+# 3       3      2
+# 4       4      2
+# ...
+# 155   155     78
+# 156   156     78
+# 157   157     79
+# 158   158     79
+#
+#
+# trimmed_rounded_abund_per_spp =
+#   [1] 5 2 2 2 2 3 2 3 3 2 2 3 2 6 2 4 2 2 2 2 2 2 2 2 2 2 2 3 3 2 2 3 2 4 2 3 3
+#  [38] 2 3 2 2 2 3 4 2 3 3 2 2 2 2 3 2 2 2 2 3 2 4 2 3 3 2 2 3 4 2 2 2 2 2 3 2 3
+#  [75] 3 3 2 3 3 2 2 3 3 2 3 2 2 3 3 2 2 2 2 3 2 6 2 3 2 4 2 2 3 2 2 3 2 2 3 2 3
+# [112] 4 4 2 2 3 3 2 2 4 2 2 3 3 2 2 3 3 2 3 3 2 2 2 5 2 3 2 2 2 4 2 3 3 2 2
+#
+# spp_col_name =
+# [1] "spp_ID"
 
         #-----------------------------------------------------------------------
         #  Count the number of occurrences of each species in the base problem.
@@ -299,13 +319,18 @@ gen_raw_histogram_of_wrapped_dist <-
                             cat ("\n\n    base_abund_by_spp = \n")
                             show (base_abund_by_spp)
                             }
+# base_abund_by_spp =
+#     x freq
+# 1   1    2
+# 2   2    2
+# ...
+# 78 78    2
+# 79 79    2
 
         #-----------------------------------------------------------------------
         #  Count how many times each number of occurrences appears in that set
         #  (e.g., how many species occur on 2 patches, on 3 patches, etc.).
-#  2017 12 08 - BTL
-#  Shouldn't this always be 2 for every species in the base problem?
-#  Or was this set up to allow wrapping around a wrapped problem too?
+        #  Should always be 2 for every species in the Xu base problem.
         #-----------------------------------------------------------------------
 
     base_abund_hist = plyr::count (base_abund_by_spp [,"freq"])
@@ -315,6 +340,9 @@ gen_raw_histogram_of_wrapped_dist <-
                             cat ("\n\n    base_abund_hist = \n")
                             show (base_abund_hist)
                             }
+# base_abund_hist =
+#   x freq
+# 1 2   79
 
         #-----------------------------------------------------------------------
         #  Do the same for the wrapping abundances.
@@ -324,13 +352,20 @@ gen_raw_histogram_of_wrapped_dist <-
         #  counts.
         #-----------------------------------------------------------------------
 
-    wrapping_abund_hist     = plyr::count (trimmed_rounded_abund_per_spp)
+    wrapping_abund_hist = plyr::count (trimmed_rounded_abund_per_spp)
 
                         if (verbose_remove_base)
                             {
                             cat ("\n\n    wrapping_abund_hist = \n")
                             show (wrapping_abund_hist)
                             }
+# wrapping_abund_hist =
+#   x freq
+# 1 2   86
+# 2 3   46
+# 3 4   10
+# 4 5    2
+# 5 6    2
 
         #-----------------------------------------------------------------------
         #  There will probably be some different elements in the two histograms.
@@ -356,16 +391,244 @@ gen_raw_histogram_of_wrapped_dist <-
         #-----------------------------------------------------------------------
 
     wrapped_extra_spp_abund_merge = merge (x=wrapping_abund_hist,
-                                                y=base_abund_hist,
-                                                by="x", all=TRUE)
+                                           y=base_abund_hist,
+                                           by="x", all=TRUE)
 
                         if (verbose_remove_base)
                             {
                             cat ("\n\n    wrapped_extra_spp_abund_merge = \n")
                             show (wrapped_extra_spp_abund_merge)
                         }
+# wrapped_extra_spp_abund_merge =
+#   x freq.x freq.y
+# 1 2     86     79
+# 2 3     46     NA
+# 3 4     10     NA
+# 4 5      2     NA
+# 5 6      2     NA
 
     return (wrapped_extra_spp_abund_merge)
+    }
+
+#-------------------------------------------------------------------------------
+
+test_gen_raw_histogram_of_wrapped_dist <- function ()
+    {
+    #------------------
+    #  Simple example
+    #------------------
+
+        #  Xu_PU_spp_table PU_spp table for original Xu problem being wrapped
+        #  around
+    num_spp = 5
+    num_PU = 10
+    Xu_PU_spp_table = data.frame (PU_ID=1:num_PU, spp_ID=rep(1:num_spp,each=2))
+# Xu_PU_spp_table
+#    PU_ID spp_ID
+# 1      1      1
+# 2      2      1
+# 3      3      2
+# 4      4      2
+# 5      5      3
+# 6      6      3
+# 7      7      4
+# 8      8      4
+# 9      9      5
+# 10    10      5
+
+        #  trimmed_rounded_abund_per_spp vector of abundances of all species in
+        #  the full wrapped distribution, i.e., including the original Xu problem
+        #  abundances
+# trimmed_rounded_abund_per_spp =
+#   [1] 3 2 3 3 2 5 2 2 2 5 2 3 2 6 2
+
+    trimmed_rounded_abund_per_spp = c(3,2,3,3,2,
+                                      5,2,2,2,5,
+                                      2,3,2,6,2)
+
+    spp_col_name = "spp_ID"
+
+    desired_result = data.frame (x = c(2,3,5,6),
+                                 freq.x = c(8, 4, 2, 1),
+                                 freq.y = c(5, NA, NA, NA))
+#   x freq.x freq.y
+# 1 2     8     5
+# 2 3     4     NA
+# 4 5     2     NA
+# 5 6     1     NA
+
+    wrapped_extra_spp_abund_merge =
+        gen_raw_histogram_of_wrapped_dist (Xu_PU_spp_table,
+                                           trimmed_rounded_abund_per_spp,
+                                           spp_col_name)
+    if (all.equal (wrapped_extra_spp_abund_merge, desired_result)) cat (".") else cat ("F")
+#browser()
+
+    #------------------------
+    #  More complex example
+    #------------------------
+
+        #  Xu_PU_spp_table PU_spp table for original Xu problem being wrapped
+        #  around
+    num_spp = 79    # 5
+    num_PU = 158    # 10
+    Xu_PU_spp_table = data.frame (PU_ID=1:num_PU, spp_ID=rep(1:num_spp,each=2))
+# Xu_PU_spp_table
+#    PU_ID spp_ID
+# 1      1      1
+# 2      2      1
+# 3      3      2
+# 4      4      2
+# 5      5      3
+# 6      6      3
+# 7      7      4
+# 8      8      4
+# 9      9      5
+# 10    10      5
+# ...
+# 155   155     78
+# 156   156     78
+# 157   157     79
+# 158   158     79
+
+        #  trimmed_rounded_abund_per_spp vector of abundances of all species in
+        #  the full wrapped distribution, i.e., including the original Xu problem
+        #  abundances
+# trimmed_rounded_abund_per_spp =
+#   [1] 5 2 2 2 2 3 2 3 3 2 2 3 2 6 2 4 2 2 2 2 2 2 2 2 2 2 2 3 3 2 2 3 2 4 2 3 3
+#  [38] 2 3 2 2 2 3 4 2 3 3 2 2 2 2 3 2 2 2 2 3 2 4 2 3 3 2 2 3 4 2 2 2 2 2 3 2 3
+#  [75] 3 3 2 3 3 2 2 3 3 2 3 2 2 3 3 2 2 2 2 3 2 6 2 3 2 4 2 2 3 2 2 3 2 2 3 2 3
+# [112] 4 4 2 2 3 3 2 2 4 2 2 3 3 2 2 3 3 2 3 3 2 2 2 5 2 3 2 2 2 4 2 3 3 2 2
+    trimmed_rounded_abund_per_spp = c(
+        5,2,2,2,2,3,2,3,3,2,2,3,2,6,2,4,2,2,2,2,2,2,2,2,2,2,2,3,3,2,2,3,2,4,2,3,3,
+        2,3,2,2,2,3,4,2,3,3,2,2,2,2,3,2,2,2,2,3,2,4,2,3,3,2,2,3,4,2,2,2,2,2,3,2,3,
+        3,3,2,3,3,2,2,3,3,2,3,2,2,3,3,2,2,2,2,3,2,6,2,3,2,4,2,2,3,2,2,3,2,2,3,2,3,
+        4,4,2,2,3,3,2,2,4,2,2,3,3,2,2,3,3,2,3,3,2,2,2,5,2,3,2,2,2,4,2,3,3,2,2)
+
+    spp_col_name = "spp_ID"
+
+    desired_result = data.frame (x = 2:6,
+                                 freq.x = c(86, 46, 10, 2, 2),
+                                 freq.y = c(79, NA, NA, NA, NA))
+#   x freq.x freq.y
+# 1 2     86     79
+# 2 3     46     NA
+# 3 4     10     NA
+# 4 5      2     NA
+# 5 6      2     NA
+
+    wrapped_extra_spp_abund_merge =
+        gen_raw_histogram_of_wrapped_dist (Xu_PU_spp_table,
+                                           trimmed_rounded_abund_per_spp,
+                                           spp_col_name)
+#browser()
+    if (all.equal (wrapped_extra_spp_abund_merge, desired_result)) cat (".") else cat ("F")
+
+    #--------------------
+
+    }
+
+if (FALSE) test_gen_raw_histogram_of_wrapped_dist ()
+
+#===============================================================================
+
+clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
+    {
+                    verbose_remove_base = TRUE    #  just for debugging now...
+                    if (verbose_remove_base)
+                            {
+                            cat ("\n\nStarting ",
+                                 "clean_up_wrapped_abund_dist():")
+                                            cat ("\n    wrapped_extra_spp_abund_merge = \n")
+                                            show (wrapped_extra_spp_abund_merge)
+                            }
+#browser()
+# wrapped_extra_spp_abund_merge =
+#   x freq.x freq.y
+# 1 2     86     79
+# 2 3     46     NA
+# 3 4     10     NA
+# 4 5      2     NA
+# 5 6      2     NA
+
+        #-----------------------------------------------------------------------
+        #  Now we need to clean up this data frame so that NAs are replaced
+        #  with 0's and so that any missing abundance values are added to
+        #  the data.frame (e.g., if the highest abundance value was 10 but
+        #  neither input histogram had any species that occurred on 3, 4, or
+        #  9 PUs).
+        #-----------------------------------------------------------------------
+
+            #  Replace NA counts with 0s.
+    wrapped_extra_spp_abund_merge [is.na (wrapped_extra_spp_abund_merge)] = 0
+
+                        if (verbose_remove_base)
+                            {
+                            cat ("\n\n    After NA replacement with 0, wrapped_extra_spp_abund_merge = \n")
+                            show (wrapped_extra_spp_abund_merge)
+                            }
+# After NA replacement with 0, wrapped_extra_spp_abund_merge =
+#   x freq.x freq.y
+# 1 2     86     79
+# 2 3     46      0
+# 3 4     10      0
+# 4 5      2      0
+# 5 6      2      0
+
+
+    wrapped_extra_spp_abund_hist =
+        as.data.frame (cbind (wrapped_extra_spp_abund_merge [,"x"],
+                              wrapped_extra_spp_abund_merge [, "freq.x"] - wrapped_extra_spp_abund_merge [, "freq.y"]
+                              ))
+
+    names (wrapped_extra_spp_abund_hist) = c("abund","freq")
+
+                        if (verbose_remove_base)
+                            {
+                            cat ("\n\n    Final wrapped_extra_spp_abund_hist = \n")
+                            show (wrapped_extra_spp_abund_hist)
+                            }
+# Final wrapped_extra_spp_abund_hist =
+#   abund freq
+# 1     2    7
+# 2     3   46
+# 3     4   10
+# 4     5    2
+# 5     6    2
+
+
+
+    num_extra_spp = sum (wrapped_extra_spp_abund_hist [,"freq"])
+# num_extra_spp =
+# 767
+    extra_spp_abund = rep (NA, num_extra_spp)
+# extra_spp_abund = logi [1:767] NA NA NA NA NA NA ...
+    num_abund_rows = length (wrapped_extra_spp_abund_hist[,"abund"])
+# num_abund_rows =
+# 5
+    start_idx = 1
+    for (cur_idx in 1:num_abund_rows)
+        {
+        if (wrapped_extra_spp_abund_hist [cur_idx, "freq"] > 0)    #  Should always be true, but just in case...
+            {
+            end_idx = start_idx + wrapped_extra_spp_abund_hist [cur_idx, "freq"] - 1
+            extra_spp_abund [start_idx:end_idx] = wrapped_extra_spp_abund_hist [cur_idx, "abund"]
+
+                        if (verbose_remove_base)
+                            {
+                            cat ("\nAt bottom of cur_idx = ", cur_idx, ",
+                                 start_idx = ", start_idx,
+                                 "end_idx = ", end_idx,
+                                 "extra_spp_abund = \n")
+                            print (extra_spp_abund)
+                        }
+
+            start_idx = end_idx + 1
+            }
+        }
+browser()
+#docaids::doc_vars_in_this_func_once ()
+    return (extra_spp_abund)
     }
 
 #===============================================================================
