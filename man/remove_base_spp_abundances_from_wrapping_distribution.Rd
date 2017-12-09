@@ -33,6 +33,19 @@ before its instances are spread across the landscape.  This function
 strips that inside distribution out of the full wrapped distribution and
 returns a set of abundances ready for spreading.
 }
+\details{
+OLD COMMENT IN calling routine wrap_abundances_around_eligible_set().
+Is the old comment correct or has the problem been fixed.
+If it has been fixed, then it would be good to leave some comment in here
+that describes what is being returned (as it's described in the old
+comment's expectations).
+ The calling routine assumes THAT the returned value, extra_spp_abund,
+ IS A VECTOR CONTAINING THE ABUNDANCE OF EACH EXTRA SPECIES.
+ AT THE MOMENT, extra_abund ACTUALLY CONTAINS THE NUMBER OF SPECIES
+ HAVING EACH GIVEN ABUNDANCE.
+ NEED TO CHANGE EXPAND WHAT'S RETURNED INTO THE EXPECTED VECTOR.
+ CAN THAT BE DONE USING ONE OF THE PLYR THINGS LIKE MELT()?
+}
 \section{Local Variable Structures and examples}{
 
 Here is the output of str() for each variable visible in the function.
