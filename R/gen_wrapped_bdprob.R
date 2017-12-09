@@ -525,69 +525,6 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 
 #===============================================================================
 
-clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
-    {
-        #-----------------------------------------------------------------------
-        #  Now we need to clean up this data frame so that NAs are replaced
-        #  with 0's and so that any missing abundance values are added to
-        #  the data.frame (e.g., if the highest abundance value was 10 but
-        #  neither input histogram had any species that occurred on 3, 4, or
-        #  9 PUs).
-        #-----------------------------------------------------------------------
-
-            #  Replace NA counts with 0s.
-    wrapped_extra_spp_abund_merge [is.na (wrapped_extra_spp_abund_merge)] = 0
-
-                        if (verbose_remove_base)
-                            {
-                            cat ("\n\n    After NA replacement with 0, wrapped_extra_spp_abund_merge = \n")
-                            show (wrapped_extra_spp_abund_merge)
-                            }
-
-    wrapped_extra_spp_abund_hist =
-        as.data.frame (cbind (wrapped_extra_spp_abund_merge [,"x"],
-                              wrapped_extra_spp_abund_merge [, "freq.x"] - wrapped_extra_spp_abund_merge [, "freq.y"]
-                              ))
-
-    names (wrapped_extra_spp_abund_hist) = c("abund","freq")
-
-                        if (verbose_remove_base)
-                            {
-                            cat ("\n\n    Final wrapped_extra_spp_abund_hist = \n")
-                            show (wrapped_extra_spp_abund_hist)
-                            }
-
-
-    num_extra_spp = sum (wrapped_extra_spp_abund_hist [,"freq"])
-    extra_spp_abund = rep (NA, num_extra_spp)
-    num_abund_rows = length (wrapped_extra_spp_abund_hist[,"abund"])
-    start_idx = 1
-    for (cur_idx in 1:num_abund_rows)
-        {
-        if (wrapped_extra_spp_abund_hist [cur_idx, "freq"] > 0)    #  Should always be true, but just in case...
-            {
-            end_idx = start_idx + wrapped_extra_spp_abund_hist [cur_idx, "freq"] - 1
-            extra_spp_abund [start_idx:end_idx] = wrapped_extra_spp_abund_hist [cur_idx, "abund"]
-
-                        if (verbose_remove_base)
-                            {
-                            cat ("\nAt bottom of cur_idx = ", cur_idx, ",
-                                 start_idx = ", start_idx,
-                                 "end_idx = ", end_idx,
-                                 "extra_spp_abund = \n")
-                            print (extra_spp_abund)
-                        }
-
-            start_idx = end_idx + 1
-            }
-        }
-
-#docaids::doc_vars_in_this_func_once ()
-    return (extra_spp_abund)
-    }
-
-#===============================================================================
-
 #-------------------------------------------------------------------------------
 
 #' Wrap abundances around eligible set
