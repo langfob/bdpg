@@ -85,6 +85,8 @@
 #'     num_spp_per_patch, num_PUs_per_spp, and amt_per_spp.
 #'
 #' @export
+#'
+#' @importFrom dplyr count group_by summarize
 
 summarize_pu_and_spp_dist_data_from_pu_spp_amt_df <- function (pu_spp_amt_df)
     {
