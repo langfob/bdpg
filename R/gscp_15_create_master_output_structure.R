@@ -94,7 +94,7 @@ save_RS_options <- function ()
 
 #===============================================================================
 
-initialize_results_list <- function ()
+initialize_results_list <- function (num_runs=1)
     {
     results_list =
       data.frame (runset_abbrev = rep (NA, num_runs),
