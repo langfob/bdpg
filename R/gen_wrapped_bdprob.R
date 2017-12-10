@@ -532,13 +532,13 @@ if (FALSE) test_gen_raw_histogram_of_wrapped_dist ()
 
 #===============================================================================
 
-clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
+compute_final_wrapped_extra_spp_abund_hist <- function (wrapped_extra_spp_abund_merge)
     {
-                    verbose_remove_base = TRUE    #  just for debugging now...
+                    verbose_remove_base = FALSE    #  just for debugging now...
                     if (verbose_remove_base)
                             {
                             cat ("\n\nStarting ",
-                                 "clean_up_wrapped_abund_dist():")
+                                 "compute_final_wrapped_extra_spp_abund_hist():")
                                             cat ("\n    wrapped_extra_spp_abund_merge = \n")
                                             show (wrapped_extra_spp_abund_merge)
                             }
@@ -569,26 +569,27 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
                             }
 # After NA replacement with 0, wrapped_extra_spp_abund_merge =
 #   x freq.x freq.y
-# 1 2     86     79        #  WHAT SHOULD HAPPEN IF freq.x < freq.y?  ERROR or IGNORE IT?
+# 1 2     86     79
 # 2 3     46      0
 # 3 4     10      0
 # 4 5      2      0
 # 5 6      2      0
 
 
-    wrapped_extra_spp_abund_hist =
+    final_wrapped_extra_spp_abund_hist =
         as.data.frame (cbind (wrapped_extra_spp_abund_merge [,"x"],
-                              wrapped_extra_spp_abund_merge [, "freq.x"] - wrapped_extra_spp_abund_merge [, "freq.y"]
+                              wrapped_extra_spp_abund_merge [, "freq.x"] -
+                                  wrapped_extra_spp_abund_merge [, "freq.y"]
                               ))
 
-    names (wrapped_extra_spp_abund_hist) = c("abund","freq")
+    names (final_wrapped_extra_spp_abund_hist) = c("abund","freq")
 
                         if (verbose_remove_base)
                             {
-                            cat ("\n\n    Final wrapped_extra_spp_abund_hist = \n")
-                            show (wrapped_extra_spp_abund_hist)
+                            cat ("\n\n    final_wrapped_extra_spp_abund_hist = \n")
+                            show (final_wrapped_extra_spp_abund_hist)
                             }
-# Final wrapped_extra_spp_abund_hist =
+# final_wrapped_extra_spp_abund_hist =
 #   abund freq
 # 1     2    7
 # 2     3   46
@@ -596,7 +597,112 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
 # 4     5    2
 # 5     6    2
 
+    if (sum (final_wrapped_extra_spp_abund_hist [,'freq'] < 0) > 0)
+        {
+        message (paste0 ("\n\nSome element of the wrapping distribution (freq.x) is smaller than",
+                         "\nthe corresponding element in the wrapped distribution (freq.y).",
+                         "\nThis leads to a negative frequency for at least one level of abundance, ",
+                         "\ni.e., a negative number of species having the given abundance.",
+                         "\n\nwrapped_extra_spp_abund_merge = \n"))
+        print (wrapped_extra_spp_abund_merge)
 
+        message ("\nResulting final_wrapped_extra_spp_abund_hist = \n")
+        print (final_wrapped_extra_spp_abund_hist)
+
+        cat ("\n")
+        stop()
+        }
+
+    return (final_wrapped_extra_spp_abund_hist)
+    }
+
+#-------------------------------------------------------------------------------
+
+test_compute_final_wrapped_extra_spp_abund_hist <- function ()
+    {
+    #------------------------------------------------------------------
+    #  Test that it fails if the wrapping distribution doesn't
+    #  completely contain the wrapped distribution, e.g.,
+    #  if there are more species on 2 patches in the base Xu problem
+    #  (freq.y) than in the wrapping lognormal distribution (freq.x).
+    #------------------------------------------------------------------
+
+    wrapped_extra_spp_abund_merge = data.frame (x = 2:5,
+                                               freq.x = c(10, 46, 10, 2),
+                                               freq.y = c(20, NA, NA, NA))
+#   x freq.x freq.y
+# 1 2     10     20  <<<<<-----  20 spp on 2 patches in Xu problem but only 10 spp on 2 patches in wrapping distribution
+# 2 3     46     NA
+# 3 4     10     NA
+# 4 5      2     NA
+
+        #  This call should fail, so need to catch the error.
+        #  Could this be done with a call to expect_error() instead?
+    error_in_compute =
+        tryCatch ({ compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge)
+                    FALSE
+                  },
+                  error = function (err) { TRUE }
+                 )
+
+    if (error_in_compute) cat (".") else cat ("F")
+
+    #-----------------------
+    #  Test normal example
+    #-----------------------
+
+
+    wrapped_extra_spp_abund_merge = data.frame (x = 2:6,
+                                                freq.x = c(86, 46, 10, 2, 2),
+                                                freq.y = c(79, NA, NA, NA, NA))
+
+    final_wrapped_extra_spp_abund_merge =
+        compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge)
+
+    desired_result = data.frame (abund = 2:6,
+                                 freq = c(7, 46, 10, 2, 2))
+
+    if (all.equal (final_wrapped_extra_spp_abund_merge, desired_result)) cat (".") else cat ("F")
+    }
+
+if (FALSE) test_compute_final_wrapped_extra_spp_abund_hist ()
+
+#===============================================================================
+
+clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
+    {
+                    verbose_remove_base = TRUE    #  just for debugging now...
+                    if (verbose_remove_base)
+                            {
+                            cat ("\n\nStarting ",
+                                 "clean_up_wrapped_abund_dist():")
+                                            cat ("\n    wrapped_extra_spp_abund_merge = \n")
+                                            show (wrapped_extra_spp_abund_merge)
+                            }
+#browser()
+# wrapped_extra_spp_abund_merge =
+#   x freq.x freq.y
+# 1 2     86     79
+# 2 3     46     NA
+# 3 4     10     NA
+# 4 5      2     NA
+# 5 6      2     NA
+
+        #-----------------------------------------------------------------------
+        #  Now we need to clean up this data frame so that NAs are replaced
+        #  with 0's and so that any missing abundance values are added to
+        #  the data.frame (e.g., if the highest abundance value was 10 but
+        #  neither input histogram had any species that occurred on 3, 4, or
+        #  9 PUs).
+        #-----------------------------------------------------------------------
+
+    wrapped_extra_spp_abund_hist =
+        compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge)
+
+
+        #-----------------------------------------------------------------------
+        #  Now ...
+        #-----------------------------------------------------------------------
 
     num_extra_spp = sum (wrapped_extra_spp_abund_hist [,"freq"])
 # num_extra_spp =
