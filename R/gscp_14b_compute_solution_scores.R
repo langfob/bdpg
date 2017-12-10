@@ -146,7 +146,8 @@ compute_and_verify_APP_rep_scores_according_to_bdpg <-
     spp_rep_shortfall = 1  -  frac_spp_covered
 
                     cat ("\n\n----------------------------------------------------------------")
-                    cat ("\nIn compute_solution_vector_scores(), SCORES AS COMPUTED BY BDPG:")
+#                    cat ("\nIn compute_solution_vector_scores(), SCORES AS COMPUTED BY BDPG:")
+                    cat ("\nIn compute_and_verify_APP_rep_scores_according_to_bdpg(), SCORES AS COMPUTED BY BDPG:")
                     cat ("\n----------------------------------------------------------------")
                     cat ("\nlength (indices_of_spp_with_unmet_rep_frac) = ",
                        length (indices_of_spp_with_unmet_rep_frac))
