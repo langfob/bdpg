@@ -57,6 +57,8 @@ compute_RS_solution_cost_scores_wrt_COR_costs_vec <- function (rs_solution_PU_ID
 
 #===============================================================================
 
+#  No longer used?  2017 12 10 - BTL
+
 save_RS_options <- function ()
     {
     results_list = list()
@@ -93,6 +95,8 @@ save_RS_options <- function ()
     }
 
 #===============================================================================
+
+#  No longer used?  2017 12 10 - BTL
 
 initialize_results_list <- function (num_runs=1)
     {
@@ -231,6 +235,7 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                                                    rsrun,
                                                    COR_bd_prob,
                                                    APP_bd_prob,
+                                                   marxan_control_values=NULL,
                                                    src_rds_file_dir=NULL
                                                    )
     {
@@ -437,7 +442,9 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                       app_rep_scores_list_according_to_RS,
 
                       cor_scores_list,
-                      app_scores_list
+                      app_scores_list,
+
+                      marxan_control_values
                     )
 
     write_results_to_files ("rsrun_results.csv",

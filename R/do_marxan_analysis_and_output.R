@@ -238,6 +238,7 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
                                               COR_marxan_run,
                                               COR_bd_prob,
                                               COR_bd_prob,
+                                           marxan_control_values,
                                            src_rds_file_dir)
 
     }  #  end function - do_COR_marxan_analysis_and_output
@@ -357,6 +358,7 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
                                               APP_marxan_run,
                                               COR_bd_prob,
                                               APP_bd_prob,
+                                           marxan_control_values,
                                            src_rds_file_dir)
 
     }  #  end function - do_APP_marxan_analysis_and_output
