@@ -8,7 +8,7 @@
 ccLowDot(bg)
 }
 \arguments{
-\item{bg}{}
+\item{bg}{the graph}
 }
 \description{
 ccLowDot

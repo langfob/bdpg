@@ -84,7 +84,7 @@ ccBip <- function (bg)
 #' bg : IGRAPH UN-B 936 1628 --
 #' }}
 #'
-#' @param bg
+#' @param bg the graph
 #'
 #' @import igraph
 
@@ -138,7 +138,7 @@ ccLowDot_retval <-    lapply (proj,
 #' bg : IGRAPH UN-B 936 1628 --
 #' }}
 #'
-#' @param bg
+#' @param bg the graph
 #'
 #' @import igraph
 
@@ -214,7 +214,7 @@ ccTopDot <- function (bg)
 #' }}
 #'
 #' @param g graph
-#' @param top_bottom_vertex_type
+#' @param top_bottom_vertex_type not sure...
 #'
 #' @import igraph
 

@@ -10,7 +10,7 @@ redundancy(g, top_bottom_vertex_type = FALSE)
 \arguments{
 \item{g}{graph}
 
-\item{top_bottom_vertex_type}{}
+\item{top_bottom_vertex_type}{not sure...}
 }
 \description{
 Latapy et al redundancy measure
