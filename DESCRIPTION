@@ -19,7 +19,8 @@ Imports:
     bipartite,
     igraph,
     grDevices, 
-    tools
+    tools,
+    dplyr
 Suggests:
     knitr,
     rmarkdown,
