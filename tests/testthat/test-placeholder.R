@@ -5,10 +5,6 @@ expect_equal(TRUE,TRUE)
 })
 
 test_that("error happens", {
-    expect_error ("nada")
-})
-
-test_that("error happens", {
     expect_error (stop("a msg at stop time"))
 })
 
