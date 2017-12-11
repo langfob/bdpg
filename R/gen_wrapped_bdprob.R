@@ -435,6 +435,15 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
     num_abund_rows = length (wrapped_extra_spp_abund_hist[,"abund"])
 # num_abund_rows =
 # 5
+                        if (verbose_remove_base)
+                            {
+                            cat ("\nIn clean_up_wrapped_abund_dist() just before loop: ",
+                                 "\nnum_extra_spp = ", num_extra_spp,
+                                 "\nnum_abund_rows = ", num_abund_rows,
+                                 "extra_spp_abund = \n")
+                            print (extra_spp_abund)
+                            }
+
     start_idx = 1
     for (cur_idx in 1:num_abund_rows)
         {
@@ -450,12 +459,12 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
                                  "end_idx = ", end_idx,
                                  "extra_spp_abund = \n")
                             print (extra_spp_abund)
-                        }
+                            }
 
             start_idx = end_idx + 1
             }
         }
-browser()
+
 #docaids::doc_vars_in_this_func_once ()
     return (extra_spp_abund)
     }
