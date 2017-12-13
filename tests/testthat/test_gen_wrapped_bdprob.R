@@ -273,6 +273,7 @@ test_that("more complex example for gen_raw_histogram_of_wrapped_dist()", {
     #  (freq.y) than in the wrapping lognormal distribution (freq.x).
     #------------------------------------------------------------------
 
+    allow_imperfect_wrap = FALSE
     wrapped_extra_spp_abund_merge = data.frame (x = 2:5,
                                                freq.x = c(10, 46, 10, 2),
                                                freq.y = c(20, NA, NA, NA))
@@ -285,7 +286,8 @@ test_that("more complex example for gen_raw_histogram_of_wrapped_dist()", {
         #  This call should fail, so need to catch the error.
         #  Could this be done with a call to expect_error() instead?
     error_in_compute =
-        tryCatch ({ compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge)
+        tryCatch ({ compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge,
+                                                                allow_imperfect_wrap)
                     FALSE
                   },
                   error = function (err) { TRUE }

@@ -7,8 +7,9 @@
 wrap_abundance_dist_around_Xu_problem(starting_dir,
   compute_network_metrics_for_this_prob, rounded_abundances, Xu_bdprob,
   dep_set_PUs_eligible, tot_num_PUs_in_landscape, seed_value_for_search_list,
-  bdpg_error_codes, search_outfile_name_base, search_outfile_name,
-  wrap_prob_name_stem = "wrap_prob", cor_dir_name_stem = "cor")
+  allow_imperfect_wrap, bdpg_error_codes, search_outfile_name_base,
+  search_outfile_name, wrap_prob_name_stem = "wrap_prob",
+  cor_dir_name_stem = "cor")
 }
 \arguments{
 \item{starting_dir}{character string}
