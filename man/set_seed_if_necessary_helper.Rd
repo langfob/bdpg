@@ -20,7 +20,10 @@ e.g., at the start of the creation of an rsproblem}
 NULL to indicate that no seed has been provided}
 }
 \value{
-Returns an integer seed value or NA
+Returns a 2 element named list with element new_seed containing
+the new integer seed value or NA and the element R_internal_seed_array
+containing the array value .Random.seed at the end of this function (i.e.,
+the internal state of R's random number generator)
 }
 \description{
 Helper function for setting a seed when necessary

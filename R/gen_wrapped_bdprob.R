@@ -1073,7 +1073,8 @@ wrap_abundance_dist_around_Xu_problem = function (starting_dir,
                                                   Xu_bdprob,
                                                   dep_set_PUs_eligible,
                                                   tot_num_PUs_in_landscape,
-                            seed_value_for_search,
+#                            seed_value_for_search,
+                            seed_value_for_search_list,
                                                   bdpg_error_codes,
                                                   search_outfile_name_base,
                                                   search_outfile_name,
@@ -1267,7 +1268,8 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob@UUID_of_base_problem_that_is_wrapped = Xu_bdprob@UUID
 
     wrapped_bdprob@prob_is_ok                           = FALSE
-    wrapped_bdprob@rand_seed                            = seed_value_for_search
+    wrapped_bdprob@rand_seed                            = seed_value_for_search_list$seed_value
+    wrapped_bdprob@R_internal_seed_array                = seed_value_for_search_list$R_internal_seed_array
 
     #----------
 
@@ -1601,7 +1603,7 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
             #  Set random seed if parameters specify doing that.
             #-----------------------------------------------------
 
-        seed_value_for_search =
+        seed_value_for_search_list =
             set_new_or_forced_rand_seed_if_necessary (is_rsrun = FALSE,
                                                       is_rsprob = TRUE,
                                                       parameters,
@@ -1620,7 +1622,8 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                               desired_Xu_spp_frac_of_all_spp,
                                               solution_frac_of_landscape,
                                               desired_max_abundance_frac,
-                                              seed_value_for_search,
+#                                seed_value_for_search,
+                                seed_value_for_search_list$seed_value,
                                               max_search_iterations,
                                               add_one_to_lognormal_abundances,
                                               search_outfile_name)
@@ -1647,7 +1650,8 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                                    base_bdprob,
                                                    dep_set_PUs_eligible,
                                                    tot_num_PUs_in_landscape,
-                                        seed_value_for_search,
+#                                seed_value_for_search,
+                                seed_value_for_search_list,
                                                    bdpg_error_codes,
                                                    search_outfile_name_base,
                                                    search_outfile_name)

@@ -187,7 +187,11 @@ gen_new_seed_from_cur_time <- function ()
 #'
 #' @inheritParams std_param_defns
 #'
-#' @return Returns an integer seed value or NA
+#' @return Returns a 2 element named list with element new_seed containing
+#' the new integer seed value or NA and the element R_internal_seed_array
+#' containing the array value .Random.seed at the end of this function (i.e.,
+#' the internal state of R's random number generator)
+#'
 #' @export
 
 #-------------------------------------------------------------------------------
@@ -199,11 +203,20 @@ always_set_new_or_forced_rand_seed <- function (location_string,
         if (is.null (forced_seed)) gen_new_seed_from_cur_time() else forced_seed
     set.seed (new_seed)
 
+        #-----------------------------------------------------------
+        #  Save the current state of R's internal seed array
+        #  so that the state of the random number generater can be
+        #  reproduced even when a new seed value is not set.
+        #-----------------------------------------------------------
+
+    R_internal_seed_array = .Random.seed
+
     cat ("\n\nRAND_SEED - always_set_new_or_forced_rand_seed: ", location_string,
          "\n    forced_seed = '", forced_seed,
          "\n    new_seed = '", "'\n", sep='')
 
-    return (new_seed)
+    return (list (seed_value = new_seed,
+                  R_internal_seed_array = R_internal_seed_array))
     }
 
 #===============================================================================
@@ -220,7 +233,10 @@ always_set_new_or_forced_rand_seed <- function (location_string,
 #' @param forced_seed integer to use as seed in set.seed() call or
 #' NULL to indicate that no seed has been provided
 #'
-#' @return Returns an integer seed value or NA
+#' @return Returns a 2 element named list with element new_seed containing
+#' the new integer seed value or NA and the element R_internal_seed_array
+#' containing the array value .Random.seed at the end of this function (i.e.,
+#' the internal state of R's random number generator)
 
 #-------------------------------------------------------------------------------
 
@@ -251,6 +267,14 @@ set_seed_if_necessary_helper <- function (set_rand_seed_at_creation_of_all_new_m
 
     if (! is.na (new_seed))  set.seed (new_seed)
 
+        #-----------------------------------------------------------
+        #  Save the current state of R's internal seed array
+        #  so that the state of the random number generater can be
+        #  reproduced even when a new seed value is not set.
+        #-----------------------------------------------------------
+
+    R_internal_seed_array = .Random.seed
+
         #----------------------------------------------------------------
         #  Write some information to the log so that someone can find
         #  the seed value that was set in a particular instance and use
@@ -268,41 +292,9 @@ set_seed_if_necessary_helper <- function (set_rand_seed_at_creation_of_all_new_m
          "\n    new_seed = '",
          new_seed, "'\n", sep='')
 
-    return (new_seed)
+    return (list (seed_value = new_seed,
+                  R_internal_seed_array = R_internal_seed_array))
     }
-
-#===============================================================================
-
-#-------------------------------------------------------------------------------
-
-#  Test code for random number seed setting.
-
-#  2017 12 07 - BTL
-#  This code should eventually be in the test code directory, but the
-#  automatic code testing stuff doesn't work in this package currently,
-#  so I'll leave it here until it does.
-
-#-------------------------------------------------------------------------------
-
-test_set_seed_if_necessary_helper <- function ()
-    {
-    cat ("\ntest_set_seed_if_necessary_helper:\n    ")
-
-    x1 = set_seed_if_necessary_helper (TRUE, "abc")
-    x2 = set_seed_if_necessary_helper (TRUE, "abc", 123)
-    x3 = set_seed_if_necessary_helper (FALSE, "abc")
-    x4 = set_seed_if_necessary_helper (FALSE, "abc", 123)
-
-    if (is.numeric (x1) & (x1 != 123)) cat (".") else cat("F")
-    if (x2 == 123) cat (".") else cat("F")
-    if (is.na (x3)) cat (".") else cat("F")
-    if (x4 == 123) cat (".") else cat("F")
-    }
-
-if (FALSE)
-    test_set_seed_if_necessary_helper()
-
-#-------------------------------------------------------------------------------
 
 #===============================================================================
 
@@ -462,7 +454,11 @@ if (FALSE)
 #'
 #' @inheritParams std_param_defns
 #'
-#' @return Returns an integer seed value or NA
+#' @return Returns a 2 element named list with element new_seed containing
+#' the new integer seed value or NA and the element R_internal_seed_array
+#' containing the array value .Random.seed at the end of this function (i.e.,
+#' the internal state of R's random number generator)
+#'
 #' @export
 
 #-------------------------------------------------------------------------------
@@ -481,12 +477,12 @@ set_new_or_forced_rand_seed_if_necessary <- function (is_rsrun,
                                             cor_or_app_str,
                                             basic_or_wrapped_or_comb_str)
 
-    new_seed =
+    new_seed_list =
         set_seed_if_necessary_helper (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
                                                   location_string,
                                                   forced_seed)
 
-    return (new_seed)
+    return (new_seed_list)
     }
 
 #===============================================================================

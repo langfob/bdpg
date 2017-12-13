@@ -27,7 +27,10 @@ and can have a varying number and set of elements depending on the run}
 e.g., at the start of the creation of an rsproblem}
 }
 \value{
-Returns an integer seed value or NA
+Returns a 2 element named list with element new_seed containing
+the new integer seed value or NA and the element R_internal_seed_array
+containing the array value .Random.seed at the end of this function (i.e.,
+the internal state of R's random number generator)
 }
 \description{
 The seed for the random number generator needs to be set at times to enable

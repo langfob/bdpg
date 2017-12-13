@@ -374,7 +374,7 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
     #                                               "Start of gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(),COR,BASE",
     #                                               forced_seed)
 
-    new_seed =
+    new_seed_list =
         set_new_or_forced_rand_seed_if_necessary (is_rsrun = FALSE,
                                                   is_rsprob = TRUE,
                                                   parameters,
@@ -433,7 +433,8 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
     Xu_bdprob_cor@UUID = uuid::UUIDgenerate()
 
     Xu_bdprob_cor@prob_is_ok                       = FALSE
-    Xu_bdprob_cor@rand_seed                        = new_seed
+    Xu_bdprob_cor@rand_seed                        = new_seed_list$seed_value
+    Xu_bdprob_cor@R_internal_seed_array            = new_seed_list$R_internal_seed_array
 
         #---------------------------------------------------------------
         #  Build file and dir naming prefix.

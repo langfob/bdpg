@@ -309,6 +309,7 @@ setClass ("Xu_bd_problem",
                             checksum                         = "character",
 
                             rand_seed                        = "numeric",    #  Random seed set at the start of building this object.
+                            R_internal_seed_array            = "numeric",    #  R's internal seed state array resulting from setting the seed at start of building this objec.
 
                             obj_type_str                     = "character",    #  e.g., "RSprob" - used in building name for file and dir names
                             cor_or_app_str                   = "character",    #  "COR" or "APP" - used in building file and dir names
@@ -510,7 +511,8 @@ setClass ("RSrun",
                             UUID        = "character",
                             checksum    = "character",
 
-                            rand_seed        = "numeric",    #  Random seed set at the start of building this object.
+                            rand_seed             = "numeric",    #  Random seed set at the start of building this object.
+                            R_internal_seed_array = "numeric",    #  R's internal seed state array resulting from setting the seed at start of building this objec.
 
                                 #  UUID of the problem the reserve selector
                                 #  is running on.

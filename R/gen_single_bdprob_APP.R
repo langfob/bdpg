@@ -40,7 +40,7 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
     #                                                       Xu_bdprob_COR@basic_or_wrapped_or_comb_str),
     #                                               forced_seed)
 
-    new_seed =
+    new_seed_list =
         set_new_or_forced_rand_seed_if_necessary (is_rsrun = FALSE,
                                                   is_rsprob = TRUE,
                                                   parameters,
@@ -79,7 +79,8 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
     Xu_bdprob_APP@UUID = uuid::UUIDgenerate()
 
     Xu_bdprob_APP@prob_is_ok                       = FALSE
-    Xu_bdprob_APP@rand_seed                        = new_seed
+    Xu_bdprob_APP@rand_seed                        = new_seed_list$seed_value
+    Xu_bdprob_APP@R_internal_seed_array            = new_seed_list$R_internal_seed_array
 
         #-----------------------------------------------------------------
         #  Copy main problem values from the COR problem the APP problem
