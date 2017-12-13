@@ -6,7 +6,7 @@
 be distributed over the planning units}
 \usage{
 remove_base_spp_abundances_from_wrapping_distribution(Xu_PU_spp_table,
-  trimmed_rounded_abund_per_spp, spp_col_name)
+  trimmed_rounded_abund_per_spp, spp_col_name, allow_imperfect_wrap)
 }
 \arguments{
 \item{Xu_PU_spp_table}{PU_spp table for original Xu problem being wrapped

@@ -306,14 +306,68 @@ gen_raw_histogram_of_wrapped_dist <- function (Xu_PU_spp_table,
 
 #===============================================================================
 
-compute_final_wrapped_extra_spp_abund_hist <- function (wrapped_extra_spp_abund_merge)
+handle_negative_abund_frequencies <- function (num_neg_abund_freqs,
+                                               allow_imperfect_wrap,
+                                               final_wrapped_extra_spp_abund_hist)
+    {
+    browser()
+    if (allow_imperfect_wrap)
+        {
+        error_or_warning_on_wrap_str = "- bdpg WARNING"
+        } else
+        {
+        error_or_warning_on_wrap_str = "- bdpg FATAL ERROR"
+        }
+
+        #-----------------------------------------------------------------------
+        #  Write a warning message in 2 ways.
+        #  First, write it using cat() so that it ends up in the console log.
+        #  Second, write it using message() so that it shows up on the console
+        #  in red to have more chance of making the user aware of it.
+        #  Originally, I just used the message() call but it doesn't show up
+        #  in the console log file (I think it goes to stderr or something.)
+        #-----------------------------------------------------------------------
+
+    msg_string = paste0 ("\n\nIMPERFECT WRAP ", error_or_warning_on_wrap_str,
+                     "\n", num_neg_abund_freqs, " element of the wrapping distribution (freq.x) is smaller than",
+                     "\nthe corresponding element in the wrapped distribution (freq.y).",
+                     "\nThis would lead to a negative frequency for at least one level of abundance, ",
+                     "\ni.e., a negative number of species having the given abundance.",
+                     "\n\nwrapped_extra_spp_abund_merge = \n")
+    cat (msg_string)
+    message (msg_string)
+    print (final_wrapped_extra_spp_abund_hist)
+
+    if (allow_imperfect_wrap)
+        {
+        indices_of_negative_freqs = which (final_wrapped_extra_spp_abund_hist [,'freq'] < 0)
+        final_wrapped_extra_spp_abund_hist [indices_of_negative_freqs] = 0
+        }
+
+
+    message ("\nResulting final_wrapped_extra_spp_abund_hist = \n")
+    print (final_wrapped_extra_spp_abund_hist)
+
+    cat ("\n")
+
+    if (! allow_imperfect_wrap)
+        stop ("Fail on imperfect wrap of bdproblem")
+
+    return (final_wrapped_extra_spp_abund_hist)
+    }
+
+#===============================================================================
+
+compute_final_wrapped_extra_spp_abund_hist <- function (wrapped_extra_spp_abund_merge,
+                                                        allow_imperfect_wrap)
     {
                     verbose_remove_base = FALSE    #  just for debugging now...
                     if (verbose_remove_base)
                             {
                             cat ("\n\nStarting ",
                                  "compute_final_wrapped_extra_spp_abund_hist():")
-                                            cat ("\n    wrapped_extra_spp_abund_merge = \n")
+                                            cat ("\nallow_imperfect_wrap = ", allow_imperfect_wrap,
+                                                 "\nwrapped_extra_spp_abund_merge = \n")
                                             show (wrapped_extra_spp_abund_merge)
                             }
 #browser()
@@ -371,20 +425,13 @@ compute_final_wrapped_extra_spp_abund_hist <- function (wrapped_extra_spp_abund_
 # 4     5    2
 # 5     6    2
 
-    if (sum (final_wrapped_extra_spp_abund_hist [,'freq'] < 0) > 0)
+    num_neg_abund_freqs = sum (final_wrapped_extra_spp_abund_hist [,'freq'] < 0)
+    if (num_neg_abund_freqs > 0)
         {
-        message (paste0 ("\n\nSome element of the wrapping distribution (freq.x) is smaller than",
-                         "\nthe corresponding element in the wrapped distribution (freq.y).",
-                         "\nThis leads to a negative frequency for at least one level of abundance, ",
-                         "\ni.e., a negative number of species having the given abundance.",
-                         "\n\nwrapped_extra_spp_abund_merge = \n"))
-        print (wrapped_extra_spp_abund_merge)
-
-        message ("\nResulting final_wrapped_extra_spp_abund_hist = \n")
-        print (final_wrapped_extra_spp_abund_hist)
-
-        cat ("\n")
-        stop()
+        final_wrapped_extra_spp_abund_hist =
+            handle_negative_abund_frequencies (num_neg_abund_freqs,
+                                               allow_imperfect_wrap,
+                                               final_wrapped_extra_spp_abund_hist)
         }
 
     return (final_wrapped_extra_spp_abund_hist)
@@ -392,14 +439,16 @@ compute_final_wrapped_extra_spp_abund_hist <- function (wrapped_extra_spp_abund_
 
 #===============================================================================
 
-clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
+clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge,
+                                         allow_imperfect_wrap)
     {
                     verbose_remove_base = TRUE    #  just for debugging now...
                     if (verbose_remove_base)
                             {
                             cat ("\n\nStarting ",
                                  "clean_up_wrapped_abund_dist():")
-                                            cat ("\n    wrapped_extra_spp_abund_merge = \n")
+                                            cat ("\nallow_imperfect_wrap = \n", allow_imperfect_wrap,
+                                                 "\nwrapped_extra_spp_abund_merge = \n")
                                             show (wrapped_extra_spp_abund_merge)
                             }
 #browser()
@@ -420,7 +469,8 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
         #-----------------------------------------------------------------------
 
     wrapped_extra_spp_abund_hist =
-        compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge)
+        compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge,
+                                                    allow_imperfect_wrap)
 
 
         #-----------------------------------------------------------------------
@@ -599,7 +649,8 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge)
 remove_base_spp_abundances_from_wrapping_distribution <-
     function (Xu_PU_spp_table,
               trimmed_rounded_abund_per_spp,
-              spp_col_name)
+              spp_col_name,
+              allow_imperfect_wrap)
     {
                     verbose_remove_base = FALSE    #  just for debugging now...
                     if (verbose_remove_base)
@@ -612,6 +663,8 @@ remove_base_spp_abundances_from_wrapping_distribution <-
                                             show (trimmed_rounded_abund_per_spp)
                                             cat ("\n    spp_col_name = \n")
                                             show (spp_col_name)
+                                            cat ("\nallow_imperfect_wrap = \n")
+                                            show (allow_imperfect_wrap)
                             }
 
     wrapped_extra_spp_abund_merge =
@@ -619,7 +672,8 @@ remove_base_spp_abundances_from_wrapping_distribution <-
                                            trimmed_rounded_abund_per_spp,
                                            spp_col_name)
 
-    extra_spp_abund = clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge)
+    extra_spp_abund = clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
+                                                   allow_imperfect_wrap)
 
     return (extra_spp_abund)
     }
@@ -752,6 +806,7 @@ wrap_abundances_around_eligible_set <- function (dep_set,
                                                  num_base_spp,
                                                  Xu_PU_spp_table,
                                                  min_allowed_abundance = 2,
+                                                 allow_imperfect_wrap,
                                                  PU_col_name = "PU_ID",
                                                  spp_col_name = "spp_ID"
                                                 )
@@ -796,7 +851,8 @@ wrap_abundances_around_eligible_set <- function (dep_set,
                         #                                                        spp_col_name)
                         remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
                                                                                trimmed_rounded_abund_per_spp,
-                                                                               spp_col_name)
+                                                                               spp_col_name,
+                                                                               allow_imperfect_wrap)
 
                     num_extra_occurrences = sum (extra_abund)
                     num_extra_spp         = length (extra_abund)
@@ -1075,6 +1131,8 @@ wrap_abundance_dist_around_Xu_problem = function (starting_dir,
                                                   tot_num_PUs_in_landscape,
 #                            seed_value_for_search,
                             seed_value_for_search_list,
+                                        allow_imperfect_wrap,
+
                                                   bdpg_error_codes,
                                                   search_outfile_name_base,
                                                   search_outfile_name,
@@ -1120,6 +1178,8 @@ wrap_abundance_dist_around_Xu_problem = function (starting_dir,
                                              Xu_bdprob@cor_PU_spp_pair_indices,
 
                                              min_allowed_abundance = 2,
+                                             allow_imperfect_wrap,
+
                                              Xu_bdprob@PU_col_name,
                                              Xu_bdprob@spp_col_name)
 
@@ -1652,6 +1712,8 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                                    tot_num_PUs_in_landscape,
 #                                seed_value_for_search,
                                 seed_value_for_search_list,
+                                        value_or_FALSE_if_null (parameters$allow_imperfect_wrap),
+
                                                    bdpg_error_codes,
                                                    search_outfile_name_base,
                                                    search_outfile_name)
