@@ -439,6 +439,53 @@ compute_final_wrapped_extra_spp_abund_hist <- function (wrapped_extra_spp_abund_
 
 #===============================================================================
 
+build_df_of_extra_spp_and_their_abundances <- function (wrapped_extra_spp_abund_hist)
+    {
+    num_extra_spp = sum (wrapped_extra_spp_abund_hist [,"freq"])
+# num_extra_spp =
+# 767
+    extra_spp_abund = rep (NA, num_extra_spp)
+# extra_spp_abund = logi [1:767] NA NA NA NA NA NA ...
+    num_abund_rows = length (wrapped_extra_spp_abund_hist[,"abund"])
+# num_abund_rows =
+# 5
+
+                        verbose_remove_base = TRUE    #  just for debugging now...
+                        if (verbose_remove_base)
+                            {
+                            cat ("\nIn build_df_of_extra_spp_and_their_abundances() just before loop: ",
+                                 "\nnum_extra_spp = ", num_extra_spp,
+                                 "\nnum_abund_rows = ", num_abund_rows,
+                                 "\ninitial extra_spp_abund = \n")
+                            print (extra_spp_abund)
+                            }
+
+    start_idx = 1
+    for (cur_idx in 1:num_abund_rows)
+        {
+        if (wrapped_extra_spp_abund_hist [cur_idx, "freq"] > 0)    #  Should always be true, but just in case...
+            {
+            end_idx = start_idx + wrapped_extra_spp_abund_hist [cur_idx, "freq"] - 1
+            extra_spp_abund [start_idx:end_idx] = wrapped_extra_spp_abund_hist [cur_idx, "abund"]
+
+                        if (verbose_remove_base)
+                            {
+                            cat ("\nAt bottom of cur_idx = ", cur_idx, ",
+                                 start_idx = ", start_idx,
+                                 "end_idx = ", end_idx,
+                                 "extra_spp_abund = \n")
+                            print (extra_spp_abund)
+                            }
+
+            start_idx = end_idx + 1
+            }
+    }
+
+    return (extra_spp_abund)
+    }
+
+#===============================================================================
+
 clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge,
                                          allow_imperfect_wrap)
     {
@@ -474,46 +521,14 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge,
 
 
         #-----------------------------------------------------------------------
-        #  Now ...
+        #  Now build a data frame of the abundances for just the extra species
+        #  based on the histogram of abundances of just the extra species
+        #  (i.e., the species in the wrapped distribution but not in the
+        #  base problem's distribution.
         #-----------------------------------------------------------------------
 
-    num_extra_spp = sum (wrapped_extra_spp_abund_hist [,"freq"])
-# num_extra_spp =
-# 767
-    extra_spp_abund = rep (NA, num_extra_spp)
-# extra_spp_abund = logi [1:767] NA NA NA NA NA NA ...
-    num_abund_rows = length (wrapped_extra_spp_abund_hist[,"abund"])
-# num_abund_rows =
-# 5
-                        if (verbose_remove_base)
-                            {
-                            cat ("\nIn clean_up_wrapped_abund_dist() just before loop: ",
-                                 "\nnum_extra_spp = ", num_extra_spp,
-                                 "\nnum_abund_rows = ", num_abund_rows,
-                                 "extra_spp_abund = \n")
-                            print (extra_spp_abund)
-                            }
-
-    start_idx = 1
-    for (cur_idx in 1:num_abund_rows)
-        {
-        if (wrapped_extra_spp_abund_hist [cur_idx, "freq"] > 0)    #  Should always be true, but just in case...
-            {
-            end_idx = start_idx + wrapped_extra_spp_abund_hist [cur_idx, "freq"] - 1
-            extra_spp_abund [start_idx:end_idx] = wrapped_extra_spp_abund_hist [cur_idx, "abund"]
-
-                        if (verbose_remove_base)
-                            {
-                            cat ("\nAt bottom of cur_idx = ", cur_idx, ",
-                                 start_idx = ", start_idx,
-                                 "end_idx = ", end_idx,
-                                 "extra_spp_abund = \n")
-                            print (extra_spp_abund)
-                            }
-
-            start_idx = end_idx + 1
-            }
-        }
+    extra_spp_abund =
+        build_df_of_extra_spp_and_their_abundances (wrapped_extra_spp_abund_hist)
 
 #docaids::doc_vars_in_this_func_once ()
     return (extra_spp_abund)
