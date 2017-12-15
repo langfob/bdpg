@@ -306,52 +306,62 @@ gen_raw_histogram_of_wrapped_dist <- function (Xu_PU_spp_table,
 
 #===============================================================================
 
-handle_negative_abund_frequencies <- function (num_neg_abund_freqs,
-                                               allow_imperfect_wrap,
-                                               final_wrapped_extra_spp_abund_hist)
+check_for_imperfect_wrap <- function (allow_imperfect_wrap,
+                                      final_wrapped_extra_spp_abund_hist)
     {
 browser()
-    if (allow_imperfect_wrap)
+    num_neg_abund_freqs = sum (final_wrapped_extra_spp_abund_hist [,'freq'] < 0)
+    if (num_neg_abund_freqs > 0)
         {
-        error_or_warning_on_wrap_str = "- bdpg WARNING"
-        } else
-        {
-        error_or_warning_on_wrap_str = "- bdpg FATAL ERROR"
-        }
+            #  There is at least one negative abundance frequency, i.e.,
+            #  abundance level where the number of species with that abundance
+            #  in the problem being wrapped is greater than in the wrapping
+            #  wrapping distribution.
+            #  For example, if it's not a perfect wrapping distribution,
+            #  then there might only be 10 species that occur on exactly two
+            #  PUs while the Xu base problem has 15 species occurring on
+            #  exactly two PUs.
 
-        #-----------------------------------------------------------------------
-        #  Write a warning message in 2 ways.
-        #  First, write it using cat() so that it ends up in the console log.
-        #  Second, write it using message() so that it shows up on the console
-        #  in red to have more chance of making the user aware of it.
-        #  Originally, I just used the message() call but it doesn't show up
-        #  in the console log file (I think it goes to stderr or something.)
-        #-----------------------------------------------------------------------
+        if (allow_imperfect_wrap)
+            {
+            error_or_warning_on_wrap_str = "- bdpg WARNING"
+            } else
+            {
+            error_or_warning_on_wrap_str = "- bdpg FATAL ERROR"
+            }
 
-    msg_string = paste0 ("\n\nIMPERFECT WRAP ", error_or_warning_on_wrap_str,
-                     "\n", num_neg_abund_freqs, " element of the wrapping distribution (freq.x) is smaller than",
-                     "\nthe corresponding element in the wrapped distribution (freq.y).",
-                     "\nThis would lead to a negative frequency for at least one level of abundance, ",
-                     "\ni.e., a negative number of species having the given abundance.",
-                     "\n\nwrapped_extra_spp_abund_merge = \n")
-    cat (msg_string)
-    message (msg_string)
-    print (final_wrapped_extra_spp_abund_hist)
+            #-----------------------------------------------------------------------
+            #  Write a warning message in 2 ways.
+            #  First, write it using cat() so that it ends up in the console log.
+            #  Second, write it using message() so that it shows up on the console
+            #  in red to have more chance of making the user aware of it.
+            #  Originally, I just used the message() call but it doesn't show up
+            #  in the console log file (I think it goes to stderr or something.)
+            #-----------------------------------------------------------------------
 
-    if (allow_imperfect_wrap)
-        {
-        indices_of_negative_freqs = which (final_wrapped_extra_spp_abund_hist [,'freq'] < 0)
-        final_wrapped_extra_spp_abund_hist [indices_of_negative_freqs] = 0
-        }
+        msg_string = paste0 ("\n\nIMPERFECT WRAP ", error_or_warning_on_wrap_str,
+                         "\n", num_neg_abund_freqs, " element of the wrapping distribution (freq.x) is smaller than",
+                         "\nthe corresponding element in the wrapped distribution (freq.y).",
+                         "\nThis would lead to a negative frequency for at least one level of abundance, ",
+                         "\ni.e., a negative number of species having the given abundance.",
+                         "\n\nwrapped_extra_spp_abund_merge = \n")
+        cat (msg_string)
+        message (msg_string)
+        print (final_wrapped_extra_spp_abund_hist)
 
+        if (allow_imperfect_wrap)
+            {
+            indices_of_negative_freqs = which (final_wrapped_extra_spp_abund_hist [,'freq'] < 0)
+            final_wrapped_extra_spp_abund_hist [indices_of_negative_freqs] = 0
+            }
 
-    message ("\nResulting final_wrapped_extra_spp_abund_hist = \n")
-    print (final_wrapped_extra_spp_abund_hist)
+        cat ("\nResulting final_wrapped_extra_spp_abund_hist = \n")
+        print (final_wrapped_extra_spp_abund_hist)
+        cat ("\n")
 
-    cat ("\n")
+        if (! allow_imperfect_wrap) stop ("Fail on imperfect wrap of bdproblem")
 
-    if (! allow_imperfect_wrap)
-        stop ("Fail on imperfect wrap of bdproblem")
+        }  #  end if - num_neg_abund_freqs > 0
 
     return (final_wrapped_extra_spp_abund_hist)
     }
@@ -416,7 +426,8 @@ compute_final_wrapped_extra_spp_abund_hist <- function (wrapped_extra_spp_abund_
                             {
                             cat ("\n\n    final_wrapped_extra_spp_abund_hist = \n")
                             show (final_wrapped_extra_spp_abund_hist)
-                            }
+                        }
+
 # final_wrapped_extra_spp_abund_hist =
 #   abund freq
 # 1     2    7
@@ -425,14 +436,9 @@ compute_final_wrapped_extra_spp_abund_hist <- function (wrapped_extra_spp_abund_
 # 4     5    2
 # 5     6    2
 
-    num_neg_abund_freqs = sum (final_wrapped_extra_spp_abund_hist [,'freq'] < 0)
-    if (num_neg_abund_freqs > 0)
-        {
-        final_wrapped_extra_spp_abund_hist =
-            handle_negative_abund_frequencies (num_neg_abund_freqs,
-                                               allow_imperfect_wrap,
-                                               final_wrapped_extra_spp_abund_hist)
-        }
+    final_wrapped_extra_spp_abund_hist =
+        check_for_imperfect_wrap (allow_imperfect_wrap,
+                                  final_wrapped_extra_spp_abund_hist)
 
     return (final_wrapped_extra_spp_abund_hist)
     }

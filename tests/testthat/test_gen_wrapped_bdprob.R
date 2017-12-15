@@ -311,14 +311,14 @@ test_that("proper wrap should succeed", {
 
 #-------------------------------------------------------------------------------
 
-            #------------------------------------------
-            #  Test handle_negative_abund_frequencies
-            #------------------------------------------
+            #---------------------------------
+            #  Test check_for_imperfect_wrap
+            #---------------------------------
+
 if(FALSE)
 final_wrapped_extra_spp_abund_hist =
-    handle_negative_abund_frequencies (num_neg_abund_freqs,
-                                       allow_imperfect_wrap,
-                                       final_wrapped_extra_spp_abund_hist)
+    check_for_imperfect_wrap (allow_imperfect_wrap,
+                              final_wrapped_extra_spp_abund_hist)
 
 #-------------------------------------------------------------------------------
 
