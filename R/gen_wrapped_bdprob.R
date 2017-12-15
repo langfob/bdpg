@@ -306,10 +306,28 @@ gen_raw_histogram_of_wrapped_dist <- function (Xu_PU_spp_table,
 
 #===============================================================================
 
-check_for_imperfect_wrap <- function (allow_imperfect_wrap,
-                                      final_wrapped_extra_spp_abund_hist)
+check_for_imperfect_wrap <- function (final_wrapped_extra_spp_abund_hist,
+                                      allow_imperfect_wrap)
     {
-browser()
+# final_wrapped_extra_spp_abund_hist =
+#   abund freq
+# 1     2    7     <<<<<-----  perfect:  wrap fully encloses base problem
+# 2     3   46
+# 3     4   10
+# 4     5    2
+# 5     6    2
+
+#  OR
+
+# final_wrapped_extra_spp_abund_hist =
+#   abund freq
+# 1     2   -20     <<<<<-----  imperfect: does not fully enclose base problem
+# 2     3   46
+# 3     4   10
+# 4     5    2
+# 5     6    2
+
+#browser()
     num_neg_abund_freqs = sum (final_wrapped_extra_spp_abund_hist [,'freq'] < 0)
     if (num_neg_abund_freqs > 0)
         {
@@ -352,7 +370,7 @@ browser()
         if (allow_imperfect_wrap)
             {
             indices_of_negative_freqs = which (final_wrapped_extra_spp_abund_hist [,'freq'] < 0)
-            final_wrapped_extra_spp_abund_hist [indices_of_negative_freqs] = 0
+            final_wrapped_extra_spp_abund_hist [indices_of_negative_freqs, 'freq'] = 0
             }
 
         cat ("\nResulting final_wrapped_extra_spp_abund_hist = \n")
@@ -437,8 +455,8 @@ compute_final_wrapped_extra_spp_abund_hist <- function (wrapped_extra_spp_abund_
 # 5     6    2
 
     final_wrapped_extra_spp_abund_hist =
-        check_for_imperfect_wrap (allow_imperfect_wrap,
-                                  final_wrapped_extra_spp_abund_hist)
+        check_for_imperfect_wrap (final_wrapped_extra_spp_abund_hist,
+                                  allow_imperfect_wrap)
 
     return (final_wrapped_extra_spp_abund_hist)
     }
