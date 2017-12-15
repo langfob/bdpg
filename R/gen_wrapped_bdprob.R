@@ -319,23 +319,12 @@ handle_negative_abund_frequencies <- function (num_neg_abund_freqs,
         error_or_warning_on_wrap_str = "- bdpg FATAL ERROR"
         }
 
-        #-----------------------------------------------------------------------
-        #  Write a warning message in 2 ways.
-        #  First, write it using cat() so that it ends up in the console log.
-        #  Second, write it using message() so that it shows up on the console
-        #  in red to have more chance of making the user aware of it.
-        #  Originally, I just used the message() call but it doesn't show up
-        #  in the console log file (I think it goes to stderr or something.)
-        #-----------------------------------------------------------------------
-
-    msg_string = paste0 ("\n\nIMPERFECT WRAP ", error_or_warning_on_wrap_str,
+    message (paste0 ("\n\nIMPERFECT WRAP ", error_or_warning_on_wrap_str,
                      "\n", num_neg_abund_freqs, " element of the wrapping distribution (freq.x) is smaller than",
                      "\nthe corresponding element in the wrapped distribution (freq.y).",
                      "\nThis would lead to a negative frequency for at least one level of abundance, ",
                      "\ni.e., a negative number of species having the given abundance.",
-                     "\n\nwrapped_extra_spp_abund_merge = \n")
-    cat (msg_string)
-    message (msg_string)
+                     "\n\nwrapped_extra_spp_abund_merge = \n"))
     print (final_wrapped_extra_spp_abund_hist)
 
     if (allow_imperfect_wrap)
