@@ -311,3 +311,68 @@ test_that("proper wrap should succeed", {
 
 #-------------------------------------------------------------------------------
 
+            #------------------------------------------
+            #  Test handle_negative_abund_frequencies
+            #------------------------------------------
+if(FALSE)
+final_wrapped_extra_spp_abund_hist =
+    handle_negative_abund_frequencies (num_neg_abund_freqs,
+                                       allow_imperfect_wrap,
+                                       final_wrapped_extra_spp_abund_hist)
+
+#-------------------------------------------------------------------------------
+
+            #---------------------------------------------------
+            #  Test build_df_of_extra_spp_and_their_abundances
+            #---------------------------------------------------
+if(FALSE)
+extra_spp_abund =
+    build_df_of_extra_spp_and_their_abundances (wrapped_extra_spp_abund_hist)
+
+#-------------------------------------------------------------------------------
+
+                    #------------------------------------
+                    #  Test clean_up_wrapped_abund_dist
+                    #------------------------------------
+if(FALSE)
+extra_spp_abund = clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
+                                               allow_imperfect_wrap)
+
+#-------------------------------------------------------------------------------
+
+        #--------------------------------------------------------------
+        #  Test remove_base_spp_abundances_from_wrapping_distribution
+        #--------------------------------------------------------------
+if(FALSE)
+extra_abund =
+    remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
+                                                           trimmed_rounded_abund_per_spp,
+                                                           spp_col_name,
+                                                           allow_imperfect_wrap)
+
+#-------------------------------------------------------------------------------
+
+                #--------------------------------------------
+                #  Test wrap_abundances_around_eligible_set
+                #--------------------------------------------
+if(FALSE)
+wrapped_PU_spp_indices = wrap_abundances_around_eligible_set (dep_set,
+                                                   eligible_set,
+                                                   rounded_abund_per_spp,
+                                                   num_base_spp,
+                                                   Xu_PU_spp_table,
+                                                   min_allowed_abundance = 2,
+                                                   allow_imperfect_wrap,
+                                                   PU_col_name = "PU_ID",
+                                                   spp_col_name = "spp_ID"
+                                                   )
+
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+
+
