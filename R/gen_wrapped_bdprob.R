@@ -310,7 +310,7 @@ handle_negative_abund_frequencies <- function (num_neg_abund_freqs,
                                                allow_imperfect_wrap,
                                                final_wrapped_extra_spp_abund_hist)
     {
-    browser()
+browser()
     if (allow_imperfect_wrap)
         {
         error_or_warning_on_wrap_str = "- bdpg WARNING"
@@ -830,10 +830,8 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 
     #----------------------------------
 
-
-
         #  2016 06 21 - BTL
-        #  NEED TO REMOVE ALL SPP WHOSE ABUNDANCE IS 1,
+        #  NEED TO REMOVE ANY SPP WHOSE ABUNDANCE IS 1,
         #  BECAUSE THEY MAKE THE PROBLEM MUCH EASIER, I.E., ALL PUs CONTAINING
         #  ANY SPECIES WITH ABUNDANCE = 1 MUST AUTOMATICALLY BE INCLUDED IN
         #  CORRECT SOLUTION.
@@ -844,7 +842,6 @@ wrap_abundances_around_eligible_set <- function (dep_set,
         #  occurred on 3 patches or less, that species would need to be
         #  removed.  This doesn't happen in these initial Xu problems since
         #  the generator currently only works for having all targets = 1.
-
 
     trimmed_rounded_abund_per_spp = trim_abundances (rounded_abund_per_spp,
                                                      min_abund=min_allowed_abundance)
@@ -876,9 +873,7 @@ wrap_abundances_around_eligible_set <- function (dep_set,
     PU_spp_table = data.frame (PU_ID = rep (0, num_extra_occurrences),
                                spp_ID = rep (0, num_extra_occurrences))
 
-#browser()
     cur_row = 1
-
     for (cur_spp_idx in 1:num_extra_spp)
         {
 #        cat ("\n\ncur_spp_idx = ", cur_spp_idx, "\n", sep='')
@@ -904,7 +899,7 @@ wrap_abundances_around_eligible_set <- function (dep_set,
         num_PUs_to_draw = num_PUs_to_draw - 1
     # cat ("\nAbout to check num_PUs_to_draw > 0 for cur_spp_idx = ",
     #      cur_spp_idx, sep='')
-#browser()
+
         if (num_PUs_to_draw > 0)
             {
             extra_PUs_for_cur_spp = safe_sample (cur_eligible_set,
@@ -920,10 +915,9 @@ wrap_abundances_around_eligible_set <- function (dep_set,
             }  #  end if - num_PUs_to_draw
         }  #  end for - cur_spp_idx
 
-    cat ("\n\n--------------------------------------\n\n", "PU_spp_table = \n")
-#    print (PU_spp_table)    #  usually too long to print...
-    print (head (PU_spp_table))
-    cat ("\n\n")
+                    cat ("\n\n--------------------------------------\n\n", "PU_spp_table = \n")#    print (PU_spp_table)    #  usually too long to print...
+                    print (head (PU_spp_table))    #  usually too long to print entire table...
+                    cat ("\n\n")
 
         #-------------------------------------------------------------------
         #  Add the occurrences from the original problem to the table
@@ -941,16 +935,12 @@ wrap_abundances_around_eligible_set <- function (dep_set,
     PU_spp_table [, "spp_ID"] = PU_spp_table [, "spp_ID"] + num_base_spp
     PU_spp_table = rbind (Xu_PU_spp_table, PU_spp_table)
 
-    cat ("\n\nAfter rbind(), PU_spp_table = \n")
-#    print (PU_spp_table)    #  usually too long to print...
-    print (head (PU_spp_table))
-    cat ("\n\n")
-
-#browser()
+                    cat ("\n\nAfter rbind(), PU_spp_table = \n")
+                    print (head (PU_spp_table))    #  usually too long to print entire table...
+                    cat ("\n\n")
 
 #docaids::doc_vars_in_this_func_once ()
     return (PU_spp_table)
-
     }  #  end function - wrap_abundances_around_eligible_set
 
 #===============================================================================
@@ -1307,6 +1297,11 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
               #         highest ID number.  Probably won't matter for
               #         spp, but I'm doing the same for species just
               #         in case.
+              #
+              #         2017 12 15 - BTL
+              #         This reminds me that I need to note and test the
+              #         things I assume to be true about each data
+              #         structure, e.g., using assertions.
               #-----------------------------------------------------------
 
     wrapped_PU_costs = get_PU_costs (wrapped_num_PUs)
