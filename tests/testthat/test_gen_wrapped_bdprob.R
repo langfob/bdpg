@@ -4,15 +4,16 @@ context ("gen_wrapped_bdprob")
 
 #-------------------------------------------------------------------------------
 
-# test_create_eligible_PU_set <- function ()
-#     {
+                    #-------------------------------
+                    #  Test create_eligible_PU_set
+                    #-------------------------------
+
     Xu_dep_set = c(1,2)
     extra_PUs = c(3,4)
     dep_set_PUs_eligible = TRUE
 
     eligible_PUs = create_eligible_PU_set (Xu_dep_set, extra_PUs, dep_set_PUs_eligible)
 
-#    if (identical (eligible_PUs, c(1,2,3,4))) cat (".") else cat ("F")
 test_that("eligible_PUs include dependent and extra PUs", {
     expect_equal (eligible_PUs, c(1,2,3,4))
 })
@@ -25,18 +26,16 @@ test_that("eligible_PUs include dependent and extra PUs", {
 
     eligible_PUs = create_eligible_PU_set (Xu_dep_set, extra_PUs, dep_set_PUs_eligible)
 
-#    if (identical (eligible_PUs, c(3,4))) cat (".") else cat ("F")
 test_that("eligible_PUs only include extra PUs", {
     expect_equal (eligible_PUs, c(3,4))
 })
-#     }
-#
-#    test_create_eligible_PU_set ()
 
 #-------------------------------------------------------------------------------
 
-# test_trim_abundances <- function ()
-#     {
+                    #------------------------
+                    #  Test trim_abundances
+                    #------------------------
+
         #  Test endpoints equal to bounds of randomly ordered vector.
     rounded_abundances = c (8,9,5,3,0,10,7,1,6,2,4)
     min_abund = 0
@@ -46,7 +45,6 @@ test_that("eligible_PUs only include extra PUs", {
                                           min_abund=min_abund,
                                           max_abund=max_abund)
 
-#    if (identical (trimmed_abundances, rounded_abundances)) cat (".") else cat ("F")
 test_that("endpoints equal to bounds of randomly ordered vector", {
     expect_equal (trimmed_abundances, rounded_abundances)
 })
@@ -61,7 +59,7 @@ test_that("endpoints equal to bounds of randomly ordered vector", {
     trimmed_abundances = trim_abundances (rounded_abundances,
                                           min_abund=min_abund,
                                           max_abund=max_abund)
-#    if (identical (trimmed_abundances, c(5,6))) cat (".") else cat ("F")
+
 test_that("some elements < min and > max bounds of randomly ordered vector", {
     expect_equal (trimmed_abundances, c(5,6))
 })
@@ -76,7 +74,7 @@ test_that("some elements < min and > max bounds of randomly ordered vector", {
     trimmed_abundances = trim_abundances (rounded_abundances,
                                           min_abund=min_abund,
                                           max_abund=max_abund)
-#    if (identical (trimmed_abundances, 5:10)) cat (".") else cat ("F")
+
 test_that("elements < min bound only", {
     expect_equal (trimmed_abundances, 5:10)
 })
@@ -91,7 +89,7 @@ test_that("elements < min bound only", {
     trimmed_abundances = trim_abundances (rounded_abundances,
                                           min_abund=min_abund,
                                           max_abund=max_abund)
-#    if (identical (trimmed_abundances, 0:8)) cat (".") else cat ("F")
+
 test_that("elements > max bound only", {
     expect_equal (trimmed_abundances, 0:8)
 })
@@ -106,7 +104,7 @@ test_that("elements > max bound only", {
     trimmed_abundances = trim_abundances (rounded_abundances,
                                           min_abund=min_abund,
                                           max_abund=max_abund)
-#    if (length (trimmed_abundances) == 0) cat (".") else cat ("F")
+
 test_that("all elements < min OR > max bounds of vector", {
     expect_length (trimmed_abundances, 0)
 })
@@ -119,7 +117,7 @@ test_that("all elements < min OR > max bounds of vector", {
 
     trimmed_abundances = trim_abundances (rounded_abundances,
                                           min_abund=min_abund)
-#    if (identical (trimmed_abundances, 3:10)) cat (".") else cat ("F")
+
 test_that("elements < min bound only with max bound default argument", {
     expect_equal (trimmed_abundances, 3:10)
 })
@@ -130,18 +128,17 @@ test_that("elements < min bound only with max bound default argument", {
     rounded_abundances = 0:10
 
     trimmed_abundances = trim_abundances (rounded_abundances)
-#    if (identical (trimmed_abundances, 2:10)) cat (".") else cat ("F")
+
 test_that("elements < min bound only with min and max bound default args", {
     expect_equal (trimmed_abundances, 2:10)
 })
-#    }
-
-#if (FALSE) test_trim_abundances ()
 
 #-------------------------------------------------------------------------------
 
-#test_gen_raw_histogram_of_wrapped_dist <- function ()
-#    {
+            #------------------------------------------
+            #  Test gen_raw_histogram_of_wrapped_dist
+            #------------------------------------------
+
     #------------------
     #  Simple example
     #------------------
@@ -189,7 +186,7 @@ test_that("elements < min bound only with min and max bound default args", {
         gen_raw_histogram_of_wrapped_dist (Xu_PU_spp_table,
                                            trimmed_rounded_abund_per_spp,
                                            spp_col_name)
-#    if (all.equal (wrapped_extra_spp_abund_merge, desired_result)) cat (".") else cat ("F")
+
 test_that("simple example for gen_raw_histogram_of_wrapped_dist()", {
     expect_equal (wrapped_extra_spp_abund_merge, desired_result)
 })
@@ -251,21 +248,17 @@ test_that("simple example for gen_raw_histogram_of_wrapped_dist()", {
         gen_raw_histogram_of_wrapped_dist (Xu_PU_spp_table,
                                            trimmed_rounded_abund_per_spp,
                                            spp_col_name)
-#    if (all.equal (wrapped_extra_spp_abund_merge, desired_result)) cat (".") else cat ("F")
+
 test_that("more complex example for gen_raw_histogram_of_wrapped_dist()", {
     expect_equal (wrapped_extra_spp_abund_merge, desired_result)
 })
 
-    #--------------------
-
-#    }
-
-#if (FALSE) test_gen_raw_histogram_of_wrapped_dist ()
-
 #-------------------------------------------------------------------------------
 
-#test_compute_final_wrapped_extra_spp_abund_hist <- function ()
-#    {
+            #---------------------------------------------------
+            #  Test compute_final_wrapped_extra_spp_abund_hist
+            #---------------------------------------------------
+
     #------------------------------------------------------------------
     #  Test that it fails if the wrapping distribution doesn't
     #  completely contain the wrapped distribution, e.g.,
@@ -293,7 +286,7 @@ test_that("more complex example for gen_raw_histogram_of_wrapped_dist()", {
                   error = function (err) { TRUE }
                  )
 
-#    if (error_in_compute) cat (".") else cat ("F")
+
 test_that("wrap fails when base set not a proper subset", {
     expect_equal (error_in_compute, TRUE)    #  Replace with expect_error()?
 })
@@ -306,19 +299,15 @@ test_that("wrap fails when base set not a proper subset", {
     wrapped_extra_spp_abund_merge = data.frame (x = 2:6,
                                                 freq.x = c(86, 46, 10, 2, 2),
                                                 freq.y = c(79, NA, NA, NA, NA))
+    desired_result = data.frame (abund = 2:6,
+                                 freq = c(7, 46, 10, 2, 2))
 
     final_wrapped_extra_spp_abund_merge =
         compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge)
 
-    desired_result = data.frame (abund = 2:6,
-                                 freq = c(7, 46, 10, 2, 2))
-
-#    if (all.equal (final_wrapped_extra_spp_abund_merge, desired_result)) cat (".") else cat ("F")
 test_that("proper wrap should succeed", {
     expect_equal (final_wrapped_extra_spp_abund_merge, desired_result)
 })
 
-#    }
-
-#if (FALSE) test_compute_final_wrapped_extra_spp_abund_hist ()
+#-------------------------------------------------------------------------------
 
