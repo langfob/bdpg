@@ -315,10 +315,84 @@ test_that("proper wrap should succeed", {
             #  Test check_for_imperfect_wrap
             #---------------------------------
 
-if(FALSE)
-final_wrapped_extra_spp_abund_hist =
-    check_for_imperfect_wrap (allow_imperfect_wrap,
-                              final_wrapped_extra_spp_abund_hist)
+    #-------------------------------------------------------------------------
+    #  Perfect wrap, i.e., wrapping distribution fully encloses base problem.
+    #  Should succeed regardless of setting of allow_imperfect_wrap flag.
+    #-------------------------------------------------------------------------
+
+# final_wrapped_extra_spp_abund_hist =
+#   abund freq
+# 1     2    7     <<<<<-----  perfect:  wrap fully encloses base problem
+# 2     3   46
+# 3     4   10
+# 4     5    2
+# 5     6    2
+
+    in_final_wrapped_extra_spp_abund_hist =
+        data.frame (abund = 2:6, freq = c(7, 46, 10, 2, 2))
+
+    allow_imperfect_wrap = TRUE
+    out_final_wrapped_extra_spp_abund_hist =
+        check_for_imperfect_wrap (in_final_wrapped_extra_spp_abund_hist,
+                                  allow_imperfect_wrap)
+
+test_that("proper wrap should succeed when imperfect wrap allowed", {
+    expect_equal (out_final_wrapped_extra_spp_abund_hist,
+                  in_final_wrapped_extra_spp_abund_hist)
+})
+
+    allow_imperfect_wrap = FALSE
+    out_final_wrapped_extra_spp_abund_hist =
+        check_for_imperfect_wrap (in_final_wrapped_extra_spp_abund_hist,
+                                  allow_imperfect_wrap)
+
+test_that("proper wrap should succeed when imperfect wrap NOT allowed", {
+    expect_equal (out_final_wrapped_extra_spp_abund_hist,
+                  in_final_wrapped_extra_spp_abund_hist)
+})
+
+    #-------------------------------------------------------------------------
+    #  Imperfect wrap, i.e., wrapping distribution does NOT fully enclose
+    #  base problem.
+    #-------------------------------------------------------------------------
+    #  Should succeed if imperfect wrap allowed and set any negative
+    #  abundances (i.e., imperfections in the wrap) to 0.
+    #
+    #  It should fail if imperfect wrap not allowed.
+    #-------------------------------------------------------------------------
+
+# final_wrapped_extra_spp_abund_hist =
+#   abund freq
+# 1     2   -20     <<<<<-----  imperfect: does not fully enclose base problem
+# 2     3   46
+# 3     4   10
+# 4     5    2
+# 5     6    2
+
+    in_final_wrapped_extra_spp_abund_hist =  #  hist with negative freq value(s)
+        data.frame (abund = 2:6, freq = c(-20, 46, 10, -2, 2))
+
+    corrected_final_wrapped_extra_spp_abund_hist = # hist with negs replaced with 0s
+        data.frame (abund = 2:6, freq = c(0, 46, 10, 0, 2))
+
+    allow_imperfect_wrap = TRUE
+    out_final_wrapped_extra_spp_abund_hist =
+        check_for_imperfect_wrap (in_final_wrapped_extra_spp_abund_hist,
+                                  allow_imperfect_wrap)
+
+test_that("imperfect wrap should succeed & correct when imperfect wrap allowed", {
+    expect_equal (out_final_wrapped_extra_spp_abund_hist,
+                  corrected_final_wrapped_extra_spp_abund_hist)
+})
+
+    #--------------------
+
+    allow_imperfect_wrap = FALSE
+
+test_that("imperfect wrap should fail when imperfect wrap NOT allowed", {
+    expect_error (check_for_imperfect_wrap (in_final_wrapped_extra_spp_abund_hist,
+                                            allow_imperfect_wrap))
+})
 
 #-------------------------------------------------------------------------------
 
