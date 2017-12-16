@@ -401,7 +401,7 @@ test_that("imperfect wrap should fail when imperfect wrap NOT allowed", {
             #---------------------------------------------------
 if(FALSE)
 extra_spp_abund =
-    build_df_of_extra_spp_and_their_abundances (wrapped_extra_spp_abund_hist)
+    build_vec_of_extra_spp_and_their_abundances (wrapped_extra_spp_abund_hist)
 
 #-------------------------------------------------------------------------------
 

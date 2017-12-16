@@ -463,7 +463,7 @@ compute_final_wrapped_extra_spp_abund_hist <- function (wrapped_extra_spp_abund_
 
 #===============================================================================
 
-build_df_of_extra_spp_and_their_abundances <- function (wrapped_extra_spp_abund_hist)
+build_vec_of_extra_spp_and_their_abundances <- function (wrapped_extra_spp_abund_hist)
     {
     num_extra_spp = sum (wrapped_extra_spp_abund_hist [,"freq"])
 # num_extra_spp =
@@ -477,7 +477,7 @@ build_df_of_extra_spp_and_their_abundances <- function (wrapped_extra_spp_abund_
                         verbose_remove_base = TRUE    #  just for debugging now...
                         if (verbose_remove_base)
                             {
-                            cat ("\nIn build_df_of_extra_spp_and_their_abundances() just before loop: ",
+                            cat ("\nIn build_vec_of_extra_spp_and_their_abundances() just before loop: ",
                                  "\nnum_extra_spp = ", num_extra_spp,
                                  "\nnum_abund_rows = ", num_abund_rows,
                                  "\ninitial extra_spp_abund = \n")
@@ -552,7 +552,7 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge,
         #-----------------------------------------------------------------------
 
     extra_spp_abund =
-        build_df_of_extra_spp_and_their_abundances (wrapped_extra_spp_abund_hist)
+        build_vec_of_extra_spp_and_their_abundances (wrapped_extra_spp_abund_hist)
 
 #docaids::doc_vars_in_this_func_once ()
     return (extra_spp_abund)
