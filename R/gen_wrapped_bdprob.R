@@ -576,19 +576,6 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge,
 #' strips that inside distribution out of the full wrapped distribution and
 #' returns a set of abundances ready for spreading.
 #'
-#' OLD COMMENT IN calling routine wrap_abundances_around_eligible_set().
-#' Is the old comment correct or has the problem been fixed.
-#' If it has been fixed, then it would be good to leave some comment in here
-#' that describes what is being returned (as it's described in the old
-#' comment's expectations).
-#'  The calling routine assumes THAT the returned value, extra_spp_abund,
-#'  IS A VECTOR CONTAINING THE ABUNDANCE OF EACH EXTRA SPECIES.
-#'  AT THE MOMENT, extra_abund ACTUALLY CONTAINS THE NUMBER OF SPECIES
-#'  HAVING EACH GIVEN ABUNDANCE.
-#'  NEED TO CHANGE EXPAND WHAT'S RETURNED INTO THE EXPECTED VECTOR.
-#'  CAN THAT BE DONE USING ONE OF THE PLYR THINGS LIKE MELT()?
-
-#'
 #-------------------------------------------------------------------------------
 
 #'@section Local Variable Structures and examples:
@@ -873,25 +860,15 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 
     #----------------------------------
 
-#  FIXED NOW?
- # BUG: THIS SECTION OF CODE ASSUMES THAT extra_abund IS A VECTOR CONTAINING
- #      THE ABUNDANCE OF EACH EXTRA SPECIES.
- #      AT THE MOMENT, extra_abund ACTUALLY CONTAINS THE NUMBER OF SPECIES
- #      HAVING EACH GIVEN ABUNDANCE.
- #      NEED TO CHANGE EXPAND WHAT'S RETURNED INTO THE EXPECTED VECTOR.
- #      CAN THAT BE DONE USING ONE OF THE PLYR THINGS LIKE MELT()?
+        #  Build a vector containing the abundances of each of the extra species.
+    extra_abund =
+        remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
+                                                               trimmed_rounded_abund_per_spp,
+                                                               spp_col_name,
+                                                               allow_imperfect_wrap)
 
-                    extra_abund =
-                        # remove_base_spp_abundances_from_wrapping_distribution (trimmed_rounded_abund_per_spp,
-                        #                                                        num_base_spp,
-                        #                                                        spp_col_name)
-                        remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
-                                                                               trimmed_rounded_abund_per_spp,
-                                                                               spp_col_name,
-                                                                               allow_imperfect_wrap)
-
-                    num_extra_occurrences = sum (extra_abund)
-                    num_extra_spp         = length (extra_abund)
+    num_extra_occurrences = sum (extra_abund)
+    num_extra_spp         = length (extra_abund)
 
 #  Should these be initialized to NA instead of 0?  Does it matter?
     PU_spp_table = data.frame (PU_ID = rep (0, num_extra_occurrences),
