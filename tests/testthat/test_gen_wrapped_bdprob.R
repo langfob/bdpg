@@ -396,12 +396,43 @@ test_that("imperfect wrap should fail when imperfect wrap NOT allowed", {
 
 #-------------------------------------------------------------------------------
 
-            #---------------------------------------------------
-            #  Test build_df_of_extra_spp_and_their_abundances
-            #---------------------------------------------------
-if(FALSE)
+            #----------------------------------------------------
+            #  Test build_vec_of_extra_spp_and_their_abundances
+            #----------------------------------------------------
+
+    in_final_wrapped_extra_spp_abund_hist =
+        data.frame (abund = 2:6, freq = c(3, 1, 2, 4, 2))
+
+    desired_result = c(2,2,2,    #  3 spp on 2 patches
+                       3,        #  1 spp on 3 patches
+                       4,4,      #  2 spp on 4 patches
+                       5,5,5,5,  #  4 spp on 5 patches
+                       6,6)      #  2 spp on 6 patches
+
 extra_spp_abund =
-    build_vec_of_extra_spp_and_their_abundances (wrapped_extra_spp_abund_hist)
+    build_vec_of_extra_spp_and_their_abundances (in_final_wrapped_extra_spp_abund_hist)
+
+test_that("all non-zero abundance frequencies in wrapped_extra_spp_abund_hist", {
+    expect_equal (extra_spp_abund, desired_result)
+})
+
+    #--------------------
+
+    in_final_wrapped_extra_spp_abund_hist =
+        data.frame (abund = 2:6, freq = c(0, 4, 1, 2, 5))
+
+    desired_result = c(             #  0 spp on 2 patches
+                       3,3,3,3,     #  4 spp on 3 patches
+                       4,           #  1 spp on 4 patches
+                       5,5,         #  2 spp on 5 patches
+                       6,6,6,6,6)   #  5 spp on 6 patches
+
+extra_spp_abund =
+    build_vec_of_extra_spp_and_their_abundances (in_final_wrapped_extra_spp_abund_hist)
+
+test_that("all non-zero abundance frequencies in wrapped_extra_spp_abund_hist", {
+    expect_equal (extra_spp_abund, desired_result)
+})
 
 #-------------------------------------------------------------------------------
 
