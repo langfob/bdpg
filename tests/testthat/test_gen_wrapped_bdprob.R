@@ -574,7 +574,6 @@ test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example
                                                                          allow_imperfect_wrap = FALSE))
 })
 
-
 #-------------------------------------------------------------------------------
 
                 #--------------------------------------------
@@ -582,21 +581,69 @@ test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example
                 #--------------------------------------------
 if(FALSE)
 wrapped_PU_spp_indices = wrap_abundances_around_eligible_set (dep_set,
-                                                   eligible_set,
-                                                   rounded_abund_per_spp,
-                                                   num_base_spp,
-                                                   Xu_PU_spp_table,
-                                                   min_allowed_abundance = 2,
-                                                   allow_imperfect_wrap,
-                                                   PU_col_name = "PU_ID",
-                                                   spp_col_name = "spp_ID"
-                                                   )
+                                                               eligible_set,
+                                                               rounded_abund_per_spp,
+                                                               num_base_spp,
+                                                               Xu_PU_spp_table,
+                                                               min_allowed_abundance = 2,
+                                                               allow_imperfect_wrap,
+                                                               PU_col_name = "PU_ID",
+                                                               spp_col_name = "spp_ID"
+                                                               )
 
 #-------------------------------------------------------------------------------
 
-#-------------------------------------------------------------------------------
+                #--------------------------------------------
+                #  Test wrap_abundance_dist_around_Xu_problem
+                #--------------------------------------------
+if(FALSE)
+wrap_abundance_dist_around_Xu_problem (starting_dir,
+                                                  compute_network_metrics_for_this_prob,
+                                                  rounded_abundances,
+                                                  Xu_bdprob,
+                                                  dep_set_PUs_eligible,
+                                                  tot_num_PUs_in_landscape,
+                            seed_value_for_search_list,
+                                        allow_imperfect_wrap,
+
+                                                  bdpg_error_codes,
+                                                  search_outfile_name_base,
+                                                  search_outfile_name,
+                                            wrap_prob_name_stem = "wrap_prob",
+                                            cor_dir_name_stem = "cor"
+                                                  )
 
 #-------------------------------------------------------------------------------
+
+                #--------------------------------------------
+                #  Test gen_wrapped_bdprob_COR
+                #--------------------------------------------
+if(FALSE)
+gen_wrapped_bdprob_COR (starting_dir,
+                                    compute_network_metrics_for_this_prob,
+                                    parameters,
+                                    base_bdprob,
+                                    bdpg_error_codes)
+
+#-------------------------------------------------------------------------------
+
+                #--------------------------------------------
+                #  Test options_are_legal_for_single_bdprob_WRAP
+                #--------------------------------------------
+if(FALSE)
+options_are_legal_for_single_bdprob_WRAP (bdprob_to_wrap,
+                                                      parameters,
+                                                      bdpg_error_codes)
+
+#-------------------------------------------------------------------------------
+
+                #--------------------------------------------
+                #  Test gen_single_bdprob_WRAP
+                #--------------------------------------------
+if(FALSE)
+gen_single_bdprob_WRAP (bdprob_to_wrap,
+                                    parameters,
+                                    bdpg_error_codes)
 
 #-------------------------------------------------------------------------------
 
