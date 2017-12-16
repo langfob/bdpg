@@ -439,9 +439,45 @@ test_that("all non-zero abundance frequencies in wrapped_extra_spp_abund_hist", 
                     #------------------------------------
                     #  Test clean_up_wrapped_abund_dist
                     #------------------------------------
-if(FALSE)
-extra_spp_abund = clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
-                                               allow_imperfect_wrap)
+
+    #------------------------------------------------------------------
+    #  Test that it fails if the wrapping distribution doesn't
+    #  completely contain the wrapped distribution, e.g.,
+    #  if there are more species on 2 patches in the base Xu problem
+    #  (freq.y) than in the wrapping lognormal distribution (freq.x).
+    #------------------------------------------------------------------
+
+    wrapped_extra_spp_abund_merge = data.frame (x = 2:5,
+                                               freq.x = c(10, 46, 10, 2),
+                                               freq.y = c(20, NA, NA, NA))
+
+test_that("clean_up_wrapped_abund_dist: imperfect wrap should fail when imperfect wrap NOT allowed", {
+    expect_error (clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
+                                               allow_imperfect_wrap = FALSE))
+})
+
+    #-----------------------
+    #  Test normal example
+    #-----------------------
+
+    wrapped_extra_spp_abund_merge = data.frame (x = 2:5,
+                                               freq.x = c(8, 1, 2, 4),
+                                               freq.y = c(5, NA, NA, NA))
+
+    desired_result = c(2,2,2,    #  3 spp on 2 patches
+                       3,        #  1 spp on 3 patches
+                       4,4,      #  2 spp on 4 patches
+                       5,5,5,5)  #  4 spp on 5 patches
+
+test_that("clean_up_wrapped_abund_dist: proper wrap should succeed regardless of value of allow_imperfect_wrap flag", {
+    expect_equal (clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
+                                               allow_imperfect_wrap = TRUE),
+                  desired_result)
+
+    expect_equal (clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
+                                               allow_imperfect_wrap = FALSE),
+                  desired_result)
+})
 
 #-------------------------------------------------------------------------------
 
