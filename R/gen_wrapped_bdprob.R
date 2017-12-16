@@ -545,7 +545,7 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge,
 
 
         #-----------------------------------------------------------------------
-        #  Now build a data frame of the abundances for just the extra species
+        #  Now build a vector of the abundances for just the extra species
         #  based on the histogram of abundances of just the extra species
         #  (i.e., the species in the wrapped distribution but not in the
         #  base problem's distribution.
