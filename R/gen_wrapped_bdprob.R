@@ -1129,7 +1129,7 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 
 #-------------------------------------------------------------------------------
 
-wrap_abundance_dist_around_Xu_problem = function (starting_dir,
+wrap_abundance_dist_around_Xu_problem <- function (starting_dir,
                                                   compute_network_metrics_for_this_prob,
                                                   rounded_abundances,
                                                   Xu_bdprob,
