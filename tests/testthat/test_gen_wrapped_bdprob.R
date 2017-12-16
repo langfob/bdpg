@@ -14,7 +14,7 @@ context ("gen_wrapped_bdprob")
 
     eligible_PUs = create_eligible_PU_set (Xu_dep_set, extra_PUs, dep_set_PUs_eligible)
 
-test_that("eligible_PUs include dependent and extra PUs", {
+test_that("create_eligible_PU_set: eligible_PUs include dependent and extra PUs", {
     expect_equal (eligible_PUs, c(1,2,3,4))
 })
 
@@ -26,7 +26,7 @@ test_that("eligible_PUs include dependent and extra PUs", {
 
     eligible_PUs = create_eligible_PU_set (Xu_dep_set, extra_PUs, dep_set_PUs_eligible)
 
-test_that("eligible_PUs only include extra PUs", {
+test_that("create_eligible_PU_set: eligible_PUs only include extra PUs", {
     expect_equal (eligible_PUs, c(3,4))
 })
 
@@ -45,7 +45,7 @@ test_that("eligible_PUs only include extra PUs", {
                                           min_abund=min_abund,
                                           max_abund=max_abund)
 
-test_that("endpoints equal to bounds of randomly ordered vector", {
+test_that("trim_abundances: endpoints equal to bounds of randomly ordered vector", {
     expect_equal (trimmed_abundances, rounded_abundances)
 })
 
@@ -60,7 +60,7 @@ test_that("endpoints equal to bounds of randomly ordered vector", {
                                           min_abund=min_abund,
                                           max_abund=max_abund)
 
-test_that("some elements < min and > max bounds of randomly ordered vector", {
+test_that("trim_abundances: some elements < min and > max bounds of randomly ordered vector", {
     expect_equal (trimmed_abundances, c(5,6))
 })
 
@@ -75,7 +75,7 @@ test_that("some elements < min and > max bounds of randomly ordered vector", {
                                           min_abund=min_abund,
                                           max_abund=max_abund)
 
-test_that("elements < min bound only", {
+test_that("trim_abundances: elements < min bound only", {
     expect_equal (trimmed_abundances, 5:10)
 })
 
@@ -90,7 +90,7 @@ test_that("elements < min bound only", {
                                           min_abund=min_abund,
                                           max_abund=max_abund)
 
-test_that("elements > max bound only", {
+test_that("trim_abundances: elements > max bound only", {
     expect_equal (trimmed_abundances, 0:8)
 })
 
@@ -105,7 +105,7 @@ test_that("elements > max bound only", {
                                           min_abund=min_abund,
                                           max_abund=max_abund)
 
-test_that("all elements < min OR > max bounds of vector", {
+test_that("trim_abundances: all elements < min OR > max bounds of vector", {
     expect_length (trimmed_abundances, 0)
 })
 
@@ -118,7 +118,7 @@ test_that("all elements < min OR > max bounds of vector", {
     trimmed_abundances = trim_abundances (rounded_abundances,
                                           min_abund=min_abund)
 
-test_that("elements < min bound only with max bound default argument", {
+test_that("trim_abundances: elements < min bound only with max bound default argument", {
     expect_equal (trimmed_abundances, 3:10)
 })
 
@@ -129,7 +129,7 @@ test_that("elements < min bound only with max bound default argument", {
 
     trimmed_abundances = trim_abundances (rounded_abundances)
 
-test_that("elements < min bound only with min and max bound default args", {
+test_that("trim_abundances: elements < min bound only with min and max bound default args", {
     expect_equal (trimmed_abundances, 2:10)
 })
 
@@ -171,8 +171,6 @@ test_that("elements < min bound only with min and max bound default args", {
                                       5,2,2,2,5,
                                       2,3,2,6,2)
 
-    spp_col_name = "spp_ID"
-
     desired_result = data.frame (x = c(2,3,5,6),
                                  freq.x = c(8, 4, 2, 1),
                                  freq.y = c(5, NA, NA, NA))
@@ -185,9 +183,9 @@ test_that("elements < min bound only with min and max bound default args", {
     wrapped_extra_spp_abund_merge =
         gen_raw_histogram_of_wrapped_dist (Xu_PU_spp_table,
                                            trimmed_rounded_abund_per_spp,
-                                           spp_col_name)
+                                           spp_col_name = "spp_ID")
 
-test_that("simple example for gen_raw_histogram_of_wrapped_dist()", {
+test_that("gen_raw_histogram_of_wrapped_dist: simple example", {
     expect_equal (wrapped_extra_spp_abund_merge, desired_result)
 })
 
@@ -232,8 +230,6 @@ test_that("simple example for gen_raw_histogram_of_wrapped_dist()", {
         3,3,2,3,3,2,2,3,3,2,3,2,2,3,3,2,2,2,2,3,2,6,2,3,2,4,2,2,3,2,2,3,2,2,3,2,3,
         4,4,2,2,3,3,2,2,4,2,2,3,3,2,2,3,3,2,3,3,2,2,2,5,2,3,2,2,2,4,2,3,3,2,2)
 
-    spp_col_name = "spp_ID"
-
     desired_result = data.frame (x = 2:6,
                                  freq.x = c(86, 46, 10, 2, 2),
                                  freq.y = c(79, NA, NA, NA, NA))
@@ -247,9 +243,9 @@ test_that("simple example for gen_raw_histogram_of_wrapped_dist()", {
     wrapped_extra_spp_abund_merge =
         gen_raw_histogram_of_wrapped_dist (Xu_PU_spp_table,
                                            trimmed_rounded_abund_per_spp,
-                                           spp_col_name)
+                                           spp_col_name = "spp_ID")
 
-test_that("more complex example for gen_raw_histogram_of_wrapped_dist()", {
+test_that("gen_raw_histogram_of_wrapped_dist: more complex example", {
     expect_equal (wrapped_extra_spp_abund_merge, desired_result)
 })
 
@@ -266,7 +262,6 @@ test_that("more complex example for gen_raw_histogram_of_wrapped_dist()", {
     #  (freq.y) than in the wrapping lognormal distribution (freq.x).
     #------------------------------------------------------------------
 
-    allow_imperfect_wrap = FALSE
     wrapped_extra_spp_abund_merge = data.frame (x = 2:5,
                                                freq.x = c(10, 46, 10, 2),
                                                freq.y = c(20, NA, NA, NA))
@@ -280,21 +275,20 @@ test_that("more complex example for gen_raw_histogram_of_wrapped_dist()", {
         #  Could this be done with a call to expect_error() instead?
     error_in_compute =
         tryCatch ({ compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge,
-                                                                allow_imperfect_wrap)
+                                                                allow_imperfect_wrap = FALSE)
                     FALSE
                   },
                   error = function (err) { TRUE }
                  )
 
 
-test_that("wrap fails when base set not a proper subset", {
+test_that("compute_final_wrapped_extra_spp_abund_hist: wrap fails when base set not a proper subset", {
     expect_equal (error_in_compute, TRUE)    #  Replace with expect_error()?
 })
 
     #-----------------------
     #  Test normal example
     #-----------------------
-
 
     wrapped_extra_spp_abund_merge = data.frame (x = 2:6,
                                                 freq.x = c(86, 46, 10, 2, 2),
@@ -303,9 +297,10 @@ test_that("wrap fails when base set not a proper subset", {
                                  freq = c(7, 46, 10, 2, 2))
 
     final_wrapped_extra_spp_abund_merge =
-        compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge)
+        compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge,
+                                                    allow_imperfect_wrap = FALSE)
 
-test_that("proper wrap should succeed", {
+test_that("compute_final_wrapped_extra_spp_abund_hist: proper wrap should succeed", {
     expect_equal (final_wrapped_extra_spp_abund_merge, desired_result)
 })
 
@@ -331,22 +326,20 @@ test_that("proper wrap should succeed", {
     in_final_wrapped_extra_spp_abund_hist =
         data.frame (abund = 2:6, freq = c(7, 46, 10, 2, 2))
 
-    allow_imperfect_wrap = TRUE
     out_final_wrapped_extra_spp_abund_hist =
         check_for_imperfect_wrap (in_final_wrapped_extra_spp_abund_hist,
-                                  allow_imperfect_wrap)
+                                  allow_imperfect_wrap = TRUE)
 
-test_that("proper wrap should succeed when imperfect wrap allowed", {
+test_that("check_for_imperfect_wrap: proper wrap should succeed when imperfect wrap allowed", {
     expect_equal (out_final_wrapped_extra_spp_abund_hist,
                   in_final_wrapped_extra_spp_abund_hist)
 })
 
-    allow_imperfect_wrap = FALSE
     out_final_wrapped_extra_spp_abund_hist =
         check_for_imperfect_wrap (in_final_wrapped_extra_spp_abund_hist,
-                                  allow_imperfect_wrap)
+                                  allow_imperfect_wrap = FALSE)
 
-test_that("proper wrap should succeed when imperfect wrap NOT allowed", {
+test_that("check_for_imperfect_wrap: proper wrap should succeed when imperfect wrap NOT allowed", {
     expect_equal (out_final_wrapped_extra_spp_abund_hist,
                   in_final_wrapped_extra_spp_abund_hist)
 })
@@ -375,23 +368,20 @@ test_that("proper wrap should succeed when imperfect wrap NOT allowed", {
     corrected_final_wrapped_extra_spp_abund_hist = # hist with negs replaced with 0s
         data.frame (abund = 2:6, freq = c(0, 46, 10, 0, 2))
 
-    allow_imperfect_wrap = TRUE
     out_final_wrapped_extra_spp_abund_hist =
         check_for_imperfect_wrap (in_final_wrapped_extra_spp_abund_hist,
-                                  allow_imperfect_wrap)
+                                  allow_imperfect_wrap = TRUE)
 
-test_that("imperfect wrap should succeed & correct when imperfect wrap allowed", {
+test_that("check_for_imperfect_wrap: imperfect wrap should succeed & correct when imperfect wrap allowed", {
     expect_equal (out_final_wrapped_extra_spp_abund_hist,
                   corrected_final_wrapped_extra_spp_abund_hist)
 })
 
     #--------------------
 
-    allow_imperfect_wrap = FALSE
-
-test_that("imperfect wrap should fail when imperfect wrap NOT allowed", {
+test_that("check_for_imperfect_wrap: imperfect wrap should fail when imperfect wrap NOT allowed", {
     expect_error (check_for_imperfect_wrap (in_final_wrapped_extra_spp_abund_hist,
-                                            allow_imperfect_wrap))
+                                            allow_imperfect_wrap = FALSE))
 })
 
 #-------------------------------------------------------------------------------
@@ -412,7 +402,7 @@ test_that("imperfect wrap should fail when imperfect wrap NOT allowed", {
 extra_spp_abund =
     build_vec_of_extra_spp_and_their_abundances (in_final_wrapped_extra_spp_abund_hist)
 
-test_that("all non-zero abundance frequencies in wrapped_extra_spp_abund_hist", {
+test_that("build_vec_of_extra_spp_and_their_abundances: all non-zero abundance frequencies in wrapped_extra_spp_abund_hist", {
     expect_equal (extra_spp_abund, desired_result)
 })
 
@@ -427,10 +417,10 @@ test_that("all non-zero abundance frequencies in wrapped_extra_spp_abund_hist", 
                        5,5,         #  2 spp on 5 patches
                        6,6,6,6,6)   #  5 spp on 6 patches
 
-extra_spp_abund =
-    build_vec_of_extra_spp_and_their_abundances (in_final_wrapped_extra_spp_abund_hist)
+    extra_spp_abund =
+        build_vec_of_extra_spp_and_their_abundances (in_final_wrapped_extra_spp_abund_hist)
 
-test_that("all non-zero abundance frequencies in wrapped_extra_spp_abund_hist", {
+test_that("build_vec_of_extra_spp_and_their_abundances: 1 zero abundance frequencies in wrapped_extra_spp_abund_hist", {
     expect_equal (extra_spp_abund, desired_result)
 })
 
