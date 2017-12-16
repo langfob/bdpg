@@ -474,12 +474,106 @@ test_that("clean_up_wrapped_abund_dist: proper wrap should succeed regardless of
         #--------------------------------------------------------------
         #  Test remove_base_spp_abundances_from_wrapping_distribution
         #--------------------------------------------------------------
-if(FALSE)
-extra_abund =
-    remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
-                                                           trimmed_rounded_abund_per_spp,
-                                                           spp_col_name,
-                                                           allow_imperfect_wrap)
+
+    #------------------
+    #  Simple example
+    #------------------
+
+        #  Xu_PU_spp_table PU_spp table for original Xu problem being wrapped
+        #  around
+    num_spp = 5
+    num_PU = 10
+    Xu_PU_spp_table = data.frame (PU_ID=1:num_PU, spp_ID=rep(1:num_spp,each=2))
+# Xu_PU_spp_table
+#    PU_ID spp_ID
+# 1      1      1
+# 2      2      1
+# 3      3      2
+# 4      4      2
+# 5      5      3
+# 6      6      3
+# 7      7      4
+# 8      8      4
+# 9      9      5
+# 10    10      5
+
+        #  trimmed_rounded_abund_per_spp vector of abundances of all species in
+        #  the full wrapped distribution, i.e., including the original Xu problem
+        #  abundances
+
+    trimmed_rounded_abund_per_spp = c(3,2,3,3,2,
+                                      5,2,2,2,5,
+                                      2,3,2,6,2)
+
+#   x freq.x freq.y
+# 1 2     8     5
+# 2 3     4     NA
+# 4 5     2     NA
+# 5 6     1     NA
+
+    desired_result = c(2,2,2,    #  3 spp on 2 patches
+                       3,3,3,3,  #  4 spp on 3 patches
+                                 #  0 spp on 4 patches
+                       5,5,      #  2 spp on 5 patches
+                       6)        #  1 spp on 6 patches
+
+
+test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example", {
+    expect_equal (remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
+                                                                         trimmed_rounded_abund_per_spp,
+                                                                         spp_col_name = "spp_ID",
+                                                                         allow_imperfect_wrap = TRUE),
+                  desired_result)
+
+    expect_equal (remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
+                                                                         trimmed_rounded_abund_per_spp,
+                                                                         spp_col_name = "spp_ID",
+                                                                         allow_imperfect_wrap = FALSE),
+                  desired_result)
+
+})
+
+    #---------------------------------------------------------
+    #  Simple example that should fail due to imperfect wrap
+    #  if allow_imperfect_wrap is FALSE but succeed if TRUE
+    #---------------------------------------------------------
+
+    #  Use same Xu_PU_spp_table as above
+
+        #  trimmed_rounded_abund_per_spp vector of abundances of all species in
+        #  the full wrapped distribution, i.e., including the original Xu problem
+        #  abundances
+
+    trimmed_rounded_abund_per_spp = c(3,2,3,3,2,
+                                      5,2,2,5,
+                                      3,6)
+
+#   x freq.x freq.y
+# 1 2     4     5     <<<<<-----  Fewer spp in the wrapping distr than in base
+# 2 3     4     NA
+# 4 5     2     NA
+# 5 6     1     NA
+
+    desired_result = c(          #  0 spp on 2 patches
+                       3,3,3,3,  #  4 spp on 3 patches
+                                 #  0 spp on 4 patches
+                       5,5,      #  2 spp on 5 patches
+                       6)        #  1 spp on 6 patches
+
+
+test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example", {
+    expect_equal (remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
+                                                                         trimmed_rounded_abund_per_spp,
+                                                                         spp_col_name = "spp_ID",
+                                                                         allow_imperfect_wrap = TRUE),
+                  desired_result)
+
+    expect_error (remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
+                                                                         trimmed_rounded_abund_per_spp,
+                                                                         spp_col_name = "spp_ID",
+                                                                         allow_imperfect_wrap = FALSE))
+})
+
 
 #-------------------------------------------------------------------------------
 
