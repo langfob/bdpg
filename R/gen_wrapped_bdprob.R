@@ -870,9 +870,8 @@ wrap_abundances_around_eligible_set <- function (dep_set,
     num_extra_occurrences = sum (extra_abund)
     num_extra_spp         = length (extra_abund)
 
-#  Should these be initialized to NA instead of 0?  Does it matter?
-    PU_spp_table = data.frame (PU_ID = rep (0, num_extra_occurrences),
-                               spp_ID = rep (0, num_extra_occurrences))
+    PU_spp_table = data.frame (PU_ID =  rep (NA, num_extra_occurrences),
+                               spp_ID = rep (NA, num_extra_occurrences))
 
     cur_row = 1
     for (cur_spp_idx in 1:num_extra_spp)
