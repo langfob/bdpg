@@ -706,10 +706,21 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 
 #===============================================================================
 
+#' @export
+#'
 create_wrapping_spp_PU_spp_table <- function (extra_abund,
                                               dep_set,
-                                              eligible_set)
+                                              eligible_set,
+
+            #  NOTE:  These 2 args are ONLY for use when called by unit test
+            #         routines that need to reproduce random values exactly.
+            #         You should omit them in all other cases.
+            #         See tests/testthat/test_gen_wrapped_bdprob.R for the
+            #         only places where they are and should be used.
+                                              use_testing_only_rand_seed = FALSE,
+                                              testing_only_rand_seed = 17)
     {
+    if (use_testing_only_rand_seed) set.seed (testing_only_rand_seed)
 
         #-----------------------------------------------------------------------
         #  Create and initialize a table showing each occurrence of each extra
@@ -721,7 +732,7 @@ create_wrapping_spp_PU_spp_table <- function (extra_abund,
     num_extra_spp         = length (extra_abund)
 
     PU_spp_table = data.frame (PU_ID =  rep (NA, num_extra_occurrences),
-                             spp_ID = rep (NA, num_extra_occurrences))
+                               spp_ID = rep (NA, num_extra_occurrences))
 
         #-----------------------------------------------------------------------
         #  Now, for each extra species (i.e., species in the wrapping set),
@@ -754,7 +765,7 @@ create_wrapping_spp_PU_spp_table <- function (extra_abund,
 
         idx_of_cur_dep_set_PU = which (eligible_set == cur_dep_set_PU)
         cur_eligible_set =
-            if (length (idx_of_cur_PU) > 0)
+            if (length (idx_of_cur_dep_set_PU) > 0)
                 eligible_set [-idx_of_cur_dep_set_PU] else eligible_set
 
             #-------------------------------------------------------------
@@ -764,21 +775,23 @@ create_wrapping_spp_PU_spp_table <- function (extra_abund,
             #-------------------------------------------------------------
 
         num_PUs_to_draw = num_PUs_to_draw - 1
-            if (num_PUs_to_draw > 0)
-                {
-                extra_PUs_for_cur_spp = safe_sample (cur_eligible_set,
-                                                     num_PUs_to_draw,
-                                                     replace=FALSE)
+        if (num_PUs_to_draw > 0)
+            {
+            extra_PUs_for_cur_spp = safe_sample (cur_eligible_set,
+                                                 num_PUs_to_draw,
+                                                 replace=FALSE)
 
-                end_row = cur_row + num_PUs_to_draw - 1
-                PU_spp_table [cur_row:end_row, "PU_ID"]  = extra_PUs_for_cur_spp
-                PU_spp_table [cur_row:end_row, "spp_ID"] = cur_spp_idx
+            end_row = cur_row + num_PUs_to_draw - 1
+            PU_spp_table [cur_row:end_row, "PU_ID"]  = extra_PUs_for_cur_spp
+            PU_spp_table [cur_row:end_row, "spp_ID"] = cur_spp_idx
 
-                cur_row = end_row + 1
+            cur_row = end_row + 1
 
-                }  #  end if - num_PUs_to_draw
-            }  #  end for - cur_spp_idx
-        }
+            }  #  end if - num_PUs_to_draw
+        }  #  end for - cur_spp_idx
+
+    return (PU_spp_table)
+    }
 
 #===============================================================================
 
