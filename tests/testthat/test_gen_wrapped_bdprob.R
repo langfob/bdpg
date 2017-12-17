@@ -585,8 +585,8 @@ wrapped_PU_spp_indices = wrap_abundances_around_eligible_set (dep_set,
                                                                rounded_abund_per_spp,
                                                                num_base_spp,
                                                                Xu_PU_spp_table,
-                                                               min_allowed_abundance = 2,
                                                                allow_imperfect_wrap,
+                                                               min_allowed_abundance = 2,
                                                                PU_col_name = "PU_ID",
                                                                spp_col_name = "spp_ID"
                                                                )

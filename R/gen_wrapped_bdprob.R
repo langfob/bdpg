@@ -831,8 +831,8 @@ wrap_abundances_around_eligible_set <- function (dep_set,
                                                  rounded_abund_per_spp,
                                                  num_base_spp,
                                                  Xu_PU_spp_table,
-                                                 min_allowed_abundance = 2,
                                                  allow_imperfect_wrap,
+                                                 min_allowed_abundance = 2,
                                                  PU_col_name = "PU_ID",
                                                  spp_col_name = "spp_ID"
                                                 )
@@ -1183,8 +1183,8 @@ wrap_abundance_dist_around_Xu_problem <- function (starting_dir,
 #                                             Xu_bdprob@PU_spp_pair_indices,
                                              Xu_bdprob@cor_PU_spp_pair_indices,
 
-                                             min_allowed_abundance = 2,
                                              allow_imperfect_wrap,
+                                             min_allowed_abundance = 2,
 
                                              Xu_bdprob@PU_col_name,
                                              Xu_bdprob@spp_col_name)
