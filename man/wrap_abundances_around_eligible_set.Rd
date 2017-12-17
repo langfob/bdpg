@@ -5,8 +5,8 @@
 \title{Wrap abundances around eligible set}
 \usage{
 wrap_abundances_around_eligible_set(dep_set, eligible_set,
-  rounded_abund_per_spp, num_base_spp, Xu_PU_spp_table,
-  min_allowed_abundance = 2, allow_imperfect_wrap, PU_col_name = "PU_ID",
+  rounded_abund_per_spp, num_base_spp, Xu_PU_spp_table, allow_imperfect_wrap,
+  min_allowed_abundance = 2, PU_col_name = "PU_ID",
   spp_col_name = "spp_ID")
 }
 \arguments{
@@ -19,6 +19,8 @@ wrap_abundances_around_eligible_set(dep_set, eligible_set,
 \item{num_base_spp}{integer}
 
 \item{Xu_PU_spp_table}{data frame}
+
+\item{allow_imperfect_wrap}{boolean}
 
 \item{min_allowed_abundance}{integer}
 
