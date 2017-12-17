@@ -706,6 +706,82 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 
 #===============================================================================
 
+create_wrapping_spp_PU_spp_table <- function (extra_abund,
+                                              dep_set,
+                                              eligible_set)
+    {
+
+        #-----------------------------------------------------------------------
+        #  Create and initialize a table showing each occurrence of each extra
+        #  species (i.e., wrapping species) on a particular PU, i.e., one
+        #  PU_ID/spp_ID pair for each occurrence.
+        #-----------------------------------------------------------------------
+
+    num_extra_occurrences = sum (extra_abund)
+    num_extra_spp         = length (extra_abund)
+
+    PU_spp_table = data.frame (PU_ID =  rep (NA, num_extra_occurrences),
+                             spp_ID = rep (NA, num_extra_occurrences))
+
+        #-----------------------------------------------------------------------
+        #  Now, for each extra species (i.e., species in the wrapping set),
+        #  randomly draw planning units where that species occurs in the
+        #  eligible set of planning units.
+        #  Then, load each of those occurrences into the PU_spp_table.
+        #-----------------------------------------------------------------------
+
+    cur_row = 1
+    for (cur_spp_idx in 1:num_extra_spp)
+        {
+        num_PUs_to_draw = extra_abund [cur_spp_idx]
+
+            #-------------------------------------------------------------------
+            #  Draw the one mandatory PU in the dependent set for this species
+            #  and add a PU_ID/spp_ID pair for it in the PU_spp_table.
+            #-------------------------------------------------------------------
+
+        cur_dep_set_PU = safe_sample (dep_set, 1, replace=FALSE)
+        PU_spp_table [cur_row, "PU_ID"] = cur_dep_set_PU
+        PU_spp_table [cur_row, "spp_ID"] = cur_spp_idx
+        cur_row = cur_row + 1
+
+            #-------------------------------------------------------------------
+            #  If that PU was part of the overall eligible set to draw from
+            #  (e.g., the eligible set was the union of the dependent set and
+            #   the extra set rather than just being the extra set),
+            #  remove it from the set of PUs eligible for any remaining draws.
+            #-------------------------------------------------------------------
+
+        idx_of_cur_dep_set_PU = which (eligible_set == cur_dep_set_PU)
+        cur_eligible_set =
+            if (length (idx_of_cur_PU) > 0)
+                eligible_set [-idx_of_cur_dep_set_PU] else eligible_set
+
+            #-------------------------------------------------------------
+            #  Now draw all remaining occurrences of the current species
+            #  from the eligible set of PUs and load a PU_ID/spp_ID pair
+            #  for each one into the PU_spp_table.
+            #-------------------------------------------------------------
+
+        num_PUs_to_draw = num_PUs_to_draw - 1
+            if (num_PUs_to_draw > 0)
+                {
+                extra_PUs_for_cur_spp = safe_sample (cur_eligible_set,
+                                                     num_PUs_to_draw,
+                                                     replace=FALSE)
+
+                end_row = cur_row + num_PUs_to_draw - 1
+                PU_spp_table [cur_row:end_row, "PU_ID"]  = extra_PUs_for_cur_spp
+                PU_spp_table [cur_row:end_row, "spp_ID"] = cur_spp_idx
+
+                cur_row = end_row + 1
+
+                }  #  end if - num_PUs_to_draw
+            }  #  end for - cur_spp_idx
+        }
+
+#===============================================================================
+
 #-------------------------------------------------------------------------------
 
 #' Wrap abundances around eligible set
@@ -861,68 +937,29 @@ wrap_abundances_around_eligible_set <- function (dep_set,
 
     #----------------------------------
 
-        #  Build a vector containing the abundances of each of the extra species.
+        #-----------------------------------------------------------------
+        #  Build a vector containing the abundances of each of the extra
+        #  species.
+        #-----------------------------------------------------------------
+
     extra_abund =
         remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
                                                                trimmed_rounded_abund_per_spp,
                                                                spp_col_name,
                                                                allow_imperfect_wrap)
 
-    num_extra_occurrences = sum (extra_abund)
-    num_extra_spp         = length (extra_abund)
-
-    PU_spp_table = data.frame (PU_ID =  rep (NA, num_extra_occurrences),
-                               spp_ID = rep (NA, num_extra_occurrences))
-
-    cur_row = 1
-    for (cur_spp_idx in 1:num_extra_spp)
-        {
-#        cat ("\n\ncur_spp_idx = ", cur_spp_idx, "\n", sep='')
-
-        num_PUs_to_draw = extra_abund [cur_spp_idx]
-
-            #  Draw the one mandatory PU in the dependent set for this species.
-
-        dep_set_PU = safe_sample (dep_set, 1, replace=FALSE)
-        PU_spp_table [cur_row, "PU_ID"] = dep_set_PU
-        PU_spp_table [cur_row, "spp_ID"] = cur_spp_idx
-        cur_row = cur_row + 1
-
-            #  If that PU was part of the overall eligible set
-            #  (e.g., the eligible set was the union of the dependent set and
-            #   the extra set rather than just being the extra set),
-            #  remove it from the eligible set of PUs.
-
-        x = which (eligible_set == dep_set_PU)
-        cur_eligible_set =
-            if (length (x) > 0) eligible_set [-x] else eligible_set
-
-        num_PUs_to_draw = num_PUs_to_draw - 1
-    # cat ("\nAbout to check num_PUs_to_draw > 0 for cur_spp_idx = ",
-    #      cur_spp_idx, sep='')
-
-        if (num_PUs_to_draw > 0)
-            {
-            extra_PUs_for_cur_spp = safe_sample (cur_eligible_set,
-                                                 num_PUs_to_draw,
-                                                 replace=FALSE)
-
-            end_row = cur_row + num_PUs_to_draw - 1
-            PU_spp_table [cur_row:end_row, "PU_ID"]  = extra_PUs_for_cur_spp
-            PU_spp_table [cur_row:end_row, "spp_ID"] = cur_spp_idx
-
-            cur_row = end_row + 1
-
-            }  #  end if - num_PUs_to_draw
-        }  #  end for - cur_spp_idx
+    PU_spp_table =
+        create_wrapping_spp_PU_spp_table (extra_abund,
+                                           dep_set,
+                                           eligible_set)
 
                     cat ("\n\n--------------------------------------\n\n", "PU_spp_table = \n")#    print (PU_spp_table)    #  usually too long to print...
                     print (head (PU_spp_table))    #  usually too long to print entire table...
                     cat ("\n\n")
 
         #-------------------------------------------------------------------
-        #  Add the occurrences from the original problem to the table
-        #  just created for the wrapped problem.
+        #  Combine the PU_spp_table just created for the wrapping species
+        #  with the PU_spp_table from the original problem.
         #  Since both the extra species and the base species started their
         #  species numbering at 1, need to offset the numbering of one or
         #  the other of these two groups.  Will change the numbering of
