@@ -818,6 +818,7 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 #' @param rounded_abund_per_spp integer vector
 #' @param num_base_spp integer
 #' @param Xu_PU_spp_table data frame
+#' @param allow_imperfect_wrap boolean
 #' @param min_allowed_abundance integer
 #' @param PU_col_name character string
 #' @param spp_col_name character string
