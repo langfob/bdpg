@@ -9,14 +9,27 @@
 
 #===============================================================================
 
-    #  2015 04 08 - BTL
-    #  I just got bitten very badly by the incredibly annoying behavior of R's
-    #  sample() function, so here is a replacement function that I need to
-    #  use everywhere now.
-    #  When I called sample with a vector that sometimes had length n=1,
-    #  it sampled from 1:n instead of returning the single value.
-    #  This majorly screwed all kinds of things in a very subtle, very hard
-    #  to find way.
+#-------------------------------------------------------------------------------
+
+#' Safe version of R sample function
+#'
+#' 2015 04 08 - BTL
+#'  I just got bitten very badly by the incredibly annoying behavior of R's
+#'  sample() function, so here is a replacement function that I need to
+#'  use everywhere now.
+#'  When I called sample with a vector that sometimes had length n=1,
+#'  it sampled from 1:n instead of returning the single value.
+#'  This majorly screwed all kinds of things in a very subtle, very hard
+#'  to find way.
+#'
+#-------------------------------------------------------------------------------
+
+#' @param x Either a vector of one or more elements from which to choose, or a positive integer.
+#'
+#' @return Returns a value that is probably an integer but is definitely not null
+#' @export
+
+#-------------------------------------------------------------------------------
 
 safe_sample = function (x,...) { if (length (x) == 1) x else sample (x,...) }
 
