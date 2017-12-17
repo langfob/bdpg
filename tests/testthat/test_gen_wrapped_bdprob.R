@@ -575,6 +575,7 @@ test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example
 })
 
 #-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
                 #-----------------------------------------
                 #  Test create_wrapping_spp_PU_spp_table
@@ -707,11 +708,7 @@ validate_wrap <- function (num_extra_spp,
     return (all_ok)
     }
 
-
-
-
-
-
+#---------------------------------------------------
 
     extra_abund = c(2,2,2,    #  3 spp on 2 patches
                     3,        #  1 spp on 3 patches
@@ -771,44 +768,7 @@ test_that("create_wrapping_spp_PU_spp_table: dep PUs ELIGIBLE, test seed 17", {
                                 dep_set))
 })
 
-
-    #--------------------
-
-    extra_abund = c(2,2,2,    #  3 spp on 2 patches
-                    3,        #  1 spp on 3 patches
-                    4,        #  1 spp on 4 patches
-                    5)        #  1 spp on 5 patches
-
-    dep_set_PUs_eligible = FALSE
-    dep_set = 1:3
-    eligible_set = 4:8
-
-PU_spp_table = create_wrapping_spp_PU_spp_table (extra_abund,
-                                                 dep_set,
-                                                 eligible_set,
-                                                 use_testing_only_rand_seed = TRUE,
-                                                 testing_only_rand_seed = 19)
-
-#    PU_ID spp_ID
-# 1      1      1
-# 2      6      1
-# 3      2      2
-# 4      4      2
-# 5      2      3
-# 6      5      3
-# 7      1      4
-# 8      6      4
-# 9      7      4
-# 10     3      5
-# 11     6      5
-# 12     5      5
-# 13     8      5
-# 14     3      6
-# 15     5      6
-# 16     7      6
-# 17     8      6
-# 18     6      6
-
+#---------------------------------------------------
 
     extra_abund = c(2,2,2,    #  3 spp on 2 patches
                     3,        #  1 spp on 3 patches
@@ -826,64 +786,47 @@ PU_spp_table = create_wrapping_spp_PU_spp_table (extra_abund,
                                                  testing_only_rand_seed = 17)
 
 # > PU_spp_table
-#    PU_ID spp_ID
+#    PU_ID spp_ID    <<<<<----- PU_ID CHANGES NOW THAT DEP_SET IS ELIGIBLE ----->>>>>
 # 1      1      1
 # 2      8      1
 # 3      2      2
 # 4      7      2
 # 5      2      3
-# 6      5      3
+# 6      5      3    <<<<<----- 5 instead of 6 ----->>>>>
 # 7      1      4
-# 8      3      4
-# 9      6      4
+# 8      3      4    <<<<<----- 3 instead of 4 ----->>>>>
+# 9      6      4    <<<<<----- 6 instead of 7 ----->>>>>
 # 10     1      5
-# 11     5      5
-# 12     2      5
-# 13     6      5
+# 11     5      5    <<<<<----- 5 instead of 6 ----->>>>>
+# 12     2      5    <<<<<----- 2 instead of 4 ----->>>>>
+# 13     6      5    <<<<<----- 6 instead of 8 ----->>>>>
 # 14     3      6
 # 15     8      6
 # 16     7      6
 # 17     5      6
-# 18     2      6
+# 18     2      6    <<<<<----- 2 instead of 4 ----->>>>>
 
-    #--------------------
+    desired_PU_spp_table = data.frame (PU_ID = c(1,8,2,7,2,5,1,3,6,1,5,2,6,3,8,7,5,2),
+                                       spp_ID = c(1,1,2,2,3,3,4,4,4,5,5,5,5,6,6,6,6,6))
 
-    extra_abund = c(2,2,2,    #  3 spp on 2 patches
-                    3,        #  1 spp on 3 patches
-                    4,        #  1 spp on 4 patches
-                    5)        #  1 spp on 5 patches
+    wrap_ok = validate_wrap (num_extra_spp = length (extra_abund),
+                             dep_set_PUs_eligible,
+                             PU_spp_table,
+                             dep_set)
 
-    dep_set_PUs_eligible = TRUE
-    dep_set = 1:3
-    eligible_set = 1:8
-
-PU_spp_table = create_wrapping_spp_PU_spp_table (extra_abund,
-                                                 dep_set,
-                                                 eligible_set,
-                                                 use_testing_only_rand_seed = TRUE,
-                                                 testing_only_rand_seed = 19)
-
-# > PU_spp_table
-#    PU_ID spp_ID
-# 1      1      1
-# 2      5      1
-# 3      2      2
-# 4      1      2
-# 5      2      3
-# 6      3      3
-# 7      1      4
-# 8      6      4
-# 9      7      4
-# 10     3      5
-# 11     4      5
-# 12     8      5
-# 13     5      5
-# 14     3      6
-# 15     2      6
-# 16     7      6
-# 17     8      6
-# 18     4      6
-
+test_that("create_wrapping_spp_PU_spp_table: dep PUs NOT eligible, test seed 17", {
+    expect_equal (desired_PU_spp_table, PU_spp_table)
+    expect_error (validate_wrap (num_extra_spp = length (extra_abund),
+                                dep_set_PUs_eligible = FALSE,
+                                PU_spp_table,
+                                dep_set))
+})
+test_that("create_wrapping_spp_PU_spp_table: dep PUs ELIGIBLE, test seed 17", {
+    expect_true (validate_wrap (num_extra_spp = length (extra_abund),
+                                dep_set_PUs_eligible = TRUE,
+                                PU_spp_table,
+                                dep_set))
+})
 
 #-------------------------------------------------------------------------------
 
