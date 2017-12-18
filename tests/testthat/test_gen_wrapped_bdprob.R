@@ -870,6 +870,53 @@ test_that("wrap_abundances_around_eligible_set: simple example", {
 
 #-------------------------------------------------------------------------------
 
+                #-------------------------------------------------
+                #  Test options_are_legal_for_single_bdprob_WRAP
+                #-------------------------------------------------
+
+    #  Fail if Xu_bench is TRUE   OR   if lognormal is FALSE
+
+parameters = list()    #  lognormal FALSE => fail
+test_that("options_are_legal_for_single_bdprob_WRAP: empty list", {
+    expect_error (options_are_legal_for_single_bdprob_WRAP (parameters))
+})
+
+parameters = list (read_Xu_problem_from_Xu_bench_file = FALSE)    #  lognormal FALSE => fail
+test_that("options_are_legal_for_single_bdprob_WRAP: bench FALSE, log empty", {
+    expect_error (options_are_legal_for_single_bdprob_WRAP (parameters))
+})
+
+parameters = list (read_Xu_problem_from_Xu_bench_file = FALSE,    #  lognormal FALSE => fail
+                   wrap_lognormal_dist_around_Xu      = FALSE)
+test_that("options_are_legal_for_single_bdprob_WRAP: bench FALSE, log FALSE", {
+    expect_error (options_are_legal_for_single_bdprob_WRAP (parameters))
+})
+
+parameters = list (read_Xu_problem_from_Xu_bench_file = TRUE,     #  lognormal FALSE => fail
+                   wrap_lognormal_dist_around_Xu      = FALSE)
+test_that("options_are_legal_for_single_bdprob_WRAP: bench TRUE, log FALSE", {
+    expect_error (options_are_legal_for_single_bdprob_WRAP (parameters))
+})
+
+parameters = list (read_Xu_problem_from_Xu_bench_file = TRUE,     #  Xu_bench TRUE => fail
+                   wrap_lognormal_dist_around_Xu      = TRUE)
+test_that("options_are_legal_for_single_bdprob_WRAP: bench TRUE, log TRUE", {
+    expect_error (options_are_legal_for_single_bdprob_WRAP (parameters))
+})
+
+parameters = list (read_Xu_problem_from_Xu_bench_file = FALSE,    #  SUCCEED
+                   wrap_lognormal_dist_around_Xu      = TRUE)
+test_that("options_are_legal_for_single_bdprob_WRAP: bench FALSE, log TRUE", {
+    expect_true (options_are_legal_for_single_bdprob_WRAP (parameters))
+})
+
+parameters = list (wrap_lognormal_dist_around_Xu      = TRUE)    #  SUCCEED
+test_that("options_are_legal_for_single_bdprob_WRAP: bench empty, log TRUE", {
+    expect_true (options_are_legal_for_single_bdprob_WRAP (parameters))
+})
+
+#-------------------------------------------------------------------------------
+
                 #--------------------------------------------
                 #  Test wrap_abundance_dist_around_Xu_problem
                 #--------------------------------------------
@@ -901,16 +948,6 @@ gen_wrapped_bdprob_COR (starting_dir,
                                     parameters,
                                     base_bdprob,
                                     bdpg_error_codes)
-
-#-------------------------------------------------------------------------------
-
-                #--------------------------------------------
-                #  Test options_are_legal_for_single_bdprob_WRAP
-                #--------------------------------------------
-if(FALSE)
-options_are_legal_for_single_bdprob_WRAP (bdprob_to_wrap,
-                                                      parameters,
-                                                      bdpg_error_codes)
 
 #-------------------------------------------------------------------------------
 
