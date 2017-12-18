@@ -1830,8 +1830,7 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                     bdpg_error_codes)
     {
     if (options_are_legal_for_single_bdprob_WRAP (base_bdprob,
-                                                  parameters,
-                                                  bdpg_error_codes))
+                                                  parameters))
         {
             #---------------------------------
             #  Control parameters from user.
@@ -1936,8 +1935,7 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
 #-------------------------------------------------------------------------------
 
 options_are_legal_for_single_bdprob_WRAP <- function (bdprob_to_wrap,
-                                                      parameters,
-                                                      bdpg_error_codes)
+                                                      parameters)
     {
         #----------------------------------------------------------------------
         #  Make sure that the base problem for the multiproblem is not one of
