@@ -2,7 +2,144 @@
 #                           Generate a wrapped problem.
 #===============================================================================
 
-#-------------------------------------------------------------------------------
+
+compute_PU_spp_table_attributes_by_spp <- function (PU_IDs_for_one_spp_as_df,
+                                                    dep_set)
+    {
+    num_pu_this_spp        = length (PU_IDs_for_one_spp_as_df)
+    num_unique_pu_this_spp = length (unique (PU_IDs_for_one_spp_as_df))
+    num_pu_in_dep_set      = sum (PU_IDs_for_one_spp_as_df %in% dep_set)
+
+    return (data.frame (num_pu_this_spp, num_unique_pu_this_spp, num_pu_in_dep_set))
+    }
+
+#===============================================================================
+
+#' export
+
+validate_wrap <- function (extra_abund,
+                           dep_set_PUs_eligible,
+                           PU_spp_table,
+                           dep_set)
+    {
+        #  Apply compute_PU_spp_table_attributes_by_spp() function to PU_spp_table by spp_ID group
+        #  Form of this call is taken from:
+        #  http://www.milanor.net/blog/dplyr-do-tips-for-using-and-programming/
+    values_by_spp =
+        PU_spp_table %>%
+        dplyr::group_by (spp_ID) %>%
+        dplyr::do (compute_PU_spp_table_attributes_by_spp (PU_IDs_for_one_spp_as_df = .$PU_ID,
+                                                           dep_set))
+
+    num_extra_spp = length (extra_abund)
+
+        #  Rules that PU_spp_table for wrapped spp must satisfy to be valid:
+
+    num_test_rules = 6
+    ok = rep (FALSE, num_test_rules)
+
+        #  Rule 1:  At least one occurrence of each species ID must be on a PU in the dep set
+    ok [1] = all (values_by_spp$num_pu_in_dep_set > 0)
+    if (! ok[1])
+        {
+        message ("\nWrapping rule 1 violation:")
+        cat ("\nRule 1:  At least one occurrence of each species ID must be on a PU in the dep set",
+             "\nnum_extra_spp = ", num_extra_spp,
+             "\nsum (values_by_spp$num_pu_in_dep_set > 0) = ",
+             sum (values_by_spp$num_pu_in_dep_set > 0),
+             "\nwhich (values_by_spp$num_pu_in_dep_set <= 0) = '",
+             which (values_by_spp$num_pu_in_dep_set <= 0), "'\n")
+        print (values_by_spp$num_pu_in_dep_set)
+        }
+
+        #  Rule 2:  If dep set not eligible, then one and only one occurrence of the species can be in dep set
+    ok [2] = TRUE
+    if (! dep_set_PUs_eligible)
+        ok [2] = all (values_by_spp$num_pu_in_dep_set == 1)
+    if (! ok[2])
+        {
+        message ("\nWrapping rule 2 violation:")
+        cat ("\nRule 2:  If dep set not eligible, then one and only one occurrence of the species can be in dep set",
+             "\nnum_extra_spp = ", num_extra_spp,
+             "\nsum (values_by_spp$num_pu_in_dep_set == 1) = ",
+             sum (values_by_spp$num_pu_in_dep_set == 1),
+             "\nwhich (values_by_spp$num_pu_in_dep_set != 1) = '",
+             which (values_by_spp$num_pu_in_dep_set != 1), "'\n")
+        print (values_by_spp$num_pu_in_dep_set)
+        }
+
+        #  Rule 3:  No PU can occur more than once within a species
+    ok [3] = all (values_by_spp$num_pu_this_spp == values_by_spp$num_unique_pu_this_spp)
+    if (! ok[3])
+        {
+        cts_not_same = which (values_by_spp$num_pu_this_spp !=
+                                  values_by_spp$num_unique_pu_this_spp)
+        message ("\nWrapping rule 3 violation:")
+        cat ("\nRule 3:  No PU can occur more than once within a species",
+             "\nduplicates at index(s): '", cts_not_same, "'")
+        cat ("\nvalues_by_spp$num_pu_this_spp = \n")
+        print (values_by_spp$num_pu_this_spp)
+        cat ("\nvalues_by_spp$num_unique_pu_this_spp = \n")
+        print (values_by_spp$num_unique_pu_this_spp)
+    }
+
+        #  Rule 4:  All species must occur in result table
+    ok [4] = (num_extra_spp == length (values_by_spp$spp_ID))
+    if (! ok[4])
+        {
+        message ("\nWrapping rule 4 violation:")
+        cat ("\nRule 4:  All species must occur in result table",
+             "\nnum_extra_spp = ", num_extra_spp,
+             "\nlength (values_by_spp$spp_ID) = ", length (values_by_spp$spp_ID))
+        }
+
+        #  Rule 5:  All species must occur the number of times specified in their abundance
+            #  Had to use isTRUE() here because all.equal doesn't seem to return
+            #  a boolean.  For some reason, it returns a string saying
+            #  something like "Mean relative difference: ..." when they
+            #  don't match.  When they do match, it does return TRUE though...
+    ok [5] = isTRUE (all.equal (extra_abund, values_by_spp$num_unique_pu_this_spp))
+    if (! ok[5])
+        {
+        message ("\nWrapping rule 5 violation:")
+        cat ("\nRule 5:  All species must occur the number of times specified in their abundance")
+        if (length (extra_abund) == length (values_by_spp$num_unique_pu_this_spp))
+            {
+            indices_of_mismatches = which (extra_abund != values_by_spp$num_unique_pu_this_spp)
+            cat ("\nindices_of_mismatches = '", indices_of_mismatches, "'")
+            }
+        cat ("\nextra_abund = \n")
+        print (extra_abund)
+        cat ("\nvalues_by_spp$num_unique_pu_this_spp = \n")
+        print (values_by_spp$num_unique_pu_this_spp)
+        }
+
+        #  Rule 6:  Total number of lines in the result table must equal total number of occurrences
+    ok [6] = (sum (extra_abund) == nrow (PU_spp_table))
+    if (! ok[6])
+        {
+        message ("\nWrapping rule 6 violation:")
+        cat ("\nRule 6:  Total number of lines in the result table must equal total number of occurrences",
+             "\ntotal num spp = sum (extra_abund) = ", sum (extra_abund),
+             "\ntotal num lines in result table = ", nrow (PU_spp_table))
+        cat ("\nextra_abund = \n")
+        print (extra_abund)
+        cat ("\nPU_spp_table = \n")
+        print (PU_spp_table)
+        }
+
+    all_ok = all (ok)
+    if (! all_ok)
+        {
+        cat ("\nRule(s) ", which (!ok),
+                      " violated in wrapped species PU_spp_table.\n")
+        stop()
+        }
+
+    return (all_ok)
+    }
+
+#===============================================================================
 
     #  Need to do some sanity checks on various wrap parameters
     #  to make sure that they can't generate nonsense or a crash
