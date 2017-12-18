@@ -170,7 +170,15 @@ write_abbreviated_results_to_files =
     initialized_output_df$num_PUs [cur_result_row]                                          = num_PUs
     initialized_output_df$num_spp [cur_result_row]                                          = num_spp
     initialized_output_df$num_spp_per_PU [cur_result_row]                                   = num_spp / num_PUs
-    initialized_output_df$seed [cur_result_row]                                             = parameters$seed
+
+#  2017 12 19 - BTL
+#  This is no longer correct since seeds can be set all over the place, e.g.,
+#  one for the whole tzar run, one for the rsrun, one for any problems
+#  created, etc.  Need to rethink what should be written out to the results
+#  files.  Probably need to have individual seed names instead of one global
+#  seed output.  Also need a way to encode when the seed was not explicitly
+#  set for the individual seeds.
+initialized_output_df$seed [cur_result_row]                                             = NA    ##### parameters$seed
 
         #  Xu options
     initialized_output_df$n__num_groups [cur_result_row]                                   = n__num_groups
