@@ -610,62 +610,62 @@ validate_wrap <- function (num_extra_spp,
     num_test_rules = 6
     ok = rep (FALSE, num_test_rules)
 
-        #  At least one occurrence of each species ID must be on a PU in the dep set
+        #  Rule 1:  At least one occurrence of each species ID must be on a PU in the dep set
     ok [1] = all (values_by_spp$num_pu_in_dep_set > 0)
     if (! ok[1])
         {
         message ("\nWrapping rule 1 violation:")
-        cat ("\nAt least one occurrence of each species ID must be on a PU in the dep set",
+        cat ("\nRule 1:  At least one occurrence of each species ID must be on a PU in the dep set",
              "\nnum_extra_spp = ", num_extra_spp,
              "\nsum (values_by_spp$num_pu_in_dep_set > 0) = ",
              sum (values_by_spp$num_pu_in_dep_set > 0),
              "\nwhich (values_by_spp$num_pu_in_dep_set <= 0) = '",
-             which (values_by_spp$num_pu_in_dep_set <= 0), "'")
+             which (values_by_spp$num_pu_in_dep_set <= 0), "'\n")
         print (values_by_spp$num_pu_in_dep_set)
         }
 
-        #  If dep set not eligible, then one and only one occurrence of the species can be in dep set
+        #  Rule 2:  If dep set not eligible, then one and only one occurrence of the species can be in dep set
     ok [2] = TRUE
     if (! dep_set_PUs_eligible)
         ok [2] = all (values_by_spp$num_pu_in_dep_set == 1)
     if (! ok[2])
         {
         message ("\nWrapping rule 2 violation:")
-        cat ("\nIf dep set not eligible, then one and only one occurrence of the species can be in dep set",
+        cat ("\nRule 2:  If dep set not eligible, then one and only one occurrence of the species can be in dep set",
              "\nnum_extra_spp = ", num_extra_spp,
              "\nsum (values_by_spp$num_pu_in_dep_set == 1) = ",
              sum (values_by_spp$num_pu_in_dep_set == 1),
              "\nwhich (values_by_spp$num_pu_in_dep_set != 1) = '",
-             which (values_by_spp$num_pu_in_dep_set != 1), "'")
+             which (values_by_spp$num_pu_in_dep_set != 1), "'\n")
         print (values_by_spp$num_pu_in_dep_set)
         }
 
-        #  No PU can occur more than once within a species
+        #  Rule 3:  No PU can occur more than once within a species
     ok [3] = all (values_by_spp$num_pu_this_spp == values_by_spp$num_unique_pu_this_spp)
     if (! ok[3])
         {
         cts_not_same = which (values_by_spp$num_pu_this_spp !=
                                   values_by_spp$num_unique_pu_this_spp)
         message ("\nWrapping rule 3 violation:")
-        cat ("\nNo PU can occur more than once within a species",
+        cat ("\nRule 3:  No PU can occur more than once within a species",
              "\nduplicates at index(s): '", cts_not_same, "'")
-        cat ("\nvalues_by_spp$num_pu_this_spp = ")
+        cat ("\nvalues_by_spp$num_pu_this_spp = \n")
         print (values_by_spp$num_pu_this_spp)
-        cat ("\nvalues_by_spp$num_unique_pu_this_spp = ")
+        cat ("\nvalues_by_spp$num_unique_pu_this_spp = \n")
         print (values_by_spp$num_unique_pu_this_spp)
-        }
+    }
 
-        #  All species must occur in result table
+        #  Rule 4:  All species must occur in result table
     ok [4] = (num_extra_spp == length (values_by_spp$spp_ID))
     if (! ok[4])
         {
         message ("\nWrapping rule 4 violation:")
-        cat ("\nAll species must occur in result table",
+        cat ("\nRule 4:  All species must occur in result table",
              "\nnum_extra_spp = ", num_extra_spp,
              "\nlength (values_by_spp$spp_ID) = ", length (values_by_spp$spp_ID))
         }
 
-        #  All species must occur the number of times specified in their abundance
+        #  Rule 5:  All species must occur the number of times specified in their abundance
             #  Had to use isTRUE() here because all.equal doesn't seem to return
             #  a boolean.  For some reason, it returns a string saying
             #  something like "Mean relative difference: ..." when they
@@ -674,26 +674,29 @@ validate_wrap <- function (num_extra_spp,
     if (! ok[5])
         {
         message ("\nWrapping rule 5 violation:")
-        indices_of_mismatches = which (extra_abund != values_by_spp$num_unique_pu_this_spp)
-        cat ("\nAll species must occur the number of times specified in their abundance",
-             "\nindices_of_mismatches = '", indices_of_mismatches, "'")
-        cat ("\nextra_abund = ")
+        cat ("\nRule 5:  All species must occur the number of times specified in their abundance")
+        if (length (extra_abund) == length (values_by_spp$num_unique_pu_this_spp))
+            {
+            indices_of_mismatches = which (extra_abund != values_by_spp$num_unique_pu_this_spp)
+            cat ("\nindices_of_mismatches = '", indices_of_mismatches, "'")
+            }
+        cat ("\nextra_abund = \n")
         print (extra_abund)
-        cat ("\nvalues_by_spp$num_unique_pu_this_spp = ")
+        cat ("\nvalues_by_spp$num_unique_pu_this_spp = \n")
         print (values_by_spp$num_unique_pu_this_spp)
         }
 
-        #  Total number of lines in the result table must equal total number of occurrences
+        #  Rule 6:  Total number of lines in the result table must equal total number of occurrences
     ok [6] = (sum (extra_abund) == nrow (PU_spp_table))
     if (! ok[6])
         {
         message ("\nWrapping rule 6 violation:")
-        cat ("\nTotal number of lines in the result table must equal total number of occurrences",
+        cat ("\nRule 6:  Total number of lines in the result table must equal total number of occurrences",
              "\ntotal num spp = sum (extra_abund) = ", sum (extra_abund),
              "\ntotal num lines in result table = ", nrow (PU_spp_table))
-        cat ("\nextra_abund = ")
+        cat ("\nextra_abund = \n")
         print (extra_abund)
-        cat ("\nPU_spp_table = ")
+        cat ("\nPU_spp_table = \n")
         print (PU_spp_table)
         }
 
@@ -710,6 +713,17 @@ validate_wrap <- function (num_extra_spp,
 
 #---------------------------------------------------
 
+    #  NOTE:  In the tests that use validate_wrap(), it's not necessary
+    #         to rerun the generation of the PU_spp_table... when you
+    #         switch the dep_set_PUs_eligible flag between TRUE and FALSE.
+    #         The table gets generated the same either way; that flag only
+    #         pertains to whether you're VALIDATING whether the generated table
+    #         SHOULD contained dep_set PUs other than the first PU for each spp.
+    #         The generation control itself is done through the choice of PU_IDs
+    #         that are included in the eligible_set vector and whether they
+    #         overlap the dep_set vector PU_IDs.
+
+
     extra_abund = c(2,2,2,    #  3 spp on 2 patches
                     3,        #  1 spp on 3 patches
                     4,        #  1 spp on 4 patches
@@ -720,13 +734,14 @@ validate_wrap <- function (num_extra_spp,
 
     eligible_set = 4:8
 
-    PU_spp_table = create_wrapping_spp_PU_spp_table (extra_abund,
-                                                     dep_set,
-                                                     eligible_set,
-                                                     use_testing_only_rand_seed = TRUE,
-                                                     testing_only_rand_seed = 17)
+    PU_spp_table_w_dep_set_NOT_eligible =
+        create_wrapping_spp_PU_spp_table (extra_abund,
+                                          dep_set,
+                                          eligible_set,
+                                          use_testing_only_rand_seed = TRUE,
+                                          testing_only_rand_seed = 17)
 
-#    PU_ID spp_ID
+#    PU_ID spp_ID    <<<<<----- dep_set NOT eligible ----->>>>>
 # 1      1      1
 # 2      8      1
 # 3      2      2
@@ -749,22 +764,17 @@ validate_wrap <- function (num_extra_spp,
     desired_PU_spp_table = data.frame (PU_ID = c(1,8,2,7,2,6,1,4,7,1,6,4,8,3,8,7,5,4),
                                        spp_ID = c(1,1,2,2,3,3,4,4,4,5,5,5,5,6,6,6,6,6))
 
-    wrap_ok = validate_wrap (num_extra_spp = length (extra_abund),
-                             dep_set_PUs_eligible,
-                             PU_spp_table,
-                             dep_set)
-
 test_that("create_wrapping_spp_PU_spp_table: dep PUs NOT eligible, test seed 17", {
-    expect_equal (desired_PU_spp_table, PU_spp_table)
+    expect_equal (desired_PU_spp_table, PU_spp_table_w_dep_set_NOT_eligible)
     expect_true (validate_wrap (num_extra_spp = length (extra_abund),
-                                dep_set_PUs_eligible = FALSE,
-                                PU_spp_table,
+                                                    dep_set_PUs_eligible = FALSE,
+                                PU_spp_table_w_dep_set_NOT_eligible,
                                 dep_set))
 })
 test_that("create_wrapping_spp_PU_spp_table: dep PUs ELIGIBLE, test seed 17", {
     expect_true (validate_wrap (num_extra_spp = length (extra_abund),
-                                dep_set_PUs_eligible = TRUE,
-                                PU_spp_table,
+                                                    dep_set_PUs_eligible = TRUE,
+                                PU_spp_table_w_dep_set_NOT_eligible,
                                 dep_set))
 })
 
@@ -779,14 +789,16 @@ test_that("create_wrapping_spp_PU_spp_table: dep PUs ELIGIBLE, test seed 17", {
     dep_set = 1:3
     eligible_set = 1:8    #  all patches eligible
 
-PU_spp_table = create_wrapping_spp_PU_spp_table (extra_abund,
-                                                 dep_set,
-                                                 eligible_set,
-                                                 use_testing_only_rand_seed = TRUE,
-                                                 testing_only_rand_seed = 17)
+    PU_spp_table_w_dep_set_ELIGIBLE =
+        create_wrapping_spp_PU_spp_table (extra_abund,
+                                          dep_set,
+                                          eligible_set,
+                                          use_testing_only_rand_seed = TRUE,
+                                          testing_only_rand_seed = 17)
+
 
 # > PU_spp_table
-#    PU_ID spp_ID    <<<<<----- PU_ID CHANGES NOW THAT DEP_SET IS ELIGIBLE ----->>>>>
+#    PU_ID spp_ID    <<<<<----- PU_ID changes now that dep_set IS eligible ----->>>>>
 # 1      1      1
 # 2      8      1
 # 3      2      2
@@ -809,24 +821,86 @@ PU_spp_table = create_wrapping_spp_PU_spp_table (extra_abund,
     desired_PU_spp_table = data.frame (PU_ID = c(1,8,2,7,2,5,1,3,6,1,5,2,6,3,8,7,5,2),
                                        spp_ID = c(1,1,2,2,3,3,4,4,4,5,5,5,5,6,6,6,6,6))
 
-    wrap_ok = validate_wrap (num_extra_spp = length (extra_abund),
-                             dep_set_PUs_eligible,
-                             PU_spp_table,
-                             dep_set)
+    #  Test that a correct outcome generated with dep_set PUs eligible passes.
 
-test_that("create_wrapping_spp_PU_spp_table: dep PUs NOT eligible, test seed 17", {
-    expect_equal (desired_PU_spp_table, PU_spp_table)
-    expect_error (validate_wrap (num_extra_spp = length (extra_abund),
-                                dep_set_PUs_eligible = FALSE,
-                                PU_spp_table,
-                                dep_set))
-})
-test_that("create_wrapping_spp_PU_spp_table: dep PUs ELIGIBLE, test seed 17", {
+test_that("create_wrapping_spp_PU_spp_table: on dep PUs and they should be ELIGIBLE, test seed 17", {
+    expect_equal (desired_PU_spp_table, PU_spp_table_w_dep_set_ELIGIBLE)
     expect_true (validate_wrap (num_extra_spp = length (extra_abund),
-                                dep_set_PUs_eligible = TRUE,
-                                PU_spp_table,
+                                                    dep_set_PUs_eligible = TRUE,
+                                PU_spp_table_w_dep_set_ELIGIBLE,
                                 dep_set))
 })
+
+    #  Test for validation errors.
+
+        #  Rule 1:  At least one occurrence of each species ID must be on a PU in the dep set
+PU_spp_table_rule_1_violation = PU_spp_table_w_dep_set_ELIGIBLE
+
+PU_spp_table_rule_1_violation [3, "PU_ID"] = 4    #  i.e., change dep_set PU 2 to non-dep_set PU 4
+PU_spp_table_rule_1_violation [5, "PU_ID"] = 6    #  i.e., change dep_set PU 2 to non-dep_set PU 6
+
+test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 1", {
+    expect_error (validate_wrap (num_extra_spp = length (extra_abund),
+                                                    dep_set_PUs_eligible = TRUE,
+                                PU_spp_table_rule_1_violation,
+                                dep_set))
+})
+
+        #  Rule 2:  If dep set not eligible, then one and only one occurrence of the species can be in dep set
+test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 2", {
+    expect_error (validate_wrap (num_extra_spp = length (extra_abund),
+                                                    dep_set_PUs_eligible = FALSE,
+                                PU_spp_table_w_dep_set_ELIGIBLE,
+                                dep_set))
+})
+
+        #  Rule 3:  No PU can occur more than once within a species
+PU_spp_table_rule_3_violation = PU_spp_table_w_dep_set_ELIGIBLE
+
+PU_spp_table_rule_3_violation [15, "PU_ID"] = 5    #  i.e., change spp 6 non-dep_set PU 8 to non-dep_set PU 5, which is same as spp 6 value in row 17
+PU_spp_table_rule_3_violation [9,  "PU_ID"] = 1    #  i.e., change spp 4 dep_set PU 6 to dep_set PU 1, which is same as spp 4 value in row 7
+PU_spp_table_rule_3_violation [4,  "PU_ID"] = 2    #  i.e., change spp 2 non-dep_set PU 7 to dep_set PU 2, which is same as spp 2 value in row 3
+PU_spp_table_rule_3_violation [10, "PU_ID"] = 6    #  i.e., change spp 5 dep_set PU 1 to non-dep_set PU 6, which is same as spp 2 value in row 13
+
+test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 3", {
+    expect_error (validate_wrap (num_extra_spp = length (extra_abund),
+                                                    dep_set_PUs_eligible = TRUE,
+                                PU_spp_table_rule_3_violation,
+                                dep_set))
+})
+
+        #  Rule 4:  All species must occur in result table
+PU_spp_table_rule_4_violation = PU_spp_table_w_dep_set_ELIGIBLE [-(10:13),]    #  i.e., remove species 5 from the PU_spp_table
+
+test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 4", {
+    expect_error (validate_wrap (num_extra_spp = length (extra_abund),
+                                                    dep_set_PUs_eligible = TRUE,
+                                PU_spp_table_rule_4_violation,
+                                dep_set))
+})
+
+
+        #  Rule 5:  All species must occur the number of times specified in their abundance
+PU_spp_table_rule_5_violation = PU_spp_table_w_dep_set_ELIGIBLE [-c(2,6,16,17),]    #  i.e., remove 1 occurrence from spp 1 & 3, and 2 occurrences from spp 6
+
+test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 5", {
+    expect_error (validate_wrap (num_extra_spp = length (extra_abund),
+                                                    dep_set_PUs_eligible = TRUE,
+                                PU_spp_table_rule_5_violation,
+                                dep_set))
+})
+
+
+        #  Rule 6:  Total number of lines in the result table must equal total number of occurrences
+PU_spp_table_rule_6_violation = PU_spp_table_w_dep_set_ELIGIBLE [-18,]    #  i.e., remove 1 occurrence from spp 1 & 3, and 2 occurrences from spp 6
+
+test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 6", {
+    expect_error (validate_wrap (num_extra_spp = length (extra_abund),
+                                                    dep_set_PUs_eligible = TRUE,
+                                PU_spp_table_rule_6_violation,
+                                dep_set))
+})
+
 
 #-------------------------------------------------------------------------------
 
