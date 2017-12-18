@@ -4,11 +4,9 @@
 \alias{options_are_legal_for_single_bdprob_WRAP}
 \title{Check whether options for wrapping have legal values}
 \usage{
-options_are_legal_for_single_bdprob_WRAP(bdprob_to_wrap, parameters)
+options_are_legal_for_single_bdprob_WRAP(parameters)
 }
 \arguments{
-\item{bdprob_to_wrap}{a bdproblem to wrap a distribution around}
-
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
 }

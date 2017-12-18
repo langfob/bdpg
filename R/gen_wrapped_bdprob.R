@@ -1841,8 +1841,7 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                     base_bdprob,
                                     bdpg_error_codes)
     {
-    if (options_are_legal_for_single_bdprob_WRAP (base_bdprob,
-                                                  parameters))
+    if (options_are_legal_for_single_bdprob_WRAP (parameters))
         {
             #---------------------------------
             #  Control parameters from user.
@@ -1939,15 +1938,13 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
 #'
 #-------------------------------------------------------------------------------
 
-#' @param bdprob_to_wrap a bdproblem to wrap a distribution around
 #' @inheritParams std_param_defns
 #'
 #' @return boolean with TRUE if options are legal and FALSE otherwise
 
 #-------------------------------------------------------------------------------
 
-options_are_legal_for_single_bdprob_WRAP <- function (bdprob_to_wrap,
-                                                      parameters)
+options_are_legal_for_single_bdprob_WRAP <- function (parameters)
     {
         #----------------------------------------------------------------------
         #  Make sure that the base problem for the multiproblem is not one of
