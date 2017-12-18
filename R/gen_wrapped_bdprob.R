@@ -1066,8 +1066,7 @@ wrap_abundances_around_eligible_set <- function (dep_set,
     {
     cat ("\n\nStarting wrap_abundances_around_eligible_set()\n", sep='')
 
-    #----------------------------------
-
+        #-----------------------------------------------------------------------
         #  2016 06 21 - BTL
         #  NEED TO REMOVE ANY SPP WHOSE ABUNDANCE IS 1,
         #  BECAUSE THEY MAKE THE PROBLEM MUCH EASIER, I.E., ALL PUs CONTAINING
@@ -1080,12 +1079,11 @@ wrap_abundances_around_eligible_set <- function (dep_set,
         #  occurred on 3 patches or less, that species would need to be
         #  removed.  This doesn't happen in these initial Xu problems since
         #  the generator currently only works for having all targets = 1.
+        #-----------------------------------------------------------------------
 
     trimmed_rounded_abund_per_spp = trim_abundances (rounded_abund_per_spp,
                                                      min_abund=min_allowed_abundance)
     plot (sort(trimmed_rounded_abund_per_spp, decreasing = TRUE))
-
-    #----------------------------------
 
         #-----------------------------------------------------------------
         #  Build a vector containing the abundances of each of the extra
