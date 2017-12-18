@@ -1048,20 +1048,26 @@ create_wrapping_spp_PU_spp_table <- function (extra_abund,
 #' @param min_allowed_abundance integer
 #' @param PU_col_name character string
 #' @param spp_col_name character string
+#' @param use_testing_only_rand_seed boolean
+#' @param testing_only_rand_seed integer
 #'
 #' @return Returns PU_spp_table data frame
+#' @export
 
 #-------------------------------------------------------------------------------
 
-wrap_abundances_around_eligible_set <- function (dep_set,
-                                                 eligible_set,
-                                                 rounded_abund_per_spp,
-                                                 num_base_spp,
-                                                 Xu_PU_spp_table,
-                                                 allow_imperfect_wrap,
-                                                 min_allowed_abundance = 2,
-                                                 PU_col_name = "PU_ID",
-                                                 spp_col_name = "spp_ID"
+wrap_abundances_around_eligible_set <- function (
+                                                dep_set,
+                                                eligible_set,
+                                                rounded_abund_per_spp,
+                                                num_base_spp,
+                                                Xu_PU_spp_table,
+                                                allow_imperfect_wrap,
+                                                min_allowed_abundance = 2,
+                                                PU_col_name = "PU_ID",
+                                                spp_col_name = "spp_ID",
+                                                use_testing_only_rand_seed = FALSE,
+                                                testing_only_rand_seed = 17
                                                 )
     {
     cat ("\n\nStarting wrap_abundances_around_eligible_set()\n", sep='')
@@ -1099,7 +1105,13 @@ wrap_abundances_around_eligible_set <- function (dep_set,
     PU_spp_table =
         create_wrapping_spp_PU_spp_table (extra_abund,
                                            dep_set,
-                                           eligible_set)
+                                           eligible_set,
+                                                #  Only for unit tests.
+                                                #  Normally just use default
+                                                #  values from arg list above.
+                                           use_testing_only_rand_seed,
+                                           testing_only_rand_seed
+                                          )
 
                     cat ("\n\n--------------------------------------\n\n", "PU_spp_table = \n")#    print (PU_spp_table)    #  usually too long to print...
                     print (head (PU_spp_table))    #  usually too long to print entire table...

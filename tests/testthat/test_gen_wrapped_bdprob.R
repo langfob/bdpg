@@ -775,17 +775,98 @@ test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be e
                 #--------------------------------------------
                 #  Test wrap_abundances_around_eligible_set
                 #--------------------------------------------
-if(FALSE)
-wrapped_PU_spp_indices = wrap_abundances_around_eligible_set (dep_set,
-                                                               eligible_set,
-                                                               rounded_abund_per_spp,
-                                                               num_base_spp,
-                                                               Xu_PU_spp_table,
-                                                               allow_imperfect_wrap,
-                                                               min_allowed_abundance = 2,
-                                                               PU_col_name = "PU_ID",
-                                                               spp_col_name = "spp_ID"
-                                                               )
+    #------------------
+    #  Simple example
+    #------------------
+
+        #  Xu_PU_spp_table PU_spp table for original Xu problem being wrapped
+        #  around
+    num_base_spp = 5
+    num_base_PU  = 10
+    Xu_nodes     = 1:10
+    Xu_dep_set   = c(2,4,6,8,10)
+
+    Xu_PU_spp_table = data.frame (PU_ID  = 1:num_base_PU,
+                                  spp_ID = rep (1:num_base_spp, each=2))
+
+# Xu_PU_spp_table
+#    PU_ID spp_ID
+# 1      1      1
+# 2      2      1    dep
+# 3      3      2
+# 4      4      2    dep
+# 5      5      3
+# 6      6      3    dep
+# 7      7      4
+# 8      8      4    dep
+# 9      9      5
+# 10    10      5    dep
+
+
+        #  rounded_abundances vector of abundances of all species in
+        #  the full wrapped distribution, i.e., including the original Xu problem
+        #  abundances
+# rounded_abundances =
+#   [1] 3 2 3 3   1   2 5 2 2 2 5 2 3 2   1   6 2   1 1 1
+
+    rounded_abundances = c(3,2,3,3,
+                           1,
+                           2,5,2,2,2,5,2,3,2,
+                           1,
+                           6,2,
+                           1,1,1)
+
+# Should remove all 5 of the 1s to give:
+# trimmed_rounded_abund_per_spp =
+#   [1] 3 2 3 3 2 5 2 2 2 5 2 3 2 6 2
+
+#      wrap   base                wrap
+#   x freq.x freq.y           extra_spp_abund
+# 1 2     8     5                   3  extra spp on 2 patches
+# 2 3     4     NA    ----->>>>>    4  extra spp on 3 patches
+# 4 5     2     NA                  2  extra spp on 5 patches
+# 5 6     1     NA                  1  extra spp on 6 patches
+
+    dep_set_PUs_eligible = FALSE    #  <<<<<-----
+    allow_imperfect_wrap = FALSE
+    tot_num_PUs_in_landscape = 15
+
+    # set in wrap_abundance_dist_around_Xu_problem(), i.e., calling routine
+
+    largest_PU_ID = max (Xu_nodes)
+    extra_PUs     = (largest_PU_ID + 1) : tot_num_PUs_in_landscape
+
+    eligible_PUs =
+        create_eligible_PU_set (Xu_dep_set           = Xu_dep_set,
+                                extra_PUs            = extra_PUs,
+                                dep_set_PUs_eligible = dep_set_PUs_eligible)
+
+    wrapped_PU_spp_indices =
+        wrap_abundances_around_eligible_set (
+            dep_set                         = Xu_dep_set,
+            eligible_set                    = eligible_PUs,
+            rounded_abund_per_spp           = rounded_abundances,
+            num_base_spp                    = num_base_spp,
+            Xu_PU_spp_table                 = Xu_PU_spp_table,
+            allow_imperfect_wrap            = allow_imperfect_wrap,
+            min_allowed_abundance           = 2,
+            PU_col_name                     = "PU_ID",
+            spp_col_name                    = "spp_ID",
+            use_testing_only_rand_seed      = TRUE,
+            testing_only_rand_seed          = 17)
+
+
+desired_result =
+    data.frame (PU_ID  = c(1,2,3,4,5,6,7,8,9,10,2,15,6,14,6,13,4,11,14,2,13,11,
+                           10,15,14,10,14,12,8,13,14,12,15,10,15,11,12,13,10,12,
+                           15,11,14,13),
+                spp_ID = c(1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,9,10,10,10,11,
+                           11,11,12,12,12,13,13,13,13,13,14,14,14,14,14,15,15,
+                           15,15,15,15))
+
+test_that("wrap_abundances_around_eligible_set: simple example", {
+    expect_equal (desired_result, wrapped_PU_spp_indices)
+})
 
 #-------------------------------------------------------------------------------
 
