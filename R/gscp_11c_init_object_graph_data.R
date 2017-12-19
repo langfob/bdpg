@@ -110,14 +110,34 @@ init_object_graph_data <- function (rsprob,
                                     use_bipartite_metrics,
                                     bipartite_metrics_to_use = "ALLBUTDD")
     {
+        #-----------------------------------------------------------------------
+        #  Many of the input values are taken directly from the parameters list
+        #  and may have NULL values, so check for that and clean them up if
+        #  necessary to avoid throwing errors later.
+        #-----------------------------------------------------------------------
+
+    compute_network_metrics              = value_or_FALSE_if_null (compute_network_metrics)
+    compute_network_metrics_COR_APP_WRAP = value_or_FALSE_if_null (compute_network_metrics_COR_APP_WRAP)
+    use_igraph_metrics                   = value_or_FALSE_if_null (use_igraph_metrics)
+    use_bipartite_metrics                = value_or_FALSE_if_null (use_bipartite_metrics)
+    bipartite_metrics_to_use             =
+                if (is.null (bipartite_metrics_to_use))
+                    as.character (NULL) else bipartite_metrics_to_use
+
+        #-----------------------------------------------------------------------
         #  This flag is used to allow easily toggling off all network metrics
         #  during testing without having to reset each of the flags
         #  individually.
         #  If it is set to FALSE, all other network flags are ignored.
+        #-----------------------------------------------------------------------
+
     rsprob@compute_network_metrics              = compute_network_metrics
 
+        #-----------------------------------------------------------------------
         #  Flags for individual network metrics and graph packages that
         #  are evaluated only if the top level flag is turned on.
+        #-----------------------------------------------------------------------
+
     rsprob@compute_network_metrics_COR_APP_WRAP = compute_network_metrics_COR_APP_WRAP
     rsprob@use_igraph_metrics                   = use_igraph_metrics
     rsprob@use_bipartite_metrics                = use_bipartite_metrics
