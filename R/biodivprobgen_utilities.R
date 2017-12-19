@@ -35,15 +35,34 @@ safe_sample = function (x,...) { if (length (x) == 1) x else sample (x,...) }
 
 #===============================================================================
 
-fix_0_length_list_elements <- function (list_element)
+#' Return NA for any given value whose length is 0
+#'
+#' This is originally built to be used on each element of a list inside an
+#' lapply where you're trying to get rid of NULLs, numeric(0)s, etc. in a
+#' list to be converted to a data frame.
+#'
+#' @param a_list a list
+#'
+#' @return NA or the input argument
+#' @export
+
+fix_0_length_list_elements <- function (value)
     {
         #  length == 0 should handle NULL, logical(0), numeric(0), etc.
         #  These are all things that as.data.frame (list) chokes on.
-    if (length (list_element) == 0)
-        return (NA) else return (list_element)
+    if (length (value) == 0)
+        return (NA) else return (value)
     }
 
 #-------------------------------------------------------------------------------
+
+#' Convert list to a new list with 0 length values replaced by NA
+#'
+#' @param a_list a list
+#'
+#' @return the input list with its 0 length values replaced by NA values and
+#' non-0 length values left as they were
+#' @export
 
 list_with_0_length_vals_replaced_by_NA <- function (a_list)
     {
@@ -55,7 +74,15 @@ list_with_0_length_vals_replaced_by_NA <- function (a_list)
 
 #-------------------------------------------------------------------------------
 
-list_as_data_frame_with_nulls_replaced_by_NA <- function (a_list)
+#' Convert list to data frame with 0 length values replaced by NA
+#'
+#' @param a_list a list
+#'
+#' @return a data frame whose columns correspond to elements of the list and
+#' any 0 length data value in the input list has been replaced with NA
+#' @export
+
+list_as_data_frame_with_0_length_vals_replaced_by_NA <- function (a_list)
     {
     return (as.data.frame (list_with_0_length_vals_replaced_by_NA (a_list)))
     }
