@@ -1,8 +1,14 @@
+#===============================================================================
+
+                        #  test_gen_wrapped_bdprob.R
+
+#===============================================================================
+
 library (bdpg)
 
 context ("gen_wrapped_bdprob")
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
                     #-------------------------------
                     #  Test create_eligible_PU_set
@@ -30,7 +36,7 @@ test_that("create_eligible_PU_set: eligible_PUs only include extra PUs", {
     expect_equal (eligible_PUs, c(3,4))
 })
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
                     #------------------------
                     #  Test trim_abundances
@@ -133,7 +139,7 @@ test_that("trim_abundances: elements < min bound only with min and max bound def
     expect_equal (trimmed_abundances, 2:10)
 })
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
             #------------------------------------------
             #  Test gen_raw_histogram_of_wrapped_dist
@@ -249,7 +255,7 @@ test_that("gen_raw_histogram_of_wrapped_dist: more complex example", {
     expect_equal (wrapped_extra_spp_abund_merge, desired_result)
 })
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
             #---------------------------------------------------
             #  Test compute_final_wrapped_extra_spp_abund_hist
@@ -304,7 +310,7 @@ test_that("compute_final_wrapped_extra_spp_abund_hist: proper wrap should succee
     expect_equal (final_wrapped_extra_spp_abund_merge, desired_result)
 })
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
             #---------------------------------
             #  Test check_for_imperfect_wrap
@@ -384,7 +390,7 @@ test_that("check_for_imperfect_wrap: imperfect wrap should fail when imperfect w
                                             allow_imperfect_wrap = FALSE))
 })
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
             #----------------------------------------------------
             #  Test build_vec_of_extra_spp_and_their_abundances
@@ -424,7 +430,7 @@ test_that("build_vec_of_extra_spp_and_their_abundances: 1 zero abundance frequen
     expect_equal (extra_spp_abund, desired_result)
 })
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
                     #------------------------------------
                     #  Test clean_up_wrapped_abund_dist
@@ -469,7 +475,7 @@ test_that("clean_up_wrapped_abund_dist: proper wrap should succeed regardless of
                   desired_result)
 })
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
         #--------------------------------------------------------------
         #  Test remove_base_spp_abundances_from_wrapping_distribution
@@ -574,7 +580,7 @@ test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example
                                                                          allow_imperfect_wrap = FALSE))
 })
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
                 #-----------------------------------------
                 #  Test create_wrapping_spp_PU_spp_table
@@ -770,7 +776,7 @@ test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be e
 })
 
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
                 #--------------------------------------------
                 #  Test wrap_abundances_around_eligible_set
@@ -868,7 +874,7 @@ test_that("wrap_abundances_around_eligible_set: simple example", {
     expect_equal (desired_result, wrapped_PU_spp_indices)
 })
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
                 #-------------------------------------------------
                 #  Test options_are_legal_for_single_bdprob_WRAP
@@ -915,7 +921,7 @@ test_that("options_are_legal_for_single_bdprob_WRAP: bench empty, log TRUE", {
     expect_true (options_are_legal_for_single_bdprob_WRAP (parameters))
 })
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
                 #--------------------------------------------
                 #  Test wrap_abundance_dist_around_Xu_problem
@@ -937,7 +943,7 @@ wrap_abundance_dist_around_Xu_problem (starting_dir,
                                             cor_dir_name_stem = "cor"
                                                   )
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
                 #--------------------------------------------
                 #  Test gen_wrapped_bdprob_COR
@@ -949,16 +955,290 @@ gen_wrapped_bdprob_COR (starting_dir,
                                     base_bdprob,
                                     bdpg_error_codes)
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
-                #--------------------------------------------
-                #  Test gen_single_bdprob_WRAP
-                #--------------------------------------------
+    #----------------------------------------------------------------------
+    #  Copies of parameters list generated by tzar from a particular run.
+    #  These are here to use as the basis for building a parameters list
+    #  for tests in building objects.
+    #----------------------------------------------------------------------
+
 if(FALSE)
+{
+parameters__full_including_marxan__original = list (
+        marxan_pu_file_name = "pu.dat",
+        too_many_possible_links_error_flag_file_name = "/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/too_many_possible_links_error_flag_file.txt",
+        desired_max_abundance_frac = 0.7,
+        marxan_spf_rule = "POWER_OF_10",
+        allow_imperfect_wrap = TRUE,
+        spp_occ_FN_const_rate = 0.1,
+        dep_set_PUs_eligible = FALSE,
+        max_search_iterations = 500,
+        use_igraph_metrics = TRUE,
+        full_output_dir_with_slash = "/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/",
+        use_bipartite_metrics = TRUE,
+        gen_multi_bdproblem = TRUE,
+        solution_frac_of_landscape = 0.3,
+        single_action_using_tzar_reps = FALSE,
+        marxan_num_iterations = '1000000',
+        p__prop_of_links_between_groups_lower_bound = 0.01,
+        runset_abbrev = "bdpgSingleRunForTestAndDebug",
+        max_allowed_possible_tot_num_links = 1500,
+        read_Xu_problem_from_Xu_bench_file = FALSE,
+        plot_rounded_abundances = TRUE,
+        r__density_upper_bound = 5.0,
+        marxan_puvspr_file_name = "puvspr.dat",
+        p__prop_of_links_between_groups_upper_bound = 0.99,
+        apply_error_to_spp_occupancy_data = TRUE,
+        seed = 1,
+        use_unif_rand_r__density = TRUE,
+        wrap_lognormal_dist_around_Xu = TRUE,
+        n__num_groups_upper_bound = 80,
+        compute_network_metrics_APP = TRUE,
+        spp_occ_FP_error_type = "CONSTANT",
+        marxan_spec_file_name = "spec.dat",
+        bdpg_run_init_rand_seed = 14329,
+        marxan_input_parameters_file_name = "/Users/bill/tzar/modelcode/marxanLibrary_1360018653/input.dat",
+        spp_occ_FP_const_rate = 0.0,
+        integerize_string = "round",
+        compute_network_metrics = FALSE,
+        derive_alpha_from_n__num_groups_and_opt_frac_0.5 = TRUE,
+        r__density_lower_bound = 0.01,
+        desired_Xu_spp_frac_of_all_spp = 0.5,
+        given_correct_solution_cost = 420,
+        compute_network_metrics_wrapped_COR = TRUE,
+        marxan_num_reps = 100,
+        n__num_groups_lower_bound = 61,
+        use_unif_rand_p__prop_of_links_between_groups = TRUE,
+        marxan_use_default_input_parameters = FALSE,
+        max_allowed_num_spp = 2000,
+        run_id = 39,
+        bipartite_metrics_to_use = "quick_test",
+        marxan_runmode = 1,
+        runset_description = "|, Small set of runs of a Xu hard scenario with error generation both on and off plus running simulated annealing and richness heuristic.",
+        gen_4_basic_variants = TRUE,
+        spp_occ_FN_error_type = "CONSTANT",
+        marxan_heurtype = -1,
+        set_rand_seed_at_creation_of_all_new_major_objects = FALSE,
+        marxan_dir = "/Users/bill/tzar/modelcode/marxanLibrary_1360018653/",
+        compute_network_metrics_COR = TRUE,
+        use_unif_rand_n__num_groups = TRUE,
+        Xu_bench_infile_name = "/Users/bill/D/Projects/ProblemDifficulty/data/Xu - problem difficulty datasets/frb30-15-msc with MSC 420/frb30-15-1.msc",
+        add_one_to_lognormal_abundances = FALSE,
+        match_error_counts = FALSE,
+        compute_network_metrics_wrapped_APP = TRUE,
+        runset_name = "default_runset"
+        )
+
+parameters__full_including_marxan__grouped = list (
+
+            #  general - run
+        run_id = 39,
+        runset_name = "default_runset",
+
+        full_output_dir_with_slash = "/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/",
+
+        runset_abbrev = "bdpgSingleRunForTestAndDebug",
+        runset_description = "|, Small set of runs of a Xu hard scenario with error generation both on and off plus running simulated annealing and richness heuristic.",
+
+        seed = 1,
+        bdpg_run_init_rand_seed = 14329,
+        set_rand_seed_at_creation_of_all_new_major_objects = FALSE,
+
+        integerize_string = "round",
+
+        gen_4_basic_variants = TRUE,
+        single_action_using_tzar_reps = FALSE,
+
+
+            #  cor
+
+                #  Xu from scratch
+        max_allowed_num_spp = 2000,
+        max_allowed_possible_tot_num_links = 1500,
+        too_many_possible_links_error_flag_file_name = "/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/too_many_possible_links_error_flag_file.txt",
+
+        desired_Xu_spp_frac_of_all_spp = 0.5,
+        derive_alpha_from_n__num_groups_and_opt_frac_0.5 = TRUE,
+
+        use_unif_rand_n__num_groups = TRUE,
+        n__num_groups_lower_bound = 61,
+        n__num_groups_upper_bound = 80,
+
+        use_unif_rand_p__prop_of_links_between_groups = TRUE,
+        p__prop_of_links_between_groups_lower_bound = 0.01,
+        p__prop_of_links_between_groups_upper_bound = 0.99,
+
+        use_unif_rand_r__density = TRUE,
+        r__density_lower_bound = 0.01,
+        r__density_upper_bound = 5.0,
+
+                #  Xu benchmark
+        read_Xu_problem_from_Xu_bench_file = FALSE,
+        given_correct_solution_cost = 420,
+        Xu_bench_infile_name = "/Users/bill/D/Projects/ProblemDifficulty/data/Xu - problem difficulty datasets/frb30-15-msc with MSC 420/frb30-15-1.msc",
+
+
+            #  network
+        compute_network_metrics = FALSE,
+
+        use_igraph_metrics = TRUE,
+        use_bipartite_metrics = TRUE,
+        compute_network_metrics_wrapped_COR = TRUE,
+        compute_network_metrics_COR = TRUE,
+        compute_network_metrics_wrapped_APP = TRUE,
+        bipartite_metrics_to_use = "quick_test",
+        compute_network_metrics_APP = TRUE,
+
+
+            #  marxan
+        marxan_num_iterations = '1000000',
+        marxan_pu_file_name = "pu.dat",
+        marxan_spf_rule = "POWER_OF_10",
+        marxan_puvspr_file_name = "puvspr.dat",
+        marxan_spec_file_name = "spec.dat",
+        marxan_runmode = 1,
+        marxan_input_parameters_file_name = "/Users/bill/tzar/modelcode/marxanLibrary_1360018653/input.dat",
+        marxan_num_reps = 100,
+        marxan_use_default_input_parameters = FALSE,
+        marxan_heurtype = -1,
+        marxan_dir = "/Users/bill/tzar/modelcode/marxanLibrary_1360018653/",
+
+
+            #  wrap
+        gen_multi_bdproblem = TRUE,
+
+        solution_frac_of_landscape = 0.3,
+        allow_imperfect_wrap = TRUE,
+        dep_set_PUs_eligible = FALSE,
+        max_search_iterations = 500,
+        wrap_lognormal_dist_around_Xu = TRUE,
+        add_one_to_lognormal_abundances = FALSE,
+        plot_rounded_abundances = TRUE,
+        desired_max_abundance_frac = 0.7,
+
+
+            #  app
+        apply_error_to_spp_occupancy_data = TRUE,
+
+        spp_occ_FN_const_rate = 0.1,
+        spp_occ_FP_error_type = "CONSTANT",
+        spp_occ_FP_const_rate = 0.0,
+        spp_occ_FN_error_type = "CONSTANT",
+        match_error_counts = FALSE,
+
+dummylistend=NULL
+        )
+
+}
+
+
+#===============================================================================
+
+                #-------------------------------
+                #  Test gen_single_bdprob_WRAP
+                #-------------------------------
+
+test_gen_single_COR <- function ()
+    {
+    parameters = list (
+
+                #  general - run
+            run_id = 39,
+            runset_name = "default_runset",
+
+            full_output_dir_with_slash = "/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/",
+
+            runset_abbrev = "test_runset",
+            runset_description = "test_runset long description",
+
+            # seed = 1,
+            bdpg_run_init_rand_seed = 14329,
+            set_rand_seed_at_creation_of_all_new_major_objects = FALSE,
+
+            integerize_string = "round",
+
+            # gen_4_basic_variants = TRUE,
+            # single_action_using_tzar_reps = FALSE,
+
+                #  cor - Xu from scratch
+
+            read_Xu_problem_from_Xu_bench_file = FALSE,
+
+            max_allowed_num_spp = 2000,
+            max_allowed_possible_tot_num_links = 1500,
+            too_many_possible_links_error_flag_file_name = "/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/too_many_possible_links_error_flag_file.txt",
+
+            desired_Xu_spp_frac_of_all_spp = 0.5,
+            derive_alpha_from_n__num_groups_and_opt_frac_0.5 = TRUE,
+
+            use_unif_rand_n__num_groups = TRUE,
+            n__num_groups_lower_bound = 61,
+            n__num_groups_upper_bound = 80,
+
+            use_unif_rand_p__prop_of_links_between_groups = TRUE,
+            p__prop_of_links_between_groups_lower_bound = 0.01,
+            p__prop_of_links_between_groups_upper_bound = 0.99,
+
+            use_unif_rand_r__density = TRUE,
+            r__density_lower_bound = 0.01,
+            r__density_upper_bound = 5.0,
+
+
+                #  network
+            compute_network_metrics = FALSE,
+
+                #  wrap
+            # gen_multi_bdproblem = TRUE,
+            #
+            # solution_frac_of_landscape = 0.3,
+            # allow_imperfect_wrap = TRUE,
+            # dep_set_PUs_eligible = FALSE,
+            # max_search_iterations = 500,
+            # wrap_lognormal_dist_around_Xu = TRUE,
+            # add_one_to_lognormal_abundances = FALSE,
+            # plot_rounded_abundances = TRUE,
+            # desired_max_abundance_frac = 0.7,
+
+
+    dummylistend=NULL
+            )
+
+    full_output_dir = tempdir()
+    last_char = substr (full_output_dir, nchar(full_output_dir), nchar(full_output_dir))
+    full_output_dir_with_slash =
+        if (last_char == "/") full_output_dir else paste0 (full_output_dir, "/")
+
+    parameters$full_output_dir_with_slash                   = full_output_dir_with_slash    #"/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/"
+    parameters$too_many_possible_links_error_flag_file_name =
+        paste0 (full_output_dir_with_slash, "too_many_possible_links_error_flag_file.txt")  #"/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/too_many_possible_links_error_flag_file.txt"
+
+
+    params_and_error_codes = init_for_bdpg (parameters)
+
+    bdpg_error_codes = params_and_error_codes$bdpg_error_codes
+    parameters       = params_and_error_codes$parameters
+
+    base_COR_bd_prob = gen_single_bdprob_COR (parameters,
+                                              bdpg_error_codes,
+                                              integerize          = round,
+                                              base_prob_name_stem = "base_prob",
+                                              cor_dir_name_stem   = "cor"
+                                              )
+
+    cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
+         "', checksum = '", base_COR_bd_prob@checksum, "'  -----\n\n")
+
+    cat ("\n\nfull_output_dir_with_slash = ",
+         "\n    '", full_output_dir_with_slash, "'\n\n")
+    }
+
+test_gen_single_COR ()
+
 gen_single_bdprob_WRAP (bdprob_to_wrap,
                                     parameters,
                                     bdpg_error_codes)
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 
