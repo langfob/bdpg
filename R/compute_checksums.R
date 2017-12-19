@@ -94,6 +94,22 @@ compute_obj_checksum <- function (obj_with_UUID_and_checksum,
     checksum = tools::md5sum (full_saved_obj_path)
     if (file.exists (full_saved_obj_path)) file.remove (full_saved_obj_path)
 
+        #--------------------------------------------------------------------
+        #  2017 12 19 - BTL
+        #  Printing checksum right at this point shows some odd string that
+        #  contains the name of the temporary output file as well as the
+        #  32 character checksum.  It doesn't seem to hurt anything at the
+        #  moment, but it seems bizarre.
+        #  I have no idea why, but it goes away if you just paste0()
+        #  the checksum back into itself like the code below.
+        #  I'll just leave it here in case there's a problem with the weird
+        #  version of the checksum later on.
+        #  (I have more notes about this in my daily log file entry for
+        #  2017 12 19 if I need more information about it later.)
+        #--------------------------------------------------------------------
+
+    #checksum = paste0 (checksum)
+
 #docaids::doc_vars_in_this_func_once ()
     return (checksum)
     }
