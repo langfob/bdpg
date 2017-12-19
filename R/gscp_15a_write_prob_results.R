@@ -308,7 +308,10 @@ save_rsprob_results_data <- function (rsprob,
     #---------------------------------------------------------------------------
 
     write_results_to_files ("prob_characteristics.csv",
-                            as.data.frame (results_list),
+
+                            #as.data.frame (results_list),
+                            list_as_data_frame_with_nulls_replaced_by_NA (results_list),
+
                             parameters,
                             get_RSprob_path_topdir (rsprob, exp_root_dir),
                             "rsp_tzar_run_ID"

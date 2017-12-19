@@ -35,6 +35,33 @@ safe_sample = function (x,...) { if (length (x) == 1) x else sample (x,...) }
 
 #===============================================================================
 
+fix_0_length_list_elements <- function (list_element)
+    {
+        #  length == 0 should handle NULL, logical(0), numeric(0), etc.
+        #  These are all things that as.data.frame (list) chokes on.
+    if (length (list_element) == 0)
+        return (NA) else return (list_element)
+    }
+
+#-------------------------------------------------------------------------------
+
+list_with_0_length_vals_replaced_by_NA <- function (a_list)
+    {
+    if (! is.list (a_list))
+        stop ("list_with_0_length_vals_replaced_by_NA: argument is not a list.")
+
+    return (lapply (a_list, fix_0_length_list_elements))
+    }
+
+#-------------------------------------------------------------------------------
+
+list_as_data_frame_with_nulls_replaced_by_NA <- function (a_list)
+    {
+    return (as.data.frame (list_with_0_length_vals_replaced_by_NA (a_list)))
+    }
+
+#===============================================================================
+
 #' Get parameter value that should be integer and return 1 if value is null
 #'
 #' @param value a value that is probably a number, but could be anything
@@ -113,11 +140,8 @@ write_results_to_files = function (csv_outfile_name,
         #      summary_filename: $$output_path$$prob_diff_results.csv
         #      summary_without_run_id_filename: $$output_path$$prob_diff_results_with_0_run_id.csv
 
-#cat ("\n\nIn write_results_to_files():\n")
-#browser()
-
-        #  Build file name and path for auxiliary file where run_id is
-        #  zeroed out.
+            #  Build file name and path for auxiliary file where run_id is
+            #  zeroed out.
     csv_outfile_name_base = tools::file_path_sans_ext (csv_outfile_name)
     csv_outfile_name_ext  = tools::file_ext (csv_outfile_name)    #  Probably "csv" but just being cautious here...
     csv_outfile_name_with_0_run_id = paste0 (csv_outfile_name_base,
@@ -125,7 +149,6 @@ write_results_to_files = function (csv_outfile_name,
                                              csv_outfile_name_ext)
     summary_WITHOUT_run_id_path = file.path (out_dir, csv_outfile_name_with_0_run_id)
                                              ##parameters$summary_without_run_id_filename)
-
 
     results_df[[tzar_run_id_field_name]] = 0
     write.csv (results_df, file = summary_WITHOUT_run_id_path, row.names = FALSE)

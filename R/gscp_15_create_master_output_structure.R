@@ -448,7 +448,10 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                     )
 
     write_results_to_files ("rsrun_results.csv",
-                            as.data.frame (results_list),
+
+                            #as.data.frame (results_list),
+                            list_as_data_frame_with_nulls_replaced_by_NA (results_list),
+
                             parameters,
                             out_dir,
                             "rsr_tzar_run_ID")
