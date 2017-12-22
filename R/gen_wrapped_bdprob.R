@@ -1685,8 +1685,6 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
         #  Compute network metrics.
         #----------------------------
 
-cat ("\n>>>>>  wrap_abundance_dist...():  compute_network_metrics = '", compute_network_metrics, "'\n")
-cat ("\n>>>>>  wrap_abundance_dist...():  value_or_FALSE_if_null (compute_network_metrics) = '", value_or_FALSE_if_null (compute_network_metrics), "'\n")
     wrapped_bdprob =
         init_object_graph_data (
             wrapped_bdprob,
