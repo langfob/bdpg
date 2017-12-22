@@ -120,9 +120,6 @@ init_object_graph_data <- function (rsprob,
     compute_network_metrics_COR_APP_WRAP = value_or_FALSE_if_null (compute_network_metrics_COR_APP_WRAP)
     use_igraph_metrics                   = value_or_FALSE_if_null (use_igraph_metrics)
     use_bipartite_metrics                = value_or_FALSE_if_null (use_bipartite_metrics)
-    bipartite_metrics_to_use             =
-                if (is.null (bipartite_metrics_to_use))
-                    as.character (NULL) else bipartite_metrics_to_use
 
         #-----------------------------------------------------------------------
         #  This flag is used to allow easily toggling off all network metrics
@@ -148,7 +145,8 @@ init_object_graph_data <- function (rsprob,
         if (use_bipartite_metrics)
             rsprob@bipartite_metrics_from_bipartite_package =
                 compute_network_measures_using_bipartite_package (rsprob,
-                                                                  top_dir)
+                                                                  top_dir,
+                                                                  bipartite_metrics_to_use)
 
         if (use_igraph_metrics)
             rsprob@bipartite_metrics_from_igraph_package_df =

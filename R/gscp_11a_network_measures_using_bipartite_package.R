@@ -146,7 +146,8 @@
 #' @return Returns bipartite_metrics_from_bipartite_package
 
 compute_network_measures_using_bipartite_package = function (rsprob,
-                                                             exp_root_dir)
+                                                             exp_root_dir,
+                                                             bipartite_metrics_to_use)
     {
     cat ("\n\nAbout to create all_except_slow_indices.")
 
@@ -206,18 +207,26 @@ compute_network_measures_using_bipartite_package = function (rsprob,
         #  not to use "ALLBUTDD" there.
         #-----------------------------------------------------------------------
 
-    cat ("\nIn compute_network_measures_using_bipartite_package():  metrics_to_use = '",
-         parameters$bipartite_metrics_to_use, "'", sep='')
+    bipartite_metrics_to_use =
+                if (is.null (bipartite_metrics_to_use))
+                    as.character (NULL) else bipartite_metrics_to_use
 
-    if (parameters$bipartite_metrics_to_use == "ALLBUTDD")
+    cat ("\nIn compute_network_measures_using_bipartite_package():  metrics_to_use = '",
+#         parameters$bipartite_metrics_to_use, "'", sep='')
+         bipartite_metrics_to_use, "'", sep='')
+
+#    if (parameters$bipartite_metrics_to_use == "ALLBUTDD")
+    if (bipartite_metrics_to_use == "ALLBUTDD")
         {
         metrics_to_use = "ALLBUTDD"
 
-        } else if (parameters$bipartite_metrics_to_use == "quick_test")
+#        } else if (parameters$bipartite_metrics_to_use == "quick_test")
+        } else if (bipartite_metrics_to_use == "quick_test")
         {
         metrics_to_use = quick_test
 
-        } else if (parameters$bipartite_metrics_to_use == "all_except_slow_indices")
+#        } else if (parameters$bipartite_metrics_to_use == "all_except_slow_indices")
+        } else if (bipartite_metrics_to_use == "all_except_slow_indices")
         {
         metrics_to_use = all_except_slow_indices
 
