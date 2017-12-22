@@ -51,7 +51,7 @@ test_that("list_as_data_frame_with_nulls_replaced_by_NA: list that should fail a
                                         a_list_that_should_fail_as_data_frame))
 
     expect_equal (desired_data_frame,
-                  list_as_data_frame_with_nulls_replaced_by_NA (
+                  list_as_data_frame_with_0_length_vals_replaced_by_NA (
                                         a_list_that_should_fail_as_data_frame))
 })
 
