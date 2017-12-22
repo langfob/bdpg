@@ -91,7 +91,7 @@ gen_bdprob  = function (parameters,
     if (gen_multi_bdproblem)
         {
         bdprob = gen_multi_bdprob (parameters,
-                                    compute_network_metrics_for_this_prob,
+                                    #compute_network_metrics_for_this_prob,
                                    wrap_lognormal_dist_around_Xu,
                                    read_Xu_problem_from_Xu_bench_file,
                                    infile_name,
@@ -100,7 +100,6 @@ gen_bdprob  = function (parameters,
                                    bdpg_error_codes,
                                    integerize,
                                    base_bdprob)
-
         } else
         {
         # starting_dir =
