@@ -1132,93 +1132,14 @@ dummylistend=NULL
 
 }
 
-
 #===============================================================================
 
                 #-------------------------------
                 #  Test gen_single_bdprob_WRAP
                 #-------------------------------
 
-test_gen_single_COR <- function ()
+test_gen_single_COR <- function (parameters, bdpg_error_codes)
     {
-    parameters = list (
-
-                #  general - run
-            run_id = 39,
-            runset_name = "default_runset",
-
-            full_output_dir_with_slash = "/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/",
-
-            runset_abbrev = "test_runset",
-            runset_description = "test_runset long description",
-
-            # seed = 1,
-            bdpg_run_init_rand_seed = 14329,
-            set_rand_seed_at_creation_of_all_new_major_objects = FALSE,
-
-            integerize_string = "round",
-
-            # gen_4_basic_variants = TRUE,
-            # single_action_using_tzar_reps = FALSE,
-
-                #  cor - Xu from scratch
-
-            read_Xu_problem_from_Xu_bench_file = FALSE,
-
-            max_allowed_num_spp = 2000,
-            max_allowed_possible_tot_num_links = 1500,
-            too_many_possible_links_error_flag_file_name = "/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/too_many_possible_links_error_flag_file.txt",
-
-            desired_Xu_spp_frac_of_all_spp = 0.5,
-            derive_alpha_from_n__num_groups_and_opt_frac_0.5 = TRUE,
-
-            use_unif_rand_n__num_groups = TRUE,
-            n__num_groups_lower_bound = 61,
-            n__num_groups_upper_bound = 80,
-
-            use_unif_rand_p__prop_of_links_between_groups = TRUE,
-            p__prop_of_links_between_groups_lower_bound = 0.01,
-            p__prop_of_links_between_groups_upper_bound = 0.99,
-
-            use_unif_rand_r__density = TRUE,
-            r__density_lower_bound = 0.01,
-            r__density_upper_bound = 5.0,
-
-
-                #  network
-            compute_network_metrics = FALSE,
-
-                #  wrap
-            # gen_multi_bdproblem = TRUE,
-            #
-            # solution_frac_of_landscape = 0.3,
-            # allow_imperfect_wrap = TRUE,
-            # dep_set_PUs_eligible = FALSE,
-            # max_search_iterations = 500,
-            # wrap_lognormal_dist_around_Xu = TRUE,
-            # add_one_to_lognormal_abundances = FALSE,
-            # plot_rounded_abundances = TRUE,
-            # desired_max_abundance_frac = 0.7,
-
-
-    dummylistend=NULL
-            )
-
-    full_output_dir = tempdir()
-    last_char = substr (full_output_dir, nchar(full_output_dir), nchar(full_output_dir))
-    full_output_dir_with_slash =
-        if (last_char == "/") full_output_dir else paste0 (full_output_dir, "/")
-
-    parameters$full_output_dir_with_slash                   = full_output_dir_with_slash    #"/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/"
-    parameters$too_many_possible_links_error_flag_file_name =
-        paste0 (full_output_dir_with_slash, "too_many_possible_links_error_flag_file.txt")  #"/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/too_many_possible_links_error_flag_file.txt"
-
-
-    params_and_error_codes = init_for_bdpg (parameters)
-
-    bdpg_error_codes = params_and_error_codes$bdpg_error_codes
-    parameters       = params_and_error_codes$parameters
-
     base_COR_bd_prob = gen_single_bdprob_COR (parameters,
                                               bdpg_error_codes,
                                               integerize          = round,
@@ -1231,13 +1152,102 @@ test_gen_single_COR <- function ()
 
     cat ("\n\nfull_output_dir_with_slash = ",
          "\n    '", full_output_dir_with_slash, "'\n\n")
+
+    return (base_COR_bd_prob)
     }
 
-test_gen_single_COR ()
+parameters = list (
 
-gen_single_bdprob_WRAP (bdprob_to_wrap,
-                                    parameters,
-                                    bdpg_error_codes)
+            #  general - run
+        run_id = 39,
+        runset_name = "default_runset",
+
+        full_output_dir_with_slash = "/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/",
+
+        runset_abbrev = "test_runset",
+        runset_description = "test_runset long description",
+
+        # seed = 1,
+        bdpg_run_init_rand_seed = 14329,
+        set_rand_seed_at_creation_of_all_new_major_objects = FALSE,
+
+        integerize_string = "round",
+
+        # gen_4_basic_variants = TRUE,
+        # single_action_using_tzar_reps = FALSE,
+
+            #  cor - Xu from scratch
+
+        read_Xu_problem_from_Xu_bench_file = FALSE,
+
+        max_allowed_num_spp = 2000,
+        max_allowed_possible_tot_num_links = 1500,
+        too_many_possible_links_error_flag_file_name = "/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/too_many_possible_links_error_flag_file.txt",
+
+        desired_Xu_spp_frac_of_all_spp = 0.5,
+        derive_alpha_from_n__num_groups_and_opt_frac_0.5 = TRUE,
+
+        use_unif_rand_n__num_groups = TRUE,
+        n__num_groups_lower_bound = 61,
+        n__num_groups_upper_bound = 80,
+
+        use_unif_rand_p__prop_of_links_between_groups = TRUE,
+        p__prop_of_links_between_groups_lower_bound = 0.01,
+        p__prop_of_links_between_groups_upper_bound = 0.99,
+
+        use_unif_rand_r__density = TRUE,
+        r__density_lower_bound = 0.01,
+        r__density_upper_bound = 5.0,
+
+
+            #  network
+        compute_network_metrics = FALSE,
+
+            #  wrap
+        # gen_multi_bdproblem = TRUE,
+        #
+        solution_frac_of_landscape = 0.3,
+        # allow_imperfect_wrap = FALSE,
+        # dep_set_PUs_eligible = FALSE,
+        max_search_iterations = 500,
+        wrap_lognormal_dist_around_Xu = TRUE,
+        # add_one_to_lognormal_abundances = FALSE,
+        # plot_rounded_abundances = TRUE,
+        desired_max_abundance_frac = 0.7,
+
+
+dummylistend=NULL
+        )
+
+    #  Create test output directory.
+full_output_dir = tempdir()
+last_char = substr (full_output_dir, nchar(full_output_dir), nchar(full_output_dir))
+full_output_dir_with_slash =
+    if (last_char == "/") full_output_dir else paste0 (full_output_dir, "/")
+
+parameters$full_output_dir_with_slash                   = full_output_dir_with_slash    #"/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/"
+parameters$too_many_possible_links_error_flag_file_name =
+    paste0 (full_output_dir_with_slash, "too_many_possible_links_error_flag_file.txt")  #"/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/too_many_possible_links_error_flag_file.txt"
+
+    #  Initialize for a bdpg run.
+params_and_error_codes = init_for_bdpg (parameters)
+
+bdpg_error_codes = params_and_error_codes$bdpg_error_codes
+parameters       = params_and_error_codes$parameters
+
+    #  Generate a correct problem from scratch.
+bdprob_to_wrap = test_gen_single_COR (parameters,
+                                      bdpg_error_codes)
+
+    #  Generate a wrapped problem around the correct problem just generated.
+wrapped_problem = gen_single_bdprob_WRAP (bdprob_to_wrap,
+                                          parameters,
+                                          bdpg_error_codes)
+
+test_that("gen_single_bdprob_WRAP: COR and WRAP problem generation succeed", {
+    expect_true ( is.null (bdprob_to_wrap))
+    expect_true ( is.null (wrapped_problem))
+})
 
 #===============================================================================
 
