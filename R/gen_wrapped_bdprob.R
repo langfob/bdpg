@@ -1329,7 +1329,10 @@ wrap_abundances_around_eligible_set <- function (
 #-------------------------------------------------------------------------------
 
 wrap_abundance_dist_around_Xu_problem <- function (starting_dir,
-                                                  compute_network_metrics_for_this_prob,
+
+                                    #compute_network_metrics_for_this_prob,
+                                    parameters,
+
                                                   rounded_abundances,
                                                   Xu_bdprob,
                                                   dep_set_PUs_eligible,
@@ -1688,10 +1691,10 @@ cat ("\n>>>>>  wrap_abundance_dist...():  value_or_FALSE_if_null (compute_networ
         init_object_graph_data (
             wrapped_bdprob,
             starting_dir,
-            value_or_FALSE_if_null (parameters$compute_network_metrics),
-            compute_network_metrics_for_this_prob,
-            value_or_FALSE_if_null (parameters$use_igraph_metrics),
-            value_or_FALSE_if_null (parameters$use_bipartite_metrics),
+            parameters$compute_network_metrics,
+            parameters$compute_network_metrics_wrapped_COR,
+            parameters$use_igraph_metrics,
+            parameters$use_bipartite_metrics,
             parameters$bipartite_metrics_to_use)
 
         #------------------------------------------------------------
@@ -1840,7 +1843,7 @@ cat ("\n>>>>>  wrap_abundance_dist...():  value_or_FALSE_if_null (compute_networ
 #-------------------------------------------------------------------------------
 
 gen_wrapped_bdprob_COR <- function (starting_dir,
-                                    compute_network_metrics_for_this_prob,
+                                    #compute_network_metrics_for_this_prob,
                                     parameters,
                                     base_bdprob,
                                     bdpg_error_codes)
@@ -1915,7 +1918,11 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
 
         wrapped_bdprob_COR =
             wrap_abundance_dist_around_Xu_problem (starting_dir,
-                                                   compute_network_metrics_for_this_prob,
+
+                                            #compute_network_metrics_for_this_prob,
+                                            #parameters$compute_network_metrics_wrapped_COR,
+                                            parameters,
+
                                                    rounded_abundances,
                                                    base_bdprob,
                                                    dep_set_PUs_eligible,
@@ -2016,12 +2023,12 @@ gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
     starting_dir =
         file.path (normalizePath (parameters$full_output_dir_with_slash))
 
-    compute_network_metrics_for_this_prob =
-        value_or_FALSE_if_null (parameters$compute_network_metrics_wrapped_COR)
+    # compute_network_metrics_for_this_prob =
+    #     value_or_FALSE_if_null (parameters$compute_network_metrics_wrapped_COR)
 
     WRAP_prob =
         gen_wrapped_bdprob_COR (starting_dir,
-                                compute_network_metrics_for_this_prob,
+                                #compute_network_metrics_for_this_prob,
                                 parameters,
                                 bdprob_to_wrap,
                                 bdpg_error_codes)
