@@ -165,7 +165,6 @@ create_dirs_for_APP_prob <- function (Xu_bdprob_APP,
 #' @inheritParams std_param_defns
 #' @param Xu_bdprob_APP an apparent Xu_bd_problem
 #' @param Xu_bdprob_COR a Xu_bd_problem
-#' @param compute_network_metrics_for_this_prob a boolean
 #' @param starting_dir a character string
 #'
 #' @return an apparent Xu_bd_problem
@@ -173,7 +172,7 @@ create_dirs_for_APP_prob <- function (Xu_bdprob_APP,
 
 compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
                                                                 Xu_bdprob_COR,
-                                                                compute_network_metrics_for_this_prob,
+                                                                #compute_network_metrics_for_this_prob,
                                                                 starting_dir,
                                                                 parameters
                                                                 )
@@ -200,11 +199,14 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
         init_object_graph_data (
             Xu_bdprob_APP,
             starting_dir,
-            value_or_FALSE_if_null (parameters$compute_network_metrics),
-            #parameters$compute_network_metrics_APP,
-            compute_network_metrics_for_this_prob,
-            value_or_FALSE_if_null (parameters$use_igraph_metrics),
-            value_or_FALSE_if_null (parameters$use_bipartite_metrics),
+
+            parameters$compute_network_metrics,
+
+            parameters$compute_network_metrics_APP,
+            #compute_network_metrics_for_this_prob,
+
+            parameters$use_igraph_metrics,
+            parameters$use_bipartite_metrics,
             parameters$bipartite_metrics_to_use)
 
 #docaids::doc_vars_in_this_func_once ()
@@ -406,7 +408,7 @@ APP_prob_info@realized_FN_rate          = ret_vals_from_apply_errors$realized_FN
 #-------------------------------------------------------------------------------
 
 gen_single_bdprob_APP = function (Xu_bdprob_COR,
-                                  compute_network_metrics_for_this_prob,
+                            #compute_network_metrics_for_this_prob,
                                     #starting_dir,    #  not needed?  take from cor?
                                     parameters,
                                     bdpg_error_codes,
@@ -435,7 +437,7 @@ gen_single_bdprob_APP = function (Xu_bdprob_COR,
     Xu_bdprob_APP =
         compute_and_save_dist_and_network_metrics_for_prob (Xu_bdprob_APP,
                                                             Xu_bdprob_COR,
-                                                            compute_network_metrics_for_this_prob,
+                                                            #compute_network_metrics_for_this_prob,
                                                             starting_dir,
                                                             parameters)
 
