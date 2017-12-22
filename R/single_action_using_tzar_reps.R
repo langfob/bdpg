@@ -243,7 +243,7 @@ get_base_cor_bdprob_for_given_app_bdprob <- function (app_bdprob, parameters)
 
         } else
         {
-        stop (paste0 ("\n\nERROR:  RS_cor_input_prob_src = '", RS_cor_input_prob_src, "'.",
+        stop (paste0 ("\n\nERROR:  parameters$RS_cor_input_prob_src = '", parameters$RS_cor_input_prob_src, "'.",
                         "\n        Must be 'rds_file_set_from_file'.\n\n"))
         }
 
