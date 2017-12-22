@@ -1245,8 +1245,8 @@ wrapped_problem = gen_single_bdprob_WRAP (bdprob_to_wrap,
                                           bdpg_error_codes)
 
 test_that("gen_single_bdprob_WRAP: COR and WRAP problem generation succeed", {
-    expect_true ( is.null (bdprob_to_wrap))
-    expect_true ( is.null (wrapped_problem))
+    expect_true (! is.null (bdprob_to_wrap))
+    expect_true (! is.null (wrapped_problem))
 })
 
 #===============================================================================
