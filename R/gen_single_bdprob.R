@@ -546,7 +546,8 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
                   Xu_bdprob_cor@PU_col_name,
                   Xu_bdprob_cor@presences_col_name
                   )
-
+cat ("\n>>> gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(), compute_network_metrics_for_this_prob = '",
+     compute_network_metrics_for_this_prob, "'\n")
         #  Compute network metrics.
     Xu_bdprob_cor <- init_object_graph_data (Xu_bdprob_cor,
                                              exp_root_dir,
