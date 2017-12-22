@@ -4,17 +4,11 @@
 \alias{gen_single_bdprob_APP}
 \title{Generate a single biodiversity problem with error added to it}
 \usage{
-gen_single_bdprob_APP(Xu_bdprob_COR, compute_network_metrics_for_this_prob,
-  parameters, bdpg_error_codes, integerize, base_prob_name_stem = "base_prob",
-  app_dir_name_stem = "app")
+gen_single_bdprob_APP(Xu_bdprob_COR, parameters, bdpg_error_codes, integerize,
+  base_prob_name_stem = "base_prob", app_dir_name_stem = "app")
 }
 \arguments{
 \item{Xu_bdprob_COR}{correct Xu problem that is to have error added to it}
-
-\item{compute_network_metrics_for_this_prob}{boolean indicating whether to
-compute network metrics for the current problem; TRUE indicates to
-compute one or more network metrics specified elsewhere and FALSE
-indicate not compute any network metrics for the current problem.}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}

@@ -4,20 +4,17 @@
 \alias{wrap_abundance_dist_around_Xu_problem}
 \title{Wrap abundance distribution around Xu problem}
 \usage{
-wrap_abundance_dist_around_Xu_problem(starting_dir,
-  compute_network_metrics_for_this_prob, rounded_abundances, Xu_bdprob,
-  dep_set_PUs_eligible, tot_num_PUs_in_landscape, seed_value_for_search_list,
-  allow_imperfect_wrap, bdpg_error_codes, search_outfile_name_base,
-  search_outfile_name, wrap_prob_name_stem = "wrap_prob",
-  cor_dir_name_stem = "cor")
+wrap_abundance_dist_around_Xu_problem(starting_dir, parameters,
+  rounded_abundances, Xu_bdprob, dep_set_PUs_eligible, tot_num_PUs_in_landscape,
+  seed_value_for_search_list, allow_imperfect_wrap, bdpg_error_codes,
+  search_outfile_name_base, search_outfile_name,
+  wrap_prob_name_stem = "wrap_prob", cor_dir_name_stem = "cor")
 }
 \arguments{
 \item{starting_dir}{character string}
 
-\item{compute_network_metrics_for_this_prob}{boolean indicating whether to
-compute network metrics for the current problem; TRUE indicates to
-compute one or more network metrics specified elsewhere and FALSE
-indicate not compute any network metrics for the current problem.}
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
 
 \item{rounded_abundances}{DESCRIPTION.}
 

@@ -5,14 +5,12 @@
 \title{Compute and save the distribution and network metrics for the problem.}
 \usage{
 compute_and_save_dist_and_network_metrics_for_prob(Xu_bdprob_APP, Xu_bdprob_COR,
-  compute_network_metrics_for_this_prob, starting_dir, parameters)
+  starting_dir, parameters)
 }
 \arguments{
 \item{Xu_bdprob_APP}{an apparent Xu_bd_problem}
 
 \item{Xu_bdprob_COR}{a Xu_bd_problem}
-
-\item{compute_network_metrics_for_this_prob}{a boolean}
 
 \item{starting_dir}{a character string}
 

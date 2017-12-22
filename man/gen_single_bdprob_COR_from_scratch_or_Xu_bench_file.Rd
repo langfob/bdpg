@@ -4,8 +4,7 @@
 \alias{gen_single_bdprob_COR_from_scratch_or_Xu_bench_file}
 \title{Generate a single biodiversity problem}
 \usage{
-gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(exp_root_dir,
-  compute_network_metrics_for_this_prob, parameters,
+gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(exp_root_dir, parameters,
   read_Xu_problem_from_Xu_file, Xu_bench_infile_name,
   given_correct_solution_cost, max_allowed_num_spp, bdpg_error_codes,
   integerize, base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
@@ -13,11 +12,6 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(exp_root_dir,
 \arguments{
 \item{exp_root_dir}{character string path to root directory of an
 experiment, usually parameters$fullOutputDir_NO_slash}
-
-\item{compute_network_metrics_for_this_prob}{boolean indicating whether to
-compute network metrics for the current problem; TRUE indicates to
-compute one or more network metrics specified elsewhere and FALSE
-indicate not compute any network metrics for the current problem.}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}

@@ -5,19 +5,13 @@
 \title{Generate a new biodiversity problem by modifying or combining existing
 problem(s)}
 \usage{
-gen_multi_bdprob(parameters, compute_network_metrics_for_this_prob,
-  wrap_lognormal_dist_around_Xu, read_Xu_problem_from_Xu_bench_file,
-  infile_name, given_correct_solution_cost, max_allowed_num_spp,
-  bdpg_error_codes, integerize, bdprob_1 = NULL)
+gen_multi_bdprob(parameters, wrap_lognormal_dist_around_Xu,
+  read_Xu_problem_from_Xu_bench_file, infile_name, given_correct_solution_cost,
+  max_allowed_num_spp, bdpg_error_codes, integerize, bdprob_1 = NULL)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{compute_network_metrics_for_this_prob}{boolean indicating whether to
-compute network metrics for the current problem; TRUE indicates to
-compute one or more network metrics specified elsewhere and FALSE
-indicate not compute any network metrics for the current problem.}
 
 \item{wrap_lognormal_dist_around_Xu}{boolean indicating whether to wrap a
 lognormal distribution around a base Xu problem; TRUE implies wrapping
