@@ -29,7 +29,7 @@ gen_single_bdprob_COR <- function (parameters,
     COR_Xu_bdprob =
         gen_single_bdprob_COR_from_scratch_or_Xu_bench_file (
             exp_root_dir,
-            value_or_FALSE_if_null (parameters$compute_network_metrics_COR),
+###            value_or_FALSE_if_null (parameters$compute_network_metrics_COR),
             parameters,
             value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file),
             Xu_bench_infile_name,
@@ -351,7 +351,7 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 
 gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
     function (exp_root_dir,
-                compute_network_metrics_for_this_prob,
+#                compute_network_metrics_for_this_prob,
                 parameters,
             read_Xu_problem_from_Xu_file,
             Xu_bench_infile_name,
@@ -546,14 +546,16 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
                   Xu_bdprob_cor@PU_col_name,
                   Xu_bdprob_cor@presences_col_name
                   )
-cat ("\n>>> gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(), compute_network_metrics_for_this_prob = '",
-     compute_network_metrics_for_this_prob, "'\n")
         #  Compute network metrics.
-    Xu_bdprob_cor <- init_object_graph_data (Xu_bdprob_cor,
+#    compute_network_metrics_for_this_prob = value_or_FALSE_if_null (parameters$compute_network_metrics_COR)
+    Xu_bdprob_cor = init_object_graph_data (Xu_bdprob_cor,
                                              exp_root_dir,
+
                                              parameters$compute_network_metrics,
-                                #parameters$compute_network_metrics_COR,
-                                compute_network_metrics_for_this_prob,
+
+                                parameters$compute_network_metrics_COR,
+                                #compute_network_metrics_for_this_prob,
+
                                              parameters$use_igraph_metrics,
                                              parameters$use_bipartite_metrics,
                                              parameters$bipartite_metrics_to_use)
