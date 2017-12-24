@@ -609,7 +609,7 @@ test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example
     eligible_set = 4:8
 
     PU_spp_table_w_dep_set_NOT_eligible =
-        create_wrapping_spp_PU_spp_table (extra_abund,
+        create_wrapping_PU_spp_table (extra_abund,
                                           dep_set,
                                           eligible_set,
                                           use_testing_only_rand_seed = TRUE,
@@ -949,8 +949,7 @@ wrap_abundance_dist_around_Xu_problem (starting_dir,
                 #  Test gen_wrapped_bdprob_COR
                 #--------------------------------------------
 if(FALSE)
-gen_wrapped_bdprob_COR (starting_dir,
-                                    compute_network_metrics_for_this_prob,
+            gen_wrapped_bdprob_COR (starting_dir,
                                     parameters,
                                     base_bdprob,
                                     bdpg_error_codes)
