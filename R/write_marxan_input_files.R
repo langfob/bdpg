@@ -300,8 +300,8 @@ write_marxan_puvspr.dat_input_file = function (spp_PU_amount_table)
 #' @param spp_IDs A vector of species IDs
 #' @param spp_PU_amount_table A data frame of species IDs vs planning unit IDs
 #' @param spf_const A constant species penalty factor to be applied to all species
-#' @param target_const A constant target representation level to be applied to all species
-#' @param cost_const A constant cost to be applied to all species
+#' @param targets A vector of target representation levels for all species
+#' @param costs A vector of costs for all PUs
 #' @param status_const A constant status to be applied to all species
 #' @export
 #' @return nothing.
@@ -332,15 +332,15 @@ write_marxan_puvspr.dat_input_file = function (spp_PU_amount_table)
 #' write_marxan_puvspr.dat_input_file (spp_PU_amount_table)
 #'          }
 
-write_all_marxan_input_files = function (PU_IDs,
-                                         spp_IDs,
-                                         spp_PU_amount_table,
+write_all_marxan_input_files <- function (PU_IDs,
+                                          spp_IDs,
+                                          spp_PU_amount_table,
 
-                                         targets = rep (1, length (spp_IDs)),
-                                         costs = rep (1, length (PU_IDs)),
+                                          targets = rep (1, length (spp_IDs)),
+                                          costs = rep (1, length (PU_IDs)),
 
-                                         spf_const = 1,
-                                         status_const = 0)
+                                          spf_const = 1,
+                                          status_const = 0)
     {
     write_marxan_pu.dat_input_file_from_vectors (PU_IDs, costs, status_const)
     write_marxan_spec.dat_input_file_from_vectors (spp_IDs, spf_const, targets)
