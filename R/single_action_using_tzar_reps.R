@@ -151,7 +151,13 @@ make_sure_that_cor_bdprob_is_base_of_app_bdprob <- function (app_bdprob,
 #'
 #' @examples
 #'  get_UUID_from_file_path ("saved.RSprob-COR-Base.489a016d-14fd-40af-89bb-3e1edf38f14f.rds")
-#'  get_UUID_from_file_path ("/Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/default_runset/1_marxan_simulated_annealing/RSprob-COR-Base.489a016d-14fd-40af-89bb-3e1edf38f14f/saved.RSprob-COR-Base.489a016d-14fd-40af-89bb-3e1edf38f14f.rds")
+#'
+#'  long_path_part1 = "/Users/bill/tzar/outputdata/bdpgxupaper_single_action_COR_prob/"
+#'  long_path_part2 = "default_runset/1_marxan_simulated_annealing/RSprob-COR-Base."
+#'  long_path_part3 = "489a016d-14fd-40af-89bb-3e1edf38f14f"
+#'  long_path_part4 = "/saved.RSprob-COR-Base.489a016d-14fd-40af-89bb-3e1edf38f14f.rds"
+#'  long_path = paste0 (long_path_part1, long_path_part2, long_path_part3, long_path_part4)
+#'  get_UUID_from_file_path (long_path)
 
 #-------------------------------------------------------------------------------
 
