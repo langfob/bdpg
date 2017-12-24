@@ -271,7 +271,11 @@ load_results_output_values_specific_to_non_benchmark_Xu_problem <-
 #' and write that list to a file as a 1 line data frame with column
 #' headers.
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
+
+#-------------------------------------------------------------------------------
 
 save_rsprob_results_data <- function (rsprob,
                                       exp_root_dir,
