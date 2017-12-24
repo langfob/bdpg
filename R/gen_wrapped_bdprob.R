@@ -882,6 +882,8 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 #' @param extra_abund vector
 #' @param dep_set vector
 #' @param eligible_set vector
+#' @param use_testing_only_rand_seed boolean
+#' @param testing_only_rand_seed integer
 #'
 #' @return PU_spp_table
 
