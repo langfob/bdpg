@@ -343,6 +343,9 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #-------------------------------------------------------------------------------
 
 #' @inheritParams std_param_defns
+
+#' @param base_prob_name_stem character string
+#' @param cor_dir_name_stem character string
 #'
 #' @return Returns a new Xu_bd_problem
 #' @export
