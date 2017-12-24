@@ -524,7 +524,8 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and
 #'
 #-------------------------------------------------------------------------------
 
-#' @param marxan_output_dir character string output directory for the marxan run
+#' @param marxan_output_dir_path character string output directory for the
+#' marxan run
 #' @param all_correct_node_IDs integer vector
 #'
 #' @return Returns list
