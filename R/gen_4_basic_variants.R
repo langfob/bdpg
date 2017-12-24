@@ -12,10 +12,14 @@
 #' and another for the wrapped problem.  It also runs marxan on each of these
 #' four problems.
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns nothing.
 #' @export
+
+#-------------------------------------------------------------------------------
 
 gen_4_basic_variants <- function (parameters,
                                   bdpg_error_codes,
