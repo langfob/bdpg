@@ -57,6 +57,7 @@
 #' @param basic_or_wrapped_or_comb_str character string
 #' @param method_name character string for reserve selection method, e.g.,
 #'     "marxan_sa"
+#' @inheritParams std_param_defns
 #'
 #' @return Returns an RSrun object
 
