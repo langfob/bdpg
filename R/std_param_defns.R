@@ -62,10 +62,14 @@
 #'             to rename the variable locally to avoid the conflict.}
 #'             }
 #'
+#-------------------------------------------------------------------------------
+
 #' @section Conventions:
 #' The main convention here will be to try to keep the parameters in
 #' alphabetical order to make them easier to find and not duplicate.
 #'
+#-------------------------------------------------------------------------------
+
 #' @section How to use:
 #' \describe{
 #'           \item{To inherit an \code{@@param} from here:}{In the Roxygen documentation
@@ -90,6 +94,8 @@
 #'          }
 #'
 #'
+#-------------------------------------------------------------------------------
+
 #' @param all_correct_node_IDs numeric vector containing all planning unit IDs
 #'     that appear in the correct problem, not to be confused with the set of
 #'     planning IDs that appear in the correct \emph{solution}
@@ -203,6 +209,7 @@
 #'     ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587
 #' @param Xu_bench_infile_name filename of Xu benchmark problem file
 
+#-------------------------------------------------------------------------------
 
 std_param_defns <-
     function (
