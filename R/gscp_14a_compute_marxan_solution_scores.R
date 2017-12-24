@@ -168,6 +168,14 @@ compute_marxan_solution_scores <-   #_wrt_COR_reps_and_costs_or_APP_reps_and_cos
 
 #-------------------------------------------------------------------------------
 
+#' @param num_marxan_solutions integer
+#' @param marxan_solutions_matrix matrix
+#' @param marxan_best_df_sorted_as_vector vector
+#'
+#' @return integer ID of best solution according to marxan
+
+#-------------------------------------------------------------------------------
+
 choose_a_best_solution_ID_according_to_marxan <- function (num_marxan_solutions,
                                                            marxan_solutions_matrix,
                                                            marxan_best_df_sorted_as_vector)
@@ -219,10 +227,21 @@ choose_a_best_solution_ID_according_to_marxan <- function (num_marxan_solutions,
 #-------------------------------------------------------------------------------
 
 #'  Compute rep and cost values of marxan solutions with respect to COR or APP
-#`
+#'
 #'  Go through the solutions matrix and compute the representation
 #'  and cost values for each solution that marxan found in its different
 #'  restarts.
+
+#-------------------------------------------------------------------------------
+
+#' @param given_bpm blah
+#' @param given_PU_costs blah
+#' @param num_marxan_solutions blah
+#' @param marxan_solutions_matrix blah
+#' @param targets blah
+#' @param num_spp blah
+#'
+#' @return blah
 
 #-------------------------------------------------------------------------------
 
