@@ -23,6 +23,9 @@
 #' done just before the creation of an rs RUN object
 #' @param is_rsprob boolean indicating that the seed creation test is being
 #' done just before the creation of an rs PROBLEM object
+#' @param cor_or_app_str character string containing "COR" or "APP"
+#' @param basic_or_wrapped_or_comb_str character string containing "BASE" or
+#' "WRAP" or "COMB"
 #'
 #' @inheritParams std_param_defns
 #'
