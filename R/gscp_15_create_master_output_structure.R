@@ -59,45 +59,6 @@ compute_RS_solution_cost_scores_wrt_COR_costs_vec <- function (rs_solution_PU_ID
 
 #  No longer used?  2017 12 10 - BTL
 
-save_RS_options <- function ()
-    {
-    results_list = list()
-
-        #  Marxan options
-
-    results_list$marxan_spf_const                                                  = spf_const
-    results_list$marxan_PROP                                                       = marxan_PROP
-    results_list$marxan_RANDSEED                                                   = marxan_RANDSEED
-    results_list$marxan_NUMREPS                                                    = marxan_NUMREPS
-
-        #  Marxan Annealing Parameters
-    results_list$marxan_NUMITNS                                                    = marxan_NUMITNS
-    results_list$marxan_STARTTEMP                                                  = marxan_STARTTEMP
-    results_list$marxan_NUMTEMP                                                    = marxan_NUMTEMP
-
-        #  Marxan Cost Threshold
-    results_list$marxan_COSTTHRESH                                                 = marxan_COSTTHRESH
-    results_list$marxan_THRESHPEN1                                                 = marxan_THRESHPEN1
-    results_list$marxan_THRESHPEN2                                                 = marxan_THRESHPEN2
-
-        #  Marxan Program control
-    results_list$marxan_RUNMODE                                                    = marxan_RUNMODE
-    results_list$marxan_MISSLEVEL                                                  = marxan_MISSLEVEL
-    results_list$marxan_ITIMPTYPE                                                  = marxan_ITIMPTYPE
-    results_list$marxan_HEURTYPE                                                   = marxan_HEURTYPE
-    results_list$marxan_CLUMPTYPE                                                  = marxan_CLUMPTYPE
-
-    #---------------------------------------------------------------------------
-
-    write_results_to_files (results_list,
-                            parameters,
-                            cur_result_row)    #  Added 2016 03 28 - BTL.
-    }
-
-#===============================================================================
-
-#  No longer used?  2017 12 10 - BTL
-
 initialize_results_list <- function (num_runs=1)
     {
     results_list =
