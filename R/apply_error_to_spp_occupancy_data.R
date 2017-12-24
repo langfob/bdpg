@@ -633,7 +633,6 @@ test_compute_realized_error_rates <- function ()
 #-------------------------------------------------------------------------------
 
 #' @param cor_bpm matrix
-#' @param cor_num_PU_spp_pairs integer
 #' @param cor_num_PUs integer
 #' @param cor_num_spp integer
 #' @inheritParams std_param_defns
