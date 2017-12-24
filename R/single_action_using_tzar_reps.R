@@ -4,6 +4,8 @@
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Load a bdprob from an R rds output file, possibly specified in an array
 #'
 #' Takes a file name for an R rds output file that contains a saved Xu_bd_problem
@@ -15,7 +17,13 @@
 #' a variable called cur_input_prob_idx, giving the location of the path in
 #' the text file or yaml array.
 #'
-#'
+#-------------------------------------------------------------------------------
+
+#' @param prob_src character string
+#' @param cur_input_prob_idx integer
+#' @param rds_file_set_path character string
+#' @param rds_file_set_yaml_array vector of character strings
+#' @param rds_file_path character string
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a list containing named elements related to the source
