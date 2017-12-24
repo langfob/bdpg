@@ -407,14 +407,15 @@ APP_prob_info@realized_FN_rate          = ret_vals_from_apply_errors$realized_FN
 
 #-------------------------------------------------------------------------------
 
-gen_single_bdprob_APP = function (Xu_bdprob_COR,
+gen_single_bdprob_APP <- function (Xu_bdprob_COR,
                             #compute_network_metrics_for_this_prob,
                                     #starting_dir,    #  not needed?  take from cor?
                                     parameters,
-                                    bdpg_error_codes,
-                        integerize,                           #  NOT USED ANYMORE?
-                        base_prob_name_stem = "base_prob",    #  NOT USED ANYMORE?
-                        app_dir_name_stem = "app"             #  NOT USED ANYMORE?
+                                    bdpg_error_codes
+                            ,
+#                        integerize,                           #  NOT USED ANYMORE?
+#                        base_prob_name_stem = "base_prob",    #  NOT USED ANYMORE?
+#                        app_dir_name_stem = "app"             #  NOT USED ANYMORE?
                                     )
     {
     Xu_bdprob_APP =
