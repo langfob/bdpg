@@ -20,38 +20,6 @@
 #'
 #-------------------------------------------------------------------------------
 
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{PU_set_to_test}{
-#' \preformatted{
-#' PU_set_to_test :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-#' }}
-#' \subsection{selected_PUs_matrix_of_spp_cts_per_PU}{
-#' \preformatted{
-#' selected_PUs_matrix_of_spp_cts_per_PU :  num [1:814, 1:61] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{spp_rep_cts}{
-#' \preformatted{
-#' spp_rep_cts :  num [1:814] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{spp_rep_fracs}{
-#' \preformatted{
-#' spp_rep_fracs :  num [1:814] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{spp_rep_targets}{
-#' \preformatted{
-#' spp_rep_targets :  num [1:814] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU}{
-#' \preformatted{
-#' spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @inheritParams std_param_defns
 #'
 #' @return Returns spp_rep_fracs numeric vector of fractions of species
@@ -102,7 +70,6 @@ compute_rep_fraction =
         print (display_matrix)
         }
 
-#docaids::doc_vars_in_this_func_once ()
     return (spp_rep_fracs)
     }
 
@@ -117,26 +84,6 @@ compute_rep_fraction =
 #'
 #-------------------------------------------------------------------------------
 
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{PU_costs}{
-#' \preformatted{
-#' PU_costs :  num [1:122] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{PU_set_to_test}{
-#' \preformatted{
-#' PU_set_to_test :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-#' }}
-#' \subsection{solution_cost}{
-#' \preformatted{
-#' solution_cost :  num 61
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @inheritParams std_param_defns
 #'
 #' @return Returns numeric cost of the given solution
@@ -148,7 +95,6 @@ compute_solution_cost =
     {
     solution_cost <- sum (PU_costs [PU_set_to_test])
 
-#docaids::doc_vars_in_this_func_once ()
     return (solution_cost)
     }
 
