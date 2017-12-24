@@ -24,7 +24,6 @@
 
 #===============================================================================
 
-
 #' Convert edge list to PU/spp table
 #'
 #'  Converts an edge list to a PU/spp table to give to Marxan and to network
@@ -52,77 +51,13 @@
 #'  description of a bipartite network, so I may need to modify or use
 #'  it in doing the bipartite network analyses too.
 #'
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{correct_solution_cost}{
-#' \preformatted{
-#' correct_solution_cost :  num 61
-#' }}
-#' \subsection{cur_spp_ID}{
-#' \preformatted{
-#' cur_spp_ID :  int 814
-#' }}
-#' \subsection{dependent_node_IDs}{
-#' \preformatted{
-#' dependent_node_IDs :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-#' }}
-#' \subsection{edge_list}{
-#' \preformatted{
-#' edge_list :  int [1:814, 1:2] 1 3 5 7 9 11 13 15 17 19 ...
-#' }}
-#' \subsection{next_PU_spp_pair_row}{
-#' \preformatted{
-#' next_PU_spp_pair_row :  num 1629
-#' }}
-#' \subsection{nodes}{
-#' \preformatted{
-#' nodes : 'data.frame':	122 obs. of  3 variables:
-#'  $ node_ID             : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ group_ID            : num  1 1 2 2 3 3 4 4 5 5 ...
-#'  $ dependent_set_member: logi  FALSE TRUE FALSE TRUE FALSE TRUE ...
-#' }}
-#' \subsection{num_edge_list}{
-#' \preformatted{
-#' num_edge_list :  int 814
-#' }}
-#' \subsection{num_PU_spp_pairs}{
-#' \preformatted{
-#' num_PU_spp_pairs :  num 1628
-#' }}
-#' \subsection{num_PUs}{
-#' \preformatted{
-#' num_PUs :  int 122
-#' }}
-#' \subsection{PU_col_name}{
-#' \preformatted{
-#' PU_col_name :  chr "PU_ID"
-#' }}
-#' \subsection{PU_costs}{
-#' \preformatted{
-#' PU_costs :  num [1:122] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{PU_spp_pair_indices}{
-#' \preformatted{
-#' PU_spp_pair_indices : 'data.frame':	1628 obs. of  2 variables:
-#'  $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
-#' }}
-#' \subsection{PU_spp_pair_info}{
-#' \preformatted{
-#' PU_spp_pair_info : Formal class 'PU_spp_pair_info_class' [package "bdpg"] with 12 slots
-#' }}
-#' \subsection{spp_col_name}{
-#' \preformatted{
-#' spp_col_name :  chr "spp_ID"
-#' }}
-#'
-#'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a PU_spp_pair_info_class object
+
+#-------------------------------------------------------------------------------
 
 create_PU_spp_pair_indices = function (edge_list,
                                         nodes,
@@ -167,7 +102,6 @@ create_PU_spp_pair_indices = function (edge_list,
     PU_spp_pair_info@num_spp               <- get_num_edge_list (edge_list)
     PU_spp_pair_info@correct_solution_cost <- correct_solution_cost
 
-#docaids::doc_vars_in_this_func_once ()
     return (PU_spp_pair_info)
 
     # return (list (PU_spp_pair_indices = PU_spp_pair_indices,
