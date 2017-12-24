@@ -99,6 +99,8 @@ get_bdprob_from_rds_file <- function (prob_src,
 #' If the given correct Xu_bd_problem is not the problem that the apparent has
 #' added error to, this is a fatal error, so give an error message and quit.
 #'
+#-------------------------------------------------------------------------------
+
 #' @param app_bdprob an apparent bdprob
 #' @param cor_bdprob a correct bdprob
 #' @inheritParams std_param_defns
@@ -152,6 +154,8 @@ make_sure_that_cor_bdprob_is_base_of_app_bdprob <- function (app_bdprob,
 #'     saved.RSprob-COR-Base.489a016d-14fd-40af-89bb-3e1edf38f14f.rds
 #' This function decodes that file name and returns the UUID.
 #'
+#-------------------------------------------------------------------------------
+
 #' @param f rds file name (possibly full path) containing a UUID
 #'
 #' @return Returns UUID section of the given file name
@@ -184,6 +188,8 @@ get_UUID_from_file_path <- function (f)
 #' Given a vector of file names (possibly including their paths), find the
 #' file name that contains the given UUID and load that file
 #'
+#-------------------------------------------------------------------------------
+
 #' @param UUID_to_find a UUID string to look for in file names
 #' @param rds_file_set vector of file names (possibly including paths)
 #'
@@ -214,6 +220,8 @@ look_up_object_by_UUID <- function (UUID_to_find, rds_file_set)
 
 #' Get the COR bdprob whose UUID is the base UUID for the given APP bdprob
 #'
+#-------------------------------------------------------------------------------
+
 #' @param app_bdprob an apparent Xu_bd_problem
 #' @inheritParams std_param_defns
 #'
@@ -235,6 +243,8 @@ look_up_object_by_UUID <- function (UUID_to_find, rds_file_set)
 #'
 #'    RS_cor_input_prob_src: "rds_file_set_from_file"
 #'    RS_cor_input_rds_file_set_path: "/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/inst/extdata/input_files/Tzar_input_files/COR_rds_input_file_paths.txt"
+
+#-------------------------------------------------------------------------------
 
 get_base_cor_bdprob_for_given_app_bdprob <- function (app_bdprob, parameters)
     {
@@ -287,6 +297,8 @@ cat ("\n\n---------- END get_base_cor_bdprob_for_given_app_bdprob() ----------")
 #' function across a set of problems, e.g., generating 10 apparent problems
 #' for each correct problem whose path is given in an input file.
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns nothing.
