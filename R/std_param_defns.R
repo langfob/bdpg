@@ -93,6 +93,10 @@
 #' @param all_correct_node_IDs numeric vector containing all planning unit IDs
 #'     that appear in the correct problem, not to be confused with the set of
 #'     planning IDs that appear in the correct \emph{solution}
+#' @param allow_imperfect_wrap boolean indicating whether the wrapping
+#'     distribution needs to fully contain the base distribution; TRUE implies
+#'     it must fully contain the base distribution and FALSE implies it need not
+#'     fully contain the base distribution
 #' @param base_outdir_for_checksum directory where temporary file for use in checksum
 #'     computation will be written and then deleted
 #' @param bdpg_error_codes list of error names and corresponding error codes
