@@ -207,6 +207,7 @@
 std_param_defns <-
     function (
             all_correct_node_IDs,
+            allow_imperfect_wrap,
             base_outdir_for_checksum,
             bdpg_error_codes,
             bdpg_error_name,
