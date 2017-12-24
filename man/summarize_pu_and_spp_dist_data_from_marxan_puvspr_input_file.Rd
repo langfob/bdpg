@@ -21,7 +21,12 @@ input file.
 }
 \examples{
 \dontrun{
-infile_path <- "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1834_marxan_simulated_annealing.completedTzarEmulation/RSrun_-COR-Wrap-Marxan_SA.408782d5-2bb6-4c09-8b18-f05ad3089b15/input/puvspr.dat"
+too_long_path_part1 = "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/"
+too_long_path_part2 = "1834_marxan_simulated_annealing.completedTzarEmulation/"
+too_long_path_part3 = "RSrun_-COR-Wrap-Marxan_SA."
+too_long_path_part4 = "408782d5-2bb6-4c09-8b18-f05ad3089b15/input/puvspr.dat"
+infile_path <- paste0 (too_long_path_part1, too_long_path_part2,
+                       too_long_path_part3, too_long_path_part4)
 pu_and_spp_dist_data <-
   summarize_pu_and_spp_dist_data_from_marxan_puvspr_input_file (infile_path)
 }

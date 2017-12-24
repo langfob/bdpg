@@ -15,8 +15,6 @@ apply_const_error_to_spp_occupancy_data(cor_num_PUs, cor_num_spp, cor_bpm,
 \item{cor_bpm}{matrix}
 
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
-
-\item{cor_num_PU_spp_pairs}{integer}
 }
 \value{
 Returns ret_vals_from_apply_errors list
