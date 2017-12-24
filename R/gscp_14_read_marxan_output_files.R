@@ -11,6 +11,15 @@ convert_name_str_to_ID_num = function (str, lead_str="P")
 
 #===============================================================================
 
+#  Hack to quiet CHECK command for data frame column names that CHECK flags
+#  as "no visible binding for global variable".
+#  This is the officially sanctioned hack for doing this, e.g., see
+#  https://github.com/STAT545-UBC/Discussion/issues/451
+#  https://github.com/tidyverse/magrittr/issues/29
+#  http://r.789695.n4.nabble.com/globalVariables-td4593980.html
+
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("ConservationFeature"))
+
 #-------------------------------------------------------------------------------
 
 #' Load marxan mvbest df from file and sort by CF
@@ -97,6 +106,15 @@ load_marxan_mvbest_df_from_file_and_sort_by_CF <- function (marxan_output_dir_pa
 
 #===============================================================================
 
+#  Hack to quiet CHECK command for data frame column names that CHECK flags
+#  as "no visible binding for global variable".
+#  This is the officially sanctioned hack for doing this, e.g., see
+#  https://github.com/STAT545-UBC/Discussion/issues/451
+#  https://github.com/tidyverse/magrittr/issues/29
+#  http://r.789695.n4.nabble.com/globalVariables-td4593980.html
+
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("planning_unit"))
+
 #-------------------------------------------------------------------------------
 
 #'  Load marxan's summed solutions vector from its marxan output file.
@@ -173,6 +191,15 @@ load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_pat
     }
 
 #===============================================================================
+
+#  Hack to quiet CHECK command for data frame column names that CHECK flags
+#  as "no visible binding for global variable".
+#  This is the officially sanctioned hack for doing this, e.g., see
+#  https://github.com/STAT545-UBC/Discussion/issues/451
+#  https://github.com/tidyverse/magrittr/issues/29
+#  http://r.789695.n4.nabble.com/globalVariables-td4593980.html
+
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("PUID"))
 
 #-------------------------------------------------------------------------------
 

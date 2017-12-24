@@ -271,6 +271,17 @@ redundancy <- function (g
 
 #===============================================================================
 
+#  Hack to quiet CHECK command for data frame column names that CHECK flags
+#  as "no visible binding for global variable".
+#  This is the officially sanctioned hack for doing this, e.g., see
+#  https://github.com/STAT545-UBC/Discussion/issues/451
+#  https://github.com/tidyverse/magrittr/issues/29
+#  http://r.789695.n4.nabble.com/globalVariables-td4593980.html
+
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("type"))
+
+#-------------------------------------------------------------------------------
+
 #' Compute igraph-related network measures
 #'
 #' Compute igraph-related network measures
