@@ -53,7 +53,6 @@
 #' @param prob_UUID UUID for the biodiversity problem the reserve selector is
 #'     run over
 #' @param targets numeric vector
-#' @param starting_dir character string
 #' @param cor_or_app_str character string
 #' @param basic_or_wrapped_or_comb_str character string
 #' @param method_name character string for reserve selection method, e.g.,
