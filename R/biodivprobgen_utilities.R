@@ -134,8 +134,8 @@ value_or_FALSE_if_null <- function (value)
 #' @param results_df  data frame containing the results
 #' @param out_dir  character string telling what directory to put the results
 #'                 file in
-#' @param cur_result_row integer row number in data frame where run_ID should
-#'                       be added
+#' @param tzar_run_id_field_name character string containing name of tzar run ID
+#' field in output file
 #'
 #' @inheritParams std_param_defns
 #'
@@ -143,14 +143,14 @@ value_or_FALSE_if_null <- function (value)
 
 #-------------------------------------------------------------------------------
 
-write_results_to_files = function (csv_outfile_name,
-                                   results_df,
-                                   parameters,
-                                   out_dir,
-                                   tzar_run_id_field_name
-                                   # ,
-                                   # cur_result_row=1    #  Added 2016 03 28 - BTL.
-                                  )
+write_results_to_files <- function (csv_outfile_name,
+                                    results_df,
+                                    parameters,
+                                    out_dir,
+                                    tzar_run_id_field_name
+                                    # ,
+                                    # cur_result_row=1    #  Added 2016 03 28 - BTL.
+                                   )
     {
         #  Write the results out to 2 separate and nearly identical files.
         #  The only difference between the two files is that the run ID in
