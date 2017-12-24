@@ -36,16 +36,22 @@ safe_sample = function (x,...) { if (length (x) == 1) x else sample (x,...) }
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Return NA for any given value whose length is 0
 #'
 #' This is originally built to be used on each element of a list inside an
 #' lapply where you're trying to get rid of NULLs, numeric(0)s, etc. in a
 #' list to be converted to a data frame.
 #'
+#-------------------------------------------------------------------------------
+
 #' @param value any value
 #'
 #' @return NA or the input argument
 #' @export
+
+#-------------------------------------------------------------------------------
 
 fix_0_length_list_elements <- function (value)
     {
@@ -55,15 +61,21 @@ fix_0_length_list_elements <- function (value)
         return (NA) else return (value)
     }
 
+#===============================================================================
+
 #-------------------------------------------------------------------------------
 
 #' Convert list to a new list with 0 length values replaced by NA
 #'
+#-------------------------------------------------------------------------------
+
 #' @param a_list a list
 #'
 #' @return the input list with its 0 length values replaced by NA values and
 #' non-0 length values left as they were
 #' @export
+
+#-------------------------------------------------------------------------------
 
 list_with_0_length_vals_replaced_by_NA <- function (a_list)
     {
@@ -73,15 +85,21 @@ list_with_0_length_vals_replaced_by_NA <- function (a_list)
     return (lapply (a_list, fix_0_length_list_elements))
     }
 
+#===============================================================================
+
 #-------------------------------------------------------------------------------
 
 #' Convert list to data frame with 0 length values replaced by NA
 #'
+#-------------------------------------------------------------------------------
+
 #' @param a_list a list
 #'
 #' @return a data frame whose columns correspond to elements of the list and
 #' any 0 length data value in the input list has been replaced with NA
 #' @export
+
+#-------------------------------------------------------------------------------
 
 list_as_data_frame_with_0_length_vals_replaced_by_NA <- function (a_list)
     {
@@ -90,8 +108,12 @@ list_as_data_frame_with_0_length_vals_replaced_by_NA <- function (a_list)
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Get parameter value that should be integer and return 1 if value is null
 #'
+#-------------------------------------------------------------------------------
+
 #' @param value a value that is probably a number, but could be anything
 #'
 #' @return Returns a value that is probably an integer but is definitely not null
@@ -104,10 +126,14 @@ value_or_1_if_null <- function (value)
     if (is.null (value)) 1 else value
     }
 
+#===============================================================================
+
 #-------------------------------------------------------------------------------
 
 #' Get parameter value that should be boolean and return FALSE if value is null
 #'
+#-------------------------------------------------------------------------------
+
 #' @param value a value that is probably a boolean, but could be anything
 #'
 #' @return Returns a value that is probably a boolean but is definitely not null
@@ -193,6 +219,8 @@ get_PU_costs = function (num_PUs) { return (rep (1, num_PUs)) }
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' See if there are any duplicate links
 #'
 #' I'm not certain, but I think that the original Xu algorithm doesn't allow
@@ -208,72 +236,6 @@ get_PU_costs = function (num_PUs) { return (rep (1, num_PUs)) }
 #'  on the Xu benchmark problems to see if those allow any duplicate
 #'  edges, i.e., more than one species occurring on the same pair of
 #'  patches.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{bdpg_error_codes}{
-#' \preformatted{
-#' bdpg_error_codes : List of 6
-#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
-#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
-#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
-#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
-#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
-#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-#' }}
-#' \subsection{cur_spp_occurs_on_patches}{
-#' \preformatted{
-#' cur_spp_occurs_on_patches :  int [1:2] 54 112
-#' }}
-#' \subsection{cur_spp_row}{
-#' \preformatted{
-#' cur_spp_row :  int 814
-#' }}
-#' \subsection{edge_list}{
-#' \preformatted{
-#' edge_list :  num [1:814, 1:2] 1 3 5 7 9 11 13 15 17 19 ...
-#' }}
-#' \subsection{num_duplicates}{
-#' \preformatted{
-#' num_duplicates :  int 0
-#' }}
-#' \subsection{num_patches_for_cur_spp}{
-#' \preformatted{
-#' num_patches_for_cur_spp :  int 2
-#' }}
-#' \subsection{num_PU_spp_pairs}{
-#' \preformatted{
-#' num_PU_spp_pairs :  num 1628
-#' }}
-#' \subsection{num_spp}{
-#' \preformatted{
-#' num_spp :  int 814
-#' }}
-#' \subsection{num_spp_on_no_patches}{
-#' \preformatted{
-#' num_spp_on_no_patches :  num 0
-#' }}
-#' \subsection{num_spp_warnings}{
-#' \preformatted{
-#' num_spp_warnings :  num 0
-#' }}
-#' \subsection{occ_matrix}{
-#' \preformatted{
-#' occ_matrix :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{row_nums_of_duplicates}{
-#' \preformatted{
-#' row_nums_of_duplicates :  int(0)
-#' }}
-#' \subsection{rows_to_delete}{
-#' \preformatted{
-#' rows_to_delete :  list()
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -363,57 +325,16 @@ see_if_there_are_any_duplicate_links = function (occ_matrix,
         quit (save="no", bdpg_error_codes$ERROR_STATUS_duplicate_spp_in_Xu_input_file)
         }
 
-#docaids::doc_vars_in_this_func_once ()
     return (edge_list)
     }
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Build PU spp pair indices from occ matrix
 #'
 #' Build planning unit vs. species indices from occupancy matrix.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{cur_PU_col}{
-#' \preformatted{
-#' cur_PU_col :  int 407
-#' }}
-#' \subsection{cur_PU_spp_row_idx}{
-#' \preformatted{
-#' cur_PU_spp_row_idx :  num 3022
-#' }}
-#' \subsection{cur_spp_row}{
-#' \preformatted{
-#' cur_spp_row :  int 1277
-#' }}
-#' \subsection{num_PU_spp_pairs}{
-#' \preformatted{
-#' num_PU_spp_pairs :  num 3022
-#' }}
-#' \subsection{num_PUs}{
-#' \preformatted{
-#' num_PUs :  num 407
-#' }}
-#' \subsection{num_spp}{
-#' \preformatted{
-#' num_spp :  int 1277
-#' }}
-#' \subsection{occ_matrix}{
-#' \preformatted{
-#' occ_matrix :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{PU_spp_pair_indices}{
-#' \preformatted{
-#' PU_spp_pair_indices : 'data.frame':	3022 obs. of  2 variables:
-#'  $ PU_ID : int  1 3 5 6 7 8 9 10 209 335 ...
-#'  $ spp_ID: int  1 2 3 3 4 4 5 5 5 5 ...
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -454,13 +375,14 @@ build_PU_spp_pair_indices_from_occ_matrix = function (occ_matrix,
             }  #  end for - all PU cols
         }  #  end for - all soo rows
 
-#docaids::doc_vars_in_this_func_once ()
     return (PU_spp_pair_indices)
     }
 
 #===============================================================================
 #     Compute what fraction of species meet their representation targets.
 #===============================================================================
+
+#-------------------------------------------------------------------------------
 
 find_indices_of_spp_with_unmet_rep = function (spp_occ_matrix,
                                                candidate_solution_PU_IDs,
@@ -473,9 +395,10 @@ find_indices_of_spp_with_unmet_rep = function (spp_occ_matrix,
                                           spp_rep_targets
                                           )
 
-#docaids::doc_vars_in_this_func_once ()
     return (which (spp_rep_fracs < 1))
     }
+
+#===============================================================================
 
 #-------------------------------------------------------------------------------
 
@@ -493,7 +416,6 @@ compute_frac_spp_covered =
                                             spp_rep_targets
                                             )
 
-#docaids::doc_vars_in_this_func_once ()
     return (1 - (length (indices_of_spp_with_unmet_rep) / num_spp))
     }
 
@@ -530,40 +452,6 @@ compute_frac_spp_covered =
 #' for this function was: add_missing_PUs_to_marxan_solutions().  Probably
 #' don't need to track that anymoe, but will leave it here for the moment.
 
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{all_correct_node_IDs}{
-#' \preformatted{
-#' all_correct_node_IDs :  int [1:122] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{marxan_solution}{
-#' \preformatted{
-#' marxan_solution : 'data.frame':	122 obs. of  2 variables:
-#'  $ PU_ID: int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ freq : int  1 25 1 27 1 29 1 28 1 24 ...
-#' }}
-#' \subsection{missing_PU_IDs}{
-#' \preformatted{
-#' missing_PU_IDs :  int(0)
-#' }}
-#' \subsection{num_missing_PU_IDs}{
-#' \preformatted{
-#' num_missing_PU_IDs :  int 0
-#' }}
-#' \subsection{presences_col_name}{
-#' \preformatted{
-#' presences_col_name :  chr "freq"
-#' }}
-#' \subsection{PU_col_name}{
-#' \preformatted{
-#' PU_col_name :  chr "PU_ID"
-#' }}
-#'
 #-------------------------------------------------------------------------------
 
 #' @inheritParams std_param_defns
@@ -606,9 +494,10 @@ add_missing_PU_rows_to_PU_Count_dataframe = function (marxan_solution,
         marxan_solution = rbind (marxan_solution, missing_rows)
         }
 
-#docaids::doc_vars_in_this_func_once ()
     return (marxan_solution)
     }
+
+#===============================================================================
 
 #-------------------------------------------------------------------------------
 
@@ -640,59 +529,11 @@ clean_up_final_link_counts_for_each_node <- function (PU_spp_pair_indices,
     return (final_link_counts_for_each_node)
     }
 
+#===============================================================================
+
 #-------------------------------------------------------------------------------
 
 #' Compute final PU and species counts and plot degree and abundance distributions.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{all_correct_node_IDs}{
-#' \preformatted{
-#' all_correct_node_IDs :  int [1:122] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{cor_or_app_label}{
-#' \preformatted{
-#' cor_or_app_label :  chr "COR"
-#' }}
-#' \subsection{final_link_counts_for_each_node}{
-#' \preformatted{
-#' final_link_counts_for_each_node : 'data.frame':	122 obs. of  2 variables:
-#'  $ PU_ID: int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ freq : int  1 25 1 27 1 29 1 28 1 24 ...
-#' }}
-#' \subsection{final_node_counts_for_each_link}{
-#' \preformatted{
-#' final_node_counts_for_each_link : 'data.frame':	814 obs. of  2 variables:
-#'  $ spp_ID: int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ freq  : int  2 2 2 2 2 2 2 2 2 2 ...
-#' }}
-#' \subsection{plot_output_dir}{
-#' \preformatted{
-#' plot_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-#' }}
-#' \subsection{presences_col_name}{
-#' \preformatted{
-#' presences_col_name :  chr "freq"
-#' }}
-#' \subsection{PU_col_name}{
-#' \preformatted{
-#' PU_col_name :  chr "PU_ID"
-#' }}
-#' \subsection{PU_spp_pair_indices}{
-#' \preformatted{
-#' PU_spp_pair_indices : 'data.frame':	1628 obs. of  2 variables:
-#'  $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
-#' }}
-#' \subsection{spp_col_name}{
-#' \preformatted{
-#' spp_col_name :  chr "spp_ID"
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -767,7 +608,6 @@ cat("\njust after clean_up_final_link_counts_for_each_node()")
 cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 
 
-#docaids::doc_vars_in_this_func_once ()
     return (final_link_counts_for_each_node)
     }
 
@@ -792,26 +632,6 @@ cat("\njust after plot_degree_and_abundance_dists_for_node_graph()")
 #'
 #-------------------------------------------------------------------------------
 
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{base_outdir}{
-#' \preformatted{
-#' base_outdir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-#' }}
-#' \subsection{rsprob}{
-#' \preformatted{
-#' rsprob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-#' }}
-#' \subsection{exp_root_dir}{
-#' \preformatted{
-#' exp_root_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @inheritParams std_param_defns
 #'
 #' @return Returns input object with its checksum slot filled
@@ -825,7 +645,6 @@ save_rsprob <- function (rsprob, exp_root_dir)
                                           #saved_rsprob_filename,
                                           base_outdir)
 
-#docaids::doc_vars_in_this_func_once ()
     return (rsprob)
     }
 
@@ -844,7 +663,6 @@ save_rsrun <- function (rsrun, starting_dir)
                                           #saved_rsrun_filename,
                                           base_outdir)
 
-#docaids::doc_vars_in_this_func_once ()
     return (rsrun)
     }
 
@@ -862,22 +680,6 @@ load_saved_obj_from_file <- function (path_to_file)
 #' Tzar puts a slash on the end of the output path and this causes problems
 #' when using it to build full paths to file names.  This function is
 #' primarily here to strip that off but can be used on any path.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{last_char}{
-#' \preformatted{
-#' last_char :  chr "/"
-#' }}
-#' \subsection{path}{
-#' \preformatted{
-#' path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -903,7 +705,6 @@ strip_trailing_slash <- function (path)
     if (last_char == "/")                                   #.Platform$file.sep)
         path = stringr::str_sub (path,1,nchar(path)-1)
 
-#docaids::doc_vars_in_this_func_once ()
     return (path)
     }
 
@@ -914,18 +715,6 @@ strip_trailing_slash <- function (path)
 #'  I couldn't find an existing function for this, but did find a
 #'  stack overflow question that suggested using write.table() on an
 #'  empty table, so that's what I've done.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{file_path_to_touch}{
-#' \preformatted{
-#' file_path_to_touch :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/OK_marxan_solution_IS_appar"| __truncated__
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -943,7 +732,6 @@ touch <- function (file_path_to_touch)
     write.table (data.frame(),
                  file = file_path_to_touch,
                  col.names=FALSE)
-#docaids::doc_vars_in_this_func_once ()
     }
 
 #===============================================================================
