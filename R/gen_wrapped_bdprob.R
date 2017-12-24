@@ -832,6 +832,7 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge,
 #'     abundances
 #' @param spp_col_name string containing the name of the column in the PU_spp
 #'     table that contains the species IDs
+#' @inheritParams std_param_defns
 #'
 #' @return vector of abundances in the wrapping abundance distribution that are
 #'     not also in the original Xu problem
