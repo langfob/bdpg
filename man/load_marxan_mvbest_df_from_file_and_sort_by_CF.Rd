@@ -16,33 +16,3 @@ Returns marxan mvbest data frame
 Load marxan's best solution data frame from a file and sort it by
 conservation features (i.e., species).
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{marxan_mvbest_df}{
-\preformatted{
-marxan_mvbest_df : 'data.frame':	1277 obs. of  10 variables:
- $ ConservationFeature: int  1 2 3 4 5 6 7 8 9 10 ...
- $ FeatureName        : logi  NA NA NA NA NA NA ...
- $ Target             : num  1 1 1 1 1 1 1 1 1 1 ...
- $ AmountHeld         : num  1 1 1 1 1 1 1 1 1 1 ...
- $ OccurrenceTarget   : int  0 0 0 0 0 0 0 0 0 0 ...
- $ OccurrencesHeld    : int  1 1 1 1 1 1 1 1 1 1 ...
- $ SeparationTarget   : int  0 0 0 0 0 0 0 0 0 0 ...
- $ SeparationAchieved : int  0 0 0 0 0 0 0 0 0 0 ...
- $ TargetMet          : Factor w/ 1 level "yes": 1 1 1 1 1 1 1 1 1 1 ...
- $ MPM                : num  1 1 1 1 1 1 1 1 1 1 ...
-}}
-\subsection{marxan_output_dir_path}{
-\preformatted{
-marxan_output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
-}}
-\subsection{marxan_output_mvbest_file_name}{
-\preformatted{
-marxan_output_mvbest_file_name :  chr "output_mvbest.csv"
-}}
-}
-

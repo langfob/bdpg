@@ -29,38 +29,6 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c("ConservationFeature"))
 #'
 #-------------------------------------------------------------------------------
 
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#-------------------------------------------------------------------------------
-
-#' \subsection{marxan_mvbest_df}{
-#' \preformatted{
-#' marxan_mvbest_df : 'data.frame':	1277 obs. of  10 variables:
-#'  $ ConservationFeature: int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ FeatureName        : logi  NA NA NA NA NA NA ...
-#'  $ Target             : num  1 1 1 1 1 1 1 1 1 1 ...
-#'  $ AmountHeld         : num  1 1 1 1 1 1 1 1 1 1 ...
-#'  $ OccurrenceTarget   : int  0 0 0 0 0 0 0 0 0 0 ...
-#'  $ OccurrencesHeld    : int  1 1 1 1 1 1 1 1 1 1 ...
-#'  $ SeparationTarget   : int  0 0 0 0 0 0 0 0 0 0 ...
-#'  $ SeparationAchieved : int  0 0 0 0 0 0 0 0 0 0 ...
-#'  $ TargetMet          : Factor w/ 1 level "yes": 1 1 1 1 1 1 1 1 1 1 ...
-#'  $ MPM                : num  1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{marxan_output_dir_path}{
-#' \preformatted{
-#' marxan_output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
-#' }}
-#' \subsection{marxan_output_mvbest_file_name}{
-#' \preformatted{
-#' marxan_output_mvbest_file_name :  chr "output_mvbest.csv"
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @param marxan_output_dir_path character string
 #'
 #' @return Returns marxan mvbest data frame
@@ -100,7 +68,6 @@ load_marxan_mvbest_df_from_file_and_sort_by_CF <- function (marxan_output_dir_pa
 
     marxan_mvbest_df = plyr::arrange (marxan_mvbest_df, ConservationFeature)
 
-#docaids::doc_vars_in_this_func_once ()
     return (marxan_mvbest_df)
     }
 
@@ -121,44 +88,6 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c("planning_unit"))
 #'
 #'  For each PU ID, it shows the number of solution vectors that
 #'  included that PU in the solution.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{all_correct_node_IDs}{
-#' \preformatted{
-#' all_correct_node_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{marxan_output_dir_path}{
-#' \preformatted{
-#' marxan_output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
-#' }}
-#' \subsection{marxan_output_ssoln_file_name}{
-#' \preformatted{
-#' marxan_output_ssoln_file_name :  chr "output_ssoln.csv"
-#' }}
-#' \subsection{marxan_ssoln_df}{
-#' \preformatted{
-#' marxan_ssoln_df : 'data.frame':	407 obs. of  2 variables:
-#'  $ planning_unit: int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ number       : int  0 4 0 4 0 4 0 4 0 4 ...
-#' }}
-#' \subsection{marxan_ssoln_df_unsorted}{
-#' \preformatted{
-#' marxan_ssoln_df_unsorted : 'data.frame':	407 obs. of  2 variables:
-#'  $ planning_unit: int  407 406 405 404 403 402 401 400 399 398 ...
-#'  $ number       : int  0 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{marxan_ssoln_df_unsorted_without_missing_rows}{
-#' \preformatted{
-#' marxan_ssoln_df_unsorted_without_missing_rows : 'data.frame':	407 obs. of  2 variables:
-#'  $ planning_unit: int  407 406 405 404 403 402 401 400 399 398 ...
-#'  $ number       : int  0 0 0 0 0 0 0 0 0 0 ...
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -186,7 +115,6 @@ load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_pat
         #  Sort by planning unit.
     marxan_ssoln_df = plyr::arrange (marxan_ssoln_df_unsorted, planning_unit)
 
-#docaids::doc_vars_in_this_func_once ()
     return (marxan_ssoln_df)
     }
 
@@ -207,44 +135,6 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c("PUID"))
 #'
 #' Load marxan best data from file and sort in increasing order by planning
 #' unit ID.  Also add any missing planning units.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{all_correct_node_IDs}{
-#' \preformatted{
-#' all_correct_node_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{marxan_best_df_sorted}{
-#' \preformatted{
-#' marxan_best_df_sorted : 'data.frame':	407 obs. of  2 variables:
-#'  $ PUID    : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ SOLUTION: int  0 1 0 1 0 1 0 1 0 1 ...
-#' }}
-#' \subsection{marxan_best_df_unsorted}{
-#' \preformatted{
-#' marxan_best_df_unsorted : 'data.frame':	407 obs. of  2 variables:
-#'  $ PUID    : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ SOLUTION: int  0 1 0 1 0 1 0 1 0 1 ...
-#' }}
-#' \subsection{marxan_best_df_unsorted_without_missing_rows}{
-#' \preformatted{
-#' marxan_best_df_unsorted_without_missing_rows : 'data.frame':	407 obs. of  2 variables:
-#'  $ PUID    : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ SOLUTION: int  0 1 0 1 0 1 0 1 0 1 ...
-#' }}
-#' \subsection{marxan_output_best_file_name}{
-#' \preformatted{
-#' marxan_output_best_file_name :  chr "output_best.csv"
-#' }}
-#' \subsection{marxan_output_dir_path}{
-#' \preformatted{
-#' marxan_output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -288,7 +178,6 @@ load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <-
 
     marxan_best_df_sorted = plyr::arrange (marxan_best_df_unsorted, PUID)
 
-#docaids::doc_vars_in_this_func_once ()
     return (marxan_best_df_sorted)
     }
 
@@ -299,74 +188,6 @@ load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <-
 #' Load marxan solutions matrix from file, sort, add missing PUs
 #'
 #' Load marxan solutions matrix from file, sort, add missing PUs
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{cur_idx}{
-#' \preformatted{
-#' cur_idx :  num 407
-#' }}
-#' \subsection{cur_PU_ID}{
-#' \preformatted{
-#' cur_PU_ID :  num 407
-#' }}
-#' \subsection{cur_PU_name}{
-#' \preformatted{
-#' cur_PU_name :  chr "P407"
-#' }}
-#' \subsection{largest_PU_ID}{
-#' \preformatted{
-#' largest_PU_ID :  num 407
-#' }}
-#' \subsection{marxan_output_dir_path}{
-#' \preformatted{
-#' marxan_output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
-#' }}
-#' \subsection{marxan_output_solutionsmatrix_df_unsorted_without_missing_rows}{
-#' \preformatted{
-#' marxan_output_solutionsmatrix_df_unsorted_without_missing_rows : 'data.frame':	4 obs. of  408 variables:
-#'  $ SolutionsMatrix: chr  "S1" "S2" "S3" "S4"
-#'  $ P1             : int  0 0 0 0
-#'  $ P2             : int  1 1 1 1
-#'  ...
-#'  $ P98            : int  1 1 1 1
-#'   [list output truncated]
-#' }}
-#' \subsection{marxan_solutions_matrix}{
-#' \preformatted{
-#' marxan_solutions_matrix :  num [1:4, 1:407] 0 0 0 0 1 1 1 1 0 0 ...
-#' }}
-#' \subsection{marxan_solutions_matrix_and_num_solutions}{
-#' \preformatted{
-#' marxan_solutions_matrix_and_num_solutions : List of 2
-#'  $ marxan_solutions_matrix: num [1:4, 1:407] 0 0 0 0 1 1 1 1 0 0 ...
-#'  $ num_marxan_solutions   : int 4
-#' }}
-#' \subsection{num_marxan_solutions}{
-#' \preformatted{
-#' num_marxan_solutions :  int 4
-#' }}
-#' \subsection{num_PU_IDs_in_solutionsmatrix}{
-#' \preformatted{
-#' num_PU_IDs_in_solutionsmatrix :  int 407
-#' }}
-#' \subsection{output_solutionsmatrix_file_name}{
-#' \preformatted{
-#' output_solutionsmatrix_file_name :  chr "output_solutionsmatrix.csv"
-#' }}
-#' \subsection{PU_IDs_in_solutions}{
-#' \preformatted{
-#' PU_IDs_in_solutions :  num [1:407] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{PU_names}{
-#' \preformatted{
-#' PU_names :  chr [1:407] "P1" "P2" "P3" "P4" "P5" "P6" "P7" "P8" "P9" "P10" ...
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
