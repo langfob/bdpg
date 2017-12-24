@@ -101,10 +101,6 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
 #' @param wrap_lognormal_dist_around_Xu boolean indicating whether to wrap a
 #'     lognormal distribution around a base Xu problem; TRUE implies wrapping
 #'     should be done; FALSE implies not
-#' @param read_Xu_problem_from_Xu_file boolean indicating whether to read a
-#'     Xu problem from one of Xu's benchmark problem files; TRUE implies that
-#'     the problem should be read from one of those files; FALSE implies that
-#'     the problem should be generated from scratch
 #' @param infile_name string containing the name of the Xu benchmark file to
 #'     read a problem from if reading from a Xu benchmark file
 #' @param given_correct_solution_cost boolean indicating whether the correct
@@ -118,16 +114,16 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
 #' @return Returns a multi-BD_Prob
 #' @export
 
-gen_multi_bdprob = function (parameters,
+gen_multi_bdprob <- function (parameters,
                                     #compute_network_metrics_for_this_prob,
-                             wrap_lognormal_dist_around_Xu,
-                             read_Xu_problem_from_Xu_bench_file,
-                             infile_name,
-                             given_correct_solution_cost,
-                             max_allowed_num_spp,
-                             bdpg_error_codes,
-                             integerize,
-                             bdprob_1 = NULL)
+                              wrap_lognormal_dist_around_Xu,
+                              read_Xu_problem_from_Xu_bench_file,
+                              infile_name,
+                              given_correct_solution_cost,
+                              max_allowed_num_spp,
+                              bdpg_error_codes,
+                              integerize,
+                              bdprob_1 = NULL)
     {
         #----------------------------------------------------------------------
         #  Make sure that the base problem for the multiproblem is not one of
