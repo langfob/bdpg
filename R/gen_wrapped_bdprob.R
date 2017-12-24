@@ -4,7 +4,6 @@
 #
 #===============================================================================
 
-
 compute_PU_spp_table_attributes_by_spp <- function (PU_IDs_for_one_spp_as_df,
                                                     dep_set)
     {
@@ -26,7 +25,7 @@ compute_PU_spp_table_attributes_by_spp <- function (PU_IDs_for_one_spp_as_df,
 
 if(getRversion() >= "2.15.1")  utils::globalVariables(c("spp_ID", "."))
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #' Validate the wrapping of a bdproblem
 #'
@@ -204,30 +203,6 @@ do_sanity_checks <- function ()
 #'
 #-------------------------------------------------------------------------------
 
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{dep_set_PUs_eligible}{
-#' \preformatted{
-#' dep_set_PUs_eligible :  logi FALSE
-#' }}
-#' \subsection{eligible_PUs}{
-#' \preformatted{
-#' eligible_PUs :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
-#' }}
-#' \subsection{extra_PUs}{
-#' \preformatted{
-#' extra_PUs :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
-#' }}
-#' \subsection{Xu_dep_set}{
-#' \preformatted{
-#' Xu_dep_set :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @param Xu_dep_set integer vector of planning unit IDs for the solution set
 #'     of the original Xu problem being wrapped around
 #' @param extra_PUs integer vector of plannning unit IDs being added to the
@@ -253,7 +228,6 @@ create_eligible_PU_set <- function (Xu_dep_set,
         eligible_PUs = extra_PUs
 
 
-#docaids::doc_vars_in_this_func_once ()
     return (eligible_PUs)
     }
 
@@ -283,30 +257,6 @@ create_eligible_PU_set <- function (Xu_dep_set,
 #'
 #-------------------------------------------------------------------------------
 
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{max_abund}{
-#' \preformatted{
-#' max_abund :  num 1.8e+308
-#' }}
-#' \subsection{min_abund}{
-#' \preformatted{
-#' min_abund :  num 2
-#' }}
-#' \subsection{rounded_abundances}{
-#' \preformatted{
-#' rounded_abundances :  num [1:1628] 2 2 1 1 3 1 3 2 2 1 ...
-#' }}
-#' \subsection{trimmed_rounded_abund_per_spp}{
-#' \preformatted{
-#' trimmed_rounded_abund_per_spp :  num [1:1277] 2 2 3 3 2 2 2 2 2 2 ...
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @param rounded_abundances vector of abundances to be trimmed
 #' @param min_abund lowest abundance to allow in the trimmed set
 #' @param max_abund largest abundance to allow in the trimmed set
@@ -324,7 +274,6 @@ trim_abundances = function (rounded_abundances,
         rounded_abundances [(rounded_abundances <= max_abund) &
                             (rounded_abundances >= min_abund), drop=FALSE]
 
-#docaids::doc_vars_in_this_func_once ()
     return (trimmed_rounded_abund_per_spp)
     }
 
@@ -720,7 +669,6 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge,
     extra_spp_abund =
         build_vec_of_extra_spp_and_their_abundances (wrapped_extra_spp_abund_hist)
 
-#docaids::doc_vars_in_this_func_once ()
     return (extra_spp_abund)
     }
 
@@ -741,87 +689,6 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge,
 #' before its instances are spread across the landscape.  This function
 #' strips that inside distribution out of the full wrapped distribution and
 #' returns a set of abundances ready for spreading.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{base_abund_by_spp}{
-#' \preformatted{
-#' base_abund_by_spp : 'data.frame':	814 obs. of  2 variables:
-#'  $ x   : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ freq: int  2 2 2 2 2 2 2 2 2 2 ...
-#' }}
-#' \subsection{base_abund_hist}{
-#' \preformatted{
-#' base_abund_hist : 'data.frame':	1 obs. of  2 variables:
-#'  $ x   : int 2
-#'  $ freq: int 814
-#' }}
-#' \subsection{cur_idx}{
-#' \preformatted{
-#' cur_idx :  int 6
-#' }}
-#' \subsection{end_idx}{
-#' \preformatted{
-#' end_idx :  num 463
-#' }}
-#' \subsection{extra_spp_abund}{
-#' \preformatted{
-#' extra_spp_abund :  num [1:463] 2 2 2 2 2 2 2 2 2 2 ...
-#' }}
-#' \subsection{num_abund_rows}{
-#' \preformatted{
-#' num_abund_rows :  int 6
-#' }}
-#' \subsection{num_extra_spp}{
-#' \preformatted{
-#' num_extra_spp :  num 463
-#' }}
-#' \subsection{spp_col_name}{
-#' \preformatted{
-#' spp_col_name :  chr "spp_ID"
-#' }}
-#' \subsection{start_idx}{
-#' \preformatted{
-#' start_idx :  num 464
-#' }}
-#' \subsection{trimmed_rounded_abund_per_spp}{
-#' \preformatted{
-#' trimmed_rounded_abund_per_spp :  num [1:1277] 2 2 3 3 2 2 2 2 2 2 ...
-#' }}
-#' \subsection{verbose_remove_base}{
-#' \preformatted{
-#' verbose_remove_base :  logi FALSE
-#' }}
-#' \subsection{wrapped_extra_spp_abund_hist}{
-#' \preformatted{
-#' wrapped_extra_spp_abund_hist : 'data.frame':	6 obs. of  2 variables:
-#'  $ abund: num  2 3 4 5 6 7
-#'  $ freq : num  77 311 57 15 2 1
-#' }}
-#' \subsection{wrapped_extra_spp_abund_merge}{
-#' \preformatted{
-#' wrapped_extra_spp_abund_merge : 'data.frame':	6 obs. of  3 variables:
-#'  $ x     : num  2 3 4 5 6 7
-#'  $ freq.x: int  891 311 57 15 2 1
-#'  $ freq.y: num  814 0 0 0 0 0
-#' }}
-#' \subsection{wrapping_abund_hist}{
-#' \preformatted{
-#' wrapping_abund_hist : 'data.frame':	6 obs. of  2 variables:
-#'  $ x   : num  2 3 4 5 6 7
-#'  $ freq: int  891 311 57 15 2 1
-#' }}
-#' \subsection{Xu_PU_spp_table}{
-#' \preformatted{
-#' Xu_PU_spp_table : 'data.frame':	1628 obs. of  2 variables:
-#'  $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -989,102 +856,6 @@ create_wrapping_PU_spp_table <- function (extra_abund,
 #'
 #-------------------------------------------------------------------------------
 
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{cur_eligible_set}{
-#' \preformatted{
-#' cur_eligible_set :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
-#' }}
-#' \subsection{cur_row}{
-#' \preformatted{
-#' cur_row :  num 1410
-#' }}
-#' \subsection{cur_spp_idx}{
-#' \preformatted{
-#' cur_spp_idx :  int 463
-#' }}
-#' \subsection{dep_set}{
-#' \preformatted{
-#' dep_set :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-#' }}
-#' \subsection{dep_set_PU}{
-#' \preformatted{
-#' dep_set_PU :  int 42
-#' }}
-#' \subsection{eligible_set}{
-#' \preformatted{
-#' eligible_set :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
-#' }}
-#' \subsection{end_row}{
-#' \preformatted{
-#' end_row :  num 1409
-#' }}
-#' \subsection{extra_abund}{
-#' \preformatted{
-#' extra_abund :  num [1:463] 2 2 2 2 2 2 2 2 2 2 ...
-#' }}
-#' \subsection{extra_PUs_for_cur_spp}{
-#' \preformatted{
-#' extra_PUs_for_cur_spp :  int [1:6] 397 278 292 178 316 324
-#' }}
-#' \subsection{min_allowed_abundance}{
-#' \preformatted{
-#' min_allowed_abundance :  num 2
-#' }}
-#' \subsection{num_base_spp}{
-#' \preformatted{
-#' num_base_spp :  int 814
-#' }}
-#' \subsection{num_extra_occurrences}{
-#' \preformatted{
-#' num_extra_occurrences :  num 1409
-#' }}
-#' \subsection{num_extra_spp}{
-#' \preformatted{
-#' num_extra_spp :  int 463
-#' }}
-#' \subsection{num_PUs_to_draw}{
-#' \preformatted{
-#' num_PUs_to_draw :  num 6
-#' }}
-#' \subsection{PU_col_name}{
-#' \preformatted{
-#' PU_col_name :  chr "PU_ID"
-#' }}
-#' \subsection{PU_spp_table}{
-#' \preformatted{
-#' PU_spp_table : 'data.frame':	3037 obs. of  2 variables:
-#'  $ PU_ID : num  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ spp_ID: num  1 1 2 2 3 3 4 4 5 5 ...
-#' }}
-#' \subsection{rounded_abund_per_spp}{
-#' \preformatted{
-#' rounded_abund_per_spp :  num [1:1628] 2 2 1 1 3 1 3 2 2 1 ...
-#' }}
-#' \subsection{spp_col_name}{
-#' \preformatted{
-#' spp_col_name :  chr "spp_ID"
-#' }}
-#' \subsection{trimmed_rounded_abund_per_spp}{
-#' \preformatted{
-#' trimmed_rounded_abund_per_spp :  num [1:1277] 2 2 3 3 2 2 2 2 2 2 ...
-#' }}
-#' \subsection{x}{
-#' \preformatted{
-#' x :  int(0)
-#' }}
-#' \subsection{Xu_PU_spp_table}{
-#' \preformatted{
-#' Xu_PU_spp_table : 'data.frame':	1628 obs. of  2 variables:
-#'  $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @param dep_set integer vector
 #' @param eligible_set integer vector
 #' @param rounded_abund_per_spp integer vector
@@ -1183,7 +954,6 @@ wrap_abundances_around_eligible_set <- function (
                     print (head (PU_spp_table))    #  usually too long to print entire table...
                     cat ("\n\n")
 
-#docaids::doc_vars_in_this_func_once ()
     return (PU_spp_table)
     }  #  end function - wrap_abundances_around_eligible_set
 
@@ -1198,163 +968,6 @@ wrap_abundances_around_eligible_set <- function (
 #'  It can be any abundance set that you want, as long as it contains
 #'  at least as many species sitting on exactly 2 patches as the base
 #'  Xu problem has.  It can have more than the Xu problem, but not less.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{all_PU_IDs}{
-#' \preformatted{
-#' all_PU_IDs :  int [1:407] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{all_spp_IDs}{
-#' \preformatted{
-#' all_spp_IDs :  int [1:1277] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{bdpg_error_codes}{
-#' \preformatted{
-#' bdpg_error_codes : List of 6
-#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
-#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
-#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
-#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
-#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
-#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-#' }}
-#' \subsection{cor_dir_name_stem}{
-#' \preformatted{
-#' cor_dir_name_stem :  chr "cor"
-#' }}
-#' \subsection{dep_set_PUs_eligible}{
-#' \preformatted{
-#' dep_set_PUs_eligible :  logi FALSE
-#' }}
-#' \subsection{eligible_PUs}{
-#' \preformatted{
-#' eligible_PUs :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
-#' }}
-#' \subsection{extra_nodes}{
-#' \preformatted{
-#' extra_nodes : 'data.frame':	285 obs. of  3 variables:
-#'  $ node_ID             : int  123 124 125 126 127 128 129 130 131 132 ...
-#'  $ group_ID            : logi  NA NA NA NA NA NA ...
-#'  $ dependent_set_member: logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
-#' }}
-#' \subsection{extra_PUs}{
-#' \preformatted{
-#' extra_PUs :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
-#' }}
-#' \subsection{largest_PU_ID}{
-#' \preformatted{
-#' largest_PU_ID :  int 122
-#' }}
-#' \subsection{num_extra_PUs}{
-#' \preformatted{
-#' num_extra_PUs :  int 285
-#' }}
-#' \subsection{num_used_extra_PUs}{
-#' \preformatted{
-#' num_used_extra_PUs :  int 271
-#' }}
-#' \subsection{rounded_abundances}{
-#' \preformatted{
-#' rounded_abundances :  num [1:1628] 2 2 1 1 3 1 3 2 2 1 ...
-#' }}
-#' \subsection{starting_dir}{
-#' \preformatted{
-#' starting_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-#' }}
-#' \subsection{tot_num_PUs_in_landscape}{
-#' \preformatted{
-#' tot_num_PUs_in_landscape :  num 407
-#' }}
-#' \subsection{unique_wrapped_PUs}{
-#' \preformatted{
-#' unique_wrapped_PUs :  num [1:393] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{unique_wrapped_spp}{
-#' \preformatted{
-#' unique_wrapped_spp :  num [1:1277] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{used_extra_PUs}{
-#' \preformatted{
-#' used_extra_PUs :  num [1:271] 123 124 125 126 127 128 129 130 131 132 ...
-#' }}
-#' \subsection{wrap_prob_name_stem}{
-#' \preformatted{
-#' wrap_prob_name_stem :  chr "wrap_prob"
-#' }}
-#' \subsection{wrapped_bdprob}{
-#' \preformatted{
-#' wrapped_bdprob : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
-#' }}
-#' \subsection{wrapped_bpm}{
-#' \preformatted{
-#' wrapped_bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{wrapped_highest_PU_ID}{
-#' \preformatted{
-#' wrapped_highest_PU_ID :  num 407
-#' }}
-#' \subsection{wrapped_highest_spp_ID}{
-#' \preformatted{
-#' wrapped_highest_spp_ID :  num 1277
-#' }}
-#' \subsection{wrapped_nodes}{
-#' \preformatted{
-#' wrapped_nodes : 'data.frame':	407 obs. of  3 variables:
-#'  $ node_ID             : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ group_ID            : num  1 1 2 2 3 3 4 4 5 5 ...
-#'  $ dependent_set_member: logi  FALSE TRUE FALSE TRUE FALSE TRUE ...
-#' }}
-#' \subsection{wrapped_num_PUs}{
-#' \preformatted{
-#' wrapped_num_PUs :  num 407
-#' }}
-#' \subsection{wrapped_num_spp}{
-#' \preformatted{
-#' wrapped_num_spp :  int 1277
-#' }}
-#' \subsection{wrapped_PU_costs}{
-#' \preformatted{
-#' wrapped_PU_costs :  num [1:407] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{wrapped_PU_spp_indices}{
-#' \preformatted{
-#' wrapped_PU_spp_indices : 'data.frame':	3037 obs. of  2 variables:
-#'  $ PU_ID : num  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ spp_ID: num  1 1 2 2 3 3 4 4 5 5 ...
-#' }}
-#' \subsection{wrapped_PU_vector}{
-#' \preformatted{
-#' wrapped_PU_vector :  num [1:3037] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{wrapped_spp_vector}{
-#' \preformatted{
-#' wrapped_spp_vector :  num [1:3037] 1 1 2 2 3 3 4 4 5 5 ...
-#' }}
-#' \subsection{Xu_bdprob}{
-#' \preformatted{
-#' Xu_bdprob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-#' }}
-#' \subsection{Xu_dep_and_indep_set}{
-#' \preformatted{
-#' Xu_dep_and_indep_set :  int [1:122] 1 3 5 7 9 11 13 15 17 19 ...
-#' }}
-#' \subsection{Xu_dep_set}{
-#' \preformatted{
-#' Xu_dep_set :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-#' }}
-#' \subsection{Xu_nodes}{
-#' \preformatted{
-#' Xu_nodes : 'data.frame':	122 obs. of  3 variables:
-#'  $ node_ID             : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ group_ID            : num  1 1 2 2 3 3 4 4 5 5 ...
-#'  $ dependent_set_member: logi  FALSE TRUE FALSE TRUE FALSE TRUE ...
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -1755,8 +1368,6 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob = save_rsprob (wrapped_bdprob, starting_dir)
     save_rsprob_results_data (wrapped_bdprob, starting_dir, parameters)
 
-#docaids::doc_vars_in_this_func_once ()
-
     return (wrapped_bdprob)  #  end function - wrap_abundance_dist_around_Xu_problem
     }
 
@@ -1797,83 +1408,6 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 #' are removed from the distribution.  This is because those species would
 #' automatically require their planning unit to be included in the final
 #' solution and therefore, make the problem simpler for the optimizer.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{add_one_to_lognormal_abundances}{
-#' \preformatted{
-#' add_one_to_lognormal_abundances :  logi FALSE
-#' }}
-#' \subsection{base_bdprob}{
-#' \preformatted{
-#' base_bdprob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-#' }}
-#' \subsection{bdpg_error_codes}{
-#' \preformatted{
-#' bdpg_error_codes : List of 6
-#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
-#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
-#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
-#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
-#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
-#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-#' }}
-#' \subsection{dep_set_PUs_eligible}{
-#' \preformatted{
-#' dep_set_PUs_eligible :  logi FALSE
-#' }}
-#' \subsection{desired_max_abundance_frac}{
-#' \preformatted{
-#' desired_max_abundance_frac :  num 0.7
-#' }}
-#' \subsection{desired_Xu_spp_frac_of_all_spp}{
-#' \preformatted{
-#' desired_Xu_spp_frac_of_all_spp :  num 0.5
-#' }}
-#' \subsection{max_search_iterations}{
-#' \preformatted{
-#' max_search_iterations :  num 500
-#' }}
-#' \subsection{parameters}{
-#' \preformatted{
-#' parameters : List of 66
-#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
-#'  ...
-#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-#' }}
-#' \subsection{rounded_abundances}{
-#' \preformatted{
-#' rounded_abundances :  num [1:1628] 2 2 1 1 3 1 3 2 2 1 ...
-#' }}
-#' \subsection{search_outfile_name}{
-#' \preformatted{
-#' search_outfile_name :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/wrap_search_outfile.csv"
-#' }}
-#' \subsection{seed_value_for_search}{
-#' \preformatted{
-#' seed_value_for_search :  num 11
-#' }}
-#' \subsection{solution_frac_of_landscape}{
-#' \preformatted{
-#' solution_frac_of_landscape :  num 0.3
-#' }}
-#' \subsection{starting_dir}{
-#' \preformatted{
-#' starting_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-#' }}
-#' \subsection{tot_num_PUs_in_landscape}{
-#' \preformatted{
-#' tot_num_PUs_in_landscape :  num 407
-#' }}
-#' \subsection{wrapped_bdprob_COR}{
-#' \preformatted{
-#' wrapped_bdprob_COR : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -1981,7 +1515,6 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                                    search_outfile_name)
 
         }  #  end if - options_are_legal_for_single_bdprob_WRAP
-#docaids::doc_vars_in_this_func_once ()
 
     return (wrapped_bdprob_COR)
     }
