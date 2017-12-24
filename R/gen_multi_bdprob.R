@@ -103,12 +103,17 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
 #'     should be done; FALSE implies not
 #' @param infile_name string containing the name of the Xu benchmark file to
 #'     read a problem from if reading from a Xu benchmark file
+#' @param read_Xu_problem_from_Xu_bench_file boolean indicating whether the
+#'     base problem was read in from a Xu benchmark file or not; TRUE implies
+#'     read in from Xu benchmark file and FALSE implies the problem was
+#'     created from scratch
 #' @param given_correct_solution_cost boolean indicating whether the correct
 #'     cost of the correct optimum solution is known; TRUE implies that it is
 #'     known
 #' @param max_allowed_num_spp maximum number of species allowed in generating
 #'     a problem from scratch (particularly of use when trying to do smaller,
 #'     faster tests in development)
+#' @param bdprob_1 a Xu biodiversity problem object
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a multi-BD_Prob
