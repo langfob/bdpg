@@ -583,7 +583,7 @@ test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example
 #===============================================================================
 
                 #-----------------------------------------
-                #  Test create_wrapping_spp_PU_spp_table
+                #  Test create_wrapping_PU_spp_table
                 #-----------------------------------------
 
     #---------------------------------------------------------------------------
@@ -638,14 +638,14 @@ test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example
     desired_PU_spp_table = data.frame (PU_ID = c(1,8,2,7,2,6,1,4,7,1,6,4,8,3,8,7,5,4),
                                        spp_ID = c(1,1,2,2,3,3,4,4,4,5,5,5,5,6,6,6,6,6))
 
-test_that("create_wrapping_spp_PU_spp_table: dep PUs NOT eligible, test seed 17", {
+test_that("create_wrapping_PU_spp_table: dep PUs NOT eligible, test seed 17", {
     expect_equal (desired_PU_spp_table, PU_spp_table_w_dep_set_NOT_eligible)
     expect_true (validate_wrap (extra_abund,
                                                     dep_set_PUs_eligible = FALSE,
                                 PU_spp_table_w_dep_set_NOT_eligible,
                                 dep_set))
 })
-test_that("create_wrapping_spp_PU_spp_table: dep PUs ELIGIBLE, test seed 17", {
+test_that("create_wrapping_PU_spp_table: dep PUs ELIGIBLE, test seed 17", {
     expect_true (validate_wrap (extra_abund,
                                                     dep_set_PUs_eligible = TRUE,
                                 PU_spp_table_w_dep_set_NOT_eligible,
@@ -664,7 +664,7 @@ test_that("create_wrapping_spp_PU_spp_table: dep PUs ELIGIBLE, test seed 17", {
     eligible_set = 1:8    #  all patches eligible
 
     PU_spp_table_w_dep_set_ELIGIBLE =
-        create_wrapping_spp_PU_spp_table (extra_abund,
+        create_wrapping_PU_spp_table (extra_abund,
                                           dep_set,
                                           eligible_set,
                                           use_testing_only_rand_seed = TRUE,
@@ -697,7 +697,7 @@ test_that("create_wrapping_spp_PU_spp_table: dep PUs ELIGIBLE, test seed 17", {
 
     #  Test that a correct outcome generated with dep_set PUs eligible passes.
 
-test_that("create_wrapping_spp_PU_spp_table: on dep PUs and they should be ELIGIBLE, test seed 17", {
+test_that("create_wrapping_PU_spp_table: on dep PUs and they should be ELIGIBLE, test seed 17", {
     expect_equal (desired_PU_spp_table, PU_spp_table_w_dep_set_ELIGIBLE)
     expect_true (validate_wrap (extra_abund,
                                                     dep_set_PUs_eligible = TRUE,
@@ -713,7 +713,7 @@ PU_spp_table_rule_1_violation = PU_spp_table_w_dep_set_ELIGIBLE
 PU_spp_table_rule_1_violation [3, "PU_ID"] = 4    #  i.e., change dep_set PU 2 to non-dep_set PU 4
 PU_spp_table_rule_1_violation [5, "PU_ID"] = 6    #  i.e., change dep_set PU 2 to non-dep_set PU 6
 
-test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 1", {
+test_that("create_wrapping_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 1", {
     expect_error (validate_wrap (extra_abund,
                                                     dep_set_PUs_eligible = TRUE,
                                 PU_spp_table_rule_1_violation,
@@ -721,7 +721,7 @@ test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be e
 })
 
         #  Rule 2:  If dep set not eligible, then one and only one occurrence of the species can be in dep set
-test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 2", {
+test_that("create_wrapping_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 2", {
     expect_error (validate_wrap (extra_abund,
                                                     dep_set_PUs_eligible = FALSE,
                                 PU_spp_table_w_dep_set_ELIGIBLE,
@@ -736,7 +736,7 @@ PU_spp_table_rule_3_violation [9,  "PU_ID"] = 1    #  i.e., change spp 4 dep_set
 PU_spp_table_rule_3_violation [4,  "PU_ID"] = 2    #  i.e., change spp 2 non-dep_set PU 7 to dep_set PU 2, which is same as spp 2 value in row 3
 PU_spp_table_rule_3_violation [10, "PU_ID"] = 6    #  i.e., change spp 5 dep_set PU 1 to non-dep_set PU 6, which is same as spp 2 value in row 13
 
-test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 3", {
+test_that("create_wrapping_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 3", {
     expect_error (validate_wrap (extra_abund,
                                                     dep_set_PUs_eligible = TRUE,
                                 PU_spp_table_rule_3_violation,
@@ -746,7 +746,7 @@ test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be e
         #  Rule 4:  All species must occur in result table
 PU_spp_table_rule_4_violation = PU_spp_table_w_dep_set_ELIGIBLE [-(10:13),]    #  i.e., remove species 5 from the PU_spp_table
 
-test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 4", {
+test_that("create_wrapping_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 4", {
     expect_error (validate_wrap (extra_abund,
                                                     dep_set_PUs_eligible = TRUE,
                                 PU_spp_table_rule_4_violation,
@@ -757,7 +757,7 @@ test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be e
         #  Rule 5:  All species must occur the number of times specified in their abundance
 PU_spp_table_rule_5_violation = PU_spp_table_w_dep_set_ELIGIBLE [-c(2,6,16,17),]    #  i.e., remove 1 occurrence from spp 1 & 3, and 2 occurrences from spp 6
 
-test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 5", {
+test_that("create_wrapping_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 5", {
     expect_error (validate_wrap (extra_abund,
                                                     dep_set_PUs_eligible = TRUE,
                                 PU_spp_table_rule_5_violation,
@@ -768,7 +768,7 @@ test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be e
         #  Rule 6:  Total number of lines in the result table must equal total number of occurrences
 PU_spp_table_rule_6_violation = PU_spp_table_w_dep_set_ELIGIBLE [-18,]    #  i.e., remove 1 occurrence from spp 1 & 3, and 2 occurrences from spp 6
 
-test_that("create_wrapping_spp_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 6", {
+test_that("create_wrapping_PU_spp_table: on dep PUs but they should NOT be eligible, test seed 17, violates wrapping Rule 6", {
     expect_error (validate_wrap (extra_abund,
                                                     dep_set_PUs_eligible = TRUE,
                                 PU_spp_table_rule_6_violation,
