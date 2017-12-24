@@ -159,6 +159,8 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
 #' argument doesn't allow you to easily regenerate the same thing without
 #' saving the large array form of seed that R uses internally.
 #'
+#-------------------------------------------------------------------------------
+
 #' @return Returns an integer seed value
 #' @export
 
@@ -183,6 +185,8 @@ gen_new_seed_from_cur_time <- function ()
 #' is NULL.  If that argument is not NULL, then use it as a seed.  Regardless
 #' of which way the seed is derived, call set.seed() with it as the argument.
 #'
+#-------------------------------------------------------------------------------
+
 #' @param location_string string to indicate where this function was called,
 #' e.g., at the start of the creation of an rsproblem
 #' @param forced_seed integer to use as seed in set.seed() call or
@@ -228,6 +232,8 @@ always_set_new_or_forced_rand_seed <- function (location_string,
 
 #' Helper function for setting a seed when necessary
 #'
+#-------------------------------------------------------------------------------
+
 #' @param set_rand_seed_at_creation_of_all_new_major_objects boolean indicating
 #' whether a new seed should be set every time an rsrun or rsproblem object
 #' is created
@@ -314,6 +320,8 @@ set_seed_if_necessary_helper <- function (set_rand_seed_at_creation_of_all_new_m
 #' where you do choose to reset the seed, though you don't ever have to reset
 #' it if you don't want to.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Rules for seed creation and setting:
 #'
 #'\subsection{seed names}{
@@ -402,6 +410,8 @@ set_seed_if_necessary_helper <- function (set_rand_seed_at_creation_of_all_new_m
 #' designed to be done with single runs.  See Caveats below.
 #'}
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Caveats:
 #' While the intent of this routine is to give lots of flexibility in setting
 #' seeds for reproducibility, it still doesn't solve the whole problem and it
