@@ -19,8 +19,6 @@ run over}
 
 \item{method_name}{character string for reserve selection method, e.g.,
 "marxan_sa"}
-
-\item{starting_dir}{character string}
 }
 \value{
 Returns an RSrun object

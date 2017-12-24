@@ -31,11 +31,6 @@ faster tests in development)}
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
-
-\item{read_Xu_problem_from_Xu_file}{boolean indicating whether to read a
-Xu problem from one of Xu's benchmark problem files; TRUE implies that
-the problem should be read from one of those files; FALSE implies that
-the problem should be generated from scratch}
 }
 \value{
 Returns a multi-BD_Prob

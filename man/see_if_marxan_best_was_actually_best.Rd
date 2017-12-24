@@ -12,7 +12,7 @@ see_if_marxan_best_was_actually_best(best_solution_ID_according_to_marxan,
 
 \item{marxan_solution_scores_wrt_APP_reps_and_costs}{data frame}
 
-\item{out_dir}{character string}
+\item{marxan_output_dir}{character string}
 }
 \value{
 Returns nothing

@@ -15,13 +15,13 @@ write_all_marxan_input_files(PU_IDs, spp_IDs, spp_PU_amount_table,
 
 \item{spp_PU_amount_table}{A data frame of species IDs vs planning unit IDs}
 
+\item{targets}{A vector of target representation levels for all species}
+
+\item{costs}{A vector of costs for all PUs}
+
 \item{spf_const}{A constant species penalty factor to be applied to all species}
 
 \item{status_const}{A constant status to be applied to all species}
-
-\item{target_const}{A constant target representation level to be applied to all species}
-
-\item{cost_const}{A constant cost to be applied to all species}
 }
 \value{
 nothing.

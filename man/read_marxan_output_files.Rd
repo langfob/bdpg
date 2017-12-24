@@ -7,9 +7,10 @@
 read_marxan_output_files(marxan_output_dir_path, all_correct_node_IDs)
 }
 \arguments{
-\item{all_correct_node_IDs}{integer vector}
+\item{marxan_output_dir_path}{character string output directory for the
+marxan run}
 
-\item{marxan_output_dir}{character string output directory for the marxan run}
+\item{all_correct_node_IDs}{integer vector}
 }
 \value{
 Returns list

@@ -175,10 +175,6 @@ information and the UUID of the object, e.g.,
 ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587}
 
 \item{Xu_bench_infile_name}{filename of Xu benchmark problem file}
-
-\item{forced_seed}{an integer value to be used as random number seed when
-a specific seed is desired in creating this object (e.g., for
-reproducing a previous execution of the code).}
 }
 \description{
 This function should never be called.  It is intended strictly as a

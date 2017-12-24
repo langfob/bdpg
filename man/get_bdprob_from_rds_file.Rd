@@ -9,10 +9,6 @@ get_bdprob_from_rds_file(prob_src, cur_input_prob_idx, rds_file_set_path,
 }
 \arguments{
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
-
-\item{app_bdprob}{an apparent bdprob}
-
-\item{cor_bdprob}{a correct bdprob}
 }
 \value{
 Returns a list containing named elements related to the source

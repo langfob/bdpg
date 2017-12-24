@@ -7,7 +7,7 @@
 fix_0_length_list_elements(value)
 }
 \arguments{
-\item{a_list}{a list}
+\item{value}{any value}
 }
 \value{
 NA or the input argument

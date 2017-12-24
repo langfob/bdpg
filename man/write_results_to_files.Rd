@@ -19,8 +19,8 @@ and can have a varying number and set of elements depending on the run}
 \item{out_dir}{character string telling what directory to put the results
 file in}
 
-\item{cur_result_row}{integer row number in data frame where run_ID should
-be added}
+\item{tzar_run_id_field_name}{character string containing name of tzar run ID
+field in output file}
 }
 \value{
 Returns nothing.

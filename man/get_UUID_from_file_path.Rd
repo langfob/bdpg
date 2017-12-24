@@ -7,7 +7,7 @@
 get_UUID_from_file_path(f)
 }
 \arguments{
-\item{file_path}{rds file name (possibly full path) containing a UUID}
+\item{f}{rds file name (possibly full path) containing a UUID}
 }
 \value{
 Returns UUID section of the given file name

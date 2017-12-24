@@ -18,20 +18,6 @@ included in the candidate solution}
 \item{spp_rep_targets}{vector of numeric species representation targets}
 
 \item{num_spp}{integer number of species in the problem}
-
-\item{num_PUs}{integer number of planning units}
-
-\item{num_PUs_in_cand_solution}{integer number of planning units in the
-candidate solution}
-
-\item{num_PUs_in_optimal_solution}{integer number of planning units in the
-optimal solution}
-
-\item{input_err_FP}{fractional amount of False Positive error added to the
-correct problem to create the apparent problem}
-
-\item{input_err_FN}{fractional amount of False Negative error added to the
-correct problem to create the apparent problem}
 }
 \value{
 list of solution vector scores
