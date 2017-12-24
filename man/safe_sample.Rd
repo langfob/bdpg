@@ -8,6 +8,8 @@ safe_sample(x, ...)
 }
 \arguments{
 \item{x}{Either a vector of one or more elements from which to choose, or a positive integer.}
+
+\item{...}{Arguments that can be passed on to base::sample()}
 }
 \value{
 Returns a value that is probably an integer but is definitely not null

@@ -14,6 +14,12 @@ apply_const_error_to_spp_occupancy_data(cor_num_PUs, cor_num_spp, cor_bpm,
 
 \item{cor_bpm}{matrix}
 
+\item{FP_rates_matrix}{float matrix of False Positive error rates for each
+species/planning unit combination}
+
+\item{FN_rates_matrix}{float matrix of False Negative error rates for each
+species/planning unit combination}
+
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{

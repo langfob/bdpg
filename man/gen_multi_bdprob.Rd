@@ -17,6 +17,11 @@ and can have a varying number and set of elements depending on the run}
 lognormal distribution around a base Xu problem; TRUE implies wrapping
 should be done; FALSE implies not}
 
+\item{read_Xu_problem_from_Xu_bench_file}{boolean indicating whether the
+base problem was read in from a Xu benchmark file or not; TRUE implies
+read in from Xu benchmark file and FALSE implies the problem was
+created from scratch}
+
 \item{infile_name}{string containing the name of the Xu benchmark file to
 read a problem from if reading from a Xu benchmark file}
 
@@ -31,6 +36,8 @@ faster tests in development)}
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
+
+\item{bdprob_1}{a Xu biodiversity problem object}
 }
 \value{
 Returns a multi-BD_Prob

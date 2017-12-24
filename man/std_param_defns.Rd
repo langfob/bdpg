@@ -175,6 +175,11 @@ information and the UUID of the object, e.g.,
 ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587}
 
 \item{Xu_bench_infile_name}{filename of Xu benchmark problem file}
+
+\item{allow_imperfect_wrap}{boolean indicating whether the wrapping
+distribution needs to fully contain the base distribution; TRUE implies
+it must fully contain the base distribution and FALSE implies it need not
+fully contain the base distribution}
 }
 \description{
 This function should never be called.  It is intended strictly as a

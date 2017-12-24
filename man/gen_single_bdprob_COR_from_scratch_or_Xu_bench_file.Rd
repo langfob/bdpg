@@ -32,6 +32,10 @@ to keep the run-time down)}
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
+
+\item{base_prob_name_stem}{character string}
+
+\item{cor_dir_name_stem}{character string}
 }
 \value{
 Returns a new Xu_bd_problem

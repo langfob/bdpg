@@ -8,6 +8,16 @@ get_bdprob_from_rds_file(prob_src, cur_input_prob_idx, rds_file_set_path,
   rds_file_set_yaml_array, rds_file_path, bdpg_error_codes)
 }
 \arguments{
+\item{prob_src}{character string}
+
+\item{cur_input_prob_idx}{integer}
+
+\item{rds_file_set_path}{character string}
+
+\item{rds_file_set_yaml_array}{vector of character strings}
+
+\item{rds_file_path}{character string}
+
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{

@@ -13,9 +13,14 @@ init_object_graph_data(rsprob, top_dir, compute_network_metrics,
 \item{rsprob}{An RSprob reserve selection problem object to run graph metrics
 over if desired}
 
+\item{top_dir}{character string}
+
 \item{compute_network_metrics}{boolean flag indicating whether any graph
 metrics should be computed for this problem; TRUE implies metrics
 should be computed, FALSE implies not}
+
+\item{compute_network_metrics_COR_APP_WRAP}{character string containing "COR"
+or "APP" or "WRAP"}
 
 \item{use_igraph_metrics}{boolean flag indicating whether metrics based
 on the igraph package should be computed for this problem; TRUE implies

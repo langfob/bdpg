@@ -16,6 +16,11 @@ done just before the creation of an rs PROBLEM object}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{cor_or_app_str}{character string containing "COR" or "APP"}
+
+\item{basic_or_wrapped_or_comb_str}{character string containing "BASE" or
+"WRAP" or "COMB"}
 }
 \value{
 Returns an integer seed value or NA

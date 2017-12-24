@@ -13,6 +13,9 @@ run over}
 
 \item{targets}{numeric vector}
 
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
+
 \item{cor_or_app_str}{character string}
 
 \item{basic_or_wrapped_or_comb_str}{character string}

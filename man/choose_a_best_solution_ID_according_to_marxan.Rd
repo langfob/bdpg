@@ -7,6 +7,16 @@
 choose_a_best_solution_ID_according_to_marxan(num_marxan_solutions,
   marxan_solutions_matrix, marxan_best_df_sorted_as_vector)
 }
+\arguments{
+\item{num_marxan_solutions}{integer}
+
+\item{marxan_solutions_matrix}{matrix}
+
+\item{marxan_best_df_sorted_as_vector}{vector}
+}
+\value{
+integer ID of best solution according to marxan
+}
 \description{
 Marxan returns a best solution, but I have not been able to find
  anyplace where it tells you what solution number it was.

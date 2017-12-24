@@ -4,8 +4,7 @@
 \alias{gen_single_bdprob_APP}
 \title{Generate a single biodiversity problem with error added to it}
 \usage{
-gen_single_bdprob_APP(Xu_bdprob_COR, parameters, bdpg_error_codes, integerize,
-  base_prob_name_stem = "base_prob", app_dir_name_stem = "app")
+gen_single_bdprob_APP(Xu_bdprob_COR, parameters, bdpg_error_codes)
 }
 \arguments{
 \item{Xu_bdprob_COR}{correct Xu problem that is to have error added to it}
@@ -14,8 +13,6 @@ gen_single_bdprob_APP(Xu_bdprob_COR, parameters, bdpg_error_codes, integerize,
 and can have a varying number and set of elements depending on the run}
 
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
-
-\item{integerize}{function to use in converting floats to ints}
 }
 \value{
 Returns apparent version of either a Xu_bd_problem or a

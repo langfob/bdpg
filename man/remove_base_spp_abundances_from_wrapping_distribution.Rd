@@ -18,6 +18,11 @@ abundances}
 
 \item{spp_col_name}{string containing the name of the column in the PU_spp
 table that contains the species IDs}
+
+\item{allow_imperfect_wrap}{boolean indicating whether the wrapping
+distribution needs to fully contain the base distribution; TRUE implies
+it must fully contain the base distribution and FALSE implies it need not
+fully contain the base distribution}
 }
 \value{
 vector of abundances in the wrapping abundance distribution that are

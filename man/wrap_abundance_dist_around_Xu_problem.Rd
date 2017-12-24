@@ -24,11 +24,19 @@ and can have a varying number and set of elements depending on the run}
 
 \item{tot_num_PUs_in_landscape}{DESCRIPTION.}
 
+\item{seed_value_for_search_list}{blah}
+
+\item{allow_imperfect_wrap}{blah}
+
 \item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{search_outfile_name_base}{character string}
 
 \item{search_outfile_name}{character string}
+
+\item{wrap_prob_name_stem}{string}
+
+\item{cor_dir_name_stem}{string}
 }
 \value{
 Returns a Xu_wrapped_bd_problem
