@@ -22,69 +22,6 @@ dist_between_marxan_solutions = function (solution_1, solution_2)
 #'
 #-------------------------------------------------------------------------------
 
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{cor_PU_costs}{
-#' \preformatted{
-#' cor_PU_costs :  num [1:407] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{cur_cost}{
-#' \preformatted{
-#' cur_cost :  num 61
-#' }}
-#' \subsection{cur_frac_of_all_spp_meeting_their_target}{
-#' \preformatted{
-#' cur_frac_of_all_spp_meeting_their_target :  num 1
-#' }}
-#' \subsection{cur_rep_fractions}{
-#' \preformatted{
-#' cur_rep_fractions :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{cur_solution_num}{
-#' \preformatted{
-#' cur_solution_num :  int 1
-#' }}
-#' \subsection{cur_solution_PUs}{
-#' \preformatted{
-#' cur_solution_PUs :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-#' }}
-#' \subsection{marxan_solution_PU_IDs}{
-#' \preformatted{
-#' marxan_solution_PU_IDs :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-#' }}
-#' \subsection{marxan_solution_scores}{
-#' \preformatted{
-#' marxan_solution_scores : 'data.frame':	4 obs. of  3 variables:
-#'  $ solution_num  : int  1 2 3 4
-#'  $ representation: num  1 0 0 0
-#'  $ cost          : num  0.15 0 0 0
-#' }}
-#' \subsection{marxan_solutions_matrix}{
-#' \preformatted{
-#' marxan_solutions_matrix :  num [1:4, 1:407] 0 0 0 0 1 1 1 1 0 0 ...
-#' }}
-#' \subsection{num_spp}{
-#' \preformatted{
-#' num_spp :  int 1277
-#' }}
-#' \subsection{spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU}{
-#' \preformatted{
-#' spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{targets}{
-#' \preformatted{
-#' targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{total_landscape_cost}{
-#' \preformatted{
-#' total_landscape_cost :  num 407
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @param spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU matrix
 #' @param marxan_solution_PU_IDs numeric vector
 #' @param targets numeric vector
@@ -147,7 +84,6 @@ compute_marxan_solution_scores <-   #_wrt_COR_reps_and_costs_or_APP_reps_and_cos
     cur_cost = compute_solution_cost (cur_solution_PUs, cor_PU_costs)
     marxan_solution_scores [cur_solution_num, "cost"] = cur_cost / total_landscape_cost
 
-#docaids::doc_vars_in_this_func_once ()
     return (marxan_solution_scores)
     }
 
@@ -318,124 +254,6 @@ compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs <-
 #'
 #' Find best marxan soltuions
 #'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{app_bpm}{
-#' \preformatted{
-#' app_bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{marxan_solution_scores_wrt_APP_reps_and_costs}{
-#' \preformatted{
-#' marxan_solution_scores_wrt_APP_reps_and_costs : 'data.frame':	4 obs. of  3 variables:
-#'  $ solution_num  : int  1 2 3 4
-#'  $ representation: num  1 1 1 1
-#'  $ cost          : num  0.15 0.15 0.15 0.15
-#' }}
-#' \subsection{best_solution_ID_according_to_marxan}{
-#' \preformatted{
-#' best_solution_ID_according_to_marxan :  int 1
-#' }}
-#' \subsection{cor_bpm}{
-#' \preformatted{
-#' cor_bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{marxan_solution_scores_wrt_COR_reps_and_costs}{
-#' \preformatted{
-#' marxan_solution_scores_wrt_COR_reps_and_costs : 'data.frame':	4 obs. of  3 variables:
-#'  $ solution_num  : int  1 2 3 4
-#'  $ representation: num  1 1 1 1
-#'  $ cost          : num  0.15 0.15 0.15 0.15
-#' }}
-#' \subsection{cor_PU_costs}{
-#' \preformatted{
-#' cor_PU_costs :  num [1:407] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{cur_col}{
-#' \preformatted{
-#' cur_col :  int 4
-#' }}
-#' \subsection{cur_dist_from_marxan_best_df_sorted_as_vector}{
-#' \preformatted{
-#' cur_dist_from_marxan_best_df_sorted_as_vector :  num 0
-#' }}
-#' \subsection{cur_marxan_solution_PU_IDs}{
-#' \preformatted{
-#' cur_marxan_solution_PU_IDs :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-#' }}
-#' \subsection{cur_row}{
-#' \preformatted{
-#' cur_row :  int 4
-#' }}
-#' \subsection{cur_solution_num}{
-#' \preformatted{
-#' cur_solution_num :  int 4
-#' }}
-#' \subsection{distances_between_marxan_solutions}{
-#' \preformatted{
-#' distances_between_marxan_solutions :  num [1:4, 1:4] 0 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{IDs_of_vectors_matching_marxan_best_solution_choice}{
-#' \preformatted{
-#' IDs_of_vectors_matching_marxan_best_solution_choice :  int [1:4] 1 2 3 4
-#' }}
-#' \subsection{largest_PU_ID}{
-#' \preformatted{
-#' largest_PU_ID :  num 407
-#' }}
-#' \subsection{largest_spp_ID}{
-#' \preformatted{
-#' largest_spp_ID :  int 1277
-#' }}
-#' \subsection{marxan_best_df_sorted_as_vector}{
-#' \preformatted{
-#' marxan_best_df_sorted_as_vector :  int [1:407] 0 1 0 1 0 1 0 1 0 1 ...
-#' }}
-#' \subsection{marxan_output_dir_path}{
-#' \preformatted{
-#' marxan_output_dir_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
-#' }}
-#' \subsection{marxan_solutions_matrix}{
-#' \preformatted{
-#' marxan_solutions_matrix :  num [1:4, 1:407] 0 0 0 0 1 1 1 1 0 0 ...
-#' }}
-#' \subsection{marxan_solutions_matrix_and_num_solutions}{
-#' \preformatted{
-#' marxan_solutions_matrix_and_num_solutions : List of 2
-#'  $ marxan_solutions_matrix: num [1:4, 1:407] 0 0 0 0 1 1 1 1 0 0 ...
-#'  $ num_marxan_solutions   : int 4
-#' }}
-#' \subsection{num_marxan_solutions}{
-#' \preformatted{
-#' num_marxan_solutions :  int 4
-#' }}
-#' \subsection{num_spp}{
-#' \preformatted{
-#' num_spp :  int 1277
-#' }}
-#' \subsection{plot_output_dir}{
-#' \preformatted{
-#' plot_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSrun_-COR-Wrap-Marxan_SA.9"| __truncated__
-#' }}
-#' \subsection{short_range}{
-#' \preformatted{
-#' short_range :  num 4
-#' }}
-#' \subsection{targets}{
-#' \preformatted{
-#' targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{total_landscape_cost}{
-#' \preformatted{
-#' total_landscape_cost :  num 407
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @param marxan_output_dir_path character string
 #' @param num_spp integer
 #' @param cor_PU_costs numeric vector
@@ -540,11 +358,6 @@ app_PU_costs = cor_PU_costs    #  for the moment, since no app costs stored yet?
                                               marxan_top_dir
                                               )
         }
-    #---------------------------------------------------------------------------
-
-#docaids::doc_vars_in_this_func_once ()
-
-#browser()
     }
 
 #===============================================================================
