@@ -228,7 +228,7 @@ get_marxan_solution_choice_string = function (marxan_best_cost,
 
 #' @param best_solution_ID_according_to_marxan integer
 #' @param marxan_solution_scores_wrt_APP_reps_and_costs data frame
-#' @param out_dir character string
+#' @param marxan_output_dir character string
 #'
 #' @return Returns nothing
 
