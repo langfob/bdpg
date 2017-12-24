@@ -858,7 +858,7 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 
 #-------------------------------------------------------------------------------
 
-#  Create wrapping PU/species table
+#'  Create wrapping PU/species table
 
 #-------------------------------------------------------------------------------
 
