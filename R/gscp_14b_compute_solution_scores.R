@@ -394,8 +394,6 @@ compute_confusion_matrix_based_scores <- function (num_PUs_in_cand_solution,
                 acc_err_mag = acc_err_mag
                 )
 
-#docaids::doc_vars_in_this_func_once ()
-
     return (results_list)
     }
 
