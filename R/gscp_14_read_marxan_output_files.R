@@ -20,7 +20,7 @@ convert_name_str_to_ID_num = function (str, lead_str="P")
 
 if(getRversion() >= "2.15.1")  utils::globalVariables(c("ConservationFeature"))
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #' Load marxan mvbest df from file and sort by CF
 #'
@@ -82,7 +82,7 @@ load_marxan_mvbest_df_from_file_and_sort_by_CF <- function (marxan_output_dir_pa
 
 if(getRversion() >= "2.15.1")  utils::globalVariables(c("planning_unit"))
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #'  Load marxan's summed solutions vector from its marxan output file.
 #'
@@ -129,7 +129,7 @@ load_marxan_ssoln_df_from_file_and_sort_by_PU <- function (marxan_output_dir_pat
 
 if(getRversion() >= "2.15.1")  utils::globalVariables(c("PUID"))
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 #' Load marxan best data frame from file, sort, add missing PUs
 #'
@@ -259,7 +259,6 @@ load_marxan_solutionsmatrix_and_add_missing_PUs <-
         list (marxan_solutions_matrix = marxan_solutions_matrix,
               num_marxan_solutions    = num_marxan_solutions)
 
-#docaids::doc_vars_in_this_func_once ()
     return (marxan_solutions_matrix_and_num_solutions)
     }
 
@@ -381,7 +380,6 @@ read_marxan_output_files <- function (marxan_output_dir_path,
     retVal$marxan_ssoln_df       = marxan_ssoln_df_sorted_by_PU
     retVal$marxan_mvbest_df      = marxan_mvbest_df_sorted_by_ConservationFeature
 
-#docaids::doc_vars_in_this_func_once ()
     return (retVal)
     }
 
