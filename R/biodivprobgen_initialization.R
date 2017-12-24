@@ -2,34 +2,24 @@
 #                       biodivprobgen_initalization.R
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Builds the error codes returned by errors in bdpg package
 #'
 #' This function is used as a central way to get at the error codes and make
 #' sure they're always the same, but may want to move them to the
 #' Global_Constants structure instead...
 #'
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{bdpg_error_codes}{
-#' \preformatted{
-#' bdpg_error_codes : List of 8
-#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
-#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
-#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
-#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
-#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
-#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-#'  $ ERROR_STATUS_no_prob_src_given                             : num 1007
-#'  $ ERROR_STATUS_unknown_prob_src                              : num 1008
-#' }}
-#'
+#-------------------------------------------------------------------------------
+
 #' @return Returns list of integer error codes
+#'
 #' @export
+#'
 #' @examples
 #' get_bdpg_error_codes ()
+
+#-------------------------------------------------------------------------------
 
 get_bdpg_error_codes <- function ()
     {
@@ -48,14 +38,17 @@ get_bdpg_error_codes <- function ()
     bdpg_error_codes$ERROR_STATUS_no_prob_src_given = 1007
     bdpg_error_codes$ERROR_STATUS_unknown_prob_src = 1008
 
-#docaids::doc_vars_in_this_func_once ()
     return (bdpg_error_codes)
     }
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Look up a specific bdpg error code given its name
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns integer error code for the given error name
@@ -63,6 +56,8 @@ get_bdpg_error_codes <- function ()
 #'
 #' @examples
 #' get_bdpg_error_code ("ERROR_STATUS_unknown_spp_occ_FP_error_type")
+
+#-------------------------------------------------------------------------------
 
 get_bdpg_error_code <- function (bdpg_error_name)
     {
@@ -73,16 +68,22 @@ get_bdpg_error_code <- function (bdpg_error_name)
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
 #' Get name and version number of current operating system as a string
 #'
 #' This function is only here as a convenience because I can never remember
 #' where the current operating system is stored.
 #'
+#-------------------------------------------------------------------------------
+
 #' @return Returns string containing name and version of current operating system
 #' @export
 #'
 #' @examples
 #' get_current_os ()
+
+#-------------------------------------------------------------------------------
 
 get_current_os <- function ()
     {
@@ -99,6 +100,8 @@ get_current_os <- function ()
 #' looks up which function to use based on the user's specification in the
 #' parameter inputs.
 #'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns function to use to convert floats to integers
@@ -107,6 +110,8 @@ get_current_os <- function ()
 #' @examples
 #' get_integerize_function ("ceiling")
 #'
+#-------------------------------------------------------------------------------
+
 get_integerize_function <- function (integerize_string)
     {
     switch (integerize_string,
@@ -122,39 +127,14 @@ get_integerize_function <- function (integerize_string)
 #'
 #' Central point for doing a few odds and ends of initializing.
 #'
-#' @section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{bdpg_error_codes}{
-#' \preformatted{
-#' bdpg_error_codes : List of 6
-#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
-#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
-#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
-#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
-#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
-#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-#' }}
-#' \subsection{parameters}{
-#' \preformatted{
-#' parameters : List of 66
-#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
-#'  ...
-#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-#' }}
-#' \subsection{params_and_error_codes}{
-#' \preformatted{
-#' params_and_error_codes : List of 2
-#'  $ parameters      :List of 66
-#'  $ bdpg_error_codes:List of 6
-#' }}
-#'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns two element list containing parameters list and bdpg error codes
 #' @export
+
+#-------------------------------------------------------------------------------
 
 init_for_bdpg <- function (parameters)
     {
@@ -194,7 +174,6 @@ init_for_bdpg <- function (parameters)
     params_and_error_codes <- list (parameters = parameters,
                                     bdpg_error_codes = bdpg_error_codes)
 
-#docaids::doc_vars_in_this_func_once ()
     return (params_and_error_codes)
     }
 
@@ -209,6 +188,8 @@ init_for_bdpg <- function (parameters)
 #'  worked except wrapping the creation inside a bdpg function and exporting
 #'  that function.  This is the wrapper function that I created to do that.
 #'
+#-------------------------------------------------------------------------------
+
 #'@section Attempts That Failed:
 #'
 #'  Just to document what I tried, here are the different bits of code that I
@@ -348,8 +329,13 @@ init_for_bdpg <- function (parameters)
 #'      Exited with status 1.
 #'       }}
 #'       }
+
+#-------------------------------------------------------------------------------
+
 #' @export
 #' @seealso \code{"\linkS4class{Global_Constants_v01}"}
+
+#-------------------------------------------------------------------------------
 
 create_global_constants <- function ()
     {
