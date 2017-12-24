@@ -25,6 +25,7 @@
 #-------------------------------------------------------------------------------
 
 #' @param x Either a vector of one or more elements from which to choose, or a positive integer.
+#' @param ... Arguments that can be passed on to base::sample()
 #'
 #' @return Returns a value that is probably an integer but is definitely not null
 #' @export
