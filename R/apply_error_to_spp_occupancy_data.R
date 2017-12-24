@@ -429,12 +429,12 @@ cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
 
 #-------------------------------------------------------------------------------
 
-#' Compute realized error rates in apparent problem
+# Compute realized error rates in apparent problem
 
-#'  Since errors are generated stochastically, the realized error rates
-#'  in the apparent spp vs PU matrix are unlikely to exactly match
-#'  the error generator's target rates, so measure the error rates
-#'  that actually resulted after adding error.
+#  Since errors are generated stochastically, the realized error rates
+#  in the apparent spp vs PU matrix are unlikely to exactly match
+#  the error generator's target rates, so measure the error rates
+#  that actually resulted after adding error.
 
 #-------------------------------------------------------------------------------
 
