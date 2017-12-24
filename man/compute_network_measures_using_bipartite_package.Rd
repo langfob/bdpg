@@ -13,6 +13,8 @@ compute_network_measures_using_bipartite_package(rsprob, exp_root_dir,
 
 \item{exp_root_dir}{character string path to root directory of an
 experiment, usually parameters$fullOutputDir_NO_slash}
+
+\item{bipartite_metrics_to_use}{character string}
 }
 \value{
 Returns bipartite_metrics_from_bipartite_package

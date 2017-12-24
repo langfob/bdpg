@@ -13,6 +13,10 @@ create_wrapping_PU_spp_table(extra_abund, dep_set, eligible_set,
 \item{dep_set}{vector}
 
 \item{eligible_set}{vector}
+
+\item{use_testing_only_rand_seed}{boolean}
+
+\item{testing_only_rand_seed}{integer}
 }
 \value{
 PU_spp_table

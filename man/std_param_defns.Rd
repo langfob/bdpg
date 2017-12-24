@@ -4,16 +4,16 @@
 \alias{std_param_defns}
 \title{Standardized parameter definitions for reuse across all functions}
 \usage{
-std_param_defns(all_correct_node_IDs, base_outdir_for_checksum,
-  bdpg_error_codes, bdpg_error_name, bpm, compute_network_metrics_for_this_prob,
-  cor_or_app_label, correct_solution_vector_is_known, dependent_node_IDs,
-  duplicate_links_allowed, edge_list, exp_root_dir,
-  final_link_counts_for_each_node, final_node_counts_for_each_link,
-  final_rank_abundance_dist, given_correct_solution_cost, integerize,
-  integerize_string, marxan_solution, max_allowed_num_spp,
-  max_possible_tot_num_links, n__num_groups, nodes, num_nodes_per_group,
-  num_PUs, num_rounds_of_linking_between_groups, num_spp, obj,
-  obj_with_UUID_and_checksum, occ_matrix, parameters, plot_output_dir,
+std_param_defns(all_correct_node_IDs, allow_imperfect_wrap,
+  base_outdir_for_checksum, bdpg_error_codes, bdpg_error_name, bpm,
+  compute_network_metrics_for_this_prob, cor_or_app_label,
+  correct_solution_vector_is_known, dependent_node_IDs, duplicate_links_allowed,
+  edge_list, exp_root_dir, final_link_counts_for_each_node,
+  final_node_counts_for_each_link, final_rank_abundance_dist,
+  given_correct_solution_cost, integerize, integerize_string, marxan_solution,
+  max_allowed_num_spp, max_possible_tot_num_links, n__num_groups, nodes,
+  num_nodes_per_group, num_PUs, num_rounds_of_linking_between_groups, num_spp,
+  obj, obj_with_UUID_and_checksum, occ_matrix, parameters, plot_output_dir,
   presences_col_name, PU_col_name, PU_costs, PU_set_to_test,
   PU_spp_pair_indices, read_Xu_problem_from_Xu_file, rsprob, rsrun,
   spp_col_name, spp_rep_fracs, spp_rep_targets,
@@ -24,6 +24,11 @@ std_param_defns(all_correct_node_IDs, base_outdir_for_checksum,
 \item{all_correct_node_IDs}{numeric vector containing all planning unit IDs
 that appear in the correct problem, not to be confused with the set of
 planning IDs that appear in the correct \emph{solution}}
+
+\item{allow_imperfect_wrap}{boolean indicating whether the wrapping
+distribution needs to fully contain the base distribution; TRUE implies
+it must fully contain the base distribution and FALSE implies it need not
+fully contain the base distribution}
 
 \item{base_outdir_for_checksum}{directory where temporary file for use in checksum
 computation will be written and then deleted}
@@ -175,11 +180,6 @@ information and the UUID of the object, e.g.,
 ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587}
 
 \item{Xu_bench_infile_name}{filename of Xu benchmark problem file}
-
-\item{allow_imperfect_wrap}{boolean indicating whether the wrapping
-distribution needs to fully contain the base distribution; TRUE implies
-it must fully contain the base distribution and FALSE implies it need not
-fully contain the base distribution}
 }
 \description{
 This function should never be called.  It is intended strictly as a
