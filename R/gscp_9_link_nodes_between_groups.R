@@ -10,71 +10,8 @@
 #'  After all groups and their within group links have been built,
 #'  ready to start doing rounds of intergroup linking.
 #'
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{cur_group_pair}{
-#' \preformatted{
-#' cur_group_pair :  int [1:2] 27 56
-#' }}
-#' \subsection{cur_node_pair_idx}{
-#' \preformatted{
-#' cur_node_pair_idx :  int 1
-#' }}
-#' \subsection{cur_round}{
-#' \preformatted{
-#' cur_round :  int 942
-#' }}
-#' \subsection{cur_row}{
-#' \preformatted{
-#' cur_row :  num 1004
-#' }}
-#' \subsection{DEBUG_LEVEL}{
-#' \preformatted{
-#' DEBUG_LEVEL :  num 0
-#' }}
-#' \subsection{edge_list}{
-#' \preformatted{
-#' edge_list :  int [1:1003, 1:2] 1 3 5 7 9 11 13 15 17 19 ...
-#' }}
-#' \subsection{group_1}{
-#' \preformatted{
-#' group_1 :  int 27
-#' }}
-#' \subsection{group_1_nodes}{
-#' \preformatted{
-#' group_1_nodes :  int 54
-#' }}
-#' \subsection{group_2}{
-#' \preformatted{
-#' group_2 :  int 56
-#' }}
-#' \subsection{group_2_nodes}{
-#' \preformatted{
-#' group_2_nodes :  int 112
-#' }}
-#' \subsection{n__num_groups}{
-#' \preformatted{
-#' n__num_groups :  num 61
-#' }}
-#' \subsection{nodes}{
-#' \preformatted{
-#' nodes : 'data.frame':	122 obs. of  3 variables:
-#'  $ node_ID             : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ group_ID            : num  1 1 2 2 3 3 4 4 5 5 ...
-#'  $ dependent_set_member: logi  FALSE TRUE FALSE TRUE FALSE TRUE ...
-#' }}
-#' \subsection{num_rounds_of_linking_between_groups}{
-#' \preformatted{
-#' num_rounds_of_linking_between_groups :  num 942
-#' }}
-#' \subsection{target_num_links_between_2_groups_per_round}{
-#' \preformatted{
-#' target_num_links_between_2_groups_per_round :  num 1
-#' }}
-#'
+#-------------------------------------------------------------------------------
+
 #' @param target_num_links_between_2_groups_per_round integer
 #' @param num_rounds_of_linking_between_groups integer
 #' @param n__num_groups integer
@@ -83,6 +20,8 @@
 #'
 #' @return Returns edge_list as two column integer matrix of node IDs with
 #'     one row for each edge and columns for the 2 ends of the edge
+
+#-------------------------------------------------------------------------------
 
 link_nodes_between_groups =
     function (target_num_links_between_2_groups_per_round,
@@ -200,7 +139,6 @@ link_nodes_between_groups =
         }
 
 
-#docaids::doc_vars_in_this_func_once ()
 #     return (list (edge_list=edge_list,
 #                   cur_row=cur_row))
     return (edge_list)
