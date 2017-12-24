@@ -41,7 +41,7 @@ safe_sample = function (x,...) { if (length (x) == 1) x else sample (x,...) }
 #' lapply where you're trying to get rid of NULLs, numeric(0)s, etc. in a
 #' list to be converted to a data frame.
 #'
-#' @param a_list a list
+#' @param value any value
 #'
 #' @return NA or the input argument
 #' @export
