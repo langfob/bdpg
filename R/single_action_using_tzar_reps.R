@@ -16,8 +16,6 @@
 #' the text file or yaml array.
 #'
 #'
-#' @param app_bdprob an apparent bdprob
-#' @param cor_bdprob a correct bdprob
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a list containing named elements related to the source
