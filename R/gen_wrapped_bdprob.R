@@ -28,7 +28,23 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c("spp_ID", "."))
 
 #-------------------------------------------------------------------------------
 
+#' Validate the wrapping of a bdproblem
+#'
+#' Check a wrapping distribution to see that it will generate a legal wrapped
+#' problem.
+#'
+#-------------------------------------------------------------------------------
+
+#' @param extra_abund blah
+#' @param dep_set_PUs_eligible blah
+#' @param PU_spp_table blah
+#' @param dep_set blah
+#'
+#' @return TRUE if wrap is valid, otherwise quits before end of function
+
 #' export
+
+#-------------------------------------------------------------------------------
 
 validate_wrap <- function (extra_abund,
                            dep_set_PUs_eligible,
