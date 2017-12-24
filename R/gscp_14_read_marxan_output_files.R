@@ -377,7 +377,8 @@ load_marxan_best_df_from_file_and_sort_and_add_missing_PUs <-
 
 #-------------------------------------------------------------------------------
 
-load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
+#load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs <-
+load_marxan_solutionsmatrix_and_add_missing_PUs <-
     function (marxan_output_dir_path,
               largest_PU_ID)    #  should pass in largest_PU_ID instead?
     {

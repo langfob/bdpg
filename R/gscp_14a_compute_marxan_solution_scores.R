@@ -470,7 +470,8 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
                                         )
     {
     marxan_solutions_matrix_and_num_solutions <-
-        load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs (
+        load_marxan_solutionsmatrix_and_add_missing_PUs (
+#        load_marxan_solutionsmatrix_from_file_and_sort_and_add_missing_PUs (
             marxan_output_dir_path,
             largest_PU_ID)
 
