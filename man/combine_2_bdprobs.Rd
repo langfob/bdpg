@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen_multi_bdprob.R
 \name{combine_2_bdprobs}
 \alias{combine_2_bdprobs}
-\title{FUNCTION_TITLE}
+\title{Combine two problems}
 \usage{
 combine_2_bdprobs(bdprob_1, bdprob_2, parameters, bdpg_error_codes, integerize)
 }
@@ -19,5 +19,5 @@ and can have a varying number and set of elements depending on the run}
 \item{integerize}{function to use in converting floats to ints}
 }
 \description{
-FUNCTION_DESCRIPTION
+Combine two problems
 }

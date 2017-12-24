@@ -77,38 +77,6 @@ parameters object built from project.yaml and determines which, if any,
 graph metrics should be computed for the problem.  It also sets the
 corresponding slot's value for each of the flags in the RSprob object.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{bipartite_metrics_to_use}{
-\preformatted{
-bipartite_metrics_to_use :  chr "quick_test"
-}}
-\subsection{compute_network_metrics}{
-\preformatted{
-compute_network_metrics :  logi TRUE
-}}
-\subsection{rsprob}{
-\preformatted{
-rsprob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-}}
-\subsection{top_dir}{
-\preformatted{
-top_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1848_marxan_simulated_annealing.inprogress"
-}}
-\subsection{use_bipartite_metrics}{
-\preformatted{
-use_bipartite_metrics :  logi TRUE
-}}
-\subsection{use_igraph_metrics}{
-\preformatted{
-use_igraph_metrics :  logi FALSE
-}}
-}
-
 \examples{
 \dontrun{
     Xu_bdprob_cor <- init_object_graph_data (Xu_bdprob_cor,

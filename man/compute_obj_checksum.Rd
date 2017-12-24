@@ -34,31 +34,3 @@ copy of the object with empty strings and then writing the object copy to a
 temporary file.  Then, a checksum is computed for that temporary file and
 file.  The modified original object is not returned from the function.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{base_outdir_for_checksum}{
-\preformatted{
-base_outdir_for_checksum :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-}}
-\subsection{checksum}{
-\preformatted{
-checksum :  Named chr "8e5ad448864db57de0e617aff6929882"
-}}
-\subsection{full_saved_obj_path}{
-\preformatted{
-full_saved_obj_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-}}
-\subsection{obj_with_UUID_and_checksum}{
-\preformatted{
-obj_with_UUID_and_checksum : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-}}
-\subsection{saved_obj_with_checksum_filename}{
-\preformatted{
-saved_obj_with_checksum_filename :  chr "tmp_for_checksum__ok_to_delete_if_left_after_run.rds"
-}}
-}
-

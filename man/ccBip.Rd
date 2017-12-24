@@ -3,7 +3,7 @@
 %   R/gscp_11b_network_measures_using_igraph_package.R
 \name{ccBip}
 \alias{ccBip}
-\title{ccLowDot}
+\title{ccBip}
 \usage{
 ccBip(bg)
 }
@@ -14,22 +14,5 @@ ccBip(bg)
 not sure
 }
 \description{
-ccLowDot
+ccBip
 }
-\details{
-The last clustering measures relies on the functions ccBip
-written by Gabor Csardi, while ccLowDot and ccTopDot are
-essentially the same function with only a minor change
-}
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{bg}{
-\preformatted{
-bg : IGRAPH UN-B 936 1628 --
-}}
-}
-

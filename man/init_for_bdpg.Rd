@@ -16,34 +16,3 @@ Returns two element list containing parameters list and bdpg error codes
 \description{
 Central point for doing a few odds and ends of initializing.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{bdpg_error_codes}{
-\preformatted{
-bdpg_error_codes : List of 6
- $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
- $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
- $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
- $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
- $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
- $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-}}
-\subsection{parameters}{
-\preformatted{
-parameters : List of 66
- $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
- ...
- $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-}}
-\subsection{params_and_error_codes}{
-\preformatted{
-params_and_error_codes : List of 2
- $ parameters      :List of 66
- $ bdpg_error_codes:List of 6
-}}
-}
-

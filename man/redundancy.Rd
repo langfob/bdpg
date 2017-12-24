@@ -32,23 +32,3 @@ Simone Gabbriellini has tried to code the redundancy function in R and asked
  posts and followups at the bottom of this file so that you don't have to
  go chase up the sources for what I've done here.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{c}{
-\preformatted{
-c :  int 1
-}}
-\subsection{comb}{
-\preformatted{
-comb :  int [1:2, 1] 868 926
-}}
-\subsection{g}{
-\preformatted{
-g : IGRAPH UN-B 936 1628 --
-}}
-}
-

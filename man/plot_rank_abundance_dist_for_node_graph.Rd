@@ -27,35 +27,3 @@ Doesn't return anything
 Plot number of planning units for each species, sorted in decreasing order
 of number of planning units.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{cor_or_app_label}{
-\preformatted{
-cor_or_app_label :  chr "COR"
-}}
-\subsection{final_node_counts_for_each_link}{
-\preformatted{
-final_node_counts_for_each_link : 'data.frame':	814 obs. of  2 variables:
- $ spp_ID: int  1 2 3 4 5 6 7 8 9 10 ...
- $ freq  : int  2 2 2 2 2 2 2 2 2 2 ...
-}}
-\subsection{final_rank_abundance_dist}{
-\preformatted{
-final_rank_abundance_dist : 'data.frame':	814 obs. of  2 variables:
- $ spp_ID: int  1 2 3 4 5 6 7 8 9 10 ...
- $ freq  : int  2 2 2 2 2 2 2 2 2 2 ...
-}}
-\subsection{plot_output_dir}{
-\preformatted{
-plot_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-}}
-\subsection{spp_col_name}{
-\preformatted{
-spp_col_name :  chr "spp_ID"
-}}
-}
-

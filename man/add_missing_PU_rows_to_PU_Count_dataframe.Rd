@@ -63,37 +63,3 @@ NOTE:  Not sure if matters, but I had commented in here that the old name
 for this function was: add_missing_PUs_to_marxan_solutions().  Probably
 don't need to track that anymoe, but will leave it here for the moment.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{all_correct_node_IDs}{
-\preformatted{
-all_correct_node_IDs :  int [1:122] 1 2 3 4 5 6 7 8 9 10 ...
-}}
-\subsection{marxan_solution}{
-\preformatted{
-marxan_solution : 'data.frame':	122 obs. of  2 variables:
- $ PU_ID: int  1 2 3 4 5 6 7 8 9 10 ...
- $ freq : int  1 25 1 27 1 29 1 28 1 24 ...
-}}
-\subsection{missing_PU_IDs}{
-\preformatted{
-missing_PU_IDs :  int(0)
-}}
-\subsection{num_missing_PU_IDs}{
-\preformatted{
-num_missing_PU_IDs :  int 0
-}}
-\subsection{presences_col_name}{
-\preformatted{
-presences_col_name :  chr "freq"
-}}
-\subsection{PU_col_name}{
-\preformatted{
-PU_col_name :  chr "PU_ID"
-}}
-}
-

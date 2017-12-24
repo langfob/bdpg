@@ -26,35 +26,3 @@ Doesn't return anything
 Plot the final degree distribution for the node graph, which is essentially
 the distribution of number of species per planning unit.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{cor_or_app_label}{
-\preformatted{
-cor_or_app_label :  chr "COR"
-}}
-\subsection{final_degree_dist}{
-\preformatted{
-final_degree_dist : 'data.frame':	122 obs. of  2 variables:
- $ PU_ID: int  1 2 3 4 5 6 7 8 9 10 ...
- $ freq : int  33 33 33 31 31 31 30 29 29 29 ...
-}}
-\subsection{final_link_counts_for_each_node}{
-\preformatted{
-final_link_counts_for_each_node : 'data.frame':	122 obs. of  2 variables:
- $ PU_ID: int  1 2 3 4 5 6 7 8 9 10 ...
- $ freq : int  1 25 1 27 1 29 1 28 1 24 ...
-}}
-\subsection{plot_output_dir}{
-\preformatted{
-plot_output_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-}}
-\subsection{PU_col_name}{
-\preformatted{
-PU_col_name :  chr "PU_ID"
-}}
-}
-

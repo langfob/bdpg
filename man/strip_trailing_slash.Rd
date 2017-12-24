@@ -19,19 +19,3 @@ Tzar puts a slash on the end of the output path and this causes problems
 when using it to build full paths to file names.  This function is
 primarily here to strip that off but can be used on any path.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{last_char}{
-\preformatted{
-last_char :  chr "/"
-}}
-\subsection{path}{
-\preformatted{
-path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-}}
-}
-

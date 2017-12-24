@@ -27,27 +27,3 @@ the adjacency matrix, since the examples in the help file for readRDS()
 look like readRDS() can directly restore an R object that's been saved
 using saveRDS() and then had gzip() applied to it.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{base_outdir_for_checksum}{
-\preformatted{
-base_outdir_for_checksum :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-}}
-\subsection{full_saved_obj_path}{
-\preformatted{
-full_saved_obj_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-}}
-\subsection{obj_with_UUID_and_checksum}{
-\preformatted{
-obj_with_UUID_and_checksum : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-}}
-\subsection{saved_obj_with_checksum_filename}{
-\preformatted{
-saved_obj_with_checksum_filename :  chr "saved.RSprob-COR-Base.d0729e1c-eadc-4899-a382-8cb7ac2c08d7.rds"
-}}
-}
-

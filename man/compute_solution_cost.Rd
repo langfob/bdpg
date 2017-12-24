@@ -20,23 +20,3 @@ Returns numeric cost of the given solution
 Given a set of planning units to include in a solution, compute the total
 cost for that set.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{PU_costs}{
-\preformatted{
-PU_costs :  num [1:122] 1 1 1 1 1 1 1 1 1 1 ...
-}}
-\subsection{PU_set_to_test}{
-\preformatted{
-PU_set_to_test :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-}}
-\subsection{solution_cost}{
-\preformatted{
-solution_cost :  num 61
-}}
-}
-

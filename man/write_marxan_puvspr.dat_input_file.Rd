@@ -25,21 +25,6 @@ other columns.  See source code for the test function
 \code{gen_random_spp_PU_amount_table} for an example of creating
 this table.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{spp_PU_amount_table}{
-\preformatted{
-spp_PU_amount_table : 'data.frame':	3037 obs. of  3 variables:
- $ species: num  1 1 65 88 139 215 227 256 259 262 ...
- $ pu     : num  1 2 2 2 2 2 2 2 2 2 ...
- $ amount : num  1 1 1 1 1 1 1 1 1 1 ...
-}}
-}
-
 \examples{
 \dontrun{
 num_PUs = 100

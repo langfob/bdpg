@@ -19,23 +19,3 @@ Returns sorted 2 column matrix
 \description{
 Sort a 2 column matrix within rows
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{a_2_col_matrix}{
-\preformatted{
-a_2_col_matrix :  int [1:1003, 1:2] 1 3 5 7 9 11 13 15 17 19 ...
-}}
-\subsection{decreasing}{
-\preformatted{
-decreasing :  logi FALSE
-}}
-\subsection{row}{
-\preformatted{
-row :  int 1003
-}}
-}
-

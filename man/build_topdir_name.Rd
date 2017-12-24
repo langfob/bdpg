@@ -16,18 +16,3 @@ Returns a directory name (not a path)
 Builds a directory name for the highest level directory for a bdpg-related
 object such as a reserve selection problem.
 }
-\details{
-#'@section Local Variable Structures and examples:
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{obj}{
-\preformatted{
-obj : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-}}
-\subsection{topdir_name}{
-\preformatted{
-topdir_name :  chr "RSprob-COR-Base.d0729e1c-eadc-4899-a382-8cb7ac2c08d7"
-}}
-}

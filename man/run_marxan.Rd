@@ -18,31 +18,3 @@ Returns system return code from running marxan
 \description{
 Run marxan program
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{marxan_dir}{
-\preformatted{
-marxan_dir :  chr "/Users/bill/tzar/modelcode/marxanLibrary_1360018653/"
-}}
-\subsection{marxan_executable_name}{
-\preformatted{
-marxan_executable_name :  chr "MarOpt_v243_Mac64"
-}}
-\subsection{original_dir}{
-\preformatted{
-original_dir :  chr "/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper"
-}}
-\subsection{retval}{
-\preformatted{
-retval :  int 0
-}}
-\subsection{system.command.run.marxan}{
-\preformatted{
-system.command.run.marxan :  chr "./MarOpt_v243_Mac64 -s"
-}}
-}
-

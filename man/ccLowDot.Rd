@@ -11,22 +11,7 @@ ccLowDot(bg)
 \item{bg}{the graph}
 }
 \description{
-ccLowDot
-}
-\details{
 The last clustering measures relies on the functions ccBip
 written by Gabor Csardi, while ccLowDot and ccTopDot are
 essentially the same function with only a minor change
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{bg}{
-\preformatted{
-bg : IGRAPH UN-B 936 1628 --
-}}
-}
-

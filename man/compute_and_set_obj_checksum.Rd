@@ -21,19 +21,3 @@ the same object that was passed in except that its checksum is
 This function computes the checksum and sets the checksum slot in the object,
 then returns the modified object.  It just packages those up for convenience.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{base_outdir_for_checksum}{
-\preformatted{
-base_outdir_for_checksum :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-}}
-\subsection{obj_with_UUID_and_checksum}{
-\preformatted{
-obj_with_UUID_and_checksum : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-}}
-}
-

@@ -29,23 +29,3 @@ Writes to a file whose name contains:
  \item{whether it's a correct or an apparent problem}
 }
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{base_outdir}{
-\preformatted{
-base_outdir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-}}
-\subsection{rsprob}{
-\preformatted{
-rsprob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-}}
-\subsection{exp_root_dir}{
-\preformatted{
-exp_root_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-}}
-}
-

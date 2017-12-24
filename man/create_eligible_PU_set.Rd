@@ -33,27 +33,3 @@ solution set and the newly added planning units.  This function builds
 that target set of planning units based on the value of the
 dep_set_PUs_eligible flag passed to it.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{dep_set_PUs_eligible}{
-\preformatted{
-dep_set_PUs_eligible :  logi FALSE
-}}
-\subsection{eligible_PUs}{
-\preformatted{
-eligible_PUs :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
-}}
-\subsection{extra_PUs}{
-\preformatted{
-extra_PUs :  int [1:285] 123 124 125 126 127 128 129 130 131 132 ...
-}}
-\subsection{Xu_dep_set}{
-\preformatted{
-Xu_dep_set :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-}}
-}
-

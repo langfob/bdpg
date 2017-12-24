@@ -15,15 +15,3 @@ compute_igraph_related_network_measures(rsprob, top_dir)
 \description{
 Compute igraph-related network measures
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{bg}{
-\preformatted{
-bg : IGRAPH UN-B 936 1628 --
-}}
-}
-

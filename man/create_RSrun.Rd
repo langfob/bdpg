@@ -29,39 +29,3 @@ Returns an RSrun object
 \description{
 Create a run of a reserve selector
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{basic_or_wrapped_or_comb_str}{
-\preformatted{
-basic_or_wrapped_or_comb_str :  chr "Wrap"
-}}
-\subsection{cor_or_app_str}{
-\preformatted{
-cor_or_app_str :  chr "COR"
-}}
-\subsection{method_name}{
-\preformatted{
-method_name :  chr "Marxan_SA"
-}}
-\subsection{prob_UUID}{
-\preformatted{
-prob_UUID :  chr "9b4b5b43-8be8-4e9c-bd7d-d1938d9921bd"
-}}
-\subsection{rsrun}{
-\preformatted{
-rsrun : Formal class 'RSrun' [package "bdpg"] with 12 slots
-}}
-\subsection{starting_dir}{
-\preformatted{
-starting_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-}}
-\subsection{targets}{
-\preformatted{
-targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
-}}
-}
-

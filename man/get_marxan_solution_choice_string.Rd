@@ -22,31 +22,3 @@ Returns character string
 \description{
 Get marxan solution choice string
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{marxan_best_cost}{
-\preformatted{
-marxan_best_cost :  num 0.15
-}}
-\subsection{marxan_best_rep}{
-\preformatted{
-marxan_best_rep :  num 1
-}}
-\subsection{solution_choice_string}{
-\preformatted{
-solution_choice_string :  chr "OK_marxan_solution_IS_apparent_best"
-}}
-\subsection{sorted_best_cost}{
-\preformatted{
-sorted_best_cost :  num 0.15
-}}
-\subsection{sorted_best_rep}{
-\preformatted{
-sorted_best_rep :  num 1
-}}
-}
-

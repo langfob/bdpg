@@ -17,15 +17,3 @@ I couldn't find an existing function for this, but did find a
  stack overflow question that suggested using write.table() on an
  empty table, so that's what I've done.
 }
-\section{Local Variable Structures and examples}{
-
-Here is the output of str() for each variable visible in the function.
-Note that the particular counts and values given are just examples to show
-what the data might look like.
-
-\subsection{file_path_to_touch}{
-\preformatted{
-file_path_to_touch :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/OK_marxan_solution_IS_appar"| __truncated__
-}}
-}
-
