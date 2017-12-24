@@ -52,9 +52,7 @@ cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
         base_APP_bd_prob =
             bdpg::gen_single_bdprob_APP (base_COR_bd_prob,
                                          parameters$compute_network_metrics_APP,
-                                         parameters,
-                                         bdpg_error_codes,
-                                         integerize)
+                                         parameters)
 
         do_APP_marxan_analysis_and_output (base_APP_bd_prob,
                                            base_COR_bd_prob,
