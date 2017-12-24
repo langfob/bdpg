@@ -2030,8 +2030,7 @@ options_are_legal_for_single_bdprob_WRAP <- function (parameters)
 #-------------------------------------------------------------------------------
 
 #' @inheritParams std_param_defns
-#' @param starting_dir character string
-#' @param base_bdprob a correct Xu_bd_problem whose correct solution vector is
+#' @param bdprob_to_wrap a correct Xu_bd_problem whose correct solution vector is
 #' known
 #'
 #' @return Returns a correct wrapped biodiversity problem
