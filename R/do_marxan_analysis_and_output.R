@@ -14,42 +14,6 @@
 #'
 #-------------------------------------------------------------------------------
 
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{basic_or_wrapped_or_comb_str}{
-#' \preformatted{
-#' basic_or_wrapped_or_comb_str :  chr "Wrap"
-#' }}
-#' \subsection{cor_or_app_str}{
-#' \preformatted{
-#' cor_or_app_str :  chr "COR"
-#' }}
-#' \subsection{method_name}{
-#' \preformatted{
-#' method_name :  chr "Marxan_SA"
-#' }}
-#' \subsection{prob_UUID}{
-#' \preformatted{
-#' prob_UUID :  chr "9b4b5b43-8be8-4e9c-bd7d-d1938d9921bd"
-#' }}
-#' \subsection{rsrun}{
-#' \preformatted{
-#' rsrun : Formal class 'RSrun' [package "bdpg"] with 12 slots
-#' }}
-#' \subsection{starting_dir}{
-#' \preformatted{
-#' starting_dir :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-#' }}
-#' \subsection{targets}{
-#' \preformatted{
-#' targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @param prob_UUID UUID for the biodiversity problem the reserve selector is
 #'     run over
 #' @param targets numeric vector
@@ -130,7 +94,6 @@ create_RSrun <- function (prob_UUID,
 
     rsrun <- save_rsrun (rsrun, starting_dir)
 
-#docaids::doc_vars_in_this_func_once ()
     return (rsrun)
     }
 
@@ -139,59 +102,6 @@ create_RSrun <- function (prob_UUID,
 #' Run marxan on COR problem and write output from all analysis
 #'
 #' Run marxan on COR problem and write output from all analysis
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{COR_bd_prob}{
-#' \preformatted{
-#' COR_bd_prob : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
-#' }}
-#' \subsection{COR_marxan_run}{
-#' \preformatted{
-#' COR_marxan_run : Formal class 'RSrun' [package "bdpg"] with 12 slots
-#' }}
-#' \subsection{marxan_control_values}{
-#' \preformatted{
-#' marxan_control_values : List of 15
-#'  $ marxan_PROP      : num 0.5
-#'  $ marxan_RANDSEED  : num 10102
-#'  $ marxan_NUMREPS   : num 4
-#'  $ marxan_NUMITNS   : chr "1000000"
-#'  $ marxan_STARTTEMP : num -1
-#'  $ marxan_NUMTEMP   : num 10000
-#'  $ marxan_COSTTHRESH: chr "0.00000000000000E+0000"
-#'  $ marxan_THRESHPEN1: chr "1.40000000000000E+0001"
-#'  $ marxan_THRESHPEN2: chr "1.00000000000000E+0000"
-#'  $ marxan_RUNMODE   : num 1
-#'  $ marxan_MISSLEVEL : num 1
-#'  $ marxan_ITIMPTYPE : num 0
-#'  $ marxan_HEURTYPE  : num -1
-#'  $ marxan_CLUMPTYPE : num 0
-#'  $ spf_const        : num 950
-#' }}
-#' \subsection{marxan_output_values}{
-#' \preformatted{
-#' marxan_output_values : List of 3
-#'  $ marxan_best_df_sorted:'data.frame':	407 obs. of  2 variables:
-#'  $ marxan_ssoln_df      :'data.frame':	407 obs. of  2 variables:
-#'  $ marxan_mvbest_df     :'data.frame':	1277 obs. of  10 variables:
-#' }}
-#' \subsection{parameters}{
-#' \preformatted{
-#' parameters : List of 66
-#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1843_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
-#'  ...
-#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1843_marxan_simulated_annealing.inprogress"
-#' }}
-#' \subsection{targets}{
-#' \preformatted{
-#' targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -251,63 +161,6 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
 #' Run marxan on APP problem and write output from all analysis
 #'
 #' Run marxan on APP problem and write output from all analysis
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{APP_bd_prob}{
-#' \preformatted{
-#' APP_bd_prob : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-#' }}
-#' \subsection{APP_marxan_run}{
-#' \preformatted{
-#' APP_marxan_run : Formal class 'RSrun' [package "bdpg"] with 12 slots
-#' }}
-#' \subsection{COR_bd_prob}{
-#' \preformatted{
-#' COR_bd_prob : Formal class 'Xu_wrapped_bd_problem' [package "bdpg"] with 36 slots
-#' }}
-#' \subsection{marxan_control_values}{
-#' \preformatted{
-#' marxan_control_values : List of 15
-#'  $ marxan_PROP      : num 0.5
-#'  $ marxan_RANDSEED  : num 10102
-#'  $ marxan_NUMREPS   : num 4
-#'  $ marxan_NUMITNS   : chr "1000000"
-#'  $ marxan_STARTTEMP : num -1
-#'  $ marxan_NUMTEMP   : num 10000
-#'  $ marxan_COSTTHRESH: chr "0.00000000000000E+0000"
-#'  $ marxan_THRESHPEN1: chr "1.40000000000000E+0001"
-#'  $ marxan_THRESHPEN2: chr "1.00000000000000E+0000"
-#'  $ marxan_RUNMODE   : num 1
-#'  $ marxan_MISSLEVEL : num 1
-#'  $ marxan_ITIMPTYPE : num 0
-#'  $ marxan_HEURTYPE  : num -1
-#'  $ marxan_CLUMPTYPE : num 0
-#'  $ spf_const        : num 950
-#' }}
-#' \subsection{marxan_output_values}{
-#' \preformatted{
-#' marxan_output_values : List of 3
-#'  $ marxan_best_df_sorted:'data.frame':	407 obs. of  2 variables:
-#'  $ marxan_ssoln_df      :'data.frame':	407 obs. of  2 variables:
-#'  $ marxan_mvbest_df     :'data.frame':	1277 obs. of  10 variables:
-#' }}
-#' \subsection{parameters}{
-#' \preformatted{
-#' parameters : List of 66
-#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1845_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
-#'  ...
-#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1845_marxan_simulated_annealing.inprogress"
-#' }}
-#' \subsection{targets}{
-#' \preformatted{
-#' targets :  num [1:1277] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
