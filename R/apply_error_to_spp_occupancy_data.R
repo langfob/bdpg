@@ -18,56 +18,6 @@
 #'
 #-------------------------------------------------------------------------------
 
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{bdpg_error_codes}{
-#' \preformatted{
-#' bdpg_error_codes : List of 6
-#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
-#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
-#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
-#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
-#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
-#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-#' }}
-#' \subsection{bpm}{
-#' \preformatted{
-#' bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{cur_PU_col}{
-#' \preformatted{
-#' cur_PU_col :  int 407
-#' }}
-#' \subsection{cur_spp_row}{
-#' \preformatted{
-#' cur_spp_row :  int 1277
-#' }}
-#' \subsection{FN_rates}{
-#' \preformatted{
-#' FN_rates :  num [1:1277, 1:407] 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 ...
-#' }}
-#' \subsection{FP_rates}{
-#' \preformatted{
-#' FP_rates :  num [1:1277, 1:407] 0.000588 0.000588 0.000588 0.000588 0.000588 ...
-#' }}
-#' \subsection{num_PUs}{
-#' \preformatted{
-#' num_PUs :  num 407
-#' }}
-#' \subsection{num_spp}{
-#' \preformatted{
-#' num_spp :  int 1277
-#' }}
-#' \subsection{random_values}{
-#' \preformatted{
-#' random_values :  num [1:1277, 1:407] 0.133 0.307 0.519 0.987 0.753 ...
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @param FP_rates numeric vector
 #' @param FN_rates numeric vector
 #' @param random_values numeric vector
@@ -132,53 +82,6 @@ apply_error_to_spp_occupancy_data =
 #' Positive error rate for every PU/spp pair in the problem will be identical.
 #' The False Negative error rate for every PU/spp pair will also be identical
 #' but not necessarily the same value as the False Positive rate.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{bdpg_error_codes}{
-#' \preformatted{
-#' bdpg_error_codes : List of 6
-#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
-#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
-#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
-#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
-#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
-#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-#' }}
-#' \subsection{FN_const_rate}{
-#' \preformatted{
-#' FN_const_rate :  num 0.1
-#' }}
-#' \subsection{FP_and_FN_const_rates}{
-#' \preformatted{
-#' FP_and_FN_const_rates : List of 2
-#'  $ FP_const_rate: num 0.1
-#'  $ FN_const_rate: num 0.1
-#' }}
-#' \subsection{FP_const_rate}{
-#' \preformatted{
-#' FP_const_rate :  num 0.1
-#' }}
-#' \subsection{parameters}{
-#' \preformatted{
-#' parameters : List of 66
-#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
-#'  ...
-#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-#' }}
-#' \subsection{spp_occ_FN_error_type}{
-#' \preformatted{
-#' spp_occ_FN_error_type :  chr "CONSTANT"
-#' }}
-#' \subsection{spp_occ_FP_error_type}{
-#' \preformatted{
-#' spp_occ_FP_error_type :  chr "CONSTANT"
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -269,43 +172,6 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
 #'  yield the same _count_ as the other, e.g., if TNs are dominant, then the
 #'  adjusted_P(FP) = num_FNs / num_TNs
 #'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{approx_num_FNs}{
-#' \preformatted{
-#' approx_num_FNs :  num 304
-#' }}
-#' \subsection{approx_num_FPs}{
-#' \preformatted{
-#' approx_num_FPs :  num 304
-#' }}
-#' \subsection{FN_const_rate}{
-#' \preformatted{
-#' FN_const_rate :  num 0.1
-#' }}
-#' \subsection{FP_const_rate}{
-#' \preformatted{
-#' FP_const_rate :  num 0.000588
-#' }}
-#' \subsection{FP_FN_const_rate_pair}{
-#' \preformatted{
-#' FP_FN_const_rate_pair : List of 2
-#'  $ FP_const_rate: num 0.000588
-#'  $ FN_const_rate: num 0.1
-#' }}
-#' \subsection{num_TNs}{
-#' \preformatted{
-#' num_TNs :  num 516702
-#' }}
-#' \subsection{num_TPs}{
-#' \preformatted{
-#' num_TPs :  num 3037
-#' }}
 #-------------------------------------------------------------------------------
 
 #'
@@ -513,122 +379,6 @@ test_compute_realized_error_rates <- function ()
 #-------------------------------------------------------------------------------
 
 #' Apply constant error to spp occ data
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{app_num_PUs}{
-#' \preformatted{
-#' app_num_PUs :  int 397
-#' }}
-#' \subsection{app_num_spp}{
-#' \preformatted{
-#' app_num_spp :  int 1268
-#' }}
-#' \subsection{app_PU_spp_pair_indices}{
-#' \preformatted{
-#' app_PU_spp_pair_indices : 'data.frame':	3022 obs. of  2 variables:
-#'  $ PU_ID : int  1 3 5 6 7 8 9 10 209 335 ...
-#'  $ spp_ID: int  1 2 3 3 4 4 5 5 5 5 ...
-#' }}
-#' \subsection{app_spp_occupancy_data}{
-#' \preformatted{
-#' app_spp_occupancy_data :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{bdpg_error_codes}{
-#' \preformatted{
-#' bdpg_error_codes : List of 6
-#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
-#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
-#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
-#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
-#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
-#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-#' }}
-#' \subsection{cor_bpm}{
-#' \preformatted{
-#' cor_bpm :  num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{cor_num_PU_spp_pairs}{
-#' \preformatted{
-#' cor_num_PU_spp_pairs : no slot of name "num_PU_spp_pairs" for this object of class "Xu_wrapped_bd_problem"
-#' }}
-#' \subsection{cor_num_PUs}{
-#' \preformatted{
-#' cor_num_PUs :  num 407
-#' }}
-#' \subsection{cor_num_spp}{
-#' \preformatted{
-#' cor_num_spp :  int 1277
-#' }}
-#' \subsection{FN_const_rate}{
-#' \preformatted{
-#' FN_const_rate :  num 0.1
-#' }}
-#' \subsection{FN_rates}{
-#' \preformatted{
-#' FN_rates :  num [1:1277, 1:407] 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 ...
-#' }}
-#' \subsection{FP_and_FN_const_rates}{
-#' \preformatted{
-#' FP_and_FN_const_rates : List of 2
-#'  $ FP_const_rate: num 0.1
-#'  $ FN_const_rate: num 0.1
-#' }}
-#' \subsection{FP_const_rate}{
-#' \preformatted{
-#' FP_const_rate :  num 0.000588
-#' }}
-#' \subsection{FP_FN_const_rate_pair}{
-#' \preformatted{
-#' FP_FN_const_rate_pair : List of 2
-#'  $ FP_const_rate: num 0.000588
-#'  $ FN_const_rate: num 0.1
-#' }}
-#' \subsection{FP_rates}{
-#' \preformatted{
-#' FP_rates :  num [1:1277, 1:407] 0.000588 0.000588 0.000588 0.000588 0.000588 ...
-#' }}
-#' \subsection{match_error_counts}{
-#' \preformatted{
-#' match_error_counts :  logi TRUE
-#' }}
-#' \subsection{num_TNs}{
-#' \preformatted{
-#' num_TNs :  num 516702
-#' }}
-#' \subsection{num_TPs}{
-#' \preformatted{
-#' num_TPs :  num 3037
-#' }}
-#' \subsection{parameters}{
-#' \preformatted{
-#' parameters : List of 66
-#'  $ summary_without_run_id_filename                           : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/prob_diff_results_with_0_ru"| __truncated__
-#'  ...
-#'  $ fullOutputDir_NO_slash                                    : chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress"
-#' }}
-#' \subsection{random_values}{
-#' \preformatted{
-#' random_values :  num [1:1277, 1:407] 0.133 0.307 0.519 0.987 0.753 ...
-#' }}
-#' \subsection{ret_vals_from_apply_errors}{
-#' \preformatted{
-#' ret_vals_from_apply_errors : List of 9
-#'  $ original_FP_const_rate : num 0.1
-#'  $ original_FN_const_rate : num 0.1
-#'  $ match_error_counts     : logi TRUE
-#'  $ FP_const_rate          : num 0.000588
-#'  $ FN_const_rate          : num 0.1
-#'  $ app_PU_spp_pair_indices:'data.frame':	3022 obs. of  2 variables:
-#'  $ app_spp_occupancy_data : num [1:1277, 1:407] 1 0 0 0 0 0 0 0 0 0 ...
-#'  $ app_num_spp            : int 1268
-#'  $ app_num_PUs            : int 397
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
