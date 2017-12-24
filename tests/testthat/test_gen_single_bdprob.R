@@ -289,8 +289,12 @@ bdpg_error_codes = params_and_error_codes$bdpg_error_codes
 parameters       = params_and_error_codes$parameters
 
     #  Generate a correct problem from scratch.
-bdprob_to_wrap = test_gen_single_COR (parameters,
-                                      bdpg_error_codes)
+bdprob_COR = test_gen_single_COR (parameters,
+                                  bdpg_error_codes)
+
+test_that("gen_single_bdprob_COR: COR problem generation succeed", {
+    expect_true (! is.null (bdprob_COR))
+})
 
 
 #===============================================================================
