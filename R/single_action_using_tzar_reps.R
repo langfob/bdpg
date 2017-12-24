@@ -146,7 +146,7 @@ make_sure_that_cor_bdprob_is_base_of_app_bdprob <- function (app_bdprob,
 #'     saved.RSprob-COR-Base.489a016d-14fd-40af-89bb-3e1edf38f14f.rds
 #' This function decodes that file name and returns the UUID.
 #'
-#' @param file_path rds file name (possibly full path) containing a UUID
+#' @param f rds file name (possibly full path) containing a UUID
 #'
 #' @return Returns UUID section of the given file name
 #' @export
