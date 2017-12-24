@@ -1361,9 +1361,12 @@ wrap_abundances_around_eligible_set <- function (
 #' @param Xu_bdprob DESCRIPTION.
 #' @param dep_set_PUs_eligible DESCRIPTION.
 #' @param tot_num_PUs_in_landscape DESCRIPTION.
+#' @param seed_value_for_search_list blah
+#' @param allow_imperfect_wrap blah
 #' @param search_outfile_name_base character string
 #' @param search_outfile_name character string
-#'
+#' @param wrap_prob_name_stem string
+#' @param cor_dir_name_stem string
 #' @return Returns a Xu_wrapped_bd_problem
 #' @export
 
