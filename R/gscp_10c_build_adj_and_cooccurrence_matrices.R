@@ -22,62 +22,14 @@
 #'  fraction of their target of at least 1 (where 1 means exactly meeting
 #'  their target).
 #'
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{bdpg_error_codes}{
-#' \preformatted{
-#' bdpg_error_codes : List of 6
-#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
-#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
-#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
-#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
-#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
-#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-#' }}
-#' \subsection{bpm}{
-#' \preformatted{
-#' bpm :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{dependent_node_IDs}{
-#' \preformatted{
-#' dependent_node_IDs :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-#' }}
-#' \subsection{num_PUs}{
-#' \preformatted{
-#' num_PUs :  int 122
-#' }}
-#' \subsection{num_spp}{
-#' \preformatted{
-#' num_spp :  int 814
-#' }}
-#' \subsection{PU_costs}{
-#' \preformatted{
-#' PU_costs :  num [1:122] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{solution_cost}{
-#' \preformatted{
-#' solution_cost :  num 61
-#' }}
-#' \subsection{spp_rep_fracs}{
-#' \preformatted{
-#' spp_rep_fracs :  num [1:814] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{spp_rep_targets}{
-#' \preformatted{
-#' spp_rep_targets :  num [1:814] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{unmet_spp_rep_frac_indices}{
-#' \preformatted{
-#' unmet_spp_rep_frac_indices :  int(0)
-#' }}
-#'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns TRUE if given solution does cover all species targets;
 #'     quits otherwise
+
+#-------------------------------------------------------------------------------
 
 verify_that_generated_solution_really_is_a_solution =
         function (bpm,
@@ -125,7 +77,6 @@ verify_that_generated_solution_really_is_a_solution =
 
     stopifnot (all.equal (solution_cost, length (dependent_node_IDs)))
 
-#docaids::doc_vars_in_this_func_once ()
     return (TRUE)
     }
 
@@ -157,60 +108,15 @@ verify_that_generated_solution_really_is_a_solution =
 #'  both sets of vertices starts at 1 and that means the vertex IDs are
 #'  not unique when the two sets are combined.
 #'
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{PU_col_name}{
-#' \preformatted{
-#' PU_col_name :  chr "PU_ID"
-#' }}
-#' \subsection{PU_spp_pair_indices}{
-#' \preformatted{
-#' PU_spp_pair_indices : 'data.frame':	1628 obs. of  2 variables:
-#'  $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
-#' }}
-#' \subsection{PU_spp_pair_names}{
-#' \preformatted{
-#' PU_spp_pair_names : 'data.frame':	1628 obs. of  2 variables:
-#'  $ PU_ID : chr  "p1" "p2" "p3" "p4" ...
-#'  $ spp_ID: chr  "s1" "s1" "s2" "s2" ...
-#' }}
-#' \subsection{PU_spp_pair_names_triple}{
-#' \preformatted{
-#' PU_spp_pair_names_triple : List of 3
-#'  $ PU_spp_pair_names:'data.frame':	1628 obs. of  2 variables:
-#'  $ PU_vertex_names  : chr [1:122] "p1" "p2" "p3" "p4" ...
-#'  $ spp_vertex_names : chr [1:814] "s1" "s2" "s3" "s4" ...
-#' }}
-#' \subsection{PU_vertex_indices}{
-#' \preformatted{
-#' PU_vertex_indices :  int [1:122] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{PU_vertex_names}{
-#' \preformatted{
-#' PU_vertex_names :  chr [1:122] "p1" "p2" "p3" "p4" "p5" "p6" "p7" "p8" "p9" "p10" ...
-#' }}
-#' \subsection{spp_col_name}{
-#' \preformatted{
-#' spp_col_name :  chr "spp_ID"
-#' }}
-#' \subsection{spp_vertex_indices}{
-#' \preformatted{
-#' spp_vertex_indices :  int [1:814] 1 2 3 4 5 6 7 8 9 10 ...
-#' }}
-#' \subsection{spp_vertex_names}{
-#' \preformatted{
-#' spp_vertex_names :  chr [1:814] "s1" "s2" "s3" "s4" "s5" "s6" "s7" "s8" "s9" "s10" ...
-#' }}
-#'
+#-------------------------------------------------------------------------------
+
 #' @param PU_spp_pair_indices data frame
 #' @param PU_col_name character string
 #' @param spp_col_name character string
 #'
 #' @return PU_spp_pair_names_triple plist
+
+#-------------------------------------------------------------------------------
 
 create_PU_spp_pair_names =
         function (
@@ -251,8 +157,6 @@ create_PU_spp_pair_names =
                   PU_vertex_names=PU_vertex_names,
                   spp_vertex_names=spp_vertex_names)
 
-#docaids::doc_vars_in_this_func_once ()
-
     return (PU_spp_pair_names_triple)
     }
 
@@ -267,90 +171,16 @@ create_PU_spp_pair_names =
 #' that species occupies that planning unit.  A 1 indicates the species
 #' does occupy the planning unit and 0 indicates it does not.
 #'
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{bdpg_error_codes}{
-#' \preformatted{
-#' bdpg_error_codes : List of 6
-#'  $ ERROR_STATUS_num_inside_or_within_group_links_less_than_one: num 1001
-#'  $ ERROR_STATUS_optimal_solution_is_not_optimal               : num 1002
-#'  $ ERROR_STATUS_num_nodes_per_group_must_be_at_least_2        : num 1003
-#'  $ ERROR_STATUS_duplicate_spp_in_Xu_input_file                : num 1004
-#'  $ ERROR_STATUS_unknown_spp_occ_FP_error_type                 : num 1005
-#'  $ ERROR_STATUS_unknown_spp_occ_FN_error_type                 : num 1006
-#' }}
-#' \subsection{bpm}{
-#' \preformatted{
-#' bpm :  num [1:814, 1:122] 1 0 0 0 0 0 0 0 0 0 ...
-#' }}
-#' \subsection{correct_solution_vector_is_known}{
-#' \preformatted{
-#' correct_solution_vector_is_known :  logi TRUE
-#' }}
-#' \subsection{cur_col}{
-#' \preformatted{
-#' cur_col :  int 112
-#' }}
-#' \subsection{cur_row}{
-#' \preformatted{
-#' cur_row :  int 814
-#' }}
-#' \subsection{dependent_node_IDs}{
-#' \preformatted{
-#' dependent_node_IDs :  int [1:61] 2 4 6 8 10 12 14 16 18 20 ...
-#' }}
-#' \subsection{edge_idx}{
-#' \preformatted{
-#' edge_idx :  int 1628
-#' }}
-#' \subsection{num_PU_cols}{
-#' \preformatted{
-#' num_PU_cols :  int 122
-#' }}
-#' \subsection{num_PU_spp_pairs}{
-#' \preformatted{
-#' num_PU_spp_pairs :  int 1628
-#' }}
-#' \subsection{num_PUs}{
-#' \preformatted{
-#' num_PUs :  int 122
-#' }}
-#' \subsection{num_spp}{
-#' \preformatted{
-#' num_spp :  int 814
-#' }}
-#' \subsection{num_spp_rows}{
-#' \preformatted{
-#' num_spp_rows :  int 814
-#' }}
-#' \subsection{PU_col_name}{
-#' \preformatted{
-#' PU_col_name :  chr "PU_ID"
-#' }}
-#' \subsection{PU_costs}{
-#' \preformatted{
-#' PU_costs :  num [1:122] 1 1 1 1 1 1 1 1 1 1 ...
-#' }}
-#' \subsection{PU_spp_pair_indices}{
-#' \preformatted{
-#' PU_spp_pair_indices : 'data.frame':	1628 obs. of  2 variables:
-#'  $ PU_ID : int  1 2 3 4 5 6 7 8 9 10 ...
-#'  $ spp_ID: int  1 1 2 2 3 3 4 4 5 5 ...
-#' }}
-#' \subsection{spp_col_name}{
-#' \preformatted{
-#' spp_col_name :  chr "spp_ID"
-#' }}
-#'
+#-------------------------------------------------------------------------------
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns bpm; integer matrix with one row for each species and one
 #'     column for each planning unit.  Each matrix entry specifies whether
 #'     that species occupies that planning unit; 1 indicates the species
 #'     does occupy the planning unit and 0 indicates it does not.
+
+#-------------------------------------------------------------------------------
 
 create_adj_matrix_with_spp_rows_vs_PU_cols =
     function (num_spp,
@@ -420,7 +250,6 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
                                                         bdpg_error_codes)
         }
 
-#docaids::doc_vars_in_this_func_once ()
     return (bpm)
     }
 
