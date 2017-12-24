@@ -142,6 +142,7 @@
 #' }}
 #'
 #' @inheritParams std_param_defns
+#' @param bipartite_metrics_to_use character string
 #'
 #' @return Returns bipartite_metrics_from_bipartite_package
 
