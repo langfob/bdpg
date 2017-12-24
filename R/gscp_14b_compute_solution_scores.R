@@ -89,19 +89,10 @@
 
 #' @param ref_spp_occ_matrix reference species occupancy matrix, e.g.,
 #'     correct or apparent species occupancy matrix
-#' @param num_PUs integer number of planning units
 #' @param cand_sol_PU_IDs vector of only the planning unit IDs that are
 #'     included in the candidate solution
-#' @param num_PUs_in_cand_solution integer number of planning units in the
-#'     candidate solution
-#' @param num_PUs_in_optimal_solution integer number of planning units in the
-#'     optimal solution
 #' @param spp_rep_targets vector of numeric species representation targets
 #' @param num_spp integer number of species in the problem
-#' @param input_err_FP fractional amount of False Positive error added to the
-#'     correct problem to create the apparent problem
-#' @param input_err_FN fractional amount of False Negative error added to the
-#'     correct problem to create the apparent problem
 #'
 #' @return list of solution vector scores
 #' @export
