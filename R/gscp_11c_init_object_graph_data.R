@@ -141,6 +141,8 @@ init_object_graph_data <- function (rsprob,
     rsprob@compute_network_metrics_COR_APP_WRAP = compute_network_metrics_COR_APP_WRAP
     rsprob@use_igraph_metrics                   = use_igraph_metrics
     rsprob@use_bipartite_metrics                = use_bipartite_metrics
+
+    if (is.null (bipartite_metrics_to_use)) bipartite_metrics_to_use = "ALLBUTDD"
     rsprob@bipartite_metrics_to_use             = bipartite_metrics_to_use
 
     if (compute_network_metrics & compute_network_metrics_COR_APP_WRAP)
