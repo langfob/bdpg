@@ -23,34 +23,6 @@
 #'
 #-------------------------------------------------------------------------------
 
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{base_outdir_for_checksum}{
-#' \preformatted{
-#' base_outdir_for_checksum :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-#' }}
-#' \subsection{checksum}{
-#' \preformatted{
-#' checksum :  Named chr "8e5ad448864db57de0e617aff6929882"
-#' }}
-#' \subsection{full_saved_obj_path}{
-#' \preformatted{
-#' full_saved_obj_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-#' }}
-#' \subsection{obj_with_UUID_and_checksum}{
-#' \preformatted{
-#' obj_with_UUID_and_checksum : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-#' }}
-#' \subsection{saved_obj_with_checksum_filename}{
-#' \preformatted{
-#' saved_obj_with_checksum_filename :  chr "tmp_for_checksum__ok_to_delete_if_left_after_run.rds"
-#' }}
-#'
-#-------------------------------------------------------------------------------
-
 #' @inheritParams std_param_defns
 #'
 #' @return character string checksum of the object when object has been written
@@ -110,7 +82,6 @@ compute_obj_checksum <- function (obj_with_UUID_and_checksum,
 
     #checksum = paste0 (checksum)
 
-#docaids::doc_vars_in_this_func_once ()
     return (checksum)
     }
 
@@ -120,22 +91,6 @@ compute_obj_checksum <- function (obj_with_UUID_and_checksum,
 #'
 #' This function computes the checksum and sets the checksum slot in the object,
 #' then returns the modified object.  It just packages those up for convenience.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{base_outdir_for_checksum}{
-#' \preformatted{
-#' base_outdir_for_checksum :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-#' }}
-#' \subsection{obj_with_UUID_and_checksum}{
-#' \preformatted{
-#' obj_with_UUID_and_checksum : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -153,7 +108,6 @@ compute_and_set_obj_checksum <- function (obj_with_UUID_and_checksum,
         compute_obj_checksum (obj_with_UUID_and_checksum,
                               base_outdir_for_checksum)
 
-#docaids::doc_vars_in_this_func_once ()
     return (obj_with_UUID_and_checksum)
     }
 
@@ -170,30 +124,6 @@ compute_and_set_obj_checksum <- function (obj_with_UUID_and_checksum,
 #' the adjacency matrix, since the examples in the help file for readRDS()
 #' look like readRDS() can directly restore an R object that's been saved
 #' using saveRDS() and then had gzip() applied to it.
-#'
-#-------------------------------------------------------------------------------
-
-#'@section Local Variable Structures and examples:
-#'Here is the output of str() for each variable visible in the function.
-#'Note that the particular counts and values given are just examples to show
-#'what the data might look like.
-#'
-#' \subsection{base_outdir_for_checksum}{
-#' \preformatted{
-#' base_outdir_for_checksum :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-#' }}
-#' \subsection{full_saved_obj_path}{
-#' \preformatted{
-#' full_saved_obj_path :  chr "/Users/bill/tzar/outputdata/biodivprobgen/default_runset/1837_marxan_simulated_annealing.inprogress/RSprob-COR-Base.d0729e1c-ea"| __truncated__
-#' }}
-#' \subsection{obj_with_UUID_and_checksum}{
-#' \preformatted{
-#' obj_with_UUID_and_checksum : Formal class 'Xu_bd_problem' [package "bdpg"] with 35 slots
-#' }}
-#' \subsection{saved_obj_with_checksum_filename}{
-#' \preformatted{
-#' saved_obj_with_checksum_filename :  chr "saved.RSprob-COR-Base.d0729e1c-eadc-4899-a382-8cb7ac2c08d7.rds"
-#' }}
 #'
 #-------------------------------------------------------------------------------
 
@@ -230,7 +160,6 @@ save_obj_with_checksum = function (obj_with_UUID_and_checksum,
          full_saved_obj_path, "'",
          "\nTo reload problem, use readRDS (full_saved_obj_path)\n\n", sep='')
 
-#docaids::doc_vars_in_this_func_once ()
     return (obj_with_UUID_and_checksum)
     }
 
