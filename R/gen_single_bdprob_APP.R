@@ -412,7 +412,7 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR,
                                     #starting_dir,    #  not needed?  take from cor?
                                     parameters,
                                     bdpg_error_codes
-                            ,
+#                            ,
 #                        integerize,                           #  NOT USED ANYMORE?
 #                        base_prob_name_stem = "base_prob",    #  NOT USED ANYMORE?
 #                        app_dir_name_stem = "app"             #  NOT USED ANYMORE?
