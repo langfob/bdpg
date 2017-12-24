@@ -856,9 +856,23 @@ remove_base_spp_abundances_from_wrapping_distribution <-
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
+#  Create wrapping PU/species table
+
+#-------------------------------------------------------------------------------
+
+#' @param extra_abund vector
+#' @param dep_set vector
+#' @param eligible_set vector
+#'
+#' @return PU_spp_table
+
 #' @export
 #'
-create_wrapping_spp_PU_spp_table <- function (extra_abund,
+#-------------------------------------------------------------------------------
+
+create_wrapping_PU_spp_table <- function (extra_abund,
                                               dep_set,
                                               eligible_set,
 
@@ -1116,7 +1130,7 @@ wrap_abundances_around_eligible_set <- function (
                                                                allow_imperfect_wrap)
 
     PU_spp_table =
-        create_wrapping_spp_PU_spp_table (extra_abund,
+        create_wrapping_PU_spp_table (extra_abund,
                                            dep_set,
                                            eligible_set,
                                                 #  Only for unit tests.
