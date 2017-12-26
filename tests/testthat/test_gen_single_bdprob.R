@@ -83,6 +83,8 @@ parameters__full_including_marxan__original = list (
         runset_name = "default_runset"
         )
 
+#----------------------------------------
+
 parameters__full_including_marxan__grouped = list (
 
             #  general - run
@@ -209,6 +211,8 @@ test_gen_single_COR <- function (parameters, bdpg_error_codes)
     return (base_COR_bd_prob)
     }
 
+#-------------------------------------------------------------------------------
+
 parameters = list (
 
             #  general - run
@@ -272,6 +276,8 @@ parameters = list (
 dummylistend=NULL
         )
 
+#-------------------------------------------------------------------------------
+
     #  Create test output directory.
 full_output_dir = tempdir()
 last_char = substr (full_output_dir, nchar(full_output_dir), nchar(full_output_dir))
@@ -288,13 +294,67 @@ params_and_error_codes = init_for_bdpg (parameters)
 bdpg_error_codes = params_and_error_codes$bdpg_error_codes
 parameters       = params_and_error_codes$parameters
 
+#-------------------------------------------------------------------------------
+
     #  Generate a correct problem from scratch.
-bdprob_COR = test_gen_single_COR (parameters,
-                                  bdpg_error_codes)
+bdprob_COR_1 = test_gen_single_COR (parameters,
+                                    bdpg_error_codes)
 
 test_that("gen_single_bdprob_COR: COR problem generation succeed", {
-    expect_true (! is.null (bdprob_COR))
+    expect_true (! is.null (bdprob_COR_1))
 })
+
+bdprob_COR_2 = bdprob_COR_1
+
+test_that("gen_single_bdprob_COR: problem is identical to itself", {
+    expect_true (identical (bdprob_COR_1, bdprob_COR_1))
+    expect_true (identical (bdprob_COR_2, bdprob_COR_1))
+})
+
+hold_UUID = bdprob_COR_2@UUID
+bdprob_COR_2@UUID = "123"
+checksum_of_prob2 = compute_obj_checksum (bdprob_COR_2)
+
+test_that("gen_single_bdprob_COR: problem copy with different UUID has same checksum", {
+    expect_true (checksum_of_prob2 == bdprob_COR_1@checksum)
+})
+bdprob_COR_2@UUID = hold_UUID
+
+hold_bpm = bdprob_COR_2@bpm
+bdprob_COR_2@bpm[2,3] = hold_bpm[2,3] +1
+checksum_of_prob2_with_different_bpm = compute_obj_checksum (bdprob_COR_2)
+
+test_that("gen_single_bdprob_COR: problem copy with modified bpm is not identical to original", {
+    expect_true (!identical (bdprob_COR_2, bdprob_COR_1))
+    expect_true (checksum_of_prob2_with_different_bpm != bdprob_COR_1@checksum)
+})
+
+bdprob_COR_2@bpm[2,3] = bdprob_COR_2@bpm[2,3] - 1
+#bdprob_COR_2@bpm = hold_bpm
+checksum_of_prob2_with_original_bpm = compute_obj_checksum (bdprob_COR_2)
+test_that("gen_single_bdprob_COR: problem copy with bpm modified back to original values by arithmetic is identical to original", {
+    expect_true (identical (bdprob_COR_2, bdprob_COR_1))
+    expect_true (checksum_of_prob2_with_original_bpm == bdprob_COR_1@checksum)
+})
+
+bdprob_COR_2@bpm = hold_bpm
+checksum_of_prob2_with_original_bpm = compute_obj_checksum (bdprob_COR_2)
+test_that("gen_single_bdprob_COR: problem copy with bpm modified back by matrix replacement is identical to original", {
+    expect_true (identical (bdprob_COR_2, bdprob_COR_1))
+    expect_true (checksum_of_prob2_with_original_bpm == bdprob_COR_1@checksum)
+})
+
+bdprob_COR_3 = test_gen_single_COR (parameters,
+                                    bdpg_error_codes)
+
+test_that("gen_single_bdprob_COR: different problem is not identical to original", {
+    expect_true (! identical (bdprob_COR_3, bdprob_COR_1))
+    expect_true (bdprob_COR_3@checksum != bdprob_COR_1@checksum)
+})
+
+#  NEED TEST FOR GENERATION OF SAME OBJECT IF GIVEN THE SAME INITIAL RANDOM
+#  NUMBER SEED.  NOT SURE IF THAT'S PASSED IN TO THE OBJECT GENERATOR OR SET
+#  BEFORE YOU CALL THE GENERATOR.
 
 
 #===============================================================================
