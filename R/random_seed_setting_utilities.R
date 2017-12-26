@@ -41,7 +41,7 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
                                                 basic_or_wrapped_or_comb_str)
     {
         #  Make sure that one and only one type of seed is chosen to examine.
-    if ((is_rsrun + is_rsprob) != 1)
+    if (xor (is_rsrun, is_rsprob))
         {
         stop (paste0 ("\n\nERROR in get_forced_seed_value():",
                       "\n    one and only one of these arguments must be TRUE:",
