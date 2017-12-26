@@ -104,9 +104,30 @@ compute_obj_checksum <- function (obj_with_UUID_and_checksum,
 compute_and_set_obj_checksum <- function (obj_with_UUID_and_checksum,
                                           base_outdir_for_checksum=".")
     {
-    obj_with_UUID_and_checksum@checksum <-
-        compute_obj_checksum (obj_with_UUID_and_checksum,
-                              base_outdir_for_checksum)
+        #-----------------------------------------------------------------------
+        #  Compute the checksum but wrap as.character() around the result
+        #  before assigning it to the checksum slot in the object because
+        #  there is something weird about the object that the function
+        #  returns.
+        #  I expected the return to be a 32 character string holding the
+        #  checksum but it's some very strange object that contains a filename
+        #  followed by a newline, then the same number of blanks as the
+        #  length of the filename and then the 32 character checksum
+        #  surrounded by quotes.  At least that's the print representation
+        #  of what comes back.  If you wrap as.character() around that, it
+        #  turns into just the 32 characters of checksum.
+        #  The problem with the original return value is that two objects
+        #  can have the same 32 character checksums but have been computed
+        #  on different temporary files and so the checksums fail to be "==".
+        #  I haven't been able to find any explanation of this anywhere,
+        #  so this is the best I can do to hack around it.
+        #  2017 12 26 - BTL
+        #-----------------------------------------------------------------------
+
+    checksum <- compute_obj_checksum (obj_with_UUID_and_checksum,
+                                      base_outdir_for_checksum)
+
+    obj_with_UUID_and_checksum@checksum <- as.character (checksum)
 
     return (obj_with_UUID_and_checksum)
     }
