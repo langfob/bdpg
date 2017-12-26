@@ -9,10 +9,10 @@ set_new_or_forced_rand_seed_if_necessary(is_rsrun, is_rsprob, parameters,
 }
 \arguments{
 \item{is_rsrun}{boolean indicating that the seed creation test is being
-done just before the creation of an rs RUN object}
+done just before the creation of a reserve selection RUN object}
 
 \item{is_rsprob}{boolean indicating that the seed creation test is being
-done just before the creation of an rs PROBLEM object}
+done just before the creation of a reserve selection PROBLEM object}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
@@ -20,17 +20,19 @@ and can have a varying number and set of elements depending on the run}
 \item{cor_or_app_str}{string indicating correct or apparent (i.e.,
 "COR" or "APP")}
 
-\item{basic_or_wrapped_or_comb_str}{string indicating basic or wrapped (i.e.,
-"BASE" or "WRAP")}
+\item{basic_or_wrapped_or_comb_str}{character string containing "BASE" or
+"WRAP" or "COMB"}
 
-\item{location_string}{string to indicate where this function was called,
-e.g., at the start of the creation of an rsproblem}
+\item{location_string}{character string, usually used to indicate where this
+function was called, e.g., at the start of the creation of an rsproblem;
+however, string can be whatever you want, doesn't have to be about location}
 }
 \value{
-Returns a 2 element named list with element new_seed containing
-the new integer seed value or NA and the element R_internal_seed_array
-containing the array value .Random.seed at the end of this function (i.e.,
-the internal state of R's random number generator)
+Returns a 2 element list with element named "new_seed" containing
+the new integer seed value or NA and the element named "R_internal_seed_array"
+containing the array value stored in R's global variable ".Random.seed" at
+the end of this function (i.e., the internal state of R's random number
+generator)
 }
 \description{
 The seed for the random number generator needs to be set at times to enable
@@ -88,8 +90,8 @@ the start of the entire bdpg run.}
    \item{If the variable exists but
 has a value that is not a legal argument for set.seed(), the program will
 probably crash.}
-   \item{If the bdgpinitseed variable is not in the list or has a
-NULL value, then a seed will be generated based on the current time and
+   \item{If the bdpg_run_init_rand_seed variable is not in the list or has a
+NULL value, then a seed will be generated based on the current time, and then
 set.seed() will be called using that value.}
 }
 }
@@ -111,7 +113,10 @@ and it is set to TRUE.}
    is set to TRUE and the named seed does not
 appear in the parameters list or has a NULL value, then the seed WILL be set
 at the start of the creation of that object.  In that case, it will be set
-to a seed derived from the current time.}
+to a seed derived from the current time.  This is useful when you want to
+be able to know the value of the seed when an object is created so that you
+can recreate it, but you don't care what that value is and so you haven't
+set it specifically yourself.}
 }
 }
 
@@ -146,11 +151,11 @@ If you do a tzar run with multiple repetitions, this function will
 }
 
 \subsection{Beware of cascading seed effects}{
-Even if you set the named seed for an object you may expect it to produce
+If you set the named seed for an object, you may expect it to produce
 the same object as a different run that used the same seed.  However, if the
 object interacts with another object generated earlier in the same run but
-its seed is not reset, you can get different results for the second object
-in the second run.  For example:
+that object's seed is not reset, you can get different results for the second
+object in the second run.  For example:
 
 \itemize{
    \item{Suppose that you generate a correct base object and then
@@ -159,7 +164,7 @@ set_rand_seed_at_creation_of_all_new_major_objects set to TRUE so that
 you can see the seed that is set for each object as it is created.}
    \item{Suppose that you run bdpg and note that the seed generated for
 the bdpg initalization in the output was 123 and the seed set for the correct
-problem was 456 and the seed set for the wrap problem was 789.
+problem was 456 and the seed set for the wrap problem was 789.}
     \item{Then, suppose that you want to test the re-creation of the wrap
     problem and redo the run with "cor_wrap_rsprob_rand_seed: 789" but
     none of the other seeds specified.}
@@ -172,5 +177,17 @@ problem was 456 and the seed set for the wrap problem was 789.
 }
 }
 }
-}
 
+\examples{
+\dontrun{
+parameters = list (cor_base_rsprob_rand_seed = 123)
+set_new_or_forced_rand_seed_if_necessary (
+               is_rsrun                      = FALSE,
+               is_rsprob                    = TRUE,
+               parameters,
+               cor_or_app_str               = "COR",
+               basic_or_wrapped_or_comb_str = "BASE",
+               location_string              = "for basic CORRECT problem")
+
+         }
+}
