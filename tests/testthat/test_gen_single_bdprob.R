@@ -304,6 +304,9 @@ test_that("gen_single_bdprob_COR: COR problem generation succeed", {
     expect_true (! is.null (bdprob_COR_1))
 })
 
+    #  Both the identical() function and the comparison of problem checksums
+    #  should show when two problems are the same, even if their UUIDs are
+    #  different.
 bdprob_COR_2 = bdprob_COR_1
 
 test_that("gen_single_bdprob_COR: problem is identical to itself", {
@@ -311,6 +314,7 @@ test_that("gen_single_bdprob_COR: problem is identical to itself", {
     expect_true (identical (bdprob_COR_2, bdprob_COR_1))
 })
 
+        #  Change the copy's UUID and put it back after the test.
 hold_UUID = bdprob_COR_2@UUID
 bdprob_COR_2@UUID = "123"
 checksum_of_prob2 = compute_obj_checksum (bdprob_COR_2)
@@ -318,19 +322,20 @@ checksum_of_prob2 = compute_obj_checksum (bdprob_COR_2)
 test_that("gen_single_bdprob_COR: problem copy with different UUID has same checksum", {
     expect_true (checksum_of_prob2 == bdprob_COR_1@checksum)
 })
-bdprob_COR_2@UUID = hold_UUID
+bdprob_COR_2@UUID = hold_UUID  #  Put back to old value.
 
+    #  Problems should not be identical if you change a subelement of them,
+    #  e.g., changing a single element of the occurrence matrix.
 hold_bpm = bdprob_COR_2@bpm
-bdprob_COR_2@bpm[2,3] = hold_bpm[2,3] +1
+bdprob_COR_2@bpm[2,3] = hold_bpm[2,3] + 1
 checksum_of_prob2_with_different_bpm = compute_obj_checksum (bdprob_COR_2)
 
 test_that("gen_single_bdprob_COR: problem copy with modified bpm is not identical to original", {
     expect_true (!identical (bdprob_COR_2, bdprob_COR_1))
     expect_true (checksum_of_prob2_with_different_bpm != bdprob_COR_1@checksum)
 })
+bdprob_COR_2@bpm[2,3] = bdprob_COR_2@bpm[2,3] - 1  #  Put back to old value.
 
-bdprob_COR_2@bpm[2,3] = bdprob_COR_2@bpm[2,3] - 1
-#bdprob_COR_2@bpm = hold_bpm
 checksum_of_prob2_with_original_bpm = compute_obj_checksum (bdprob_COR_2)
 test_that("gen_single_bdprob_COR: problem copy with bpm modified back to original values by arithmetic is identical to original", {
     expect_true (identical (bdprob_COR_2, bdprob_COR_1))
@@ -344,6 +349,8 @@ test_that("gen_single_bdprob_COR: problem copy with bpm modified back by matrix 
     expect_true (checksum_of_prob2_with_original_bpm == bdprob_COR_1@checksum)
 })
 
+    #  A completely different problem should not be identical to the first
+    #  problem or have the same checksum.
 bdprob_COR_3 = test_gen_single_COR (parameters,
                                     bdpg_error_codes)
 
