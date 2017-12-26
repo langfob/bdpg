@@ -78,9 +78,10 @@ source('~/D/Projects/ProblemDifficulty/pkgs/bdpg/R/write_marxan_input_files.R')
 
 #-------------------------------------------------------------------------------
 
+test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_random_seed_setting_utilities.R")
 #test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_biodivprobgen_utilities.R")
 #test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_gen_single_bdprob.R")
-test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_gen_wrapped_bdprob.R")
+#test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_gen_wrapped_bdprob.R")
 
 #===============================================================================
 
