@@ -363,6 +363,22 @@ test_that("gen_single_bdprob_COR: different problem is not identical to original
 #  NUMBER SEED.  NOT SURE IF THAT'S PASSED IN TO THE OBJECT GENERATOR OR SET
 #  BEFORE YOU CALL THE GENERATOR.
 
+temp_parameters = parameters
+temp_parameters[["cor_base_rsprob_rand_seed"]] = 11
+
+bdprob_COR_4 = test_gen_single_COR (temp_parameters,
+                                    bdpg_error_codes)
+
+bdprob_COR_5 = test_gen_single_COR (temp_parameters,
+                                    bdpg_error_codes)
+
+test_that("gen_single_bdprob_COR: 2 problems generated from same seed are the same up to UUID", {
+    expect_true (! identical (bdprob_COR_4, bdprob_COR_5))  # different UUIDs
+    expect_equal (bdprob_COR_4@rand_seed, bdprob_COR_5@rand_seed)
+    expect_equal (as.character (bdprob_COR_4@checksum),
+                  as.character (bdprob_COR_5@checksum))
+    expect_equal (bdprob_COR_4@checksum, bdprob_COR_5@checksum)
+})
 
 #===============================================================================
 
