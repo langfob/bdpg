@@ -55,8 +55,9 @@ cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
         {
         base_APP_bd_prob =
             bdpg::gen_single_bdprob_APP (base_COR_bd_prob,
-                                         parameters$compute_network_metrics_APP,
-                                         parameters)
+                                         #parameters$compute_network_metrics_APP,
+                                         parameters,
+                                         bdpg_error_codes)
 
         do_APP_marxan_analysis_and_output (base_APP_bd_prob,
                                            base_COR_bd_prob,
@@ -118,8 +119,9 @@ cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
             {
             wrapped_APP_bd_prob =
                 gen_single_bdprob_APP (wrapped_COR_bd_prob,
-                                       parameters$compute_network_metrics_wrapped_APP,
-                                       parameters)
+                                       #parameters$compute_network_metrics_wrapped_APP,
+                                       parameters,
+                                       bdpg_error_codes)
 
             do_APP_marxan_analysis_and_output (wrapped_APP_bd_prob,
                                                wrapped_COR_bd_prob,

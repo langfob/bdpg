@@ -401,10 +401,10 @@ single_action_using_tzar_reps <- function (parameters,
 #        src_rds_file_dir       = src_prob_and_path_list$src_rds_file_dir
 
         bdpg::gen_single_bdprob_APP (bdprob_to_add_error_to,
-                                     value_or_FALSE_if_null (parameters$compute_network_metrics_APP),
+                                     #value_or_FALSE_if_null (parameters$compute_network_metrics_APP),
                                      parameters,
-                                     bdpg_error_codes,
-                                     integerize
+                                     bdpg_error_codes    #,
+                                     #integerize
                                      )
         }
 
