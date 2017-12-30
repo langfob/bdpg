@@ -380,5 +380,10 @@ test_that("gen_single_bdprob_COR: 2 problems generated from same seed are the sa
     expect_equal (bdprob_COR_4@checksum, bdprob_COR_5@checksum)
 })
 
+#  NEED TEST FOR WHAT HAPPENS IF NO MAX NUM SPP ALLOWED IS GIVEN IN PARAMETERS.
+
+#  NEED TEST FOR ALLOWING RETRIES IF MAX NUM SPP ALLOWED IS EXCEEDED.
+#  CAN FORCE THIS BY GIVING AN ABSURDLY LOW NUMBER OF SPP ALLOWED, E.G, 1.
+
 #===============================================================================
 
