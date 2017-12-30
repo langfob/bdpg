@@ -136,42 +136,107 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
     PU_spp_pair_info@prob_generator_params_known = TRUE
     PU_spp_pair_info@PU_costs = PU_costs
 
-    #-------------------------------------------------------------------------------
+    return (PU_spp_pair_info)
+    }
 
-    if (PU_spp_pair_info@num_spp > max_allowed_num_spp)
+#===============================================================================
+
+#' Generate a Xu problem from scratch but insure it's less than a given size
+#'
+#' Generate a Xu biodiversity problem based on 4 input control parameters
+#' rather than reading it from a file.
+#'
+#-------------------------------------------------------------------------------
+
+#' @param num_prob_size_retries_allowed integer number of retries of problem
+#'     creation to try to find one no larger than a given number of species
+#' @inheritParams std_param_defns
+#'
+#' @return Returns a PU_spp_pair_info_class object or quits if number of
+#'     allowed retries is exceeded
+
+#-------------------------------------------------------------------------------
+
+create_allowable_size_Xu_problem_from_scratch <- function (
+        max_allowed_num_spp,
+        parameters,
+        bdpg_error_codes,
+        integerize,
+        default_num_prob_size_retries_allowed = 20)
+    {
+        #-----------------------------------------------------------------------
+        #  If the parameters list didn't specify a number of retries to allow,
+        #  then use a default value.
+        #-----------------------------------------------------------------------
+
+    if (is.null (parameters$num_prob_size_retries_allowed))
         {
-        cat ("\n\nQuitting:  PU_spp_pair_info@num_spp (",
-             PU_spp_pair_info@num_spp, ") > maximum allowed (",
-             max_allowed_num_spp, ").\n\n")  #parameters$max_allowed_num_spp, ").\n\n")
+        num_prob_size_retries_allowed = default_num_prob_size_retries_allowed
+        } else
+        {
+        num_prob_size_retries_allowed = parameters$num_prob_size_retries_allowed
+        }
 
-            #------------------------------------------------------------------
-            #  Even though it's an illegal number of species and you're
-            #  quitting, echo the attributes of the problem that was created.
-            #------------------------------------------------------------------
+        #-----------------------------------------------------------------------
+        #  Create a problem and check its size.
+        #  If too big, try again unless you've now reached the allowed number
+        #  of retries.
+        #  If not too big, then return the problem's information.
+        #-----------------------------------------------------------------------
 
-        cur_result_row = 1
-        write_abbreviated_results_to_files (
-                cur_result_row,
-                parameters,
-                PU_spp_pair_info@num_PUs,
-                PU_spp_pair_info@num_spp,
-                base_Xu_params$n__num_groups,
-                base_Xu_params$alpha__,
-                base_Xu_params$p__prop_of_links_between_groups,
-                base_Xu_params$r__density,
-                derived_Xu_params$num_nodes_per_group,
-                derived_Xu_params$tot_num_nodes,
-                derived_Xu_params$num_independent_set_nodes,
-                derived_Xu_params$num_dependent_set_nodes,
-                derived_Xu_params$num_rounds_of_linking_between_groups,
-                derived_Xu_params$target_num_links_between_2_groups_per_round,
-                derived_Xu_params$num_links_within_one_group,
-                derived_Xu_params$tot_num_links_inside_groups,
-                derived_Xu_params$max_possible_num_links_between_groups,
-                derived_Xu_params$max_possible_tot_num_links
-                )
+    keep_trying = TRUE
+    try_num = 1
+    while (keep_trying)
+        {
+        PU_spp_pair_info =
+            create_Xu_problem_from_scratch (max_allowed_num_spp,
+                                            parameters,
+                                            bdpg_error_codes,
+                                            integerize)
 
-        }  #  end if - num_spp > max_allowed_num_spp
+        if (PU_spp_pair_info@num_spp > max_allowed_num_spp)
+            {
+            cat ("\n\nAt prob size try '", try_num,
+                 "': PU_spp_pair_info@num_spp (",
+                 PU_spp_pair_info@num_spp, ") > maximum allowed (",
+                 max_allowed_num_spp, ").\n\n")  #parameters$max_allowed_num_spp, ").\n\n")
+
+            #     #--------------------------------------------------------
+            #     #  Even though it's an illegal number of species,
+            #     #  echo the attributes of the problem that was created.
+            #     #--------------------------------------------------------
+            #
+            # cur_result_row = 1
+            # write_abbreviated_results_to_files (
+            #         cur_result_row,
+            #         parameters,
+            #         PU_spp_pair_info@num_PUs,
+            #         PU_spp_pair_info@num_spp,
+            #         base_Xu_params$n__num_groups,
+            #         base_Xu_params$alpha__,
+            #         base_Xu_params$p__prop_of_links_between_groups,
+            #         base_Xu_params$r__density,
+            #         derived_Xu_params$num_nodes_per_group,
+            #         derived_Xu_params$tot_num_nodes,
+            #         derived_Xu_params$num_independent_set_nodes,
+            #         derived_Xu_params$num_dependent_set_nodes,
+            #         derived_Xu_params$num_rounds_of_linking_between_groups,
+            #         derived_Xu_params$target_num_links_between_2_groups_per_round,
+            #         derived_Xu_params$num_links_within_one_group,
+            #         derived_Xu_params$tot_num_links_inside_groups,
+            #         derived_Xu_params$max_possible_num_links_between_groups,
+            #         derived_Xu_params$max_possible_tot_num_links
+            #         )
+
+            try_num = try_num + 1
+            if (try_num > num_prob_size_retries_allowed)
+                keep_trying = FALSE
+
+            }  else  #  Got a legal sized problem so quit looking for one
+            {
+            keep_trying = FALSE
+            }
+        }  #  end - while (keep_trying)
 
     return (PU_spp_pair_info)
     }
@@ -253,10 +318,11 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
         } else  #  Create Xu problem from scratch
         {
         PU_spp_pair_info =
-            create_Xu_problem_from_scratch (max_allowed_num_spp,
-                                            parameters,
-                                            bdpg_error_codes,
-                                            integerize)
+#            create_Xu_problem_from_scratch (max_allowed_num_spp,
+            create_allowable_size_Xu_problem_from_scratch (max_allowed_num_spp,
+                                                           parameters,
+                                                           bdpg_error_codes,
+                                                           integerize)
         }  #  end - create Xu problem from scratch
 
         #---------------------------------------------------------
