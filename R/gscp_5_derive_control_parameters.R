@@ -365,7 +365,7 @@ derive_Xu_control_parameters = function (parameters,
 #                             )
 
     Xu_bdpg_extended_parameters <- new ("Xu_bdpg_extended_params")
-    if (!is.null (parameters$xxx))  Xu_bdpg_extended_parameters@xxx = parameters$xxx
+#    if (!is.null (parameters$xxx))  Xu_bdpg_extended_parameters@xxx = parameters$xxx
     if (!is.null (parameters$alpha___lower_bound))  Xu_bdpg_extended_parameters@alpha___lower_bound = parameters$alpha___lower_bound
     if (!is.null (parameters$alpha___upper_bound))  Xu_bdpg_extended_parameters@alpha___upper_bound = parameters$alpha___upper_bound
     if (!is.null (parameters$derive_alpha_from_n__num_groups_and_opt_frac_0.5))  Xu_bdpg_extended_parameters@derive_alpha_from_n__num_groups_and_opt_frac_0.5 = parameters$derive_alpha_from_n__num_groups_and_opt_frac_0.5
