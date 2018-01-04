@@ -54,9 +54,12 @@ gen_single_bdprob_COR <- function (parameters,
 #'
 #-------------------------------------------------------------------------------
 
+#' @param max_allowed_num_spp integer
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a PU_spp_pair_info_class object
+#' @export
 
 #-------------------------------------------------------------------------------
 
@@ -80,22 +83,131 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
                                     bdpg_error_codes,
                                     integerize)
 
+    PU_spp_pair_info =
+        create_Xu_problem_from_scratch_using_Xu_params (Xu_parameters,
+                                                    max_allowed_num_spp,
+                                            parameters,
+                                            bdpg_error_codes,
+                                            integerize)
+    return (PU_spp_pair_info)
+    }
+
+#===============================================================================
+
+#' Generate a Xu problem from scratch
+#'
+#' Generate a Xu biodiversity problem based on 4 input control parameters
+#' rather than reading it from a file.
+#'
+#-------------------------------------------------------------------------------
+
+#' @param Xu_parameters a Xu_params object
+#' @param max_allowed_num_spp integer
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Returns a PU_spp_pair_info_class object
+#' @export
+
+#-------------------------------------------------------------------------------
+
+create_Xu_problem_from_scratch_using_derived_params <- function (Xu_parameters,
+                                            max_allowed_num_spp,
+                                            parameters,
+                                            bdpg_error_codes,
+                                            integerize)
+    {
     derived_Xu_params    = Xu_parameters@derived_params
     base_Xu_params       = Xu_parameters@base_params
     bdpg_extended_params = Xu_parameters@bdpg_extended_params
 
     #-------------------------------------------------------------------------------
 
+    duplicate_links_allowed = FALSE  #  Might want to make this a parameter option eventually...
+
+    PU_spp_pair_info =
+        create_Xu_problem_from_scratch_given_params (
+
+              derived_Xu_params@tot_num_nodes,
+              derived_Xu_params@num_nodes_per_group,
+              base_Xu_params@n__num_groups,
+              bdpg_extended_params@num_independent_nodes_per_group,
+              derived_Xu_params@max_possible_tot_num_links,
+              derived_Xu_params@target_num_links_between_2_groups_per_round,
+              derived_Xu_params@num_rounds_of_linking_between_groups,
+              duplicate_links_allowed,
+                                                    max_allowed_num_spp,
+                                                    parameters,
+                                                    bdpg_error_codes,
+                                                    integerize)
+
+    PU_spp_pair_info@Xu_parameters = Xu_parameters
+
+    return (PU_spp_pair_info)
+    }
+
+#===============================================================================
+
+#' Generate a Xu problem from scratch given parameters
+#'
+#' Generate a Xu biodiversity problem based on a set of specific parameters
+#' (not necessarily derived from derive_Xu_control_parameters()) passed in
+#' rather than reading it from a file.
+#'
+#' The purpose of this function is to do the main work of building the
+#' problem once parameters have been chosen.  It allows dependency injection
+#' for testing and it allows experiments that want to bypass the usual
+#' Xu creation pathway.
+#'
+#-------------------------------------------------------------------------------
+
+#' @param tot_num_nodes integer
+#' @param num_nodes_per_group integer
+#' @param n__num_groups integer
+#' @param num_independent_nodes_per_group integer
+#' @param max_possible_tot_num_links integer
+#' @param target_num_links_between_2_groups_per_round integer
+#' @param num_rounds_of_linking_between_groups integer
+#' @param duplicate_links_allowed boolean (defaults to FALSE)
+#'
+#' @inheritParams std_param_defns
+#'
+#' @return Returns a PU_spp_pair_info_class object
+#' @export
+
+#-------------------------------------------------------------------------------
+
+create_Xu_problem_from_scratch_given_params <-
+    function (
+              tot_num_nodes,
+              num_nodes_per_group,
+              n__num_groups,
+              num_independent_nodes_per_group,
+              max_possible_tot_num_links,
+              target_num_links_between_2_groups_per_round,
+              num_rounds_of_linking_between_groups,
+              duplicate_links_allowed,
+                                            max_allowed_num_spp,
+                                            parameters,
+                                            bdpg_error_codes,
+                                            integerize)
+    {
       #-----------------------------------------------------------
       #  Now that specific problem attributes have been derived,
       #  create and load nodes and edges data structures.
       #-----------------------------------------------------------
 
-    nodes = create_nodes_data_structure (derived_Xu_params@tot_num_nodes,
-                                         derived_Xu_params@num_nodes_per_group,
-                                         base_Xu_params@n__num_groups,
-                                         bdpg_extended_params@num_independent_nodes_per_group
+    nodes = create_nodes_data_structure (tot_num_nodes,
+                                         num_nodes_per_group,
+                                         n__num_groups,
+                                         num_independent_nodes_per_group
                                         )
+    # nodes = create_nodes_data_structure (derived_Xu_params@tot_num_nodes,
+    #                                      derived_Xu_params@num_nodes_per_group,
+    #                                      base_Xu_params@n__num_groups,
+    #                                      bdpg_extended_params@num_independent_nodes_per_group
+    #                                     )
+
     edge_list =
       create_Xu_graph (derived_Xu_params@num_nodes_per_group,
                        base_Xu_params@n__num_groups,
@@ -103,9 +215,19 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
                        derived_Xu_params@max_possible_tot_num_links,
                        derived_Xu_params@target_num_links_between_2_groups_per_round,
                        derived_Xu_params@num_rounds_of_linking_between_groups,
-                       duplicate_links_allowed=FALSE,
+                       duplicate_links_allowed,
                        bdpg_error_codes
                        )
+    # edge_list =
+    #   create_Xu_graph (derived_Xu_params@num_nodes_per_group,
+    #                    base_Xu_params@n__num_groups,
+    #                    nodes,
+    #                    derived_Xu_params@max_possible_tot_num_links,
+    #                    derived_Xu_params@target_num_links_between_2_groups_per_round,
+    #                    derived_Xu_params@num_rounds_of_linking_between_groups,
+    #                    duplicate_links_allowed=FALSE,
+    #                    bdpg_error_codes
+    #                    )
 
     dependent_node_IDs = get_dependent_node_IDs (nodes)
     num_PUs = get_num_nodes (nodes)
@@ -128,12 +250,31 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 
     #-------------------------------------------------------------------------------
 
-    PU_spp_pair_info@Xu_parameters = Xu_parameters
+# PU_spp_pair_info@Xu_parameters = Xu_parameters
     PU_spp_pair_info@correct_solution_vector_is_known = TRUE
     PU_spp_pair_info@dependent_node_IDs = dependent_node_IDs
     PU_spp_pair_info@nodes = nodes
 
+        #----------------------------------------------------------------------
+        #  2018 01 04 - BTL
+        #  This may need to be modified if downstream uses of it (e.g.,
+        #  in writing results files) assume that this means ALL of the
+        #  parameters are known.  Changes now allow you to skip
+        #  the Xu generation and parameter derivation and pass the derived
+        #  values in directly and this means that things like alpha may
+        #  no longer be known.
+        #  Might need to split this boolean variable into 2 or 3 variables
+        #  to indicate exactly which things ARE known and unknown.
+        #  May also just want to make sure that there are usable default
+        #  values for the unknown things when downstream needs to know them.
+        #  If the only downstream use is for printing things out, then just
+        #  having them set to NA may be fine - though this could also cause
+        #  some issues if trying to fit a predictive model to the generator
+        #  parameters and some of them are NA.
+        #----------------------------------------------------------------------
+
     PU_spp_pair_info@prob_generator_params_known = TRUE
+
     PU_spp_pair_info@PU_costs = PU_costs
 
     return (PU_spp_pair_info)
