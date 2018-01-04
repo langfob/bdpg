@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen_single_bdprob.R
 \name{gen_single_bdprob_COR}
 \alias{gen_single_bdprob_COR}
-\title{Generate a single biodiversity problem from scratch of from a file}
+\title{Generate a single correct biodiversity problem from scratch or from a file}
 \usage{
 gen_single_bdprob_COR(parameters, bdpg_error_codes, integerize,
   base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
@@ -23,5 +23,5 @@ and can have a varying number and set of elements depending on the run}
 Returns a correct Xu biodiversity problem
 }
 \description{
-Generate a single correct Xu biodiversity problem
+Generate a single correct biodiversity problem from scratch or from a file
 }

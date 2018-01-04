@@ -19,8 +19,9 @@ and can have a varying number and set of elements depending on the run}
 
 \item{integerize}{function to use in converting floats to ints}
 
-\item{num_prob_size_retries_allowed}{integer number of retries of problem
-creation to try to find one no larger than a given number of species}
+\item{default_num_prob_size_retries_allowed}{integer number of retries of
+problem creation to try to find one no larger than a given number of
+species}
 }
 \value{
 Returns a PU_spp_pair_info_class object or quits if number of

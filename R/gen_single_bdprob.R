@@ -1,10 +1,10 @@
 #===============================================================================
 
-#' Generate a single biodiversity problem from scratch of from a file
-#'
+#                            gen_single_bdprob.R
+
 #===============================================================================
 
-#' Generate a single correct Xu biodiversity problem
+#' Generate a single correct biodiversity problem from scratch or from a file
 #'
 #-------------------------------------------------------------------------------
 
@@ -148,8 +148,9 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #'
 #-------------------------------------------------------------------------------
 
-#' @param num_prob_size_retries_allowed integer number of retries of problem
-#'     creation to try to find one no larger than a given number of species
+#' @param default_num_prob_size_retries_allowed integer number of retries of
+#'     problem creation to try to find one no larger than a given number of
+#'     species
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a PU_spp_pair_info_class object or quits if number of
