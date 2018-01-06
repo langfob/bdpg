@@ -5,6 +5,22 @@
 #  Tools for managing the seed in random number generation to make it easier
 #  to reproduce all or part of a run.
 
+#-------------------------------------------------------------------------------
+
+#  2018 01 06 - BTL
+#  Just stumbled across an interesting github gist with some code related to
+#  how to see where the random seed is being set and retrieved in your code.
+#  Might be useful if there are some reproducibility problems related to the
+#  random seed being changed in unexpected places.
+#
+#  "Who is touching the .Random.seed?"
+#      https://gist.github.com/klmr/8028c7190b4dd45f277ef3dec415b79b
+#  It also references the stackoverflow question that inspired it:
+#  "comprehensive way to check for functions that use the random number
+#   generator in an R script?"
+#      https://stackoverflow.com/questions/43638773/comprehensive-way-to-check-for-functions-that-use-the-random-number-generator-in
+
+
 #===============================================================================
 
 #' Get forced seed value if necessary
