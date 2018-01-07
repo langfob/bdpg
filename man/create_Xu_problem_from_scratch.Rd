@@ -8,9 +8,7 @@ create_Xu_problem_from_scratch(max_allowed_num_spp, parameters,
   bdpg_error_codes, integerize)
 }
 \arguments{
-\item{max_allowed_num_spp}{integer maximum number of species allowed in the
-problem (to keep from generating problems that are too large when trying
-to keep the run-time down)}
+\item{max_allowed_num_spp}{integer}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
@@ -25,4 +23,7 @@ Returns a PU_spp_pair_info_class object
 \description{
 Generate a Xu biodiversity problem based on 4 input control parameters
 rather than reading it from a file.
+}
+\seealso{
+Other interfaces to creation of Xu problems: \code{\link{create_Xu_problem_from_scratch_given_params}}
 }

@@ -86,49 +86,15 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
                                     bdpg_error_codes,
                                     integerize)
 
-    PU_spp_pair_info =
-        create_Xu_problem_from_scratch_using_Xu_params (Xu_parameters,
-                                                    max_allowed_num_spp,
-                                            parameters,
-                                            bdpg_error_codes,
-                                            integerize)
-    return (PU_spp_pair_info)
-    }
+    #-------------------------------------------------------------------------------
 
-#===============================================================================
-
-#' Generate a Xu problem from scratch
-#'
-#' Generate a Xu biodiversity problem based on 4 input control parameters
-#' taken from parameters rather than reading the problem from a file.
-#'
-#-------------------------------------------------------------------------------
-
-#' @param Xu_parameters a Xu_params object
-#' @param max_allowed_num_spp integer
-#'
-#' @inheritParams std_param_defns
-#'
-#' @return Returns a PU_spp_pair_info_class object
-#' @family interfaces to creation of Xu problems
-
-#' @export
-
-#-------------------------------------------------------------------------------
-
-create_Xu_problem_from_scratch_using_Xu_params <- function (Xu_parameters,
-                                            max_allowed_num_spp,
-                                            parameters,
-                                            bdpg_error_codes,
-                                            integerize)
-    {
     derived_Xu_params    = Xu_parameters@derived_params
     base_Xu_params       = Xu_parameters@base_params
     bdpg_extended_params = Xu_parameters@bdpg_extended_params
 
-    #-------------------------------------------------------------------------------
-
     duplicate_links_allowed = FALSE  #  Might want to make this a parameter option eventually...
+
+    #-------------------------------------------------------------------------------
 
     PU_spp_pair_info =
         create_Xu_problem_from_scratch_given_params (
@@ -159,14 +125,15 @@ create_Xu_problem_from_scratch_using_Xu_params <- function (Xu_parameters,
 #' (not necessarily derived from derive_Xu_control_parameters()) passed in
 #' rather than reading the problem from a file.  The purpose of this function
 #' is to do the main work of building the problem once parameters have been
-#' chosen.  It allows dependency injection for testing and it allows
-#' experiments that want to bypass the original Xu creation pathway that
-#' depends on the 4 values n, alpha, p, and r.
+#' chosen.  It allows dependency injection for testing and it allows for
+#' experiments that want to bypass the original Xu indirect creation pathway
+#' that depends on the 4 values n, alpha, p, and r.
 #'
 #' The 4 original Xu parameters are not necessary for deriving a problem and
 #' its correct answer.  It is the values derived from them that are necessary
 #' for building the problem (e.g., number of dependent nodes, etc.).  The code
 #' in this function is where the actual building of the problem occurs.
+#'
 #' In some cases, it may be more desirable in experimental setup to manipulate
 #' the derived values directly, e.g., to make sure that a problem ends up
 #' having a specific number of planning units or species, etc.
@@ -175,7 +142,7 @@ create_Xu_problem_from_scratch_using_Xu_params <- function (Xu_parameters,
 #' Once we can see the different regions of problem structure implied by
 #' combinations of those parameters, then the values derived from them may be
 #' easier to manipulate in search  algorithms and explanations, etc.
-#'
+
 #-------------------------------------------------------------------------------
 
 #' @param tot_num_nodes integer
