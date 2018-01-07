@@ -325,6 +325,8 @@ create_allowable_size_Xu_problem_from_scratch <- function (
         #  If not too big, then return the problem's information.
         #-----------------------------------------------------------------------
 
+    if (is.null (max_allowed_num_spp)) max_allowed_num_spp = Inf
+
     keep_trying = TRUE
     try_num = 1
     while (keep_trying)
