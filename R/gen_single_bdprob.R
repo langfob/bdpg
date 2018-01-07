@@ -71,6 +71,62 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
                                             bdpg_error_codes,
                                             integerize)
     {
+    duplicate_links_allowed =
+        value_or_FALSE_if_null (parameters$duplicate_links_allowed)
+
+    dont_derive_prob_params_from_4_Xu_metaparams =
+        value_or_FALSE_if_null (parameters$dont_derive_prob_params_from_4_Xu_metaparams)
+
+    if (dont_derive_prob_params_from_4_Xu_metaparams)
+        {
+        PU_spp_pair_info =
+            create_Xu_problem_from_scratch_not_using_4_Xu_metaparams (max_allowed_num_spp,
+                                                                      duplicate_links_allowed,
+                                                                      parameters,
+                                                                      bdpg_error_codes,
+                                                                      integerize)
+        } else
+        {
+        PU_spp_pair_info =
+            create_Xu_problem_from_scratch_given_4_Xu_metaparams (max_allowed_num_spp,
+                                                                  duplicate_links_allowed,
+                                                                  parameters,
+                                                                  bdpg_error_codes,
+                                                                  integerize)
+        }
+
+    return (PU_spp_pair_info)
+    }
+
+#===============================================================================
+
+#' Generate a Xu problem from scratch
+#'
+#' Generate a Xu biodiversity problem based on 4 input control parameters
+#' rather than reading it from a file.
+#'
+#-------------------------------------------------------------------------------
+
+#' @param max_allowed_num_spp integer
+#' @param duplicate_links_allowed boolean (defaults to FALSE)
+
+#' @inheritParams std_param_defns
+#'
+#' @return Returns a PU_spp_pair_info_class object
+
+#' @family interfaces to creation of Xu problems
+
+#' @export
+
+#-------------------------------------------------------------------------------
+
+create_Xu_problem_from_scratch_given_4_Xu_metaparams <-
+                                                function (max_allowed_num_spp,
+                                                          duplicate_links_allowed,
+                                                          parameters,
+                                                          bdpg_error_codes,
+                                                          integerize)
+{
         #----------------------------------------------------------
         #  The 4 basic Xu parameters describe problem attributes
         #  related to the theory in the original Xu paper, but
@@ -92,22 +148,7 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
     base_Xu_params       = Xu_parameters@base_params
     bdpg_extended_params = Xu_parameters@bdpg_extended_params
 
-    duplicate_links_allowed = FALSE  #  Might want to make this a parameter option eventually...
-
     #-------------------------------------------------------------------------------
-
-cat ("\n\n>>>>>>>>>>>>>>>>>>>>  Just before calling create_Xu_problem_from_scratch_given_params():\n")
-cat ("\n    derived_Xu_params@tot_num_nodes = '", derived_Xu_params@tot_num_nodes, "'", sep='')
-cat ("\n    derived_Xu_params@num_nodes_per_group = '", derived_Xu_params@num_nodes_per_group, "'", sep='')
-cat ("\n    base_Xu_params@n__num_groups = '", base_Xu_params@n__num_groups, "'", sep='')
-cat ("\n    bdpg_extended_params@num_independent_nodes_per_group = '", bdpg_extended_params@num_independent_nodes_per_group, "'", sep='')
-cat ("\n    derived_Xu_params@max_possible_tot_num_links = '", derived_Xu_params@max_possible_tot_num_links, "'", sep='')
-cat ("\n    derived_Xu_params@target_num_links_between_2_groups_per_round = '", derived_Xu_params@target_num_links_between_2_groups_per_round, "'", sep='')
-cat ("\n    derived_Xu_params@num_rounds_of_linking_between_groups = '", derived_Xu_params@num_rounds_of_linking_between_groups, "'", sep='')
-cat ("\n    duplicate_links_allowed = '", duplicate_links_allowed, "'", sep='')
-cat ("\n    max_allowed_num_spp = '", max_allowed_num_spp, "'", sep='')
-
-browser()
 
     PU_spp_pair_info =
         create_Xu_problem_from_scratch_given_params (
@@ -126,6 +167,63 @@ browser()
                                                     integerize)
 
     PU_spp_pair_info@Xu_parameters = Xu_parameters
+
+    return (PU_spp_pair_info)
+    }
+
+#===============================================================================
+
+#' create_Xu_problem_from_scratch_not_using_4_Xu_metaparams
+#'
+#' Generate a Xu biodiversity problem NOT based on 4 input control parameters
+#' rather than reading it from a file.
+#'
+#-------------------------------------------------------------------------------
+
+#' @param max_allowed_num_spp integer
+#' @param duplicate_links_allowed boolean (defaults to FALSE)
+
+#' @inheritParams std_param_defns
+#'
+#' @return Returns a PU_spp_pair_info_class object
+
+#' @family interfaces to creation of Xu problems
+
+#' @export
+
+#-------------------------------------------------------------------------------
+
+create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowed_num_spp,
+                                                                      duplicate_links_allowed,
+                                                                      parameters,
+                                                                      bdpg_error_codes,
+                                                                      integerize)
+    {
+        #  NEED TO ADD THESE TO YAML FILE IN TESTS and build a test
+        #  ALSO NEED TO ADD FLAG ABOUT NOT USING 4 METAPARAMS
+    tot_num_nodes                               = parameters$tot_num_nodes
+    num_nodes_per_group                         = parameters$num_nodes_per_group
+    n__num_groups                               = parameters$n__num_groups
+    num_independent_nodes_per_group             = parameters$num_independent_nodes_per_group
+    max_possible_tot_num_links                  = parameters$max_possible_tot_num_links
+    target_num_links_between_2_groups_per_round = parameters$target_num_links_between_2_groups_per_round
+    num_rounds_of_linking_between_groups        = parameters$num_rounds_of_linking_between_groups
+
+    PU_spp_pair_info =
+        create_Xu_problem_from_scratch_given_params (
+            tot_num_nodes,
+            num_nodes_per_group,
+            n__num_groups,
+            num_independent_nodes_per_group,
+            max_possible_tot_num_links,
+            target_num_links_between_2_groups_per_round,
+            num_rounds_of_linking_between_groups,
+
+            duplicate_links_allowed,
+            max_allowed_num_spp,
+            parameters,
+            bdpg_error_codes,
+            integerize)
 
     return (PU_spp_pair_info)
     }

@@ -66,5 +66,7 @@ combinations of those parameters, then the values derived from them may be
 easier to manipulate in search  algorithms and explanations, etc.
 }
 \seealso{
-Other interfaces to creation of Xu problems: \code{\link{create_Xu_problem_from_scratch}}
+Other interfaces to creation of Xu problems: \code{\link{create_Xu_problem_from_scratch_given_4_Xu_metaparams}},
+  \code{\link{create_Xu_problem_from_scratch_not_using_4_Xu_metaparams}},
+  \code{\link{create_Xu_problem_from_scratch}}
 }

@@ -397,7 +397,7 @@ temp_parameters$num_rounds_of_linking_between_groups = 1438
 
 bdprob_COR_6 = test_gen_single_COR (temp_parameters,
                                     bdpg_error_codes)
-browser()
+
 test_that("gen_single_bdprob_COR: 2 problems generated from metaparams and derived params are the same up to UUID", {
     expect_true (! identical (bdprob_COR_1, bdprob_COR_6))  # different UUIDs
     expect_true (all.equal (bdprob_COR_1@cor_PU_spp_pair_indices,
@@ -406,6 +406,13 @@ test_that("gen_single_bdprob_COR: 2 problems generated from metaparams and deriv
 
 
 #  NEED TEST FOR WHAT HAPPENS IF NO MAX NUM SPP ALLOWED IS GIVEN IN PARAMETERS.
+
+temp_parameters = parameters
+temp_parameters$max_allowed_num_spp = NULL
+
+bdprob_COR_7 = test_gen_single_COR (temp_parameters,
+                                    bdpg_error_codes)
+
 
 #  NEED TEST FOR ALLOWING RETRIES IF MAX NUM SPP ALLOWED IS EXCEEDED.
 #  CAN FORCE THIS BY GIVING AN ABSURDLY LOW NUMBER OF SPP ALLOWED, E.G, 1.
