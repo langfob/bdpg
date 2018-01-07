@@ -96,6 +96,19 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 
     #-------------------------------------------------------------------------------
 
+cat ("\n\n>>>>>>>>>>>>>>>>>>>>  Just before calling create_Xu_problem_from_scratch_given_params():\n")
+cat ("\n    derived_Xu_params@tot_num_nodes = '", derived_Xu_params@tot_num_nodes, "'", sep='')
+cat ("\n    derived_Xu_params@num_nodes_per_group = '", derived_Xu_params@num_nodes_per_group, "'", sep='')
+cat ("\n    base_Xu_params@n__num_groups = '", base_Xu_params@n__num_groups, "'", sep='')
+cat ("\n    bdpg_extended_params@num_independent_nodes_per_group = '", bdpg_extended_params@num_independent_nodes_per_group, "'", sep='')
+cat ("\n    derived_Xu_params@max_possible_tot_num_links = '", derived_Xu_params@max_possible_tot_num_links, "'", sep='')
+cat ("\n    derived_Xu_params@target_num_links_between_2_groups_per_round = '", derived_Xu_params@target_num_links_between_2_groups_per_round, "'", sep='')
+cat ("\n    derived_Xu_params@num_rounds_of_linking_between_groups = '", derived_Xu_params@num_rounds_of_linking_between_groups, "'", sep='')
+cat ("\n    duplicate_links_allowed = '", duplicate_links_allowed, "'", sep='')
+cat ("\n    max_allowed_num_spp = '", max_allowed_num_spp, "'", sep='')
+
+browser()
+
     PU_spp_pair_info =
         create_Xu_problem_from_scratch_given_params (
 
