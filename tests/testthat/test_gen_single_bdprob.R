@@ -380,6 +380,31 @@ test_that("gen_single_bdprob_COR: 2 problems generated from same seed are the sa
     expect_equal (bdprob_COR_4@checksum, bdprob_COR_5@checksum)
 })
 
+    #  Test that you can generate the same table of species occurrences
+    #  using the direct parameters rather than the 4 Xu metaparameters.
+
+temp_parameters = parameters
+
+temp_parameters$dont_derive_prob_params_from_4_Xu_metaparams = TRUE
+temp_parameters$tot_num_nodes = 142
+temp_parameters$num_nodes_per_group = 2
+temp_parameters$n__num_groups = 71
+temp_parameters$num_independent_nodes_per_group = 1
+temp_parameters$max_possible_tot_num_links = 71
+temp_parameters$target_num_links_between_2_groups_per_round = 0  # <<<--- error?
+temp_parameters$num_rounds_of_linking_between_groups = 1438
+
+
+bdprob_COR_6 = test_gen_single_COR (temp_parameters,
+                                    bdpg_error_codes)
+browser()
+test_that("gen_single_bdprob_COR: 2 problems generated from metaparams and derived params are the same up to UUID", {
+    expect_true (! identical (bdprob_COR_1, bdprob_COR_6))  # different UUIDs
+    expect_true (all.equal (bdprob_COR_1@cor_PU_spp_pair_indices,
+                            bdprob_COR_6@cor_PU_spp_pair_indices))
+})
+
+
 #  NEED TEST FOR WHAT HAPPENS IF NO MAX NUM SPP ALLOWED IS GIVEN IN PARAMETERS.
 
 #  NEED TEST FOR ALLOWING RETRIES IF MAX NUM SPP ALLOWED IS EXCEEDED.
