@@ -194,7 +194,9 @@ derive_Xu_control_parameters = function (parameters,
 
     #  Compute how many links there will be within each group.
     #  If there is more than one independent node, then not all possible
-    #  combinations of links will be made.  Have to subtract off
+    #  combinations of links will be made, i.e., no links are allowed to
+    #  be made between the independent nodes themselves, otherwise,
+    #  they would no longer be independent.  So, have to subtract off
     #  the number of possible links between independent nodes in
     #  the group.
     #    num_links_within_one_group = choose (num_nodes_per_group, 2)
