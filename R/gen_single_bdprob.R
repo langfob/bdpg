@@ -127,52 +127,7 @@ create_Xu_problem_from_scratch_using_Xu_params <- function (Xu_parameters,
     bdpg_extended_params = Xu_parameters@bdpg_extended_params
 
     #-------------------------------------------------------------------------------
-browser()
-    PU_spp_pair_info =
-        create_Xu_problem_from_scratch_using_derived_params (derived_Xu_params,
-                                                             base_Xu_params,
-                                                             bdpg_extended_params,
-                                                             max_allowed_num_spp,
-                                                             parameters,
-                                                             bdpg_error_codes,
-                                                             integerize)
 
-    return (PU_spp_pair_info)
-    }
-
-#===============================================================================
-
-#' Generate a Xu problem from scratch from derived parameters
-#'
-#' Generate a Xu biodiversity problem based on parameter values derived from
-#' the 4 Xu input control parameters rather than reading the problem from a
-#' file.
-#'
-#-------------------------------------------------------------------------------
-
-#' @param derived_Xu_params object
-#' @param base_Xu_params object
-#' @param bdpg_extended_params object
-#' @param max_allowed_num_spp integer
-#'
-#' @inheritParams std_param_defns
-#'
-#' @return Returns a PU_spp_pair_info_class object
-#' @family interfaces to creation of Xu problems
-
-#' @export
-
-#-------------------------------------------------------------------------------
-
-create_Xu_problem_from_scratch_using_derived_params <-
-    function (derived_Xu_params,
-              base_Xu_params,
-              bdpg_extended_params,
-                                            max_allowed_num_spp,
-                                            parameters,
-                                            bdpg_error_codes,
-                                            integerize)
-    {
     duplicate_links_allowed = FALSE  #  Might want to make this a parameter option eventually...
 
     PU_spp_pair_info =
