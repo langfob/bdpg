@@ -462,12 +462,18 @@ derive_Xu_control_parameters = function (parameters,
     num_rounds_of_linking_between_groups =
             integerize (r__density * n__num_groups * log (n__num_groups))
 
-    target_num_links_between_2_groups_per_round =
+    ret_val =
         compute_target_num_links_between_2_groups_per_round (
             parameters$at_least_1_for_target_num_links_between_2_groups_per_round,
             p__prop_of_links_between_groups,
             num_nodes_per_group,
             integerize)
+
+    target_num_links_between_2_groups_per_round =
+        ret_val$target_num_links_between_2_groups_per_round
+
+    at_least_1_for_target_num_links_between_2_groups_per_round =
+        ret_val$at_least_1_for_target_num_links_between_2_groups_per_round
 
         #  Compute how many links there will be within each group.
         #  If there is more than one independent node, then not all possible
