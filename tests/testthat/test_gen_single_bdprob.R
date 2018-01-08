@@ -276,6 +276,9 @@ parameters = list (
 dummylistend=NULL
         )
 
+#  TEMPORARY
+parameters$at_least_1_for_target_num_links_between_2_groups_per_round = FALSE
+
 #-------------------------------------------------------------------------------
 
     #  Create test output directory.
@@ -391,7 +394,7 @@ temp_parameters$num_nodes_per_group = 2
 temp_parameters$n__num_groups = 71
 temp_parameters$num_independent_nodes_per_group = 1
 temp_parameters$max_possible_tot_num_links = 71
-temp_parameters$target_num_links_between_2_groups_per_round = 0  # <<<--- error?
+temp_parameters$target_num_links_between_2_groups_per_round = 0  # <<<---
 temp_parameters$num_rounds_of_linking_between_groups = 1438
 
 
