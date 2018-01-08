@@ -4,6 +4,74 @@
 
 #===============================================================================
 
+compute_target_num_links_between_2_groups_per_round <-
+    function (parameters,
+              # base_for_target_num_links_between_2_groups_per_round,
+              # at_least_1_for_target_num_links_between_2_groups_per_round,
+              p__prop_of_links_between_groups,
+              num_nodes_per_group,
+              integerize)
+    {
+        #  Is this right?  Even in the old version?
+        #  i.e., this count would allow links to ind. nodes too.
+        #  Should it be "* num_dependent_nodes_per_group" instead of
+        #  "* num_nodes_per_group"?
+        #  How is it defined in Xu?
+        #  The interlinking code DOES make a check though and only allows
+        #  linking to dependent nodes.
+        #  The only thing that the code here seems like it would do is to
+        #  overallocate space.
+        #  One weird thing though is that if you only have one dependent node,
+        #  how is a proportion of 0.2x going to cause anything at all to be
+        #  interlinked - unless, the integerize function is always giving a
+        #  value of at least 1?  But integerize() is currently round() and
+        #  with 2 nodes per group (to get  things down to 50% as the solution
+        #  fraction), anything less than p=0.5 should yield no interlinking?
+        #  Actually, with rounding and 2 nodes per group, anything >= 0.25 will
+        #  yield at least one interlink.  So, should I just leave this alone?
+        #  Still, it's going to get very weird (and blow up?) if you have
+        #  4 or 5 independent nodes in a group and only 1 dependent node
+        #  because this is going to tell you that you have to have something
+        #  like p=0.3 times 5 or 6 instead of times 2.  That would lead to
+        #  many duplicate links, but does that really matter?  Seems like it
+        #  would in a predictive sense, i.e., the value assigned to p would
+        #  not have the same meaning in these lower bound saturating kinds of
+        #  circumstances compared to when there larger values that it could
+        #  take a real proportion of.  Even in the old version, there will be
+        #  an odd threshold effect in what p means, e.g., when it falls below
+        #  0.25 in the example above.  Still, isn't that always going to be the
+        #  case because the theory uses continuous values but the problem sizes
+        #  have to be integers and you will always have to map from continuous
+        #  to integer?
+        #  Maybe the best solution here is to create an option that allows you
+        #  to choose the behavior you want and records that in the output.
+        #  What would be the possible variants of this option?
+        #  Compute target... from:
+        #       a) num_nodes_per_group
+        #       b) num_dependent_nodes_per_group
+        #       c) at least 1,
+        #               i.e., max (1, [a or b above]) so that you always
+        #               get at least 1
+        #  So, option c) would mean that you need two options instead of 1,
+        #  i.e., [a) or b)] and [max or actual value].
+        #  Another thing that should probably be an option is the choice of the
+        #  integerize function, since that also affects this.
+
+    base_for_target_num_links_between_2_groups_per_round =
+            parameters$base_for_target_num_links_between_2_groups_per_round
+
+        #  BTL - 2015 04 08
+        #  Is this variable still used somewhere?
+        #  Can't find it appearing when I grep all of the R files right now...
+    at_least_1_for_target_num_links_between_2_groups_per_round =
+        parameters$at_least_1_for_target_num_links_between_2_groups_per_round
+
+    target_num_links_between_2_groups_per_round =
+        integerize (p__prop_of_links_between_groups * num_nodes_per_group)
+    }
+
+#===============================================================================
+
 #' Derive full Xu control params from 4 base params
 #'
 #-------------------------------------------------------------------------------
@@ -146,64 +214,14 @@ derive_Xu_control_parameters = function (parameters,
     num_rounds_of_linking_between_groups =
             integerize (r__density * n__num_groups * log (n__num_groups))
 
-        #  Is this right?  Even in the old version?
-        #  i.e., this count would allow links to ind. nodes too.
-        #  Should it be "* num_dependent_nodes_per_group" instead of
-        #  "* num_nodes_per_group"?
-        #  How is it defined in Xu?
-        #  The interlinking code DOES make a check though and only allows
-        #  linking to dependent nodes.
-        #  The only thing that the code here seems like it would do is to
-        #  overallocate space.
-        #  One weird thing though is that if you only have one dependent node,
-        #  how is a proportion of 0.2x going to cause anything at all to be
-        #  interlinked - unless, the integerize function is always giving a
-        #  value of at least 1?  But integerize() is currently round() and
-        #  with 2 nodes per group (to get  things down to 50% as the solution
-        #  fraction), anything less than p=0.5 should yield no interlinking?
-        #  Actually, with rounding and 2 nodes per group, anything >= 0.25 will
-        #  yield at least one interlink.  So, should I just leave this alone?
-        #  Still, it's going to get very weird (and blow up?) if you have
-        #  4 or 5 independent nodes in a group and only 1 dependent node
-        #  because this is going to tell you that you have to have something
-        #  like p=0.3 times 5 or 6 instead of times 2.  That would lead to
-        #  many duplicate links, but does that really matter?  Seems like it
-        #  would in a predictive sense, i.e., the value assigned to p would
-        #  not have the same meaning in these lower bound saturating kinds of
-        #  circumstances compared to when there larger values that it could
-        #  take a real proportion of.  Even in the old version, there will be
-        #  an odd threshold effect in what p means, e.g., when it falls below
-        #  0.25 in the example above.  Still, isn't that always going to be the
-        #  case because the theory uses continuous values but the problem sizes
-        #  have to be integers and you will always have to map from continuous
-        #  to integer?
-        #  Maybe the best solution here is to create an option that allows you
-        #  to choose the behavior you want and records that in the output.
-        #  What would be the possible variants of this option?
-        #  Compute target... from:
-        #       a) num_nodes_per_group
-        #       b) num_dependent_nodes_per_group
-        #       c) at least 1,
-        #               i.e., max (1, [a or b above]) so that you always
-        #               get at least 1
-        #  So, option c) would mean that you need two options instead of 1,
-        #  i.e., [a) or b)] and [max or actual value].
-        #  Another thing that should probably be an option is the choice of the
-        #  integerize function, since that also affects this.
-
-    base_for_target_num_links_between_2_groups_per_round =
-            parameters$base_for_target_num_links_between_2_groups_per_round
-
-        #  BTL - 2015 04 08
-        #  Is this variable still used somewhere?
-        #  Can't find it appearing when I grep all of the R files right now...
-    at_least_1_for_target_num_links_between_2_groups_per_round =
-        parameters$at_least_1_for_target_num_links_between_2_groups_per_round
-
     target_num_links_between_2_groups_per_round =
-        integerize (p__prop_of_links_between_groups * num_nodes_per_group)
-
-
+        compute_target_num_links_between_2_groups_per_round (
+            parameters,
+            # parameters$base_for_target_num_links_between_2_groups_per_round,
+            # parameters$at_least_1_for_target_num_links_between_2_groups_per_round,
+            p__prop_of_links_between_groups,
+            num_nodes_per_group,
+            integerize)
 
     #  Compute how many links there will be within each group.
     #  If there is more than one independent node, then not all possible
