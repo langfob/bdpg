@@ -4,6 +4,206 @@
 
 #===============================================================================
 
+#  Note that I'm not allowing numbers (except 0 and 1) or NA as booleans
+#  even though is.logical(NA) returns TRUE and if() works for numbers other
+#  than 0 or 1.  This is because I'm using this function to validate inputs
+#  that are expected to be TRUE, FALSE, 0, or 1.
+#  If you want to test for R's more relaxed notions of these things then
+#  you'll have to write a different test for that.
+
+valid_boolean <- function (var_value, var_name="(no variable name given)")
+    {
+    if (!is.logical (var_value) || is.na (var_value))
+        stop (paste0 ("Value '", var_value, "' for variable ", var_name,
+                      " must be boolean"))
+
+    return (var_value)
+    }
+
+#-------------------------------------------------------------------------------
+
+valid_boolean_with_default <- function (var_value,
+                                        var_name="(no variable name given)",
+                                        default=FALSE)
+    {
+        #  It's easy to forget to add the var_name when specifying the
+        #  call and that leads to the var_name being "TRUE" or "FALSE".
+        #  I did this almost immediately when testing.
+        #  Since you should never have those as variable names anyway,
+        #  throw an error if it happens.
+
+    if (var_name == "FALSE" || var_name == "TRUE")
+        stop (paste0 ("var_name argument = '", var_name, "' not allowed.",
+                      "  Probably missing an argument in call"))
+
+    if (is.null (var_value)) var_value = default
+
+    return (valid_boolean (var_value, var_name))
+    }
+
+#===============================================================================
+
+valid_numeric_in_range <- function (var_value, var_name="(no variable name given)",
+                                    range_lo=-Inf, range_hi=Inf)
+    {
+    if (! is.numeric (var_value))
+        stop (paste0 ("Value '", var_value, "' for variable ", var_name,
+                      " must be numeric"))
+
+    if (! is.numeric (range_lo))
+        stop (paste0 ("Validating ", var_name, ", range_lo = '", range_lo, "' must be numeric"))
+
+    if (! is.numeric (range_hi))
+        stop (paste0 ("Validating ", var_name, ", range_hi = '", range_hi, "' must be numeric"))
+
+    if (range_lo > range_hi)
+        stop (paste0 ("Validating ", var_name,
+                      ", range_lo = '", range_lo, "' must be <= ",
+                      "range_hi = '", range_hi, "'"))
+
+        #----------------------------------------------------------------
+        #  For now, I'm not going to get fancy with this and handle all
+        #  permutations of inclusive and exclusive boundaries on the
+        #  range.  I'm just going to test using inclusive boundaries.
+        #  Can get fancier later if necessary.
+        #----------------------------------------------------------------
+
+    if (var_value < range_lo)
+        stop (paste0 ("Validating ", var_name,
+                      ", var_value = '", var_value, "' must be >= ",
+                      "range_lo = '", range_lo, "'"))
+
+    if (var_value > range_hi)
+        stop (paste0 ("Validating ", var_name,
+                      ", var_value = '", var_value, "' must be <= ",
+                      "range_hi = '", range_hi, "'"))
+
+    return (var_value)
+    }
+
+#-------------------------------------------------------------------------------
+
+valid_numeric_in_range_with_default <- function (var_value,
+                                                 var_name="(no variable name given)",
+                                                 range_lo=-Inf, range_hi=Inf,
+                                                 default=0)
+    {
+    if (is.null (var_value) || is.na (var_value))  var_value = default
+
+    return (valid_numeric_in_range (var_value, var_name, range_lo, range_hi))
+    }
+
+#===============================================================================
+
+# valid_n__num_groups <- function (n__num_groups)
+#     {
+#     return (n__num_groups)
+# }
+#
+# valid_num_nodes_per_group <- function (num_nodes_per_group)
+#     {
+#     return (num_nodes_per_group)
+#     }
+#
+# valid_p__prop_of_links_between_groups <- function (p__prop_of_links_between_groups)
+#     {
+#     return (p__prop_of_links_between_groups)
+#     }
+#
+# valid_use_unif_rand_n__num_groups <- function (use_unif_rand_n__num_groups)
+#     {
+#     }
+#
+# valid_n__num_groups_lower_bound <- function (n__num_groups_lower_bound)
+#     {
+#     return (n__num_groups_lower_bound)
+#     }
+#
+# valid_n__num_groups_upper_bound <- function (n__num_groups_upper_bound)
+#     {
+#     return (n__num_groups_upper_bound)
+#     }
+#
+# valid_alpha__ <- function (alpha__)
+#     {
+#     return (alpha__)
+# }
+#
+#
+#
+# alpha___lower_bound
+# alpha___upper_bound
+# p__prop_of_links_between_groups
+# use_unif_rand_p__prop_of_links_between_groups
+# p__prop_of_links_between_groups_lower_bound
+# p__prop_of_links_between_groups_upper_bound
+# r__density
+# use_unif_rand_r__density
+# r__density_lower_bound
+# r__density_upper_bound
+#
+# valid_derive_alpha_from_n__num_groups_and_opt_frac_0.5 <- function (derive_alpha_from_n__num_groups_and_opt_frac_0.5)
+#     {
+#     return (derive_alpha_from_n__num_groups_and_opt_frac_0.5)
+#     }
+#
+# valid_use_unif_rand_alpha__ <- function (use_unif_rand_alpha__)
+#     {
+#     return (use_unif_rand_alpha__)
+#     }
+#
+# valid_xxx <- function (xxx)
+#     {
+#     return (xxx)
+#     }
+#
+# valid_xxx <- function (xxx)
+#     {
+#     return (xxx)
+#     }
+#
+# valid_xxx <- function (xxx)
+#     {
+#     return (xxx)
+#     }
+#
+# valid_xxx <- function (xxx)
+#     {
+#     return (xxx)
+#     }
+#
+# valid_xxx <- function (xxx)
+#     {
+#     return (xxx)
+#     }
+#
+# valid_xxx <- function (xxx)
+#     {
+#     return (xxx)
+#     }
+#
+# valid_xxx <- function (xxx)
+#     {
+#     return (xxx)
+#     }
+#
+# valid_xxx <- function (xxx)
+#     {
+#     return (xxx)
+#     }
+#
+# valid_xxx <- function (xxx)
+#     {
+#     return (xxx)
+#     }
+#
+# valid_xxx <- function (xxx)
+#     {
+#     return (xxx)
+#     }
+
+#===============================================================================
+
 compute_target_num_links_between_2_groups_per_round <-
     function (parameters,
               # base_for_target_num_links_between_2_groups_per_round,
