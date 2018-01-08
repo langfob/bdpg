@@ -205,13 +205,18 @@ valid_numeric_in_range_with_default <- function (var_value,
 #===============================================================================
 
 compute_target_num_links_between_2_groups_per_round <-
-    function (parameters,
-              # base_for_target_num_links_between_2_groups_per_round,
-              # at_least_1_for_target_num_links_between_2_groups_per_round,
+    function (at_least_1_for_target_num_links_between_2_groups_per_round,
               p__prop_of_links_between_groups,
               num_nodes_per_group,
               integerize)
     {
+        #-----------------------------------------------------------------------
+        #  There are lots of questions in this comment but the whole issue is
+        #  resolved at the end of the comment.  I'm leaving the whole thing
+        #  here though so that the decisions are explained and the issues are
+        #  visible if this is a problem or needs changing later.
+        #  2018 01 08 - BTL
+        #-----------------------------------------------------------------------
         #  Is this right?  Even in the old version?
         #  i.e., this count would allow links to ind. nodes too.
         #  Should it be "* num_dependent_nodes_per_group" instead of
@@ -237,7 +242,11 @@ compute_target_num_links_between_2_groups_per_round <-
         #  would in a predictive sense, i.e., the value assigned to p would
         #  not have the same meaning in these lower bound saturating kinds of
         #  circumstances compared to when there larger values that it could
-        #  take a real proportion of.  Even in the old version, there will be
+        #  take a real proportion of.  Actually, the theory doesn't come into
+        #  play here because if I remember right, the paper's theoretical
+        #  stuff is only about the case where you always have 1 independent
+        #  node per group.
+        #  Even in the old version, there will be
         #  an odd threshold effect in what p means, e.g., when it falls below
         #  0.25 in the example above.  Still, isn't that always going to be the
         #  case because the theory uses continuous values but the problem sizes
@@ -256,18 +265,57 @@ compute_target_num_links_between_2_groups_per_round <-
         #  i.e., [a) or b)] and [max or actual value].
         #  Another thing that should probably be an option is the choice of the
         #  integerize function, since that also affects this.
+        #-----------------------------------------------------------------------
+        #  2018 01 08 - BTL
+        #  I'm going to go with:
+        #  a) allowing the setting of a minimum number of links to either
+        #     0 or 1, with a default of 1
+        #  b) using the number of nodes per group as the base for the
+        #     target calculation because it's the most flexible and its only
+        #     downsize is that it might overallocate space for a table.
+        #-----------------------------------------------------------------------
 
-    base_for_target_num_links_between_2_groups_per_round =
-            parameters$base_for_target_num_links_between_2_groups_per_round
 
-        #  BTL - 2015 04 08
-        #  Is this variable still used somewhere?
-        #  Can't find it appearing when I grep all of the R files right now...
-    at_least_1_for_target_num_links_between_2_groups_per_round =
-        parameters$at_least_1_for_target_num_links_between_2_groups_per_round
+    if (is.null (at_least_1_for_target_num_links_between_2_groups_per_round))
+        {
+        at_least_1_for_target_num_links_between_2_groups_per_round = TRUE
+
+        } else
+        {
+        if (! is.logical (at_least_1_for_target_num_links_between_2_groups_per_round))
+            stop (paste0 ("\nInput parameter at_least_1_for_target_num_links_",
+                          "between_2_groups_per_round = '",
+                          at_least_1_for_target_num_links_between_2_groups_per_round,
+                          "'  must be boolean"))
+        }
+
+        #---------------------------------------------------------
+        #  Default to having a target of at least 1 link between
+        #  each pair of groups per round of linking.
+        #---------------------------------------------------------
+
+    if (at_least_1_for_target_num_links_between_2_groups_per_round)
+        {
+        min_target_num_links = 1
+        } else
+        {
+        min_target_num_links = 0
+        }
+
+        #----------------------------------------------------------
+        #  Compute the target but make sure it comes out to be at
+        #  least the chosen minimum.
+        #----------------------------------------------------------
 
     target_num_links_between_2_groups_per_round =
-        integerize (p__prop_of_links_between_groups * num_nodes_per_group)
+        max (min_target_num_links,
+             integerize (p__prop_of_links_between_groups * num_nodes_per_group))
+
+
+    return (list (at_least_1_for_target_num_links_between_2_groups_per_round =
+                      at_least_1_for_target_num_links_between_2_groups_per_round,
+                  target_num_links_between_2_groups_per_round =
+                      target_num_links_between_2_groups_per_round))
     }
 
 #===============================================================================
@@ -296,10 +344,10 @@ derive_Xu_control_parameters = function (parameters,
     if (parameters$use_unif_rand_n__num_groups)
         {
         n__num_groups =
-        integerize (runif (1,
-                         min = parameters$n__num_groups_lower_bound,
-                         max = parameters$n__num_groups_upper_bound
-                         ))
+            integerize (runif (1,
+                             min = parameters$n__num_groups_lower_bound,
+                             max = parameters$n__num_groups_upper_bound
+                             ))
         }
 
     alpha__ = parameters$alpha__
@@ -416,21 +464,20 @@ derive_Xu_control_parameters = function (parameters,
 
     target_num_links_between_2_groups_per_round =
         compute_target_num_links_between_2_groups_per_round (
-            parameters,
-            # parameters$base_for_target_num_links_between_2_groups_per_round,
-            # parameters$at_least_1_for_target_num_links_between_2_groups_per_round,
+            parameters$at_least_1_for_target_num_links_between_2_groups_per_round,
             p__prop_of_links_between_groups,
             num_nodes_per_group,
             integerize)
 
-    #  Compute how many links there will be within each group.
-    #  If there is more than one independent node, then not all possible
-    #  combinations of links will be made, i.e., no links are allowed to
-    #  be made between the independent nodes themselves, otherwise,
-    #  they would no longer be independent.  So, have to subtract off
-    #  the number of possible links between independent nodes in
-    #  the group.
-    #    num_links_within_one_group = choose (num_nodes_per_group, 2)
+        #  Compute how many links there will be within each group.
+        #  If there is more than one independent node, then not all possible
+        #  combinations of links will be made, i.e., no links are allowed to
+        #  be made between the independent nodes themselves, otherwise,
+        #  they would no longer be independent.  So, have to subtract off
+        #  the number of possible links between independent nodes in
+        #  the group.
+        #    num_links_within_one_group = choose (num_nodes_per_group, 2)
+
     num_links_within_one_group = choose (num_nodes_per_group, 2) -
                                  choose (num_independent_nodes_per_group, 2)
 
