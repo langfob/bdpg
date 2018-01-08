@@ -199,8 +199,6 @@ create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowe
                                                                       bdpg_error_codes,
                                                                       integerize)
     {
-        #  NEED TO ADD THESE TO YAML FILE IN TESTS and build a test
-        #  ALSO NEED TO ADD FLAG ABOUT NOT USING 4 METAPARAMS
     tot_num_nodes                               = parameters$tot_num_nodes
     num_nodes_per_group                         = parameters$num_nodes_per_group
     n__num_groups                               = parameters$n__num_groups
