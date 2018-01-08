@@ -284,7 +284,7 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
                         ".  Must be > sigma_lower_bound = ", sigma_lower_bound,
                         "\n")
 
-    if (!((plusOrMinus1 == 1) || (plusOrMinus1 == -1)))
+    if (!((plusOrMinus1 == 1) | (plusOrMinus1 == -1)))
             error_string <-
                 paste0 (error_string, "plusOrMinus1 = ",
                         plusOrMinus1, ".  Must = 1 or -1.\n")

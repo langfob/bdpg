@@ -322,7 +322,7 @@ derive_Xu_control_parameters = function (parameters,
         #  small amount of added and seldom-used information about failures, so
         #  I'm going with the simpler solution here for now.
 
-    if ((num_links_within_one_group < 1) || (tot_num_links_inside_groups < 1))
+    if ((num_links_within_one_group < 1) | (tot_num_links_inside_groups < 1))
         {
         cat ("\n\nFailing:  num_links_within_one_group (",
              num_links_within_one_group,
