@@ -101,8 +101,21 @@ derive_Xu_control_parameters = function (parameters,
         #  I'm going to try allowing more than that to see if it will still
         #  build hard problems but allow the size of the solution set to drop
         #  below 50% of the node set.
+        #  2018 01 08 - BTL - In spite of the comment above, this assignment
+        #  was still always forcing it to be 1, regardless of any input
+        #  parameters.  It may even have been showing up in the results files
+        #  as being the correct value by being copied somewhere else,
+        #  but when the nodes table is being built, it was always using 1.
 
-    num_independent_nodes_per_group = 1
+#    num_independent_nodes_per_group = 1
+    if (! is.null (parameters$num_independent_nodes_per_group))
+        {
+        num_independent_nodes_per_group =
+            parameters$num_independent_nodes_per_group
+        } else
+        {
+        num_independent_nodes_per_group = 1
+        }
 
     #-------------------------------------------------------------------------------
 
