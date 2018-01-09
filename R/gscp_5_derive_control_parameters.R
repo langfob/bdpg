@@ -22,6 +22,41 @@ valid_boolean <- function (var_value, var_name="(no variable name given)")
 
 #-------------------------------------------------------------------------------
 
+
+vb <- function (var_value, if_bad_use_def=FALSE, def=FALSE)
+    {
+        #  A little extra logic is required here when building error messages
+        #  to keep error messages from being misleading when a bad input value
+        #  invokes the use of a caller-provided default value and that value
+        #  is also bad.
+        #  Without the extra logic, the bad default value is reported as the
+        #  name of the input value in the error message instead of giving
+        #  the name of the original input variable.
+
+    var_name = deparse (substitute (var_value))
+    err_string_lead = "Value"                                     #  extra logic
+
+    if (if_bad_use_def && is.null (var_value))
+        {
+        var_value = def
+        err_string_lead = "Default value"                         #  extra logic
+        }
+
+    if (!is.logical (var_value) || is.na (var_value))
+        {
+        stop (paste0 (
+                      err_string_lead,                            #  extra logic
+
+                      " '", var_value,
+                      "' used for input variable ", var_name,
+                      " must be boolean"))
+        }
+
+    return (var_value)
+    }
+
+#-------------------------------------------------------------------------------
+
 valid_boolean_with_default <- function (var_value,
                                         var_name="(no variable name given)",
                                         default=FALSE)
