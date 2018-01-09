@@ -276,18 +276,23 @@ compute_target_num_links_between_2_groups_per_round <-
         #-----------------------------------------------------------------------
 
 
-    if (is.null (at_least_1_for_target_num_links_between_2_groups_per_round))
-        {
-        at_least_1_for_target_num_links_between_2_groups_per_round = TRUE
+    at_least_1_for_target_num_links_between_2_groups_per_round =
+        valid_boolean_with_default (at_least_1_for_target_num_links_between_2_groups_per_round,
+                                    var_name="at_least_1_for_target_num_links_between_2_groups_per_round",
+                                    default=TRUE)
 
-        } else
-        {
-        if (! is.logical (at_least_1_for_target_num_links_between_2_groups_per_round))
-            stop (paste0 ("\nInput parameter at_least_1_for_target_num_links_",
-                          "between_2_groups_per_round = '",
-                          at_least_1_for_target_num_links_between_2_groups_per_round,
-                          "'  must be boolean"))
-        }
+    # if (is.null (at_least_1_for_target_num_links_between_2_groups_per_round))
+    #     {
+    #     at_least_1_for_target_num_links_between_2_groups_per_round = TRUE
+    #
+    #     } else
+    #     {
+    #     if (! is.logical (at_least_1_for_target_num_links_between_2_groups_per_round))
+    #         stop (paste0 ("\nInput parameter at_least_1_for_target_num_links_",
+    #                       "between_2_groups_per_round = '",
+    #                       at_least_1_for_target_num_links_between_2_groups_per_round,
+    #                       "'  must be boolean"))
+    #     }
 
         #---------------------------------------------------------
         #  Default to having a target of at least 1 link between
@@ -307,6 +312,17 @@ compute_target_num_links_between_2_groups_per_round <-
         #  least the chosen minimum.
         #----------------------------------------------------------
 
+    p__prop_of_links_between_groups =
+        valid_numeric_in_range (p__prop_of_links_between_groups,
+                                "p__prop_of_links_between_groups",
+                                range_lo = 0,
+                                range_hi = 1)
+
+    num_nodes_per_group =
+        valid_numeric_in_range (num_nodes_per_group,
+                                "num_nodes_per_group",
+                                range_lo = 1)
+
     target_num_links_between_2_groups_per_round =
         max (min_target_num_links,
              integerize (p__prop_of_links_between_groups * num_nodes_per_group))
@@ -314,6 +330,7 @@ compute_target_num_links_between_2_groups_per_round <-
 
     return (list (at_least_1_for_target_num_links_between_2_groups_per_round =
                       at_least_1_for_target_num_links_between_2_groups_per_round,
+
                   target_num_links_between_2_groups_per_round =
                       target_num_links_between_2_groups_per_round))
     }
