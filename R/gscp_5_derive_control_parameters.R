@@ -4,26 +4,44 @@
 
 #===============================================================================
 
-#  Note that I'm not allowing numbers (except 0 and 1) or NA as booleans
-#  even though is.logical(NA) returns TRUE and if() works for numbers other
-#  than 0 or 1.  This is because I'm using this function to validate inputs
-#  that are expected to be TRUE, FALSE, 0, or 1.
-#  If you want to test for R's more relaxed notions of these things then
-#  you'll have to write a different test for that.
+#-------------------------------------------------------------------------------
 
-valid_boolean <- function (var_value, var_name="(no variable name given)")
-    {
-    if (!is.logical (var_value) || is.na (var_value))
-        stop (paste0 ("Value '", var_value, "' for variable ", var_name,
-                      " must be boolean"))
-
-    return (var_value)
-    }
+#' Validate input as boolean and replace with default on error if desired
+#'
+#' Note that numbers (other than 0 and 1) and NA are not allowed as booleans
+#' here even though is.logical(NA) returns TRUE and if() statements work for
+#' numbers other than 0 or 1.  This is because this function is intended to
+#' validate inputs that are expected to be TRUE, FALSE, 0, or 1.
+#' If you want to test for R's more relaxed notions of these things then
+#' you'll have to write a different test for that.
 
 #-------------------------------------------------------------------------------
 
+#' @param var_value the value to be checked to see if it's a boolean
+#' @param def_on_empty boolean flag indicating whether to return a default
+#'     value instead of the input value when the input value is empty (where
+#'     empty is defined by other flags below)
+#' @param def a TRUE or FALSE default value to return instead of the input value
+#'     when a default is requested
+#' @param treat_NULL_as_empty a boolean flag set to TRUE if a NULL input is to
+#'     be treated as an empty input; FALSE otherwise
+#' @param treat_NA_as_empty a boolean flag set to TRUE if an NA input is to
+#'     be treated as an empty input; FALSE otherwise
+#' @param allow_num a boolean flag set to TRUE if a numeric input is to be
+#'     allowed and converted to FALSE if 0 and TRUE if non-zero
+#'
+#' @return Returns the input value if it is boolean or a specified boolean if
+#'     other arguments force a valid converted or default boolean to return;
+#'     otherwise, throws an error
+#'
+#' @export
+#'
+#-------------------------------------------------------------------------------
 
-vb <- function (var_value, if_bad_use_def=FALSE, def=FALSE)
+vb <- function (var_value, def_on_empty = FALSE, def = FALSE,
+                treat_NULL_as_empty = TRUE,
+                treat_NA_as_empty = FALSE,
+                allow_num = FALSE)
     {
         #  A little extra logic is required here when building error messages
         #  to keep error messages from being misleading when a bad input value
@@ -34,20 +52,34 @@ vb <- function (var_value, if_bad_use_def=FALSE, def=FALSE)
         #  the name of the original input variable.
 
     var_name = deparse (substitute (var_value))
-    err_string_lead = "Value"                                     #  extra logic
+    err_string_lead = "Value"
 
-    if (if_bad_use_def && is.null (var_value))
+    if (is.numeric (var_value))
         {
-        var_value = def
-        err_string_lead = "Default value"                         #  extra logic
+        if (allow_num) var_value = (var_value != 0)  #  Set 0 FALSE, non-0 TRUE
+        err_string_lead = "Numeric value"
+
+        } else  #  not numeric, so see if empty
+        {
+        if (def_on_empty &&
+                ((treat_NULL_as_empty && is.null (var_value))
+                        ||
+#  Getting an error message when I use is.na() and have warnings set to errors.
+#  is.na() documentation says:
+#  anyNA(NULL) is false: is.na(NULL) is logical(0) with a warning.
+#                 (treat_NA_as_empty && is.na (var_value))))
+                 (treat_NA_as_empty && anyNA (var_value))))
+            {
+            var_value = def
+            err_string_lead = "Default value"
+            }
         }
 
-    if (!is.logical (var_value) || is.na (var_value))
+    if (!is.logical (var_value) ||
+#        (is.na (var_value) && (!def_on_empty || !treat_NA_as_empty)))
+        (anyNA (var_value) && (!def_on_empty || !treat_NA_as_empty)))
         {
-        stop (paste0 (
-                      err_string_lead,                            #  extra logic
-
-                      " '", var_value,
+        stop (paste0 (err_string_lead, " '", var_value,
                       "' used for input variable ", var_name,
                       " must be boolean"))
         }
@@ -57,23 +89,52 @@ vb <- function (var_value, if_bad_use_def=FALSE, def=FALSE)
 
 #-------------------------------------------------------------------------------
 
-valid_boolean_with_default <- function (var_value,
-                                        var_name="(no variable name given)",
-                                        default=FALSE)
+#' @param var_value the value to be checked to see if it's a boolean
+#' @param if_bad_use_def boolean flag indicating whether to return a default
+#'     value instead of the input value when the input value is not boolean
+#' @param def a boolean default value to return instead of the input value when
+#'     the input value is not boolean
+#'
+#' @return Returns the input value if it is boolean, but throws an error if the
+#'     input value is not boolean and if_bad_use_def is FALSE. If the input
+#'     is not boolean but if_bad_use_def is TRUE, then the function returns
+#'     the specified default value if that value is itself a boolean, but
+#'     otherwise throws an error.
+#'
+#' @export
+#'
+#' @examples
+#'
+
+#-------------------------------------------------------------------------------
+
+vbOld <- function (var_value, if_bad_use_def=FALSE, def=FALSE)
     {
-        #  It's easy to forget to add the var_name when specifying the
-        #  call and that leads to the var_name being "TRUE" or "FALSE".
-        #  I did this almost immediately when testing.
-        #  Since you should never have those as variable names anyway,
-        #  throw an error if it happens.
+        #  A little extra logic is required here when building error messages
+        #  to keep error messages from being misleading when a bad input value
+        #  invokes the use of a caller-provided default value and that value
+        #  is also bad.
+        #  Without the extra logic, the bad default value is reported as the
+        #  name of the input value in the error message instead of giving
+        #  the name of the original input variable.
 
-    if (var_name == "FALSE" || var_name == "TRUE")
-        stop (paste0 ("var_name argument = '", var_name, "' not allowed.",
-                      "  Probably missing an argument in call"))
+    var_name = deparse (substitute (var_value))
+    err_string_lead = "Value"
 
-    if (is.null (var_value)) var_value = default
+    if (if_bad_use_def && is.null (var_value))
+        {
+        var_value = def
+        err_string_lead = "Default value"
+        }
 
-    return (valid_boolean (var_value, var_name))
+    if (!is.logical (var_value) || is.na (var_value))
+        {
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      " must be boolean"))
+        }
+
+    return (var_value)
     }
 
 #===============================================================================

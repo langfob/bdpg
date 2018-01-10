@@ -10,21 +10,2110 @@ context ("validation_functions")
 
 #===============================================================================
 
+#  There are 2^5 possible combinations of valid options for vb (ignoring
+#  the contents of var_value itself), so there are 32 cases for each different
+#  kind of var_value.  Each is broken out in a separate test_that clause
+#  below.
+
+#-------------------------------------------------------------------------------
+
+test_that("vb: var_value is TRUE", {
+
+myVar = TRUE
+
+#  00000
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  00001
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  00010
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  00011
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  00100
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  00101
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  00110
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  00111
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  01000
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  01001
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  01010
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  01011
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  01100
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  01101
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  01110
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  01111
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#----------------------------------------
+
+#  10000
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  10001
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  10010
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  10011
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  10100
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  10101
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  10110
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  10111
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  11000
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  11001
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  11010
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  11011
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  11100
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  11101
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  11110
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  11111
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+})
+
+#-------------------------------------------------------------------------------
+
+test_that("vb: var_value is FALSE", {
+
+myVar = FALSE
+
+#  00000
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  00001
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  00010
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  00011
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  00100
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  00101
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  00110
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  00111
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  01000
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  01001
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  01010
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  01011
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  01100
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  01101
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  01110
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  01111
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#----------------------------------------
+
+#  10000
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  10001
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  10010
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  10011
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  10100
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  10101
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  10110
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  10111
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  11000
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  11001
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  11010
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  11011
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  11100
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  11101
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  11110
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  11111
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+})
+
+#-------------------------------------------------------------------------------
+
+test_that("vb: var_value is NULL", {
+
+myVar = NULL
+
+#  00000
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00001
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00010
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00011
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00100
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00101
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00110
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00111
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01000
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01001
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01010
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01011
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01100
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01101
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01110
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01111
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#----------------------------------------
+
+#  10000
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10001
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10010
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10011
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10100
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  10101
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  10110
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  10111
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  11000
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11001
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11010
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11011
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value '' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11100
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE))
+
+#  11101
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  11110
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  11111
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+})
+
+#-------------------------------------------------------------------------------
+
+test_that("vb: var_value is NA", {
+
+myVar = NA
+
+#  00000
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00001
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00010
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00011
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00100
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00101
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00110
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00111
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01000
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01001
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01010
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01011
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01100
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01101
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01110
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01111
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#----------------------------------------
+
+#  10000
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10001
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10010
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  10011
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  10100
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10101
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10110
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  10111
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  11000
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11001
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11010
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  11011
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  11100
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11101
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'NA' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11110
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE))
+
+#  11111
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+})
+
+#-------------------------------------------------------------------------------
+
+test_that("vb: var_value is numeric other than 0 or 1", {
+
+myVar = -17
+
+#  00000
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00001
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  00010
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00011
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  00100
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00101
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  00110
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00111
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  01000
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01001
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  01010
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01011
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  01100
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01101
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  01110
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01111
+expect_true (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#----------------------------------------
+
+#  10000
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10001
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  10010
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10011
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  10100
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10101
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  10110
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10111
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  11000
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11001
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  11010
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11011
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  11100
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11101
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  11110
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '-17' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11111
+expect_true (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+})
+
+#-------------------------------------------------------------------------------
+
+test_that("vb: var_value is numeric 0", {
+
+myVar = 0
+
+#  00000
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00001
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  00010
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00011
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  00100
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00101
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  00110
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00111
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  01000
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01001
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  01010
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01011
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  01100
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01101
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  01110
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01111
+expect_false (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#----------------------------------------
+
+#  10000
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10001
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  10010
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10011
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  10100
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10101
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  10110
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10111
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  11000
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11001
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  11010
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11011
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+
+#  11100
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11101
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE))
+
+#  11110
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Numeric value '0' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11111
+expect_false (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE))
+})
+
+#-------------------------------------------------------------------------------
+
+test_that("vb: var_value is string", {
+
+myVar = "someString"
+
+#  00000
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00001
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00010
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00011
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00100
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00101
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00110
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  00111
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01000
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01001
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01010
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01011
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01100
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01101
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01110
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  01111
+expect_error (vb (myVar,
+    def_on_empty = FALSE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#----------------------------------------
+
+#  10000
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10001
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10010
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10011
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10100
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10101
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10110
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  10111
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = FALSE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11000
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11001
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11010
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11011
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = FALSE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11100
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11101
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = FALSE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11110
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = FALSE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+
+#  11111
+expect_error (vb (myVar,
+    def_on_empty = TRUE,
+    def = TRUE,
+    treat_NULL_as_empty = TRUE,
+    treat_NA_as_empty = TRUE,
+    allow_num = TRUE),
+    "Value 'someString' used for input variable myVar must be boolean",
+    fixed=TRUE)
+})
+
+#-------------------------------------------------------------------------------
+
 test_that("vb: input value is a constant", {
 
         #  TRUE always returns TRUE even if default is bad
     expect_true (vb (TRUE))
-    expect_true (vb (TRUE, if_bad_use_def=TRUE, def=FALSE))
-    expect_true (vb (TRUE, if_bad_use_def=TRUE, def=NA))
+    expect_true (vb (TRUE, def_on_empty=TRUE, def=FALSE))
+    expect_true (vb (TRUE, def_on_empty=TRUE, def=NA))
 
         #  FALSE always returns FALSE even if default is bad
     expect_false (vb (FALSE))
-    expect_false (vb (FALSE, if_bad_use_def=TRUE, def=FALSE))
-    expect_false (vb (FALSE, if_bad_use_def=TRUE, def="aString"))
+    expect_false (vb (FALSE, def_on_empty=TRUE, def=FALSE))
+    expect_false (vb (FALSE, def_on_empty=TRUE, def="aString"))
 
         #  NULL returns default when default is good
-    expect_true  (vb (NULL, if_bad_use_def=TRUE, def=TRUE))
-    expect_false (vb (NULL, if_bad_use_def=TRUE, def=FALSE))
+    expect_true  (vb (NULL, def_on_empty=TRUE, def=TRUE))
+    expect_false (vb (NULL, def_on_empty=TRUE, def=FALSE))
+
+        #  bad value with "def_on_empty=TRUE" but no default, always returns FALSE
+    expect_false (vb (NULL, def_on_empty=TRUE))
 
         #  bad value with no default correction always throws error
     expect_error (vb (NULL),
@@ -34,26 +2123,38 @@ test_that("vb: input value is a constant", {
                   "Value 'NA' used for input variable NA must be boolean",
                   fixed=TRUE)
     expect_error (vb (3),
-                  "Value '3' used for input variable 3 must be boolean",
+                  "Numeric value '3' used for input variable 3 must be boolean",
                   fixed=TRUE)
     expect_error (vb ("aString"),
                   "Value 'aString' used for input variable \"aString\" must be boolean",
                   fixed=TRUE)
 
+    expect_error (vb (NA, def_on_empty=TRUE),
+                  "Value 'NA' used for input variable NA must be boolean",
+                  fixed=TRUE)
+    expect_error (vb (3, def_on_empty=TRUE),
+                  "Numeric value '3' used for input variable 3 must be boolean",
+                  fixed=TRUE)
+    expect_error (vb ("aString", def_on_empty=TRUE),
+                  "Value 'aString' used for input variable \"aString\" must be boolean",
+                  fixed=TRUE)
+
+
+
         #  bad value with bad default correction throws error
-    expect_error (vb (NULL, if_bad_use_def=TRUE, def=NULL),
+    expect_error (vb (NULL, def_on_empty=TRUE, def=NULL),
                   "Default value '' used for input variable NULL must be boolean",
                   fixed=TRUE)
-    expect_error (vb (NULL, if_bad_use_def=TRUE, def=NA),
+    expect_error (vb (NULL, def_on_empty=TRUE, def=NA),
                   "Default value 'NA' used for input variable NULL must be boolean",
                   fixed=TRUE)
-    expect_error (vb (NULL, if_bad_use_def=TRUE, def="aString"),
+    expect_error (vb (NULL, def_on_empty=TRUE, def="aString"),
                   "Default value 'aString' used for input variable NULL must be boolean",
                   fixed=TRUE)
-    expect_error (vb (NULL, if_bad_use_def=TRUE, def=27),
+    expect_error (vb (NULL, def_on_empty=TRUE, def=27),
                   "Default value '27' used for input variable NULL must be boolean",
                   fixed=TRUE)
-    expect_error (vb (NULL, if_bad_use_def=TRUE, def=0),
+    expect_error (vb (NULL, def_on_empty=TRUE, def=0),
                   "Default value '0' used for input variable NULL must be boolean",
                   fixed=TRUE)
 })
@@ -61,17 +2162,37 @@ test_that("vb: input value is a constant", {
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-test_that("valid_boolean: input value not a constant", {
+test_that("vb: input value not a constant", {
+
+        #  TRUE always returns TRUE even if default is bad
     myVar = TRUE
     expect_true (vb (myVar))
-    expect_true (vb (myVar, if_bad_use_def=TRUE, def=FALSE))
-    expect_true (vb (myVar, if_bad_use_def=TRUE, def=NA))
+    expect_true (vb (myVar, def_on_empty=TRUE, def=FALSE))
+    expect_true (vb (myVar, def_on_empty=TRUE, def=NA))
 
+        #  FALSE always returns FALSE even if default is bad
     myVar = FALSE
     expect_false (vb (myVar))
-    expect_false (vb (myVar, if_bad_use_def=TRUE, def=FALSE))
-    expect_false (vb (myVar, if_bad_use_def=TRUE, def="aString"))
+    expect_false (vb (myVar, def_on_empty=TRUE, def=FALSE))
+    expect_false (vb (myVar, def_on_empty=TRUE, def="aString"))
 
+        #  bad value with "def_on_empty=TRUE" but no default, always returns FALSE
+    myVar = NULL
+    expect_false (vb (myVar, def_on_empty=TRUE))
+
+
+    myVar = NA
+    expect_error (vb (myVar, def_on_empty=TRUE),
+                  "Value 'NA' used for input variable myVar must be boolean",
+                  fixed=TRUE)
+    myVar = 3
+    expect_error (vb (myVar, def_on_empty=TRUE),
+                  "Numeric value '3' used for input variable myVar must be boolean",
+                  fixed=TRUE)
+    myVar = "aString"
+    expect_error (vb (myVar, def_on_empty=TRUE),
+                  "Value 'aString' used for input variable myVar must be boolean",
+                  fixed=TRUE)
 
     myVar = NULL
     expect_error (vb (myVar),
@@ -106,10 +2227,10 @@ test_that("valid_boolean: input value not a constant", {
 
     vec = c(100,200,300)
     expect_error (vb (vec[3]),
-                  "Value '300' used for input variable vec[3] must be boolean",
+                  "Numeric value '300' used for input variable vec[3] must be boolean",
                   fixed=TRUE)
     expect_error (vb (vec[idx1]),
-                  "Value '100' used for input variable vec[idx1] must be boolean",
+                  "Numeric value '100' used for input variable vec[idx1] must be boolean",
                   fixed=TRUE)
 
 
@@ -120,7 +2241,7 @@ test_that("valid_boolean: input value not a constant", {
 
     myVar = 3
     expect_error (vb (myVar),
-                  "Value '3' used for input variable myVar must be boolean",
+                  "Numeric value '3' used for input variable myVar must be boolean",
                   fixed=TRUE)
 
     myVar = "aString"
@@ -128,145 +2249,6 @@ test_that("valid_boolean: input value not a constant", {
                   "Value 'aString' used for input variable myVar must be boolean",
                   fixed=TRUE)
 
-})
-
-#===============================================================================
-
-test_that("valid_boolean_with_default: with and without NULL arg and/or explicit default", {
-    expect_true (valid_boolean_with_default (TRUE))
-    expect_false (valid_boolean_with_default (FALSE))
-
-    expect_true (valid_boolean_with_default (TRUE, default=FALSE))
-    expect_false (valid_boolean_with_default (FALSE, default=FALSE))
-
-    expect_true (valid_boolean_with_default (TRUE, default=NA))
-    expect_false (valid_boolean_with_default (FALSE, default="aString"))
-
-    expect_false (valid_boolean_with_default (NULL))
-    expect_false (valid_boolean_with_default (NULL, default=FALSE))
-    expect_true (valid_boolean_with_default (NULL, default=TRUE))
-
-    expect_error (valid_boolean_with_default (NULL, default=NA),
-                  "Value 'NA' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-    expect_error (valid_boolean_with_default (NULL, default="aString"),
-                  "Value 'aString' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-
-    expect_false (valid_boolean_with_default (NULL, "myVar"))
-    expect_false (valid_boolean_with_default (NULL, "myVar", default=FALSE))
-    expect_true (valid_boolean_with_default (NULL, "myVar", default=TRUE))
-
-    expect_false (valid_boolean_with_default (NULL, default=FALSE))
-    expect_true (valid_boolean_with_default (NULL, default=TRUE))
-
-
-    expect_error (valid_boolean_with_default (NA),
-                  "Value 'NA' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-    expect_error (valid_boolean_with_default (3),
-                  "Value '3' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-    expect_error (valid_boolean_with_default ("aString"),
-                  "Value 'aString' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-})
-
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-test_that("valid_boolean: const value but no variable name given", {
-    expect_true (valid_boolean (TRUE))
-    expect_false (valid_boolean (FALSE))
-
-    expect_error (valid_boolean (NULL),
-                  "Value '' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-    expect_error (valid_boolean (NA),
-                  "Value 'NA' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-    expect_error (valid_boolean (3),
-                  "Value '3' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-    expect_error (valid_boolean ("aString"),
-                  "Value 'aString' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-})
-
-#-------------------------------------------------------------------------------
-
-test_that("valid_boolean: const value but variable name supplied", {
-    expect_true (valid_boolean (TRUE, "myVar"))
-    expect_false (valid_boolean (FALSE, "myVar"))
-
-    expect_error (valid_boolean (NULL, "myVar"),
-                  "Value '' for variable myVar must be boolean",
-                  fixed=TRUE)
-    expect_error (valid_boolean (NA, "myVar"),
-                  "Value 'NA' for variable myVar must be boolean",
-                  fixed=TRUE)
-    expect_error (valid_boolean (3, "myVar"),
-                  "Value '3' for variable myVar must be boolean",
-                  fixed=TRUE)
-    expect_error (valid_boolean ("aString", "myVar"),
-                  "Value 'aString' for variable myVar must be boolean",
-                  fixed=TRUE)
-})
-
-#-------------------------------------------------------------------------------
-
-test_that("valid_boolean: value passed in variable but no variable name given", {
-    myVar = TRUE
-    expect_true (valid_boolean (myVar))
-
-    myVar = FALSE
-    expect_false (valid_boolean (myVar))
-
-    myVar = NULL
-    expect_error (valid_boolean (myVar),
-                  "Value '' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-
-    myVar = NA
-    expect_error (valid_boolean (myVar),
-                  "Value 'NA' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-
-    myVar = 3
-    expect_error (valid_boolean (myVar),
-                  "Value '3' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-
-    myVar = "aString"
-    expect_error (valid_boolean (myVar),
-                  "Value 'aString' for variable (no variable name given) must be boolean",
-                  fixed=TRUE)
-
-})
-
-#-------------------------------------------------------------------------------
-
-test_that("valid_boolean: value passed in variable and variable name supplied", {
-    myVar = TRUE
-    expect_true (valid_boolean (myVar, "myVar"))
-
-    myVar = FALSE
-    expect_false (valid_boolean (myVar, "myVar"))
-
-    myVar = NULL
-    expect_error (valid_boolean (myVar, "myVar"),
-                  "Value '' for variable myVar must be boolean",
-                  fixed=TRUE)
-
-    myVar = NA
-    expect_error (valid_boolean (myVar, "myVar"),
-                  "Value 'NA' for variable myVar must be boolean",
-                  fixed=TRUE)
-
-    myVar = 3
-    expect_error (valid_boolean (myVar, "myVar"),
-                  "Value '3' for variable myVar must be boolean",
-                  fixed=TRUE)
 })
 
 #===============================================================================
