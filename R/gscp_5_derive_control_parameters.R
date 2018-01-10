@@ -6,14 +6,17 @@
 
 #-------------------------------------------------------------------------------
 
-#' Validate input as boolean and replace with default on error if desired
+#' Validate input as boolean and replace with default on empty input if desired
 #'
-#' Note that numbers (other than 0 and 1) and NA are not allowed as booleans
-#' here even though is.logical(NA) returns TRUE and if() statements work for
-#' numbers other than 0 or 1.  This is because this function is intended to
-#' validate inputs that are expected to be TRUE, FALSE, 0, or 1.
-#' If you want to test for R's more relaxed notions of these things then
-#' you'll have to write a different test for that.
+#' This function is intended to be a more flexible replacement for calling
+#' is.logical().  In particular, it makes it possible to replace empty values
+#' with a default value (e.g., FALSE) and to define whether NULL and/or NA
+#' are treated as empty values.  It also allows control over whether numeric
+#' values other than 0 and 1 are considered boolean by this validation function.
+#' This is sometimes useful when validating an input option where a non-0/1
+#' value would be suggestive of a mistake in the input file.
+#'
+#'
 
 #-------------------------------------------------------------------------------
 
@@ -28,11 +31,11 @@
 #' @param treat_NA_as_empty a boolean flag set to TRUE if an NA input is to
 #'     be treated as an empty input; FALSE otherwise
 #' @param allow_num a boolean flag set to TRUE if a numeric input is to be
-#'     allowed and converted to FALSE if 0 and TRUE if non-zero
+#'     allowed and returned as FALSE if 0 and TRUE if non-zero
 #'
-#' @return Returns the input value if it is boolean or a specified boolean if
-#'     other arguments force a valid converted or default boolean to return;
-#'     otherwise, throws an error
+#' @return Returns the input value if it is boolean or, returns a specified
+#'     boolean if other arguments force a valid converted or default boolean
+#'     to return; otherwise, throws an error
 #'
 #' @export
 #'
