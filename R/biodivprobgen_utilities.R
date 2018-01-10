@@ -786,7 +786,7 @@ vb <- function (var_value, def_on_empty = FALSE, def = FALSE,
         #  name of the input value in the error message instead of giving
         #  the name of the original input variable.
 
-    var_name = deparse (substitute (var_value))
+    var_name = deparse (substitute (var_value))  #  Get var_name arg as string
     err_string_lead = "Value"
 
     if (is.numeric (var_value))
