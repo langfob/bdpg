@@ -4,6 +4,158 @@
 
 #===============================================================================
 
+vn <- function (var_value, range_lo=-Inf, range_hi=Inf, bounds_types = "ii",
+                def_on_empty = FALSE,
+                def = 0,
+                treat_NULL_as_empty = TRUE,
+                treat_NA_as_empty = TRUE,
+                allow_num = FALSE)
+    {
+        #--------------------------------------------------------
+        #  Get var_name arg as string to use in error messages.
+        #--------------------------------------------------------
+
+    var_name = deparse (substitute (var_value))
+    err_string_lead = "Validating"
+#    err_string_lead = "Value"
+
+        #-------------------------------------------------------------------
+        #  If caller wants to replace empty input with a default value,
+        #  and the input is empty, then go ahead and make the replacement.
+        #  Because the default value itself might not be numeric or
+        #  in range, continue on to check that value as you would a
+        #  value that was passed in normally.
+        #-------------------------------------------------------------------
+
+    if (def_on_empty &&
+            ((treat_NULL_as_empty && is.null (var_value))
+                    ||
+             (treat_NA_as_empty && anyNA (var_value))))
+        {
+        var_value = def
+        err_string_lead = "Default value"
+        }
+
+        #-----------------------------------------------------------------
+        #  Check the value that will be returned to see if it's numeric,
+        #  regardless of whether it is the value that was passed in or
+        #  the default value.
+        #-----------------------------------------------------------------
+
+    if (! is.numeric (var_value))
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      " must be numeric"))
+
+        #-----------------------------------------------------------------
+        #  Make sure that the range hi and lo are themselves numeric and
+        #  are in the proper order to specify a range.
+        #-----------------------------------------------------------------
+
+    if (! is.numeric (range_lo))
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", range_lo = '", range_lo, "' must be numeric"))
+
+    if (! is.numeric (range_hi))
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", range_hi = '", range_hi, "' must be numeric"))
+
+    if (range_lo > range_hi)
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", range_lo = '", range_lo, "' must be <= ",
+                      "range_hi = '", range_hi, "'"))
+
+        #----------------------------------------------------------------------
+        #  Check that the range bounds are specified correctly and that the
+        #  var_value to be returned from the function falls within the bounds.
+        #
+        #  The upper and lower bounds can be either exclusive or inclusive
+        #  bounds. This is specified by a 2 character string with the first
+        #  character for the lower bound and the second character for the
+        #  upper bound.  For each bound, the specifier is an "i" if the bound
+        #  is inclusive and an "e" if it's exclusive, e.g., if a value must
+        #  be >= to the lower bound and strictly less than the upper bound,
+        #  the bounds_type would be "ie".
+        #----------------------------------------------------------------------
+
+    if (! is.character (bounds_types))
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", bounds_types = '", range_hi, "' must be a string"))
+
+    if (nchar (bounds_types) != 2)
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", bounds_types = '", range_hi, "' must be a 2 character string"))
+
+    lower_bound_type = substring (bounds_types, 1, 1)
+    if (lower_bound_type == "i")
+        {
+        if (var_value < range_lo)
+            {
+            stop (paste0 (err_string_lead, " '", var_value,
+                          "' used for input variable ", var_name,
+                          " must be >= ", "range_lo = '", range_lo, "'"))
+            }
+        } else if (lower_bound_type == "e")
+        {
+        if (var_value <= range_lo)
+            {
+            stop (paste0 (err_string_lead, " '", var_value,
+                          "' used for input variable ", var_name,
+                          " must be > ", "range_lo = '", range_lo, "'"))
+            }
+        } else  #  bounds_type NOT "i" or "e"
+        {
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", lower_bound_type = '", lower_bound_type, "' must be 'i' or 'e'"))
+        }
+
+    upper_bound_type = substring (bounds_types, 2, 2)
+    if (upper_bound_type == "i")
+        {
+        if (var_value > range_hi)
+            {
+            stop (paste0 (err_string_lead, " '", var_value,
+                          "' used for input variable ", var_name,
+                          " must be <= ", "range_hi = '", range_hi, "'"))
+            }
+        } else if (upper_bound_type == "e")
+        {
+        if (var_value >= range_hi)
+            {
+            stop (paste0 (err_string_lead, " '", var_value,
+                          "' used for input variable ", var_name,
+                          " must be < ", "range_hi = '", range_hi, "'"))
+            }
+        } else  #  bounds_type NOT "i" or "e"
+        {
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", upper_bound_type = '", upper_bound_type, "' must be 'i' or 'e'"))
+        }
+
+    return (var_value)
+    }
+
+#-------------------------------------------------------------------------------
+
+valid_numeric_in_range_with_default <- function (var_value,
+                                                 var_name="(no variable name given)",
+                                                 range_lo=-Inf, range_hi=Inf,
+                                                 default=0)
+    {
+    if (is.null (var_value) || is.na (var_value))  var_value = default
+
+    return (valid_numeric_in_range (var_value, var_name, range_lo, range_hi))
+    }
+
+#===============================================================================
+
 valid_numeric_in_range <- function (var_value, var_name="(no variable name given)",
                                     range_lo=-Inf, range_hi=Inf)
     {
@@ -240,22 +392,6 @@ compute_target_num_links_between_2_groups_per_round <-
     at_least_1_for_target_num_links_between_2_groups_per_round =
         vb (at_least_1_for_target_num_links_between_2_groups_per_round,
             def_on_empty = TRUE, def = TRUE)
-        # valid_boolean_with_default (at_least_1_for_target_num_links_between_2_groups_per_round,
-        #                             var_name="at_least_1_for_target_num_links_between_2_groups_per_round",
-        #                             default=TRUE)
-
-    # if (is.null (at_least_1_for_target_num_links_between_2_groups_per_round))
-    #     {
-    #     at_least_1_for_target_num_links_between_2_groups_per_round = TRUE
-    #
-    #     } else
-    #     {
-    #     if (! is.logical (at_least_1_for_target_num_links_between_2_groups_per_round))
-    #         stop (paste0 ("\nInput parameter at_least_1_for_target_num_links_",
-    #                       "between_2_groups_per_round = '",
-    #                       at_least_1_for_target_num_links_between_2_groups_per_round,
-    #                       "'  must be boolean"))
-    #     }
 
         #---------------------------------------------------------
         #  Default to having a target of at least 1 link between
@@ -426,11 +562,11 @@ derive_Xu_control_parameters = function (parameters,
         #  the excess independent nodes that are beyond the original 1,
         #  so we have to subtract 1 from the number we're adding on.
 
-        #    num_nodes_per_group = integerize (n__num_groups ^ alpha__)
+    #original#    num_nodes_per_group = integerize (n__num_groups ^ alpha__)
     num_nodes_per_group = integerize (n__num_groups ^ alpha__) -
                                         (num_independent_nodes_per_group - 1)
 
-        #    num_independent_set_nodes = n__num_groups
+    #original#    num_independent_set_nodes = n__num_groups
     num_independent_set_nodes = n__num_groups * num_independent_nodes_per_group
 
     tot_num_nodes = n__num_groups * num_nodes_per_group
@@ -494,34 +630,6 @@ derive_Xu_control_parameters = function (parameters,
     cat ("\n\t\t max_possible_tot_num_links = ", max_possible_tot_num_links)
     cat ("\n\t\t max_possible_tot_num_node_link_pairs = ", max_possible_tot_num_node_link_pairs)
     cat ("\n\n")
-
-    #===============================================================================
-
-        #  Create and load a structure holding all of the derived parameters
-        #  so that they can be returned to the caller.
-
-    # derived_Xu_params = list()
-    #
-    # derived_Xu_params$num_nodes_per_group                                        = num_nodes_per_group
-    # derived_Xu_params$num_rounds_of_linking_between_groups                       = num_rounds_of_linking_between_groups
-    # derived_Xu_params$target_num_links_between_2_groups_per_round                = target_num_links_between_2_groups_per_round
-    # derived_Xu_params$num_links_within_one_group                                 = num_links_within_one_group
-    # derived_Xu_params$tot_num_links_inside_groups                                = tot_num_links_inside_groups
-    # derived_Xu_params$max_possible_num_links_between_groups                      = max_possible_num_links_between_groups
-    # derived_Xu_params$max_possible_tot_num_links                                 = max_possible_tot_num_links
-    # derived_Xu_params$max_possible_tot_num_node_link_pairs                       = max_possible_tot_num_node_link_pairs
-    #
-    # derived_Xu_params$n__num_groups                                              = n__num_groups
-    # derived_Xu_params$alpha__                                                    = alpha__
-    # derived_Xu_params$p__prop_of_links_between_groups                            = p__prop_of_links_between_groups
-    # derived_Xu_params$r__density                                                 = r__density
-    # derived_Xu_params$num_independent_nodes_per_group                            = num_independent_nodes_per_group
-    # derived_Xu_params$num_independent_set_nodes                                  = num_independent_set_nodes
-    # derived_Xu_params$tot_num_nodes                                              = tot_num_nodes
-    # derived_Xu_params$num_dependent_set_nodes                                    = num_dependent_set_nodes
-    # derived_Xu_params$opt_solution_as_frac_of_tot_num_nodes                      = opt_solution_as_frac_of_tot_num_nodes
-    # derived_Xu_params$base_for_target_num_links_between_2_groups_per_round       = base_for_target_num_links_between_2_groups_per_round
-    # derived_Xu_params$at_least_1_for_target_num_links_between_2_groups_per_round = at_least_1_for_target_num_links_between_2_groups_per_round
 
     #===============================================================================
 
