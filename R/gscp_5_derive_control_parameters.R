@@ -4,12 +4,12 @@
 
 #===============================================================================
 
-vn <- function (var_value, range_lo=-Inf, range_hi=Inf, bounds_types = "ii",
+vn <- function (var_value,
+                range_lo=-Inf, range_hi=Inf, bounds_types = "ii",
                 def_on_empty = FALSE,
                 def = 0,
                 treat_NULL_as_empty = TRUE,
-                treat_NA_as_empty = TRUE,
-                allow_num = FALSE)
+                treat_NA_as_empty = TRUE)
     {
         #--------------------------------------------------------
         #  Get var_name arg as string to use in error messages.
@@ -17,7 +17,6 @@ vn <- function (var_value, range_lo=-Inf, range_hi=Inf, bounds_types = "ii",
 
     var_name = deparse (substitute (var_value))
     err_string_lead = "Validating"
-#    err_string_lead = "Value"
 
         #-------------------------------------------------------------------
         #  If caller wants to replace empty input with a default value,
@@ -45,7 +44,7 @@ vn <- function (var_value, range_lo=-Inf, range_hi=Inf, bounds_types = "ii",
     if (! is.numeric (var_value))
         stop (paste0 (err_string_lead, " '", var_value,
                       "' used for input variable ", var_name,
-                      " must be numeric"))
+                      ", must be numeric"))
 
         #-----------------------------------------------------------------
         #  Make sure that the range hi and lo are themselves numeric and
@@ -98,7 +97,7 @@ vn <- function (var_value, range_lo=-Inf, range_hi=Inf, bounds_types = "ii",
             {
             stop (paste0 (err_string_lead, " '", var_value,
                           "' used for input variable ", var_name,
-                          " must be >= ", "range_lo = '", range_lo, "'"))
+                          ", must be >= ", "range_lo = '", range_lo, "'"))
             }
         } else if (lower_bound_type == "e")
         {
@@ -106,7 +105,7 @@ vn <- function (var_value, range_lo=-Inf, range_hi=Inf, bounds_types = "ii",
             {
             stop (paste0 (err_string_lead, " '", var_value,
                           "' used for input variable ", var_name,
-                          " must be > ", "range_lo = '", range_lo, "'"))
+                          ", must be > ", "range_lo = '", range_lo, "'"))
             }
         } else  #  bounds_type NOT "i" or "e"
         {
@@ -122,7 +121,7 @@ vn <- function (var_value, range_lo=-Inf, range_hi=Inf, bounds_types = "ii",
             {
             stop (paste0 (err_string_lead, " '", var_value,
                           "' used for input variable ", var_name,
-                          " must be <= ", "range_hi = '", range_hi, "'"))
+                          ", must be <= ", "range_hi = '", range_hi, "'"))
             }
         } else if (upper_bound_type == "e")
         {
@@ -130,7 +129,7 @@ vn <- function (var_value, range_lo=-Inf, range_hi=Inf, bounds_types = "ii",
             {
             stop (paste0 (err_string_lead, " '", var_value,
                           "' used for input variable ", var_name,
-                          " must be < ", "range_hi = '", range_hi, "'"))
+                          ", must be < ", "range_hi = '", range_hi, "'"))
             }
         } else  #  bounds_type NOT "i" or "e"
         {
@@ -140,70 +139,6 @@ vn <- function (var_value, range_lo=-Inf, range_hi=Inf, bounds_types = "ii",
         }
 
     return (var_value)
-    }
-
-#-------------------------------------------------------------------------------
-
-valid_numeric_in_range_with_default <- function (var_value,
-                                                 var_name="(no variable name given)",
-                                                 range_lo=-Inf, range_hi=Inf,
-                                                 default=0)
-    {
-    if (is.null (var_value) || is.na (var_value))  var_value = default
-
-    return (valid_numeric_in_range (var_value, var_name, range_lo, range_hi))
-    }
-
-#===============================================================================
-
-valid_numeric_in_range <- function (var_value, var_name="(no variable name given)",
-                                    range_lo=-Inf, range_hi=Inf)
-    {
-    if (! is.numeric (var_value))
-        stop (paste0 ("Value '", var_value, "' for variable ", var_name,
-                      " must be numeric"))
-
-    if (! is.numeric (range_lo))
-        stop (paste0 ("Validating ", var_name, ", range_lo = '", range_lo, "' must be numeric"))
-
-    if (! is.numeric (range_hi))
-        stop (paste0 ("Validating ", var_name, ", range_hi = '", range_hi, "' must be numeric"))
-
-    if (range_lo > range_hi)
-        stop (paste0 ("Validating ", var_name,
-                      ", range_lo = '", range_lo, "' must be <= ",
-                      "range_hi = '", range_hi, "'"))
-
-        #----------------------------------------------------------------
-        #  For now, I'm not going to get fancy with this and handle all
-        #  permutations of inclusive and exclusive boundaries on the
-        #  range.  I'm just going to test using inclusive boundaries.
-        #  Can get fancier later if necessary.
-        #----------------------------------------------------------------
-
-    if (var_value < range_lo)
-        stop (paste0 ("Validating ", var_name,
-                      ", var_value = '", var_value, "' must be >= ",
-                      "range_lo = '", range_lo, "'"))
-
-    if (var_value > range_hi)
-        stop (paste0 ("Validating ", var_name,
-                      ", var_value = '", var_value, "' must be <= ",
-                      "range_hi = '", range_hi, "'"))
-
-    return (var_value)
-    }
-
-#-------------------------------------------------------------------------------
-
-valid_numeric_in_range_with_default <- function (var_value,
-                                                 var_name="(no variable name given)",
-                                                 range_lo=-Inf, range_hi=Inf,
-                                                 default=0)
-    {
-    if (is.null (var_value) || is.na (var_value))  var_value = default
-
-    return (valid_numeric_in_range (var_value, var_name, range_lo, range_hi))
     }
 
 #===============================================================================
@@ -412,15 +347,17 @@ compute_target_num_links_between_2_groups_per_round <-
         #----------------------------------------------------------
 
     p__prop_of_links_between_groups =
-        valid_numeric_in_range (p__prop_of_links_between_groups,
-                                "p__prop_of_links_between_groups",
-                                range_lo = 0,
-                                range_hi = 1)
+        # valid_numeric_in_range (p__prop_of_links_between_groups,
+        #                         "p__prop_of_links_between_groups",
+        #                         range_lo = 0,
+        #                         range_hi = 1)
+        vn (p__prop_of_links_between_groups, range_lo = 0, range_hi = 1)
 
     num_nodes_per_group =
-        valid_numeric_in_range (num_nodes_per_group,
-                                "num_nodes_per_group",
-                                range_lo = 1)
+        # valid_numeric_in_range (num_nodes_per_group,
+        #                         "num_nodes_per_group",
+        #                         range_lo = 1)
+        vn (num_nodes_per_group, range_lo = 1)
 
     target_num_links_between_2_groups_per_round =
         max (min_target_num_links,
