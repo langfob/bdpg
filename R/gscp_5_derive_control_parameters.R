@@ -240,8 +240,8 @@ derive_Xu_control_parameters = function (parameters,
     n__num_groups = vn (n__num_groups, range_lo=1)
     alpha__ = vn (alpha__)
     p__prop_of_links_between_groups =
-                vn (parameters$p__prop_of_links_between_groups, range_lo=0)
-    r__density = vn (parameters$r__density)
+                vn (p__prop_of_links_between_groups, range_lo=0)
+    r__density = vn (r__density)
 
     #--------------------
 
