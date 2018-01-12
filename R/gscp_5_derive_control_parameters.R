@@ -122,16 +122,9 @@ compute_target_num_links_between_2_groups_per_round <-
         #----------------------------------------------------------
 
     p__prop_of_links_between_groups =
-        # valid_numeric_in_range (p__prop_of_links_between_groups,
-        #                         "p__prop_of_links_between_groups",
-        #                         range_lo = 0,
-        #                         range_hi = 1)
         vn (p__prop_of_links_between_groups, range_lo = 0, range_hi = 1)
 
     num_nodes_per_group =
-        # valid_numeric_in_range (num_nodes_per_group,
-        #                         "num_nodes_per_group",
-        #                         range_lo = 1)
         vn (num_nodes_per_group, range_lo = 1)
 
     target_num_links_between_2_groups_per_round =
@@ -168,18 +161,18 @@ derive_Xu_control_parameters = function (parameters,
         #            max = min or max-min is small compared to min, and in
         #            particular not for the default arguments."
 
-    n__num_groups = parameters$n__num_groups
-    if (parameters$use_unif_rand_n__num_groups)
+    n__num_groups = vn (parameters$n__num_groups, range_lo=1)
+    if (vb (parameters$use_unif_rand_n__num_groups))
         {
         n__num_groups =
             integerize (runif (1,
-                             min = parameters$n__num_groups_lower_bound,
-                             max = parameters$n__num_groups_upper_bound
+                             min = vn (parameters$n__num_groups_lower_bound),
+                             max = vn (parameters$n__num_groups_upper_bound)
                              ))
         }
 
-    alpha__ = parameters$alpha__
-    if (parameters$derive_alpha_from_n__num_groups_and_opt_frac_0.5)
+    alpha__ = vn (parameters$alpha__)
+    if (vb (parameters$derive_alpha_from_n__num_groups_and_opt_frac_0.5))
         {
             #  BTL - 2015 04 08
             #  This is a special case to summarize the conditions for the
@@ -202,27 +195,27 @@ derive_Xu_control_parameters = function (parameters,
 
         } else
         {
-        if (parameters$use_unif_rand_alpha__)
+        if (vb (parameters$use_unif_rand_alpha__))
             {
             alpha__ = runif (1,
-                           min = parameters$alpha___lower_bound,
-                           max = parameters$alpha___upper_bound
+                           min = vn (parameters$alpha___lower_bound),
+                           max = vn (parameters$alpha___upper_bound)
                            )
             }
         }
 
-    p__prop_of_links_between_groups = parameters$p__prop_of_links_between_groups
-    if (parameters$use_unif_rand_p__prop_of_links_between_groups)
+    p__prop_of_links_between_groups = vn (parameters$p__prop_of_links_between_groups)
+    if (vb (parameters$use_unif_rand_p__prop_of_links_between_groups))
         {
         p__prop_of_links_between_groups =
         runif (1,
-             min = parameters$p__prop_of_links_between_groups_lower_bound,
-             max = parameters$p__prop_of_links_between_groups_upper_bound
+             min = vn (parameters$p__prop_of_links_between_groups_lower_bound),
+             max = vn (parameters$p__prop_of_links_between_groups_upper_bound)
              )
         }
 
-    r__density = parameters$r__density
-    if (parameters$use_unif_rand_r__density)
+    r__density = vn (parameters$r__density)
+    if (vb (parameters$use_unif_rand_r__density))
         {
             #  BTL - 2015 03 19
             #  Not sure why these bounds on r__density said p__r__... instead
@@ -232,9 +225,9 @@ derive_Xu_control_parameters = function (parameters,
 
         r__density = runif (1,
                 #                   min = parameters$p__r__density_lower_bound,
-                              min = parameters$r__density_lower_bound,
+                              min = vn (parameters$r__density_lower_bound),
                 #                   max = parameters$p__r__density_upper_bound
-                              max = parameters$r__density_upper_bound
+                              max = vn (parameters$r__density_upper_bound)
                               )
         }
 
@@ -252,14 +245,18 @@ derive_Xu_control_parameters = function (parameters,
         #  but when the nodes table is being built, it was always using 1.
 
 #    num_independent_nodes_per_group = 1
-    if (! is.null (parameters$num_independent_nodes_per_group))
-        {
-        num_independent_nodes_per_group =
-            parameters$num_independent_nodes_per_group
-        } else
-        {
-        num_independent_nodes_per_group = 1
-        }
+    # if (! is.null (parameters$num_independent_nodes_per_group))
+    #     {
+    #     num_independent_nodes_per_group =
+    #         parameters$num_independent_nodes_per_group
+    #     } else
+    #     {
+    #     num_independent_nodes_per_group = 1
+    #     }
+    num_independent_nodes_per_group =
+        vn (parameters$num_independent_nodes_per_group,
+            def_on_empty = TRUE, def = 1)
+
 
     #-------------------------------------------------------------------------------
 
@@ -275,24 +272,31 @@ derive_Xu_control_parameters = function (parameters,
         #  so we have to subtract 1 from the number we're adding on.
 
     #original#    num_nodes_per_group = integerize (n__num_groups ^ alpha__)
-    num_nodes_per_group = integerize (n__num_groups ^ alpha__) -
-                                        (num_independent_nodes_per_group - 1)
+    num_nodes_per_group =
+        vn (integerize (n__num_groups ^ alpha__) -
+                (num_independent_nodes_per_group - 1), range_lo=2)
 
     #original#    num_independent_set_nodes = n__num_groups
-    num_independent_set_nodes = n__num_groups * num_independent_nodes_per_group
+    num_independent_set_nodes =
+        vn (n__num_groups * num_independent_nodes_per_group, range_lo=1)
 
-    tot_num_nodes = n__num_groups * num_nodes_per_group
+    tot_num_nodes = vn (n__num_groups * num_nodes_per_group, range_lo=1)
 
-    num_dependent_set_nodes = tot_num_nodes - num_independent_set_nodes
+    num_dependent_set_nodes = vn (tot_num_nodes - num_independent_set_nodes,
+                                  range_lo=1)
     opt_solution_as_frac_of_tot_num_nodes =
-                            num_dependent_set_nodes / tot_num_nodes
+        vn (num_dependent_set_nodes / tot_num_nodes,
+            range_lo=0, range_hi=1, bounds_types="ei")
 
     num_rounds_of_linking_between_groups =
-            integerize (r__density * n__num_groups * log (n__num_groups))
+            vn (integerize (r__density * n__num_groups * log (n__num_groups)),
+                range_lo=0)
+
+    #----------
 
     ret_val =
         compute_target_num_links_between_2_groups_per_round (
-            parameters$at_least_1_for_target_num_links_between_2_groups_per_round,
+            vb (parameters$at_least_1_for_target_num_links_between_2_groups_per_round),
             p__prop_of_links_between_groups,
             num_nodes_per_group,
             integerize)
@@ -303,6 +307,8 @@ derive_Xu_control_parameters = function (parameters,
     at_least_1_for_target_num_links_between_2_groups_per_round =
         ret_val$at_least_1_for_target_num_links_between_2_groups_per_round
 
+    #----------
+
         #  Compute how many links there will be within each group.
         #  If there is more than one independent node, then not all possible
         #  combinations of links will be made, i.e., no links are allowed to
@@ -312,10 +318,12 @@ derive_Xu_control_parameters = function (parameters,
         #  the group.
         #    num_links_within_one_group = choose (num_nodes_per_group, 2)
 
-    num_links_within_one_group = choose (num_nodes_per_group, 2) -
-                                 choose (num_independent_nodes_per_group, 2)
+    num_links_within_one_group = vn (choose (num_nodes_per_group, 2) -
+                                     choose (num_independent_nodes_per_group, 2),
+                                     range_lo=1)
 
-    tot_num_links_inside_groups = n__num_groups * num_links_within_one_group
+    tot_num_links_inside_groups = vn (n__num_groups * num_links_within_one_group,
+                                      range_lo=1)
 
     max_possible_num_links_between_groups =
                 integerize (target_num_links_between_2_groups_per_round *
@@ -375,19 +383,22 @@ derive_Xu_control_parameters = function (parameters,
         #  small amount of added and seldom-used information about failures, so
         #  I'm going with the simpler solution here for now.
 
-    if ((num_links_within_one_group < 1) | (tot_num_links_inside_groups < 1))
-        {
-        cat ("\n\nFailing:  num_links_within_one_group (",
-             num_links_within_one_group,
-             ") < 1  OR  tot_num_links_inside_groups (",
-             tot_num_links_inside_groups,
-             ") < 1.\n\n")
+    # if ((num_links_within_one_group < 1) | (tot_num_links_inside_groups < 1))
+    #     {
+    #     cat ("\n\nFailing:  num_links_within_one_group (",
+    #          num_links_within_one_group,
+    #          ") < 1  OR  tot_num_links_inside_groups (",
+    #          tot_num_links_inside_groups,
+    #          ") < 1.\n\n")
+    #
+    #     if (getOption ("bdpg.emulating_tzar", default=FALSE))  browser ()
+    #
+    #     quit (status=bdpg_error_codes$ERROR_STATUS_num_inside_or_within_group_links_less_than_one,
+    #           save="no")
+    #     }
 
-        if (getOption ("bdpg.emulating_tzar", default=FALSE))  browser ()
-
-        quit (status=bdpg_error_codes$ERROR_STATUS_num_inside_or_within_group_links_less_than_one,
-              save="no")
-        }
+    num_links_within_one_group  = vn (num_links_within_one_group, range_lo = 1)
+    tot_num_links_inside_groups = vn (tot_num_links_inside_groups, range_lo = 1)
 
     #-------------------------------------------------------------------------------
 
