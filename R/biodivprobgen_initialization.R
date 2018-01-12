@@ -29,7 +29,7 @@ get_bdpg_error_codes <- function ()
         #----------------------------------------------------------------
 
     bdpg_error_codes = list()
-    bdpg_error_codes$ERROR_STATUS_num_inside_or_within_group_links_less_than_one = 1001
+#    bdpg_error_codes$ERROR_STATUS_num_inside_or_within_group_links_less_than_one = 1001
     bdpg_error_codes$ERROR_STATUS_optimal_solution_is_not_optimal = 1002
     bdpg_error_codes$ERROR_STATUS_num_nodes_per_group_must_be_at_least_2 = 1003
     bdpg_error_codes$ERROR_STATUS_duplicate_spp_in_Xu_input_file = 1004

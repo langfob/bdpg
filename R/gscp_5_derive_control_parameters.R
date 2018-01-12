@@ -383,20 +383,6 @@ derive_Xu_control_parameters = function (parameters,
         #  small amount of added and seldom-used information about failures, so
         #  I'm going with the simpler solution here for now.
 
-    # if ((num_links_within_one_group < 1) | (tot_num_links_inside_groups < 1))
-    #     {
-    #     cat ("\n\nFailing:  num_links_within_one_group (",
-    #          num_links_within_one_group,
-    #          ") < 1  OR  tot_num_links_inside_groups (",
-    #          tot_num_links_inside_groups,
-    #          ") < 1.\n\n")
-    #
-    #     if (getOption ("bdpg.emulating_tzar", default=FALSE))  browser ()
-    #
-    #     quit (status=bdpg_error_codes$ERROR_STATUS_num_inside_or_within_group_links_less_than_one,
-    #           save="no")
-    #     }
-
     num_links_within_one_group  = vn (num_links_within_one_group, range_lo = 1)
     tot_num_links_inside_groups = vn (tot_num_links_inside_groups, range_lo = 1)
 
