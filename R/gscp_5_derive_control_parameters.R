@@ -4,42 +4,13 @@
 
 #===============================================================================
 
-# valid_n__num_groups <- function (n__num_groups)
-#     {
 #     return (n__num_groups)
-# }
-#
-# valid_num_nodes_per_group <- function (num_nodes_per_group)
-#     {
 #     return (num_nodes_per_group)
-#     }
-#
-# valid_p__prop_of_links_between_groups <- function (p__prop_of_links_between_groups)
-#     {
 #     return (p__prop_of_links_between_groups)
-#     }
-#
 # valid_use_unif_rand_n__num_groups <- function (use_unif_rand_n__num_groups)
-#     {
-#     }
-#
-# valid_n__num_groups_lower_bound <- function (n__num_groups_lower_bound)
-#     {
 #     return (n__num_groups_lower_bound)
-#     }
-#
-# valid_n__num_groups_upper_bound <- function (n__num_groups_upper_bound)
-#     {
 #     return (n__num_groups_upper_bound)
-#     }
-#
-# valid_alpha__ <- function (alpha__)
-#     {
 #     return (alpha__)
-# }
-#
-#
-#
 # alpha___lower_bound
 # alpha___upper_bound
 # p__prop_of_links_between_groups
@@ -51,65 +22,8 @@
 # r__density_lower_bound
 # r__density_upper_bound
 #
-# valid_derive_alpha_from_n__num_groups_and_opt_frac_0.5 <- function (derive_alpha_from_n__num_groups_and_opt_frac_0.5)
-#     {
 #     return (derive_alpha_from_n__num_groups_and_opt_frac_0.5)
-#     }
-#
-# valid_use_unif_rand_alpha__ <- function (use_unif_rand_alpha__)
-#     {
 #     return (use_unif_rand_alpha__)
-#     }
-#
-# valid_xxx <- function (xxx)
-#     {
-#     return (xxx)
-#     }
-#
-# valid_xxx <- function (xxx)
-#     {
-#     return (xxx)
-#     }
-#
-# valid_xxx <- function (xxx)
-#     {
-#     return (xxx)
-#     }
-#
-# valid_xxx <- function (xxx)
-#     {
-#     return (xxx)
-#     }
-#
-# valid_xxx <- function (xxx)
-#     {
-#     return (xxx)
-#     }
-#
-# valid_xxx <- function (xxx)
-#     {
-#     return (xxx)
-#     }
-#
-# valid_xxx <- function (xxx)
-#     {
-#     return (xxx)
-#     }
-#
-# valid_xxx <- function (xxx)
-#     {
-#     return (xxx)
-#     }
-#
-# valid_xxx <- function (xxx)
-#     {
-#     return (xxx)
-#     }
-#
-# valid_xxx <- function (xxx)
-#     {
-#     return (xxx)
-#     }
 
 #===============================================================================
 
