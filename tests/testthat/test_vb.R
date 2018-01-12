@@ -2152,11 +2152,15 @@ test_that("vb: input value is a constant", {
                   "Default value 'aString' used for input variable NULL must be boolean",
                   fixed=TRUE)
     expect_error (vb (NULL, def_on_empty=TRUE, def=27),
-                  "Default value '27' used for input variable NULL must be boolean",
+                  "Default numeric value '27' used for input variable NULL must be boolean",
                   fixed=TRUE)
     expect_error (vb (NULL, def_on_empty=TRUE, def=0),
-                  "Default value '0' used for input variable NULL must be boolean",
+                  "Default numeric value '0' used for input variable NULL must be boolean",
                   fixed=TRUE)
+
+    expect_equal (TRUE, vb (NULL, def_on_empty=TRUE, def=27, allow_num=TRUE))
+    expect_equal (FALSE, vb (NULL, def_on_empty=TRUE, def=0, allow_num=TRUE))
+
 })
 
 #-------------------------------------------------------------------------------
@@ -2185,6 +2189,11 @@ test_that("vb: input value not a constant", {
     expect_error (vb (myVar, def_on_empty=TRUE),
                   "Value 'NA' used for input variable myVar must be boolean",
                   fixed=TRUE)
+    expect_equal (TRUE, vb (NULL, def_on_empty=TRUE, def=27,
+                            treat_NA_as_empty=TRUE, allow_num=TRUE))
+    expect_equal (FALSE, vb (NULL, def_on_empty=TRUE, def=0,
+                             treat_NA_as_empty=TRUE, allow_num=TRUE))
+
     myVar = 3
     expect_error (vb (myVar, def_on_empty=TRUE),
                   "Numeric value '3' used for input variable myVar must be boolean",

@@ -814,29 +814,32 @@ vb <- function (var_value, def_on_empty = FALSE, def = FALSE,
     var_name = deparse (substitute (var_value))  #  Get var_name arg as string
     err_string_lead = "Value"
 
-    if (is.numeric (var_value))
-        {
-        if (allow_num) var_value = (var_value != 0)  #  Set 0 FALSE, non-0 TRUE
-        err_string_lead = "Numeric value"
-
-        } else  #  not numeric, so see if empty
-        {
-        if (def_on_empty &&
-                ((treat_NULL_as_empty && is.null (var_value))
-                        ||
+    err_string_lead_for_def = "Default value"
+    if (def_on_empty &&
+            ((treat_NULL_as_empty && is.null (var_value))
+                    ||
 #  Getting an error message when I use is.na() and have warnings set to errors.
 #  is.na() documentation says:
 #  anyNA(NULL) is false: is.na(NULL) is logical(0) with a warning.
 #                 (treat_NA_as_empty && is.na (var_value))))
-                 (treat_NA_as_empty && anyNA (var_value))))
+             (treat_NA_as_empty && anyNA (var_value))))
+        {
+        var_value = def
+        err_string_lead = err_string_lead_for_def
+        }
+
+    if (is.numeric (var_value))
+        {
+        if (allow_num) var_value = (var_value != 0)  #  Set 0 FALSE, non-0 TRUE
+        if (err_string_lead == err_string_lead_for_def)
             {
-            var_value = def
-            err_string_lead = "Default value"
+            err_string_lead = "Default numeric value"
             }
+        else
+            err_string_lead = "Numeric value"
         }
 
     if (!is.logical (var_value) ||
-#        (is.na (var_value) && (!def_on_empty || !treat_NA_as_empty)))
         (anyNA (var_value) && (!def_on_empty || !treat_NA_as_empty)))
         {
         stop (paste0 (err_string_lead, " '", var_value,

@@ -83,7 +83,7 @@ source('~/D/Projects/ProblemDifficulty/pkgs/bdpg/R/write_marxan_input_files.R')
 #test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_gen_single_bdprob.R")
 #test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_gen_wrapped_bdprob.R")
 test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_vb.R")
-test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_vn.R")
+#test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_vn.R")
 
 #===============================================================================
 
