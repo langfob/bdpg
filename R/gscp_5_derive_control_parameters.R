@@ -256,19 +256,9 @@ derive_Xu_control_parameters = function (parameters,
         #  as being the correct value by being copied somewhere else,
         #  but when the nodes table is being built, it was always using 1.
 
-#    num_independent_nodes_per_group = 1
-    # if (! is.null (parameters$num_independent_nodes_per_group))
-    #     {
-    #     num_independent_nodes_per_group =
-    #         parameters$num_independent_nodes_per_group
-    #     } else
-    #     {
-    #     num_independent_nodes_per_group = 1
-    #     }
     num_independent_nodes_per_group =
         vn (parameters$num_independent_nodes_per_group,
             def_on_empty = TRUE, def = 1)
-
 
     #-------------------------------------------------------------------------------
 
