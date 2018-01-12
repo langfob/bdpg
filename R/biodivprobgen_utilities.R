@@ -824,6 +824,191 @@ vb <- function (var_value, def_on_empty = FALSE, def = FALSE,
 
 #===============================================================================
 
+#-------------------------------------------------------------------------------
+
+#' Validate input as boolean and replace with default on empty input if desired
+#'
+#' This function is intended to be a more flexible replacement for calling
+#' is.numeric().  In particular, it makes it possible to replace empty values
+#' with a default value (e.g., 0) and to define whether NULL and/or NA
+#' are treated as empty values.  It also allows checking whether the input
+#' (or a resulting default) value falls in a given range.  If no range is
+#' specified, then any numeric value is allowed.  It also allows specification
+#' of whether the bounds represent an open, closed, or semi-closed interval
+#' through the bounds_type argument.  That argument is a 2 character string
+#' composed of any combination of 'i' and 'e' to designate whether the bounds
+#' are inclusive or exclusive.  The first character of the string is for the
+#' lower bound and the second is for the upper bound, e.g., if the string is
+#' "ei", then the function will check whether the value is strictly > the
+#' lower bound and <= to the upper bound.
+#'
+
+#-------------------------------------------------------------------------------
+
+#' @param var_value the value to be checked to see if it's a numeric in range
+#' @param range_lo the lower bound of the range to see if input value falls in
+#' @param range_hi the upper bound of the range to see if input value falls in
+#' @param bounds_types a 2 character string indicating whether the lower and
+#'     upper bounds are inclusive or exclusive bounds, with 'i' meaning
+#'     inclusive and 'e' meaning exclusive; legal strings are "ii", "ie", "ei",
+#'     and "ee"
+#' @param def_on_empty boolean flag indicating whether to return a default
+#'     value instead of the input value when the input value is empty (where
+#'     empty is defined by other flags below)
+#' @param def a TRUE or FALSE default value to return instead of the input value
+#'     when a default is requested
+#' @param treat_NULL_as_empty a boolean flag set to TRUE if a NULL input is to
+#'     be treated as an empty input; FALSE otherwise
+#' @param treat_NA_as_empty a boolean flag set to TRUE if an NA input is to
+#'     be treated as an empty input; FALSE otherwise
+#'
+#' @return Returns the input value if it is numeric and in range or, returns a
+#'     specified numeric value if other arguments force a valid default
+#'     value to return; otherwise, throws an error
+#'
+#' @export
+#'
+#-------------------------------------------------------------------------------
+
+vn <- function (var_value,
+                range_lo=-Inf, range_hi=Inf, bounds_types = "ii",
+                def_on_empty = FALSE,
+                def = 0,
+                treat_NULL_as_empty = TRUE,
+                treat_NA_as_empty = TRUE)
+    {
+        #--------------------------------------------------------
+        #  Get var_name arg as string to use in error messages.
+        #--------------------------------------------------------
+
+    var_name = deparse (substitute (var_value))
+    err_string_lead = "Validating"
+
+        #-------------------------------------------------------------------
+        #  If caller wants to replace empty input with a default value,
+        #  and the input is empty, then go ahead and make the replacement.
+        #  Because the default value itself might not be numeric or
+        #  in range, continue on to check that value as you would a
+        #  value that was passed in normally.
+        #-------------------------------------------------------------------
+
+    if (def_on_empty &&
+            ((treat_NULL_as_empty && is.null (var_value))
+                    ||
+             (treat_NA_as_empty && anyNA (var_value))))
+        {
+        var_value = def
+        err_string_lead = "Default value"
+        }
+
+        #-----------------------------------------------------------------
+        #  Check the value that will be returned to see if it's numeric,
+        #  regardless of whether it is the value that was passed in or
+        #  the default value.
+        #-----------------------------------------------------------------
+
+    if (! is.numeric (var_value))
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", must be numeric"))
+
+        #-----------------------------------------------------------------
+        #  Make sure that the range hi and lo are themselves numeric and
+        #  are in the proper order to specify a range.
+        #-----------------------------------------------------------------
+
+    if (! is.numeric (range_lo))
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", range_lo = '", range_lo, "' must be numeric"))
+
+    if (! is.numeric (range_hi))
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", range_hi = '", range_hi, "' must be numeric"))
+
+    if (range_lo > range_hi)
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", range_lo = '", range_lo, "' must be <= ",
+                      "range_hi = '", range_hi, "'"))
+
+        #----------------------------------------------------------------------
+        #  Check that the range bounds are specified correctly and that the
+        #  var_value to be returned from the function falls within the bounds.
+        #
+        #  The upper and lower bounds can be either exclusive or inclusive
+        #  bounds. This is specified by a 2 character string with the first
+        #  character for the lower bound and the second character for the
+        #  upper bound.  For each bound, the specifier is an "i" if the bound
+        #  is inclusive and an "e" if it's exclusive, e.g., if a value must
+        #  be >= to the lower bound and strictly less than the upper bound,
+        #  the bounds_type would be "ie".
+        #----------------------------------------------------------------------
+
+    if (! is.character (bounds_types))
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", bounds_types = '", range_hi, "' must be a string"))
+
+    if (nchar (bounds_types) != 2)
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", bounds_types = '", range_hi, "' must be a 2 character string"))
+
+    lower_bound_type = substring (bounds_types, 1, 1)
+    if (lower_bound_type == "i")
+        {
+        if (var_value < range_lo)
+            {
+            stop (paste0 (err_string_lead, " '", var_value,
+                          "' used for input variable ", var_name,
+                          ", must be >= ", "range_lo = '", range_lo, "'"))
+            }
+        } else if (lower_bound_type == "e")
+        {
+        if (var_value <= range_lo)
+            {
+            stop (paste0 (err_string_lead, " '", var_value,
+                          "' used for input variable ", var_name,
+                          ", must be > ", "range_lo = '", range_lo, "'"))
+            }
+        } else  #  bounds_type NOT "i" or "e"
+        {
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", lower_bound_type = '", lower_bound_type, "' must be 'i' or 'e'"))
+        }
+
+    upper_bound_type = substring (bounds_types, 2, 2)
+    if (upper_bound_type == "i")
+        {
+        if (var_value > range_hi)
+            {
+            stop (paste0 (err_string_lead, " '", var_value,
+                          "' used for input variable ", var_name,
+                          ", must be <= ", "range_hi = '", range_hi, "'"))
+            }
+        } else if (upper_bound_type == "e")
+        {
+        if (var_value >= range_hi)
+            {
+            stop (paste0 (err_string_lead, " '", var_value,
+                          "' used for input variable ", var_name,
+                          ", must be < ", "range_hi = '", range_hi, "'"))
+            }
+        } else  #  bounds_type NOT "i" or "e"
+        {
+        stop (paste0 (err_string_lead, " '", var_value,
+                      "' used for input variable ", var_name,
+                      ", upper_bound_type = '", upper_bound_type, "' must be 'i' or 'e'"))
+        }
+
+    return (var_value)
+    }
+
+#===============================================================================
+
 
 
 
