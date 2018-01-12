@@ -161,7 +161,7 @@ derive_Xu_control_parameters = function (parameters,
         #            max = min or max-min is small compared to min, and in
         #            particular not for the default arguments."
 
-    n__num_groups = vn (parameters$n__num_groups, range_lo=1)
+    n__num_groups = parameters$n__num_groups
     if (vb (parameters$use_unif_rand_n__num_groups))
         {
         n__num_groups =
@@ -171,12 +171,12 @@ derive_Xu_control_parameters = function (parameters,
                              ))
         }
 
-    alpha__ = vn (parameters$alpha__)
+    alpha__ = parameters$alpha__
     if (vb (parameters$derive_alpha_from_n__num_groups_and_opt_frac_0.5))
         {
             #  BTL - 2015 04 08
-            #  This is a special case to summarize the conditions for the
-            #  main large set of experiments for the biodivprobgen paper.
+            #  This is a special case to summarize the conditions for
+            #  a large set of experiments for the biodivprobgen paper.
             #  In this case, there will be 1 dependent node and 1 independent
             #  node for each group, so the optimal solution will use 50% of
             #  the total number of nodes (i.e., planning units).
@@ -187,7 +187,8 @@ derive_Xu_control_parameters = function (parameters,
             #  Since alpha, n, and num_nodes_per_group are all interlinked,
             #  choosing 2 of them will force the value of the third.
             #  In this case, I will choose num_nodes_per_group and n__num_groups,
-            #  so the alpha value will be forced.
+            #  so the alpha value will be forced since it's the least intuitive
+            #  to choose of the three.
 
         num_nodes_per_group = 2
         desired_num_PUs = num_nodes_per_group * n__num_groups
@@ -204,7 +205,7 @@ derive_Xu_control_parameters = function (parameters,
             }
         }
 
-    p__prop_of_links_between_groups = vn (parameters$p__prop_of_links_between_groups)
+    p__prop_of_links_between_groups = parameters$p__prop_of_links_between_groups
     if (vb (parameters$use_unif_rand_p__prop_of_links_between_groups))
         {
         p__prop_of_links_between_groups =
@@ -214,7 +215,7 @@ derive_Xu_control_parameters = function (parameters,
              )
         }
 
-    r__density = vn (parameters$r__density)
+    r__density = parameters$r__density
     if (vb (parameters$use_unif_rand_r__density))
         {
             #  BTL - 2015 03 19
@@ -230,6 +231,17 @@ derive_Xu_control_parameters = function (parameters,
                               max = vn (parameters$r__density_upper_bound)
                               )
         }
+
+
+        #--------------------------------------------------------------
+        #  Make sure that all the resulting Xu base values are valid.
+        #--------------------------------------------------------------
+
+    n__num_groups = vn (n__num_groups, range_lo=1)
+    alpha__ = vn (alpha__)
+    p__prop_of_links_between_groups =
+                vn (parameters$p__prop_of_links_between_groups, range_lo=0)
+    r__density = vn (parameters$r__density)
 
     #--------------------
 
