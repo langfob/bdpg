@@ -53,3 +53,29 @@ lower bound and the second is for the upper bound, e.g., if the string is
 "ei", then the function will check whether the value is strictly > the
 lower bound and <= to the upper bound.
 }
+\details{
+Note that even if they are set to TRUE, the flags treat_NULL_as_empty and
+treat_NA_as_empty are ignored if def_on_empty is FALSE.
+}
+\examples{
+x <- 0.7
+vn (x)
+vn (x, range_lo = 0, range_hi = 1)
+vn (x, range_lo = 0.7, range_hi = 1, bounds_types = "ie")
+vn (100, range_hi = 100)
+vn (NULL, def_on_empty = TRUE, def = 0)
+vn (NULL, def_on_empty = TRUE)
+vn (NA, def_on_empty = TRUE, def = -999)
+vn (NA, range_hi = 100, bounds_types = "ee",
+    def_on_empty = TRUE, def=15, treat_NA_as_empty = TRUE)
+\dontrun{
+vn (1000, range_hi = 100, bounds_types = "ii")                       #  error
+vn (0.7, range_lo = 0.7, bounds_types = "ei")                        #  error
+vn (NULL)                                                            #  error
+vn (NA)                                                              #  error
+vn (NA, range_lo = -10, range_hi = 10, bounds_types = "ee",
+    def_on_empty = TRUE, def = 15)                                   #  error
+vn (NULL, range_lo = -10, range_hi = 10, bounds_types = "ee",
+    def_on_empty = TRUE, def = 15, treat_NULL_as_empty = TRUE)       #  error
+         }
+}

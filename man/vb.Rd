@@ -37,7 +37,35 @@ This function is intended to be a more flexible replacement for calling
 is.logical().  In particular, it makes it possible to replace empty values
 with a default value (e.g., FALSE) and to define whether NULL and/or NA
 are treated as empty values.  It also allows control over whether numeric
-values other than 0 and 1 are considered boolean by this validation function.
-This is sometimes useful when validating an input option where a non-0/1
+values are considered boolean by this validation function.
+This is sometimes useful when validating an input option where a numeric
 value would be suggestive of a mistake in the input file.
+}
+\details{
+Note that even if they are set to TRUE, the flags treat_NULL_as_empty and
+treat_NA_as_empty are ignored if def_on_empty is FALSE.
+}
+\examples{
+x <- TRUE
+vb (x)
+vb (-150, allow_num = TRUE)
+vb (0, allow_num = TRUE)
+vb (NULL, def_on_empty = TRUE)
+vb (NULL, def_on_empty = TRUE, def = TRUE)
+vb (NA, def_on_empty = TRUE, def = TRUE, treat_NA_as_empty = TRUE)
+vb (NA, def_on_empty = TRUE, treat_NA_as_empty = TRUE)
+vb (NULL, def_on_empty = TRUE, def = 10, treat_NULL_as_empty = TRUE, allow_num = TRUE)
+\dontrun{
+                #  These all generate errors
+vb (1)                     #  error - not boolean & allow_num not set to TRUE
+vb (0)
+vb (1000)
+vb ("aString")                        #  error - not boolean
+vb (NULL)                             #  error - def_on_empty not set
+vb (NA)            #  error - def_on_empty not set, treat_NA_as_empty not set
+vb (NULL, treat_NULL_as_empty = TRUE) #  error - def_on_empty not set
+vb (NA, treat_NA_as_empty = TRUE)     #  error - def_on_empty not set to TRUE
+        #  error - non-numeric default, but allow_num not TRUE
+vb (NA, def_on_empty = TRUE, def = 10, treat_NA_as_empty = TRUE)
+         }
 }
