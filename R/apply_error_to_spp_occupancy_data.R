@@ -91,7 +91,9 @@ apply_error_to_spp_occupancy_data =
 
 #-------------------------------------------------------------------------------
 
-set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
+set_const_FP_and_FN_rates = function (parameters
+                                      # , bdpg_error_codes
+                                      )
     {
         #----------------------------
         #  Set False Positive rate.
@@ -113,9 +115,11 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
 
         } else                           #  unknown type of error to add
         {
-        cat ("\n\nERROR: Unknown spp_occ_FP_error_type = '",
-             spp_occ_FP_error_type, "'.\n", sep='')
-        quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FP_error_type)
+        # cat ("\n\nERROR: Unknown spp_occ_FP_error_type = '",
+        #      spp_occ_FP_error_type, "'.\n", sep='')
+#        quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FP_error_type)
+        quit (paste0 ("Unknown spp_occ_FP_error_type = '",
+                       spp_occ_FP_error_type, "'"))
         }
 
         #----------------------------
@@ -138,9 +142,11 @@ set_const_FP_and_FN_rates = function (parameters, bdpg_error_codes)
 
         } else                           #  unknown type of error to add
         {
-        cat ("\n\nERROR: Unknown spp_occ_FN_error_type = '",
-             spp_occ_FN_error_type, "'.\n", sep='')
-        quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FN_error_type)
+        # cat ("\n\nERROR: Unknown spp_occ_FN_error_type = '",
+        #      spp_occ_FN_error_type, "'.\n", sep='')
+        # quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FN_error_type)
+        stop (paste0 ("\n\nERROR: Unknown spp_occ_FN_error_type = '",
+                spp_occ_FN_error_type, "'"))
         }
 
     #--------------------
@@ -236,13 +242,17 @@ build_const_err_FP_and_FN_matrices <- function (parameters,
                                                 cor_bpm,
                                                                     #cor_num_PU_spp_pairs,
                                                 cor_num_PUs,
-                                                cor_num_spp,
-                                                bdpg_error_codes)
+                                                cor_num_spp
+                                                # ,
+                                                # bdpg_error_codes
+                                                )
     {
 cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
 
-    FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters,
-                                                 bdpg_error_codes)
+    FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters
+                                                 #       ,
+                                                 # bdpg_error_codes
+                                                 )
 
     FP_const_rate = FP_and_FN_const_rates$FP_const_rate
     FN_const_rate = FP_and_FN_const_rates$FN_const_rate

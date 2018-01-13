@@ -258,8 +258,9 @@ ret_vals_from_build_const_err =
                                       Xu_bdprob_COR@bpm,     #cor_bpm,
                                                   #cor_num_PU_spp_pairs,
                                       Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
-                                      Xu_bdprob_COR@num_spp,     #cor_num_spp,
-                                      bdpg_error_codes)
+                                      Xu_bdprob_COR@num_spp  #,     #cor_num_spp,
+                                      # bdpg_error_codes
+                                      )
 
 APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
 APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate

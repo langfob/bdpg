@@ -4,13 +4,11 @@
 \alias{set_const_FP_and_FN_rates}
 \title{Set constant FP and FN rates}
 \usage{
-set_const_FP_and_FN_rates(parameters, bdpg_error_codes)
+set_const_FP_and_FN_rates(parameters)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 Returns FP_and_FN_const_rates list

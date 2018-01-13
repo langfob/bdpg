@@ -33,8 +33,8 @@ get_bdpg_error_codes <- function ()
 #    bdpg_error_codes$ERROR_STATUS_optimal_solution_is_not_optimal = 1002
 #    bdpg_error_codes$ERROR_STATUS_num_nodes_per_group_must_be_at_least_2 = 1003
 #    bdpg_error_codes$ERROR_STATUS_duplicate_spp_in_Xu_input_file = 1004
-    bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FP_error_type = 1005
-    bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FN_error_type = 1006
+#    bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FP_error_type = 1005
+#    bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FN_error_type = 1006
     bdpg_error_codes$ERROR_STATUS_no_prob_src_given = 1007
     bdpg_error_codes$ERROR_STATUS_unknown_prob_src = 1008
 
