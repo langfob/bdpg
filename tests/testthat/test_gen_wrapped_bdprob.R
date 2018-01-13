@@ -1218,6 +1218,9 @@ parameters = list (
 dummylistend=NULL
         )
 
+#  TEMPORARY
+parameters$at_least_1_for_target_num_links_between_2_groups_per_round = FALSE
+
     #  Create test output directory.
 full_output_dir = tempdir()
 last_char = substr (full_output_dir, nchar(full_output_dir), nchar(full_output_dir))
