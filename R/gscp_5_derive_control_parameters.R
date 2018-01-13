@@ -323,6 +323,8 @@ derive_Xu_control_parameters = function (parameters,
     cat ("\n\t\t num_nodes_per_group = ", num_nodes_per_group)
     cat ("\n\t\t num_rounds_of_linking_between_groups = ", num_rounds_of_linking_between_groups)
     cat ("\n\t\t target_num_links_between_2_groups_per_round = ", target_num_links_between_2_groups_per_round)
+    cat ("\n\t\t at_least_1_for_target_num_links_between_2_groups_per_round = ",
+         at_least_1_for_target_num_links_between_2_groups_per_round)
     cat ("\n\t\t num_links_within_one_group = ", num_links_within_one_group)
     cat ("\n\t\t tot_num_links_inside_groups = ", tot_num_links_inside_groups)
     cat ("\n\t\t max_possible_num_links_between_groups = ", max_possible_num_links_between_groups)
