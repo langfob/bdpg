@@ -4,29 +4,6 @@
 
 #===============================================================================
 
-#     return (n__num_groups)
-#     return (num_nodes_per_group)
-#     return (p__prop_of_links_between_groups)
-# valid_use_unif_rand_n__num_groups <- function (use_unif_rand_n__num_groups)
-#     return (n__num_groups_lower_bound)
-#     return (n__num_groups_upper_bound)
-#     return (alpha__)
-# alpha___lower_bound
-# alpha___upper_bound
-# p__prop_of_links_between_groups
-# use_unif_rand_p__prop_of_links_between_groups
-# p__prop_of_links_between_groups_lower_bound
-# p__prop_of_links_between_groups_upper_bound
-# r__density
-# use_unif_rand_r__density
-# r__density_lower_bound
-# r__density_upper_bound
-#
-#     return (derive_alpha_from_n__num_groups_and_opt_frac_0.5)
-#     return (use_unif_rand_alpha__)
-
-#===============================================================================
-
 compute_target_num_links_between_2_groups_per_round <-
     function (at_least_1_for_target_num_links_between_2_groups_per_round,
               p__prop_of_links_between_groups,
