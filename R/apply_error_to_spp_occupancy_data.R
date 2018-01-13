@@ -29,9 +29,8 @@
 
 apply_error_to_spp_occupancy_data =
         function (bpm, FP_rates, FN_rates, num_PUs, num_spp,
-                  random_values  #,   #  passing these in to make it easier to test
-                                   #  in a reproducible way
-                  #bdpg_error_codes
+                  random_values   #  passing these in to make it easier to test
+                                  #  in a reproducible way
                   )
     {
     cat ("\nStarting apply_error_to_spp_occupancy_data loop.\n\n")
@@ -91,9 +90,7 @@ apply_error_to_spp_occupancy_data =
 
 #-------------------------------------------------------------------------------
 
-set_const_FP_and_FN_rates = function (parameters
-                                      # , bdpg_error_codes
-                                      )
+set_const_FP_and_FN_rates = function (parameters)
     {
         #----------------------------
         #  Set False Positive rate.
@@ -115,9 +112,6 @@ set_const_FP_and_FN_rates = function (parameters
 
         } else                           #  unknown type of error to add
         {
-        # cat ("\n\nERROR: Unknown spp_occ_FP_error_type = '",
-        #      spp_occ_FP_error_type, "'.\n", sep='')
-#        quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FP_error_type)
         quit (paste0 ("Unknown spp_occ_FP_error_type = '",
                        spp_occ_FP_error_type, "'"))
         }
@@ -142,9 +136,6 @@ set_const_FP_and_FN_rates = function (parameters
 
         } else                           #  unknown type of error to add
         {
-        # cat ("\n\nERROR: Unknown spp_occ_FN_error_type = '",
-        #      spp_occ_FN_error_type, "'.\n", sep='')
-        # quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FN_error_type)
         stop (paste0 ("\n\nERROR: Unknown spp_occ_FN_error_type = '",
                 spp_occ_FN_error_type, "'"))
         }
@@ -242,17 +233,11 @@ build_const_err_FP_and_FN_matrices <- function (parameters,
                                                 cor_bpm,
                                                                     #cor_num_PU_spp_pairs,
                                                 cor_num_PUs,
-                                                cor_num_spp
-                                                # ,
-                                                # bdpg_error_codes
-                                                )
+                                                cor_num_spp)
     {
 cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
 
-    FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters
-                                                 #       ,
-                                                 # bdpg_error_codes
-                                                 )
+    FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters)
 
     FP_const_rate = FP_and_FN_const_rates$FP_const_rate
     FN_const_rate = FP_and_FN_const_rates$FN_const_rate
@@ -409,10 +394,7 @@ apply_const_error_to_spp_occupancy_data <- function (cor_num_PUs,
                                                cor_num_spp,
                                                cor_bpm,
                                                FP_rates_matrix,
-                                               FN_rates_matrix
-                                               #,
-                                               #bdpg_error_codes
-                                               )
+                                               FN_rates_matrix)
     {
 cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
 
@@ -434,10 +416,7 @@ cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
                                             FN_rates_matrix,
                                             cor_num_PUs,
                                             cor_num_spp,
-                                            random_values
-                                           #,
-                                            #bdpg_error_codes
-                                           )
+                                            random_values)
 
         #-----------------------------------------------------------------
         #  Since the errors are generated stochastically, the realized

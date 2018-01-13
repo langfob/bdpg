@@ -14,7 +14,6 @@
 
 combine_2_bdprobs = function (bdprob_1, bdprob_2,
                               parameters,
-                              #bdpg_error_codes,
                               integerize)
     {
     stop ("\n\ncombine_2_bdprobs() is NOT IMPLEMENTED yet.\n\n")
@@ -75,7 +74,6 @@ gen_multi_bdprob <- function (parameters,
                               infile_name,
                               given_correct_solution_cost,
                               max_allowed_num_spp,
-                              #bdpg_error_codes,
                               integerize,
                               bdprob_1 = NULL)
     {
@@ -118,10 +116,8 @@ gen_multi_bdprob <- function (parameters,
         #                                   infile_name,
         #                                   given_correct_solution_cost,
         #                                   max_allowed_num_spp,
-        #                                   bdpg_error_codes,
         #                                   integerize)
         bdprob_1 = gen_single_bdprob_COR (parameters,
-                                          #bdpg_error_codes,
                                           integerize,
                                           base_prob_name_stem = "base_prob",
                                           cor_dir_name_stem = "cor"
@@ -147,10 +143,7 @@ gen_multi_bdprob <- function (parameters,
             combined_bdprob = gen_wrapped_bdprob_COR (starting_dir,
                                     #compute_network_metrics_for_this_prob,
                                                       parameters,
-                                                      bdprob_1
-                                    # ,
-                                    #                   bdpg_error_codes
-                                    )
+                                                      bdprob_1)
 
             #     #---------------------------------
             #     #  Control parameters from user.

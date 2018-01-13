@@ -18,7 +18,6 @@
 #-------------------------------------------------------------------------------
 
 gen_single_bdprob_COR <- function (parameters,
-#                                   bdpg_error_codes,
                                    integerize,
                                    base_prob_name_stem = "base_prob",
                                    cor_dir_name_stem = "cor"
@@ -37,7 +36,6 @@ gen_single_bdprob_COR <- function (parameters,
             Xu_bench_infile_name,
             value_or_FALSE_if_null (parameters$given_correct_solution_cost),
             parameters$max_allowed_num_spp,
-#            bdpg_error_codes,
             integerize,
             base_prob_name_stem = "base_prob",
             cor_dir_name_stem = "cor")
@@ -68,7 +66,6 @@ gen_single_bdprob_COR <- function (parameters,
 
 create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
                                             parameters,
-#                                            bdpg_error_codes,
                                             integerize)
     {
     duplicate_links_allowed =
@@ -83,7 +80,6 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
             create_Xu_problem_from_scratch_not_using_4_Xu_metaparams (max_allowed_num_spp,
                                                                       duplicate_links_allowed,
                                                                       parameters,
-#                                                                      bdpg_error_codes,
                                                                       integerize)
         } else
         {
@@ -91,7 +87,6 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
             create_Xu_problem_from_scratch_given_4_Xu_metaparams (max_allowed_num_spp,
                                                                   duplicate_links_allowed,
                                                                   parameters,
-#                                                                  bdpg_error_codes,
                                                                   integerize)
         }
 
@@ -124,7 +119,6 @@ create_Xu_problem_from_scratch_given_4_Xu_metaparams <-
                                                 function (max_allowed_num_spp,
                                                           duplicate_links_allowed,
                                                           parameters,
-#                                                          bdpg_error_codes,
                                                           integerize)
 {
         #----------------------------------------------------------
@@ -138,9 +132,7 @@ create_Xu_problem_from_scratch_given_4_Xu_metaparams <-
         #----------------------------------------------------------
 
     Xu_parameters =
-      derive_Xu_control_parameters (parameters,
-#                                    bdpg_error_codes,
-                                    integerize)
+      derive_Xu_control_parameters (parameters, integerize)
 
     #-------------------------------------------------------------------------------
 
@@ -163,7 +155,6 @@ create_Xu_problem_from_scratch_given_4_Xu_metaparams <-
                                    duplicate_links_allowed,
                                                     max_allowed_num_spp,
                                                     parameters,
-#                                                    bdpg_error_codes,
                                                     integerize)
 
     PU_spp_pair_info@Xu_parameters = Xu_parameters
@@ -196,7 +187,6 @@ create_Xu_problem_from_scratch_given_4_Xu_metaparams <-
 create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowed_num_spp,
                                                                       duplicate_links_allowed,
                                                                       parameters,
-#                                                                      bdpg_error_codes,
                                                                       integerize)
     {
     tot_num_nodes                               = parameters$tot_num_nodes
@@ -220,7 +210,6 @@ create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowe
             duplicate_links_allowed,
             max_allowed_num_spp,
             parameters,
-#            bdpg_error_codes,
             integerize)
 
     return (PU_spp_pair_info)
@@ -284,7 +273,6 @@ create_Xu_problem_from_scratch_given_params <-
               duplicate_links_allowed,
                                             max_allowed_num_spp,
                                             parameters,
-#                                            bdpg_error_codes,
                                             integerize)
     {
       #-----------------------------------------------------------
@@ -310,10 +298,7 @@ create_Xu_problem_from_scratch_given_params <-
                        max_possible_tot_num_links,
                        target_num_links_between_2_groups_per_round,
                        num_rounds_of_linking_between_groups,
-                       duplicate_links_allowed
-                       # ,
-                       # bdpg_error_codes
-                       )
+                       duplicate_links_allowed)
     # edge_list =
     #   create_Xu_graph (derived_Xu_params@num_nodes_per_group,
     #                    base_Xu_params@n__num_groups,
@@ -321,9 +306,7 @@ create_Xu_problem_from_scratch_given_params <-
     #                    derived_Xu_params@max_possible_tot_num_links,
     #                    derived_Xu_params@target_num_links_between_2_groups_per_round,
     #                    derived_Xu_params@num_rounds_of_linking_between_groups,
-    #                    duplicate_links_allowed=FALSE,
-    #                    bdpg_error_codes
-    #                    )
+    #                    duplicate_links_allowed=FALSE)
 
     dependent_node_IDs = get_dependent_node_IDs (nodes)
     num_PUs = get_num_nodes (nodes)
@@ -398,7 +381,6 @@ create_Xu_problem_from_scratch_given_params <-
 create_allowable_size_Xu_problem_from_scratch <- function (
         max_allowed_num_spp,
         parameters,
-#        bdpg_error_codes,
         integerize,
         default_num_prob_size_retries_allowed = 20)
     {
@@ -431,7 +413,6 @@ create_allowable_size_Xu_problem_from_scratch <- function (
         PU_spp_pair_info =
             create_Xu_problem_from_scratch (max_allowed_num_spp,
                                             parameters,
-#                                            bdpg_error_codes,
                                             integerize)
 
         if (PU_spp_pair_info@num_spp > max_allowed_num_spp)
@@ -517,7 +498,6 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
             Xu_bench_infile_name,
                 given_correct_solution_cost,
                 max_allowed_num_spp,
-#                bdpg_error_codes,
                 integerize,
             base_prob_name_stem = "base_prob",
             cor_dir_name_stem = "cor")
@@ -561,7 +541,6 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
 #            create_Xu_problem_from_scratch (max_allowed_num_spp,
             create_allowable_size_Xu_problem_from_scratch (max_allowed_num_spp,
                                                            parameters,
-#                                                           bdpg_error_codes,
                                                            integerize)
         }  #  end - create Xu problem from scratch
 
@@ -653,10 +632,7 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
                                                     Xu_bdprob_cor@spp_col_name,
                                                     Xu_bdprob_cor@PU_col_name,
                                                     PU_spp_pair_info@dependent_node_IDs,
-                                                    PU_spp_pair_info@correct_solution_vector_is_known
-# ,
-#                                                     bdpg_error_codes
-)
+                                                    PU_spp_pair_info@correct_solution_vector_is_known)
 
     Xu_bdprob_cor@bpm = bpm
 
@@ -664,9 +640,7 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
         #  Quit if there are any duplicate edges/spp in the problem.
         #-------------------------------------------------------------
 
-    see_if_there_are_any_duplicate_links (bpm, Xu_bdprob_cor@num_spp
-                                          # , bdpg_error_codes
-                                          )
+    see_if_there_are_any_duplicate_links (bpm, Xu_bdprob_cor@num_spp)
 
         #-----------------------------------------------------------
         #  No duplicates found.

@@ -226,10 +226,7 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
 
 create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
                                                                   Xu_bdprob_APP,
-                                                                  parameters
-                                                                  #,
-                                                                  #bdpg_error_codes
-                                                                  )
+                                                                  parameters)
     {
     APP_prob_info = new ("APP_prob_info_class")
 
@@ -259,9 +256,7 @@ ret_vals_from_build_const_err =
                                       Xu_bdprob_COR@bpm,     #cor_bpm,
                                                   #cor_num_PU_spp_pairs,
                                       Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
-                                      Xu_bdprob_COR@num_spp  #,     #cor_num_spp,
-                                      # bdpg_error_codes
-                                      )
+                                      Xu_bdprob_COR@num_spp)     #cor_num_spp,
 
 APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
 APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
@@ -274,15 +269,12 @@ ret_vals_from_apply_errors =
                                              Xu_bdprob_COR@num_spp,     #cor_num_spp,
                                              Xu_bdprob_COR@bpm,         #cor_bpm,
                                              ret_vals_from_build_const_err$FP_rates_matrix,     #FP_rates_matrix,
-                                             ret_vals_from_build_const_err$FN_rates_matrix  #,     #FN_rates_matrix,
-                                             #bdpg_error_codes
-                                             )
+                                             ret_vals_from_build_const_err$FN_rates_matrix)     #FN_rates_matrix,
       # apply_const_error_to_spp_occupancy_data (parameters,
       #                                  Xu_bdprob_COR@bpm,     #  cor_bpm,
       #                                  Xu_bdprob_COR@num_PU_spp_pairs,     #  cor_num_PU_spp_pairs,
       #                                  Xu_bdprob_COR@num_PUs,     #  cor_num_PUs,
-      #                                  Xu_bdprob_COR@num_spp,     #  cor_num_spp,
-      #                                  bdpg_error_codes)
+      #                                  Xu_bdprob_COR@num_spp)     #  cor_num_spp,
 
 
     #  Save the realized error rates.
@@ -346,8 +338,6 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR,
                             #compute_network_metrics_for_this_prob,
                                     #starting_dir,    #  not needed?  take from cor?
                                     parameters
-                            # ,
-                            #         bdpg_error_codes
 #                            ,
 #                        integerize,                           #  NOT USED ANYMORE?
 #                        base_prob_name_stem = "base_prob",    #  NOT USED ANYMORE?
@@ -361,10 +351,7 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR,
     Xu_bdprob_APP =
         create_APP_prob_info_by_adding_error_to_spp_occ_data (Xu_bdprob_COR,
                                                               Xu_bdprob_APP,
-                                                              parameters
-                                                              # ,
-                                                              # bdpg_error_codes
-                                                              )
+                                                              parameters)
 
     starting_dir = parameters$fullOutputDir_NO_slash
 

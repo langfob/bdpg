@@ -35,10 +35,7 @@ get_bdprob_from_rds_file <- function (prob_src,
                                       cur_input_prob_idx,
                                       rds_file_set_path,
                                       rds_file_set_yaml_array,
-                                      rds_file_path
-                                      # ,
-                                      # bdpg_error_codes
-                                      )
+                                      rds_file_path)
     {
 #    prob_from_generator                    = "generator"
     prob_from_rds_file                     = "rds_file"
@@ -50,8 +47,6 @@ get_bdprob_from_rds_file <- function (prob_src,
 
     if (is.null (prob_src))
         {
-        # cat ("\n\nERROR: no prob_src given.\n", sep='')
-        # quit (save="no", bdpg_error_codes$ERROR_STATUS_no_prob_src_given)
         stop ("No prob_src given")
 
         } else if (prob_src == prob_from_rds_file)
@@ -84,8 +79,6 @@ get_bdprob_from_rds_file <- function (prob_src,
 
         } else
         {
-        # cat ("\n\nERROR: unknown prob_src = '", prob_src, "'.\n", sep='')
-        # quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_prob_src)
         stop (paste0 ("Unknown prob_src = '", prob_src, "'"))
         }
 
@@ -309,9 +302,7 @@ cat ("\n\n---------- END get_base_cor_bdprob_for_given_app_bdprob() ----------")
 
 #-------------------------------------------------------------------------------
 
-single_action_using_tzar_reps <- function (parameters,
-#                                           bdpg_error_codes,
-                                           integerize)
+single_action_using_tzar_reps <- function (parameters, integerize)
     {
         #------------------------------------------------------
         #  Make sure that exactly one action has been chosen.
@@ -345,7 +336,6 @@ single_action_using_tzar_reps <- function (parameters,
     if (gen_COR_prob)
         {
         bdpg::gen_single_bdprob_COR (parameters,
-#                                     bdpg_error_codes,
                                      integerize,
                                      base_prob_name_stem = "base_prob",
                                      cor_dir_name_stem = "cor")
@@ -366,17 +356,13 @@ single_action_using_tzar_reps <- function (parameters,
                                       parameters$WRAP_input_rds_file_set_path,
                                         #  never used?
                                       parameters$WRAP_input_rds_file_set_yaml_array,
-                                      parameters$WRAP_rds_file_path
-                                      # ,
-                                      # bdpg_error_codes
-                                      )
+                                      parameters$WRAP_rds_file_path)
 
         src_bdprob_to_wrap = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir   = src_prob_and_path_list$src_rds_file_dir
 
         bdpg::gen_single_bdprob_WRAP (src_bdprob_to_wrap,
-                                      parameters,
-#                                      bdpg_error_codes
+                                      parameters
                                       # ,
                                       # src_rds_file_dir    #  NO LONGER USED?
                                       )
@@ -398,18 +384,15 @@ single_action_using_tzar_reps <- function (parameters,
                                       parameters$APP_input_rds_file_set_path,
                                         #  never used?
                                       parameters$APP_input_rds_file_set_yaml_array,
-                                      parameters$APP_rds_file_path
-                                      # ,
-                                      # bdpg_error_codes
-                                      )
+                                      parameters$APP_rds_file_path)
 
         bdprob_to_add_error_to = src_prob_and_path_list$src_Xu_bd_problem
 #        src_rds_file_dir       = src_prob_and_path_list$src_rds_file_dir
 
         bdpg::gen_single_bdprob_APP (bdprob_to_add_error_to,
                                      #value_or_FALSE_if_null (parameters$compute_network_metrics_APP),
-                                     parameters,
-#                                     bdpg_error_codes    #,
+                                     parameters
+                                     #,
                                      #integerize
                                      )
         }
@@ -430,10 +413,7 @@ single_action_using_tzar_reps <- function (parameters,
                                       parameters$RS_cor_input_rds_file_set_path,
                                         #  never used?
                                       parameters$RS_cor_input_rds_file_set_yaml_array,
-                                      parameters$RS_cor_rds_file_path
-                                      # ,
-                                      # bdpg_error_codes
-                                      )
+                                      parameters$RS_cor_rds_file_path)
 
         cor_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir = src_prob_and_path_list$src_rds_file_dir
@@ -458,10 +438,7 @@ single_action_using_tzar_reps <- function (parameters,
                                       parameters$RS_app_input_rds_file_set_path,
                                         #  never used?
                                       parameters$RS_app_input_rds_file_set_yaml_array,
-                                      parameters$RS_app_rds_file_path
-                                      # ,
-                                      # bdpg_error_codes
-                                      )
+                                      parameters$RS_app_rds_file_path)
 
         app_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir = src_prob_and_path_list$src_rds_file_dir

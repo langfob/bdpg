@@ -5,7 +5,7 @@
 \title{Standardized parameter definitions for reuse across all functions}
 \usage{
 std_param_defns(all_correct_node_IDs, allow_imperfect_wrap,
-  base_outdir_for_checksum, bdpg_error_codes, bdpg_error_name, bpm,
+  base_outdir_for_checksum, bdpg_error_name, bpm,
   compute_network_metrics_for_this_prob, cor_or_app_label,
   correct_solution_vector_is_known, dependent_node_IDs, duplicate_links_allowed,
   edge_list, exp_root_dir, final_link_counts_for_each_node,
@@ -32,8 +32,6 @@ fully contain the base distribution}
 
 \item{base_outdir_for_checksum}{directory where temporary file for use in checksum
 computation will be written and then deleted}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{bdpg_error_name}{string containing name of error code to look up in
 list of error codes}

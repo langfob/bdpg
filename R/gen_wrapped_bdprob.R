@@ -1001,7 +1001,6 @@ wrap_abundance_dist_around_Xu_problem <- function (starting_dir,
                             seed_value_for_search_list,
                                         allow_imperfect_wrap,
 
-                                                  #bdpg_error_codes,
                                                   search_outfile_name_base,
                                                   search_outfile_name,
                                             wrap_prob_name_stem = "wrap_prob",
@@ -1177,10 +1176,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
                                     Xu_bdprob@spp_col_name,
                                     Xu_bdprob@PU_col_name,
                                     Xu_dep_set,
-                                    Xu_bdprob@correct_solution_vector_is_known
-                        # ,
-                        #             bdpg_error_codes
-                                    )
+                                    Xu_bdprob@correct_solution_vector_is_known)
 
         #----------------------------------------------------------------------
         #  Now have a completed problem, so build the structure describing it
@@ -1287,8 +1283,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
         #-------------------------------------------------------------
 
     # see_if_there_are_any_duplicate_links (wrapped_bpm,
-    #                                       wrapped_bdprob@num_spp,
-    #                                       bdpg_error_codes)
+    #                                       wrapped_bdprob@num_spp)
 
         #----------------------------------------
         #  Create directories for this problem.
@@ -1425,10 +1420,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
 gen_wrapped_bdprob_COR <- function (starting_dir,
                                     #compute_network_metrics_for_this_prob,
                                     parameters,
-                                    base_bdprob
-                                    #,
-                                    #bdpg_error_codes
-                                    )
+                                    base_bdprob)
     {
     if (options_are_legal_for_single_bdprob_WRAP (parameters))
         {
@@ -1513,7 +1505,6 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                 seed_value_for_search_list,
                                         value_or_FALSE_if_null (parameters$allow_imperfect_wrap),
 
-                                                   #bdpg_error_codes,
                                                    search_outfile_name_base,
                                                    search_outfile_name)
 
@@ -1596,11 +1587,7 @@ options_are_legal_for_single_bdprob_WRAP <- function (parameters)
 
 #-------------------------------------------------------------------------------
 
-gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
-                                    parameters
-                                    # ,
-                                    # bdpg_error_codes
-                                    )
+gen_single_bdprob_WRAP <- function (bdprob_to_wrap, parameters)
     {
     starting_dir =
         file.path (normalizePath (parameters$full_output_dir_with_slash))
@@ -1612,10 +1599,7 @@ gen_single_bdprob_WRAP <- function (bdprob_to_wrap,
         gen_wrapped_bdprob_COR (starting_dir,
                                 #compute_network_metrics_for_this_prob,
                                 parameters,
-                                bdprob_to_wrap
-                                # ,
-                                # bdpg_error_codes
-                                )
+                                bdprob_to_wrap)
 
     return (WRAP_prob)
     }

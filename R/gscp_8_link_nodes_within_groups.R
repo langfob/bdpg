@@ -23,10 +23,7 @@ link_nodes_within_groups =
     function (num_nodes_per_group,
               n__num_groups,
               nodes,
-              edge_list
-              # ,
-              # bdpg_error_codes
-              )
+              edge_list)
     {
     cat ("\n\n--------------------  Linking nodes WITHIN each group.\n")
 
@@ -37,7 +34,6 @@ link_nodes_within_groups =
 
         if (getOption ("bdpg.emulating_tzar", default=FALSE))  browser ()
 
-#        quit (save="no", status=bdpg_error_codes$ERROR_STATUS_num_nodes_per_group_must_be_at_least_2)
         stop (paste0 ("\n\n***  num_nodes_per_group (", num_nodes_per_group,
              ") must be at least 2."))
         }

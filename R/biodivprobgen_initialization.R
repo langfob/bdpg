@@ -4,72 +4,6 @@
 
 #-------------------------------------------------------------------------------
 
-# #' Builds the error codes returned by errors in bdpg package
-# #'
-# #' This function is used as a central way to get at the error codes and make
-# #' sure they're always the same, but may want to move them to the
-# #' Global_Constants structure instead...
-# #'
-#-------------------------------------------------------------------------------
-
-# #' @return Returns list of integer error codes
-# #'
-# #' @export
-# #'
-# #' @examples
-# #' get_bdpg_error_codes ()
-
-#-------------------------------------------------------------------------------
-
-# get_bdpg_error_codes <- function ()
-#     {
-#         #----------------------------------------------------------------
-#         #  Values to return from the program when quitting on a serious
-#         #  error.
-#         #----------------------------------------------------------------
-#
-#     bdpg_error_codes = list()
-# #    bdpg_error_codes$ERROR_STATUS_num_inside_or_within_group_links_less_than_one = 1001
-# #    bdpg_error_codes$ERROR_STATUS_optimal_solution_is_not_optimal = 1002
-# #    bdpg_error_codes$ERROR_STATUS_num_nodes_per_group_must_be_at_least_2 = 1003
-# #    bdpg_error_codes$ERROR_STATUS_duplicate_spp_in_Xu_input_file = 1004
-# #    bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FP_error_type = 1005
-# #    bdpg_error_codes$ERROR_STATUS_unknown_spp_occ_FN_error_type = 1006
-# #    bdpg_error_codes$ERROR_STATUS_no_prob_src_given = 1007
-# #    bdpg_error_codes$ERROR_STATUS_unknown_prob_src = 1008
-#
-#     return (bdpg_error_codes)
-#     }
-
-#===============================================================================
-
-#-------------------------------------------------------------------------------
-
-# #' Look up a specific bdpg error code given its name
-# #'
-#-------------------------------------------------------------------------------
-
-# #' @inheritParams std_param_defns
-# #'
-# #' @return Returns integer error code for the given error name
-# #' @export
-# #'
-# #' @examples
-# #' get_bdpg_error_code ("ERROR_STATUS_unknown_spp_occ_FP_error_type")
-
-#-------------------------------------------------------------------------------
-
-# get_bdpg_error_code <- function (bdpg_error_name)
-#     {
-#     bdpg_error_codes = get_bdpg_error_codes ()
-#
-#     return (bdpg_error_codes [[bdpg_error_name]])
-#     }
-
-#===============================================================================
-
-#-------------------------------------------------------------------------------
-
 #' Get name and version number of current operating system as a string
 #'
 #' This function is only here as a convenience because I can never remember
@@ -147,9 +81,6 @@ init_for_bdpg <- function (parameters)
                                         parameters$bdpg_run_init_rand_seed)
 
 
-    #     #  Initialize error codes.
-    # bdpg_error_codes        = get_bdpg_error_codes ()
-
     cat ("\n\n================================================================================")
     cat ("\n================================================================================\n\n")
 
@@ -171,12 +102,6 @@ init_for_bdpg <- function (parameters)
         normalizePath (strip_trailing_slash (parameters$full_output_dir_with_slash),
                        mustWork=FALSE)
 
-    # params_and_error_codes <- list (parameters = parameters
-    #                                 # ,
-    #                                 # bdpg_error_codes = bdpg_error_codes
-    #                                 )
-
-#    return (params_and_error_codes)
     return (parameters)
     }
 

@@ -105,7 +105,6 @@
 #'     fully contain the base distribution
 #' @param base_outdir_for_checksum directory where temporary file for use in checksum
 #'     computation will be written and then deleted
-#' @param bdpg_error_codes list of error names and corresponding error codes
 #' @param bdpg_error_name string containing name of error code to look up in
 #'     list of error codes
 #' @param bpm bipartite matrix; integer matrix with one row for each species
@@ -216,7 +215,6 @@ std_param_defns <-
             all_correct_node_IDs,
             allow_imperfect_wrap,
             base_outdir_for_checksum,
-            bdpg_error_codes,
             bdpg_error_name,
             bpm,
             compute_network_metrics_for_this_prob,

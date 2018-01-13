@@ -36,10 +36,7 @@ verify_that_generated_solution_really_is_a_solution =
                   dependent_node_IDs,
                   num_spp,
                   num_PUs,
-            PU_costs
-            # ,
-            #       bdpg_error_codes
-                  )
+            PU_costs)
     {
     spp_rep_targets = rep (1, num_spp)
     spp_rep_fracs = compute_rep_fraction (bpm,
@@ -62,7 +59,6 @@ verify_that_generated_solution_really_is_a_solution =
         print (bpm)
 
         if (getOption ("bdpg.emulating_tzar", default=FALSE))  browser ()
-#        quit (save="no", status=bdpg_error_codes$ERROR_STATUS_optimal_solution_is_not_optimal)
         stop ("SERIOUS ERROR: The generated optimal solution is not a solution.")
         }
 
@@ -194,10 +190,7 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
               spp_col_name,
               PU_col_name,
               dependent_node_IDs,
-              correct_solution_vector_is_known
-# ,
-#               bdpg_error_codes
-              )
+              correct_solution_vector_is_known)
 
     {
     cat ("\n\nAbout to create bpm matrix.")
@@ -249,10 +242,7 @@ create_adj_matrix_with_spp_rows_vs_PU_cols =
                                                         dependent_node_IDs,
                                                         num_spp,  #  num_spp_rows?
                                                         num_PUs,  #  num_PU_cols?
-                                            PU_costs
-                                            # ,
-                                            #             bdpg_error_codes
-                                                            )
+                                            PU_costs)
         }
 
     return (bpm)
