@@ -80,7 +80,7 @@ fix_0_length_list_elements <- function (value)
 list_with_0_length_vals_replaced_by_NA <- function (a_list)
     {
     if (! is.list (a_list))
-        stop ("list_with_0_length_vals_replaced_by_NA: argument is not a list.")
+        stop_bdpg ("list_with_0_length_vals_replaced_by_NA: argument is not a list.")
 
     return (lapply (a_list, fix_0_length_list_elements))
     }
@@ -317,7 +317,7 @@ see_if_there_are_any_duplicate_links = function (occ_matrix, num_spp)
 
     if (num_duplicates > 0)
         {
-        stop (paste0 ("\n\nERROR: ", num_duplicates,
+        stop_bdpg (paste0 ("\n\nERROR: ", num_duplicates,
                       " duplicate species in the Xu benchmark file."))
         }
 
@@ -838,7 +838,7 @@ vb <- function (var_value, def_on_empty = FALSE, def = FALSE,
     if (!is.logical (var_value) ||
         (anyNA (var_value) && (!def_on_empty || !treat_NA_as_empty)))
         {
-        stop (paste0 (err_string_lead, " '", var_value,
+        stop_bdpg (paste0 (err_string_lead, " '", var_value,
                       "' used for input variable ", var_name,
                       " must be boolean"))
         }
@@ -956,7 +956,7 @@ vn <- function (var_value,
         #-----------------------------------------------------------------
 
     if (! is.numeric (var_value))
-        stop (paste0 (err_string_lead, " '", var_value,
+        stop_bdpg (paste0 (err_string_lead, " '", var_value,
                       "' used for input variable ", var_name,
                       ", must be numeric"))
 
@@ -966,17 +966,17 @@ vn <- function (var_value,
         #-----------------------------------------------------------------
 
     if (! is.numeric (range_lo))
-        stop (paste0 (err_string_lead, " '", var_value,
+        stop_bdpg (paste0 (err_string_lead, " '", var_value,
                       "' used for input variable ", var_name,
                       ", range_lo = '", range_lo, "' must be numeric"))
 
     if (! is.numeric (range_hi))
-        stop (paste0 (err_string_lead, " '", var_value,
+        stop_bdpg (paste0 (err_string_lead, " '", var_value,
                       "' used for input variable ", var_name,
                       ", range_hi = '", range_hi, "' must be numeric"))
 
     if (range_lo > range_hi)
-        stop (paste0 (err_string_lead, " '", var_value,
+        stop_bdpg (paste0 (err_string_lead, " '", var_value,
                       "' used for input variable ", var_name,
                       ", range_lo = '", range_lo, "' must be <= ",
                       "range_hi = '", range_hi, "'"))
@@ -995,12 +995,12 @@ vn <- function (var_value,
         #----------------------------------------------------------------------
 
     if (! is.character (bounds_types))
-        stop (paste0 (err_string_lead, " '", var_value,
+        stop_bdpg (paste0 (err_string_lead, " '", var_value,
                       "' used for input variable ", var_name,
                       ", bounds_types = '", range_hi, "' must be a string"))
 
     if (nchar (bounds_types) != 2)
-        stop (paste0 (err_string_lead, " '", var_value,
+        stop_bdpg (paste0 (err_string_lead, " '", var_value,
                       "' used for input variable ", var_name,
                       ", bounds_types = '", range_hi, "' must be a 2 character string"))
 
@@ -1009,7 +1009,7 @@ vn <- function (var_value,
         {
         if (var_value < range_lo)
             {
-            stop (paste0 (err_string_lead, " '", var_value,
+            stop_bdpg (paste0 (err_string_lead, " '", var_value,
                           "' used for input variable ", var_name,
                           ", must be >= ", "range_lo = '", range_lo, "'"))
             }
@@ -1017,13 +1017,13 @@ vn <- function (var_value,
         {
         if (var_value <= range_lo)
             {
-            stop (paste0 (err_string_lead, " '", var_value,
+            stop_bdpg (paste0 (err_string_lead, " '", var_value,
                           "' used for input variable ", var_name,
                           ", must be > ", "range_lo = '", range_lo, "'"))
             }
         } else  #  bounds_type NOT "i" or "e"
         {
-        stop (paste0 (err_string_lead, " '", var_value,
+        stop_bdpg (paste0 (err_string_lead, " '", var_value,
                       "' used for input variable ", var_name,
                       ", lower_bound_type = '", lower_bound_type, "' must be 'i' or 'e'"))
         }
@@ -1033,7 +1033,7 @@ vn <- function (var_value,
         {
         if (var_value > range_hi)
             {
-            stop (paste0 (err_string_lead, " '", var_value,
+            stop_bdpg (paste0 (err_string_lead, " '", var_value,
                           "' used for input variable ", var_name,
                           ", must be <= ", "range_hi = '", range_hi, "'"))
             }
@@ -1041,13 +1041,13 @@ vn <- function (var_value,
         {
         if (var_value >= range_hi)
             {
-            stop (paste0 (err_string_lead, " '", var_value,
+            stop_bdpg (paste0 (err_string_lead, " '", var_value,
                           "' used for input variable ", var_name,
                           ", must be < ", "range_hi = '", range_hi, "'"))
             }
         } else  #  bounds_type NOT "i" or "e"
         {
-        stop (paste0 (err_string_lead, " '", var_value,
+        stop_bdpg (paste0 (err_string_lead, " '", var_value,
                       "' used for input variable ", var_name,
                       ", upper_bound_type = '", upper_bound_type, "' must be 'i' or 'e'"))
         }

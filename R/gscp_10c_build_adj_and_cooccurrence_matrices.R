@@ -59,7 +59,7 @@ verify_that_generated_solution_really_is_a_solution =
         print (bpm)
 
         if (getOption ("bdpg.emulating_tzar", default=FALSE))  browser ()
-        stop ("SERIOUS ERROR: The generated optimal solution is not a solution.")
+        stop_bdpg ("SERIOUS ERROR: The generated optimal solution is not a solution.")
         }
 
     solution_cost = compute_solution_cost (dependent_node_IDs, PU_costs)    #rep (1, num_PUs))

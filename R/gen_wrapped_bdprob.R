@@ -161,7 +161,7 @@ validate_wrap <- function (extra_abund,
         {
         cat ("\nRule(s) ", which (!ok),
                       " violated in wrapped species PU_spp_table.\n")
-        stop()
+        stop_bdpg()
         }
 
     return (all_ok)
@@ -492,7 +492,7 @@ check_for_imperfect_wrap <- function (final_wrapped_extra_spp_abund_hist,
         print (final_wrapped_extra_spp_abund_hist)
         cat ("\n")
 
-        if (! allow_imperfect_wrap) stop ("Fail on imperfect wrap of bdproblem")
+        if (! allow_imperfect_wrap) stop_bdpg ("Fail on imperfect wrap of bdproblem")
 
         }  #  end if - num_neg_abund_freqs > 0
 
@@ -1093,7 +1093,7 @@ wrap_abundance_dist_around_Xu_problem <- function (starting_dir,
                              Xu_bdprob@num_PUs, ").\n\n"))
             } else
             {
-            stop (paste0 ("\nlowest missing PU_ID (", min (missing_PU_IDs),
+            stop_bdpg (paste0 ("\nlowest missing PU_ID (", min (missing_PU_IDs),
                              " is <= highest PU_ID in base problem (",
                              Xu_bdprob@num_PUs, ").\n\n"))
             }
@@ -1538,7 +1538,7 @@ options_are_legal_for_single_bdprob_WRAP <- function (parameters)
 
     if (value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file))
         {
-        stop (paste0 ("\n\nParameter read_Xu_problem_from_Xu_file is TRUE.",
+        stop_bdpg (paste0 ("\n\nParameter read_Xu_problem_from_Xu_file is TRUE.",
                     "\nCannot wrap around Xu problem read from file ",
                     "because correct solution IDs ",
                     "\nare not given with the file.",
@@ -1562,7 +1562,7 @@ options_are_legal_for_single_bdprob_WRAP <- function (parameters)
             #  Wrap request is not for a lognormal distribution, so fail.
             #-------------------------------------------------------------
 
-        stop (paste0 ("\n\nwrap_lognormal_dist_around_Xu is not set to TRUE.  ",
+        stop_bdpg (paste0 ("\n\nwrap_lognormal_dist_around_Xu is not set to TRUE.  ",
                     "\n    It is currently the only defined wrap function.\n")
             )
         }

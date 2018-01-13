@@ -112,7 +112,7 @@ load_and_parse_Xu_set_cover_problem_file <- function (infile_name)
 
     if (! file.exists (infile_name))
         {
-        stop ("\n\nERROR in load_and_parse_Xu_set_cover_problem_file():  Xu benchmark input file does not exist.\n\n")
+        stop_bdpg ("Xu benchmark input file does not exist.")
         }
 
         #  I don't really get the "" argument here, but it works.
@@ -135,11 +135,11 @@ load_and_parse_Xu_set_cover_problem_file <- function (infile_name)
 
     if (num_vertex_lines != num_vertices)
         {
-        cat ("\n\nERROR in load_and_parse_Xu_set_cover_problem_file():",
-             "\n\tnum_vertex_lines=", num_vertex_lines, " must match ",
-             "num_vertices=", num_vertices,
-             "\n\n", sep='')
-        stop ()
+        stop_bdpg (
+            paste0 ("\n\nERROR in load_and_parse_Xu_set_cover_problem_file():",
+                    "\n\tnum_vertex_lines=", num_vertex_lines, " must match ",
+                    "num_vertices=", num_vertices,
+                    "\n\n", sep=''))
         }
 
     xu_list_of_vectors_of_edge_IDs <- vector ("list", num_vertices);

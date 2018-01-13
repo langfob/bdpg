@@ -136,7 +136,7 @@ set_const_FP_and_FN_rates = function (parameters)
 
         } else                           #  unknown type of error to add
         {
-        stop (paste0 ("\n\nERROR: Unknown spp_occ_FN_error_type = '",
+        stop_bdpg (paste0 ("\n\nERROR: Unknown spp_occ_FN_error_type = '",
                 spp_occ_FN_error_type, "'"))
         }
 
@@ -484,7 +484,7 @@ cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
 #  2017 06 09 - BTL
 #  Have decided to just set the app_num_xxx values to cor_num_xxx values so that
 #  dimensions of cor and app structures match in comparisons downstream.
-#     if (app_ct_error)  stop()
+#     if (app_ct_error)  stop_bdpg()
 
         #--------------------------------------------------------------------
 

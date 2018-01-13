@@ -34,7 +34,7 @@ link_nodes_within_groups =
 
         if (getOption ("bdpg.emulating_tzar", default=FALSE))  browser ()
 
-        stop (paste0 ("\n\n***  num_nodes_per_group (", num_nodes_per_group,
+        stop_bdpg (paste0 ("\n\n***  num_nodes_per_group (", num_nodes_per_group,
              ") must be at least 2."))
         }
 

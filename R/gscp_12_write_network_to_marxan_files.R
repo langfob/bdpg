@@ -89,7 +89,7 @@ compute_marxan_species_penalty_factor <- function (spf_rule_to_use,
         spf_const = parameters$marxan_spf_const
         } else
         {
-        stop (paste0 ("\n\nERROR: marxan_spf_rule = '", spf_rule_to_use, "'",
+        stop_bdpg (paste0 ("\n\nERROR: marxan_spf_rule = '", spf_rule_to_use, "'",
              "\nMust be one of: POWER_OF_10 or CONSTANT.\n\n"))
         }
 

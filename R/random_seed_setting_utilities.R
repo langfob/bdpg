@@ -59,7 +59,7 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
         #  Make sure that one and only one type of seed is chosen to examine.
     if (! xor (is_rsrun, is_rsprob))
         {
-        stop (paste0 ("\n\nERROR in get_forced_seed_value():",
+        stop_bdpg (paste0 ("\n\nERROR in get_forced_seed_value():",
                       "\n    one and only one of these arguments must be TRUE:",
                       "\n    is_rsrun = '", is_rsrun, "'",
                       "\n    is_rsprob = '", is_rsprob, "'",
@@ -100,7 +100,7 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
                   #---------------------------------------------
         } else    #  Error:  cor_or_app_str not "APP" or "COR"
         {         #---------------------------------------------
-        stop (paste0 ("\n\nERROR in get_forced_seed_value():",
+        stop_bdpg (paste0 ("\n\nERROR in get_forced_seed_value():",
                       "\n    Bad string match for cor_or_app_str arg = '",
                       cor_or_app_str, "'",
                       "\n    Must be BASE or WRAP or COMB.\n\n"))
@@ -134,7 +134,7 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
                   #---------------------------------------------
         } else    #  ERROR:  cor_or_app_str not "APP" or "COR"
         {         #---------------------------------------------
-        stop (paste0 ("\n\nERROR in get_forced_seed_value():",
+        stop_bdpg (paste0 ("\n\nERROR in get_forced_seed_value():",
                       "\n    Bad string match for cor_or_app_str arg = '",
                       cor_or_app_str, "'",
                       "\n    Must be BASE or WRAP or COMB.\n\n"))
@@ -149,7 +149,7 @@ get_forced_seed_value_if_necessary <- function (is_rsrun,
         {                          #  from generating warnings, since I have
         if (is.na (forced_seed))   #  warnings set to generate errors.
             {
-            stop (paste0 ("\n\nERROR in get_forced_seed_value():",
+            stop_bdpg (paste0 ("\n\nERROR in get_forced_seed_value():",
                           "\n    Bad string match for basic_or_wrapped_or_comb_str arg = '",
                           basic_or_wrapped_or_comb_str, "'",
                           "\n    Must be BASE or WRAP or COMB.\n\n"))

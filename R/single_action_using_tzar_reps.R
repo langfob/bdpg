@@ -47,7 +47,7 @@ get_bdprob_from_rds_file <- function (prob_src,
 
     if (is.null (prob_src))
         {
-        stop ("No prob_src given")
+        stop_bdpg ("No prob_src given")
 
         } else if (prob_src == prob_from_rds_file)
         {
@@ -79,7 +79,7 @@ get_bdprob_from_rds_file <- function (prob_src,
 
         } else
         {
-        stop (paste0 ("Unknown prob_src = '", prob_src, "'"))
+        stop_bdpg (paste0 ("Unknown prob_src = '", prob_src, "'"))
         }
 
     src_rds_file_dir = dirname (rds_file_path)
@@ -135,7 +135,7 @@ make_sure_that_cor_bdprob_is_base_of_app_bdprob <- function (app_bdprob,
                         )
             }
 
-        stop (err_msg)
+        stop_bdpg (err_msg)
 
         }  #  end if - UUIDs don't match
     }
@@ -261,7 +261,7 @@ get_base_cor_bdprob_for_given_app_bdprob <- function (app_bdprob, parameters)
 
         } else
         {
-        stop (paste0 ("\n\nERROR:  parameters$RS_cor_input_prob_src = '", parameters$RS_cor_input_prob_src, "'.",
+        stop_bdpg (paste0 ("\n\nERROR:  parameters$RS_cor_input_prob_src = '", parameters$RS_cor_input_prob_src, "'.",
                         "\n        Must be 'rds_file_set_from_file'.\n\n"))
         }
 
@@ -319,7 +319,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
                          run_rs_on_COR_prob + run_rs_on_APP_prob
 
     if (num_actions_chosen != 1)
-        stop (paste0 ("\nMust set 1 and only 1 of these variables to TRUE: ",
+        stop_bdpg (paste0 ("\nMust set 1 and only 1 of these variables to TRUE: ",
                       "gen_COR_prob (", gen_COR_prob, "), ",
                       "gen_WRAP_prob (", gen_WRAP_prob, "), ",
                       "gen_APP_prob (", gen_APP_prob, "), ",

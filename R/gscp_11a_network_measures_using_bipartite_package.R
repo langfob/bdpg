@@ -178,7 +178,7 @@ compute_network_measures_using_bipartite_package = function (rsprob,
 
         } else
         {
-        stop (paste0 ("\n\ncompute_network_measures_using_bipartite_package(): ",
+        stop_bdpg (paste0 ("\n\ncompute_network_measures_using_bipartite_package(): ",
                       "parameters$bipartite_metrics_to_use must be one of {",
                       "ALLBUTDD, quick_test, all_except_slow_indices}\n"))
         }

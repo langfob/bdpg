@@ -16,7 +16,7 @@ combine_2_bdprobs = function (bdprob_1, bdprob_2,
                               parameters,
                               integerize)
     {
-    stop ("\n\ncombine_2_bdprobs() is NOT IMPLEMENTED yet.\n\n")
+    stop_bdpg ("\n\ncombine_2_bdprobs() is NOT IMPLEMENTED yet.\n\n")
     }
 
 #===============================================================================
@@ -87,7 +87,7 @@ gen_multi_bdprob <- function (parameters,
     if (wrap_lognormal_dist_around_Xu &   #(parameters$wrap_lognormal_around_Xu &
         read_Xu_problem_from_Xu_bench_file)   # parameters$read_Xu_problem_from_Xu_file)
         {
-        stop (paste0 ("\n\nParameters wrap_lognormal_dist_around_Xu and ",
+        stop_bdpg (paste0 ("\n\nParameters wrap_lognormal_dist_around_Xu and ",
                       "read_Xu_problem_from_Xu_file ",
                       "\nare both true.",
                       "\nCannot wrap around Xu problem read from file ",
@@ -127,7 +127,7 @@ gen_multi_bdprob <- function (parameters,
 
     if (! bdprob_1@prob_is_ok)
         {
-        stop ("\n\nGenerating base BD_Problem for multi-problem failed.\n\n")
+        stop_bdpg ("\n\nGenerating base BD_Problem for multi-problem failed.\n\n")
 
                 #--------------------------------------------------------------
         } else  #  Base problem generation worked, so build multiproblem now.

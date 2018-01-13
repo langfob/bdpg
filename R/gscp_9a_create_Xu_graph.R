@@ -137,7 +137,7 @@ assert_edge_list_does_not_violate_assumptions =
           }  #  end else - (first_row_of_intergroup_links >= 2)
 
       if (edge_list_error)
-          stop ("\n\nOne or more fatal errors in building edge_list.\n\n")
+          stop_bdpg ("\n\nOne or more fatal errors in building edge_list.\n\n")
 
     return (TRUE)
     }

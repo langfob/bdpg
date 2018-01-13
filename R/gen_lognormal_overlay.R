@@ -186,7 +186,7 @@ gen_lognormal = function (num_spp_to_generate,
              "\n\niteration: ", cur_iteration, "\n\n")
 
         if (cur_iteration > max_iterations)
-            stop (paste0 ("\n\ngen_lognormal() exceeded max_iterations = ",
+            stop_bdpg (paste0 ("\n\ngen_lognormal() exceeded max_iterations = ",
                   max_iterations,
                   " without finding a distribution satisfying: \n",
                   "\tfrac_of_spp_that_are_on_2_PUs <= max_frac_spp_on_2_PUs = ",
@@ -289,7 +289,7 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
                 paste0 (error_string, "plusOrMinus1 = ",
                         plusOrMinus1, ".  Must = 1 or -1.\n")
 
-    if (nchar (error_string) > 0)  stop (error_string) else
+    if (nchar (error_string) > 0)  stop_bdpg (error_string) else
         {
         return (log (num_PUs_per_spp_ie_rarity) +
                     plusOrMinus1 * 1.41421 *
