@@ -60,8 +60,12 @@ setClass ("Xu_bdpg_extended_params",
                             use_unif_rand_p__prop_of_links_between_groups              = "logical",
                             p__prop_of_links_between_groups_lower_bound                = "numeric",
                             p__prop_of_links_between_groups_upper_bound                = "numeric",
-                            base_for_target_num_links_between_2_groups_per_round       = "character",  #  Correct type?
-                            at_least_1_for_target_num_links_between_2_groups_per_round = "logical",  #  Not used?  See comment in gscp_5...R.
+
+                                #  Used to be either "num_nodes_per_group" or "num_dependent_nodes_per_group".
+                                #  Not currently used but not ready to get rid of it yet.
+                                #  See function compute_target_num_links_between_2_groups_per_round().
+                            base_for_target_num_links_between_2_groups_per_round       = "character",
+                            at_least_1_for_target_num_links_between_2_groups_per_round = "logical",
 
                             use_unif_rand_r__density                                   = "logical",
                             r__density_lower_bound                                     = "numeric",
@@ -85,6 +89,7 @@ setClass ("Xu_bdpg_extended_params",
                             use_unif_rand_p__prop_of_links_between_groups              = NA,
                             p__prop_of_links_between_groups_lower_bound                = as.numeric (NA),
                             p__prop_of_links_between_groups_upper_bound                = as.numeric (NA),
+
                             base_for_target_num_links_between_2_groups_per_round       = as.character (NA),
                             at_least_1_for_target_num_links_between_2_groups_per_round = NA,
 
@@ -138,8 +143,8 @@ setClass ("Xu_derived_params",
                             tot_num_nodes                               = as.numeric (NA),
                             num_dependent_set_nodes                     = as.numeric (NA),
                             opt_solution_as_frac_of_tot_num_nodes       = as.numeric (NA)  #,
-#                            base_for_target_num_links_between_2_groups_per_round       = as.numeric (NA),
-#                            at_least_1_for_target_num_links_between_2_groups_per_round = as.numeric (NA)
+#                            base_for_target_num_links_between_2_groups_per_round       = as.character (NA),
+#                            at_least_1_for_target_num_links_between_2_groups_per_round = as.character (NA)
                     )
             )
 
