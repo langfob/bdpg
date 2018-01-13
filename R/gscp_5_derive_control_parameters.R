@@ -74,7 +74,16 @@ compute_target_num_links_between_2_groups_per_round <-
         #     target calculation because it's the most flexible and its only
         #     downsize is that it might overallocate space for a table.
         #-----------------------------------------------------------------------
-
+        #  2018 01 13 - BTL
+        #  Looking through some old versions of the yaml files, I find that
+        #  this question used to be handled as an option:
+        #      base_for_target_num_links_between_2_groups_per_round: "num_nodes_per_group"
+        #          OR
+        #      base_for_target_num_links_between_2_groups_per_round: "num_dependent_nodes_per_group"
+        #  I don't think that I'll go back to that at the moment, but I'll
+        #  leave the variable and this documentation so that if it becomes
+        #  something to revisit, there's a record of what was done before.
+        #-----------------------------------------------------------------------
 
     at_least_1_for_target_num_links_between_2_groups_per_round =
         vb (at_least_1_for_target_num_links_between_2_groups_per_round,
@@ -118,39 +127,64 @@ compute_target_num_links_between_2_groups_per_round <-
 
 #===============================================================================
 
-#' Derive full Xu control params from 4 base params
-#'
-#-------------------------------------------------------------------------------
+        #-------------
+        #  Derive n.
+        #-------------
 
-#' @inheritParams std_param_defns
-#'
-#' @return a Xu_parameters object
-
-#-------------------------------------------------------------------------------
-
-derive_Xu_control_parameters = function (parameters,
-#                                         bdpg_error_codes,
-                                         integerize
-                                         )
+get_n__num_groups <- function (n__num_groups,
+                                  use_unif_rand_n__num_groups,
+                                  n__num_groups_lower_bound,
+                                  n__num_groups_upper_bound,
+                                  integerize
+                                  )
     {
-        #  NOTE:  The runif() documentation says:
-        #           "runif will not generate either of the extreme values unless
-        #            max = min or max-min is small compared to min, and in
-        #            particular not for the default arguments."
+    use_unif_rand_n__num_groups = vb (use_unif_rand_n__num_groups,
+                                      def_on_empty = TRUE, def = FALSE)
 
-    n__num_groups = parameters$n__num_groups
-    if (vb (parameters$use_unif_rand_n__num_groups))
+    if (use_unif_rand_n__num_groups)
         {
-        n__num_groups =
-            integerize (runif (1,
-                             min = vn (parameters$n__num_groups_lower_bound),
-                             max = vn (parameters$n__num_groups_upper_bound)
-                             ))
+        n__num_groups_lower_bound   = vn (n__num_groups_lower_bound,
+                                          range_lo = 1, def_on_empty = TRUE,
+                                          def = 1)
+        n__num_groups_upper_bound   = vn (n__num_groups_upper_bound,
+                                          range_lo = n__num_groups_lower_bound,
+                                          def_on_empty = TRUE, def = Inf)
+
+            #-------------------------------------------------------------------
+            #  NOTE:  The runif() documentation says:
+            #           "runif will not generate either of the extreme values
+            #            unless max = min or max-min is small compared to min,
+            #            and in particular, not for the default arguments."
+            #-------------------------------------------------------------------
+
+        n__num_groups = integerize (runif (1,
+                                           min = n__num_groups_lower_bound,
+                                           max = n__num_groups_upper_bound))
+        } else
+        {
+        n__num_groups = vn (n__num_groups, range_lo = 1)
         }
 
-    alpha__ = parameters$alpha__
-    if (vb (parameters$derive_alpha_from_n__num_groups_and_opt_frac_0.5))
+    return (n__num_groups)
+    }
+
+#===============================================================================
+
+get_alpha__ <-
+    function (alpha__,
+              derive_alpha_from_n__num_groups_and_opt_frac_0.5,
+              use_unif_rand_alpha__,
+              alpha___lower_bound,
+              alpha___upper_bound,
+              n__num_groups)
+    {
+    derive_alpha_from_n__num_groups_and_opt_frac_0.5 =
+        vb (derive_alpha_from_n__num_groups_and_opt_frac_0.5,
+            def_on_empty = TRUE, def = FALSE)
+
+    if (derive_alpha_from_n__num_groups_and_opt_frac_0.5)
         {
+            #-------------------------------------------------------------------
             #  BTL - 2015 04 08
             #  This is a special case to summarize the conditions for
             #  a large set of experiments for the biodivprobgen paper.
@@ -166,6 +200,7 @@ derive_Xu_control_parameters = function (parameters,
             #  In this case, I will choose num_nodes_per_group and n__num_groups,
             #  so the alpha value will be forced since it's the least intuitive
             #  to choose of the three.
+            #-------------------------------------------------------------------
 
         num_nodes_per_group = 2
         desired_num_PUs = num_nodes_per_group * n__num_groups
@@ -173,55 +208,135 @@ derive_Xu_control_parameters = function (parameters,
 
         } else
         {
-        if (vb (parameters$use_unif_rand_alpha__))
+        use_unif_rand_alpha__ = vb (use_unif_rand_alpha__, def_on_empty = TRUE,
+                                    def = FALSE)
+
+        alpha___lower_bound = vn (alpha___lower_bound)
+        alpha___upper_bound = vn (alpha___upper_bound)
+
+        if (use_unif_rand_alpha__)
             {
-            alpha__ = runif (1,
-                           min = vn (parameters$alpha___lower_bound),
-                           max = vn (parameters$alpha___upper_bound)
-                           )
+            alpha__ =
+                runif (1, min = alpha___lower_bound, max = alpha___upper_bound)
+
+            } else
+            {
+            alpha__ = vn (alpha__)
             }
         }
 
-    p__prop_of_links_between_groups = parameters$p__prop_of_links_between_groups
-    if (vb (parameters$use_unif_rand_p__prop_of_links_between_groups))
+    return (alpha__)
+    }
+
+#===============================================================================
+
+get_p__prop_of_links_between_groups <-
+    function (p__prop_of_links_between_groups,
+              use_unif_rand_p__prop_of_links_between_groups,
+              p__prop_of_links_between_groups_lower_bound,
+              p__prop_of_links_between_groups_upper_bound)
+    {
+    use_unif_rand_p__prop_of_links_between_groups =
+        vb (use_unif_rand_p__prop_of_links_between_groups,
+            def_on_empty = TRUE, def = FALSE)
+
+    if (use_unif_rand_p__prop_of_links_between_groups)
         {
+        p__prop_of_links_between_groups_lower_bound =
+            vn (p__prop_of_links_between_groups_lower_bound, def_on_empty = TRUE,
+                                                             def = 0)
+        p__prop_of_links_between_groups_upper_bound =
+            vn (p__prop_of_links_between_groups_upper_bound, def_on_empty = TRUE,
+                                                             def = 1)
+
         p__prop_of_links_between_groups =
-        runif (1,
-             min = vn (parameters$p__prop_of_links_between_groups_lower_bound),
-             max = vn (parameters$p__prop_of_links_between_groups_upper_bound)
-             )
+            runif (1,
+                   min = p__prop_of_links_between_groups_lower_bound,
+                   max = p__prop_of_links_between_groups_upper_bound)
+        } else
+        {
+        p__prop_of_links_between_groups = vn (p__prop_of_links_between_groups,
+                                              range_lo = 0, range_hi = 1)
         }
 
-    r__density = parameters$r__density
-    if (vb (parameters$use_unif_rand_r__density))
+    return (p__prop_of_links_between_groups)
+    }
+
+#===============================================================================
+
+get_r__density <- function (r__density,
+                           use_unif_rand_r__density,
+                           r__density_lower_bound,
+                           r__density_upper_bound)
+    {
+    if (vb (use_unif_rand_r__density))
         {
+            #------------------------------------------------------------------
             #  BTL - 2015 03 19
             #  Not sure why these bounds on r__density said p__r__... instead
             #  of just r__...
             #  So, replacing the p__r__... in gscp_3..., gscp_5..., and in
             #  project.yaml.
+            #------------------------------------------------------------------
 
-        r__density = runif (1,
                 #                   min = parameters$p__r__density_lower_bound,
-                              min = vn (parameters$r__density_lower_bound),
+        r__density_lower_bound = vn (r__density_lower_bound)
                 #                   max = parameters$p__r__density_upper_bound
-                              max = vn (parameters$r__density_upper_bound)
-                              )
+        r__density_upper_bound = vn (r__density_upper_bound)
+
+        r__density = runif (1, min = r__density_lower_bound,
+                               max = r__density_upper_bound)
+        } else
+        {
+        r__density = vn (r__density)
         }
 
+    return (r__density)
+    }
 
-        #--------------------------------------------------------------
-        #  Make sure that all the resulting Xu base values are valid.
-        #--------------------------------------------------------------
+#===============================================================================
 
-    n__num_groups = vn (n__num_groups, range_lo=1)
-    alpha__ = vn (alpha__)
+#' Derive full Xu control params from 4 base params
+#'
+#-------------------------------------------------------------------------------
+
+#' @inheritParams std_param_defns
+#'
+#' @return a Xu_parameters object
+
+#-------------------------------------------------------------------------------
+
+derive_Xu_control_parameters = function (parameters, integerize)
+    {
+    n__num_groups =
+        get_n__num_groups (parameters$n__num_groups,
+                              parameters$use_unif_rand_n__num_groups,
+                              parameters$n__num_groups_lower_bound,
+                              parameters$n__num_groups_upper_bound,
+                              integerize)
+
+    alpha__ =
+        get_alpha__ (parameters$alpha__,
+                        parameters$derive_alpha_from_n__num_groups_and_opt_frac_0.5,
+                        parameters$use_unif_rand_alpha__,
+                        parameters$alpha___lower_bound,
+                        parameters$alpha___upper_bound,
+                        n__num_groups)
+
     p__prop_of_links_between_groups =
-                vn (p__prop_of_links_between_groups, range_lo=0)
-    r__density = vn (r__density)
+        get_p__prop_of_links_between_groups (
+                        parameters$p__prop_of_links_between_groups,
+                        parameters$use_unif_rand_p__prop_of_links_between_groups,
+                        parameters$p__prop_of_links_between_groups_lower_bound,
+                        parameters$p__prop_of_links_between_groups_upper_bound)
 
-    #--------------------
+    r__density =
+        get_r__density (parameters$r__density,
+                        parameters$use_unif_rand_r__density,
+                        parameters$r__density_lower_bound,
+                        parameters$r__density_upper_bound)
 
+        #----------------------------------------------------------------------
         #  2014 12 11 - BTL - Adding to the original set of parameters
         #  Originally, there was only 1 independent node per group.
         #  I'm going to try allowing more than that to see if it will still
@@ -232,12 +347,13 @@ derive_Xu_control_parameters = function (parameters,
         #  parameters.  It may even have been showing up in the results files
         #  as being the correct value by being copied somewhere else,
         #  but when the nodes table is being built, it was always using 1.
+        #----------------------------------------------------------------------
 
     num_independent_nodes_per_group =
-        vn (parameters$num_independent_nodes_per_group,
-            def_on_empty = TRUE, def = 1)
+            vn (parameters$num_independent_nodes_per_group, def_on_empty = TRUE,
+                                                            def = 1)
 
-    #-------------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
 
         #  Derived control parameters.
 
@@ -402,34 +518,10 @@ derive_Xu_control_parameters = function (parameters,
 #                                    at_least_1_for_target_num_links_between_2_groups_per_round = at_least_1_for_target_num_links_between_2_groups_per_round
                                   )
 
-#     Xu_bdpg_extended_parameters <- new ("Xu_bdpg_extended_params",
-#                                     alpha___lower_bound                                        = parameters$alpha___lower_bound,
-#                                     alpha___upper_bound                                        = parameters$alpha___upper_bound,
-#                                     derive_alpha_from_n__num_groups_and_opt_frac_0.5           = parameters$derive_alpha_from_n__num_groups_and_opt_frac_0.5,
-#                                     use_unif_rand_alpha__                                      = parameters$use_unif_rand_alpha__,
-#
-# #                                    n__num_groups                                              = n__num_groups,
-#                                     n__num_groups_lower_bound                                  = parameters$n__num_groups_lower_bound,
-#                                     n__num_groups_upper_bound                                  = parameters$n__num_groups_upper_bound,
-#                                     use_unif_rand_n__num_groups                                = parameters$use_unif_rand_n__num_groups,
-#
-#                                     num_independent_nodes_per_group                            = num_independent_nodes_per_group,
-#
-#                                     use_unif_rand_p__prop_of_links_between_groups              = parameters$use_unif_rand_p__prop_of_links_between_groups,
-#                                     p__prop_of_links_between_groups_lower_bound                = parameters$p__prop_of_links_between_groups_lower_bound,
-#                                     p__prop_of_links_between_groups_upper_bound                = parameters$p__prop_of_links_between_groups_upper_bound,
-#                                     base_for_target_num_links_between_2_groups_per_round       = base_for_target_num_links_between_2_groups_per_round,  #  Correct type?
-#                                     at_least_1_for_target_num_links_between_2_groups_per_round = at_least_1_for_target_num_links_between_2_groups_per_round,  #  Not used?  See comment in gscp_5...R.
-#
-#                                     use_unif_rand_r__density                                   = parameters$use_unif_rand_r__density,
-#                                     r__density_lower_bound                                     = parameters$r__density_lower_bound,
-#                                     r__density_upper_bound                                     = parameters$r__density_upper_bound,
-#
-#                                     integerize                                                 = integerize
-#                             )
+#SHOULDNT ALL OF THESE ASSIGNMENTS BE CHANGED TO USE THE DERIVED VALUES RATHER THAN THE PARAMETERS$ VALUES NOW THAT I VB AND VN THEM?
 
     Xu_bdpg_extended_parameters <- new ("Xu_bdpg_extended_params")
-#    if (!is.null (parameters$xxx))  Xu_bdpg_extended_parameters@xxx = parameters$xxx
+
     if (!is.null (parameters$alpha___lower_bound))  Xu_bdpg_extended_parameters@alpha___lower_bound = parameters$alpha___lower_bound
     if (!is.null (parameters$alpha___upper_bound))  Xu_bdpg_extended_parameters@alpha___upper_bound = parameters$alpha___upper_bound
     if (!is.null (parameters$derive_alpha_from_n__num_groups_and_opt_frac_0.5))  Xu_bdpg_extended_parameters@derive_alpha_from_n__num_groups_and_opt_frac_0.5 = parameters$derive_alpha_from_n__num_groups_and_opt_frac_0.5
@@ -442,7 +534,9 @@ derive_Xu_control_parameters = function (parameters,
     if (!is.null (parameters$p__prop_of_links_between_groups_lower_bound))  Xu_bdpg_extended_parameters@p__prop_of_links_between_groups_lower_bound = parameters$p__prop_of_links_between_groups_lower_bound
     if (!is.null (parameters$p__prop_of_links_between_groups_upper_bound))  Xu_bdpg_extended_parameters@p__prop_of_links_between_groups_upper_bound = parameters$p__prop_of_links_between_groups_upper_bound
     if (!is.null (parameters$base_for_target_num_links_between_2_groups_per_round))  Xu_bdpg_extended_parameters@base_for_target_num_links_between_2_groups_per_round = parameters$base_for_target_num_links_between_2_groups_per_round
-    if (!is.null (parameters$at_least_1_for_target_num_links_between_2_groups_per_round))  Xu_bdpg_extended_parameters@at_least_1_for_target_num_links_between_2_groups_per_round = parameters$at_least_1_for_target_num_links_between_2_groups_per_round
+#    if (!is.null (parameters$at_least_1_for_target_num_links_between_2_groups_per_round))
+        Xu_bdpg_extended_parameters@at_least_1_for_target_num_links_between_2_groups_per_round =
+            at_least_1_for_target_num_links_between_2_groups_per_round
     if (!is.null (parameters$use_unif_rand_r__density))  Xu_bdpg_extended_parameters@use_unif_rand_r__density = parameters$use_unif_rand_r__density
     if (!is.null (parameters$r__density_lower_bound))  Xu_bdpg_extended_parameters@r__density_lower_bound = parameters$r__density_lower_bound
     if (!is.null (parameters$r__density_upper_bound))  Xu_bdpg_extended_parameters@r__density_upper_bound = parameters$r__density_upper_bound
