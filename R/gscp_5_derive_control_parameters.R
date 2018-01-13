@@ -211,11 +211,11 @@ get_alpha__ <-
         use_unif_rand_alpha__ = vb (use_unif_rand_alpha__, def_on_empty = TRUE,
                                     def = FALSE)
 
-        alpha___lower_bound = vn (alpha___lower_bound)
-        alpha___upper_bound = vn (alpha___upper_bound)
-
         if (use_unif_rand_alpha__)
             {
+            alpha___lower_bound = vn (alpha___lower_bound)
+            alpha___upper_bound = vn (alpha___upper_bound)
+
             alpha__ =
                 runif (1, min = alpha___lower_bound, max = alpha___upper_bound)
 
@@ -269,7 +269,10 @@ get_r__density <- function (r__density,
                            r__density_lower_bound,
                            r__density_upper_bound)
     {
-    if (vb (use_unif_rand_r__density))
+    use_unif_rand_r__density = vb (use_unif_rand_r__density, def_on_empty = TRUE,
+                                                             def = FALSE)
+
+    if (use_unif_rand_r__density)
         {
             #------------------------------------------------------------------
             #  BTL - 2015 03 19
