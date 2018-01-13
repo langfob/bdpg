@@ -4,8 +4,7 @@
 \alias{link_nodes_within_groups}
 \title{Link nodes within groups}
 \usage{
-link_nodes_within_groups(num_nodes_per_group, n__num_groups, nodes, edge_list,
-  bdpg_error_codes)
+link_nodes_within_groups(num_nodes_per_group, n__num_groups, nodes, edge_list)
 }
 \arguments{
 \item{num_nodes_per_group}{integer number of planning units per group in the
@@ -18,8 +17,6 @@ Xu problem}
 
 \item{edge_list}{two column integer matrix of node IDs with one row for
 each edge and columns for the 2 ends of the edge}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 Returns list containing edge_list and cur_row

@@ -310,8 +310,9 @@ create_Xu_problem_from_scratch_given_params <-
                        max_possible_tot_num_links,
                        target_num_links_between_2_groups_per_round,
                        num_rounds_of_linking_between_groups,
-                       duplicate_links_allowed,
-                       bdpg_error_codes
+                       duplicate_links_allowed
+                       # ,
+                       # bdpg_error_codes
                        )
     # edge_list =
     #   create_Xu_graph (derived_Xu_params@num_nodes_per_group,

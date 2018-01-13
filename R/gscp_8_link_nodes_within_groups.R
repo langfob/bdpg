@@ -23,20 +23,23 @@ link_nodes_within_groups =
     function (num_nodes_per_group,
               n__num_groups,
               nodes,
-              edge_list,
-              bdpg_error_codes
+              edge_list
+              # ,
+              # bdpg_error_codes
               )
     {
     cat ("\n\n--------------------  Linking nodes WITHIN each group.\n")
 
     if (num_nodes_per_group < 2)
         {
-        cat ("\n\n***  num_nodes_per_group (", num_nodes_per_group,
-             ") must be at least 2.\n\n")
+        # cat ("\n\n***  num_nodes_per_group (", num_nodes_per_group,
+        #      ") must be at least 2.\n\n")
 
         if (getOption ("bdpg.emulating_tzar", default=FALSE))  browser ()
 
-        quit (save="no", status=bdpg_error_codes$ERROR_STATUS_num_nodes_per_group_must_be_at_least_2)
+#        quit (save="no", status=bdpg_error_codes$ERROR_STATUS_num_nodes_per_group_must_be_at_least_2)
+        stop (paste0 ("\n\n***  num_nodes_per_group (", num_nodes_per_group,
+             ") must be at least 2."))
         }
 
     num_nodes_per_group_minus_1 = num_nodes_per_group - 1
