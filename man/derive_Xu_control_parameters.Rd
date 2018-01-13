@@ -4,13 +4,11 @@
 \alias{derive_Xu_control_parameters}
 \title{Derive full Xu control params from 4 base params}
 \usage{
-derive_Xu_control_parameters(parameters, bdpg_error_codes, integerize)
+derive_Xu_control_parameters(parameters, integerize)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
 }

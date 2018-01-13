@@ -5,7 +5,7 @@
 \title{Generate a Xu problem from scratch but insure it's less than a given size}
 \usage{
 create_allowable_size_Xu_problem_from_scratch(max_allowed_num_spp, parameters,
-  bdpg_error_codes, integerize, default_num_prob_size_retries_allowed = 20)
+  integerize, default_num_prob_size_retries_allowed = 20)
 }
 \arguments{
 \item{max_allowed_num_spp}{integer maximum number of species allowed in the
@@ -14,8 +14,6 @@ to keep the run-time down)}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
 

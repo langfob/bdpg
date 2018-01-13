@@ -310,7 +310,7 @@ cat ("\n\n---------- END get_base_cor_bdprob_for_given_app_bdprob() ----------")
 #-------------------------------------------------------------------------------
 
 single_action_using_tzar_reps <- function (parameters,
-                                           bdpg_error_codes,
+#                                           bdpg_error_codes,
                                            integerize)
     {
         #------------------------------------------------------
@@ -345,7 +345,7 @@ single_action_using_tzar_reps <- function (parameters,
     if (gen_COR_prob)
         {
         bdpg::gen_single_bdprob_COR (parameters,
-                                     bdpg_error_codes,
+#                                     bdpg_error_codes,
                                      integerize,
                                      base_prob_name_stem = "base_prob",
                                      cor_dir_name_stem = "cor")
@@ -376,7 +376,7 @@ single_action_using_tzar_reps <- function (parameters,
 
         bdpg::gen_single_bdprob_WRAP (src_bdprob_to_wrap,
                                       parameters,
-                                      bdpg_error_codes
+#                                      bdpg_error_codes
                                       # ,
                                       # src_rds_file_dir    #  NO LONGER USED?
                                       )
@@ -409,7 +409,7 @@ single_action_using_tzar_reps <- function (parameters,
         bdpg::gen_single_bdprob_APP (bdprob_to_add_error_to,
                                      #value_or_FALSE_if_null (parameters$compute_network_metrics_APP),
                                      parameters,
-                                     bdpg_error_codes    #,
+#                                     bdpg_error_codes    #,
                                      #integerize
                                      )
         }

@@ -5,7 +5,7 @@
 \title{Apply error to species occupancy data.}
 \usage{
 apply_error_to_spp_occupancy_data(bpm, FP_rates, FN_rates, num_PUs, num_spp,
-  random_values, bdpg_error_codes)
+  random_values)
 }
 \arguments{
 \item{bpm}{bipartite matrix; integer matrix with one row for each species
@@ -23,8 +23,6 @@ Same as occ_matrix.}
 \item{num_spp}{integer number of species in the problem}
 
 \item{random_values}{numeric vector}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 Returns bpm matrix

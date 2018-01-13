@@ -4,13 +4,11 @@
 \alias{gen_4_basic_variants}
 \title{Create 1 of each of the 4 types of problems and run reserve selector on each}
 \usage{
-gen_4_basic_variants(parameters, bdpg_error_codes, integerize)
+gen_4_basic_variants(parameters, integerize)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
 }

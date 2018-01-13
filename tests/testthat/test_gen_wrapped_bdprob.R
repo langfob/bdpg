@@ -936,7 +936,7 @@ wrap_abundance_dist_around_Xu_problem (starting_dir,
                             seed_value_for_search_list,
                                         allow_imperfect_wrap,
 
-                                                  bdpg_error_codes,
+                                                  #bdpg_error_codes,
                                                   search_outfile_name_base,
                                                   search_outfile_name,
                                             wrap_prob_name_stem = "wrap_prob",
@@ -951,8 +951,10 @@ wrap_abundance_dist_around_Xu_problem (starting_dir,
 if(FALSE)
             gen_wrapped_bdprob_COR (starting_dir,
                                     parameters,
-                                    base_bdprob,
-                                    bdpg_error_codes)
+                                    base_bdprob
+                                    #,
+                                    #bdpg_error_codes
+                                    )
 
 #===============================================================================
 
@@ -1137,10 +1139,12 @@ dummylistend=NULL
                 #  Test gen_single_bdprob_WRAP
                 #-------------------------------
 
-test_gen_single_COR <- function (parameters, bdpg_error_codes)
+test_gen_single_COR <- function (parameters
+                                 #, bdpg_error_codes
+                                 )
     {
     base_COR_bd_prob = gen_single_bdprob_COR (parameters,
-                                              bdpg_error_codes,
+                                              #bdpg_error_codes,
                                               integerize          = round,
                                               base_prob_name_stem = "base_prob",
                                               cor_dir_name_stem   = "cor"
@@ -1234,17 +1238,21 @@ parameters$too_many_possible_links_error_flag_file_name =
     #  Initialize for a bdpg run.
 params_and_error_codes = init_for_bdpg (parameters)
 
-bdpg_error_codes = params_and_error_codes$bdpg_error_codes
+#bdpg_error_codes = params_and_error_codes$bdpg_error_codes
 parameters       = params_and_error_codes$parameters
 
     #  Generate a correct problem from scratch.
-bdprob_to_wrap = test_gen_single_COR (parameters,
-                                      bdpg_error_codes)
+bdprob_to_wrap = test_gen_single_COR (parameters
+                                      #,
+                                      #bdpg_error_codes
+                                      )
 
     #  Generate a wrapped problem around the correct problem just generated.
 wrapped_problem = gen_single_bdprob_WRAP (bdprob_to_wrap,
-                                          parameters,
-                                          bdpg_error_codes)
+                                          parameters
+                                          #,
+                                          #bdpg_error_codes
+                                          )
 
 test_that("gen_single_bdprob_WRAP: COR and WRAP problem generation succeed", {
     expect_true (! is.null (bdprob_to_wrap))

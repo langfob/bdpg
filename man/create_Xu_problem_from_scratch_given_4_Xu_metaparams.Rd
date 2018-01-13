@@ -5,7 +5,7 @@
 \title{Generate a Xu problem from scratch}
 \usage{
 create_Xu_problem_from_scratch_given_4_Xu_metaparams(max_allowed_num_spp,
-  duplicate_links_allowed, parameters, bdpg_error_codes, integerize)
+  duplicate_links_allowed, parameters, integerize)
 }
 \arguments{
 \item{max_allowed_num_spp}{integer}
@@ -14,8 +14,6 @@ create_Xu_problem_from_scratch_given_4_Xu_metaparams(max_allowed_num_spp,
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
 }

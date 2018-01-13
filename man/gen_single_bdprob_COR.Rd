@@ -4,14 +4,12 @@
 \alias{gen_single_bdprob_COR}
 \title{Generate a single correct biodiversity problem from scratch or from a file}
 \usage{
-gen_single_bdprob_COR(parameters, bdpg_error_codes, integerize,
+gen_single_bdprob_COR(parameters, integerize,
   base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
 

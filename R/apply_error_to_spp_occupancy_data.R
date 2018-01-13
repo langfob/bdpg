@@ -29,9 +29,9 @@
 
 apply_error_to_spp_occupancy_data =
         function (bpm, FP_rates, FN_rates, num_PUs, num_spp,
-                  random_values,   #  passing these in to make it easier to test
+                  random_values  #,   #  passing these in to make it easier to test
                                    #  in a reproducible way
-                  bdpg_error_codes
+                  #bdpg_error_codes
                   )
     {
     cat ("\nStarting apply_error_to_spp_occupancy_data loop.\n\n")
@@ -409,8 +409,10 @@ apply_const_error_to_spp_occupancy_data <- function (cor_num_PUs,
                                                cor_num_spp,
                                                cor_bpm,
                                                FP_rates_matrix,
-                                               FN_rates_matrix,
-                                               bdpg_error_codes)
+                                               FN_rates_matrix
+                                               #,
+                                               #bdpg_error_codes
+                                               )
     {
 cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
 
@@ -432,8 +434,10 @@ cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
                                             FN_rates_matrix,
                                             cor_num_PUs,
                                             cor_num_spp,
-                                            random_values,
-                                            bdpg_error_codes)
+                                            random_values
+                                           #,
+                                            #bdpg_error_codes
+                                           )
 
         #-----------------------------------------------------------------
         #  Since the errors are generated stochastically, the realized

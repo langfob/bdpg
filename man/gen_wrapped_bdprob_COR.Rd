@@ -4,7 +4,7 @@
 \alias{gen_wrapped_bdprob_COR}
 \title{Generate a correct wrapped Xu biodiversity problem from a correct base problem}
 \usage{
-gen_wrapped_bdprob_COR(starting_dir, parameters, base_bdprob, bdpg_error_codes)
+gen_wrapped_bdprob_COR(starting_dir, parameters, base_bdprob)
 }
 \arguments{
 \item{starting_dir}{character string}
@@ -14,8 +14,6 @@ and can have a varying number and set of elements depending on the run}
 
 \item{base_bdprob}{a correct Xu_bd_problem whose correct solution vector is
 known}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 Returns a correct wrapped biodiversity problem

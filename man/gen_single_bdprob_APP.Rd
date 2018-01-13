@@ -4,15 +4,13 @@
 \alias{gen_single_bdprob_APP}
 \title{Generate a single biodiversity problem with error added to it}
 \usage{
-gen_single_bdprob_APP(Xu_bdprob_COR, parameters, bdpg_error_codes)
+gen_single_bdprob_APP(Xu_bdprob_COR, parameters)
 }
 \arguments{
 \item{Xu_bdprob_COR}{correct Xu problem that is to have error added to it}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 Returns apparent version of either a Xu_bd_problem or a

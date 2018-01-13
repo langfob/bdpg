@@ -4,7 +4,7 @@
 \alias{gen_single_bdprob_WRAP}
 \title{Generate a single wrapped biodiversity problem from a given base problem}
 \usage{
-gen_single_bdprob_WRAP(bdprob_to_wrap, parameters, bdpg_error_codes)
+gen_single_bdprob_WRAP(bdprob_to_wrap, parameters)
 }
 \arguments{
 \item{bdprob_to_wrap}{a correct Xu_bd_problem whose correct solution vector is
@@ -12,8 +12,6 @@ known}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 Returns a correct wrapped biodiversity problem

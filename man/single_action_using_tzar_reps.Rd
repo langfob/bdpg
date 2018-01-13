@@ -4,13 +4,11 @@
 \alias{single_action_using_tzar_reps}
 \title{Execute a single action based on tzar repetition values in project.yaml}
 \usage{
-single_action_using_tzar_reps(parameters, bdpg_error_codes, integerize)
+single_action_using_tzar_reps(parameters, integerize)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
 }

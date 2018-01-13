@@ -7,7 +7,7 @@ problem(s)}
 \usage{
 gen_multi_bdprob(parameters, wrap_lognormal_dist_around_Xu,
   read_Xu_problem_from_Xu_bench_file, infile_name, given_correct_solution_cost,
-  max_allowed_num_spp, bdpg_error_codes, integerize, bdprob_1 = NULL)
+  max_allowed_num_spp, integerize, bdprob_1 = NULL)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
@@ -32,8 +32,6 @@ known}
 \item{max_allowed_num_spp}{maximum number of species allowed in generating
 a problem from scratch (particularly of use when trying to do smaller,
 faster tests in development)}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
 

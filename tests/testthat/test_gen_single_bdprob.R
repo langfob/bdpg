@@ -193,10 +193,12 @@ dummylistend=NULL
                 #  Test gen_single_bdprob_WRAP
                 #-------------------------------
 
-test_gen_single_COR <- function (parameters, bdpg_error_codes)
+test_gen_single_COR <- function (parameters
+                                 #, bdpg_error_codes
+                                 )
     {
     base_COR_bd_prob = gen_single_bdprob_COR (parameters,
-                                              bdpg_error_codes,
+                                              #bdpg_error_codes,
                                               integerize          = round,
                                               base_prob_name_stem = "base_prob",
                                               cor_dir_name_stem   = "cor"
@@ -294,14 +296,16 @@ parameters$too_many_possible_links_error_flag_file_name =
     #  Initialize for a bdpg run.
 params_and_error_codes = init_for_bdpg (parameters)
 
-bdpg_error_codes = params_and_error_codes$bdpg_error_codes
+#bdpg_error_codes = params_and_error_codes$bdpg_error_codes
 parameters       = params_and_error_codes$parameters
 
 #-------------------------------------------------------------------------------
 
     #  Generate a correct problem from scratch.
-bdprob_COR_1 = test_gen_single_COR (parameters,
-                                    bdpg_error_codes)
+bdprob_COR_1 = test_gen_single_COR (parameters
+                                    #,
+                                    #bdpg_error_codes
+                                    )
 
 test_that("gen_single_bdprob_COR: COR problem generation succeed", {
     expect_true (! is.null (bdprob_COR_1))
@@ -354,8 +358,10 @@ test_that("gen_single_bdprob_COR: problem copy with bpm modified back by matrix 
 
     #  A completely different problem should not be identical to the first
     #  problem or have the same checksum.
-bdprob_COR_3 = test_gen_single_COR (parameters,
-                                    bdpg_error_codes)
+bdprob_COR_3 = test_gen_single_COR (parameters
+                                    #,
+                                    #bdpg_error_codes
+                                    )
 
 test_that("gen_single_bdprob_COR: different problem is not identical to original", {
     expect_true (! identical (bdprob_COR_3, bdprob_COR_1))
@@ -369,11 +375,15 @@ test_that("gen_single_bdprob_COR: different problem is not identical to original
 temp_parameters = parameters
 temp_parameters[["cor_base_rsprob_rand_seed"]] = 11
 
-bdprob_COR_4 = test_gen_single_COR (temp_parameters,
-                                    bdpg_error_codes)
+bdprob_COR_4 = test_gen_single_COR (temp_parameters
+                                    #,
+                                    #bdpg_error_codes
+                                    )
 
-bdprob_COR_5 = test_gen_single_COR (temp_parameters,
-                                    bdpg_error_codes)
+bdprob_COR_5 = test_gen_single_COR (temp_parameters
+                                    #,
+                                    #bdpg_error_codes
+                                    )
 
 test_that("gen_single_bdprob_COR: 2 problems generated from same seed are the same up to UUID", {
     expect_true (! identical (bdprob_COR_4, bdprob_COR_5))  # different UUIDs
@@ -398,8 +408,10 @@ temp_parameters$target_num_links_between_2_groups_per_round = 0  # <<<---
 temp_parameters$num_rounds_of_linking_between_groups = 1438
 
 
-bdprob_COR_6 = test_gen_single_COR (temp_parameters,
-                                    bdpg_error_codes)
+bdprob_COR_6 = test_gen_single_COR (temp_parameters
+                                    #,
+                                    #bdpg_error_codes
+                                    )
 
 test_that("gen_single_bdprob_COR: 2 problems generated from metaparams and derived params are the same up to UUID", {
     expect_true (! identical (bdprob_COR_1, bdprob_COR_6))  # different UUIDs
@@ -413,8 +425,10 @@ test_that("gen_single_bdprob_COR: 2 problems generated from metaparams and deriv
 temp_parameters = parameters
 temp_parameters$max_allowed_num_spp = NULL
 
-bdprob_COR_7 = test_gen_single_COR (temp_parameters,
-                                    bdpg_error_codes)
+bdprob_COR_7 = test_gen_single_COR (temp_parameters
+                                    #,
+                                    #bdpg_error_codes
+                                    )
 
 
 #  NEED TEST FOR ALLOWING RETRIES IF MAX NUM SPP ALLOWED IS EXCEEDED.

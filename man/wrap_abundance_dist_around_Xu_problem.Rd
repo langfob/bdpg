@@ -6,9 +6,9 @@
 \usage{
 wrap_abundance_dist_around_Xu_problem(starting_dir, parameters,
   rounded_abundances, Xu_bdprob, dep_set_PUs_eligible, tot_num_PUs_in_landscape,
-  seed_value_for_search_list, allow_imperfect_wrap, bdpg_error_codes,
-  search_outfile_name_base, search_outfile_name,
-  wrap_prob_name_stem = "wrap_prob", cor_dir_name_stem = "cor")
+  seed_value_for_search_list, allow_imperfect_wrap, search_outfile_name_base,
+  search_outfile_name, wrap_prob_name_stem = "wrap_prob",
+  cor_dir_name_stem = "cor")
 }
 \arguments{
 \item{starting_dir}{character string}
@@ -27,8 +27,6 @@ and can have a varying number and set of elements depending on the run}
 \item{seed_value_for_search_list}{blah}
 
 \item{allow_imperfect_wrap}{blah}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{search_outfile_name_base}{character string}
 

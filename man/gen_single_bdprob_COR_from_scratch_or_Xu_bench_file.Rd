@@ -6,8 +6,8 @@
 \usage{
 gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(exp_root_dir, parameters,
   read_Xu_problem_from_Xu_file, Xu_bench_infile_name,
-  given_correct_solution_cost, max_allowed_num_spp, bdpg_error_codes,
-  integerize, base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
+  given_correct_solution_cost, max_allowed_num_spp, integerize,
+  base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
 }
 \arguments{
 \item{exp_root_dir}{character string path to root directory of an
@@ -28,8 +28,6 @@ optimal solution cost is given for a reserve selection problem}
 \item{max_allowed_num_spp}{integer maximum number of species allowed in the
 problem (to keep from generating problems that are too large when trying
 to keep the run-time down)}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 
 \item{integerize}{function to use in converting floats to ints}
 

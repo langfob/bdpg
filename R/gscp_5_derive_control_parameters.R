@@ -152,7 +152,7 @@ compute_target_num_links_between_2_groups_per_round <-
 #-------------------------------------------------------------------------------
 
 derive_Xu_control_parameters = function (parameters,
-                                         bdpg_error_codes,
+#                                         bdpg_error_codes,
                                          integerize
                                          )
     {

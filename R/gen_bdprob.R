@@ -18,7 +18,8 @@
 
 gen_bdprob  = function (parameters,
                                     compute_network_metrics_for_this_prob,
-                        bdpg_error_codes, integerize,
+                        #bdpg_error_codes,
+                        integerize,
                         base_bdprob = NULL)
     {
         #  May need to test these parameters to see if they even exist
@@ -46,7 +47,7 @@ gen_bdprob  = function (parameters,
                                    infile_name,
                                    given_correct_solution_cost,
                                    max_allowed_num_spp,
-                                   bdpg_error_codes,
+                                   #bdpg_error_codes,
                                    integerize,
                                    base_bdprob)
         } else
@@ -65,7 +66,7 @@ gen_bdprob  = function (parameters,
         #                                 bdpg_error_codes,
         #                                 integerize)
         bdprob = gen_single_bdprob_COR (parameters,
-                                        bdpg_error_codes,
+                                        #bdpg_error_codes,
                                         integerize,
                                         base_prob_name_stem = "base_prob",
                                         cor_dir_name_stem = "cor"

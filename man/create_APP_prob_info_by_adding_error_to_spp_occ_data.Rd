@@ -5,7 +5,7 @@
 \title{Add error to the species occupancy data and save to APP_prob_info structure.}
 \usage{
 create_APP_prob_info_by_adding_error_to_spp_occ_data(Xu_bdprob_COR,
-  Xu_bdprob_APP, parameters, bdpg_error_codes)
+  Xu_bdprob_APP, parameters)
 }
 \arguments{
 \item{Xu_bdprob_COR}{a Xu_bd_problem}
@@ -14,8 +14,6 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data(Xu_bdprob_COR,
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 an apparent Xu_bd_problem
