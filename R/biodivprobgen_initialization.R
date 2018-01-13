@@ -131,7 +131,7 @@ get_integerize_function <- function (integerize_string)
 
 #' @inheritParams std_param_defns
 #'
-#' @return Returns two element list containing parameters list and bdpg error codes
+#' @return Returns parameters list
 #' @export
 
 #-------------------------------------------------------------------------------
@@ -171,12 +171,13 @@ init_for_bdpg <- function (parameters)
         normalizePath (strip_trailing_slash (parameters$full_output_dir_with_slash),
                        mustWork=FALSE)
 
-    params_and_error_codes <- list (parameters = parameters
-                                    # ,
-                                    # bdpg_error_codes = bdpg_error_codes
-                                    )
+    # params_and_error_codes <- list (parameters = parameters
+    #                                 # ,
+    #                                 # bdpg_error_codes = bdpg_error_codes
+    #                                 )
 
-    return (params_and_error_codes)
+#    return (params_and_error_codes)
+    return (parameters)
     }
 
 #===============================================================================

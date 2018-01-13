@@ -11,7 +11,7 @@ init_for_bdpg(parameters)
 and can have a varying number and set of elements depending on the run}
 }
 \value{
-Returns two element list containing parameters list and bdpg error codes
+Returns parameters list
 }
 \description{
 Central point for doing a few odds and ends of initializing.

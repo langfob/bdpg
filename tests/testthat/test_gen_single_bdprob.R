@@ -294,10 +294,11 @@ parameters$too_many_possible_links_error_flag_file_name =
     paste0 (full_output_dir_with_slash, "too_many_possible_links_error_flag_file.txt")  #"/Users/bill/tzar/outputdata/bdpgxupaper_4_variants_no_network_metrics/default_runset/39_marxan_simulated_annealing.inprogress/too_many_possible_links_error_flag_file.txt"
 
     #  Initialize for a bdpg run.
-params_and_error_codes = init_for_bdpg (parameters)
+#params_and_error_codes = init_for_bdpg (parameters)
+parameters = init_for_bdpg (parameters)
 
-#bdpg_error_codes = params_and_error_codes$bdpg_error_codes
-parameters       = params_and_error_codes$parameters
+# #bdpg_error_codes = params_and_error_codes$bdpg_error_codes
+# parameters       = params_and_error_codes$parameters
 
 #-------------------------------------------------------------------------------
 
