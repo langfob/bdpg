@@ -275,7 +275,7 @@ derive_Xu_control_parameters = function (parameters,
 
     ret_val =
         compute_target_num_links_between_2_groups_per_round (
-            vb (parameters$at_least_1_for_target_num_links_between_2_groups_per_round),
+            parameters$at_least_1_for_target_num_links_between_2_groups_per_round,
             p__prop_of_links_between_groups,
             num_nodes_per_group,
             integerize)
