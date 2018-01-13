@@ -664,7 +664,9 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
         #  Quit if there are any duplicate edges/spp in the problem.
         #-------------------------------------------------------------
 
-    see_if_there_are_any_duplicate_links (bpm, Xu_bdprob_cor@num_spp, bdpg_error_codes)
+    see_if_there_are_any_duplicate_links (bpm, Xu_bdprob_cor@num_spp
+                                          # , bdpg_error_codes
+                                          )
 
         #-----------------------------------------------------------
         #  No duplicates found.

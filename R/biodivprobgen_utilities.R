@@ -248,8 +248,10 @@ get_PU_costs = function (num_PUs) { return (rep (1, num_PUs)) }
 #-------------------------------------------------------------------------------
 
 see_if_there_are_any_duplicate_links = function (occ_matrix,
-                                                 num_spp,
-                                                 bdpg_error_codes)
+                                                 num_spp
+                                                 # ,
+                                                 # bdpg_error_codes
+                                                 )
     {
     num_PU_spp_pairs = sum (occ_matrix)
 
@@ -319,10 +321,12 @@ see_if_there_are_any_duplicate_links = function (occ_matrix,
 
     if (num_duplicates > 0)
         {
-        cat ("\n\nERROR: ", num_duplicates,
-             " duplicate species in the Xu benchmark file.\n\n")
+        # cat ("\n\nERROR: ", num_duplicates,
+        #      " duplicate species in the Xu benchmark file.\n\n")
 
-        quit (save="no", bdpg_error_codes$ERROR_STATUS_duplicate_spp_in_Xu_input_file)
+#        quit (save="no", bdpg_error_codes$ERROR_STATUS_duplicate_spp_in_Xu_input_file)
+        stop (paste0 ("\n\nERROR: ", num_duplicates,
+                      " duplicate species in the Xu benchmark file."))
         }
 
     return (edge_list)

@@ -4,7 +4,7 @@
 \alias{see_if_there_are_any_duplicate_links}
 \title{See if there are any duplicate links}
 \usage{
-see_if_there_are_any_duplicate_links(occ_matrix, num_spp, bdpg_error_codes)
+see_if_there_are_any_duplicate_links(occ_matrix, num_spp)
 }
 \arguments{
 \item{occ_matrix}{occupancy matrix, integer matrix with one row for each
@@ -14,8 +14,6 @@ the species does occupy the planning unit and 0 indicates it does not.
 Same as bpm.}
 
 \item{num_spp}{integer number of species in the problem}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 Returns an edge list, a two column integer matrix of
