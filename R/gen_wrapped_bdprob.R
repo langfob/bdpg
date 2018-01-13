@@ -1177,8 +1177,9 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
                                     Xu_bdprob@spp_col_name,
                                     Xu_bdprob@PU_col_name,
                                     Xu_dep_set,
-                                    Xu_bdprob@correct_solution_vector_is_known,
-                                    bdpg_error_codes
+                                    Xu_bdprob@correct_solution_vector_is_known
+                        # ,
+                        #             bdpg_error_codes
                                     )
 
         #----------------------------------------------------------------------

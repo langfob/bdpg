@@ -652,8 +652,10 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
                                                     Xu_bdprob_cor@spp_col_name,
                                                     Xu_bdprob_cor@PU_col_name,
                                                     PU_spp_pair_info@dependent_node_IDs,
-                                                    PU_spp_pair_info@correct_solution_vector_is_known,
-                                                    bdpg_error_codes)
+                                                    PU_spp_pair_info@correct_solution_vector_is_known
+# ,
+#                                                     bdpg_error_codes
+)
 
     Xu_bdprob_cor@bpm = bpm
 

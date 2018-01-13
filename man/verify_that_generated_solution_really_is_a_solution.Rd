@@ -5,7 +5,7 @@
 \title{Verify that solution does cover all species}
 \usage{
 verify_that_generated_solution_really_is_a_solution(bpm, dependent_node_IDs,
-  num_spp, num_PUs, PU_costs, bdpg_error_codes)
+  num_spp, num_PUs, PU_costs)
 }
 \arguments{
 \item{bpm}{bipartite matrix; integer matrix with one row for each species
@@ -22,8 +22,6 @@ in a constructed correct solution to a Xu problem}
 \item{num_PUs}{integer number of planning units}
 
 \item{PU_costs}{numeric vector of planning unit costs}
-
-\item{bdpg_error_codes}{list of error names and corresponding error codes}
 }
 \value{
 Returns TRUE if given solution does cover all species targets;
