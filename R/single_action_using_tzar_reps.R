@@ -35,8 +35,9 @@ get_bdprob_from_rds_file <- function (prob_src,
                                       cur_input_prob_idx,
                                       rds_file_set_path,
                                       rds_file_set_yaml_array,
-                                      rds_file_path,
-                                      bdpg_error_codes
+                                      rds_file_path
+                                      # ,
+                                      # bdpg_error_codes
                                       )
     {
 #    prob_from_generator                    = "generator"
@@ -49,8 +50,9 @@ get_bdprob_from_rds_file <- function (prob_src,
 
     if (is.null (prob_src))
         {
-        cat ("\n\nERROR: no prob_src given.\n", sep='')
-        quit (save="no", bdpg_error_codes$ERROR_STATUS_no_prob_src_given)
+        # cat ("\n\nERROR: no prob_src given.\n", sep='')
+        # quit (save="no", bdpg_error_codes$ERROR_STATUS_no_prob_src_given)
+        stop ("No prob_src given")
 
         } else if (prob_src == prob_from_rds_file)
         {
@@ -82,8 +84,9 @@ get_bdprob_from_rds_file <- function (prob_src,
 
         } else
         {
-        cat ("\n\nERROR: unknown prob_src = '", prob_src, "'.\n", sep='')
-        quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_prob_src)
+        # cat ("\n\nERROR: unknown prob_src = '", prob_src, "'.\n", sep='')
+        # quit (save="no", bdpg_error_codes$ERROR_STATUS_unknown_prob_src)
+        stop (paste0 ("Unknown prob_src = '", prob_src, "'"))
         }
 
     src_rds_file_dir = dirname (rds_file_path)
@@ -363,8 +366,10 @@ single_action_using_tzar_reps <- function (parameters,
                                       parameters$WRAP_input_rds_file_set_path,
                                         #  never used?
                                       parameters$WRAP_input_rds_file_set_yaml_array,
-                                      parameters$WRAP_rds_file_path,
-                                      bdpg_error_codes)
+                                      parameters$WRAP_rds_file_path
+                                      # ,
+                                      # bdpg_error_codes
+                                      )
 
         src_bdprob_to_wrap = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir   = src_prob_and_path_list$src_rds_file_dir
@@ -393,8 +398,9 @@ single_action_using_tzar_reps <- function (parameters,
                                       parameters$APP_input_rds_file_set_path,
                                         #  never used?
                                       parameters$APP_input_rds_file_set_yaml_array,
-                                      parameters$APP_rds_file_path,
-                                      bdpg_error_codes
+                                      parameters$APP_rds_file_path
+                                      # ,
+                                      # bdpg_error_codes
                                       )
 
         bdprob_to_add_error_to = src_prob_and_path_list$src_Xu_bd_problem
@@ -424,8 +430,9 @@ single_action_using_tzar_reps <- function (parameters,
                                       parameters$RS_cor_input_rds_file_set_path,
                                         #  never used?
                                       parameters$RS_cor_input_rds_file_set_yaml_array,
-                                      parameters$RS_cor_rds_file_path,
-                                      bdpg_error_codes
+                                      parameters$RS_cor_rds_file_path
+                                      # ,
+                                      # bdpg_error_codes
                                       )
 
         cor_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
@@ -451,8 +458,9 @@ single_action_using_tzar_reps <- function (parameters,
                                       parameters$RS_app_input_rds_file_set_path,
                                         #  never used?
                                       parameters$RS_app_input_rds_file_set_yaml_array,
-                                      parameters$RS_app_rds_file_path,
-                                      bdpg_error_codes
+                                      parameters$RS_app_rds_file_path
+                                      # ,
+                                      # bdpg_error_codes
                                       )
 
         app_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
