@@ -28,6 +28,8 @@
 #'
 #' @return Returns TRUE if given solution does cover all species targets;
 #'     quits otherwise
+#'
+#' @export
 
 #-------------------------------------------------------------------------------
 
