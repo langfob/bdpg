@@ -80,34 +80,6 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 
         #-----------------------------------------------------------------------
 
-# 2016 07 16 - nodes$dependent_set_member ONLY HAS THE NUMBER OF PLANNING UNITS
-#           THAT WERE IN THE ORIGINAL XU PROBLEM, NOT THE WRAPPED PROBLEM.
-#           MEANWHILE, THE MARXAN SOLUTION DOES HAVE THE WRAPPED PROBLEM PUs SO
-#           THE LENGTHS DO NOT MATCH.  NEED TO MAKE SURE THAT EVERYTHING IN THE
-#           WRAPPED PROBLEM HAS THE CORRECT DIMENSIONS AND VALUES.
-#             This is part of a larger problem of making sure that the problem
-#             returned by wrapping is correctly sized in every way to allow
-#             subsequent operations to act on it exactly as they would act on
-#             a base Xu problem.  One test of that is to make sure that all of
-#             the dimensions of the object elements include all planning units
-#             of the wrapped problem.  This may also be complicated by the
-#             application of error to generate an apparent problem.  That means
-#             you will also need to verify the problem dimensions and values
-#             again, after you have generated the apparent version.
-#
-#           ANOTHER PROBLEM HERE IS THAT THE XU SOLUTION IS NOT NECESSARILY
-#           THE ONLY CORRECT SOLUTION.  THIS MATCHING OF NODES TO A SOLUTION CAN
-#           BE WRONG IF MARXAN HAS FOUND A DIFFERENT CORRECT SOLUTION.
-#           NEED TO AT LEAST CHECK WHETHER
-#             A) MARXAN SOLUTION IS THE CORRECT SIZE (I.E., COST)
-#             AND
-#             B) IF IT IS THE CORRECT SIZE, THEN YOU ALSO NEED TO CHECK THAT
-#                IT REALLY DOES COVER THE SET, I.E., IT IS A CORRECT SOLUTION.
-
-
-    nodes = COR_bd_prob@nodes
-    cor_solution_vector = nodes$dependent_set_member
-
 ###2017 08 22 - BTL - I don't think this is valid anymore, so commenting in out for now.
 ###cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
 ##  2017 11 26 - BTL - Are these 2 difference values ever used now?
@@ -116,7 +88,6 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 
     cor_PU_costs_vec = COR_bd_prob@PU_costs
 
-    cor_num_patches_in_solution = sum (cor_solution_vector)
 
         #-----------------------------------------------------------------------
 
@@ -203,6 +174,11 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
         FN_const_rate = 0
         }
 
+    # nodes = COR_bd_prob@nodes
+    # cor_solution_vector = nodes$dependent_set_member
+    # num_patches_in_cor_solution = sum (cor_solution_vector)
+    num_patches_in_cor_solution = sum (COR_bd_prob@nodes$dependent_set_member)
+
     cor_scores_list = build_and_write_scores_list (rsrun,
                 COR_bd_prob@bpm,                         #cor_bpm,
                 rs_best_solution_PU_IDs,
@@ -210,7 +186,7 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                 COR_bd_prob@num_spp,
         rs_best_num_patches_in_solution,         #marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
                 COR_bd_prob@num_PUs,
-        cor_num_patches_in_solution,             #num_PUs_in_optimal_solution,
+        num_patches_in_cor_solution,             #num_PUs_in_optimal_solution,
             FP_const_rate,
             FN_const_rate
                 )
@@ -222,7 +198,7 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                 COR_bd_prob@num_spp,
         rs_best_num_patches_in_solution,         #marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
                 COR_bd_prob@num_PUs,
-        cor_num_patches_in_solution,             #num_PUs_in_optimal_solution,
+        num_patches_in_cor_solution,             #num_PUs_in_optimal_solution,
             FP_const_rate,
             FN_const_rate
                 )
