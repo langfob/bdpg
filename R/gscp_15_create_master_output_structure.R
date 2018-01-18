@@ -79,13 +79,6 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                                   )
 
         #-----------------------------------------------------------------------
-
-    cor_PU_costs_vec = COR_bd_prob@PU_costs
-
-
-        #-----------------------------------------------------------------------
-
-        #-----------------------------------------------------------------------
         #  These calls used to be part of read_marxan_output_files(), but
         #  they didn't need to be in there since they return nothing and
         #  are only called for their verificationa and plotting side effects.
@@ -146,7 +139,7 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
     app_cost_scores_list_wrt_COR_costs_vec =
         compute_RS_solution_cost_scores_wrt_COR_costs_vec (rs_best_solution_PU_IDs,
                                                            COR_bd_prob@correct_solution_cost,    #  cor_solution_vector,
-                                                           cor_PU_costs_vec)
+                                                           COR_bd_prob@PU_costs)
 
         #-----------------------------------------------------------------------
 
