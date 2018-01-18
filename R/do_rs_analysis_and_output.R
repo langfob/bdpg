@@ -90,7 +90,7 @@ create_RSrun <- function (prob_UUID,
 
     starting_dir = parameters$fullOutputDir_NO_slash
 
-    create_RSrun_dir_and_subdirs (rsrun, starting_dir)
+    rsrun = create_RSrun_dir_and_subdirs (rsrun, starting_dir)
 
     rsrun <- save_rsrun (rsrun, starting_dir)
 
@@ -99,7 +99,65 @@ create_RSrun <- function (prob_UUID,
 
 #===============================================================================
 
-#' Run reserve selector on COR problem and write output from all analysis
+do_COR_rs_analysis_and_output <- function (COR_bd_prob,
+                                               parameters,
+                                               src_rds_file_dir=NULL,
+                                               targets=rep(1,COR_bd_prob@num_spp))
+    {
+    run_marxan = vb (parameters$run_marxan, def_on_empty = TRUE, def = FALSE)
+    if (run_marxan)
+        {
+        do_COR_marxan_analysis_and_output (COR_bd_prob,
+                                                       parameters,
+                                                       src_rds_file_dir=NULL,
+                                                       targets=rep(1,COR_bd_prob@num_spp))
+        }
+
+    do_gurobi = vb (parameters$do_gurobi, def_on_empty = TRUE, def = FALSE)
+    if (do_gurobi)
+        {
+        do_COR_gurobi_analysis_and_output (COR_bd_prob,
+                                                       parameters,
+                                                       src_rds_file_dir=NULL,
+                                                       targets=rep(1,COR_bd_prob@num_spp))
+        }
+    }
+
+#===============================================================================
+
+do_APP_rs_analysis_and_output <- function (APP_bd_prob,
+                                               COR_bd_prob,
+                                               parameters,
+                                               src_rds_file_dir=NULL,
+                                               targets=rep(1,COR_bd_prob@num_spp)
+                                               )
+    {
+    run_marxan = vb (parameters$run_marxan, def_on_empty = TRUE, def = FALSE)
+    if (run_marxan)
+        {
+        do_APP_marxan_analysis_and_output (APP_bd_prob,
+                                                       COR_bd_prob,
+                                                       parameters,
+                                                       src_rds_file_dir=NULL,
+                                                       targets=rep(1,COR_bd_prob@num_spp)
+                                                       )
+        }
+
+    do_gurobi = vb (parameters$do_gurobi, def_on_empty = TRUE, def = FALSE)
+    if (do_gurobi)
+        {
+        do_APP_gurobi_analysis_and_output (APP_bd_prob,
+                                                       COR_bd_prob,
+                                                       parameters,
+                                                       src_rds_file_dir=NULL,
+                                                       targets=rep(1,COR_bd_prob@num_spp)
+                                                       )
+        }
+    }
+
+#===============================================================================
+
+#' Run gurobi on COR problem and write output from all analysis
 #'
 #-------------------------------------------------------------------------------
 
@@ -113,12 +171,13 @@ create_RSrun <- function (prob_UUID,
 #'
 #-------------------------------------------------------------------------------
 
-do_COR_rs_analysis_and_output <- function (COR_bd_prob,
+do_COR_gurobi_analysis_and_output <- function (COR_bd_prob,
                                                parameters,
-                                            rs_method_name,
                                                src_rds_file_dir=NULL,
                                                targets=rep(1,COR_bd_prob@num_spp))
     {
+    rs_method_name = "Gurobi"
+
         #-------------------------
         #  Run reserve selector.
         #-------------------------
@@ -136,7 +195,7 @@ do_COR_rs_analysis_and_output <- function (COR_bd_prob,
                                     rs_method_name = rs_method_name  #"Marxan_SA"
                                     )
 
-    rs_control_values = set_up_for_and_run_rs_COR (COR_bd_prob,
+    rs_control_values = set_up_for_and_run_gurobi_COR (COR_bd_prob,
                                                            COR_rs_run,
                                                            parameters)
 
@@ -148,6 +207,7 @@ do_COR_rs_analysis_and_output <- function (COR_bd_prob,
                                               COR_rs_run,
                                               COR_bd_prob,
                                               COR_bd_prob,
+                                           rs_method_name,
                                            rs_control_values,
                                            src_rds_file_dir)
 
@@ -172,14 +232,15 @@ do_COR_rs_analysis_and_output <- function (COR_bd_prob,
 
 #-------------------------------------------------------------------------------
 
-do_APP_rs_analysis_and_output <- function (APP_bd_prob,
+do_APP_gurobi_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
-                                           rs_method_name,
                                                src_rds_file_dir=NULL,
                                                targets=rep(1,COR_bd_prob@num_spp)
                                                )
     {
+    rs_method_name = "Gurobi"
+
         #-------------------------
         #  Run reserve selector.
         #-------------------------
@@ -197,7 +258,7 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
                                     rs_method_name = rs_method_name  #"Marxan_SA"
                                     )
 
-    rs_control_values = set_up_for_and_run_rs_APP (APP_bd_prob,
+    rs_control_values = set_up_for_and_run_gurobi_APP (APP_bd_prob,
                                                            COR_bd_prob,
                                                            APP_rs_run,
                                                            parameters)
@@ -210,6 +271,7 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
                                               APP_rs_run,
                                               COR_bd_prob,
                                               APP_bd_prob,
+                                           rs_method_name,
                                            rs_control_values,
                                            src_rds_file_dir)
 
