@@ -14,6 +14,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+[SHOULD ADD SECTIONS TO THIS OR CREATE A NEW VIGNETTE THAT IS TASK-BASED AND GIVES YAML FILES/SECTIONS FOR COMMON TASKS GENERATING 1 PROBLEM OR GENERATING 4 VARIANTS OR DOING TONS OF RUNS, ETC.]
+
 ## Introduction
 
 The `bdpg` package allows many different parameters for many different actions to be input through its parameters list.  This R list can be built in any way you like, however, one very common way is to build a yaml file that is read and converted to an R (e.g., by running under tzar).  While the parameters list doesn't have to be loaded in this way, the yaml file format provides a nicely structured way of viewing and explaining parameters and groups of parameters.  Consequently, explanations in this vignette will be phrased in terms of yaml code that could produce their settings in the parameters list.  
