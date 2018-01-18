@@ -161,9 +161,6 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
         FN_const_rate = 0
         }
 
-    # nodes = COR_bd_prob@nodes
-    # cor_solution_vector = nodes$dependent_set_member
-    # num_patches_in_cor_solution = sum (cor_solution_vector)
     num_patches_in_cor_solution = sum (COR_bd_prob@nodes$dependent_set_member)
 
     cor_scores_list = build_and_write_scores_list (rsrun,
