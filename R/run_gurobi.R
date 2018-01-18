@@ -20,13 +20,14 @@
 #'
 #' @return Returns a gurobi model result list with named elements that contains,
 #'     among other things, an element x which is the solution vector
+#' @importFrom gurobi gurobi
 #' @export
 
 run_gurobi <- function (num_spp, num_PUs,
                         bpm,
                         PU_costs, spp_targets,
-                        use_time_limit = FALSE, time_limit = 60,
-                        use_gap_limit = TRUE, gap_limit = 0.005
+                        use_time_limit = TRUE, time_limit = 60,
+                        use_gap_limit = FALSE, gap_limit = 0.005
                         )
     {
         # set up Gurobi model object in R
@@ -36,8 +37,41 @@ run_gurobi <- function (num_spp, num_PUs,
     constr = bpm
     gurobi_model$A <- constr
 
+        #----------------------------------------------------------------
         #  Assign the species target amounts as the right hand side.
-    rhs = spp_targets
+        #----------------------------------------------------------------
+        #  Deal with infeasibles resulting from adding error to inputs,
+        #  i.e., FNs making it so that some species have no occurrences
+        #  and therefore,have no possible way of meeting a target > 0.
+        #  So, whenever there aren't enough occurrences of a species to
+        #  possibly meet that species' target, reduce the target to
+        #  match the number of occurrences that do exist, even if that
+        #  number is 0.
+        #  This should make it feasible to find a solution to any
+        #  given problem.
+        #----------------------------------------------------------------
+
+#bpm = matrix (c (0, 0, 1, 1), nrow=2, ncol=2, byrow=TRUE)
+#spp_targets = c(1,1)
+
+spp_abundances = apply (bpm, 1, sum)
+if (length (spp_abundances) != length (spp_targets))
+    stop_bdpg (paste0 ("length (spp_abundances) = '",
+                       length (spp_abundances),
+                       "' NOT EQUAL TO length (spp_targets) = '",
+                       length (spp_targets), "'"))
+spp_with_subtarget_abundances = which (spp_abundances < spp_targets)
+num_subtarget_abundances = length (spp_with_subtarget_abundances)
+cat ("\n\nlength (spp_abundances) = ", length (spp_abundances),
+     "\nnum_subtarget_abundances = ", num_subtarget_abundances)
+if (num_subtarget_abundances > 0)
+    {
+    cat ("\nspp_with_subtarget_abundances = \n")
+    print (spp_with_subtarget_abundances)
+    }
+
+rhs = pmin (spp_targets, spp_abundances)
+
     gurobi_model$rhs <- rhs
 
         #  Make sure that the solution must have all species amounts be
@@ -56,23 +90,41 @@ run_gurobi <- function (num_spp, num_PUs,
 
         #  Set the parameters that control the algorithm.
     gurobi_params <- list (Presolve = 2)
-    if (use_gap_limit && use_time_limit)
-    {
-    stop_bdpg ("Can't set both use_gap_limit and use_time_limit to TRUE.")
+        #  http://www.gurobi.com/support/faqs
+        #  13.  How do you set multiple termination criteria for a model?
+        #  When you set multiple termination parameters, Gurobi Optimizer
+        #  will stop when it reaches the first one. For example, if you
+        #  want to stop if you get to a 10% MIP gap or if 60 seconds have
+        #  elapsed, then set MIPGap=0.1 and TimeLimit=60. If you want a
+        #  more complex set of stopping criteria, you will need to use
+        #  warm starts. For example, suppose you need a 1% MIP gap, but
+        #  you would prefer a smaller MIP gap if it takes less than
+        #  300 seconds. In this case, start with TimeLimit=300.
+        #  If the value of the MIPGap attribute is greater than 0.01
+        #  when the time limit is reached, then increase the TimeLimit
+        #  parameter, set the MIPGap parameter to 0.01, and continue to
+        #  solve the MIP.
+    # if (use_gap_limit && use_time_limit)
+    # {
+    # stop_bdpg ("Can't set both use_gap_limit and use_time_limit to TRUE.")
+    #
+    # } else
+    use_gap_limit = vb (use_gap_limit, def_on_empty = TRUE, def = FALSE)
+    if (use_gap_limit)
+        {
+        gap_limit = vn (gap_limit)
+        gurobi_params$MIPGap = gap_limit
+        cat ("\nrun_gurobi() setting MIPGap to '", gurobi_params$MIPGap, "'")
+        }
 
-    } else if (use_gap_limit)
-    {
-    gurobi_params$MIPGap = gap_limit
-
-    } else if (use_time_limit)
-    {
-    gurobi_params$TimeLimit = time_limit
-
-    } else  #  no limits
-    {
-    cat ("\n\nNeither gap nor time limit will be used in gurobi call.  ",
-         "May take a long time.\n")
-    }
+    use_time_limit = vb (use_time_limit, def_on_empty = TRUE, def = FALSE)
+    if (use_time_limit)
+        {
+        time_limit = vn (time_limit)
+        gurobi_params$TimeLimit = time_limit
+        cat ("\nrun_gurobi() setting TimeLimit to '", gurobi_params$TimeLimit,
+             "'")
+        }
 
     #--------------------
 
@@ -88,6 +140,8 @@ run_gurobi <- function (num_spp, num_PUs,
     cat ("\n\nGurobi result:\n")
     print (gurobi_result)
 
+if(FALSE)
+{
     solution = gurobi_result$x
     solution_node_IDs = which (solution == 1)
 
@@ -100,6 +154,7 @@ run_gurobi <- function (num_spp, num_PUs,
 
     cat ("\n\nVerifying that Gurobi solution really is a solution: '",
          is_solution, "'\n")
+}
 
     return (gurobi_result)
     }

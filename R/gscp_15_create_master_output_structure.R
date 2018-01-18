@@ -201,10 +201,14 @@ if (do_gurobi)
 {
 cat ("\n\n-----RUNNING GUROBI-----\n")
 gurobi_results = run_gurobi  (COR_bd_prob@num_spp, COR_bd_prob@num_PUs,
-                        COR_bd_prob@bpm,
-                        COR_bd_prob@PU_costs, rsrun@targets,
-                        use_time_limit = FALSE, time_limit = 60,
-                        use_gap_limit = TRUE, gap_limit = 0.005
+                        APP_bd_prob@bpm,
+                        APP_bd_prob@PU_costs, rsrun@targets,
+                        use_time_limit = parameters$use_time_limit,
+                        time_limit = parameters$time_limit,
+                        use_gap_limit = parameters$use_time_limit,
+                        gap_limit = parameters$gap_limit
+                        # use_time_limit = TRUE, time_limit = 60,
+                        # use_gap_limit = FALSE, gap_limit = 0.005
                         )
 rs_best_solution_PU_IDs = which (gurobi_results$x == 1)
 }
