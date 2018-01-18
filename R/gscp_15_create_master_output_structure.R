@@ -82,7 +82,6 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
         #  are only called for their verificationa and plotting side effects.
         #-----------------------------------------------------------------------
 
-
     find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
                           get_RSrun_path_output (rsrun, exp_root_dir),     #rs_output_dir_path,
                           COR_bd_prob@num_spp,
@@ -116,10 +115,10 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                           )
 
         #-----------------------------------------------------------------------
-
         #  Find which PUs the reserve selector (marxan only, for now)
         #  chose for its best solution.
         #  Then, compute costs and cost error measures for the chosen solution.
+        #-----------------------------------------------------------------------
 
     rs_best_solution_PU_IDs = which (marxan_output_values$marxan_best_df_sorted$SOLUTION > 0)
 
@@ -147,6 +146,9 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
     app_rep_scores_list_according_to_RS =
         compute_and_verify_APP_rep_scores_according_to_RS (marxan_output_values$marxan_mvbest_df,
                                                            COR_bd_prob@num_spp)
+
+
+
 
     if (APP_bd_prob@cor_or_app_str == "APP")
         {
@@ -187,6 +189,13 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
             FP_const_rate,
             FN_const_rate
                 )
+
+
+
+
+
+
+
 
         #-----------------------------------------------------------------------
         #  Build or read a list for each aspect of the run.
