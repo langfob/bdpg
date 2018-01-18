@@ -68,8 +68,6 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
     {
     tzar_run_ID  = parameters$run_id
     exp_root_dir = parameters$fullOutputDir_NO_slash
-    out_dir      = get_RSrun_path_topdir (rsrun, exp_root_dir)
-
 
         #-----------------------------------------------------------------------
 
@@ -241,14 +239,13 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                       marxan_control_values
                     )
 
-    write_results_to_files ("rsrun_results.csv",
-
-            #as.data.frame (results_list),
+    write_results_to_files (
+        csv_outfile_name       = "rsrun_results.csv",
+        results_df             =
             list_as_data_frame_with_0_length_vals_replaced_by_NA (results_list),
-
-                            parameters,
-                            out_dir,
-                            "rsr_tzar_run_ID")
+        parameters,
+        out_dir                = get_RSrun_path_topdir (rsrun, exp_root_dir),
+        tzar_run_id_field_name = "rsr_tzar_run_ID")
     }
 
 #===============================================================================
