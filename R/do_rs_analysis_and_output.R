@@ -2,7 +2,7 @@
 #
 #                       do_rs_analysis_and_output.R
 #
-#  Run code to run marxan and dump results to file.
+#  Run code to run reserve selector and dump results to file.
 #
 #  Used to do graph analysis here too, but no longer.
 #
@@ -19,7 +19,7 @@
 #' @param targets numeric vector
 #' @param cor_or_app_str character string
 #' @param basic_or_wrapped_or_comb_str character string
-#' @param method_name character string for reserve selection method, e.g.,
+#' @param rs_method_name character string for reserve selection method, e.g.,
 #'     "marxan_sa"
 #' @inheritParams std_param_defns
 #'
@@ -36,7 +36,7 @@ create_RSrun <- function (prob_UUID,
 
                           cor_or_app_str,
                           basic_or_wrapped_or_comb_str,
-                          method_name
+                          rs_method_name
                           )
     {
     # forced_seed =
@@ -76,7 +76,7 @@ create_RSrun <- function (prob_UUID,
     rsrun@targets  <- targets
 
     rsrun@obj_type_str   = "RSrun_"
-    rsrun@rs_method_name = method_name
+    rsrun@rs_method_name = rs_method_name
     rsrun@cor_or_app_str = cor_or_app_str
     rsrun@basic_or_wrapped_or_comb_str = basic_or_wrapped_or_comb_str
 
@@ -99,9 +99,7 @@ create_RSrun <- function (prob_UUID,
 
 #===============================================================================
 
-#' Run marxan on COR problem and write output from all analysis
-#'
-#' Run marxan on COR problem and write output from all analysis
+#' Run reserve selector on COR problem and write output from all analysis
 #'
 #-------------------------------------------------------------------------------
 
@@ -115,16 +113,17 @@ create_RSrun <- function (prob_UUID,
 #'
 #-------------------------------------------------------------------------------
 
-do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
+do_COR_rs_analysis_and_output <- function (COR_bd_prob,
                                                parameters,
+                                            rs_method_name,
                                                src_rds_file_dir=NULL,
                                                targets=rep(1,COR_bd_prob@num_spp))
     {
-        #---------------
-        #  Run marxan.
-        #---------------
+        #-------------------------
+        #  Run reserve selector.
+        #-------------------------
 
-    COR_marxan_run <- create_RSrun (COR_bd_prob@UUID,
+    COR_rs_run <- create_RSrun (COR_bd_prob@UUID,
                                     targets,
 
                             parameters,
@@ -134,33 +133,31 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
 
                                     COR_bd_prob@cor_or_app_str,
                                     COR_bd_prob@basic_or_wrapped_or_comb_str,
-                                    method_name = "Marxan_SA"
+                                    rs_method_name = rs_method_name  #"Marxan_SA"
                                     )
 
-    marxan_control_values = set_up_for_and_run_marxan_COR (COR_bd_prob,
-                                                           COR_marxan_run,
+    rs_control_values = set_up_for_and_run_rs_COR (COR_bd_prob,
+                                                           COR_rs_run,
                                                            parameters)
 
-        #---------------------------
-        #  Collect marxan results.
-        #---------------------------
+        #-------------------------------------
+        #  Collect reserve selector results.
+        #-------------------------------------
 
     save_rsrun_results_data_for_one_rsrun (parameters,
-                                              COR_marxan_run,
+                                              COR_rs_run,
                                               COR_bd_prob,
                                               COR_bd_prob,
-                                           marxan_control_values,
+                                           rs_control_values,
                                            src_rds_file_dir)
 
-    }  #  end function - do_COR_marxan_analysis_and_output
+    }  #  end function - do_COR_rs_analysis_and_output
 
 #===============================================================================
 #===============================================================================
 #===============================================================================
 
-#' Run marxan on APP problem and write output from all analysis
-#'
-#' Run marxan on APP problem and write output from all analysis
+#' Run reserve selector on APP problem and write output from all analysis
 #'
 #-------------------------------------------------------------------------------
 
@@ -175,18 +172,19 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
 
 #-------------------------------------------------------------------------------
 
-do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
+do_APP_rs_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
+                                           rs_method_name,
                                                src_rds_file_dir=NULL,
                                                targets=rep(1,COR_bd_prob@num_spp)
                                                )
     {
-        #---------------
-        #  Run marxan.
-        #---------------
+        #-------------------------
+        #  Run reserve selector.
+        #-------------------------
 
-    APP_marxan_run <- create_RSrun (APP_bd_prob@UUID,
+    APP_rs_run <- create_RSrun (APP_bd_prob@UUID,
                                     targets,
 
                             parameters,
@@ -196,26 +194,26 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
 
                                     APP_bd_prob@cor_or_app_str,
                                     APP_bd_prob@basic_or_wrapped_or_comb_str,
-                                    method_name = "Marxan_SA"
+                                    rs_method_name = rs_method_name  #"Marxan_SA"
                                     )
 
-    marxan_control_values = set_up_for_and_run_marxan_APP (APP_bd_prob,
+    rs_control_values = set_up_for_and_run_rs_APP (APP_bd_prob,
                                                            COR_bd_prob,
-                                                           APP_marxan_run,
+                                                           APP_rs_run,
                                                            parameters)
 
-        #---------------------------
-        #  Collect marxan results.
-        #---------------------------
+        #-------------------------------------
+        #  Collect reserve selector results.
+        #-------------------------------------
 
     save_rsrun_results_data_for_one_rsrun (parameters,
-                                              APP_marxan_run,
+                                              APP_rs_run,
                                               COR_bd_prob,
                                               APP_bd_prob,
-                                           marxan_control_values,
+                                           rs_control_values,
                                            src_rds_file_dir)
 
-    }  #  end function - do_APP_marxan_analysis_and_output
+    }  #  end function - do_APP_rs_analysis_and_output
 
 #===============================================================================
 
