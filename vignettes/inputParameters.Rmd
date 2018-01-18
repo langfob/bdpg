@@ -405,6 +405,8 @@ If you're reading the Xu problem from a file in Xu's benchmark problem file form
 
 ### Example
 ```
+    run_marxan: TRUE
+    
     marxan_runmode: 1
     marxan_heurtype: -1
 
@@ -446,6 +448,17 @@ If you're reading the Xu problem from a file in Xu's benchmark problem file form
 ```
 
 ### Specific parameters
+
+#### run_marxan
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    run_marxan: TRUE
+```
 
 #### marxan_runmode
 
