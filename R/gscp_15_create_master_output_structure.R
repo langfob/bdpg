@@ -61,6 +61,7 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                                                    rsrun,
                                                    COR_bd_prob,
                                                    APP_bd_prob,
+                                                   rs_method_name,
                                                    marxan_control_values=NULL,
                                                    src_rds_file_dir=NULL
                                                    )
