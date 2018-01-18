@@ -124,7 +124,7 @@ choose_a_best_solution_ID_according_to_marxan <- function (num_marxan_solutions,
     IDs_of_vectors_matching_marxan_best_solution_choice = c()
     for (cur_row in 1:num_marxan_solutions)
         {
-                          cat ("\n\ncur_row = ", cur_row, ", just before first dist_between_marxan_solutions()")
+#                          cat ("\n\ncur_row = ", cur_row, ", just before first dist_between_marxan_solutions()")
         cur_dist_from_marxan_best_df_sorted_as_vector =
             dist_between_marxan_solutions (marxan_solutions_matrix [cur_row, ],
                                            marxan_best_df_sorted_as_vector)
@@ -136,7 +136,7 @@ choose_a_best_solution_ID_according_to_marxan <- function (num_marxan_solutions,
 
         for (cur_col in 1:num_marxan_solutions)
             {
-                          cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_solutions()")
+#                          cat ("\n\ncur_col = ", cur_col, ", just before second dist_between_marxan_solutions()")
             distances_between_marxan_solutions [cur_row, cur_col] =
                 dist_between_marxan_solutions (marxan_solutions_matrix [cur_row, ],
                                                marxan_solutions_matrix [cur_col, ])
@@ -144,8 +144,8 @@ choose_a_best_solution_ID_according_to_marxan <- function (num_marxan_solutions,
         }
 
                     short_range = min (num_marxan_solutions, 5)
-                    cat ("\n\ndistances_between_marxan_solutions [1:short_range,1:short_range] = \n")
-                    print (distances_between_marxan_solutions [1:short_range,1:short_range])
+#                    cat ("\n\ndistances_between_marxan_solutions [1:short_range,1:short_range] = \n")
+#                    print (distances_between_marxan_solutions [1:short_range,1:short_range])
 
                     cat ("\n\nIDs_of_vectors_matching_marxan_best_solution_choice = ",
                          IDs_of_vectors_matching_marxan_best_solution_choice)
