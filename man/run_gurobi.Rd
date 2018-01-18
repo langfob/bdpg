@@ -5,7 +5,7 @@
 \title{Run gurobi linear programming optimizer}
 \usage{
 run_gurobi(num_spp, num_PUs, bpm, PU_costs, spp_targets,
-  use_time_limit = FALSE, time_limit = 60, use_gap_limit = TRUE,
+  use_time_limit = TRUE, time_limit = 300, use_gap_limit = TRUE,
   gap_limit = 0.005)
 }
 \arguments{
