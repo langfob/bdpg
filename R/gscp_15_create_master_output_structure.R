@@ -195,25 +195,6 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 
     rs_best_solution_PU_IDs = which (marxan_output_values$marxan_best_df_sorted$SOLUTION > 0)
 
-do_gurobi = vb (parameters$do_gurobi,
-                def_on_empty = TRUE, def = FALSE,
-                treat_NULL_as_empty = TRUE)
-if (do_gurobi)
-{
-cat ("\n\n-----RUNNING GUROBI-----\n")
-gurobi_results = run_gurobi  (COR_bd_prob@num_spp, COR_bd_prob@num_PUs,
-                        APP_bd_prob@bpm,
-                        APP_bd_prob@PU_costs, rsrun@targets,
-                        use_time_limit = parameters$use_time_limit,
-                        time_limit = parameters$time_limit,
-                        use_gap_limit = parameters$use_time_limit,
-                        gap_limit = parameters$gap_limit
-                        # use_time_limit = TRUE, time_limit = 60,
-                        # use_gap_limit = FALSE, gap_limit = 0.005
-                        )
-rs_best_solution_PU_IDs = which (gurobi_results$x == 1)
-}
-
 #  2017 11 26 - BTL
 #  Here, we are only computing the cost score against the correct
 #  costs.  Need to add another call to compute against apparent
