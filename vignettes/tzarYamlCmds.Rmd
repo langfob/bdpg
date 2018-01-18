@@ -1,0 +1,138 @@
+---
+title: "Tzar yaml commands"
+author: "Bill Langford"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+    toc: true # table of content true
+    toc_depth: 4  # upto three depths of headings (specified by #, ## and ###)
+#    number_sections: true  ## if you want number sections at each table header
+vignette: >
+  %\VignetteIndexEntry{Tzar yaml commands}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Introduction
+
+This document is a short summary of yaml file commands related to using the tzar program to run and capture output from other programs.  More complete documentation for tzar can be found at [Tzar distributed computing framework](https://tzar-framework.atlassian.net/wiki/spaces/TD/overview)
+
+## Wildcards
+
+### Example
+
+```yaml
+    full_output_dir_with_slash: $$output_path$$
+    runset_name: $$runset$$
+    run_id: $$run_id$$
+```
+
+###  Specific wildcards
+
+#### Output path - `$$output_path$$`
+
+```yaml
+    full_output_dir_with_slash: $$output_path$$
+```
+
+#### Runset name - `$$runset$$`
+
+```yaml
+    runset_name: $$runset$$
+```
+
+#### Run ID - `$$run_id$$`
+
+```yaml
+    run_id: $$run_id$$
+```
+
+
+
+## Tzar project.yaml section headers
+
+```yaml
+project_name: 
+
+runner_class: 
+
+libraries:
+
+base_params:
+
+scenarios:
+
+repetitions:
+    - name: 
+      parameters:
+
+repetitions:
+    generators:
+        - key: 
+          generator_type: 
+          start: 
+          step_size: 
+          count: 
+```
+
+### Project name
+
+```yaml
+project_name: 
+```
+
+### Runner class
+
+```yaml
+runner_class: 
+```
+
+### Libraries
+
+```yaml
+libraries:
+    -  name: 
+       repo_type: 
+       url: 
+       download_mode: 
+```
+
+### Base parameters
+
+```yaml
+base_params: 
+```
+
+### Scenarios
+
+```yaml
+scenarios: 
+```
+
+### Repetitions
+
+```yaml
+repetitions:
+    - name: 
+      parameters:
+
+repetitions:
+    generators:
+        - key: 
+          generator_type: 
+          start: 
+          step_size: 
+          count: 
+```
+
+### Generators
+
+```yaml
+    generators:
+        - key: 
+          generator_type: 
+          start: 
+          step_size: 
+          count: 
+```

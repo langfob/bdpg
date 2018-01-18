@@ -1,0 +1,1322 @@
+---
+title: "Input Parameters and Yaml Files for bdpg"
+author: "Bill Langford"
+date: '`r Sys.Date()`'
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+    toc: true # table of content true
+    toc_depth: 4  # upto three depths of headings (specified by #, ## and ###)
+#    number_sections: true  ## if you want number sections at each table header
+vignette: >
+  %\VignetteIndexEntry{Input Parameters and Yaml Files for bdpg}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Introduction
+
+The `bdpg` package allows many different parameters for many different actions to be input through its parameters list.  This R list can be built in any way you like, however, one very common way is to build a yaml file that is read and converted to an R (e.g., by running under tzar).  While the parameters list doesn't have to be loaded in this way, the yaml file format provides a nicely structured way of viewing and explaining parameters and groups of parameters.  Consequently, explanations in this vignette will be phrased in terms of yaml code that could produce their settings in the parameters list.  
+
+## Special notes
+
+### Switching subgroups of parameters on and off without removing from input file
+
+Sometimes sets of parameters will be ignored entirely when a related master boolean parameter is set in a particular way.  This is designed to make it easy to switch off certain things in the yaml file without having to delete all of the related flags.  This is particularly desirable during debugging when you may know that a problem has nothing to do with a certain set of parameters and you want the run to be done more quickly by skipping that part of the code.  For example, some of the network metrics are very time-consuming to compute.  If compute_network_metrics is set to FALSE, then all parameters related to network metrics will be ignored and the metrics will not be computed.  
+
+--------------------------------------------------------------------------------
+
+# Run identification
+
+### Example
+
+```yaml
+    full_output_dir_with_slash: $$output_path$$
+
+    runset_description: |
+        Small set of runs of a Xu hard scenario with error generation both
+        on and off plus running simulated annealing and richness heuristic.
+
+    runset_name: $$runset$$
+    runset_abbrev: "bdpgSingleRunForTestAndDebug"
+
+    run_id: $$run_id$$
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### full_output_dir_with_slash
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    full_output_dir_with_slash: $$output_path$$
+```
+
+#### runset_description
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    runset_description: |
+        Small set of runs of a Xu hard scenario with error generation both
+        on and off plus running simulated annealing and richness heuristic.
+```
+
+#### runset_name
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    runset_name: $$runset$$
+```
+
+#### runset_abbrev
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    runset_abbrev: "bdpgSingleRunForTestAndDebug"
+```
+
+#### run_id
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    run_id: $$run_id$$
+```
+
+--------------------------------------------------------------------------------
+
+# MISC
+
+## Conversion of floats to integers
+
+### Example
+
+```yaml
+    integerize_string: "round"
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### integerize_string
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    integerize_string: "round"
+```
+
+----------------------------------------
+
+## Flag files
+
+### Example
+
+```yaml
+    too_many_possible_links_error_flag_file_name: $$output_path$$too_many_possible_links_error_flag_file.txt
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### too_many_possible_links_error_flag_file_name [BELONGS WITH XU STUFF? ]
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    too_many_possible_links_error_flag_file_name: $$output_path$$too_many_possible_links_error_flag_file.txt
+```
+
+----------------------------------------
+
+## Summary file names [ ARE THESE STILL USED? ]
+
+### Example
+
+```yaml
+#    summary_filename: prob_diff_results.csv
+#    summary_without_run_id_filename: prob_diff_results_with_0_run_id.csv
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### summary_filename
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+#    summary_filename: prob_diff_results.csv
+```
+
+#### summary_without_run_id_filename
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+#    summary_without_run_id_filename: prob_diff_results_with_0_run_id.csv
+```
+
+--------------------------------------------------------------------------------
+
+# Random seed control
+
+## Overall seed control
+
+### Example
+
+```yaml
+    set_rand_seed_at_creation_of_all_new_major_objects: FALSE
+    bdpg_run_init_rand_seed: 1763688087
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### set_rand_seed_at_creation_of_all_new_major_objects
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    set_rand_seed_at_creation_of_all_new_major_objects: FALSE
+```
+
+#### bdpg_run_init_rand_seed
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+     bdpg_run_init_rand_seed: 1763688087
+ ```
+
+--------------------------------------------------------------------------------
+
+# Xu benchmark problems
+
+If you're reading the Xu problem from a file in Xu's benchmark problem file format instead of generating it, you need to give the input file name and the cost of the correct solution (since it's not specified in the file).
+
+### Example
+
+```yaml
+    read_Xu_problem_from_Xu_bench_file: TRUE
+
+    Xu_bench_infile_name:  "/Users/bill/D/Projects/ProblemDifficulty/data/Xu - problem difficulty datasets/frb30-15-msc with MSC 420/frb30-15-1.msc"
+#"/Users/bill/Desktop/Papers downloaded/Problem difficulty/Problem difficulty datasets/Xu - problem difficulty datasets/frb30-15-msc with MSC 420/frb30-15-1.msc"
+
+    given_correct_solution_cost: 420
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### read_Xu_problem_from_Xu_bench_file
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    read_Xu_problem_from_Xu_bench_file: TRUE
+```
+
+#### Xu_bench_infile_name
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    Xu_bench_infile_name:  "/Users/bill/D/Projects/ProblemDifficulty/data/Xu - problem difficulty datasets/frb30-15-msc with MSC 420/frb30-15-1.msc"
+```
+
+#### given_correct_solution_cost
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    given_correct_solution_cost: 420
+```
+
+--------------------------------------------------------------------------------
+
+# Reserve selection
+
+## Gurobi reserve selector
+
+### Example
+```
+    do_gurobi: TRUE
+    
+    use_time_limit: TRUE
+    time_limit: 600
+    
+    use_gap_limit: TRUE
+    gap_limit: 0.005
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### do_gurobi
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    do_gurobi: TRUE
+```
+
+#### use_time_limit
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    use_time_limit: TRUE
+```
+
+#### time_limit
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    time_limit: 600
+```
+
+#### use_gap_limit
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    use_gap_limit: TRUE
+```
+
+#### gap_limit
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    gap_limit: 0.005
+```
+
+----------------------------------------
+
+## Marxan simulated annealing reserve selector
+
+### Example
+```
+    marxan_runmode: 1
+    marxan_heurtype: -1
+
+        #  marxan control parameters
+        #
+        #  If marxan_use_default_input_parameters is TRUE, then all of these
+        #  marxan_... parameters set in this file are ignored and marxan's
+        #  default values are used instead.
+        #  The one exception to this is the variable marxan_spf_const,
+        #  which is a bit different from all the other parameters and is set
+        #  in the just below the marxan_... parameters in this file.
+    marxan_use_default_input_parameters: FALSE
+
+#    marxan_input_parameters_file_name: "/Users/bill/D/Marxan/input.dat"
+    marxan_input_parameters_file_name: "$$library_path(marxanLibrary)$$input.dat"
+
+    marxan_dir: "$$library_path(marxanLibrary)$$"
+#    marxan_input_dir: "$$library_path(marxanLibrary)$$input/"
+#    marxan_output_dir: "$$library_path(marxanLibrary)$$output/"
+    marxan_pu_file_name: "pu.dat"
+    marxan_spec_file_name: "spec.dat"
+    marxan_puvspr_file_name: "puvspr.dat"
+
+
+    marxan_num_reps: 100
+    marxan_num_iterations: "1000000"
+
+#    marxan_num_reps: 1
+#    marxan_num_iterations: "10000"
+
+    marxan_spf_rule: "POWER_OF_10"
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### marxan_runmode
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    marxan_runmode: 1
+```
+
+#### marxan_heurtype
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    marxan_heurtype: -1
+```
+
+#### marxan_use_default_input_parameters
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    marxan_use_default_input_parameters: FALSE
+```
+
+#### marxan_input_parameters_file_name
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    marxan_input_parameters_file_name: "$$library_path(marxanLibrary)$$input.dat"
+```
+
+#### marxan_dir
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    marxan_dir: "$$library_path(marxanLibrary)$$"
+```
+
+#### marxan_pu_file_name
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    marxan_pu_file_name: "pu.dat"
+```
+
+#### marxan_spec_file_name
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    marxan_spec_file_name: "spec.dat"
+```
+
+#### marxan_puvspr_file_name
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    marxan_puvspr_file_name: "puvspr.dat"
+```
+
+#### marxan_num_reps
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    marxan_num_reps: 100
+```
+
+#### marxan_num_iterations
+
+- Definition
+- Type/Allowed values  VERY IMPORTANT THAT THIS IS A STRING, NOT A NUMBER
+- Default value
+- Rules
+
+```yaml
+    marxan_num_iterations: "1000000"
+```
+
+#### marxan_spf_rule
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    marxan_spf_rule: "POWER_OF_10"
+```
+
+--------------------------------------------------------------------------------
+
+# Xu problem generation
+
+## Problem size control
+
+### Example
+
+```yaml
+        #  NOTE that the choice of random seed in the yaml file is important
+        #  for this single run test because the example creates a test problem
+        #  based on drawing the control parameters from a random distribution.
+        #  When the seed was 111, the test crashed with the message below.
+        #  When I changed it to 701, it ran to completion.
+        #       Failing:  max_possible_tot_num_links ( 3291 ) > maximum allowed ( 2000 ).
+        #       Save workspace image to ~/D/rdv-framework/projects/rdvPackages/biodivprobgen/.RData? [y/n/c]:
+        #  However, the fail was just what it was supposed to do when those
+        #  parameters came up, so the yaml file could be changed to use 111
+        #  instead of 701 if you want to induce a crash to test that error
+        #  trapping.
+#    seed: 701
+
+        #  2017 12 06 - BTL
+        #  Instead, you could just set the total number of links or spp
+        #  to some tiny amount that was sure to fail.
+
+    max_allowed_possible_tot_num_links: 1500
+    max_allowed_num_spp: 2000
+    
+    
+    derive_alpha_from_n__num_groups_and_opt_frac_0.5: FALSE
+    use_unif_rand_alpha__: FALSE
+    alpha__: 0.52
+
+    use_unif_rand_n__num_groups: TRUE
+    n__num_groups_lower_bound: 61
+    n__num_groups_upper_bound: 62
+
+#            n__num_groups_upper_bound: 80
+#            use_unif_rand_n__num_groups: TRUE
+#            n__num_groups_lower_bound: 8
+#            n__num_groups_upper_bound: 100
+
+    use_unif_rand_r__density: FALSE
+    r__density: 0.8
+#            use_unif_rand_r__density: TRUE
+#            r__density_lower_bound: 0.01
+#            r__density_upper_bound: 5.0
+
+    use_unif_rand_p__prop_of_links_between_groups: TRUE
+    p__prop_of_links_between_groups_lower_bound: 0.01
+    p__prop_of_links_between_groups_upper_bound: 0.99
+
+#--------------------
+
+        #  Parameters for building a multi-problem by wrapping a lognormal
+        #  distribution around a base Xu problem.
+
+    gen_multi_bdproblem: TRUE
+    wrap_lognormal_dist_around_Xu: TRUE
+    allow_imperfect_wrap: TRUE    #  new variable - BTL - 2017 12 13
+    desired_Xu_spp_frac_of_all_spp: 0.5
+    solution_frac_of_landscape: 0.3
+    desired_max_abundance_frac: 0.7
+    dep_set_PUs_eligible: FALSE
+    add_one_to_lognormal_abundances: FALSE
+#            seed_value_for_search: 11    #  no longer set this way - BTL - 2017 12 13
+    max_search_iterations: 500
+
+    plot_rounded_abundances: TRUE
+
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### max_allowed_possible_tot_num_links
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    max_allowed_possible_tot_num_links: 1500
+```
+
+#### max_allowed_num_spp
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    max_allowed_num_spp: 2000
+```
+
+----------------------------------------
+
+## Problem types to generate
+
+### Example
+
+```yaml
+    gen_4_basic_variants: TRUE
+    single_action_using_tzar_reps: FALSE    #TRUE
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### gen_4_basic_variants
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    gen_4_basic_variants: TRUE
+```
+
+#### single_action_using_tzar_reps
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    single_action_using_tzar_reps: FALSE    #TRUE
+```
+
+----------------------------------------
+
+## Xu base parameters (alpha, p, n, r)
+
+### Example
+
+```yaml
+    derive_alpha_from_n__num_groups_and_opt_frac_0.5: FALSE
+    use_unif_rand_alpha__: FALSE
+    alpha__: 0.52
+
+    use_unif_rand_n__num_groups: TRUE
+    n__num_groups_lower_bound: 61
+    n__num_groups_upper_bound: 62
+
+#            n__num_groups_upper_bound: 80
+#            use_unif_rand_n__num_groups: TRUE
+#            n__num_groups_lower_bound: 8
+#            n__num_groups_upper_bound: 100
+
+    use_unif_rand_r__density: FALSE
+    r__density: 0.8
+#            use_unif_rand_r__density: TRUE
+#            r__density_lower_bound: 0.01
+#            r__density_upper_bound: 5.0
+
+    use_unif_rand_p__prop_of_links_between_groups: TRUE
+    p__prop_of_links_between_groups_lower_bound: 0.01
+    p__prop_of_links_between_groups_upper_bound: 0.99
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### derive_alpha_from_n__num_groups_and_opt_frac_0.5
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    derive_alpha_from_n__num_groups_and_opt_frac_0.5: FALSE
+```
+
+#### use_unif_rand_alpha__
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    use_unif_rand_alpha__: FALSE
+```
+
+#### n__num_groups_lower_bound
+alpha__lower_bound
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+#    alpha__lower_bound: 0.2
+```
+
+#### alpha__upper_bound
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+#    alpha__upper_bound: 0.3
+```
+
+#### alpha__
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    alpha__: 0.52
+```
+
+#### use_unif_rand_n__num_groups
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    use_unif_rand_n__num_groups: TRUE
+```
+
+#### n__num_groups_lower_bound
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+#    n__num_groups_lower_bound: 61
+```
+
+#### n__num_groups_upper_bound
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    n__num_groups_upper_bound: 62
+```
+
+#### n__num_groups
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    n__num_groups: 50
+```
+
+#### use_unif_rand_r__density
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    use_unif_rand_r__density: FALSE
+```
+
+#### r__density
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    r__density: 0.8
+```
+
+#### r__density_lower_bound
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+#            r__density_lower_bound: 0.01
+```
+
+#### use_unif_rand_p__prop_of_links_between_groups
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    use_unif_rand_p__prop_of_links_between_groups: TRUE
+```
+
+#### p__prop_of_links_between_groups_lower_bound
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    p__prop_of_links_between_groups_lower_bound: 0.01
+```
+
+#### p__prop_of_links_between_groups_upper_bound
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    p__prop_of_links_between_groups_upper_bound: 0.99
+```
+
+#### p__prop_of_links_between_groups
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+#    p__prop_of_links_between_groups: 0.5
+```
+
+## Xu wrapped problem parameters
+
+Parameters for building a multi-problem by wrapping a lognormal distribution around a base Xu problem.
+
+### Example
+
+```yaml
+    gen_multi_bdproblem: TRUE
+    wrap_lognormal_dist_around_Xu: TRUE
+    allow_imperfect_wrap: TRUE    #  new variable - BTL - 2017 12 13
+    desired_Xu_spp_frac_of_all_spp: 0.5
+    solution_frac_of_landscape: 0.3
+    desired_max_abundance_frac: 0.7
+    dep_set_PUs_eligible: FALSE
+    add_one_to_lognormal_abundances: FALSE
+    max_search_iterations: 500
+    plot_rounded_abundances: TRUE
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### gen_multi_bdproblem
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    gen_multi_bdproblem: TRUE
+```
+
+#### wrap_lognormal_dist_around_Xu
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    wrap_lognormal_dist_around_Xu: TRUE
+```
+
+#### allow_imperfect_wrap
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    allow_imperfect_wrap: TRUE    #  new variable - BTL - 2017 12 13
+```
+
+#### desired_Xu_spp_frac_of_all_spp
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    desired_Xu_spp_frac_of_all_spp: 0.5
+```
+
+#### solution_frac_of_landscape
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    solution_frac_of_landscape: 0.3
+```
+
+#### desired_max_abundance_frac
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    desired_max_abundance_frac: 0.7
+```
+
+#### dep_set_PUs_eligible
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    dep_set_PUs_eligible: FALSE
+```
+
+#### add_one_to_lognormal_abundances
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    add_one_to_lognormal_abundances: FALSE
+```
+
+#### max_search_iterations
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    max_search_iterations: 500
+```
+
+#### plot_rounded_abundances
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    plot_rounded_abundances: TRUE
+```
+
+--------------------------------------------------------------------------------
+
+# Error generation
+
+### Example
+
+```yaml
+    apply_error_to_spp_occupancy_data: TRUE
+#            match_error_counts: TRUE
+    match_error_counts: FALSE
+
+    #--------------------
+
+        #  Constant errors
+
+    spp_occ_FP_error_type: "CONSTANT"
+    spp_occ_FP_const_rate: 0  #0.05  #0  #0.1
+
+    spp_occ_FN_error_type: "CONSTANT"
+    spp_occ_FN_const_rate: 0.05  #0.1  #0.1
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### apply_error_to_spp_occupancy_data
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    apply_error_to_spp_occupancy_data: TRUE
+```
+
+#### match_error_counts
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    match_error_counts: FALSE
+```
+
+#### spp_occ_FP_error_type
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    spp_occ_FP_error_type: "CONSTANT"
+```
+
+#### spp_occ_FP_const_rate
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    spp_occ_FP_const_rate: 0  #0.05  #0  #0.1
+```
+
+#### spp_occ_FN_error_type
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    spp_occ_FN_error_type: "CONSTANT"
+```
+
+#### spp_occ_FN_const_rate
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    spp_occ_FN_const_rate: 0.05  #0.1  #0.1
+```
+
+--------------------------------------------------------------------------------
+
+# Network measures
+
+### Example
+
+```yaml
+    compute_network_metrics: FALSE    #  if FALSE, overrides all other network flags below
+
+    compute_network_metrics_COR: TRUE
+    compute_network_metrics_APP: TRUE
+    compute_network_metrics_wrapped_COR: TRUE
+    compute_network_metrics_wrapped_APP: TRUE
+
+    use_igraph_metrics:    TRUE
+
+    use_bipartite_metrics: TRUE
+    #bipartite_metrics_to_use:     "ALLBUTDD"
+#    bipartite_metrics_to_use:     "all_except_slow_indices"
+    bipartite_metrics_to_use:     "quick_test"
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### compute_network_metrics
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    compute_network_metrics: FALSE    #  if FALSE, overrides all other network flags below
+```
+
+#### compute_network_metrics_COR
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    compute_network_metrics_COR: TRUE
+```
+
+#### compute_network_metrics_APP
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    compute_network_metrics_APP: TRUE
+```
+
+#### compute_network_metrics_wrapped_COR
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    compute_network_metrics_wrapped_COR: TRUE
+```
+
+#### compute_network_metrics_wrapped_APP
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    compute_network_metrics_wrapped_APP: TRUE
+```
+
+#### use_igraph_metrics
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    use_igraph_metrics:    TRUE
+```
+
+#### use_bipartite_metrics
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    use_bipartite_metrics: TRUE
+```
+
+#### bipartite_metrics_to_use
+
+- Definition
+- Type/Allowed values: "ALLBUTDD", "all_except_slow_indices", or "quick_test"
+- Default value
+- Rules
+
+```yaml
+    bipartite_metrics_to_use:     "quick_test"
+```
+
+--------------------------------------------------------------------------------
+
+**TEMPLATE**
+
+# PARAMETER_GROUP
+
+## PARAMETER_SUBGROUP
+
+### Example
+
+```yaml
+```
+
+### Useful sets
+
+#### SET_NAME
+
+```yaml
+```
+
+### Specific parameters
+
+#### PARAMETER_NAME
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+```
+
+**END TEMPLATE**
+
+--------------------------------------------------------------------------------
+
+
+
