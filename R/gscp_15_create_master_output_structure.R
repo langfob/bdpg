@@ -80,12 +80,6 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 
         #-----------------------------------------------------------------------
 
-###2017 08 22 - BTL - I don't think this is valid anymore, so commenting in out for now.
-###cat ("\n\nJUST BEFORE ERROR OCCURS:\n\n")
-##  2017 11 26 - BTL - Are these 2 difference values ever used now?
-    # cor_signed_difference         = marxan_output_values$marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member
-    # cor_abs_val_signed_difference = abs (cor_signed_difference)
-
     cor_PU_costs_vec = COR_bd_prob@PU_costs
 
 
