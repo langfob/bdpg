@@ -70,34 +70,6 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
     exp_root_dir = parameters$fullOutputDir_NO_slash
     out_dir      = get_RSrun_path_topdir (rsrun, exp_root_dir)
 
-        #-----------------------------------------------------------------------
-        #  Build or read a list for each aspect of the run.
-        #  Make a NULL list for any section that doesn't apply in this run,
-        #  e.g., if a type of network metric was not computed for this problem.
-        #-----------------------------------------------------------------------
-
-    tzar_run_ID_list          = list (rsr_tzar_run_ID = tzar_run_ID,
-                                      rsr_UUID = rsrun@UUID,
-                                      rsr_checksum = rsrun@checksum,
-                                      rsr_rand_seed = rsrun@rand_seed)
-
-    use_src_rds_file_dir = ! (is.null (src_rds_file_dir))
-
-    prob_characteristics_list = read_prob_characteristics_list (APP_bd_prob,     #rsprob,
-                                                                src_rds_file_dir,
-                                                                exp_root_dir,
-                                                                use_src_rds_file_dir,
-                                                                parameters)
-
-    bipartite_measures_list   = read_bipartite_measures_list (APP_bd_prob,    #rsprob,
-                                                              src_rds_file_dir,
-                                                              exp_root_dir,
-                                                              use_src_rds_file_dir)
-
-    igraph_measures_list      = read_igraph_measures_list (APP_bd_prob,    #rsprob,
-                                                           src_rds_file_dir,
-                                                           exp_root_dir,
-                                                           use_src_rds_file_dir)
 
         #-----------------------------------------------------------------------
 
@@ -254,6 +226,38 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
             FP_const_rate,
             FN_const_rate
                 )
+
+        #-----------------------------------------------------------------------
+        #  Build or read a list for each aspect of the run.
+        #  Make a NULL list for any section that doesn't apply in this run,
+        #  e.g., if a type of network metric was not computed for this problem.
+        #-----------------------------------------------------------------------
+
+    tzar_run_ID_list          = list (rsr_tzar_run_ID = tzar_run_ID,
+                                      rsr_UUID = rsrun@UUID,
+                                      rsr_checksum = rsrun@checksum,
+                                      rsr_rand_seed = rsrun@rand_seed)
+
+    use_src_rds_file_dir = ! (is.null (src_rds_file_dir))
+
+    prob_characteristics_list = read_prob_characteristics_list (APP_bd_prob,     #rsprob,
+                                                                src_rds_file_dir,
+                                                                exp_root_dir,
+                                                                use_src_rds_file_dir,
+                                                                parameters)
+
+    bipartite_measures_list   = read_bipartite_measures_list (APP_bd_prob,    #rsprob,
+                                                              src_rds_file_dir,
+                                                              exp_root_dir,
+                                                              use_src_rds_file_dir)
+
+    igraph_measures_list      = read_igraph_measures_list (APP_bd_prob,    #rsprob,
+                                                           src_rds_file_dir,
+                                                           exp_root_dir,
+                                                           use_src_rds_file_dir)
+
+        #-----------------------------------------------------------------------
+
 
         #----------------------------------------------------------------
         #  Concatenate all of the lists and write the full list to file
