@@ -29,8 +29,8 @@ set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
                                    num_PUs = COR_bd_prob@num_PUs,
                                    bpm     = COR_bd_prob@bpm,
 
-                                   PU_costs    = COR_bd_prob@PU_costs,
-                                   spp_targets = gurobi_run@targets,
+                                   PU_costs     = COR_bd_prob@PU_costs,
+                                   spp_rep_targets = gurobi_run@targets,
 
                                    use_time_limit = parameters$use_time_limit,
                                    time_limit     = parameters$time_limit,
@@ -70,8 +70,8 @@ set_up_for_and_run_gurobi_APP <- function (APP_bd_prob,
                                    num_PUs = COR_bd_prob@num_PUs,
                                    bpm     = APP_bd_prob@bpm,
 
-                                   PU_costs    = APP_bd_prob@PU_costs,
-                                   spp_targets = gurobi_run@targets,
+                                   PU_costs        = APP_bd_prob@PU_costs,
+                                   spp_rep_targets = gurobi_run@targets,
 
                                    use_time_limit = parameters$use_time_limit,
                                    time_limit     = parameters$time_limit,
@@ -104,12 +104,12 @@ set_up_for_and_run_gurobi <- function (num_spp,
                                        num_PUs,
                                        bpm,
                                        PU_costs,
-                                       spp_targets,
+                                       spp_rep_targets,
                                        use_time_limit, time_limit,
                                        use_gap_limit, gap_limit)
     {
     gurobi_result =
-        run_gurobi (num_spp, num_PUs, bpm, PU_costs, spp_targets,
+        run_gurobi (num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
                     use_time_limit, time_limit, use_gap_limit, gap_limit)
 
     return (gurobi_result)

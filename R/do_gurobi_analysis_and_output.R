@@ -25,7 +25,7 @@
 
 run_gurobi <- function (num_spp, num_PUs,
                         bpm,
-                        PU_costs, spp_targets,
+                        PU_costs, spp_rep_targets,
                         use_time_limit = TRUE, time_limit = 60,
                         use_gap_limit = FALSE, gap_limit = 0.005
                         )
@@ -52,15 +52,15 @@ run_gurobi <- function (num_spp, num_PUs,
         #----------------------------------------------------------------
 
 #bpm = matrix (c (0, 0, 1, 1), nrow=2, ncol=2, byrow=TRUE)
-#spp_targets = c(1,1)
+#spp_rep_targets = c(1,1)
 
 spp_abundances = apply (bpm, 1, sum)
-if (length (spp_abundances) != length (spp_targets))
+if (length (spp_abundances) != length (spp_rep_targets))
     stop_bdpg (paste0 ("length (spp_abundances) = '",
                        length (spp_abundances),
-                       "' NOT EQUAL TO length (spp_targets) = '",
-                       length (spp_targets), "'"))
-spp_with_subtarget_abundances = which (spp_abundances < spp_targets)
+                       "' NOT EQUAL TO length (spp_rep_targets) = '",
+                       length (spp_rep_targets), "'"))
+spp_with_subtarget_abundances = which (spp_abundances < spp_rep_targets)
 num_subtarget_abundances = length (spp_with_subtarget_abundances)
 cat ("\n\nlength (spp_abundances) = ", length (spp_abundances),
      "\nnum_subtarget_abundances = ", num_subtarget_abundances)
@@ -70,7 +70,7 @@ if (num_subtarget_abundances > 0)
     print (spp_with_subtarget_abundances)
     }
 
-rhs = pmin (spp_targets, spp_abundances)
+rhs = pmin (spp_rep_targets, spp_abundances)
 
     gurobi_model$rhs <- rhs
 
@@ -194,8 +194,8 @@ test_gurobi <- function (seed = 456,
     {
     set.seed (seed)
 
-    PU_costs    = rep (1, num_PUs)
-    spp_targets = rep (1, num_spp)
+    PU_costs        = rep (1, num_PUs)
+    spp_rep_targets = rep (1, num_spp)
 
     bpm_with_spp_rows_PU_cols = gen_dummy_bpm (num_spp, num_PUs)
 
@@ -203,7 +203,7 @@ test_gurobi <- function (seed = 456,
                          num_PUs,
                          bpm_with_spp_rows_PU_cols,
                          PU_costs,
-                         spp_targets,
+                         spp_rep_targets,
                          use_time_limit = FALSE, time_limit = 60,
                          use_gap_limit = TRUE, gap_limit = 0.005
                         )
