@@ -1,10 +1,10 @@
 #===============================================================================
 #
-#                       do_graph_and_marxan_analysis.R
+#                       do_marxan_analysis_and_output.R
 #
 #  Run code to run marxan and dump results to file.
 #
-#  Used to do graph analysis here too, but no longer.  Should rename file.
+#  Used to do graph analysis here too, but no longer.
 #
 #===============================================================================
 
