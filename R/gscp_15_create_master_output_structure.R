@@ -13,9 +13,6 @@ compute_RS_solution_cost_scores_wrt_COR_costs_vec <-
     #         Compute error in cost of reserve selector's solution.
     #---------------------------------------------------------------------------
 
-    # cor_optimum_cost = compute_solution_cost (cor_solution_PU_IDs_vec,
-    #                                           PU_costs_vec)
-
     rs_solution_cost = compute_solution_cost (rs_solution_PU_IDs_vec,
                                               PU_costs_vec)
     rs_solution_cost_err_frac = (rs_solution_cost - cor_optimum_cost) /
@@ -115,9 +112,8 @@ get_marxan_output_values <- function (rsrun,
                                       APP_bd_prob)
     {
       marxan_output_values =
-          read_marxan_output_files (get_RSrun_path_output (rsrun, exp_root_dir),     #rs_output_dir_path,
-                                    COR_bd_prob@all_PU_IDs  #all_correct_node_IDs
-                                    )
+          read_marxan_output_files (get_RSrun_path_output (rsrun, exp_root_dir),
+                                    COR_bd_prob@all_PU_IDs)
 
           #--------------------------------------------------------------
           #  Find which PUs the reserve selector (marxan only, for now)
@@ -137,36 +133,34 @@ get_marxan_output_values <- function (rsrun,
           #-----------------------------------------------------------------------
 
       find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
-              get_RSrun_path_output (rsrun, exp_root_dir),     #rs_output_dir_path,
+              get_RSrun_path_output (rsrun, exp_root_dir),
               COR_bd_prob@num_spp,
-              COR_bd_prob@PU_costs,    #cor_PU_costs,
+              COR_bd_prob@PU_costs,
               COR_bd_prob@bpm,
           COR_bd_prob@bpm,
               marxan_output_values$marxan_best_df_sorted,
-              get_RSrun_path_plots (rsrun, exp_root_dir),    #plot_output_dir,
-              COR_bd_prob@num_PUs,     #largest_PU_ID,
-              COR_bd_prob@num_spp,     #largest_spp_ID,
-              rsrun@targets,           #targets,
-              get_RSrun_path_output (rsrun, exp_root_dir),    #topdir),    #rs_top_dir,
-              marxan_output_values$marxan_ssoln_df,    #marxan_ssoln_df_sorted_by_PU,
-              COR_bd_prob@correct_solution_cost    #correct_solution_cost
-              )
+              get_RSrun_path_plots (rsrun, exp_root_dir),
+              COR_bd_prob@num_PUs,
+              COR_bd_prob@num_spp,
+              rsrun@targets,
+              get_RSrun_path_output (rsrun, exp_root_dir),
+              marxan_output_values$marxan_ssoln_df,
+              COR_bd_prob@correct_solution_cost)
 
       find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
-              get_RSrun_path_output (rsrun, exp_root_dir),     #rs_output_dir_path,
+              get_RSrun_path_output (rsrun, exp_root_dir),
               COR_bd_prob@num_spp,
-              COR_bd_prob@PU_costs,    #cor_PU_costs,
+              COR_bd_prob@PU_costs,
               COR_bd_prob@bpm,
           APP_bd_prob@bpm,
               marxan_output_values$marxan_best_df_sorted,
-              get_RSrun_path_plots (rsrun, exp_root_dir),    #plot_output_dir,
-              COR_bd_prob@num_PUs,     #largest_PU_ID,
-              COR_bd_prob@num_spp,     #largest_spp_ID,
-              rsrun@targets,           #targets,
-              get_RSrun_path_output (rsrun, exp_root_dir),    #topdir),    #rs_top_dir,
-              marxan_output_values$marxan_ssoln_df,    #marxan_ssoln_df_sorted_by_PU,
-              COR_bd_prob@correct_solution_cost    #correct_solution_cost
-              )
+              get_RSrun_path_plots (rsrun, exp_root_dir),
+              COR_bd_prob@num_PUs,
+              COR_bd_prob@num_spp,
+              rsrun@targets,
+              get_RSrun_path_output (rsrun, exp_root_dir),
+              marxan_output_values$marxan_ssoln_df,
+              COR_bd_prob@correct_solution_cost)
 
     app_rep_scores_list_according_to_RS =
       compute_and_verify_APP_rep_scores_according_to_RS (marxan_output_values$marxan_mvbest_df,
@@ -245,7 +239,7 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
 
     app_cost_scores_list_wrt_COR_costs_vec =
         compute_RS_solution_cost_scores_wrt_COR_costs_vec (rs_best_solution_PU_IDs,
-                                                           COR_bd_prob@correct_solution_cost,    #  cor_solution_vector,
+                                                           COR_bd_prob@correct_solution_cost,
                                                            COR_bd_prob@PU_costs)
 
         #-----------------------------------------------------------------------
@@ -275,19 +269,17 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
 
     use_src_rds_file_dir = ! (is.null (src_rds_file_dir))
 
-    prob_characteristics_list = read_prob_characteristics_list (APP_bd_prob,     #rsprob,
+    prob_characteristics_list = read_prob_characteristics_list (APP_bd_prob,
                                                                 src_rds_file_dir,
                                                                 exp_root_dir,
-                                                                use_src_rds_file_dir  #,
-                                                                #parameters
-                                                                )
+                                                                use_src_rds_file_dir)
 
-    bipartite_measures_list   = read_bipartite_measures_list (APP_bd_prob,    #rsprob,
+    bipartite_measures_list   = read_bipartite_measures_list (APP_bd_prob,
                                                               src_rds_file_dir,
                                                               exp_root_dir,
                                                               use_src_rds_file_dir)
 
-    igraph_measures_list      = read_igraph_measures_list (APP_bd_prob,    #rsprob,
+    igraph_measures_list      = read_igraph_measures_list (APP_bd_prob,
                                                            src_rds_file_dir,
                                                            exp_root_dir,
                                                            use_src_rds_file_dir)
@@ -318,7 +310,7 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
         csv_outfile_name = "rsrun_results.csv",
         results_df       =
             list_as_data_frame_with_0_length_vals_replaced_by_NA (results_list),
-        tzar_run_ID,    #parameters$run_ID,
+        tzar_run_ID,
         out_dir                = get_RSrun_path_topdir (rsrun, exp_root_dir),
         tzar_run_id_field_name = "rsr_tzar_run_ID")
 
