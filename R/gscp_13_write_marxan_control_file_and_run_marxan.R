@@ -377,7 +377,112 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
 
     #stop("Testing - just finished marxan input file writing...")
 
+
+# Run marxan and time measure how long it takes. system.time() returns
+# "An object of class "proc_time" which is a numeric vector of length 5,
+# containing the
+#     - user,
+#     - system, and
+#     - total elapsed times
+# for the currently running R process, and the
+#     - cumulative sum of user and
+#     - system times
+# of any child processes spawned by it on which it has waited.
+# (The print method uses the summary method to combine the child times with
+# those of the main process.)
+#
+# The definition of ‘user’ and ‘system’ times is from your OS. Typically it is
+# something like
+#
+# The ‘user time’ is the CPU time charged for the execution of user instructions
+# of the calling process. The ‘system time’ is the CPU time charged for
+# execution by the system on behalf of the calling process.
+#
+# Times of child processes are not available on Windows and will always be given
+# as NA.
+#
+# The resolution of the times will be system-specific and on Unix-alikes times
+# are rounded down to milliseconds. On modern systems they will be that
+# accurate, but on older systems they might be accurate to 1/100 or 1/60 sec.
+# They are typically available to 10ms on Windows."
+
+marxan_timings =
+system.time ({
     run_marxan (parameters$marxan_dir, marxan_executable_name)
+            })
+# cat ("\n\nBack from running and timing marxan now.  Calling browser().\n")
+# browser()
+
+#  CORRECT BASE
+# Browse[3]> marxan_timings[1]
+# user.self
+#     0.006
+# Browse[3]> marxan_timings[2]
+# sys.self
+#    0.004
+# Browse[3]> marxan_timings[3]
+# elapsed
+#   21.68
+# Browse[3]> marxan_timings[4]
+# user.child
+#     21.214
+# Browse[3]> marxan_timings[5]
+# sys.child
+#     0.349
+
+#  APPARENT BASE
+# Browse[1]> marxan_timings[1]
+# user.self
+#     0.005
+# Browse[1]> marxan_timings[2]
+# sys.self
+#    0.003
+# Browse[1]> marxan_timings[3]
+# elapsed
+#  22.154
+# Browse[1]> marxan_timings[4]
+# user.child
+#     21.645
+# Browse[1]> marxan_timings[5]
+# sys.child
+#     0.366
+
+#  CORRECT WRAP
+# Browse[1]> marxan_timings[1]
+# user.self
+#     0.004
+# Browse[1]> marxan_timings[2]
+# sys.self
+#    0.004
+# Browse[1]> marxan_timings[3]
+# elapsed
+#  18.047
+# Browse[1]> marxan_timings[4]
+# user.child
+#     17.438
+# Browse[1]> marxan_timings[5]
+# sys.child
+#     0.421
+
+#  APPARENT WRAP
+# Browse[1]> marxan_timings[1]
+# user.self
+#     0.004
+# Browse[1]> marxan_timings[2]
+# sys.self
+#    0.003
+# Browse[1]> marxan_timings[3]
+# elapsed
+#   17.54
+# Browse[1]> marxan_timings[4]
+# user.child
+#     17.029
+# Browse[1]> marxan_timings[5]
+# sys.child
+#     0.401
+
+marxan_elapsed_time = marxan_timings["elapsed"]
+
 
     #---------------------------------------------------------------------------
 
@@ -396,6 +501,8 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
     retVal$marxan_ITIMPTYPE      = marxan_ITIMPTYPE
     retVal$marxan_HEURTYPE       = marxan_HEURTYPE
     retVal$marxan_CLUMPTYPE      = marxan_CLUMPTYPE
+
+    retVal$marxan_elapsed_time   = marxan_elapsed_time
 
     #---------------------------------------------------------------------------
 

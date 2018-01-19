@@ -11,9 +11,8 @@
 #'
 #-------------------------------------------------------------------------------
 
-#' @param COR_bd_prob a correct Xu_bd_problem (or subclass)
 #' @param gurobi_run an RSrun object (or subclass)
-#' @param parameters parameters list for the run, usually derived from project.yaml
+#' @inheritParams std_param_defns
 #'
 #' @return Returns named list of gurobi control and return values
 #' @export
@@ -22,7 +21,8 @@
 
 set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
                                            gurobi_run,
-                                           parameters)
+                                           parameters,
+                                           marxan_elapsed_time=NA)
     {
     gurobi_control_values =
         set_up_for_and_run_gurobi (num_spp = COR_bd_prob@num_spp,
@@ -36,7 +36,10 @@ set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
                                    time_limit     = parameters$time_limit,
 
                                    use_gap_limit = parameters$use_gap_limit,
-                                   gap_limit     = parameters$gap_limit)
+                                   gap_limit     = parameters$gap_limit,
+
+                                   parameters$use_marxan_time_as_limit,
+                                   marxan_elapsed_time)
 
     return (gurobi_control_values)
     }
@@ -50,10 +53,8 @@ set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
 #'
 #-------------------------------------------------------------------------------
 
-#' @param APP_bd_prob an apparent Xu_bd_problem (or subclass)
-#' @param COR_bd_prob the correct Xu_bd_problem (or subclass) that the apparent problem is derived from
 #' @param gurobi_run an RSrun object (or subclass)
-#' @param parameters parameters list for the run, usually derived from project.yaml
+#' @inheritParams std_param_defns
 #'
 #' @return Returns named list of gurobi control and return values
 #' @export
@@ -63,7 +64,8 @@ set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
 set_up_for_and_run_gurobi_APP <- function (APP_bd_prob,
                                            COR_bd_prob,
                                            gurobi_run,
-                                           parameters)
+                                           parameters,
+                                           marxan_elapsed_time=NA)
     {
     gurobi_control_values =
         set_up_for_and_run_gurobi (num_spp = COR_bd_prob@num_spp,
@@ -77,7 +79,10 @@ set_up_for_and_run_gurobi_APP <- function (APP_bd_prob,
                                    time_limit     = parameters$time_limit,
 
                                    use_gap_limit = parameters$use_gap_limit,
-                                   gap_limit     = parameters$gap_limit)
+                                   gap_limit     = parameters$gap_limit,
+
+                                   parameters$use_marxan_time_as_limit,
+                                   marxan_elapsed_time)
 
     return (gurobi_control_values)
     }
@@ -106,11 +111,14 @@ set_up_for_and_run_gurobi <- function (num_spp,
                                        PU_costs,
                                        spp_rep_targets,
                                        use_time_limit, time_limit,
-                                       use_gap_limit, gap_limit)
+                                       use_gap_limit, gap_limit,
+                                       use_marxan_time_as_limit,
+                                       marxan_elapsed_time=NA)
     {
     gurobi_result =
         run_gurobi (num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
-                    use_time_limit, time_limit, use_gap_limit, gap_limit)
+                    use_time_limit, time_limit, use_gap_limit, gap_limit,
+                    use_marxan_time_as_limit, marxan_elapsed_time)
 
     return (gurobi_result)
     }

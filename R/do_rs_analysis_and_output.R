@@ -112,15 +112,17 @@ do_COR_rs_analysis_and_output <- function (COR_bd_prob,
                                                src_rds_file_dir=NULL,
                                                spp_rep_targets=rep(1,COR_bd_prob@num_spp))
     {
+    marxan_elapsed_time = NA
     run_marxan = vb (parameters$run_marxan, def_on_empty = TRUE, def = FALSE)
     if (run_marxan)
         {
         rs_method_name = "Marxan_SA"
-        do_COR_marxan_analysis_and_output (COR_bd_prob,
-                                           parameters,
-                                           rs_method_name,
-                                           src_rds_file_dir=NULL,
-                                           spp_rep_targets=rep(1,COR_bd_prob@num_spp))
+        marxan_elapsed_time =
+            do_COR_marxan_analysis_and_output (COR_bd_prob,
+                                               parameters,
+                                               rs_method_name,
+                                               src_rds_file_dir=NULL,
+                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp))
         }
 
     do_gurobi = vb (parameters$do_gurobi, def_on_empty = TRUE, def = FALSE)
@@ -130,6 +132,7 @@ do_COR_rs_analysis_and_output <- function (COR_bd_prob,
         do_COR_gurobi_analysis_and_output (COR_bd_prob,
                                            parameters,
                                            rs_method_name,
+                                           marxan_elapsed_time,
                                            src_rds_file_dir=NULL,
                                            spp_rep_targets=rep(1,COR_bd_prob@num_spp))
         }
@@ -155,16 +158,18 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
                                                spp_rep_targets=rep(1,COR_bd_prob@num_spp)
                                                )
     {
+    marxan_elapsed_time = NA
     run_marxan = vb (parameters$run_marxan, def_on_empty = TRUE, def = FALSE)
     if (run_marxan)
         {
         rs_method_name = "Marxan_SA"
-        do_APP_marxan_analysis_and_output (APP_bd_prob,
-                                           COR_bd_prob,
-                                           parameters,
-                                           rs_method_name,
-                                           src_rds_file_dir=NULL,
-                                           spp_rep_targets=rep(1,COR_bd_prob@num_spp))
+        marxan_elapsed_time =
+            do_APP_marxan_analysis_and_output (APP_bd_prob,
+                                               COR_bd_prob,
+                                               parameters,
+                                               rs_method_name,
+                                               src_rds_file_dir=NULL,
+                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp))
         }
 
     do_gurobi = vb (parameters$do_gurobi, def_on_empty = TRUE, def = FALSE)
@@ -175,6 +180,7 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
                                            COR_bd_prob,
                                            parameters,
                                            rs_method_name,
+                                           marxan_elapsed_time,
                                            src_rds_file_dir=NULL,
                                            spp_rep_targets=rep(1,COR_bd_prob@num_spp))
         }

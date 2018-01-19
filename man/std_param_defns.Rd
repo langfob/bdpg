@@ -10,15 +10,17 @@ std_param_defns(all_correct_node_IDs, allow_imperfect_wrap, APP_bd_prob,
   correct_solution_vector_is_known, dependent_node_IDs, duplicate_links_allowed,
   edge_list, exp_root_dir, final_link_counts_for_each_node,
   final_node_counts_for_each_link, final_rank_abundance_dist,
-  given_correct_solution_cost, integerize, integerize_string, marxan_solution,
-  max_allowed_num_spp, max_possible_tot_num_links, n__num_groups, nodes,
-  num_nodes_per_group, num_PUs, num_rounds_of_linking_between_groups, num_spp,
-  obj, obj_with_UUID_and_checksum, occ_matrix, parameters, plot_output_dir,
+  given_correct_solution_cost, integerize, integerize_string,
+  marxan_elapsed_time, marxan_solution, max_allowed_num_spp,
+  max_possible_tot_num_links, n__num_groups, nodes, num_nodes_per_group,
+  num_PUs, num_rounds_of_linking_between_groups, num_spp, obj,
+  obj_with_UUID_and_checksum, occ_matrix, parameters, plot_output_dir,
   presences_col_name, PU_col_name, PU_costs, PU_set_to_test,
   PU_spp_pair_indices, read_Xu_problem_from_Xu_file, rsprob, rsrun,
   rs_method_name, spp_col_name, spp_rep_fracs, spp_rep_targets,
   spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU, src_rds_file_dir,
-  target_num_links_between_2_groups_per_round, top_dir, Xu_bench_infile_name)
+  target_num_links_between_2_groups_per_round, top_dir,
+  use_marxan_time_as_limit, Xu_bench_infile_name)
 }
 \arguments{
 \item{all_correct_node_IDs}{numeric vector containing all planning unit IDs
@@ -89,6 +91,9 @@ optimal solution cost is given for a reserve selection problem}
 
 \item{integerize_string}{string containing name of the function to use to
 convert floats to integers}
+
+\item{marxan_elapsed_time}{numeric value containing elapsed time for running
+marxan (in seconds)}
 
 \item{marxan_solution}{data frame with one row for each planning unit.
 Has 2 columns, one for the planning unit IDs and the other
@@ -186,6 +191,9 @@ tree where the problem is written out, usually something like the tzar
 output directory of the experiment followed by some object-specific
 information and the UUID of the object, e.g.,
 ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587}
+
+\item{use_marxan_time_as_limit}{boolean indicating whether reserve selector
+should use marxan's elapsed run time as the time limit for its own run}
 
 \item{Xu_bench_infile_name}{filename of Xu benchmark problem file}
 }

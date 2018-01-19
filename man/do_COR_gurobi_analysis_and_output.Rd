@@ -5,7 +5,8 @@
 \title{Run gurobi on COR problem and write output from all analysis}
 \usage{
 do_COR_gurobi_analysis_and_output(COR_bd_prob, parameters, rs_method_name,
-  src_rds_file_dir = NULL, spp_rep_targets = rep(1, COR_bd_prob@num_spp))
+  marxan_elapsed_time, src_rds_file_dir = NULL, spp_rep_targets = rep(1,
+  COR_bd_prob@num_spp))
 }
 \arguments{
 \item{COR_bd_prob}{a correct Xu_bd_problem}
@@ -15,6 +16,9 @@ and can have a varying number and set of elements depending on the run}
 
 \item{rs_method_name}{character string for reserve selection method, e.g.,
 "marxan_sa"}
+
+\item{marxan_elapsed_time}{numeric value containing elapsed time for running
+marxan (in seconds)}
 
 \item{src_rds_file_dir}{string containing full path of directory where
 source rds file is or was found}

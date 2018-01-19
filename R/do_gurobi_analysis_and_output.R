@@ -27,7 +27,8 @@ run_gurobi <- function (num_spp, num_PUs,
                         bpm,
                         PU_costs, spp_rep_targets,
                         use_time_limit = TRUE, time_limit = 60,
-                        use_gap_limit = FALSE, gap_limit = 0.005
+                        use_gap_limit = FALSE, gap_limit = 0.005,
+                        use_marxan_time_as_limit, marxan_elapsed_time
                         )
     {
         # set up Gurobi model object in R
@@ -119,9 +120,17 @@ rhs = pmin (spp_rep_targets, spp_abundances)
         }
 
     use_time_limit = vb (use_time_limit, def_on_empty = TRUE, def = FALSE)
+    use_marxan_time_as_limit =
+        vb (use_marxan_time_as_limit, def_on_empty = TRUE, def = FALSE)
     if (use_time_limit)
         {
-        time_limit = vn (time_limit)
+        if (use_marxan_time_as_limit)
+            {
+                time_limit = round (vb (marxan_elapsed_time))
+            } else
+            {
+            time_limit = vn (time_limit)
+            }
         gurobi_params$TimeLimit = time_limit
         cat ("\nrun_gurobi() setting TimeLimit to '", gurobi_params$TimeLimit,
              "'")
@@ -205,8 +214,8 @@ test_gurobi <- function (seed = 456,
                          PU_costs,
                          spp_rep_targets,
                          use_time_limit = FALSE, time_limit = 60,
-                         use_gap_limit = TRUE, gap_limit = 0.005
-                        )
+                         use_gap_limit = TRUE, gap_limit = 0.005,
+                        use_marxan_time_as_limit, marxan_elapsed_time)
 
     return (result)
     }
@@ -227,6 +236,7 @@ test_gurobi <- function (seed = 456,
 do_COR_gurobi_analysis_and_output <- function (COR_bd_prob,
                                                parameters,
                                                rs_method_name,
+                                               marxan_elapsed_time,
                                                src_rds_file_dir=NULL,
                                                spp_rep_targets=rep(1,COR_bd_prob@num_spp))
     {
@@ -248,7 +258,8 @@ do_COR_gurobi_analysis_and_output <- function (COR_bd_prob,
 
     rs_control_values = set_up_for_and_run_gurobi_COR (COR_bd_prob,
                                                            COR_rs_run,
-                                                           parameters)
+                                                           parameters,
+                                                       marxan_elapsed_time)
 
         #-------------------------------------
         #  Collect reserve selector results.
@@ -283,6 +294,7 @@ do_APP_gurobi_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
                                                rs_method_name,
+                                               marxan_elapsed_time,
                                                src_rds_file_dir=NULL,
                                                spp_rep_targets=rep(1,COR_bd_prob@num_spp)
                                                )
@@ -306,7 +318,8 @@ do_APP_gurobi_analysis_and_output <- function (APP_bd_prob,
     rs_control_values = set_up_for_and_run_gurobi_APP (APP_bd_prob,
                                                            COR_bd_prob,
                                                            APP_rs_run,
-                                                           parameters)
+                                                           parameters,
+                                                       marxan_elapsed_time)
 
         #-------------------------------------
         #  Collect reserve selector results.

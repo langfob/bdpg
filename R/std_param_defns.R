@@ -145,6 +145,8 @@
 #' @param integerize function to use in converting floats to ints
 #' @param integerize_string string containing name of the function to use to
 #'     convert floats to integers
+#' @param marxan_elapsed_time numeric value containing elapsed time for running
+#'     marxan (in seconds)
 #' @param marxan_solution data frame with one row for each planning unit.
 #'    Has 2 columns, one for the planning unit IDs and the other
 #'    for the count or indicator of presence/absence.
@@ -212,6 +214,8 @@
 #'     output directory of the experiment followed by some object-specific
 #'     information and the UUID of the object, e.g.,
 #'     ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587
+#' @param use_marxan_time_as_limit boolean indicating whether reserve selector
+#'     should use marxan's elapsed run time as the time limit for its own run
 #' @param Xu_bench_infile_name filename of Xu benchmark problem file
 
 #-------------------------------------------------------------------------------
@@ -238,6 +242,7 @@ std_param_defns <-
             given_correct_solution_cost,
             integerize,
             integerize_string,
+            marxan_elapsed_time,
             marxan_solution,
             max_allowed_num_spp,
             max_possible_tot_num_links,
@@ -268,6 +273,7 @@ std_param_defns <-
             src_rds_file_dir,
             target_num_links_between_2_groups_per_round,
             top_dir,
+            use_marxan_time_as_limit,
             Xu_bench_infile_name
              )
     {

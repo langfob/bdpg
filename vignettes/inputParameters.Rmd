@@ -330,6 +330,7 @@ If you're reading the Xu problem from a file in Xu's benchmark problem file form
     
     use_time_limit: TRUE
     time_limit: 600
+    use_marxan_time_as_limit: FALSE
     
     use_gap_limit: TRUE
     gap_limit: 0.005
@@ -366,7 +367,7 @@ If you're reading the Xu problem from a file in Xu's benchmark problem file form
     use_time_limit: TRUE
 ```
 
-#### time_limit
+#### use_marxan_time_as_limit
 
 - Definition
 - Type/Allowed values
@@ -374,7 +375,18 @@ If you're reading the Xu problem from a file in Xu's benchmark problem file form
 - Rules
 
 ```yaml
-    time_limit: 600
+    use_marxan_time_as_limit: FALSE
+```
+
+#### use_time_limit
+
+- Definition
+- Type/Allowed values
+- Default value
+- Rules
+
+```yaml
+    use_time_limit: TRUE
 ```
 
 #### use_gap_limit

@@ -6,7 +6,7 @@
 \usage{
 run_gurobi(num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
   use_time_limit = TRUE, time_limit = 60, use_gap_limit = FALSE,
-  gap_limit = 0.005)
+  gap_limit = 0.005, use_marxan_time_as_limit, marxan_elapsed_time)
 }
 \arguments{
 \item{num_spp}{integer number of species in the problem}
@@ -37,6 +37,12 @@ enforced}
 
 \item{gap_limit}{numeric value for gap, measured in same units as the
 objective function}
+
+\item{use_marxan_time_as_limit}{boolean indicating whether reserve selector
+should use marxan's elapsed run time as the time limit for its own run}
+
+\item{marxan_elapsed_time}{numeric value containing elapsed time for running
+marxan (in seconds)}
 }
 \value{
 Returns a gurobi model result list with named elements that contains,

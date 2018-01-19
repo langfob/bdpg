@@ -6,7 +6,8 @@
 \title{Set up for and run gurobi}
 \usage{
 set_up_for_and_run_gurobi(num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
-  use_time_limit, time_limit, use_gap_limit, gap_limit)
+  use_time_limit, time_limit, use_gap_limit, gap_limit,
+  use_marxan_time_as_limit, marxan_elapsed_time = NA)
 }
 \arguments{
 \item{num_spp}{integer number of species in the problem}
@@ -31,6 +32,12 @@ species in the problem}
 \item{use_gap_limit}{boolean}
 
 \item{gap_limit}{numeric}
+
+\item{use_marxan_time_as_limit}{boolean indicating whether reserve selector
+should use marxan's elapsed run time as the time limit for its own run}
+
+\item{marxan_elapsed_time}{numeric value containing elapsed time for running
+marxan (in seconds)}
 }
 \value{
 Returns named list of gurobi control and return values

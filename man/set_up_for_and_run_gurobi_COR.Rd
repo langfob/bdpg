@@ -5,14 +5,19 @@
 \alias{set_up_for_and_run_gurobi_COR}
 \title{Set up for and run gurobi for COR problem}
 \usage{
-set_up_for_and_run_gurobi_COR(COR_bd_prob, gurobi_run, parameters)
+set_up_for_and_run_gurobi_COR(COR_bd_prob, gurobi_run, parameters,
+  marxan_elapsed_time = NA)
 }
 \arguments{
-\item{COR_bd_prob}{a correct Xu_bd_problem (or subclass)}
+\item{COR_bd_prob}{a correct Xu_bd_problem}
 
 \item{gurobi_run}{an RSrun object (or subclass)}
 
-\item{parameters}{parameters list for the run, usually derived from project.yaml}
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
+
+\item{marxan_elapsed_time}{numeric value containing elapsed time for running
+marxan (in seconds)}
 }
 \value{
 Returns named list of gurobi control and return values
