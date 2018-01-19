@@ -65,7 +65,7 @@
 
 #-------------------------------------------------------------------------------
 
-run_marxan = function (marxan_dir, marxan_executable_name)
+run_marxan <- function (marxan_dir, marxan_executable_name)
     {
 #    marxan_dir = "/Users/bill/D/Marxan/"    #  replaced in yaml file
 
@@ -425,8 +425,7 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                            parameters)
     {
     marxan_control_values =
-#        set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
-        set_up_for_and_run_marxan (COR_bd_prob@cor_PU_spp_pair_indices,
+       set_up_for_and_run_marxan (COR_bd_prob@cor_PU_spp_pair_indices,
                                     COR_bd_prob@all_PU_IDs,
                                     COR_bd_prob@all_spp_IDs,
                                     COR_bd_prob@PU_col_name,
@@ -466,21 +465,16 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                            parameters)
     {
     marxan_control_values =
-
-            #  2017 12 04 - BTL - Does this fix a bug now?
-
-#        set_up_for_and_run_marxan (APP_bd_prob@PU_spp_pair_indices,
         set_up_for_and_run_marxan (APP_bd_prob@APP_prob_info@app_PU_spp_pair_indices,
-
-                                        COR_bd_prob@all_PU_IDs,
-                                        COR_bd_prob@all_spp_IDs,
-                                        COR_bd_prob@PU_col_name,
-                                        COR_bd_prob@spp_col_name,
+                                    COR_bd_prob@all_PU_IDs,
+                                    COR_bd_prob@all_spp_IDs,
+                                    COR_bd_prob@PU_col_name,
+                                    COR_bd_prob@spp_col_name,
 
                                     marxan_run,
 
                                     APP_bd_prob@num_spp,
-                                        parameters
+                                    parameters
                                     )
 
     return (marxan_control_values)

@@ -33,16 +33,10 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
 
     COR_marxan_run <- create_RSrun (COR_bd_prob@UUID,
                                     spp_rep_targets,
-
-                            parameters,
-                            # value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
-                            # parameters$rsrun_rand_seed,
-                            #         parameters$fullOutputDir_NO_slash,
-
+                                    parameters,
                                     COR_bd_prob@cor_or_app_str,
                                     COR_bd_prob@basic_or_wrapped_or_comb_str,
-#                                    method_name = "Marxan_SA"
-                                    rs_method_name)    # = "Marxan_SA"
+                                    rs_method_name)
 
     marxan_control_values = set_up_for_and_run_marxan_COR (COR_bd_prob,
                                                            COR_marxan_run,
@@ -53,12 +47,12 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
         #---------------------------
 
     save_rsrun_results_data_for_one_rsrun (parameters,
-                                              COR_marxan_run,
-                                              COR_bd_prob,
-                                              COR_bd_prob,
-                                           rs_method_name,
-                                           marxan_control_values,
-                                           src_rds_file_dir)
+                                            COR_marxan_run,
+                                            COR_bd_prob,
+                                            COR_bd_prob,
+                                            rs_method_name,
+                                            marxan_control_values,
+                                            src_rds_file_dir)
 
     }  #  end function - do_COR_marxan_analysis_and_output
 
@@ -93,16 +87,10 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
 
     APP_marxan_run <- create_RSrun (APP_bd_prob@UUID,
                                     spp_rep_targets,
-
-                            parameters,
-                            # value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
-                            # parameters$rsrun_rand_seed,
-                            #         parameters$fullOutputDir_NO_slash,
-
+                                    parameters,
                                     APP_bd_prob@cor_or_app_str,
                                     APP_bd_prob@basic_or_wrapped_or_comb_str,
-#                                    method_name = "Marxan_SA"
-                                    rs_method_name)    # = "Marxan_SA"
+                                    rs_method_name)
 
     marxan_control_values = set_up_for_and_run_marxan_APP (APP_bd_prob,
                                                            COR_bd_prob,
@@ -114,12 +102,12 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
         #---------------------------
 
     save_rsrun_results_data_for_one_rsrun (parameters,
-                                              APP_marxan_run,
-                                              COR_bd_prob,
-                                              APP_bd_prob,
-                                           rs_method_name,
-                                           marxan_control_values,
-                                           src_rds_file_dir)
+                                            APP_marxan_run,
+                                            COR_bd_prob,
+                                            APP_bd_prob,
+                                            rs_method_name,
+                                            marxan_control_values,
+                                            src_rds_file_dir)
 
     }  #  end function - do_APP_marxan_analysis_and_output
 
