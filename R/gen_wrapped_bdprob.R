@@ -1362,7 +1362,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob@prob_is_ok                   = TRUE
 
     wrapped_bdprob = save_rsprob (wrapped_bdprob, starting_dir)
-    save_rsprob_results_data (wrapped_bdprob, starting_dir, parameters)
+    save_rsprob_results_data (wrapped_bdprob, starting_dir, parameters$run_ID)
 
     return (wrapped_bdprob)  #  end function - wrap_abundance_dist_around_Xu_problem
     }

@@ -215,7 +215,8 @@ test_gurobi <- function (seed = 456,
                          spp_rep_targets,
                          use_time_limit = FALSE, time_limit = 60,
                          use_gap_limit = TRUE, gap_limit = 0.005,
-                        use_marxan_time_as_limit, marxan_elapsed_time)
+                        use_marxan_time_as_limit = FALSE,
+                        marxan_elapsed_time = NA)
 
     return (result)
     }
@@ -265,7 +266,8 @@ do_COR_gurobi_analysis_and_output <- function (COR_bd_prob,
         #  Collect reserve selector results.
         #-------------------------------------
 
-    save_rsrun_results_data_for_one_rsrun (parameters,
+    save_rsrun_results_data_for_one_rsrun (tzar_run_ID = parameters$run_ID,
+                                           exp_root_dir = parameters$fullOutputDir_NO_slash,
                                               COR_rs_run,
                                               COR_bd_prob,
                                               COR_bd_prob,
@@ -325,7 +327,8 @@ do_APP_gurobi_analysis_and_output <- function (APP_bd_prob,
         #  Collect reserve selector results.
         #-------------------------------------
 
-    save_rsrun_results_data_for_one_rsrun (parameters,
+    save_rsrun_results_data_for_one_rsrun (tzar_run_ID = parameters$run_ID,
+                                           exp_root_dir = parameters$fullOutputDir_NO_slash,
                                               APP_rs_run,
                                               COR_bd_prob,
                                               APP_bd_prob,

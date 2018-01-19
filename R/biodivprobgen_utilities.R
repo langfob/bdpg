@@ -159,12 +159,11 @@ value_or_FALSE_if_null <- function (value)
 #' @param csv_outfile_name  Name of the csv file to write results to, not
 #'        including csv extension but not including path
 #' @param results_df  data frame containing the results
+#' @param run_ID  integer ID of a run
 #' @param out_dir  character string telling what directory to put the results
 #'                 file in
 #' @param tzar_run_id_field_name character string containing name of tzar run ID
 #' field in output file
-#'
-#' @inheritParams std_param_defns
 #'
 #' @return Returns nothing.
 
@@ -172,7 +171,7 @@ value_or_FALSE_if_null <- function (value)
 
 write_results_to_files <- function (csv_outfile_name,
                                     results_df,
-                                    parameters,
+                                    run_ID,    #parameters,
                                     out_dir,
                                     tzar_run_id_field_name
                                     # ,
@@ -209,7 +208,7 @@ write_results_to_files <- function (csv_outfile_name,
 
     summary_WITH_run_id_path = file.path (out_dir, csv_outfile_name)
                                           ##parameters$summary_filename)
-    results_df[[tzar_run_id_field_name]] = parameters$run_id
+    results_df[[tzar_run_id_field_name]] = run_ID    #parameters$run_id
     write.csv (results_df, file = summary_WITH_run_id_path, row.names = FALSE)
     }
 

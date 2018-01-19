@@ -46,8 +46,9 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
         #  Collect marxan results.
         #---------------------------
 
-    save_rsrun_results_data_for_one_rsrun (parameters,
-                                            COR_marxan_run,
+    save_rsrun_results_data_for_one_rsrun (tzar_run_ID = parameters$run_ID,
+                                           exp_root_dir = parameters$fullOutputDir_NO_slash,
+                                              COR_marxan_run,
                                             COR_bd_prob,
                                             COR_bd_prob,
                                             rs_method_name,
@@ -102,8 +103,9 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
         #  Collect marxan results.
         #---------------------------
 
-    save_rsrun_results_data_for_one_rsrun (parameters,
-                                            APP_marxan_run,
+    save_rsrun_results_data_for_one_rsrun (tzar_run_ID = parameters$run_ID,
+                                           exp_root_dir = parameters$fullOutputDir_NO_slash,
+                                              APP_marxan_run,
                                             COR_bd_prob,
                                             APP_bd_prob,
                                             rs_method_name,

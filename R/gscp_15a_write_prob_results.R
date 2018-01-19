@@ -6,11 +6,12 @@
 
 load_results_output_values_common_to_all_Xu_problems <- function (results_list,
                                                                   rsprob,
-                                                                  parameters)
+                                                                  run_ID    #parameters
+                                                                  )
     {
     #---------------------------------------------------------------------------
 
-    results_list$rsp_tzar_run_ID                                                = parameters$run_id    #  tzar run ID, not RSrun ID
+    results_list$rsp_tzar_run_ID                                                = run_ID    #parameters$run_id    #  tzar run ID, not RSrun ID
 
     results_list$rsp_UUID                                                       = rsprob@UUID
     results_list$rsp_checksum                                                   = rsprob@checksum
@@ -273,13 +274,14 @@ load_results_output_values_specific_to_non_benchmark_Xu_problem <-
 #'
 #-------------------------------------------------------------------------------
 
+#' @param run_ID integer ID for the run
 #' @inheritParams std_param_defns
 
 #-------------------------------------------------------------------------------
 
 save_rsprob_results_data <- function (rsprob,
                                       exp_root_dir,
-                                      parameters    #  only for tzar_run_ID?  replace w/ tzar_run_ID arg?
+                                      run_ID    #parameters    #  only for tzar_run_ID?  replace w/ tzar_run_ID arg?
                                       )
     {
     # approx_number_of_list_entries = 60
@@ -292,7 +294,8 @@ save_rsprob_results_data <- function (rsprob,
     results_list =
         load_results_output_values_common_to_all_Xu_problems (results_list,
                                                               rsprob,
-                                                              parameters)
+                                                              run_ID    #parameters
+                                                              )
 
     #---------------------------------------------------------------------------
 
@@ -316,7 +319,7 @@ save_rsprob_results_data <- function (rsprob,
             #as.data.frame (results_list),
             list_as_data_frame_with_0_length_vals_replaced_by_NA (results_list),
 
-                            parameters,
+                            run_ID,    #parameters,
                             get_RSprob_path_topdir (rsprob, exp_root_dir),
                             "rsp_tzar_run_ID"
                             # , cur_result_row    #  Added 2016 03 28 - BTL.

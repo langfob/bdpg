@@ -4,7 +4,7 @@
 \alias{save_rsprob_results_data}
 \title{Save problem description results for a Xu_bd_problem}
 \usage{
-save_rsprob_results_data(rsprob, exp_root_dir, parameters)
+save_rsprob_results_data(rsprob, exp_root_dir, run_ID)
 }
 \arguments{
 \item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}
@@ -12,8 +12,7 @@ save_rsprob_results_data(rsprob, exp_root_dir, parameters)
 \item{exp_root_dir}{character string path to root directory of an
 experiment, usually parameters$fullOutputDir_NO_slash}
 
-\item{parameters}{parameters list for the run, usually derived from project.yaml
-and can have a varying number and set of elements depending on the run}
+\item{run_ID}{integer ID for the run}
 }
 \description{
 Create a list of all problem description values for a Xu_bd_problem

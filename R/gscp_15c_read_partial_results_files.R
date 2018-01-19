@@ -64,8 +64,9 @@ read_results_list_from_csv_file <- function (csv_file)
 read_prob_characteristics_list <- function (rsprob,
                                             src_rds_file_dir,
                                             exp_root_dir,
-                                            use_src_rds_file_dir,
-                                            parameters)
+                                            use_src_rds_file_dir  #,
+                                            #parameters
+                                            )
     {
         #-----------------------------------------------------------------------
         # - Xu characteristics for the given problem (where known, NA otherwise)

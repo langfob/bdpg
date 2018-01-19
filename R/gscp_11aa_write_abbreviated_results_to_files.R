@@ -204,7 +204,7 @@ initialized_output_df$seed [cur_result_row]                                     
         #  Write data frame to file.
     write_results_to_files ("abbreviated_results.csv",
                             initialized_output_df,
-                            parameters,
+                            parameters$run_ID,
                             get_RSprob_path_topdir (),
                             "rsp_tzar_run_ID"
                             )

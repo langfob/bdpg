@@ -4,9 +4,10 @@
 
 #===============================================================================
 
-compute_RS_solution_cost_scores_wrt_COR_costs_vec <- function (rs_solution_PU_IDs_vec,
-                                             cor_optimum_cost,    #  cor_solution_PU_IDs_vec,
-                                             PU_costs_vec)
+compute_RS_solution_cost_scores_wrt_COR_costs_vec <-
+                                            function (rs_solution_PU_IDs_vec,
+                                                      cor_optimum_cost,
+                                                      PU_costs_vec)
     {
     #---------------------------------------------------------------------------
     #         Compute error in cost of reserve selector's solution.
@@ -57,22 +58,10 @@ compute_RS_solution_cost_scores_wrt_COR_costs_vec <- function (rs_solution_PU_ID
 
 #===============================================================================
 
-build_and_write_COR_and_APP_scores_lists <-
-        function (rs_best_solution_PU_IDs,
-                  #marxan_output_values,
-                  COR_bd_prob,
-                  #num_spp,
-                  APP_bd_prob,
-                  #cor_or_app_str,
-                  #APP_prob_info,
-                  #FP_const_rate,
-                  #FN_const_rate,
-                  #nodes,
-                  rsrun  #,
-                  #bpm,
-                  #targets,
-                  #num_PUs
-                  )
+build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
+                                                      COR_bd_prob,
+                                                      APP_bd_prob,
+                                                      rsrun)
     {
     rs_best_num_patches_in_solution = length (rs_best_solution_PU_IDs)
     cat ("\nrs_best_num_patches_in_solution =", rs_best_num_patches_in_solution)
@@ -210,7 +199,8 @@ get_rs_output_values <- function (rsrun,
 
 #===============================================================================
 
-save_rsrun_results_data_for_one_rsrun <- function (parameters,
+save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
+                                                   exp_root_dir,
                                                    rsrun,
                                                    COR_bd_prob,
                                                    APP_bd_prob,
@@ -219,8 +209,8 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                                                    src_rds_file_dir=NULL
                                                    )
     {
-    tzar_run_ID  = parameters$run_id
-    exp_root_dir = parameters$fullOutputDir_NO_slash
+    # tzar_run_ID  = parameters$run_id
+    # exp_root_dir = parameters$fullOutputDir_NO_slash
 
         #-----------------------------------------------------------------------
         #-----------------------------------------------------------------------
@@ -263,20 +253,9 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
 
     cor_and_app_scores_lists =
         build_and_write_COR_and_APP_scores_lists (rs_best_solution_PU_IDs,
-                                                #marxan_output_values,
                                                   COR_bd_prob,
-                                                #num_spp,
                                                   APP_bd_prob,
-                                                #cor_or_app_str,
-                                                #APP_prob_info,
-                                                #FP_const_rate,
-                                                #FN_const_rate,
-                                                #nodes,
-                                                  rsrun  #,
-                                                #bpm,
-                                                #targets,
-                                                #num_PUs
-                                                  )
+                                                  rsrun)
 
 
     cor_scores_list = cor_and_app_scores_lists$cor_scores_list
@@ -299,8 +278,9 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
     prob_characteristics_list = read_prob_characteristics_list (APP_bd_prob,     #rsprob,
                                                                 src_rds_file_dir,
                                                                 exp_root_dir,
-                                                                use_src_rds_file_dir,
-                                                                parameters)
+                                                                use_src_rds_file_dir  #,
+                                                                #parameters
+                                                                )
 
     bipartite_measures_list   = read_bipartite_measures_list (APP_bd_prob,    #rsprob,
                                                               src_rds_file_dir,
@@ -338,7 +318,7 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
         csv_outfile_name = "rsrun_results.csv",
         results_df       =
             list_as_data_frame_with_0_length_vals_replaced_by_NA (results_list),
-        parameters,
+        tzar_run_ID,    #parameters$run_ID,
         out_dir                = get_RSrun_path_topdir (rsrun, exp_root_dir),
         tzar_run_id_field_name = "rsr_tzar_run_ID")
 
