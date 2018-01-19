@@ -482,7 +482,7 @@ system.time ({
 #     0.401
 
 marxan_elapsed_time = marxan_timings["elapsed"]
-
+cat ("\n\nMarxan SA elapsed time = '", marxan_elapsed_time, "'")
 
     #---------------------------------------------------------------------------
 
