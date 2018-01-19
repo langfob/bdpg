@@ -205,7 +205,7 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                                                    COR_bd_prob,
                                                    APP_bd_prob,
                                                    rs_method_name,
-                                                   marxan_control_values=NULL,
+                                                   rs_control_values=NULL,
                                                    src_rds_file_dir=NULL
                                                    )
     {
@@ -311,7 +311,7 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                       cor_scores_list,
                       app_scores_list,
 
-                      marxan_control_values
+                      rs_control_values
                     )
 
     write_results_to_files (
