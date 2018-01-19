@@ -16,11 +16,8 @@
 
 #' @param prob_UUID UUID for the biodiversity problem the reserve selector is
 #'     run over
-#' @param targets numeric vector
 #' @param cor_or_app_str character string
 #' @param basic_or_wrapped_or_comb_str character string
-#' @param rs_method_name character string for reserve selection method, e.g.,
-#'     "marxan_sa"
 #' @inheritParams std_param_defns
 #'
 #' @return Returns an RSrun object
@@ -28,7 +25,7 @@
 #-------------------------------------------------------------------------------
 
 create_RSrun <- function (prob_UUID,
-                          targets,
+                          spp_rep_targets,
 
                           parameters,
                   # set_rand_seed_at_creation_of_all_new_major_objects,
@@ -73,7 +70,7 @@ create_RSrun <- function (prob_UUID,
     rsrun@rand_seed             = new_seed_list$seed_value
     rsrun@R_internal_seed_array = new_seed_list$R_internal_seed_array
 
-    rsrun@targets  <- targets
+    rsrun@targets  <- spp_rep_targets
 
     rsrun@obj_type_str   = "RSrun_"
     rsrun@rs_method_name = rs_method_name
@@ -99,59 +96,87 @@ create_RSrun <- function (prob_UUID,
 
 #===============================================================================
 
+#' Run reserve selector(s) on COR problem and write output from all analysis
+#'
+#-------------------------------------------------------------------------------
+
+#' @inheritParams std_param_defns
+#'
+#' @return Returns nothing
+#' @export
+
+#-------------------------------------------------------------------------------
+
 do_COR_rs_analysis_and_output <- function (COR_bd_prob,
                                                parameters,
                                                src_rds_file_dir=NULL,
-                                               targets=rep(1,COR_bd_prob@num_spp))
+                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp))
     {
     run_marxan = vb (parameters$run_marxan, def_on_empty = TRUE, def = FALSE)
     if (run_marxan)
         {
+        rs_method_name = "Marxan_SA"
         do_COR_marxan_analysis_and_output (COR_bd_prob,
-                                                       parameters,
-                                                       src_rds_file_dir=NULL,
-                                                       targets=rep(1,COR_bd_prob@num_spp))
+                                           parameters,
+                                           rs_method_name,
+                                           src_rds_file_dir=NULL,
+                                           spp_rep_targets=rep(1,COR_bd_prob@num_spp))
         }
 
     do_gurobi = vb (parameters$do_gurobi, def_on_empty = TRUE, def = FALSE)
     if (do_gurobi)
         {
+        rs_method_name = "Gurobi"
         do_COR_gurobi_analysis_and_output (COR_bd_prob,
-                                                       parameters,
-                                                       src_rds_file_dir=NULL,
-                                                       targets=rep(1,COR_bd_prob@num_spp))
+                                           parameters,
+                                           rs_method_name,
+                                           src_rds_file_dir=NULL,
+                                           spp_rep_targets=rep(1,COR_bd_prob@num_spp))
         }
     }
 
 #===============================================================================
 
+#' Run reserve selector(s) on APP problem and write output from all analysis
+#'
+#-------------------------------------------------------------------------------
+
+#' @inheritParams std_param_defns
+#'
+#' @return Returns nothing
+#' @export
+
+#-------------------------------------------------------------------------------
+
 do_APP_rs_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
                                                src_rds_file_dir=NULL,
-                                               targets=rep(1,COR_bd_prob@num_spp)
+                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp)
                                                )
     {
     run_marxan = vb (parameters$run_marxan, def_on_empty = TRUE, def = FALSE)
     if (run_marxan)
         {
+        rs_method_name = "Marxan_SA"
         do_APP_marxan_analysis_and_output (APP_bd_prob,
-                                                       COR_bd_prob,
-                                                       parameters,
-                                                       src_rds_file_dir=NULL,
-                                                       targets=rep(1,COR_bd_prob@num_spp)
-                                                       )
+                                           COR_bd_prob,
+                                           parameters,
+                                           rs_method_name,
+                                           src_rds_file_dir=NULL,
+                                           spp_rep_targets=rep(1,COR_bd_prob@num_spp))
         }
 
     do_gurobi = vb (parameters$do_gurobi, def_on_empty = TRUE, def = FALSE)
     if (do_gurobi)
         {
+        rs_method_name = "Gurobi"
         do_APP_gurobi_analysis_and_output (APP_bd_prob,
-                                                       COR_bd_prob,
-                                                       parameters,
-                                                       src_rds_file_dir=NULL,
-                                                       targets=rep(1,COR_bd_prob@num_spp)
-                                                       )
+                                           COR_bd_prob,
+                                           parameters,
+                                           rs_method_name,
+                                           src_rds_file_dir=NULL,
+                                           spp_rep_targets=rep(1,COR_bd_prob@num_spp))
         }
     }
 

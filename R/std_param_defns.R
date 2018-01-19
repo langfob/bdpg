@@ -103,6 +103,7 @@
 #'     distribution needs to fully contain the base distribution; TRUE implies
 #'     it must fully contain the base distribution and FALSE implies it need not
 #'     fully contain the base distribution
+#' @param APP_bd_prob an apparent Xu_bd_problem
 #' @param base_outdir_for_checksum directory where temporary file for use in checksum
 #'     computation will be written and then deleted
 #' @param bdpg_error_name string containing name of error code to look up in
@@ -116,6 +117,7 @@
 #'     compute network metrics for the current problem; TRUE indicates to
 #'     compute one or more network metrics specified elsewhere and FALSE
 #'     indicate not compute any network metrics for the current problem.
+#' @param COR_bd_prob a correct Xu_bd_problem
 #' @param cor_or_app_label character string for labelling as Correct or Apparent
 #' @param correct_solution_vector_is_known boolean flag indicating whether
 #'     a correct optimal solution vector is known for the problem (as opposed
@@ -190,6 +192,8 @@
 #'     FALSE if problem is to be created from scratch.
 #' @param rsprob a reserve selection problem object, e.g., a Xu_bd_problem
 #' @param rsrun an RSrun (reserve selection run) object, e.g., a marxan run
+#' @param rs_method_name character string for reserve selection method, e.g.,
+#'     "marxan_sa"
 #' @param spp_col_name character string giving species column name in data frames
 #' @param spp_rep_fracs numeric vector of fractions of species
 #'     representation targets achieved by a given set of planning units
@@ -198,6 +202,8 @@
 #' @param spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU integer matrix of
 #'     abundance of each species in each planning unit, with a row for each
 #'     species ID and a column for each planning unit ID
+#' @param src_rds_file_dir string containing full path of directory where
+#'     source rds file is or was found
 #' @param target_num_links_between_2_groups_per_round integer target number of
 #'     links between any two groups per round of linking in constructing the
 #'     Xu problem
@@ -214,10 +220,12 @@ std_param_defns <-
     function (
             all_correct_node_IDs,
             allow_imperfect_wrap,
+            APP_bd_prob,
             base_outdir_for_checksum,
             bdpg_error_name,
             bpm,
             compute_network_metrics_for_this_prob,
+            COR_bd_prob,
             cor_or_app_label,
             correct_solution_vector_is_known,
             dependent_node_IDs,
@@ -252,10 +260,12 @@ std_param_defns <-
             read_Xu_problem_from_Xu_file,
             rsprob,
             rsrun,
+            rs_method_name,
             spp_col_name,
             spp_rep_fracs,
             spp_rep_targets,
             spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
+            src_rds_file_dir,
             target_num_links_between_2_groups_per_round,
             top_dir,
             Xu_bench_infile_name

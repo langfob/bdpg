@@ -181,8 +181,7 @@ gen_dummy_bpm <- function (num_spp, num_PUs)
 #' Title
 #'
 #' @param seed numeric
-#' @param num_spp numeric
-#' @param num_PUs numeric
+#' @inheritParams std_param_defns
 #'
 #' @return Returns a gurobi model result list with named elements that contains,
 #'     among other things, an element x which is the solution vector
@@ -217,10 +216,7 @@ test_gurobi <- function (seed = 456,
 #'
 #-------------------------------------------------------------------------------
 
-#' @param COR_bd_prob a Xu_bd_problem
-#' @param parameters list
-#' @param src_rds_file_dir character string
-#' @param targets numeric vector
+#' @inheritParams std_param_defns
 #'
 #' @return Returns nothing
 #' @export
@@ -229,17 +225,16 @@ test_gurobi <- function (seed = 456,
 
 do_COR_gurobi_analysis_and_output <- function (COR_bd_prob,
                                                parameters,
+                                               rs_method_name,
                                                src_rds_file_dir=NULL,
-                                               targets=rep(1,COR_bd_prob@num_spp))
+                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp))
     {
-    rs_method_name = "Gurobi"
-
         #-------------------------
         #  Run reserve selector.
         #-------------------------
 
     COR_rs_run <- create_RSrun (COR_bd_prob@UUID,
-                                    targets,
+                                    spp_rep_targets,
 
                             parameters,
                             # value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
@@ -248,8 +243,7 @@ do_COR_gurobi_analysis_and_output <- function (COR_bd_prob,
 
                                     COR_bd_prob@cor_or_app_str,
                                     COR_bd_prob@basic_or_wrapped_or_comb_str,
-                                    rs_method_name = rs_method_name  #"Marxan_SA"
-                                    )
+                                    rs_method_name)    # = rs_method_name  #"Marxan_SA"
 
     rs_control_values = set_up_for_and_run_gurobi_COR (COR_bd_prob,
                                                            COR_rs_run,
@@ -277,11 +271,7 @@ do_COR_gurobi_analysis_and_output <- function (COR_bd_prob,
 #'
 #-------------------------------------------------------------------------------
 
-#' @param APP_bd_prob a Xu_bd_problem
-#' @param COR_bd_prob a Xu_bd_problem
-#' @param parameters list
-#' @param src_rds_file_dir character string
-#' @param targets numeric vector
+#' @inheritParams std_param_defns
 #'
 #' @return Returns nothing
 #' @export
@@ -291,18 +281,17 @@ do_COR_gurobi_analysis_and_output <- function (COR_bd_prob,
 do_APP_gurobi_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
+                                               rs_method_name,
                                                src_rds_file_dir=NULL,
-                                               targets=rep(1,COR_bd_prob@num_spp)
+                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp)
                                                )
     {
-    rs_method_name = "Gurobi"
-
         #-------------------------
         #  Run reserve selector.
         #-------------------------
 
     APP_rs_run <- create_RSrun (APP_bd_prob@UUID,
-                                    targets,
+                                    spp_rep_targets,
 
                             parameters,
                             # value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
@@ -311,8 +300,7 @@ do_APP_gurobi_analysis_and_output <- function (APP_bd_prob,
 
                                     APP_bd_prob@cor_or_app_str,
                                     APP_bd_prob@basic_or_wrapped_or_comb_str,
-                                    rs_method_name = rs_method_name  #"Marxan_SA"
-                                    )
+                                    rs_method_name)    # = rs_method_name  #"Marxan_SA"
 
     rs_control_values = set_up_for_and_run_gurobi_APP (APP_bd_prob,
                                                            COR_bd_prob,

@@ -14,10 +14,7 @@
 #'
 #-------------------------------------------------------------------------------
 
-#' @param COR_bd_prob a Xu_bd_problem
-#' @param parameters list
-#' @param src_rds_file_dir character string
-#' @param targets numeric vector
+#' @inheritParams std_param_defns
 #'
 #' @return Returns nothing
 #' @export
@@ -26,17 +23,16 @@
 
 do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
                                                parameters,
+                                               rs_method_name,
                                                src_rds_file_dir=NULL,
-                                               targets=rep(1,COR_bd_prob@num_spp))
+                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp))
     {
-    rs_method_name = "Marxan_SA"
-
         #---------------
         #  Run marxan.
         #---------------
 
     COR_marxan_run <- create_RSrun (COR_bd_prob@UUID,
-                                    targets,
+                                    spp_rep_targets,
 
                             parameters,
                             # value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
@@ -46,8 +42,8 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
                                     COR_bd_prob@cor_or_app_str,
                                     COR_bd_prob@basic_or_wrapped_or_comb_str,
 #                                    method_name = "Marxan_SA"
-                                    rs_method_name = "Marxan_SA"
-                                    )
+                                    rs_method_name)    # = "Marxan_SA"
+
     marxan_control_values = set_up_for_and_run_marxan_COR (COR_bd_prob,
                                                            COR_marxan_run,
                                                            parameters)
@@ -76,11 +72,7 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
 #'
 #-------------------------------------------------------------------------------
 
-#' @param APP_bd_prob a Xu_bd_problem
-#' @param COR_bd_prob a Xu_bd_problem
-#' @param parameters list
-#' @param src_rds_file_dir character string
-#' @param targets numeric vector
+#' @inheritParams std_param_defns
 #'
 #' @return Returns nothing
 #' @export
@@ -90,18 +82,17 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
 do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
+                                               rs_method_name,
                                                src_rds_file_dir=NULL,
-                                               targets=rep(1,COR_bd_prob@num_spp)
+                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp)
                                                )
     {
-    rs_method_name = "Marxan_SA"
-
         #---------------
         #  Run marxan.
         #---------------
 
     APP_marxan_run <- create_RSrun (APP_bd_prob@UUID,
-                                    targets,
+                                    spp_rep_targets,
 
                             parameters,
                             # value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
@@ -111,8 +102,7 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
                                     APP_bd_prob@cor_or_app_str,
                                     APP_bd_prob@basic_or_wrapped_or_comb_str,
 #                                    method_name = "Marxan_SA"
-                                    rs_method_name = "Marxan_SA"
-                                    )
+                                    rs_method_name)    # = "Marxan_SA"
 
     marxan_control_values = set_up_for_and_run_marxan_APP (APP_bd_prob,
                                                            COR_bd_prob,
