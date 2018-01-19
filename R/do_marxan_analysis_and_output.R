@@ -137,7 +137,6 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
 #                                    method_name = "Marxan_SA"
                                     rs_method_name = "Marxan_SA"
                                     )
-
     marxan_control_values = set_up_for_and_run_marxan_COR (COR_bd_prob,
                                                            COR_marxan_run,
                                                            parameters)

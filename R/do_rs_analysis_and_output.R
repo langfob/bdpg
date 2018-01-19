@@ -90,7 +90,8 @@ create_RSrun <- function (prob_UUID,
 
     starting_dir = parameters$fullOutputDir_NO_slash
 
-     create_RSrun_dir_and_subdirs (rsrun, starting_dir)
+    create_RSrun_dir_and_subdirs (rsrun, starting_dir)
+
     rsrun <- save_rsrun (rsrun, starting_dir)
 
     return (rsrun)
