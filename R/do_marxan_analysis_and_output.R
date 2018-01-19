@@ -120,6 +120,8 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
                                                src_rds_file_dir=NULL,
                                                targets=rep(1,COR_bd_prob@num_spp))
     {
+    rs_method_name = "Marxan_SA"
+
         #---------------
         #  Run marxan.
         #---------------
@@ -149,6 +151,7 @@ do_COR_marxan_analysis_and_output <- function (COR_bd_prob,
                                               COR_marxan_run,
                                               COR_bd_prob,
                                               COR_bd_prob,
+                                           rs_method_name,
                                            marxan_control_values,
                                            src_rds_file_dir)
 
@@ -182,6 +185,8 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
                                                targets=rep(1,COR_bd_prob@num_spp)
                                                )
     {
+    rs_method_name = "Marxan_SA"
+
         #---------------
         #  Run marxan.
         #---------------
@@ -213,6 +218,7 @@ do_APP_marxan_analysis_and_output <- function (APP_bd_prob,
                                               APP_marxan_run,
                                               COR_bd_prob,
                                               APP_bd_prob,
+                                           rs_method_name,
                                            marxan_control_values,
                                            src_rds_file_dir)
 
