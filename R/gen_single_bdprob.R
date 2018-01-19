@@ -422,33 +422,6 @@ create_allowable_size_Xu_problem_from_scratch <- function (
                  PU_spp_pair_info@num_spp, ") > maximum allowed (",
                  max_allowed_num_spp, ").\n\n")  #parameters$max_allowed_num_spp, ").\n\n")
 
-            #     #--------------------------------------------------------
-            #     #  Even though it's an illegal number of species,
-            #     #  echo the attributes of the problem that was created.
-            #     #--------------------------------------------------------
-            #
-            # cur_result_row = 1
-            # write_abbreviated_results_to_files (
-            #         cur_result_row,
-            #         parameters,
-            #         PU_spp_pair_info@num_PUs,
-            #         PU_spp_pair_info@num_spp,
-            #         base_Xu_params$n__num_groups,
-            #         base_Xu_params$alpha__,
-            #         base_Xu_params$p__prop_of_links_between_groups,
-            #         base_Xu_params$r__density,
-            #         derived_Xu_params$num_nodes_per_group,
-            #         derived_Xu_params$tot_num_nodes,
-            #         derived_Xu_params$num_independent_set_nodes,
-            #         derived_Xu_params$num_dependent_set_nodes,
-            #         derived_Xu_params$num_rounds_of_linking_between_groups,
-            #         derived_Xu_params$target_num_links_between_2_groups_per_round,
-            #         derived_Xu_params$num_links_within_one_group,
-            #         derived_Xu_params$tot_num_links_inside_groups,
-            #         derived_Xu_params$max_possible_num_links_between_groups,
-            #         derived_Xu_params$max_possible_tot_num_links
-            #         )
-
             try_num = try_num + 1
             if (try_num > num_prob_size_retries_allowed)
                 keep_trying = FALSE
