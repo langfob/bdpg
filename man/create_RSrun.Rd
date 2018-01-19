@@ -4,14 +4,15 @@
 \alias{create_RSrun}
 \title{Create an RSrun}
 \usage{
-create_RSrun(prob_UUID, targets, parameters, cor_or_app_str,
+create_RSrun(prob_UUID, spp_rep_targets, parameters, cor_or_app_str,
   basic_or_wrapped_or_comb_str, rs_method_name)
 }
 \arguments{
 \item{prob_UUID}{UUID for the biodiversity problem the reserve selector is
 run over}
 
-\item{targets}{numeric vector}
+\item{spp_rep_targets}{numeric vector with a target abundance for each
+species in the problem}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}

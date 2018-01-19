@@ -9,9 +9,9 @@ test_gurobi(seed = 456, num_spp = 10, num_PUs = 5)
 \arguments{
 \item{seed}{numeric}
 
-\item{num_spp}{numeric}
+\item{num_spp}{integer number of species in the problem}
 
-\item{num_PUs}{numeric}
+\item{num_PUs}{integer number of planning units}
 }
 \value{
 Returns a gurobi model result list with named elements that contains,

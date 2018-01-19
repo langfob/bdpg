@@ -5,18 +5,25 @@
 \title{Run marxan on APP problem and write output from all analysis}
 \usage{
 do_APP_marxan_analysis_and_output(APP_bd_prob, COR_bd_prob, parameters,
-  src_rds_file_dir = NULL, targets = rep(1, COR_bd_prob@num_spp))
+  rs_method_name, src_rds_file_dir = NULL, spp_rep_targets = rep(1,
+  COR_bd_prob@num_spp))
 }
 \arguments{
-\item{APP_bd_prob}{a Xu_bd_problem}
+\item{APP_bd_prob}{an apparent Xu_bd_problem}
 
-\item{COR_bd_prob}{a Xu_bd_problem}
+\item{COR_bd_prob}{a correct Xu_bd_problem}
 
-\item{parameters}{list}
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
 
-\item{src_rds_file_dir}{character string}
+\item{rs_method_name}{character string for reserve selection method, e.g.,
+"marxan_sa"}
 
-\item{targets}{numeric vector}
+\item{src_rds_file_dir}{string containing full path of directory where
+source rds file is or was found}
+
+\item{spp_rep_targets}{numeric vector with a target abundance for each
+species in the problem}
 }
 \value{
 Returns nothing

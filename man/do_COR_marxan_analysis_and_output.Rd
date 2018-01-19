@@ -2,111 +2,29 @@
 % Please edit documentation in R/do_marxan_analysis_and_output.R
 \name{do_COR_marxan_analysis_and_output}
 \alias{do_COR_marxan_analysis_and_output}
-\title{#' Create an RSrun
-#'
-#' Create a run of a reserve selector
-#'
-#-------------------------------------------------------------------------------}
+\title{Run marxan on COR problem and write output from all analysis}
 \usage{
-do_COR_marxan_analysis_and_output(COR_bd_prob, parameters,
-  src_rds_file_dir = NULL, targets = rep(1, COR_bd_prob@num_spp))
+do_COR_marxan_analysis_and_output(COR_bd_prob, parameters, rs_method_name,
+  src_rds_file_dir = NULL, spp_rep_targets = rep(1, COR_bd_prob@num_spp))
 }
 \arguments{
-\item{COR_bd_prob}{a Xu_bd_problem}
+\item{COR_bd_prob}{a correct Xu_bd_problem}
 
-\item{parameters}{list}
+\item{parameters}{parameters list for the run, usually derived from project.yaml
+and can have a varying number and set of elements depending on the run}
 
-\item{src_rds_file_dir}{character string}
+\item{rs_method_name}{character string for reserve selection method, e.g.,
+"marxan_sa"}
 
-\item{targets}{numeric vector}
+\item{src_rds_file_dir}{string containing full path of directory where
+source rds file is or was found}
+
+\item{spp_rep_targets}{numeric vector with a target abundance for each
+species in the problem}
 }
 \value{
 Returns nothing
 }
 \description{
-#' @param prob_UUID UUID for the biodiversity problem the reserve selector is
-#'     run over
-#' @param targets numeric vector
-#' @param cor_or_app_str character string
-#' @param basic_or_wrapped_or_comb_str character string
-#' @param method_name character string for reserve selection method, e.g.,
-#'     "marxan_sa"
-#' @inheritParams std_param_defns
-#'
-#' @return Returns an RSrun object
-}
-\details{
-#-------------------------------------------------------------------------------
-
-create_RSrun <- function (prob_UUID,
-                          targets,
-
-parameters,
-                  # set_rand_seed_at_creation_of_all_new_major_objects,
-                  #         starting_dir,
-
-cor_or_app_str,
-                          basic_or_wrapped_or_comb_str,
-                          method_name
-                          )
-    {
-    # forced_seed =
-    #     get_forced_seed_value_if_necessary (is_rsrun = TRUE,
-    #                                         is_rsprob = FALSE,
-    #                                         parameters,
-    #                                         cor_or_app_str,
-    #                                         basic_or_wrapped_or_comb_str)
-    #
-    # new_seed =
-    #     set_new_or_forced_rand_seed_if_necessary (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
-    #                                               paste0 ("Start of create_RSrun(),",
-    #                                                       cor_or_app_str, ",",
-    #                                                       basic_or_wrapped_or_comb_str),
-    #                                               forced_seed)
-
-new_seed_list =
-        set_new_or_forced_rand_seed_if_necessary (is_rsrun = TRUE,
-                                                  is_rsprob = FALSE,
-                                                  parameters,
-                                                  cor_or_app_str,
-                                                  basic_or_wrapped_or_comb_str,
-                                                  location_string = paste0 ("Start of create_RSrun(),",
-                                                                            cor_or_app_str, ",",
-                                                                            basic_or_wrapped_or_comb_str))
-
-#------------------------------------------------------------------
-
-rsrun <- new ("RSrun")
-
-rsrun@UUID             <- uuid::UUIDgenerate()
-    rsrun@run_on_prob_UUID <- prob_UUID
-
-rsrun@rand_seed             = new_seed_list$seed_value
-    rsrun@R_internal_seed_array = new_seed_list$R_internal_seed_array
-
-rsrun@targets  <- targets
-
-rsrun@obj_type_str   = "RSrun_"
-    rsrun@rs_method_name = method_name
-    rsrun@cor_or_app_str = cor_or_app_str
-    rsrun@basic_or_wrapped_or_comb_str = basic_or_wrapped_or_comb_str
-
-rsrun@file_name_prefix =
-                            paste (rsrun@obj_type_str,
-                                   rsrun@cor_or_app_str,
-                                   rsrun@basic_or_wrapped_or_comb_str,
-                                   rsrun@rs_method_name,
-                                   sep='-')
-
-starting_dir = parameters$fullOutputDir_NO_slash
-
-create_RSrun_dir_and_subdirs (rsrun, starting_dir)
-
-rsrun <- save_rsrun (rsrun, starting_dir)
-
-return (rsrun)
-    }
-Run marxan on COR problem and write output from all analysis
-
 Run marxan on COR problem and write output from all analysis
 }
