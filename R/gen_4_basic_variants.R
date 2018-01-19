@@ -38,7 +38,8 @@ cat ("\n\nAT START OF gen_4_basic_variants().\n\n")
 cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
      "', checksum = '", base_COR_bd_prob@checksum, "'  -----\n\n")
 
-    do_COR_marxan_analysis_and_output (base_COR_bd_prob, parameters)
+    #do_COR_marxan_analysis_and_output (base_COR_bd_prob, parameters)
+    do_COR_rs_analysis_and_output (base_COR_bd_prob, parameters)
 
     cat("\n\njust after set_up_for_and_run_marxan() for Base COR problem")
     cat ("\n\n================================================================================")
@@ -55,9 +56,12 @@ cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
                                          #parameters$compute_network_metrics_APP,
                                          parameters)
 
-        do_APP_marxan_analysis_and_output (base_APP_bd_prob,
-                                           base_COR_bd_prob,
-                                           parameters)
+        # do_APP_marxan_analysis_and_output (base_APP_bd_prob,
+        #                                    base_COR_bd_prob,
+        #                                    parameters)
+        do_APP_rs_analysis_and_output (base_APP_bd_prob,
+                                       base_COR_bd_prob,
+                                       parameters)
 
         cat("\n\njust after set_up_for_and_run_marxan() for Base APP problem")
         cat ("\n\n================================================================================")
@@ -77,7 +81,8 @@ cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
                         integerize,
                         base_COR_bd_prob)
 
-        do_COR_marxan_analysis_and_output (wrapped_COR_bd_prob, parameters)
+        #do_COR_marxan_analysis_and_output (wrapped_COR_bd_prob, parameters)
+        do_COR_rs_analysis_and_output (wrapped_COR_bd_prob, parameters)
 
         cat("\n\njust after set_up_for_and_run_marxan() for Wrapped COR problem")
         cat ("\n\n================================================================================")
@@ -117,9 +122,12 @@ cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
                                        #parameters$compute_network_metrics_wrapped_APP,
                                        parameters)
 
-            do_APP_marxan_analysis_and_output (wrapped_APP_bd_prob,
-                                               wrapped_COR_bd_prob,
-                                               parameters)
+            # do_APP_marxan_analysis_and_output (wrapped_APP_bd_prob,
+            #                                    wrapped_COR_bd_prob,
+            #                                    parameters)
+            do_APP_rs_analysis_and_output (wrapped_APP_bd_prob,
+                                           wrapped_COR_bd_prob,
+                                           parameters)
 
             cat("\n\njust after set_up_for_and_run_marxan() for Wrapped APP problem")
             cat ("\n\n================================================================================")
