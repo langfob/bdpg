@@ -23,12 +23,15 @@
 #' @importFrom gurobi gurobi
 #' @export
 
+#-------------------------------------------------------------------------------
+
 run_gurobi <- function (num_spp, num_PUs,
                         bpm,
                         PU_costs, spp_rep_targets,
-                        use_time_limit = TRUE, time_limit = 60,
                         use_gap_limit = FALSE, gap_limit = 0.005,
-                        use_marxan_time_as_limit, marxan_elapsed_time
+                        use_time_limit = TRUE, time_limit = 60,
+                        use_marxan_time_as_limit = FALSE,
+                        marxan_elapsed_time = NA
                         )
     {
         # set up Gurobi model object in R
@@ -197,6 +200,8 @@ gen_dummy_bpm <- function (num_spp, num_PUs)
 #'     among other things, an element x which is the solution vector
 #' @export
 
+#-------------------------------------------------------------------------------
+
 test_gurobi <- function (seed = 456,
                          num_spp = 10,
                          num_PUs = 5)
@@ -213,8 +218,8 @@ test_gurobi <- function (seed = 456,
                          bpm_with_spp_rows_PU_cols,
                          PU_costs,
                          spp_rep_targets,
-                         use_time_limit = FALSE, time_limit = 60,
                          use_gap_limit = TRUE, gap_limit = 0.005,
+                         use_time_limit = FALSE, time_limit = 60,
                         use_marxan_time_as_limit = FALSE,
                         marxan_elapsed_time = NA)
 

@@ -6,7 +6,7 @@
 \title{Set up for and run gurobi}
 \usage{
 set_up_for_and_run_gurobi(num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
-  use_time_limit, time_limit, use_gap_limit, gap_limit,
+  use_gap_limit, gap_limit, use_time_limit, time_limit,
   use_marxan_time_as_limit, marxan_elapsed_time = NA)
 }
 \arguments{
@@ -25,13 +25,13 @@ Same as occ_matrix.}
 \item{spp_rep_targets}{numeric vector with a target abundance for each
 species in the problem}
 
-\item{use_time_limit}{boolean}
-
-\item{time_limit}{numeric}
-
 \item{use_gap_limit}{boolean}
 
 \item{gap_limit}{numeric}
+
+\item{use_time_limit}{boolean}
+
+\item{time_limit}{numeric}
 
 \item{use_marxan_time_as_limit}{boolean indicating whether reserve selector
 should use marxan's elapsed run time as the time limit for its own run}
