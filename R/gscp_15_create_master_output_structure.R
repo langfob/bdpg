@@ -120,17 +120,10 @@ build_and_write_COR_and_APP_scores_lists <-
 
 #===============================================================================
 
-get_rs_output_values <- function (rsrun,
-                                  exp_root_dir,
-                                  COR_bd_prob,
-                                  #all_PU_IDs,
-                                  #num_spp,
-                                  #PU_costs,
-                                  #bpm,
-                                  #num_PUs,
-                                  #targets,
-                                  #correct_solution_cost,
-                                  APP_bd_prob)
+get_marxan_output_values <- function (rsrun,
+                                      exp_root_dir,
+                                      COR_bd_prob,
+                                      APP_bd_prob)
     {
       marxan_output_values =
           read_marxan_output_files (get_RSrun_path_output (rsrun, exp_root_dir),     #rs_output_dir_path,
@@ -196,6 +189,27 @@ get_rs_output_values <- function (rsrun,
 
 #===============================================================================
 
+get_rs_output_values <- function (rsrun,
+                                  exp_root_dir,
+                                  COR_bd_prob,
+                                  APP_bd_prob,
+                                  rs_method_name)
+    {
+    if (rs_method_name == "Marxan_SA")
+        {
+        rs_output_values = get_marxan_output_values (rsrun, exp_root_dir,
+                                                     COR_bd_prob, APP_bd_prob)
+        } else
+        {
+        stop_bdpg (paste0 ("Unknown reserve selector name '",
+                           rs_method_name, "'"))
+        }
+
+    return (rs_output_values)
+    }
+
+#===============================================================================
+
 save_rsrun_results_data_for_one_rsrun <- function (parameters,
                                                    rsrun,
                                                    COR_bd_prob,
@@ -214,14 +228,8 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
     rs_output_values = get_rs_output_values (rsrun,
                                              exp_root_dir,
                                              COR_bd_prob,
-                                            #all_PU_IDs,
-                                            #num_spp,
-                                            #PU_costs,
-                                            #bpm,
-                                            #num_PUs,
-                                            #targets,
-                                            #correct_solution_cost,
-                                             APP_bd_prob)
+                                             APP_bd_prob,
+                                             rs_method_name)
 
     rs_best_solution_PU_IDs = rs_output_values$rs_best_solution_PU_IDs
 
