@@ -127,11 +127,10 @@ plot_incremental_marxan_summed_solution_representations =
                    landscape_frac_cost_thresh_for_all_spp_meeting_targets, sep='')
                 cat ("\n", cor_app_prefix_string, "_", "optimal_frac_cost_thresh_for_all_spp_meeting_targets = ",
                    optimal_frac_cost_thresh_for_all_spp_meeting_targets, sep='')
+                cat ("\n")
 
                 }  #  end if - all targets met
             }  #  end if - no threshold found yet
-
-        cat ("\n")
 
         #--------------------
 
