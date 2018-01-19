@@ -335,7 +335,7 @@ save_rsrun_results_data_for_one_rsrun <- function (parameters,
                     )
 
     write_results_to_files (
-        csv_outfile_name = paste0 ("rsrun_results.", rs_method_name, ".csv"),
+        csv_outfile_name = "rsrun_results.csv",
         results_df       =
             list_as_data_frame_with_0_length_vals_replaced_by_NA (results_list),
         parameters,
