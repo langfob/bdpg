@@ -41,7 +41,8 @@ compute_rep_fraction =
 
     selected_PUs_matrix_of_spp_cts_per_PU =
         spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU [ , PU_set_to_test, drop=FALSE]
-    spp_rep_cts = apply (selected_PUs_matrix_of_spp_cts_per_PU, 1, sum)
+#    spp_rep_cts = apply (selected_PUs_matrix_of_spp_cts_per_PU, 1, sum)
+    spp_rep_cts = rowSums (selected_PUs_matrix_of_spp_cts_per_PU)
 
             #  2015 04 28 - BTL
             #  Moved this statement out of the debug if statement below.

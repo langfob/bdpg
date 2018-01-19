@@ -54,7 +54,8 @@ run_gurobi <- function (num_spp, num_PUs,
 #bpm = matrix (c (0, 0, 1, 1), nrow=2, ncol=2, byrow=TRUE)
 #spp_rep_targets = c(1,1)
 
-spp_abundances = apply (bpm, 1, sum)
+#spp_abundances = apply (bpm, 1, sum)
+spp_abundances = rowSums (bpm)
 if (length (spp_abundances) != length (spp_rep_targets))
     stop_bdpg (paste0 ("length (spp_abundances) = '",
                        length (spp_abundances),
