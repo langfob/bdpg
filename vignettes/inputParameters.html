@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Bill Langford" />
+
+<meta name="date" content="2018-01-21" />
+
+<title>Input Parameters and Yaml Files for bdpg</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Input Parameters and Yaml Files for bdpg</h1>
+<h4 class="author"><em>Bill Langford</em></h4>
+<h4 class="date"><em>2018-01-21</em></h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#special-notes">Special notes</a><ul>
+<li><a href="#switching-subgroups-of-parameters-on-and-off-without-removing-from-input-file">Switching subgroups of parameters on and off without removing from input file</a></li>
+</ul></li>
+<li><a href="#run-identification">Run identification</a><ul>
+<li><a href="#example">Example</a></li>
+<li><a href="#useful-sets">Useful sets</a><ul>
+<li><a href="#set_name">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters">Specific parameters</a><ul>
+<li><a href="#full_output_dir_with_slash">full_output_dir_with_slash</a></li>
+<li><a href="#runset_description">runset_description</a></li>
+<li><a href="#runset_name">runset_name</a></li>
+<li><a href="#runset_abbrev">runset_abbrev</a></li>
+<li><a href="#run_id">run_id</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#misc">MISC</a><ul>
+<li><a href="#conversion-of-floats-to-integers">Conversion of floats to integers</a><ul>
+<li><a href="#example-1">Example</a></li>
+<li><a href="#useful-sets-1">Useful sets</a><ul>
+<li><a href="#set_name-1">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-1">Specific parameters</a><ul>
+<li><a href="#integerize_string">integerize_string</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#flag-files">Flag files</a><ul>
+<li><a href="#example-2">Example</a></li>
+<li><a href="#useful-sets-2">Useful sets</a><ul>
+<li><a href="#set_name-2">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-2">Specific parameters</a><ul>
+<li><a href="#too_many_possible_links_error_flag_file_name-belongs-with-xu-stuff">too_many_possible_links_error_flag_file_name [BELONGS WITH XU STUFF? ]</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#summary-file-names-are-these-still-used">Summary file names [ ARE THESE STILL USED? ]</a><ul>
+<li><a href="#example-3">Example</a></li>
+<li><a href="#useful-sets-3">Useful sets</a><ul>
+<li><a href="#set_name-3">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-3">Specific parameters</a><ul>
+<li><a href="#summary_filename">summary_filename</a></li>
+<li><a href="#summary_without_run_id_filename">summary_without_run_id_filename</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#random-seed-control">Random seed control</a><ul>
+<li><a href="#overall-seed-control">Overall seed control</a><ul>
+<li><a href="#example-4">Example</a></li>
+<li><a href="#useful-sets-4">Useful sets</a><ul>
+<li><a href="#set_name-4">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-4">Specific parameters</a><ul>
+<li><a href="#set_rand_seed_at_creation_of_all_new_major_objects">set_rand_seed_at_creation_of_all_new_major_objects</a></li>
+<li><a href="#bdpg_run_init_rand_seed">bdpg_run_init_rand_seed</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#xu-benchmark-problems">Xu benchmark problems</a><ul>
+<li><a href="#example-5">Example</a></li>
+<li><a href="#useful-sets-5">Useful sets</a><ul>
+<li><a href="#set_name-5">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-5">Specific parameters</a><ul>
+<li><a href="#read_xu_problem_from_xu_bench_file">read_Xu_problem_from_Xu_bench_file</a></li>
+<li><a href="#xu_bench_infile_name">Xu_bench_infile_name</a></li>
+<li><a href="#given_correct_solution_cost">given_correct_solution_cost</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#reserve-selection">Reserve selection</a><ul>
+<li><a href="#gurobi-reserve-selector">Gurobi reserve selector</a><ul>
+<li><a href="#example-6">Example</a></li>
+<li><a href="#useful-sets-6">Useful sets</a><ul>
+<li><a href="#set_name-6">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-6">Specific parameters</a><ul>
+<li><a href="#do_gurobi">do_gurobi</a></li>
+<li><a href="#use_given_time_as_limit">use_given_time_as_limit</a></li>
+<li><a href="#use_marxan_time_as_limit">use_marxan_time_as_limit</a></li>
+<li><a href="#use_given_time_as_limit-1">use_given_time_as_limit</a></li>
+<li><a href="#use_gap_limit">use_gap_limit</a></li>
+<li><a href="#gap_limit">gap_limit</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#marxan-simulated-annealing-reserve-selector">Marxan simulated annealing reserve selector</a><ul>
+<li><a href="#example-7">Example</a></li>
+<li><a href="#useful-sets-7">Useful sets</a><ul>
+<li><a href="#set_name-7">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-7">Specific parameters</a><ul>
+<li><a href="#run_marxan">run_marxan</a></li>
+<li><a href="#marxan_runmode">marxan_runmode</a></li>
+<li><a href="#marxan_heurtype">marxan_heurtype</a></li>
+<li><a href="#marxan_use_default_input_parameters">marxan_use_default_input_parameters</a></li>
+<li><a href="#marxan_input_parameters_file_name">marxan_input_parameters_file_name</a></li>
+<li><a href="#marxan_dir">marxan_dir</a></li>
+<li><a href="#marxan_pu_file_name">marxan_pu_file_name</a></li>
+<li><a href="#marxan_spec_file_name">marxan_spec_file_name</a></li>
+<li><a href="#marxan_puvspr_file_name">marxan_puvspr_file_name</a></li>
+<li><a href="#marxan_num_reps">marxan_num_reps</a></li>
+<li><a href="#marxan_num_iterations">marxan_num_iterations</a></li>
+<li><a href="#marxan_spf_rule">marxan_spf_rule</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#xu-problem-generation">Xu problem generation</a><ul>
+<li><a href="#problem-size-control">Problem size control</a><ul>
+<li><a href="#example-8">Example</a></li>
+<li><a href="#useful-sets-8">Useful sets</a><ul>
+<li><a href="#set_name-8">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-8">Specific parameters</a><ul>
+<li><a href="#max_allowed_possible_tot_num_links">max_allowed_possible_tot_num_links</a></li>
+<li><a href="#max_allowed_num_spp">max_allowed_num_spp</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#problem-types-to-generate">Problem types to generate</a><ul>
+<li><a href="#example-9">Example</a></li>
+<li><a href="#useful-sets-9">Useful sets</a><ul>
+<li><a href="#set_name-9">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-9">Specific parameters</a><ul>
+<li><a href="#gen_4_basic_variants">gen_4_basic_variants</a></li>
+<li><a href="#single_action_using_tzar_reps">single_action_using_tzar_reps</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#xu-base-parameters-alpha-p-n-r">Xu base parameters (alpha, p, n, r)</a><ul>
+<li><a href="#example-10">Example</a></li>
+<li><a href="#useful-sets-10">Useful sets</a><ul>
+<li><a href="#set_name-10">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-10">Specific parameters</a><ul>
+<li><a href="#derive_alpha_from_n__num_groups_and_opt_frac_0.5">derive_alpha_from_n__num_groups_and_opt_frac_0.5</a></li>
+<li><a href="#use_unif_rand_alpha__">use_unif_rand_alpha__</a></li>
+<li><a href="#n__num_groups_lower_bound-alpha__lower_bound---definition---typeallowed-values---default-value---rules">n__num_groups_lower_bound alpha__lower_bound - Definition - Type/Allowed values - Default value - Rules</a></li>
+<li><a href="#alpha__upper_bound">alpha__upper_bound</a></li>
+<li><a href="#alpha__">alpha__</a></li>
+<li><a href="#use_unif_rand_n__num_groups">use_unif_rand_n__num_groups</a></li>
+<li><a href="#n__num_groups_lower_bound">n__num_groups_lower_bound</a></li>
+<li><a href="#n__num_groups_upper_bound">n__num_groups_upper_bound</a></li>
+<li><a href="#n__num_groups">n__num_groups</a></li>
+<li><a href="#use_unif_rand_r__density">use_unif_rand_r__density</a></li>
+<li><a href="#r__density">r__density</a></li>
+<li><a href="#r__density_lower_bound">r__density_lower_bound</a></li>
+<li><a href="#use_unif_rand_p__prop_of_links_between_groups">use_unif_rand_p__prop_of_links_between_groups</a></li>
+<li><a href="#p__prop_of_links_between_groups_lower_bound">p__prop_of_links_between_groups_lower_bound</a></li>
+<li><a href="#p__prop_of_links_between_groups_upper_bound">p__prop_of_links_between_groups_upper_bound</a></li>
+<li><a href="#p__prop_of_links_between_groups">p__prop_of_links_between_groups</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#xu-wrapped-problem-parameters">Xu wrapped problem parameters</a><ul>
+<li><a href="#example-11">Example</a></li>
+<li><a href="#useful-sets-11">Useful sets</a><ul>
+<li><a href="#set_name-11">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-11">Specific parameters</a><ul>
+<li><a href="#gen_multi_bdproblem">gen_multi_bdproblem</a></li>
+<li><a href="#wrap_lognormal_dist_around_xu">wrap_lognormal_dist_around_Xu</a></li>
+<li><a href="#allow_imperfect_wrap">allow_imperfect_wrap</a></li>
+<li><a href="#desired_xu_spp_frac_of_all_spp">desired_Xu_spp_frac_of_all_spp</a></li>
+<li><a href="#solution_frac_of_landscape">solution_frac_of_landscape</a></li>
+<li><a href="#desired_max_abundance_frac">desired_max_abundance_frac</a></li>
+<li><a href="#dep_set_pus_eligible">dep_set_PUs_eligible</a></li>
+<li><a href="#add_one_to_lognormal_abundances">add_one_to_lognormal_abundances</a></li>
+<li><a href="#max_search_iterations">max_search_iterations</a></li>
+<li><a href="#plot_rounded_abundances">plot_rounded_abundances</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#error-generation">Error generation</a><ul>
+<li><a href="#example-12">Example</a></li>
+<li><a href="#useful-sets-12">Useful sets</a><ul>
+<li><a href="#set_name-12">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-12">Specific parameters</a><ul>
+<li><a href="#apply_error_to_spp_occupancy_data">apply_error_to_spp_occupancy_data</a></li>
+<li><a href="#match_error_counts">match_error_counts</a></li>
+<li><a href="#spp_occ_fp_error_type">spp_occ_FP_error_type</a></li>
+<li><a href="#spp_occ_fp_const_rate">spp_occ_FP_const_rate</a></li>
+<li><a href="#spp_occ_fn_error_type">spp_occ_FN_error_type</a></li>
+<li><a href="#spp_occ_fn_const_rate">spp_occ_FN_const_rate</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#network-measures">Network measures</a><ul>
+<li><a href="#example-13">Example</a></li>
+<li><a href="#useful-sets-13">Useful sets</a><ul>
+<li><a href="#set_name-13">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-13">Specific parameters</a><ul>
+<li><a href="#compute_network_metrics">compute_network_metrics</a></li>
+<li><a href="#compute_network_metrics_cor">compute_network_metrics_COR</a></li>
+<li><a href="#compute_network_metrics_app">compute_network_metrics_APP</a></li>
+<li><a href="#compute_network_metrics_wrapped_cor">compute_network_metrics_wrapped_COR</a></li>
+<li><a href="#compute_network_metrics_wrapped_app">compute_network_metrics_wrapped_APP</a></li>
+<li><a href="#use_igraph_metrics">use_igraph_metrics</a></li>
+<li><a href="#use_bipartite_metrics">use_bipartite_metrics</a></li>
+<li><a href="#bipartite_metrics_to_use">bipartite_metrics_to_use</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#parameter_group">PARAMETER_GROUP</a><ul>
+<li><a href="#parameter_subgroup">PARAMETER_SUBGROUP</a><ul>
+<li><a href="#example-14">Example</a></li>
+<li><a href="#useful-sets-14">Useful sets</a><ul>
+<li><a href="#set_name-14">SET_NAME</a></li>
+</ul></li>
+<li><a href="#specific-parameters-14">Specific parameters</a><ul>
+<li><a href="#parameter_name">PARAMETER_NAME</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+
+<p>[SHOULD ADD SECTIONS TO THIS OR CREATE A NEW VIGNETTE THAT IS TASK-BASED AND GIVES YAML FILES/SECTIONS FOR COMMON TASKS GENERATING 1 PROBLEM OR GENERATING 4 VARIANTS OR DOING TONS OF RUNS, ETC.]</p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The <code>bdpg</code> package allows many different parameters for many different actions to be input through its parameters list. This R list can be built in any way you like, however, one very common way is to build a yaml file that is read and converted to an R (e.g., by running under tzar). While the parameters list doesn’t have to be loaded in this way, the yaml file format provides a nicely structured way of viewing and explaining parameters and groups of parameters. Consequently, explanations in this vignette will be phrased in terms of yaml code that could produce their settings in the parameters list.</p>
+</div>
+<div id="special-notes" class="section level2">
+<h2>Special notes</h2>
+<div id="switching-subgroups-of-parameters-on-and-off-without-removing-from-input-file" class="section level3">
+<h3>Switching subgroups of parameters on and off without removing from input file</h3>
+<p>Sometimes sets of parameters will be ignored entirely when a related master boolean parameter is set in a particular way. This is designed to make it easy to switch off certain things in the yaml file without having to delete all of the related flags. This is particularly desirable during debugging when you may know that a problem has nothing to do with a certain set of parameters and you want the run to be done more quickly by skipping that part of the code. For example, some of the network metrics are very time-consuming to compute. If compute_network_metrics is set to FALSE, then all parameters related to network metrics will be ignored and the metrics will not be computed.</p>
+<hr />
+</div>
+</div>
+<div id="run-identification" class="section level1">
+<h1>Run identification</h1>
+<div id="example" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">full_output_dir_with_slash:</span><span class="at"> $$output_path$$</span>
+
+    <span class="fu">runset_description:</span><span class="at"> |</span>
+        Small set of runs of a Xu hard scenario with error generation both
+        on and off plus running simulated annealing and richness heuristic.
+
+    <span class="fu">runset_name:</span><span class="at"> $$runset$$</span>
+    <span class="fu">runset_abbrev:</span><span class="at"> </span><span class="st">&quot;bdpgSingleRunForTestAndDebug&quot;</span>
+
+    <span class="fu">run_id:</span><span class="at"> $$run_id$$</span></code></pre></div>
+</div>
+<div id="useful-sets" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters" class="section level3">
+<h3>Specific parameters</h3>
+<div id="full_output_dir_with_slash" class="section level4">
+<h4>full_output_dir_with_slash</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">full_output_dir_with_slash:</span><span class="at"> $$output_path$$</span></code></pre></div>
+</div>
+<div id="runset_description" class="section level4">
+<h4>runset_description</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">runset_description:</span><span class="at"> |</span>
+        Small set of runs of a Xu hard scenario with error generation both
+        on and off plus running simulated annealing and richness heuristic.</code></pre></div>
+</div>
+<div id="runset_name" class="section level4">
+<h4>runset_name</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">runset_name:</span><span class="at"> $$runset$$</span></code></pre></div>
+</div>
+<div id="runset_abbrev" class="section level4">
+<h4>runset_abbrev</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">runset_abbrev:</span><span class="at"> </span><span class="st">&quot;bdpgSingleRunForTestAndDebug&quot;</span></code></pre></div>
+</div>
+<div id="run_id" class="section level4">
+<h4>run_id</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">run_id:</span><span class="at"> $$run_id$$</span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
+<div id="misc" class="section level1">
+<h1>MISC</h1>
+<div id="conversion-of-floats-to-integers" class="section level2">
+<h2>Conversion of floats to integers</h2>
+<div id="example-1" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">integerize_string:</span><span class="at"> </span><span class="st">&quot;round&quot;</span></code></pre></div>
+</div>
+<div id="useful-sets-1" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-1" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-1" class="section level3">
+<h3>Specific parameters</h3>
+<div id="integerize_string" class="section level4">
+<h4>integerize_string</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">integerize_string:</span><span class="at"> </span><span class="st">&quot;round&quot;</span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
+<div id="flag-files" class="section level2">
+<h2>Flag files</h2>
+<div id="example-2" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">too_many_possible_links_error_flag_file_name:</span><span class="at"> $$output_path$$too_many_possible_links_error_flag_file.txt</span></code></pre></div>
+</div>
+<div id="useful-sets-2" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-2" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-2" class="section level3">
+<h3>Specific parameters</h3>
+<div id="too_many_possible_links_error_flag_file_name-belongs-with-xu-stuff" class="section level4">
+<h4>too_many_possible_links_error_flag_file_name [BELONGS WITH XU STUFF? ]</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">too_many_possible_links_error_flag_file_name:</span><span class="at"> $$output_path$$too_many_possible_links_error_flag_file.txt</span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
+<div id="summary-file-names-are-these-still-used" class="section level2">
+<h2>Summary file names [ ARE THESE STILL USED? ]</h2>
+<div id="example-3" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="co">#    summary_filename: prob_diff_results.csv</span>
+<span class="co">#    summary_without_run_id_filename: prob_diff_results_with_0_run_id.csv</span></code></pre></div>
+</div>
+<div id="useful-sets-3" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-3" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-3" class="section level3">
+<h3>Specific parameters</h3>
+<div id="summary_filename" class="section level4">
+<h4>summary_filename</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="co">#    summary_filename: prob_diff_results.csv</span></code></pre></div>
+</div>
+<div id="summary_without_run_id_filename" class="section level4">
+<h4>summary_without_run_id_filename</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="co">#    summary_without_run_id_filename: prob_diff_results_with_0_run_id.csv</span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
+</div>
+<div id="random-seed-control" class="section level1">
+<h1>Random seed control</h1>
+<div id="overall-seed-control" class="section level2">
+<h2>Overall seed control</h2>
+<div id="example-4" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">set_rand_seed_at_creation_of_all_new_major_objects:</span><span class="at"> FALSE</span>
+    <span class="fu">bdpg_run_init_rand_seed:</span><span class="at"> 1763688087</span></code></pre></div>
+</div>
+<div id="useful-sets-4" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-4" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-4" class="section level3">
+<h3>Specific parameters</h3>
+<div id="set_rand_seed_at_creation_of_all_new_major_objects" class="section level4">
+<h4>set_rand_seed_at_creation_of_all_new_major_objects</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">set_rand_seed_at_creation_of_all_new_major_objects:</span><span class="at"> FALSE</span></code></pre></div>
+</div>
+<div id="bdpg_run_init_rand_seed" class="section level4">
+<h4>bdpg_run_init_rand_seed</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<p><code>yaml      bdpg_run_init_rand_seed: 1763688087</code></p>
+<hr />
+</div>
+</div>
+</div>
+</div>
+<div id="xu-benchmark-problems" class="section level1">
+<h1>Xu benchmark problems</h1>
+<p>If you’re reading the Xu problem from a file in Xu’s benchmark problem file format instead of generating it, you need to give the input file name and the cost of the correct solution (since it’s not specified in the file).</p>
+<div id="example-5" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">read_Xu_problem_from_Xu_bench_file:</span><span class="at"> TRUE</span>
+
+    <span class="fu">Xu_bench_infile_name:</span><span class="at">  </span><span class="st">&quot;/Users/bill/D/Projects/ProblemDifficulty/data/Xu - problem difficulty datasets/frb30-15-msc with MSC 420/frb30-15-1.msc&quot;</span>
+<span class="co">#&quot;/Users/bill/Desktop/Papers downloaded/Problem difficulty/Problem difficulty datasets/Xu - problem difficulty datasets/frb30-15-msc with MSC 420/frb30-15-1.msc&quot;</span>
+
+    <span class="fu">given_correct_solution_cost:</span><span class="at"> 420</span></code></pre></div>
+</div>
+<div id="useful-sets-5" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-5" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-5" class="section level3">
+<h3>Specific parameters</h3>
+<div id="read_xu_problem_from_xu_bench_file" class="section level4">
+<h4>read_Xu_problem_from_Xu_bench_file</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">read_Xu_problem_from_Xu_bench_file:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="xu_bench_infile_name" class="section level4">
+<h4>Xu_bench_infile_name</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">Xu_bench_infile_name:</span><span class="at">  </span><span class="st">&quot;/Users/bill/D/Projects/ProblemDifficulty/data/Xu - problem difficulty datasets/frb30-15-msc with MSC 420/frb30-15-1.msc&quot;</span></code></pre></div>
+</div>
+<div id="given_correct_solution_cost" class="section level4">
+<h4>given_correct_solution_cost</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">given_correct_solution_cost:</span><span class="at"> 420</span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
+<div id="reserve-selection" class="section level1">
+<h1>Reserve selection</h1>
+<div id="gurobi-reserve-selector" class="section level2">
+<h2>Gurobi reserve selector</h2>
+<div id="example-6" class="section level3">
+<h3>Example</h3>
+<pre><code>    do_gurobi: TRUE
+    
+    use_given_time_as_limit: TRUE
+    time_limit: 600
+    use_marxan_time_as_limit: FALSE
+    
+    use_gap_limit: TRUE
+    gap_limit: 0.005</code></pre>
+</div>
+<div id="useful-sets-6" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-6" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-6" class="section level3">
+<h3>Specific parameters</h3>
+<div id="do_gurobi" class="section level4">
+<h4>do_gurobi</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">do_gurobi:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="use_given_time_as_limit" class="section level4">
+<h4>use_given_time_as_limit</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">use_given_time_as_limit:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="use_marxan_time_as_limit" class="section level4">
+<h4>use_marxan_time_as_limit</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">use_marxan_time_as_limit:</span><span class="at"> FALSE</span></code></pre></div>
+</div>
+<div id="use_given_time_as_limit-1" class="section level4">
+<h4>use_given_time_as_limit</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">use_given_time_as_limit:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="use_gap_limit" class="section level4">
+<h4>use_gap_limit</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">use_gap_limit:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="gap_limit" class="section level4">
+<h4>gap_limit</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">gap_limit:</span><span class="at"> 0.005</span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
+<div id="marxan-simulated-annealing-reserve-selector" class="section level2">
+<h2>Marxan simulated annealing reserve selector</h2>
+<div id="example-7" class="section level3">
+<h3>Example</h3>
+<pre><code>    run_marxan: TRUE
+    
+    marxan_runmode: 1
+    marxan_heurtype: -1
+
+        #  marxan control parameters
+        #
+        #  If marxan_use_default_input_parameters is TRUE, then all of these
+        #  marxan_... parameters set in this file are ignored and marxan's
+        #  default values are used instead.
+        #  The one exception to this is the variable marxan_spf_const,
+        #  which is a bit different from all the other parameters and is set
+        #  in the just below the marxan_... parameters in this file.
+    marxan_use_default_input_parameters: FALSE
+
+#    marxan_input_parameters_file_name: &quot;/Users/bill/D/Marxan/input.dat&quot;
+    marxan_input_parameters_file_name: &quot;$$library_path(marxanLibrary)$$input.dat&quot;
+
+    marxan_dir: &quot;$$library_path(marxanLibrary)$$&quot;
+#    marxan_input_dir: &quot;$$library_path(marxanLibrary)$$input/&quot;
+#    marxan_output_dir: &quot;$$library_path(marxanLibrary)$$output/&quot;
+    marxan_pu_file_name: &quot;pu.dat&quot;
+    marxan_spec_file_name: &quot;spec.dat&quot;
+    marxan_puvspr_file_name: &quot;puvspr.dat&quot;
+
+
+    marxan_num_reps: 100
+    marxan_num_iterations: &quot;1000000&quot;
+
+#    marxan_num_reps: 1
+#    marxan_num_iterations: &quot;10000&quot;
+
+    marxan_spf_rule: &quot;POWER_OF_10&quot;</code></pre>
+</div>
+<div id="useful-sets-7" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-7" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-7" class="section level3">
+<h3>Specific parameters</h3>
+<div id="run_marxan" class="section level4">
+<h4>run_marxan</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">run_marxan:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="marxan_runmode" class="section level4">
+<h4>marxan_runmode</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">marxan_runmode:</span><span class="at"> 1</span></code></pre></div>
+</div>
+<div id="marxan_heurtype" class="section level4">
+<h4>marxan_heurtype</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">marxan_heurtype:</span><span class="at"> -1</span></code></pre></div>
+</div>
+<div id="marxan_use_default_input_parameters" class="section level4">
+<h4>marxan_use_default_input_parameters</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">marxan_use_default_input_parameters:</span><span class="at"> FALSE</span></code></pre></div>
+</div>
+<div id="marxan_input_parameters_file_name" class="section level4">
+<h4>marxan_input_parameters_file_name</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">marxan_input_parameters_file_name:</span><span class="at"> </span><span class="st">&quot;$$library_path(marxanLibrary)$$input.dat&quot;</span></code></pre></div>
+</div>
+<div id="marxan_dir" class="section level4">
+<h4>marxan_dir</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">marxan_dir:</span><span class="at"> </span><span class="st">&quot;$$library_path(marxanLibrary)$$&quot;</span></code></pre></div>
+</div>
+<div id="marxan_pu_file_name" class="section level4">
+<h4>marxan_pu_file_name</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">marxan_pu_file_name:</span><span class="at"> </span><span class="st">&quot;pu.dat&quot;</span></code></pre></div>
+</div>
+<div id="marxan_spec_file_name" class="section level4">
+<h4>marxan_spec_file_name</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">marxan_spec_file_name:</span><span class="at"> </span><span class="st">&quot;spec.dat&quot;</span></code></pre></div>
+</div>
+<div id="marxan_puvspr_file_name" class="section level4">
+<h4>marxan_puvspr_file_name</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">marxan_puvspr_file_name:</span><span class="at"> </span><span class="st">&quot;puvspr.dat&quot;</span></code></pre></div>
+</div>
+<div id="marxan_num_reps" class="section level4">
+<h4>marxan_num_reps</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">marxan_num_reps:</span><span class="at"> 100</span></code></pre></div>
+</div>
+<div id="marxan_num_iterations" class="section level4">
+<h4>marxan_num_iterations</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values VERY IMPORTANT THAT THIS IS A STRING, NOT A NUMBER</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">marxan_num_iterations:</span><span class="at"> </span><span class="st">&quot;1000000&quot;</span></code></pre></div>
+</div>
+<div id="marxan_spf_rule" class="section level4">
+<h4>marxan_spf_rule</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">marxan_spf_rule:</span><span class="at"> </span><span class="st">&quot;POWER_OF_10&quot;</span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
+</div>
+<div id="xu-problem-generation" class="section level1">
+<h1>Xu problem generation</h1>
+<div id="problem-size-control" class="section level2">
+<h2>Problem size control</h2>
+<div id="example-8" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">        <span class="co">#  </span><span class="al">NOTE</span><span class="co"> that the choice of random seed in the yaml file is important</span>
+        <span class="co">#  for this single run test because the example creates a test problem</span>
+        <span class="co">#  based on drawing the control parameters from a random distribution.</span>
+        <span class="co">#  When the seed was 111, the test crashed with the message below.</span>
+        <span class="co">#  When I changed it to 701, it ran to completion.</span>
+        <span class="co">#       Failing:  max_possible_tot_num_links ( 3291 ) &gt; maximum allowed ( 2000 ).</span>
+        <span class="co">#       Save workspace image to ~/D/rdv-framework/projects/rdvPackages/biodivprobgen/.RData? [y/n/c]:</span>
+        <span class="co">#  However, the fail was just what it was supposed to do when those</span>
+        <span class="co">#  parameters came up, so the yaml file could be changed to use 111</span>
+        <span class="co">#  instead of 701 if you want to induce a crash to test that error</span>
+        <span class="co">#  trapping.</span>
+<span class="co">#    seed: 701</span>
+
+        <span class="co">#  2017 12 06 - BTL</span>
+        <span class="co">#  Instead, you could just set the total number of links or spp</span>
+        <span class="co">#  to some tiny amount that was sure to fail.</span>
+
+    <span class="fu">max_allowed_possible_tot_num_links:</span><span class="at"> 1500</span>
+    <span class="fu">max_allowed_num_spp:</span><span class="at"> 2000</span>
+    
+    
+    <span class="fu">derive_alpha_from_n__num_groups_and_opt_frac_0.5:</span><span class="at"> FALSE</span>
+    <span class="fu">use_unif_rand_alpha__:</span><span class="at"> FALSE</span>
+    <span class="fu">alpha__:</span><span class="at"> 0.52</span>
+
+    <span class="fu">use_unif_rand_n__num_groups:</span><span class="at"> TRUE</span>
+    <span class="fu">n__num_groups_lower_bound:</span><span class="at"> 61</span>
+    <span class="fu">n__num_groups_upper_bound:</span><span class="at"> 62</span>
+
+<span class="co">#            n__num_groups_upper_bound: 80</span>
+<span class="co">#            use_unif_rand_n__num_groups: TRUE</span>
+<span class="co">#            n__num_groups_lower_bound: 8</span>
+<span class="co">#            n__num_groups_upper_bound: 100</span>
+
+    <span class="fu">use_unif_rand_r__density:</span><span class="at"> FALSE</span>
+    <span class="fu">r__density:</span><span class="at"> 0.8</span>
+<span class="co">#            use_unif_rand_r__density: TRUE</span>
+<span class="co">#            r__density_lower_bound: 0.01</span>
+<span class="co">#            r__density_upper_bound: 5.0</span>
+
+    <span class="fu">use_unif_rand_p__prop_of_links_between_groups:</span><span class="at"> TRUE</span>
+    <span class="fu">p__prop_of_links_between_groups_lower_bound:</span><span class="at"> 0.01</span>
+    <span class="fu">p__prop_of_links_between_groups_upper_bound:</span><span class="at"> 0.99</span>
+
+<span class="co">#--------------------</span>
+
+        <span class="co">#  Parameters for building a multi-problem by wrapping a lognormal</span>
+        <span class="co">#  distribution around a base Xu problem.</span>
+
+    <span class="fu">gen_multi_bdproblem:</span><span class="at"> TRUE</span>
+    <span class="fu">wrap_lognormal_dist_around_Xu:</span><span class="at"> TRUE</span>
+    <span class="fu">allow_imperfect_wrap:</span><span class="at"> TRUE    </span><span class="co">#  new variable - BTL - 2017 12 13</span>
+    <span class="fu">desired_Xu_spp_frac_of_all_spp:</span><span class="at"> 0.5</span>
+    <span class="fu">solution_frac_of_landscape:</span><span class="at"> 0.3</span>
+    <span class="fu">desired_max_abundance_frac:</span><span class="at"> 0.7</span>
+    <span class="fu">dep_set_PUs_eligible:</span><span class="at"> FALSE</span>
+    <span class="fu">add_one_to_lognormal_abundances:</span><span class="at"> FALSE</span>
+<span class="co">#            seed_value_for_search: 11    #  no longer set this way - BTL - 2017 12 13</span>
+    <span class="fu">max_search_iterations:</span><span class="at"> 500</span>
+
+    <span class="fu">plot_rounded_abundances:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="useful-sets-8" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-8" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-8" class="section level3">
+<h3>Specific parameters</h3>
+<div id="max_allowed_possible_tot_num_links" class="section level4">
+<h4>max_allowed_possible_tot_num_links</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">max_allowed_possible_tot_num_links:</span><span class="at"> 1500</span></code></pre></div>
+</div>
+<div id="max_allowed_num_spp" class="section level4">
+<h4>max_allowed_num_spp</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">max_allowed_num_spp:</span><span class="at"> 2000</span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
+<div id="problem-types-to-generate" class="section level2">
+<h2>Problem types to generate</h2>
+<div id="example-9" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">gen_4_basic_variants:</span><span class="at"> TRUE</span>
+    <span class="fu">single_action_using_tzar_reps:</span><span class="at"> FALSE    </span><span class="co">#TRUE</span></code></pre></div>
+</div>
+<div id="useful-sets-9" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-9" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-9" class="section level3">
+<h3>Specific parameters</h3>
+<div id="gen_4_basic_variants" class="section level4">
+<h4>gen_4_basic_variants</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">gen_4_basic_variants:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="single_action_using_tzar_reps" class="section level4">
+<h4>single_action_using_tzar_reps</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">single_action_using_tzar_reps:</span><span class="at"> FALSE    </span><span class="co">#TRUE</span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
+<div id="xu-base-parameters-alpha-p-n-r" class="section level2">
+<h2>Xu base parameters (alpha, p, n, r)</h2>
+<div id="example-10" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">derive_alpha_from_n__num_groups_and_opt_frac_0.5:</span><span class="at"> FALSE</span>
+    <span class="fu">use_unif_rand_alpha__:</span><span class="at"> FALSE</span>
+    <span class="fu">alpha__:</span><span class="at"> 0.52</span>
+
+    <span class="fu">use_unif_rand_n__num_groups:</span><span class="at"> TRUE</span>
+    <span class="fu">n__num_groups_lower_bound:</span><span class="at"> 61</span>
+    <span class="fu">n__num_groups_upper_bound:</span><span class="at"> 62</span>
+
+<span class="co">#            n__num_groups_upper_bound: 80</span>
+<span class="co">#            use_unif_rand_n__num_groups: TRUE</span>
+<span class="co">#            n__num_groups_lower_bound: 8</span>
+<span class="co">#            n__num_groups_upper_bound: 100</span>
+
+    <span class="fu">use_unif_rand_r__density:</span><span class="at"> FALSE</span>
+    <span class="fu">r__density:</span><span class="at"> 0.8</span>
+<span class="co">#            use_unif_rand_r__density: TRUE</span>
+<span class="co">#            r__density_lower_bound: 0.01</span>
+<span class="co">#            r__density_upper_bound: 5.0</span>
+
+    <span class="fu">use_unif_rand_p__prop_of_links_between_groups:</span><span class="at"> TRUE</span>
+    <span class="fu">p__prop_of_links_between_groups_lower_bound:</span><span class="at"> 0.01</span>
+    <span class="fu">p__prop_of_links_between_groups_upper_bound:</span><span class="at"> 0.99</span></code></pre></div>
+</div>
+<div id="useful-sets-10" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-10" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-10" class="section level3">
+<h3>Specific parameters</h3>
+<div id="derive_alpha_from_n__num_groups_and_opt_frac_0.5" class="section level4">
+<h4>derive_alpha_from_n__num_groups_and_opt_frac_0.5</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">derive_alpha_from_n__num_groups_and_opt_frac_0.5:</span><span class="at"> FALSE</span></code></pre></div>
+</div>
+<div id="use_unif_rand_alpha__" class="section level4">
+<h4>use_unif_rand_alpha__</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">use_unif_rand_alpha__:</span><span class="at"> FALSE</span></code></pre></div>
+</div>
+<div id="n__num_groups_lower_bound-alpha__lower_bound---definition---typeallowed-values---default-value---rules" class="section level4">
+<h4>n__num_groups_lower_bound alpha__lower_bound - Definition - Type/Allowed values - Default value - Rules</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="co">#    alpha__lower_bound: 0.2</span></code></pre></div>
+</div>
+<div id="alpha__upper_bound" class="section level4">
+<h4>alpha__upper_bound</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="co">#    alpha__upper_bound: 0.3</span></code></pre></div>
+</div>
+<div id="alpha__" class="section level4">
+<h4>alpha__</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">alpha__:</span><span class="at"> 0.52</span></code></pre></div>
+</div>
+<div id="use_unif_rand_n__num_groups" class="section level4">
+<h4>use_unif_rand_n__num_groups</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">use_unif_rand_n__num_groups:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="n__num_groups_lower_bound" class="section level4">
+<h4>n__num_groups_lower_bound</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="co">#    n__num_groups_lower_bound: 61</span></code></pre></div>
+</div>
+<div id="n__num_groups_upper_bound" class="section level4">
+<h4>n__num_groups_upper_bound</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">n__num_groups_upper_bound:</span><span class="at"> 62</span></code></pre></div>
+</div>
+<div id="n__num_groups" class="section level4">
+<h4>n__num_groups</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">n__num_groups:</span><span class="at"> 50</span></code></pre></div>
+</div>
+<div id="use_unif_rand_r__density" class="section level4">
+<h4>use_unif_rand_r__density</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">use_unif_rand_r__density:</span><span class="at"> FALSE</span></code></pre></div>
+</div>
+<div id="r__density" class="section level4">
+<h4>r__density</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">r__density:</span><span class="at"> 0.8</span></code></pre></div>
+</div>
+<div id="r__density_lower_bound" class="section level4">
+<h4>r__density_lower_bound</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="co">#            r__density_lower_bound: 0.01</span></code></pre></div>
+</div>
+<div id="use_unif_rand_p__prop_of_links_between_groups" class="section level4">
+<h4>use_unif_rand_p__prop_of_links_between_groups</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">use_unif_rand_p__prop_of_links_between_groups:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="p__prop_of_links_between_groups_lower_bound" class="section level4">
+<h4>p__prop_of_links_between_groups_lower_bound</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">p__prop_of_links_between_groups_lower_bound:</span><span class="at"> 0.01</span></code></pre></div>
+</div>
+<div id="p__prop_of_links_between_groups_upper_bound" class="section level4">
+<h4>p__prop_of_links_between_groups_upper_bound</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">p__prop_of_links_between_groups_upper_bound:</span><span class="at"> 0.99</span></code></pre></div>
+</div>
+<div id="p__prop_of_links_between_groups" class="section level4">
+<h4>p__prop_of_links_between_groups</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="co">#    p__prop_of_links_between_groups: 0.5</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="xu-wrapped-problem-parameters" class="section level2">
+<h2>Xu wrapped problem parameters</h2>
+<p>Parameters for building a multi-problem by wrapping a lognormal distribution around a base Xu problem.</p>
+<div id="example-11" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">gen_multi_bdproblem:</span><span class="at"> TRUE</span>
+    <span class="fu">wrap_lognormal_dist_around_Xu:</span><span class="at"> TRUE</span>
+    <span class="fu">allow_imperfect_wrap:</span><span class="at"> TRUE    </span><span class="co">#  new variable - BTL - 2017 12 13</span>
+    <span class="fu">desired_Xu_spp_frac_of_all_spp:</span><span class="at"> 0.5</span>
+    <span class="fu">solution_frac_of_landscape:</span><span class="at"> 0.3</span>
+    <span class="fu">desired_max_abundance_frac:</span><span class="at"> 0.7</span>
+    <span class="fu">dep_set_PUs_eligible:</span><span class="at"> FALSE</span>
+    <span class="fu">add_one_to_lognormal_abundances:</span><span class="at"> FALSE</span>
+    <span class="fu">max_search_iterations:</span><span class="at"> 500</span>
+    <span class="fu">plot_rounded_abundances:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="useful-sets-11" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-11" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-11" class="section level3">
+<h3>Specific parameters</h3>
+<div id="gen_multi_bdproblem" class="section level4">
+<h4>gen_multi_bdproblem</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">gen_multi_bdproblem:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="wrap_lognormal_dist_around_xu" class="section level4">
+<h4>wrap_lognormal_dist_around_Xu</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">wrap_lognormal_dist_around_Xu:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="allow_imperfect_wrap" class="section level4">
+<h4>allow_imperfect_wrap</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">allow_imperfect_wrap:</span><span class="at"> TRUE    </span><span class="co">#  new variable - BTL - 2017 12 13</span></code></pre></div>
+</div>
+<div id="desired_xu_spp_frac_of_all_spp" class="section level4">
+<h4>desired_Xu_spp_frac_of_all_spp</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">desired_Xu_spp_frac_of_all_spp:</span><span class="at"> 0.5</span></code></pre></div>
+</div>
+<div id="solution_frac_of_landscape" class="section level4">
+<h4>solution_frac_of_landscape</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">solution_frac_of_landscape:</span><span class="at"> 0.3</span></code></pre></div>
+</div>
+<div id="desired_max_abundance_frac" class="section level4">
+<h4>desired_max_abundance_frac</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">desired_max_abundance_frac:</span><span class="at"> 0.7</span></code></pre></div>
+</div>
+<div id="dep_set_pus_eligible" class="section level4">
+<h4>dep_set_PUs_eligible</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">dep_set_PUs_eligible:</span><span class="at"> FALSE</span></code></pre></div>
+</div>
+<div id="add_one_to_lognormal_abundances" class="section level4">
+<h4>add_one_to_lognormal_abundances</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">add_one_to_lognormal_abundances:</span><span class="at"> FALSE</span></code></pre></div>
+</div>
+<div id="max_search_iterations" class="section level4">
+<h4>max_search_iterations</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">max_search_iterations:</span><span class="at"> 500</span></code></pre></div>
+</div>
+<div id="plot_rounded_abundances" class="section level4">
+<h4>plot_rounded_abundances</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">plot_rounded_abundances:</span><span class="at"> TRUE</span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
+</div>
+<div id="error-generation" class="section level1">
+<h1>Error generation</h1>
+<div id="example-12" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">apply_error_to_spp_occupancy_data:</span><span class="at"> TRUE</span>
+<span class="co">#            match_error_counts: TRUE</span>
+    <span class="fu">match_error_counts:</span><span class="at"> FALSE</span>
+
+    <span class="co">#--------------------</span>
+
+        <span class="co">#  Constant errors</span>
+
+    <span class="fu">spp_occ_FP_error_type:</span><span class="at"> </span><span class="st">&quot;CONSTANT&quot;</span>
+    <span class="fu">spp_occ_FP_const_rate:</span><span class="at"> 0  </span><span class="co">#0.05  #0  #0.1</span>
+
+    <span class="fu">spp_occ_FN_error_type:</span><span class="at"> </span><span class="st">&quot;CONSTANT&quot;</span>
+    <span class="fu">spp_occ_FN_const_rate:</span><span class="at"> 0.05  </span><span class="co">#0.1  #0.1</span></code></pre></div>
+</div>
+<div id="useful-sets-12" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-12" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-12" class="section level3">
+<h3>Specific parameters</h3>
+<div id="apply_error_to_spp_occupancy_data" class="section level4">
+<h4>apply_error_to_spp_occupancy_data</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">apply_error_to_spp_occupancy_data:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="match_error_counts" class="section level4">
+<h4>match_error_counts</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">match_error_counts:</span><span class="at"> FALSE</span></code></pre></div>
+</div>
+<div id="spp_occ_fp_error_type" class="section level4">
+<h4>spp_occ_FP_error_type</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">spp_occ_FP_error_type:</span><span class="at"> </span><span class="st">&quot;CONSTANT&quot;</span></code></pre></div>
+</div>
+<div id="spp_occ_fp_const_rate" class="section level4">
+<h4>spp_occ_FP_const_rate</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">spp_occ_FP_const_rate:</span><span class="at"> 0  </span><span class="co">#0.05  #0  #0.1</span></code></pre></div>
+</div>
+<div id="spp_occ_fn_error_type" class="section level4">
+<h4>spp_occ_FN_error_type</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">spp_occ_FN_error_type:</span><span class="at"> </span><span class="st">&quot;CONSTANT&quot;</span></code></pre></div>
+</div>
+<div id="spp_occ_fn_const_rate" class="section level4">
+<h4>spp_occ_FN_const_rate</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">spp_occ_FN_const_rate:</span><span class="at"> 0.05  </span><span class="co">#0.1  #0.1</span></code></pre></div>
+<hr />
+</div>
+</div>
+</div>
+<div id="network-measures" class="section level1">
+<h1>Network measures</h1>
+<div id="example-13" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">compute_network_metrics:</span><span class="at"> FALSE    </span><span class="co">#  if FALSE, overrides all other network flags below</span>
+
+    <span class="fu">compute_network_metrics_COR:</span><span class="at"> TRUE</span>
+    <span class="fu">compute_network_metrics_APP:</span><span class="at"> TRUE</span>
+    <span class="fu">compute_network_metrics_wrapped_COR:</span><span class="at"> TRUE</span>
+    <span class="fu">compute_network_metrics_wrapped_APP:</span><span class="at"> TRUE</span>
+
+    <span class="fu">use_igraph_metrics:</span><span class="at">    TRUE</span>
+
+    <span class="fu">use_bipartite_metrics:</span><span class="at"> TRUE</span>
+    <span class="co">#bipartite_metrics_to_use:     &quot;ALLBUTDD&quot;</span>
+<span class="co">#    bipartite_metrics_to_use:     &quot;all_except_slow_indices&quot;</span>
+    <span class="fu">bipartite_metrics_to_use:</span><span class="at">     </span><span class="st">&quot;quick_test&quot;</span></code></pre></div>
+</div>
+<div id="useful-sets-13" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-13" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-13" class="section level3">
+<h3>Specific parameters</h3>
+<div id="compute_network_metrics" class="section level4">
+<h4>compute_network_metrics</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">compute_network_metrics:</span><span class="at"> FALSE    </span><span class="co">#  if FALSE, overrides all other network flags below</span></code></pre></div>
+</div>
+<div id="compute_network_metrics_cor" class="section level4">
+<h4>compute_network_metrics_COR</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">compute_network_metrics_COR:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="compute_network_metrics_app" class="section level4">
+<h4>compute_network_metrics_APP</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">compute_network_metrics_APP:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="compute_network_metrics_wrapped_cor" class="section level4">
+<h4>compute_network_metrics_wrapped_COR</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">compute_network_metrics_wrapped_COR:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="compute_network_metrics_wrapped_app" class="section level4">
+<h4>compute_network_metrics_wrapped_APP</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">compute_network_metrics_wrapped_APP:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="use_igraph_metrics" class="section level4">
+<h4>use_igraph_metrics</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">use_igraph_metrics:</span><span class="at">    TRUE</span></code></pre></div>
+</div>
+<div id="use_bipartite_metrics" class="section level4">
+<h4>use_bipartite_metrics</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">use_bipartite_metrics:</span><span class="at"> TRUE</span></code></pre></div>
+</div>
+<div id="bipartite_metrics_to_use" class="section level4">
+<h4>bipartite_metrics_to_use</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values: “ALLBUTDD”, “all_except_slow_indices”, or “quick_test”</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml">    <span class="fu">bipartite_metrics_to_use:</span><span class="at">     </span><span class="st">&quot;quick_test&quot;</span></code></pre></div>
+<hr />
+<p><strong>TEMPLATE</strong></p>
+</div>
+</div>
+</div>
+<div id="parameter_group" class="section level1">
+<h1>PARAMETER_GROUP</h1>
+<div id="parameter_subgroup" class="section level2">
+<h2>PARAMETER_SUBGROUP</h2>
+<div id="example-14" class="section level3">
+<h3>Example</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+<div id="useful-sets-14" class="section level3">
+<h3>Useful sets</h3>
+<div id="set_name-14" class="section level4">
+<h4>SET_NAME</h4>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+</div>
+</div>
+<div id="specific-parameters-14" class="section level3">
+<h3>Specific parameters</h3>
+<div id="parameter_name" class="section level4">
+<h4>PARAMETER_NAME</h4>
+<ul>
+<li>Definition</li>
+<li>Type/Allowed values</li>
+<li>Default value</li>
+<li>Rules</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"></code></pre></div>
+<p><strong>END TEMPLATE</strong></p>
+<hr />
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -4,14 +4,10 @@
 \alias{build_PU_spp_pair_indices_from_occ_matrix}
 \title{Build PU spp pair indices from occ matrix}
 \usage{
-build_PU_spp_pair_indices_from_occ_matrix(occ_matrix, num_PUs, num_spp)
+build_PU_spp_pair_indices_from_occ_matrix(occ_matrix)
 }
 \arguments{
 \item{occ_matrix}{matrix}
-
-\item{num_PUs}{integer}
-
-\item{num_spp}{integer}
 }
 \value{
 Returns PU_spp_pair_indices data frame
