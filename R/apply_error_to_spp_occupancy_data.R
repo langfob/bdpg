@@ -437,9 +437,7 @@ cat ("\n\n>>>>> ABOUT TO build_PU_spp_pair_indices_from_occ_matrix()\n")
 timings_for_build_PU_spp_pair_indices_from_occ_matrix =
     system.time ({
     app_PU_spp_pair_indices =
-        build_PU_spp_pair_indices_from_occ_matrix (app_spp_occupancy_data,
-                                                    cor_num_PUs,
-                                                   cor_num_spp)
+        build_PU_spp_pair_indices_from_occ_matrix (app_spp_occupancy_data)
     })
 cat ("\n\ntimings_for_build_PU_spp_pair_indices_from_occ_matrix = \n")
 print (timings_for_build_PU_spp_pair_indices_from_occ_matrix)
