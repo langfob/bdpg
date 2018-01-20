@@ -88,24 +88,24 @@ test_that("run_gurobi: GAP ONLY", {
     expect_equal (correct_solution_vector, result$gurobi_solution_vector)
 
         #  Output scalars that are reproducible
-    expect_equal (correct_status, result$gurobi_output_scalars$gurobi_status)
-    expect_equal (correct_objval, result$gurobi_output_scalars$gurobi_objval)
+    expect_equal (correct_status, result$gurobi_status)
+    expect_equal (correct_objval, result$gurobi_objval)
 
         #  Input scalars
-    expect_equal (10,    result$gurobi_input_scalars$gurobi_num_spp)
-    expect_equal (5,     result$gurobi_input_scalars$gurobi_num_PUs)
+    expect_equal (10,    result$gurobi_num_spp)
+    expect_equal (5,     result$gurobi_num_PUs)
 
-    expect_equal (TRUE,  result$gurobi_input_scalars$gurobi_use_gap_limit)
-    expect_equal (0.005, result$gurobi_input_scalars$gurobi_gap_limit_input)
-    expect_equal (0.005, result$gurobi_input_scalars$gurobi_gap_limit_used)
+    expect_equal (TRUE,  result$gurobi_use_gap_limit)
+    expect_equal (0.005, result$gurobi_gap_limit_input)
+    expect_equal (0.005, result$gurobi_gap_limit_used)
 
-    expect_equal (FALSE, result$gurobi_input_scalars$gurobi_use_given_time_as_limit)
-    expect_equal (60,    result$gurobi_input_scalars$gurobi_time_limit_input)
+    expect_equal (FALSE, result$gurobi_use_given_time_as_limit)
+    expect_equal (60,    result$gurobi_time_limit_input)
 
-    expect_equal (FALSE, result$gurobi_input_scalars$gurobi_use_marxan_time_as_limit)
-    expect_equal (NA,    result$gurobi_input_scalars$gurobi_marxan_elapsed_time_input)
+    expect_equal (FALSE, result$gurobi_use_marxan_time_as_limit)
+    expect_equal (NA,    result$gurobi_marxan_elapsed_time_input)
 
-    expect_equal (NULL,  result$gurobi_input_scalars$gurobi_time_limit_used)
+    expect_equal (NULL,  result$gurobi_time_limit_used)
     })
 
 test_that("run_gurobi: TIME ONLY", {
@@ -121,24 +121,24 @@ test_that("run_gurobi: TIME ONLY", {
     expect_equal (correct_solution_vector, result$gurobi_solution_vector)
 
         #  Output scalars that are reproducible
-    expect_equal (correct_status, result$gurobi_output_scalars$gurobi_status)
-    expect_equal (correct_objval, result$gurobi_output_scalars$gurobi_objval)
+    expect_equal (correct_status, result$gurobi_status)
+    expect_equal (correct_objval, result$gurobi_objval)
 
         #  Input scalars
-    expect_equal (10,    result$gurobi_input_scalars$gurobi_num_spp)
-    expect_equal (5,     result$gurobi_input_scalars$gurobi_num_PUs)
+    expect_equal (10,    result$gurobi_num_spp)
+    expect_equal (5,     result$gurobi_num_PUs)
 
-    expect_equal (FALSE, result$gurobi_input_scalars$gurobi_use_gap_limit)
-    expect_equal (0.005, result$gurobi_input_scalars$gurobi_gap_limit_input)
-    expect_equal (NULL,  result$gurobi_input_scalars$gurobi_gap_limit_used)
+    expect_equal (FALSE, result$gurobi_use_gap_limit)
+    expect_equal (0.005, result$gurobi_gap_limit_input)
+    expect_equal (NULL,  result$gurobi_gap_limit_used)
 
-    expect_equal (TRUE,  result$gurobi_input_scalars$gurobi_use_given_time_as_limit)
-    expect_equal (60,    result$gurobi_input_scalars$gurobi_time_limit_input)
+    expect_equal (TRUE,  result$gurobi_use_given_time_as_limit)
+    expect_equal (60,    result$gurobi_time_limit_input)
 
-    expect_equal (FALSE, result$gurobi_input_scalars$gurobi_use_marxan_time_as_limit)
-    expect_equal (NA,    result$gurobi_input_scalars$gurobi_marxan_elapsed_time_input)
+    expect_equal (FALSE, result$gurobi_use_marxan_time_as_limit)
+    expect_equal (NA,    result$gurobi_marxan_elapsed_time_input)
 
-    expect_equal (60,    result$gurobi_input_scalars$gurobi_time_limit_used)
+    expect_equal (60,    result$gurobi_time_limit_used)
     })
 
 test_that("run_gurobi: GAP+TIME", {
@@ -154,24 +154,24 @@ test_that("run_gurobi: GAP+TIME", {
     expect_equal (correct_solution_vector, result$gurobi_solution_vector)
 
         #  Output scalars that are reproducible
-    expect_equal (correct_status, result$gurobi_output_scalars$gurobi_status)
-    expect_equal (correct_objval, result$gurobi_output_scalars$gurobi_objval)
+    expect_equal (correct_status, result$gurobi_status)
+    expect_equal (correct_objval, result$gurobi_objval)
 
         #  Input scalars
-    expect_equal (10,    result$gurobi_input_scalars$gurobi_num_spp)
-    expect_equal (5,     result$gurobi_input_scalars$gurobi_num_PUs)
+    expect_equal (10,    result$gurobi_num_spp)
+    expect_equal (5,     result$gurobi_num_PUs)
 
-    expect_equal (TRUE,  result$gurobi_input_scalars$gurobi_use_gap_limit)
-    expect_equal (0.005, result$gurobi_input_scalars$gurobi_gap_limit_input)
-    expect_equal (0.005, result$gurobi_input_scalars$gurobi_gap_limit_used)
+    expect_equal (TRUE,  result$gurobi_use_gap_limit)
+    expect_equal (0.005, result$gurobi_gap_limit_input)
+    expect_equal (0.005, result$gurobi_gap_limit_used)
 
-    expect_equal (TRUE,  result$gurobi_input_scalars$gurobi_use_given_time_as_limit)
-    expect_equal (60,    result$gurobi_input_scalars$gurobi_time_limit_input)
+    expect_equal (TRUE,  result$gurobi_use_given_time_as_limit)
+    expect_equal (60,    result$gurobi_time_limit_input)
 
-    expect_equal (FALSE, result$gurobi_input_scalars$gurobi_use_marxan_time_as_limit)
-    expect_equal (NA,    result$gurobi_input_scalars$gurobi_marxan_elapsed_time_input)
+    expect_equal (FALSE, result$gurobi_use_marxan_time_as_limit)
+    expect_equal (NA,    result$gurobi_marxan_elapsed_time_input)
 
-    expect_equal (60,    result$gurobi_input_scalars$gurobi_time_limit_used)
+    expect_equal (60,    result$gurobi_time_limit_used)
     })
 
 test_that("run_gurobi: MARXAN TIME ONLY", {
@@ -187,24 +187,24 @@ test_that("run_gurobi: MARXAN TIME ONLY", {
     expect_equal (correct_solution_vector, result$gurobi_solution_vector)
 
         #  Output scalars that are reproducible
-    expect_equal (correct_status, result$gurobi_output_scalars$gurobi_status)
-    expect_equal (correct_objval, result$gurobi_output_scalars$gurobi_objval)
+    expect_equal (correct_status, result$gurobi_status)
+    expect_equal (correct_objval, result$gurobi_objval)
 
         #  Input scalars
-    expect_equal (10,    result$gurobi_input_scalars$gurobi_num_spp)
-    expect_equal (5,     result$gurobi_input_scalars$gurobi_num_PUs)
+    expect_equal (10,    result$gurobi_num_spp)
+    expect_equal (5,     result$gurobi_num_PUs)
 
-    expect_equal (FALSE, result$gurobi_input_scalars$gurobi_use_gap_limit)
-    expect_equal (0.005, result$gurobi_input_scalars$gurobi_gap_limit_input)
-    expect_equal (NULL,  result$gurobi_input_scalars$gurobi_gap_limit_used)
+    expect_equal (FALSE, result$gurobi_use_gap_limit)
+    expect_equal (0.005, result$gurobi_gap_limit_input)
+    expect_equal (NULL,  result$gurobi_gap_limit_used)
 
-    expect_equal (FALSE, result$gurobi_input_scalars$gurobi_use_given_time_as_limit)
-    expect_equal (60,    result$gurobi_input_scalars$gurobi_time_limit_input)
+    expect_equal (FALSE, result$gurobi_use_given_time_as_limit)
+    expect_equal (60,    result$gurobi_time_limit_input)
 
-    expect_equal (TRUE,  result$gurobi_input_scalars$gurobi_use_marxan_time_as_limit)
-    expect_equal (21.03, result$gurobi_input_scalars$gurobi_marxan_elapsed_time_input)
+    expect_equal (TRUE,  result$gurobi_use_marxan_time_as_limit)
+    expect_equal (21.03, result$gurobi_marxan_elapsed_time_input)
 
-    expect_equal (22,    result$gurobi_input_scalars$gurobi_time_limit_used)
+    expect_equal (22,    result$gurobi_time_limit_used)
     })
 
 test_that("run_gurobi: GAP+MARXAN", {
@@ -220,24 +220,24 @@ test_that("run_gurobi: GAP+MARXAN", {
     expect_equal (correct_solution_vector, result$gurobi_solution_vector)
 
         #  Output scalars that are reproducible
-    expect_equal (correct_status, result$gurobi_output_scalars$gurobi_status)
-    expect_equal (correct_objval, result$gurobi_output_scalars$gurobi_objval)
+    expect_equal (correct_status, result$gurobi_status)
+    expect_equal (correct_objval, result$gurobi_objval)
 
         #  Input scalars
-    expect_equal (10,    result$gurobi_input_scalars$gurobi_num_spp)
-    expect_equal (5,     result$gurobi_input_scalars$gurobi_num_PUs)
+    expect_equal (10,    result$gurobi_num_spp)
+    expect_equal (5,     result$gurobi_num_PUs)
 
-    expect_equal (TRUE,  result$gurobi_input_scalars$gurobi_use_gap_limit)
-    expect_equal (0.005, result$gurobi_input_scalars$gurobi_gap_limit_input)
-    expect_equal (0.005, result$gurobi_input_scalars$gurobi_gap_limit_used)
+    expect_equal (TRUE,  result$gurobi_use_gap_limit)
+    expect_equal (0.005, result$gurobi_gap_limit_input)
+    expect_equal (0.005, result$gurobi_gap_limit_used)
 
-    expect_equal (FALSE, result$gurobi_input_scalars$gurobi_use_given_time_as_limit)
-    expect_equal (60,    result$gurobi_input_scalars$gurobi_time_limit_input)
+    expect_equal (FALSE, result$gurobi_use_given_time_as_limit)
+    expect_equal (60,    result$gurobi_time_limit_input)
 
-    expect_equal (TRUE,  result$gurobi_input_scalars$gurobi_use_marxan_time_as_limit)
-    expect_equal (21.03, result$gurobi_input_scalars$gurobi_marxan_elapsed_time_input)
+    expect_equal (TRUE,  result$gurobi_use_marxan_time_as_limit)
+    expect_equal (21.03, result$gurobi_marxan_elapsed_time_input)
 
-    expect_equal (22,    result$gurobi_input_scalars$gurobi_time_limit_used)
+    expect_equal (22,    result$gurobi_time_limit_used)
     })
 
 #-------------------------------------------------------------------------------

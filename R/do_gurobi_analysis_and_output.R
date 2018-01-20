@@ -207,17 +207,53 @@ if(FALSE)
          is_solution, "'\n")
 }
 
-gurobi_output_scalars =
-    list (gurobi_status       = result$status,
+# gurobi_output_scalars =
+#     list (
+#           gurobi_status       = result$status,
+#           gurobi_objval       = result$objval,
+#           gurobi_objbound     = result$objbound,
+#           gurobi_runtime      = result$runtime,
+#           gurobi_itercount    = result$itercount,
+#           gurobi_baritercount = result$baritercount,
+#           gurobi_nodecount    = result$nodecount
+#           )
+
+# gurobi_input_scalars =
+#     list (
+#           gurobi_num_spp                   = num_spp,
+#           gurobi_num_PUs                   = num_PUs,
+#
+#           gurobi_use_gap_limit             = use_gap_limit,
+#           gurobi_gap_limit_input           = gap_limit,
+#           gurobi_gap_limit_used            = gurobi_params$MIPGap,
+#
+#           gurobi_use_given_time_as_limit   = use_given_time_as_limit,
+#           gurobi_time_limit_input          = time_limit,
+#
+#           gurobi_use_marxan_time_as_limit  = use_marxan_time_as_limit,
+#           gurobi_marxan_elapsed_time_input = marxan_elapsed_time,
+#
+#           gurobi_time_limit_used           = gurobi_params$TimeLimit
+#           )
+
+# gurobi_controls_and_results =
+#     list (gurobi_solution_vector = result$x,
+#           gurobi_output_scalars  = gurobi_output_scalars,
+#           gurobi_input_scalars   = gurobi_input_scalars)
+
+gurobi_controls_and_results =
+    list (gurobi_solution_vector = result$x,
+
+            #  Output scalars
+          gurobi_status       = result$status,
           gurobi_objval       = result$objval,
           gurobi_objbound     = result$objbound,
           gurobi_runtime      = result$runtime,
           gurobi_itercount    = result$itercount,
           gurobi_baritercount = result$baritercount,
-          gurobi_nodecount    = result$nodecount)
+          gurobi_nodecount    = result$nodecount,
 
-gurobi_input_scalars =
-    list (
+            #  Input scalars
           gurobi_num_spp                   = num_spp,
           gurobi_num_PUs                   = num_PUs,
 
@@ -231,12 +267,8 @@ gurobi_input_scalars =
           gurobi_use_marxan_time_as_limit  = use_marxan_time_as_limit,
           gurobi_marxan_elapsed_time_input = marxan_elapsed_time,
 
-          gurobi_time_limit_used           = gurobi_params$TimeLimit)
-
-gurobi_controls_and_results =
-    list (gurobi_solution_vector = result$x,
-          gurobi_output_scalars  = gurobi_output_scalars,
-          gurobi_input_scalars   = gurobi_input_scalars)
+          gurobi_time_limit_used           = gurobi_params$TimeLimit
+          )
 
 #browser()
     return (gurobi_controls_and_results)
