@@ -6,7 +6,7 @@
 \title{Set up for and run gurobi}
 \usage{
 set_up_for_and_run_gurobi(num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
-  use_gap_limit, gap_limit, use_time_limit, time_limit,
+  use_gap_limit, gap_limit, use_given_time_as_limit, time_limit,
   use_marxan_time_as_limit, marxan_elapsed_time = NA)
 }
 \arguments{
@@ -29,7 +29,7 @@ species in the problem}
 
 \item{gap_limit}{numeric}
 
-\item{use_time_limit}{boolean}
+\item{use_given_time_as_limit}{boolean}
 
 \item{time_limit}{numeric}
 

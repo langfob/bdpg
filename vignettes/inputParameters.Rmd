@@ -328,7 +328,7 @@ If you're reading the Xu problem from a file in Xu's benchmark problem file form
 ```
     do_gurobi: TRUE
     
-    use_time_limit: TRUE
+    use_given_time_as_limit: TRUE
     time_limit: 600
     use_marxan_time_as_limit: FALSE
     
@@ -356,7 +356,7 @@ If you're reading the Xu problem from a file in Xu's benchmark problem file form
     do_gurobi: TRUE
 ```
 
-#### use_time_limit
+#### use_given_time_as_limit
 
 - Definition
 - Type/Allowed values
@@ -364,7 +364,7 @@ If you're reading the Xu problem from a file in Xu's benchmark problem file form
 - Rules
 
 ```yaml
-    use_time_limit: TRUE
+    use_given_time_as_limit: TRUE
 ```
 
 #### use_marxan_time_as_limit
@@ -378,7 +378,7 @@ If you're reading the Xu problem from a file in Xu's benchmark problem file form
     use_marxan_time_as_limit: FALSE
 ```
 
-#### use_time_limit
+#### use_given_time_as_limit
 
 - Definition
 - Type/Allowed values
@@ -386,7 +386,7 @@ If you're reading the Xu problem from a file in Xu's benchmark problem file form
 - Rules
 
 ```yaml
-    use_time_limit: TRUE
+    use_given_time_as_limit: TRUE
 ```
 
 #### use_gap_limit

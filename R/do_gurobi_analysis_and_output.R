@@ -6,7 +6,7 @@
 
 #' Run gurobi linear programming optimizer
 #'
-#' @param use_time_limit boolean indicating whether to set a time limit on the
+#' @param use_given_time_as_limit boolean indicating whether to set a time limit on the
 #'     optimization computation; TRUE implies set the limit, FALSE implies no
 #'     time limit
 #' @param time_limit numeric value for time limit measured in seconds
@@ -25,11 +25,18 @@
 
 #-------------------------------------------------------------------------------
 
-run_gurobi <- function (num_spp, num_PUs,
+run_gurobi <- function (num_spp,
+                        num_PUs,
                         bpm,
-                        PU_costs, spp_rep_targets,
-                        use_gap_limit = FALSE, gap_limit = 0.005,
-                        use_time_limit = TRUE, time_limit = 60,
+                        PU_costs,
+                        spp_rep_targets,
+
+                        use_gap_limit = FALSE,
+                        gap_limit = 0.005,
+
+                        use_given_time_as_limit = TRUE,
+                        time_limit = 60,
+
                         use_marxan_time_as_limit = FALSE,
                         marxan_elapsed_time = NA
                         )
@@ -80,7 +87,8 @@ if (length (spp_abundances) != length (spp_rep_targets))
 spp_with_subtarget_abundances = which (spp_abundances < spp_rep_targets)
 num_subtarget_abundances = length (spp_with_subtarget_abundances)
 cat ("\n\nlength (spp_abundances) = ", length (spp_abundances),
-     "\nnum_subtarget_abundances = ", num_subtarget_abundances)
+     "\n\nnum_subtarget_abundances = ", num_subtarget_abundances,
+     "\n")
 if (num_subtarget_abundances > 0)
     {
     cat ("\nspp_with_subtarget_abundances = \n")
@@ -121,40 +129,56 @@ rhs = pmin (spp_rep_targets, spp_abundances)
         #  when the time limit is reached, then increase the TimeLimit
         #  parameter, set the MIPGap parameter to 0.01, and continue to
         #  solve the MIP.
-    # if (use_gap_limit && use_time_limit)
-    # {
-    # stop_bdpg ("Can't set both use_gap_limit and use_time_limit to TRUE.")
-    #
-    # } else
     use_gap_limit = vb (use_gap_limit, def_on_empty = TRUE, def = FALSE)
     if (use_gap_limit)
         {
-        gap_limit = vn (gap_limit)
-        gurobi_params$MIPGap = gap_limit
-        cat ("\nrun_gurobi() setting MIPGap to '", gurobi_params$MIPGap, "'")
+        gurobi_params$MIPGap = vn (gap_limit, range_lo = 0, bounds_types = "ii")
+        cat ("\nrun_gurobi() setting MIPGap to '", gurobi_params$MIPGap,
+             "'\n", sep='')
         }
 
-    use_time_limit = vb (use_time_limit, def_on_empty = TRUE, def = FALSE)
-    use_marxan_time_as_limit =
-        vb (use_marxan_time_as_limit, def_on_empty = TRUE, def = FALSE)
-    if (use_time_limit)
+        #-----------------------------------------------------------------------
+        #  If the caller wants to use a time limit, then they can either
+        #  specify the time limit directly or they can choose to use
+        #  marxan's elapsed run time so that gurobi gets roughly the same
+        #  amount of time as it took marxan to complete.
+        #-----------------------------------------------------------------------
+
+    use_given_time_as_limit = vb (use_given_time_as_limit,
+                                  def_on_empty = TRUE, def = FALSE)
+    use_marxan_time_as_limit = vb (use_marxan_time_as_limit,
+                                   def_on_empty = TRUE, def = FALSE)
+
+    if (use_given_time_as_limit && use_marxan_time_as_limit)
         {
-        if (use_marxan_time_as_limit)
-            {
-                time_limit = round (vb (marxan_elapsed_time))
-            } else
-            {
-            time_limit = vn (time_limit)
-            }
-        gurobi_params$TimeLimit = time_limit
-        cat ("\nrun_gurobi() setting TimeLimit to '", gurobi_params$TimeLimit,
-             "'")
+        stop_bdpg (paste0 ("Can't set both use_given_time_as_limit and ",
+                           "use_marxan_time_as_limit to TRUE."))
         }
+
+    if (use_given_time_as_limit || use_marxan_time_as_limit)
+        {
+        if (use_given_time_as_limit)
+            {
+            gurobi_params$TimeLimit = vn (time_limit,
+                                          range_lo = 0, bounds_types = "ei")
+
+            } else if (use_marxan_time_as_limit)
+            {
+            gurobi_params$TimeLimit =
+                ceiling (vn (marxan_elapsed_time,
+                             range_lo = 0, bounds_types = "ei"))
+            }
+
+        cat ("\nrun_gurobi() setting TimeLimit to '", gurobi_params$TimeLimit,
+             "'\n", sep='')
+        }
+
+    cat ("\n--------------------\n\n")
 
     #--------------------
 
         # solve the problem
-    gurobi_result <- gurobi::gurobi (gurobi_model, gurobi_params)
+    result <- gurobi::gurobi (gurobi_model, gurobi_params)
 
     #--------------------
 
@@ -162,12 +186,14 @@ rhs = pmin (spp_rep_targets, spp_abundances)
         # value achieved (result$objval) and the vector of decision variable
         # values (0 or 1 in our example because the variables are binary).
 
-    cat ("\n\nGurobi result:\n")
-    print (gurobi_result)
+    cat ("\n--------------------\n\n")
+
+    cat ("Gurobi result:\n")
+    print (result)
 
 if(FALSE)
 {
-    solution = gurobi_result$x
+    solution = result$x
     solution_node_IDs = which (solution == 1)
 
     is_solution =
@@ -181,27 +207,26 @@ if(FALSE)
          is_solution, "'\n")
 }
 
-    return (gurobi_result)
-    }
+gurobi_output_scalars =
+    list (gurobi_status       = result$status,
+          gurobi_objval       = result$objval,
+          gurobi_objbound     = result$objbound,
+          gurobi_runtime      = result$runtime,
+          gurobi_itercount    = result$itercount,
+          gurobi_baritercount = result$baritercount,
+          gurobi_nodecount    = result$nodecount)
 
-#===============================================================================
+gurobi_input_scalars =
+    list (
+          gurobi_num_spp                   = num_spp,
+          gurobi_num_PUs                   = num_PUs,
 
-gen_dummy_bpm <- function (num_spp, num_PUs)
-    {
-    bpm = matrix (0, nrow=num_spp, ncol=num_PUs)
+          gurobi_use_gap_limit             = use_gap_limit,
+          gurobi_gap_limit_input           = gap_limit,
+          gurobi_gap_limit_used            = gurobi_params$MIPGap,
 
-    cat ("\ndim(bpm) = ", dim(bpm))
-    for (cur_spp in 1:num_spp)
-        {
-        occ_PUs_for_this_spp = sample (1:num_PUs, 2, replace=FALSE)
-
-        bpm [cur_spp, occ_PUs_for_this_spp] = 1
-        }
-
-    return (bpm)
-    }
-
-#===============================================================================
+          gurobi_use_given_time_as_limit   = use_given_time_as_limit,
+          gurobi_time_limit_input          = time_limit,
 
           gurobi_use_marxan_time_as_limit  = use_marxan_time_as_limit,
           gurobi_marxan_elapsed_time_input = marxan_elapsed_time,

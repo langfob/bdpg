@@ -5,9 +5,9 @@
 \title{Run gurobi linear programming optimizer}
 \usage{
 run_gurobi(num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
-  use_gap_limit = FALSE, gap_limit = 0.005, use_time_limit = TRUE,
-  time_limit = 60, use_marxan_time_as_limit = FALSE,
-  marxan_elapsed_time = NA)
+  use_gap_limit = FALSE, gap_limit = 0.005,
+  use_given_time_as_limit = TRUE, time_limit = 60,
+  use_marxan_time_as_limit = FALSE, marxan_elapsed_time = NA)
 }
 \arguments{
 \item{num_spp}{integer number of species in the problem}
@@ -33,7 +33,7 @@ enforced}
 \item{gap_limit}{numeric value for gap, measured in same units as the
 objective function}
 
-\item{use_time_limit}{boolean indicating whether to set a time limit on the
+\item{use_given_time_as_limit}{boolean indicating whether to set a time limit on the
 optimization computation; TRUE implies set the limit, FALSE implies no
 time limit}
 

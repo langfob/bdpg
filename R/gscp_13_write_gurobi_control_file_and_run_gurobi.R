@@ -35,7 +35,7 @@ set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
                                    use_gap_limit = parameters$use_gap_limit,
                                    gap_limit     = parameters$gap_limit,
 
-                                   use_time_limit = parameters$use_time_limit,
+                                   use_given_time_as_limit = parameters$use_given_time_as_limit,
                                    time_limit     = parameters$time_limit,
 
                                    parameters$use_marxan_time_as_limit,
@@ -78,7 +78,7 @@ set_up_for_and_run_gurobi_APP <- function (APP_bd_prob,
                                    use_gap_limit = parameters$use_gap_limit,
                                    gap_limit     = parameters$gap_limit,
 
-                                   use_time_limit = parameters$use_time_limit,
+                                   use_given_time_as_limit = parameters$use_given_time_as_limit,
                                    time_limit     = parameters$time_limit,
 
                                    parameters$use_marxan_time_as_limit,
@@ -95,7 +95,7 @@ set_up_for_and_run_gurobi_APP <- function (APP_bd_prob,
 #'
 #-------------------------------------------------------------------------------
 
-#' @param use_time_limit boolean
+#' @param use_given_time_as_limit boolean
 #' @param time_limit numeric
 #' @param use_gap_limit boolean
 #' @param gap_limit numeric
@@ -111,14 +111,15 @@ set_up_for_and_run_gurobi <- function (num_spp,
                                        PU_costs,
                                        spp_rep_targets,
                                        use_gap_limit, gap_limit,
-                                       use_time_limit, time_limit,
+                                       use_given_time_as_limit,
+                                       time_limit,
                                        use_marxan_time_as_limit,
                                        marxan_elapsed_time=NA)
     {
     gurobi_result =
         run_gurobi (num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
                     use_gap_limit, gap_limit,
-                    use_time_limit, time_limit,
+                    use_given_time_as_limit, time_limit,
                     use_marxan_time_as_limit, marxan_elapsed_time)
 
     return (gurobi_result)
