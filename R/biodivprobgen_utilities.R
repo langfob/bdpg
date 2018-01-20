@@ -338,12 +338,16 @@ see_if_there_are_any_duplicate_links = function (occ_matrix, num_spp)
 #' @param num_PUs integer
 #' @param num_spp integer
 #'
+#' @param use_new_form boolean
+#'
 #' @return Returns PU_spp_pair_indices data frame
 
 #-------------------------------------------------------------------------------
 
-build_PU_spp_pair_indices_from_occ_matrix = function (occ_matrix,
-                                                      num_PUs, num_spp)
+build_PU_spp_pair_indices_from_occ_matrix <- function (occ_matrix,
+                                                       num_PUs,
+                                                       num_spp,
+                                                       use_new_form=TRUE)
     {
     num_PU_spp_pairs = sum (occ_matrix)
 
@@ -351,32 +355,15 @@ build_PU_spp_pair_indices_from_occ_matrix = function (occ_matrix,
         #  Why is PU_spp_pair_indices a data frame instead of a matrix?
         #****************************************************************
 
-
-PU_spp_pair_indices
-
-
-if (TRUE)
+if (use_new_form)
 {
-#     #  test
-# occ_matrix = matrix (1:6, nrow=2, ncol=3)
-# occ_matrix[occ_matrix<4] = 0
-# occ_matrix[occ_matrix>3] = 1
-# num_PU_spp_pairs = sum (occ_matrix)
-# cat ("\nnum_PU_spp_pairs BEFORE which() = ", num_PU_spp_pairs)
-# occ_vec_indices = which (occ_matrix > 0, arr.ind=TRUE)
-# num_PU_spp_pairs = dim (occ_vec_indices) [1]
-# cat ("\nnum_PU_spp_pairs AFTER which() = ", num_PU_spp_pairs)
-# PU_spp_pair_indices = data.frame (PU_ID = occ_vec_indices [,2],
-#                                   spp_ID = occ_vec_indices [,1])
-
-# timings_for_build_PU_spp_pair_indices_from_occ_matrix =
-#    user  system elapsed
-#   0.037   0.007   0.044
-
 cat ("\nnum_PU_spp_pairs BEFORE which() = ", num_PU_spp_pairs)
+
 occ_vec_indices = which (occ_matrix > 0, arr.ind=TRUE)
+
 num_PU_spp_pairs = dim (occ_vec_indices) [1]
 cat ("\nnum_PU_spp_pairs AFTER which() = ", num_PU_spp_pairs)
+
 PU_spp_pair_indices = data.frame (PU_ID = occ_vec_indices [,2],
                                   spp_ID = occ_vec_indices [,1])
 } else
@@ -384,8 +371,9 @@ PU_spp_pair_indices = data.frame (PU_ID = occ_vec_indices [,2],
 # timings_for_build_PU_spp_pair_indices_from_occ_matrix =
 #    user  system elapsed
 # 272.760 260.580 533.979
-#
+
 #  This is 7371.892 times the time required using which() !!
+
 
     PU_spp_pair_indices = data.frame (PU_ID = rep (NA, num_PU_spp_pairs),
                                       spp_ID = rep (NA, num_PU_spp_pairs))
@@ -408,8 +396,68 @@ PU_spp_pair_indices = data.frame (PU_ID = occ_vec_indices [,2],
         }  #  end for - all soo rows
 }
 
+
     return (PU_spp_pair_indices)
+}
+
+
+
+#' Test build PU spp pair indices from occ matrix
+#' @export
+#'
+tb <- function ()
+    {
+    num_spp=2
+    num_PUs=3
+    occ_matrix = matrix (1:(num_spp*num_PUs), nrow=num_spp, ncol=num_PUs)
+    occ_matrix[occ_matrix<4] = 0
+    occ_matrix[occ_matrix>3] = 1
+
+    # num_PU_spp_pairs = sum (occ_matrix)
+    # cat ("\nnum_PU_spp_pairs BEFORE which() = ", num_PU_spp_pairs)
+    #
+    # occ_vec_indices = which (occ_matrix > 0, arr.ind=TRUE)
+    #
+    # num_PU_spp_pairs = dim (occ_vec_indices) [1]
+    # cat ("\nnum_PU_spp_pairs AFTER which() = ", num_PU_spp_pairs)
+    #
+    # PU_spp_pair_indices = data.frame (PU_ID = occ_vec_indices [,2],
+    #                                   spp_ID = occ_vec_indices [,1])
+
+cat ("\n\n-----------------  NEW form with which() -----------------------\n\n")
+newdf = build_PU_spp_pair_indices_from_occ_matrix (occ_matrix, num_PUs, num_spp,
+                                           use_new_form=TRUE)
+newdf_sorted = plyr::arrange (newdf, `PU_ID`, `spp_ID`)
+
+cat ("\nnewdf = \n")
+print (newdf)
+cat ("\nnewdf_sorted = \n")
+print (newdf_sorted)
+
+cat ("\n\n-----------------  OLD form with for() -----------------------\n\n")
+olddf = build_PU_spp_pair_indices_from_occ_matrix (occ_matrix, num_PUs, num_spp,
+                                           use_new_form=FALSE)
+olddf_sorted = plyr::arrange (olddf, `PU_ID`, `spp_ID`)
+
+cat ("\nolddf = \n")
+print (olddf)
+cat ("\nolddf_sorted = \n")
+print (olddf_sorted)
+
+cat ("\nall.equal (newdf_sorted, olddf_sorted) = ",
+     all.equal (newdf_sorted, olddf_sorted), "\n")
+
+# timings_for_build_PU_spp_pair_indices_from_occ_matrix =
+#    user  system elapsed
+#   0.037   0.007   0.044
     }
+
+
+
+
+
+
+
 
 #===============================================================================
 #     Compute what fraction of species meet their representation targets.
