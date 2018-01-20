@@ -433,10 +433,17 @@ cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
         #  erroneous bpm matrix.
         #---------------------------------------------------------------
 
+cat ("\n\n>>>>> ABOUT TO build_PU_spp_pair_indices_from_occ_matrix()\n")
+timings_for_build_PU_spp_pair_indices_from_occ_matrix =
+    system.time ({
     app_PU_spp_pair_indices =
         build_PU_spp_pair_indices_from_occ_matrix (app_spp_occupancy_data,
                                                     cor_num_PUs,
                                                    cor_num_spp)
+    })
+cat ("\n\ntimings_for_build_PU_spp_pair_indices_from_occ_matrix = \n")
+print (timings_for_build_PU_spp_pair_indices_from_occ_matrix)
+cat ("\n\n>>>>> BACK FROM build_PU_spp_pair_indices_from_occ_matrix()\n")
 
         #--------------------------------------------------------------------
         #  Make sure the spp and PU counts are still OK after adding error.

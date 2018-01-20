@@ -200,6 +200,7 @@ write_results_to_files <- function (csv_outfile_name,
     csv_outfile_name_with_0_run_id = paste0 (csv_outfile_name_base,
                                              "_with_0_run_id.",
                                              csv_outfile_name_ext)
+
     summary_WITHOUT_run_id_path = file.path (out_dir, csv_outfile_name_with_0_run_id)
                                              ##parameters$summary_without_run_id_filename)
 
@@ -350,6 +351,42 @@ build_PU_spp_pair_indices_from_occ_matrix = function (occ_matrix,
         #  Why is PU_spp_pair_indices a data frame instead of a matrix?
         #****************************************************************
 
+
+PU_spp_pair_indices
+
+
+if (TRUE)
+{
+#     #  test
+# occ_matrix = matrix (1:6, nrow=2, ncol=3)
+# occ_matrix[occ_matrix<4] = 0
+# occ_matrix[occ_matrix>3] = 1
+# num_PU_spp_pairs = sum (occ_matrix)
+# cat ("\nnum_PU_spp_pairs BEFORE which() = ", num_PU_spp_pairs)
+# occ_vec_indices = which (occ_matrix > 0, arr.ind=TRUE)
+# num_PU_spp_pairs = dim (occ_vec_indices) [1]
+# cat ("\nnum_PU_spp_pairs AFTER which() = ", num_PU_spp_pairs)
+# PU_spp_pair_indices = data.frame (PU_ID = occ_vec_indices [,2],
+#                                   spp_ID = occ_vec_indices [,1])
+
+# timings_for_build_PU_spp_pair_indices_from_occ_matrix =
+#    user  system elapsed
+#   0.037   0.007   0.044
+
+cat ("\nnum_PU_spp_pairs BEFORE which() = ", num_PU_spp_pairs)
+occ_vec_indices = which (occ_matrix > 0, arr.ind=TRUE)
+num_PU_spp_pairs = dim (occ_vec_indices) [1]
+cat ("\nnum_PU_spp_pairs AFTER which() = ", num_PU_spp_pairs)
+PU_spp_pair_indices = data.frame (PU_ID = occ_vec_indices [,2],
+                                  spp_ID = occ_vec_indices [,1])
+} else
+{
+# timings_for_build_PU_spp_pair_indices_from_occ_matrix =
+#    user  system elapsed
+# 272.760 260.580 533.979
+#
+#  This is 7371.892 times the time required using which() !!
+
     PU_spp_pair_indices = data.frame (PU_ID = rep (NA, num_PU_spp_pairs),
                                       spp_ID = rep (NA, num_PU_spp_pairs))
 
@@ -369,6 +406,7 @@ build_PU_spp_pair_indices_from_occ_matrix = function (occ_matrix,
                 }  #  end if - cur spp occupies cur PU
             }  #  end for - all PU cols
         }  #  end for - all soo rows
+}
 
     return (PU_spp_pair_indices)
     }
