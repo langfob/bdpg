@@ -203,39 +203,18 @@ gen_dummy_bpm <- function (num_spp, num_PUs)
 
 #===============================================================================
 
-#' Title
-#'
-#' @param seed numeric
-#' @inheritParams std_param_defns
-#'
-#' @return Returns a gurobi model result list with named elements that contains,
-#'     among other things, an element x which is the solution vector
-#' @export
+          gurobi_use_marxan_time_as_limit  = use_marxan_time_as_limit,
+          gurobi_marxan_elapsed_time_input = marxan_elapsed_time,
 
-#-------------------------------------------------------------------------------
+          gurobi_time_limit_used           = gurobi_params$TimeLimit)
 
-test_gurobi <- function (seed = 456,
-                         num_spp = 10,
-                         num_PUs = 5)
-    {
-    set.seed (seed)
+gurobi_controls_and_results =
+    list (gurobi_solution_vector = result$x,
+          gurobi_output_scalars  = gurobi_output_scalars,
+          gurobi_input_scalars   = gurobi_input_scalars)
 
-    PU_costs        = rep (1, num_PUs)
-    spp_rep_targets = rep (1, num_spp)
-
-    bpm_with_spp_rows_PU_cols = gen_dummy_bpm (num_spp, num_PUs)
-
-    result = run_gurobi (num_spp,
-                         num_PUs,
-                         bpm_with_spp_rows_PU_cols,
-                         PU_costs,
-                         spp_rep_targets,
-                         use_gap_limit = TRUE, gap_limit = 0.005,
-                         use_time_limit = FALSE, time_limit = 60,
-                        use_marxan_time_as_limit = FALSE,
-                        marxan_elapsed_time = NA)
-
-    return (result)
+#browser()
+    return (gurobi_controls_and_results)
     }
 
 #===============================================================================
