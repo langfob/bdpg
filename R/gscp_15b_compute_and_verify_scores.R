@@ -35,9 +35,12 @@ compute_and_verify_APP_rep_scores_according_to_RS_marxan_sa <-
     #---------------------------------------------------------------------------
 
         #  Apparent results as computed by Marxan
-    results_list$rsr_app_spp_rep_shortfall__fromMarxan                          = app_spp_rep_shortfall__fromMarxan
-    results_list$rsr_app_solution_NUM_spp_covered__fromMarxan                   = app_solution_NUM_spp_covered__fromMarxan
-    results_list$rsr_app_solution_FRAC_spp_covered__fromMarxan                  = app_solution_FRAC_spp_covered__fromMarxan
+    # results_list$rsr_app_spp_rep_shortfall__fromMarxan                          = app_spp_rep_shortfall__fromMarxan
+    # results_list$rsr_app_solution_NUM_spp_covered__fromMarxan                   = app_solution_NUM_spp_covered__fromMarxan
+    # results_list$rsr_app_solution_FRAC_spp_covered__fromMarxan                  = app_solution_FRAC_spp_covered__fromMarxan
+    results_list$rsr_app_spp_rep_shortfall__fromRS                          = app_spp_rep_shortfall__fromMarxan
+    results_list$rsr_app_solution_NUM_spp_covered__fromRS                   = app_solution_NUM_spp_covered__fromMarxan
+    results_list$rsr_app_solution_FRAC_spp_covered__fromRS                  = app_solution_FRAC_spp_covered__fromMarxan
 
     return (results_list)
     }

@@ -209,16 +209,47 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
         #-----------------------------------------------------------------------
         #-----------------------------------------------------------------------
 
-    rs_output_values = get_rs_output_values (rsrun,
-                                             exp_root_dir,
-                                             COR_bd_prob,
-                                             APP_bd_prob,
-                                             rs_method_name)
+    if (rs_method_name == "Marxan_SA")
+        {
+        rs_output_values = get_marxan_output_values (rsrun, exp_root_dir,
+                                                     COR_bd_prob, APP_bd_prob)
+        # rs_output_values = get_rs_output_values (rsrun,
+        #                                          exp_root_dir,
+        #                                          COR_bd_prob,
+        #                                          APP_bd_prob,
+        #                                          rs_method_name)
 
-    rs_best_solution_PU_IDs = rs_output_values$rs_best_solution_PU_IDs
+        rs_best_solution_PU_IDs = rs_output_values$rs_best_solution_PU_IDs
 
-    app_rep_scores_list_according_to_RS =
-        rs_output_values$app_rep_scores_list_according_to_RS
+        app_rep_scores_list_according_to_RS =
+            rs_output_values$app_rep_scores_list_according_to_RS
+
+        } else if (rs_method_name == "Gurobi")
+        {
+            #-------------------------------------------------------------------
+            #  Find which PUs the reserve selector chose for its best solution.
+            #-------------------------------------------------------------------
+
+        rs_best_solution_PU_IDs =
+            which (rs_control_values$gurobi_solution_vector > 0)
+
+            #----------------------------------------------------------------
+            #  Will figure this out later.
+            #  It's just copied into the output, so it's not that important
+            #  in starting to get a basic use of gurobi going.
+            #----------------------------------------------------------------
+
+        app_rep_scores_list_according_to_RS =
+            NULL
+#            rs_output_values$app_rep_scores_list_according_to_RS
+
+        rs_control_values$gurobi_solution_vector = NULL
+
+        } else
+        {
+        stop_bdpg (paste0 ("Unknown reserve selector name '",
+                           rs_method_name, "'"))
+        }
 
 
         #------------------------------------------------------------------
@@ -250,7 +281,6 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                                                   COR_bd_prob,
                                                   APP_bd_prob,
                                                   rsrun)
-
 
     cor_scores_list = cor_and_app_scores_lists$cor_scores_list
     app_scores_list = cor_and_app_scores_lists$app_scores_list
@@ -292,7 +322,8 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
         #  as a data frame.
         #----------------------------------------------------------------
 
-    results_list = c (tzar_run_ID_list,
+    results_list = c (
+                      tzar_run_ID_list,
                       prob_characteristics_list,
                       igraph_measures_list,
                       bipartite_measures_list,
@@ -313,7 +344,6 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
         tzar_run_ID,
         out_dir                = get_RSrun_path_topdir (rsrun, exp_root_dir),
         tzar_run_id_field_name = "rsr_tzar_run_ID")
-
     }
 
 #===============================================================================
