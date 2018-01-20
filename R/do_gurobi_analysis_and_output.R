@@ -37,6 +37,18 @@ run_gurobi <- function (num_spp, num_PUs,
         # set up Gurobi model object in R
     gurobi_model <- list()
 
+        #  2018 01 20 - BTL
+        #  Gurobi is leaving a log file in the bdpg root area when I run
+        #  test code and CHECK is complaining about that.
+        #  Haven't found any good explanation of how to put it somewhere
+        #  else but have found some flags.  However, nothing mentions
+        #  where these flags go, i.e., do I just add them to the model
+        #  structure or are they command line flags or ???
+        #  I'm going to try adding them to the model parameters list and
+        #  see what happens...
+    gurobi_model$LogToConsole = TRUE
+    #gurobi_model$LogFile = "anotherGurobiLog"
+
         #  Assign the constraints matrix object
     constr = bpm
     gurobi_model$A <- constr
