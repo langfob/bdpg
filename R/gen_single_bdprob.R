@@ -6,8 +6,6 @@
 
 #' Generate a single correct biodiversity problem from scratch or from a file
 #'
-#-------------------------------------------------------------------------------
-
 #' @param base_prob_name_stem a character string
 #' @param cor_dir_name_stem a character string
 #' @inheritParams std_param_defns
@@ -30,7 +28,6 @@ gen_single_bdprob_COR <- function (parameters,
     COR_Xu_bdprob =
         gen_single_bdprob_COR_from_scratch_or_Xu_bench_file (
             exp_root_dir,
-###            value_or_FALSE_if_null (parameters$compute_network_metrics_COR),
             parameters,
             value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file),
             Xu_bench_infile_name,
@@ -50,8 +47,6 @@ gen_single_bdprob_COR <- function (parameters,
 #' Generate a Xu biodiversity problem based on 4 input control parameters
 #' rather than reading it from a file.
 #'
-#-------------------------------------------------------------------------------
-
 #' @param max_allowed_num_spp integer
 
 #' @inheritParams std_param_defns
@@ -100,8 +95,6 @@ create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
 #' Generate a Xu biodiversity problem based on 4 input control parameters
 #' rather than reading it from a file.
 #'
-#-------------------------------------------------------------------------------
-
 #' @param max_allowed_num_spp integer
 #' @param duplicate_links_allowed boolean (defaults to FALSE)
 
@@ -169,8 +162,6 @@ create_Xu_problem_from_scratch_given_4_Xu_metaparams <-
 #' Generate a Xu biodiversity problem NOT based on 4 input control parameters
 #' rather than reading it from a file.
 #'
-#-------------------------------------------------------------------------------
-
 #' @param max_allowed_num_spp integer
 #' @param duplicate_links_allowed boolean (defaults to FALSE)
 
@@ -241,8 +232,6 @@ create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowe
 #' combinations of those parameters, then the values derived from them may be
 #' easier to manipulate in search  algorithms and explanations, etc.
 
-#-------------------------------------------------------------------------------
-
 #' @param tot_num_nodes integer
 #' @param num_nodes_per_group integer
 #' @param n__num_groups integer
@@ -285,12 +274,6 @@ create_Xu_problem_from_scratch_given_params <-
                                          n__num_groups,
                                          num_independent_nodes_per_group
                                         )
-    # nodes = create_nodes_data_structure (derived_Xu_params@tot_num_nodes,
-    #                                      derived_Xu_params@num_nodes_per_group,
-    #                                      base_Xu_params@n__num_groups,
-    #                                      bdpg_extended_params@num_independent_nodes_per_group
-    #                                     )
-
     edge_list =
       create_Xu_graph (num_nodes_per_group,
                        n__num_groups,
@@ -299,14 +282,6 @@ create_Xu_problem_from_scratch_given_params <-
                        target_num_links_between_2_groups_per_round,
                        num_rounds_of_linking_between_groups,
                        duplicate_links_allowed)
-    # edge_list =
-    #   create_Xu_graph (derived_Xu_params@num_nodes_per_group,
-    #                    base_Xu_params@n__num_groups,
-    #                    nodes,
-    #                    derived_Xu_params@max_possible_tot_num_links,
-    #                    derived_Xu_params@target_num_links_between_2_groups_per_round,
-    #                    derived_Xu_params@num_rounds_of_linking_between_groups,
-    #                    duplicate_links_allowed=FALSE)
 
     dependent_node_IDs = get_dependent_node_IDs (nodes)
     num_PUs = get_num_nodes (nodes)
@@ -329,7 +304,6 @@ create_Xu_problem_from_scratch_given_params <-
 
     #-------------------------------------------------------------------------------
 
-# PU_spp_pair_info@Xu_parameters = Xu_parameters
     PU_spp_pair_info@correct_solution_vector_is_known = TRUE
     PU_spp_pair_info@dependent_node_IDs = dependent_node_IDs
     PU_spp_pair_info@nodes = nodes
@@ -366,8 +340,6 @@ create_Xu_problem_from_scratch_given_params <-
 #' Generate a Xu biodiversity problem based on 4 input control parameters
 #' rather than reading it from a file.
 #'
-#-------------------------------------------------------------------------------
-
 #' @param default_num_prob_size_retries_allowed integer number of retries of
 #'     problem creation to try to find one no larger than a given number of
 #'     species
@@ -389,13 +361,10 @@ create_allowable_size_Xu_problem_from_scratch <- function (
         #  then use a default value.
         #-----------------------------------------------------------------------
 
-    if (is.null (parameters$num_prob_size_retries_allowed))
-        {
-        num_prob_size_retries_allowed = default_num_prob_size_retries_allowed
-        } else
-        {
-        num_prob_size_retries_allowed = parameters$num_prob_size_retries_allowed
-        }
+    num_prob_size_retries_allowed = vn (parameters$num_prob_size_retries_allowed,
+                                        def_on_empty = TRUE,
+                                        def = default_num_prob_size_retries_allowed,
+                                        range_lo = 0, bounds_types = "ii")
 
         #-----------------------------------------------------------------------
         #  Create a problem and check its size.
@@ -437,11 +406,6 @@ create_allowable_size_Xu_problem_from_scratch <- function (
 
 #===============================================================================
 
-    #-----------------------------------------------------------------
-    #  Read a Xu problem from files of ones already created by Xu or
-    #  create one from scratch.
-    #-----------------------------------------------------------------
-
 #' Generate a single biodiversity problem
 #'
 #' Read a Xu problem from files of ones already created by Xu or
@@ -451,8 +415,6 @@ create_allowable_size_Xu_problem_from_scratch <- function (
 #' to be replaced or cloned into something appropriate for the new problem
 #' type.**
 #'
-#-------------------------------------------------------------------------------
-
 #' @inheritParams std_param_defns
 
 #' @param base_prob_name_stem character string
@@ -465,7 +427,6 @@ create_allowable_size_Xu_problem_from_scratch <- function (
 
 gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
     function (exp_root_dir,
-#                compute_network_metrics_for_this_prob,
                 parameters,
             read_Xu_problem_from_Xu_file,
             Xu_bench_infile_name,
@@ -475,18 +436,6 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
             base_prob_name_stem = "base_prob",
             cor_dir_name_stem = "cor")
     {
-    # forced_seed =
-    #     get_forced_seed_value_if_necessary (is_rsrun = FALSE,
-    #                                         is_rsprob = TRUE,
-    #                                         parameters,
-    #                                         cor_or_app = "COR",
-    #                                         basic_or_wrapped_or_comb_str = "BASE")
-    #
-    # new_seed =
-    #     set_new_or_forced_rand_seed_if_necessary (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
-    #                                               "Start of gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(),COR,BASE",
-    #                                               forced_seed)
-
     new_seed_list =
         set_new_or_forced_rand_seed_if_necessary (is_rsrun = FALSE,
                                                   is_rsprob = TRUE,
@@ -511,7 +460,6 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
         } else  #  Create Xu problem from scratch
         {
         PU_spp_pair_info =
-#            create_Xu_problem_from_scratch (max_allowed_num_spp,
             create_allowable_size_Xu_problem_from_scratch (max_allowed_num_spp,
                                                            parameters,
                                                            integerize)
@@ -576,7 +524,6 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
     Xu_bdprob_cor@prob_generator_params_known      = PU_spp_pair_info@prob_generator_params_known
     Xu_bdprob_cor@correct_solution_vector_is_known = PU_spp_pair_info@correct_solution_vector_is_known
 
-#    Xu_bdprob_cor@PU_spp_pair_indices       = PU_spp_pair_info@PU_spp_pair_indices
     Xu_bdprob_cor@cor_PU_spp_pair_indices       = PU_spp_pair_info@PU_spp_pair_indices
 
     Xu_bdprob_cor@all_PU_IDs                = 1:PU_spp_pair_info@num_PUs
@@ -598,7 +545,6 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
         create_adj_matrix_with_spp_rows_vs_PU_cols (Xu_bdprob_cor@num_spp,
                                                     Xu_bdprob_cor@num_PUs,
 
-#                                                    Xu_bdprob_cor@PU_spp_pair_indices,
                                                     Xu_bdprob_cor@cor_PU_spp_pair_indices,
 
                                             Xu_bdprob_cor@PU_costs,
@@ -659,36 +605,16 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
                   Xu_bdprob_cor@presences_col_name
                   )
         #  Compute network metrics.
-#    compute_network_metrics_for_this_prob = value_or_FALSE_if_null (parameters$compute_network_metrics_COR)
     Xu_bdprob_cor = init_object_graph_data (Xu_bdprob_cor,
                                              exp_root_dir,
 
                                              parameters$compute_network_metrics,
 
                                 parameters$compute_network_metrics_COR,
-                                #compute_network_metrics_for_this_prob,
 
                                              parameters$use_igraph_metrics,
                                              parameters$use_bipartite_metrics,
                                              parameters$bipartite_metrics_to_use)
-
-#     Xu_bdprob_cor@compute_network_metrics = parameters$compute_network_metrics_COR
-#     if (parameters$compute_network_metrics_COR)
-#         {
-#         Xu_bdprob_cor@bipartite_metrics_from_bipartite_package =
-#           compute_network_measures_using_bipartite_package (bpm)
-#
-#         Xu_bdprob_cor@bipartite_metrics_from_igraph_package_df =
-#           compute_igraph_related_network_measures (
-#                                     Xu_bdprob_cor@PU_spp_pair_indices,
-#
-# #                                    Xu_bdprob_cor@derived_bdpg_dir_names$network_output_dir,
-#                                     get_RSprob_path_networks (Xu_bdprob_cor, exp_root_dir),
-#
-#                                     Xu_bdprob_cor@PU_col_name,
-#                                     Xu_bdprob_cor@spp_col_name
-#                                                     )
-#         }
 
         #------------------------------------------------------------
         #  Everything seems to have worked.
@@ -702,7 +628,6 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
 
     Xu_bdprob_cor <- save_rsprob (Xu_bdprob_cor, exp_root_dir)
 
-#    save_rsprob_results_data_for_Xu_NOT_read_from_bench_file (Xu_bdprob_cor,
     save_rsprob_results_data (Xu_bdprob_cor, exp_root_dir, parameters$run_ID)
 
     return (Xu_bdprob_cor)
