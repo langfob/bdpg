@@ -4,17 +4,11 @@
 \alias{gen_bdprob}
 \title{Generate a biodiversity problem}
 \usage{
-gen_bdprob(parameters, compute_network_metrics_for_this_prob, integerize,
-  base_bdprob = NULL)
+gen_bdprob(parameters, integerize, base_bdprob = NULL)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{compute_network_metrics_for_this_prob}{boolean indicating whether to
-compute network metrics for the current problem; TRUE indicates to
-compute one or more network metrics specified elsewhere and FALSE
-indicate not compute any network metrics for the current problem.}
 
 \item{integerize}{function to use in converting floats to ints}
 

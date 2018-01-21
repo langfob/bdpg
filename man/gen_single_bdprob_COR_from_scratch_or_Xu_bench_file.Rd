@@ -20,7 +20,8 @@ and can have a varying number and set of elements depending on the run}
 read from a benchmark problem description file created by Xu;
 FALSE if problem is to be created from scratch.}
 
-\item{Xu_bench_infile_name}{filename of Xu benchmark problem file}
+\item{Xu_bench_infile_name}{string containing the name of the Xu benchmark file to
+read a problem from if reading from a Xu benchmark file}
 
 \item{given_correct_solution_cost}{boolean indicating whether the correct
 optimal solution cost is given for a reserve selection problem}

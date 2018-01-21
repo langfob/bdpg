@@ -20,7 +20,7 @@ std_param_defns(all_correct_node_IDs, allow_imperfect_wrap, APP_bd_prob,
   rs_method_name, spp_col_name, spp_rep_fracs, spp_rep_targets,
   spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU, src_rds_file_dir,
   target_num_links_between_2_groups_per_round, top_dir,
-  use_marxan_time_as_limit, Xu_bench_infile_name)
+  use_marxan_time_as_limit, wrap_lognormal_dist_around_Xu, Xu_bench_infile_name)
 }
 \arguments{
 \item{all_correct_node_IDs}{numeric vector containing all planning unit IDs
@@ -195,7 +195,12 @@ information and the UUID of the object, e.g.,
 \item{use_marxan_time_as_limit}{boolean indicating whether reserve selector
 should use marxan's elapsed run time as the time limit for its own run}
 
-\item{Xu_bench_infile_name}{filename of Xu benchmark problem file}
+\item{wrap_lognormal_dist_around_Xu}{boolean indicating whether to wrap a
+lognormal distribution around a base Xu problem; TRUE implies wrapping
+should be done; FALSE implies not}
+
+\item{Xu_bench_infile_name}{string containing the name of the Xu benchmark file to
+read a problem from if reading from a Xu benchmark file}
 }
 \description{
 This function should never be called.  It is intended strictly as a

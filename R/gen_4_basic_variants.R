@@ -77,7 +77,7 @@ cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
         {
         wrapped_COR_bd_prob =
             gen_bdprob (parameters,
-                        parameters$compute_network_metrics_wrapped_COR,
+                        #parameters$compute_network_metrics_wrapped_COR,
                         integerize,
                         base_COR_bd_prob)
 

@@ -216,7 +216,11 @@
 #'     ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587
 #' @param use_marxan_time_as_limit boolean indicating whether reserve selector
 #'     should use marxan's elapsed run time as the time limit for its own run
-#' @param Xu_bench_infile_name filename of Xu benchmark problem file
+#' @param wrap_lognormal_dist_around_Xu boolean indicating whether to wrap a
+#'     lognormal distribution around a base Xu problem; TRUE implies wrapping
+#'     should be done; FALSE implies not
+#' @param Xu_bench_infile_name string containing the name of the Xu benchmark file to
+#'     read a problem from if reading from a Xu benchmark file
 
 #-------------------------------------------------------------------------------
 
@@ -274,6 +278,7 @@ std_param_defns <-
             target_num_links_between_2_groups_per_round,
             top_dir,
             use_marxan_time_as_limit,
+            wrap_lognormal_dist_around_Xu,
             Xu_bench_infile_name
              )
     {

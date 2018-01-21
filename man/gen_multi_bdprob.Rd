@@ -5,33 +5,11 @@
 \title{Generate a new biodiversity problem by modifying or combining existing
 problem(s)}
 \usage{
-gen_multi_bdprob(parameters, wrap_lognormal_dist_around_Xu,
-  read_Xu_problem_from_Xu_bench_file, infile_name, given_correct_solution_cost,
-  max_allowed_num_spp, integerize, bdprob_1 = NULL)
+gen_multi_bdprob(parameters, integerize, bdprob_1 = NULL)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{wrap_lognormal_dist_around_Xu}{boolean indicating whether to wrap a
-lognormal distribution around a base Xu problem; TRUE implies wrapping
-should be done; FALSE implies not}
-
-\item{read_Xu_problem_from_Xu_bench_file}{boolean indicating whether the
-base problem was read in from a Xu benchmark file or not; TRUE implies
-read in from Xu benchmark file and FALSE implies the problem was
-created from scratch}
-
-\item{infile_name}{string containing the name of the Xu benchmark file to
-read a problem from if reading from a Xu benchmark file}
-
-\item{given_correct_solution_cost}{boolean indicating whether the correct
-cost of the correct optimum solution is known; TRUE implies that it is
-known}
-
-\item{max_allowed_num_spp}{maximum number of species allowed in generating
-a problem from scratch (particularly of use when trying to do smaller,
-faster tests in development)}
 
 \item{integerize}{function to use in converting floats to ints}
 
