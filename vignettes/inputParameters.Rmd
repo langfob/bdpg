@@ -676,7 +676,8 @@ If you're reading the Xu problem from a file in Xu's benchmark problem file form
 ### Specific parameters
 
 #### max_allowed_possible_tot_num_links
-
+- 2018 01 21 - BTL - Is this parameter **NO LONGER USED ?** 
+    - I just searched for it in the source code and find no occurrences, though there *are* occurrences of max_allowed_num_spp, so maybe that has superseded it.
 - Definition
 - Type/Allowed values
 - Default value
