@@ -9,8 +9,9 @@ gen_dummy_bpm <- function (num_spp=4, num_PUs=3, seed = 456)
     set.seed (seed)
 
     bpm = matrix (0, nrow=num_spp, ncol=num_PUs)
-
-    cat ("\ndim(bpm) = ", dim(bpm))
+                                                                                if (verbose) {
+                                                                                cat ("\ndim(bpm) = ", dim(bpm))
+                                                                                }
     for (cur_spp in 1:num_spp)
         {
         occ_PUs_for_this_spp = sample (1:num_PUs, 2, replace=FALSE)
@@ -40,11 +41,15 @@ break_tie_using_min_summed_loss <- function (chosen_PUs_vec,
 
     chosen_PUs_vec =
         which (PU_summed_loss_vec == min (PU_summed_loss_vec [S_remaining_PUs_vec]))
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  initial chosen_PU = ", chosen_PUs_vec, "\n")
+                                                                                }
     if (length (chosen_PUs_vec) > 1)
         chosen_PU = break_tie_randomly (chosen_PUs_vec)    else
         chosen_PU = chosen_PUs_vec [1]
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  A possibly sampled chosen_PU = ", chosen_PU, "\n")
+                                                                                }
     return (chosen_PU)
     }
 
@@ -100,26 +105,38 @@ z_using_inline <- function (num_PUs, wt_spp_vec, c_PU_vec, bpm,
         #  Normalize each species's abundance on each PU by total abundance
         #  for that species, i.e., compute rel_spp_abundance
     q_mat = sweep (bpm, MARGIN=1, FUN="/",STATS=rowSums (bpm))
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  q_mat = ", q_mat, "\n")
                                                                                 print (q_mat)
+                                                                                }
     qw_spp_weighted_q_mat =
         sweep (q_mat, MARGIN=1, FUN="*",STATS=wt_spp_vec)
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  qw_spp_weighted_q_mat = ", qw_spp_weighted_q_mat, "\n")
                                                                                 print (qw_spp_weighted_q_mat)
+                                                                                }
     qw_over_c_mat = sweep (qw_spp_weighted_q_mat, MARGIN=2, FUN="/",STATS=c_PU_vec)
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  qw_over_c_mat = \n")
                                                                                 print (qw_over_c_mat)
+                                                                                }
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                                                                print (qw_over_c_mat)
 #--------------------------------------------
 
     ranked_solution_PU_IDs_vec = rep (0, num_PUs)
+                                                                                if (verbose) {
                                                                                 cat ("\n  ranked_solution_PU_IDs_vec = ", ranked_solution_PU_IDs_vec)
+                                                                                }
     S_remaining_PUs_vec = 1:num_PUs
+                                                                                if (verbose) {
                                                                                 cat ("\n  S_remaining_PUs_vec = ", S_remaining_PUs_vec)
+                                                                                }
     for (cur_rank in 1:num_PUs)
         {
+                                                                                if (verbose) {
                                                                                 cat ("\n\n===========================================================")
                                                                                 cat ("\n  cur_rank = ", cur_rank)
+                                                                                }
         if (cur_rank == num_PUs)    #  Last PU can just be copied into solution.
             {
             chosen_PU = S_remaining_PUs_vec [1]
@@ -132,21 +149,30 @@ z_using_inline <- function (num_PUs, wt_spp_vec, c_PU_vec, bpm,
 
 #  This section could be a function, but it would incur a lot of
 #  overhead returning and copying large matrices on every iteration.
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  bpm = \n")
                                                                                 print (bpm)
+                                                                                }
             Q_vec = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  Q_vec = ", Q_vec, "\n")
+                                                                                }
             delta_mat = sweep (qw_over_c_mat, MARGIN=1, FUN="/",STATS=Q_vec)
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  delta_mat = \n")
                                                                                 print (delta_mat)
+                                                                                }
             PU_max_loss_vec = apply (delta_mat, 2, max)
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  PU_max_loss_vec = ", PU_max_loss_vec, "\n")
-
+                                                                                }
                 #  This is a 1 element vector unless some eligible PUs have
                 #  the same max loss.
             chosen_PUs_vec =
                 which (PU_max_loss_vec == min (PU_max_loss_vec[S_remaining_PUs_vec]))
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  initial chosen_PU = ", chosen_PUs_vec, "\n")
+                                                                                }
                 #  When there is a tie in min of max loss,
                 #  break the tie based on whichever tied PU has the
                 #  min of summed loss.
@@ -157,7 +183,9 @@ z_using_inline <- function (num_PUs, wt_spp_vec, c_PU_vec, bpm,
                                                              delta_mat)
                 }
             else  chosen_PU = chosen_PUs_vec[1]
-                            cat ("\n\n  possibly sampled chosen_PU = ", chosen_PU, "\n")
+                                                                                if (verbose) {
+                                                                                cat ("\n\n  possibly sampled chosen_PU = ", chosen_PU, "\n")
+                                                                                }
 
             bpm [,chosen_PU] = 0
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                                                                print (qw_over_c_mat)
@@ -169,14 +197,18 @@ z_using_inline <- function (num_PUs, wt_spp_vec, c_PU_vec, bpm,
             ranked_solution_PU_IDs_vec [cur_rank] = chosen_PU
             S_remaining_PUs_vec = S_remaining_PUs_vec [-chosen_PU]
             }
+                                                                                if (verbose) {
                                                                                 cat ("\nAt cur_rank = ", cur_rank, "\nranked_solution_PU_IDs_vec = \n")
                                                                                 print (ranked_solution_PU_IDs_vec)
+                                                                                }
         }
 
     if (reverse_solution_order)    #  Always true for zonation
         ranked_solution_PU_IDs_vec = rev (ranked_solution_PU_IDs_vec)
+                                                                                if (verbose) {
                                                                                 cat ("\nFinal ranked_solution_PU_IDs_vec = \n")
                                                                                 print (ranked_solution_PU_IDs_vec)
+                                                                                }
 
     return (ranked_solution_PU_IDs_vec)
     }
@@ -198,16 +230,22 @@ init_for_choosing_PUs <- function (input_vars_list)
         #  Normalize each species's abundance on each PU by total abundance
         #  for that species, i.e., compute rel_spp_abundance
     q_mat = sweep (bpm, MARGIN=1, FUN="/",STATS=rowSums (bpm))
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  q_mat = ", q_mat, "\n")
                                                                                 print (q_mat)
+                                                                                }
     qw_spp_weighted_q_mat =
         sweep (q_mat, MARGIN=1, FUN="*",STATS=wt_spp_vec)
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  qw_spp_weighted_q_mat = ", qw_spp_weighted_q_mat, "\n")
                                                                                 print (qw_spp_weighted_q_mat)
+                                                                                }
     qw_over_c_mat =
         sweep (qw_spp_weighted_q_mat, MARGIN=2, FUN="/",STATS=c_PU_vec)
+                                                                                if (verbose) {
                                                                                 cat ("\n\n  qw_over_c_mat = \n")
                                                                                 print (qw_over_c_mat)
+                                                                                }
     return (list (q_mat         = q_mat,
                   qw_over_c_mat = qw_over_c_mat))
     }
@@ -221,18 +259,26 @@ choose_next_PU <- function (S_remaining_PUs_vec, vars_list)
     qw_over_c_mat = vars_list$qw_over_c_mat
 
     Q_vec = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
-                                                                        cat ("\n\n  Q_vec = ", Q_vec, "\n")
+                                                                                if (verbose) {
+                                                                                cat ("\n\n  Q_vec = ", Q_vec, "\n")
+                                                                                }
     delta_mat = sweep (qw_over_c_mat, MARGIN=1, FUN="/",STATS=Q_vec)
-                                                                        cat ("\n\n  delta_mat = \n")
-                                                                        print (delta_mat)
+                                                                                if (verbose) {
+                                                                                cat ("\n\n  delta_mat = \n")
+                                                                                print (delta_mat)
+                                                                                }
     PU_max_loss_vec = apply (delta_mat, 2, max)
-                                                                        cat ("\n\n  PU_max_loss_vec = ", PU_max_loss_vec, "\n")
+                                                                                if (verbose) {
+                                                                                cat ("\n\n  PU_max_loss_vec = ", PU_max_loss_vec, "\n")
+                                                                                }
 
         #  This is a 1 element vector unless some eligible PUs have
         #  the same max loss.
     chosen_PUs_vec =
         which (PU_max_loss_vec == min (PU_max_loss_vec[S_remaining_PUs_vec]))
-                                                                        cat ("\n\n  initial chosen_PU = ", chosen_PUs_vec, "\n")
+                                                                                if (verbose) {
+                                                                                cat ("\n\n  initial chosen_PU = ", chosen_PUs_vec, "\n")
+                                                                                }
         #  When there is a tie in min of max loss,
         #  break the tie based on whichever tied PU has the
         #  min of summed loss.
@@ -243,7 +289,9 @@ choose_next_PU <- function (S_remaining_PUs_vec, vars_list)
                                                      delta_mat)
         }
     else  chosen_PU = chosen_PUs_vec[1]
-                    cat ("\n\n  possibly sampled chosen_PU = ", chosen_PU, "\n")
+                                                                                if (verbose) {
+                                                                                cat ("\n\n  possibly sampled chosen_PU = ", chosen_PU, "\n")
+                                                                                }
 
     # bpm [,chosen_PU] = 0
     #                                                                             cat ("\n\n  bpm = \n")
@@ -311,52 +359,48 @@ greedy_using_funcs <- function (num_PUs,
 
 #===============================================================================
 
-test_z <- function (use_inline = TRUE, seed = 456, num_spp = 4, num_PUs = 3)
+test_z <- function (seed = 456, num_spp = 4, num_PUs = 3)
     {
-    cat ("\n  num_spp = ", num_spp)
-    cat ("\n  num_PUs = ", num_PUs)
-
+                                                                                if (verbose) {
+                                                                                cat ("\n  num_spp = ", num_spp)
+                                                                                cat ("\n  num_PUs = ", num_PUs)
+                                                                                }
     bpm = gen_dummy_bpm (num_spp, num_PUs, seed)
-        cat ("\n\n  bpm = \n")
-        print (bpm)
+                                                                                if (verbose) {
+                                                                                cat ("\n\n  bpm = \n")
+                                                                                print (bpm)
+                                                                                }
 
     wt_spp_vec = rep (1, num_spp)    #c(2,3,4,5)    #rep (2, num_spp)    #  weight of species j
-        cat ("\n  wt_spp_vec = ", wt_spp_vec)
+                                                                                if (verbose) {
+                                                                                cat ("\n  wt_spp_vec = ", wt_spp_vec)
+                                                                                }
 
     c_PU_vec = rep (1, num_PUs)      #c(10,20,30)    #rep (1, num_PUs)  #  cost of PU i
-        cat ("\n  c_PU_vec = ", c_PU_vec)
+                                                                                if (verbose) {
+                                                                                cat ("\n  c_PU_vec = ", c_PU_vec)
+                                                                                }
 
-if (use_inline)
-    {
                                             timings_using_inline = system.time ({
-    ranked_solution_PU_IDs_vec = z_using_inline (num_PUs, wt_spp_vec, c_PU_vec, bpm)
+    zui = z_using_inline (num_PUs, wt_spp_vec, c_PU_vec, bpm)
                                             })
     cat ("\n\ntimings_using_inline = \n")
     print (timings_using_inline)
 
-    } else
-    {
                                             timings_using_funcs = system.time ({
-    ranked_solution_PU_IDs_vec = z_using_funcs (num_PUs, wt_spp_vec, c_PU_vec, bpm)
+    zuf = z_using_funcs (num_PUs, wt_spp_vec, c_PU_vec, bpm)
                                             })
     cat ("\n\ntimings_using_funcs = \n")
     print (timings_using_funcs)
-    }
 
-    cat ("\n\n  original_bpm = \n")
-    print (bpm)
-
-    cat ("\nBest to worst PUs = \n")
-    print (ranked_solution_PU_IDs_vec)
-
-
-    return (ranked_solution_PU_IDs_vec)
+    cat ("\nzui == zuf: ", all.equal (zui, zuf), "\n")
     }
 
 #===============================================================================
 
-test_z (use_inline = TRUE, seed = 456)
-test_z (use_inline = FALSE, seed = 456)
+verbose = FALSE
+test_z (seed = 456)
+test_z (seed = 456)
 
 
 
