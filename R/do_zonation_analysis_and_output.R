@@ -208,21 +208,17 @@ init_for_choosing_PUs <- function (input_vars_list)
         sweep (qw_spp_weighted_q_mat, MARGIN=2, FUN="/",STATS=c_PU_vec)
                                                                                 cat ("\n\n  qw_over_c_mat = \n")
                                                                                 print (qw_over_c_mat)
-    return (list (bpm           = bpm,
-                  q_mat         = q_mat,
+    return (list (q_mat         = q_mat,
                   qw_over_c_mat = qw_over_c_mat))
     }
 
 #===============================================================================
 
-choose_next_PU <- function (vars_list)
+choose_next_PU <- function (S_remaining_PUs_vec, vars_list)
     {
         #  Extract input variables for this function
     q_mat = vars_list$q_mat
-    S_remaining_PUs_vec = vars_list$S_remaining_PUs_vec
     qw_over_c_mat = vars_list$qw_over_c_mat
-    bpm = vars_list$bpm
-
 
     Q_vec = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
                                                                         cat ("\n\n  Q_vec = ", Q_vec, "\n")
@@ -249,11 +245,11 @@ choose_next_PU <- function (vars_list)
     else  chosen_PU = chosen_PUs_vec[1]
                     cat ("\n\n  possibly sampled chosen_PU = ", chosen_PU, "\n")
 
-    bpm [,chosen_PU] = 0
-                                                                                cat ("\n\n  bpm = \n")
-                                                                                print (bpm)
+    # bpm [,chosen_PU] = 0
+    #                                                                             cat ("\n\n  bpm = \n")
+    #                                                                             print (bpm)
     vars_list$chosen_PU = chosen_PU
-    vars_list$bpm    = bpm
+#    vars_list$bpm    = bpm
 
     return (vars_list)
     }
@@ -284,6 +280,7 @@ greedy_using_funcs <- function (num_PUs,
     ranked_solution_PU_IDs_vec    = rep (0, num_PUs)
     S_remaining_PUs_vec           = 1:num_PUs
     vars_list$S_remaining_PUs_vec = S_remaining_PUs_vec
+    bpm = input_vars_list$bpm
 
     for (cur_rank in 1:num_PUs)
         {
@@ -294,14 +291,15 @@ greedy_using_funcs <- function (num_PUs,
 
             } else    #  Not the last PU, so need to do some computation
             {
-            vars_list = choose_next_PU (vars_list)            #  <<<<<----------
+            vars_list = choose_next_PU (S_remaining_PUs_vec, vars_list)            #  <<<<<----------
             chosen_PU = vars_list$chosen_PU
 
                 #  Add current PU to ranked solution vector and
                 #  remove it from the set of candidates for next
                 #  round.
             ranked_solution_PU_IDs_vec [cur_rank] = chosen_PU
-            vars_list$S_remaining_PUs_vec = S_remaining_PUs_vec [-chosen_PU]
+            S_remaining_PUs_vec = S_remaining_PUs_vec [-chosen_PU]
+            bpm [,chosen_PU] = 0
             }
         }
 
@@ -330,17 +328,17 @@ test_z <- function (use_inline = TRUE, seed = 456, num_spp = 4, num_PUs = 3)
 
 if (use_inline)
     {
-    timings_using_inline = system.time ({
-        ranked_solution_PU_IDs_vec = z_using_inline (num_PUs, wt_spp_vec, c_PU_vec, bpm)
-    })
+                                            timings_using_inline = system.time ({
+    ranked_solution_PU_IDs_vec = z_using_inline (num_PUs, wt_spp_vec, c_PU_vec, bpm)
+                                            })
     cat ("\n\ntimings_using_inline = \n")
     print (timings_using_inline)
 
     } else
     {
-    timings_using_funcs = system.time ({
-        ranked_solution_PU_IDs_vec = z_using_funcs (num_PUs, wt_spp_vec, c_PU_vec, bpm)
-    })
+                                            timings_using_funcs = system.time ({
+    ranked_solution_PU_IDs_vec = z_using_funcs (num_PUs, wt_spp_vec, c_PU_vec, bpm)
+                                            })
     cat ("\n\ntimings_using_funcs = \n")
     print (timings_using_funcs)
     }
@@ -359,3 +357,6 @@ if (use_inline)
 
 test_z (use_inline = TRUE, seed = 456)
 test_z (use_inline = FALSE, seed = 456)
+
+
+
