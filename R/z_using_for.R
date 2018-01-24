@@ -20,17 +20,22 @@ cur_rank
 
                                       )
     {
+        #----------------------------------------------------------------------
+        #  Initialize with an unusual value that's easy to spot visually and
+        #  R doesn't automatically generate and/or silently deal with as it
+        #  sometimes does with NA, just in case this is useful for debugging.
+        #----------------------------------------------------------------------
 
-cat ("\nIn choose...(): cur_rank = ", cur_rank)
-
-    #initial_value = NA
     initial_value = -1000
 
     delta_vec = rep (initial_value, num_PUs)
     Q_vec_spp = rep (initial_value, num_spp)
     d_mat     = matrix (initial_value, nrow = num_spp, ncol = num_PUs)
 
-        #  Compute delta
+        #---------------------------------
+        #  Compute delta for this round.
+        #---------------------------------
+
     for (i_PU in 1:num_PUs)
         {
         for (j_spp in 1:num_spp)
@@ -45,8 +50,8 @@ cat ("\nIn choose...(): cur_rank = ", cur_rank)
                 #  the species has no relevance to the decision about
                 #  which PU to throw out next.
                 #  In the next step, we will compute the maximum value of
-                #  d across all species, giving d a value of -Inf will
-                #  guarantee that it's not selected as the max unless
+                #  d across all species, so if we give d a value of -Inf,
+                #  it will guarantee that it's not selected as the max unless
                 #  there are no species left on any of the patches in the
                 #  eligible PU set S.  In that case, it wouldn't make any
                 #  difference which PU you end up picking since they're all
@@ -73,7 +78,9 @@ cat ("\nIn choose...(): cur_rank = ", cur_rank)
         }  #  end for - i_PU
 
     PU_max_loss_vec = delta_vec
-#if (cur_rank > 1) browser()
+
+if (cur_rank >= brank) browser()
+
         #  This is a 1 element vector unless some eligible PUs have
         #  the same max loss.
     chosen_PUs_vec =
@@ -197,6 +204,8 @@ cur_rank
 
 ###            bpm [,chosen_PU] = 0
 
+if (cur_rank >= brank) browser()
+
                 #  Add current PU to ranked solution vector and
                 #  remove it from the set of candidates for next
                 #  round.
@@ -227,6 +236,9 @@ print (ranked_solution_PU_IDs_vec)
 
     if (reverse_solution_order)
         ranked_solution_PU_IDs_vec = rev (ranked_solution_PU_IDs_vec)
+
+if (length (ranked_solution_PU_IDs_vec) != length (unique (ranked_solution_PU_IDs_vec)))
+    stop_bdpg ("ranked_solution_PU_IDs_vec contains duplicate entries")
 
     return (ranked_solution_PU_IDs_vec)
     }

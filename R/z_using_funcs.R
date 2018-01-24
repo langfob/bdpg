@@ -15,22 +15,13 @@ init_for_choosing_PUs <- function (input_vars_list)
         #  Normalize each species's abundance on each PU by total abundance
         #  for that species, i.e., compute rel_spp_abundance
     q_mat = sweep (bpm, MARGIN=1, FUN="/",STATS=rowSums (bpm))
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  q_mat = ", q_mat, "\n")
-                                                                                print (q_mat)
-                                                                                }
+
     qw_spp_weighted_q_mat =
         sweep (q_mat, MARGIN=1, FUN="*",STATS=wt_spp_vec)
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  qw_spp_weighted_q_mat = ", qw_spp_weighted_q_mat, "\n")
-                                                                                print (qw_spp_weighted_q_mat)
-                                                                                }
+
     d_fixed_part_mat =
         sweep (qw_spp_weighted_q_mat, MARGIN=2, FUN="/",STATS=c_PU_vec)
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  d_fixed_part_mat = \n")
-                                                                                print (d_fixed_part_mat)
-                                                                                }
+
     return (list (q_mat         = q_mat,
                   d_fixed_part_mat = d_fixed_part_mat))
     }
@@ -44,14 +35,7 @@ choose_next_PU <- function (S_remaining_PUs_vec, vars_list)
     d_fixed_part_mat = vars_list$d_fixed_part_mat
 
     Q_vec_spp = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  Q_vec_spp = ", Q_vec_spp, "\n")
-                                                                                }
     d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec_spp)
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  d_mat = \n")
-                                                                                print (d_mat)
-                                                                                }
 
                 #---------------------------------------------------------------
                 #  If Q is 0, then it will cause a divide by zero error
@@ -74,17 +58,12 @@ choose_next_PU <- function (S_remaining_PUs_vec, vars_list)
     d_mat [indices_of_spp_that_are_0, ] = -Inf
 
     PU_max_loss_vec = apply (d_mat, 2, max)
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  PU_max_loss_vec = ", PU_max_loss_vec, "\n")
-                                                                                }
-browser()
+
         #  This is a 1 element vector unless some eligible PUs have
         #  the same max loss.
     chosen_PUs_vec =
         which (PU_max_loss_vec == min (PU_max_loss_vec[S_remaining_PUs_vec]))
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  initial chosen_PU = ", chosen_PUs_vec, "\n")
-                                                                                }
+
         #  Now we know what are ALL of the PUs in the whole system that
         #  match the min in S, but some of those can be ones that we've
         #  already added to the solution set earlier and this can lead
@@ -105,15 +84,8 @@ browser()
                                                      d_mat)
         }
     else  chosen_PU = chosen_PUs_vec[1]
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  possibly sampled chosen_PU = ", chosen_PU, "\n")
-                                                                                }
 
-    # bpm [,chosen_PU] = 0
-    #                                                                             cat ("\n\n  bpm = \n")
-    #                                                                             print (bpm)
     vars_list$chosen_PU = chosen_PU
-#    vars_list$bpm    = bpm
 
     return (vars_list)
     }
@@ -130,7 +102,6 @@ greedy_using_funcs <- function (num_spp,
     ranked_solution_PU_IDs_vec    = rep (0, num_PUs)
     S_remaining_PUs_vec           = 1:num_PUs
     vars_list$S_remaining_PUs_vec = S_remaining_PUs_vec
-    bpm = input_vars_list$bpm
 
     for (cur_rank in 1:num_PUs)
         {
@@ -141,23 +112,27 @@ greedy_using_funcs <- function (num_spp,
 
             } else    #  Not the last PU, so need to do some computation
             {
-            vars_list = choose_next_PU (S_remaining_PUs_vec, vars_list)            #  <<<<<----------
+            vars_list =
+                choose_next_PU (S_remaining_PUs_vec, vars_list)  #  <<<<<-------
+
             chosen_PU = vars_list$chosen_PU
 
                 #  Add current PU to ranked solution vector and
                 #  remove it from the set of candidates for next
                 #  round.
             ranked_solution_PU_IDs_vec [cur_rank] = chosen_PU
-            bpm [,chosen_PU] = 0
 
-#            S_remaining_PUs_vec = S_remaining_PUs_vec [-chosen_PU]
-idx_of_chosen_PU_in_S = which (S_remaining_PUs_vec == chosen_PU)
-S_remaining_PUs_vec = S_remaining_PUs_vec [-idx_of_chosen_PU_in_S]
+            idx_of_chosen_PU_in_S = which (S_remaining_PUs_vec == chosen_PU)
+            S_remaining_PUs_vec = S_remaining_PUs_vec [-idx_of_chosen_PU_in_S]
             }
         }
 
     if (reverse_solution_order)
         ranked_solution_PU_IDs_vec = rev (ranked_solution_PU_IDs_vec)
+
+    if (length (ranked_solution_PU_IDs_vec) !=
+        length (unique (ranked_solution_PU_IDs_vec)))
+        stop_bdpg ("ranked_solution_PU_IDs_vec contains duplicate entries")
 
     return (ranked_solution_PU_IDs_vec)
     }
