@@ -10,10 +10,9 @@ library (bdpg)
 source ("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/R/do_zonation_analysis_and_output.R")
 source ("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/R/z_test.R")
 source ("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/R/z_using_inline.R")
-source ("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/R/z_using_funcs.R")
-source ("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/R/z_using_for.R")
 
 verbose = FALSE
+brank   = 10
 
 zmeths = "inline"
 
