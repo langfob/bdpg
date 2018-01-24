@@ -26,7 +26,7 @@ test_z <- function (zmeths, seed = 456, num_spp = 4, num_PUs = 3)
                                                                                 cat ("\n  c_PU_vec = ", c_PU_vec)
                                                                                 }
 
-zui = 1
+zui = NULL
 if ("inline" %in% zmeths)
 {
 set.seed (seed + 12345)
@@ -39,7 +39,6 @@ cat ("\n------------------------------------------------------------------------
     print (zui)
 }
 
-zuf = 2
 if ("funcs" %in% zmeths)
 {
 set.seed (seed + 12345)
@@ -52,7 +51,6 @@ cat ("\n------------------------------------------------------------------------
     print (zuf)
 }
 
-zufor = 3
 if ("for" %in% zmeths)
 {
 set.seed (seed + 12345)
