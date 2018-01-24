@@ -20,63 +20,48 @@ choose_next_PU_unprotected_richnesss <- function (S_remaining_PUs_vec, vars_list
     num_spp         = dim(bpm)[1]
     num_PUs         = dim(bpm)[2]
 
-        #---------------------------------------------------------------------
+        #-----------------------------------------------------------------
         #  Find which species have already met or exceeded their target.
-        #  On the first pass, nothing has been reserved, so use all of bpm
-        #  in that case, i.e., when S is the whole PU set.
-        #  If you don't test for that case, S_remaining_PUs_vec will be the
-        #  entire set of PUs and when you remove that set from itself,
-        #  cur_solution_PUs will be NULL.
-        #---------------------------------------------------------------------
+        #-----------------------------------------------------------------
 
-    # if (length (S_remaining_PUs_vec) < num_PUs)
-    #     {
-        all_PUs                          = 1:num_PUs
-        cur_solution_PUs                 = all_PUs [-S_remaining_PUs_vec]
+    all_PUs          = 1:num_PUs
+    cur_solution_PUs = all_PUs [-S_remaining_PUs_vec]
 
-            #---------------------------------------------------------------
-            #  If there is only one column left, then R will complain that
-            #  it's no longer a matrix when it tries to do rowSums.
-            #  In that case, the rowSums for that single column are just
-            #  the values in the column since they're not added to
-            #  anything else.
-            #  If you don't trap for this case, the error you get is:
-            #      Error in rowSums(bpm[, cur_solution_PUs]) :
-            #        'x' must be an array of at least two dimensions
-            #---------------------------------------------------------------
+        #-----------------------------------------------------------------
+        #  Compute the total number of occurrences of each species in
+        #  the current solution.
+        #  If there is only one PU column in the current solution,
+        #  then R will complain that it's not a matrix when it tries
+        #  to do row sum for each species, so you need to use drop=FALSE
+        #  to be sure it's still viewed as a matrix rather than a vector.
+        #  If you don't have drop=FALSE, the error you get is:
+        #      Error in rowSums(bpm[, cur_solution_PUs]) :
+        #        'x' must be an array of at least two dimensions
+        #-----------------------------------------------------------------
 
-        # if (length (cur_solution_PUs) == 1)
-        #     {
-        #     cur_spp_reps_in_solution = bpm [, cur_solution_PUs]
-        #     }
-        # else
-        #     {
-            cur_spp_reps_in_solution = rowSums (bpm [, cur_solution_PUs, drop=FALSE])
-            # }
+    cur_spp_reps_in_solution = rowSums (bpm [, cur_solution_PUs, drop=FALSE])
 
-            #  Remove species already meeting their targets.
-        cur_spp_meeting_or_exceeding_tgt =
-                which (cur_spp_reps_in_solution >= spp_rep_targets)
+        #-------------------------------------------------
+        #  Ignore species already meeting their targets.
+        #-------------------------------------------------
 
-        num_spp_meeting_or_exceeding_tgt = length (cur_spp_meeting_or_exceeding_tgt)
-        if (num_spp_meeting_or_exceeding_tgt < num_spp)
-            unprotected_spp_bpm = bpm [-cur_spp_meeting_or_exceeding_tgt,]
+    cur_spp_meeting_or_exceeding_tgt =
+            which (cur_spp_reps_in_solution >= spp_rep_targets)
 
-        # } else
-        # {
-        # num_spp_meeting_or_exceeding_tgt = 0
-        # unprotected_spp_bpm              = bpm
-        # }
+    num_spp_meeting_or_exceeding_tgt = length (cur_spp_meeting_or_exceeding_tgt)
+    if (num_spp_meeting_or_exceeding_tgt < num_spp)
+#        unprotected_spp_bpm = bpm [-cur_spp_meeting_or_exceeding_tgt,]
+        unprotected_spp_bpm = bpm [-cur_spp_meeting_or_exceeding_tgt,,drop=FALSE]
 
     if (num_spp_meeting_or_exceeding_tgt < num_spp)
         {
-        if (num_spp_meeting_or_exceeding_tgt == (num_spp - 1))
-            {
-            unprotected_richness_vec_PU = unprotected_spp_bpm
-            } else
-            {
+        # if (num_spp_meeting_or_exceeding_tgt == (num_spp - 1))
+        #     {
+        #     unprotected_richness_vec_PU = unprotected_spp_bpm
+        #     } else
+        #     {
             unprotected_richness_vec_PU = colSums (unprotected_spp_bpm)
-            }
+            # }
 
             #  This is a 1 element vector unless some eligible PUs have
             #  the same max loss.
