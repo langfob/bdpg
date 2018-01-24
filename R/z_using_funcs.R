@@ -72,7 +72,8 @@ choose_next_PU_z <- function (S_remaining_PUs_vec, vars_list)
         #  ONLY PUs in S are allowed to be selected in this round.
 
     chosen_PUs_vec = chosen_PUs_vec [chosen_PUs_vec %in% S_remaining_PUs_vec]
-    if (length (chosen_PUs_vec) < 1) browser()
+    if (length (chosen_PUs_vec) < 1)
+        stop_bdpg ("chosen_PUs_vec is empty in choose_next_PU_z")
 
         #  When there is a tie in min of max loss,
         #  break the tie based on whichever tied PU has the
@@ -110,4 +111,5 @@ z_using_funcs <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
     }
 
 #===============================================================================
+
 
