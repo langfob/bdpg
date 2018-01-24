@@ -49,24 +49,21 @@ choose_next_PU_unprotected_richnesss <- function (S_remaining_PUs_vec, vars_list
             which (cur_spp_reps_in_solution >= spp_rep_targets)
 
     num_spp_meeting_or_exceeding_tgt = length (cur_spp_meeting_or_exceeding_tgt)
-    if (num_spp_meeting_or_exceeding_tgt < num_spp)
-#        unprotected_spp_bpm = bpm [-cur_spp_meeting_or_exceeding_tgt,]
-        unprotected_spp_bpm = bpm [-cur_spp_meeting_or_exceeding_tgt,,drop=FALSE]
+    # if (num_spp_meeting_or_exceeding_tgt < num_spp)
+    #     unprotected_spp_bpm = bpm [-cur_spp_meeting_or_exceeding_tgt,,drop=FALSE]
 
     if (num_spp_meeting_or_exceeding_tgt < num_spp)
         {
-        # if (num_spp_meeting_or_exceeding_tgt == (num_spp - 1))
-        #     {
-        #     unprotected_richness_vec_PU = unprotected_spp_bpm
-        #     } else
-        #     {
-            unprotected_richness_vec_PU = colSums (unprotected_spp_bpm)
-            # }
 
-            #  This is a 1 element vector unless some eligible PUs have
-            #  the same max loss.
+        unprotected_spp_bpm = bpm [-cur_spp_meeting_or_exceeding_tgt,,drop=FALSE]
+
+
+
+        unprotected_richness_vec_PU = colSums (unprotected_spp_bpm)
+
         chosen_PUs_vec =
-            which (unprotected_richness_vec_PU == max (unprotected_richness_vec_PU[S_remaining_PUs_vec]))
+            which (unprotected_richness_vec_PU ==
+                   max (unprotected_richness_vec_PU[S_remaining_PUs_vec]))
 
             #  Now we know what are ALL of the PUs in the whole system that
             #  match the min in S, but some of those can be ones that we've
