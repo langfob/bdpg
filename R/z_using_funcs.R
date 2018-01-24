@@ -4,7 +4,7 @@
 
 #===============================================================================
 
-init_for_choosing_PUs <- function (input_vars_list)
+init_for_choosing_PUs_z <- function (input_vars_list)
     {
         #  Extract input variables for this function
     bpm = input_vars_list$bpm
@@ -28,7 +28,7 @@ init_for_choosing_PUs <- function (input_vars_list)
 
 #===============================================================================
 
-choose_next_PU <- function (S_remaining_PUs_vec, vars_list)
+choose_next_PU_z <- function (S_remaining_PUs_vec, vars_list)
     {
         #  Extract input variables for this function
     q_mat = vars_list$q_mat
@@ -92,55 +92,8 @@ choose_next_PU <- function (S_remaining_PUs_vec, vars_list)
 
 #===============================================================================
 
-greedy_using_funcs <- function (num_spp,
-                                num_PUs,
-                                input_vars_list,
-                                reverse_solution_order)
-    {
-    vars_list = init_for_choosing_PUs (input_vars_list)       #  <<<<<----------
-
-    ranked_solution_PU_IDs_vec    = rep (0, num_PUs)
-    S_remaining_PUs_vec           = 1:num_PUs
-    vars_list$S_remaining_PUs_vec = S_remaining_PUs_vec
-
-    for (cur_rank in 1:num_PUs)
-        {
-        if (cur_rank == num_PUs)    #  Last PU can just be copied into solution.
-            {
-            chosen_PU = S_remaining_PUs_vec [1]
-            ranked_solution_PU_IDs_vec [cur_rank] = chosen_PU
-
-            } else    #  Not the last PU, so need to do some computation
-            {
-            vars_list =
-                choose_next_PU (S_remaining_PUs_vec, vars_list)  #  <<<<<-------
-
-            chosen_PU = vars_list$chosen_PU
-
-                #  Add current PU to ranked solution vector and
-                #  remove it from the set of candidates for next
-                #  round.
-            ranked_solution_PU_IDs_vec [cur_rank] = chosen_PU
-
-            idx_of_chosen_PU_in_S = which (S_remaining_PUs_vec == chosen_PU)
-            S_remaining_PUs_vec = S_remaining_PUs_vec [-idx_of_chosen_PU_in_S]
-            }
-        }
-
-    if (reverse_solution_order)
-        ranked_solution_PU_IDs_vec = rev (ranked_solution_PU_IDs_vec)
-
-    if (length (ranked_solution_PU_IDs_vec) !=
-        length (unique (ranked_solution_PU_IDs_vec)))
-        stop_bdpg ("ranked_solution_PU_IDs_vec contains duplicate entries")
-
-    return (ranked_solution_PU_IDs_vec)
-    }
-
-#===============================================================================
-
 z_using_funcs <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
-                           reverse_solution_order = TRUE  #  Always true for zonation.
+                           reverse_solution_order = TRUE
                            )
     {
     input_vars_list = list (wt_spp_vec = wt_spp_vec,
@@ -149,7 +102,9 @@ z_using_funcs <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
 
     ranked_solution_PU_IDs_vec =
         greedy_using_funcs (num_spp, num_PUs, input_vars_list,
-                            reverse_solution_order = TRUE)
+                            init_for_choosing_PUs_z,
+                            choose_next_PU_z,
+                            reverse_solution_order)
 
     return (ranked_solution_PU_IDs_vec)
     }
