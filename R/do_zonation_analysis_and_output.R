@@ -103,50 +103,6 @@ solution_within_budget <- function (budget, cost, ranked_solution_PUs)
 
 #===============================================================================
 
-greedy_using_funcs <- function (num_spp,
-                                num_PUs,
-                                input_vars_list,
-                                reverse_solution_order)
-    {
-    vars_list = init_for_choosing_PUs (input_vars_list)       #  <<<<<----------
-
-    ranked_solution_PU_IDs_vec    = rep (0, num_PUs)
-    S_remaining_PUs_vec           = 1:num_PUs
-    vars_list$S_remaining_PUs_vec = S_remaining_PUs_vec
-    bpm = input_vars_list$bpm
-
-    for (cur_rank in 1:num_PUs)
-        {
-        if (cur_rank == num_PUs)    #  Last PU can just be copied into solution.
-            {
-            chosen_PU = S_remaining_PUs_vec [1]
-            ranked_solution_PU_IDs_vec [cur_rank] = chosen_PU
-
-            } else    #  Not the last PU, so need to do some computation
-            {
-            vars_list = choose_next_PU (S_remaining_PUs_vec, vars_list)            #  <<<<<----------
-            chosen_PU = vars_list$chosen_PU
-
-                #  Add current PU to ranked solution vector and
-                #  remove it from the set of candidates for next
-                #  round.
-            ranked_solution_PU_IDs_vec [cur_rank] = chosen_PU
-            bpm [,chosen_PU] = 0
-
-#            S_remaining_PUs_vec = S_remaining_PUs_vec [-chosen_PU]
-idx_of_chosen_PU_in_S = which (S_remaining_PUs_vec == chosen_PU)
-S_remaining_PUs_vec = S_remaining_PUs_vec [-idx_of_chosen_PU_in_S]
-            }
-        }
-
-    if (reverse_solution_order)
-        ranked_solution_PU_IDs_vec = rev (ranked_solution_PU_IDs_vec)
-
-    return (ranked_solution_PU_IDs_vec)
-    }
-
-#===============================================================================
-
 
 
 
