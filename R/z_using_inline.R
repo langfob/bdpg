@@ -70,11 +70,27 @@ z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
                                                                                 cat ("\n\n  Q_vec_spp = ", Q_vec_spp, "\n")
                                                                                 }
             d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec_spp)
-d_mat [is.infinite (d_mat)] = 0  #  trying to fix NA problem, but this didn't work either...
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  d_mat = \n")
-                                                                                print (d_mat)
-                                                                                }
+
+                #---------------------------------------------------------------
+                #  If Q is 0, then it will cause a divide by zero error
+                #  in computing d.
+                #  Having a Q value of 0 means that the species no longer
+                #  has any occurrences left in the eligible PUs, so
+                #  the species has no relevance to the decision about
+                #  which PU to throw out next.
+                #  In the next step, we will compute the maximum value of
+                #  d across all species, so if we give d a value of -Inf,
+                #  it will guarantee that it's not selected as the max unless
+                #  there are no species left on any of the patches in the
+                #  eligible PU set S.  In that case, it wouldn't make any
+                #  difference which PU you end up picking since they're all
+                #  useless, so it doesn't matter if -Inf is picked as the
+                #  max since all species will have a d of -Inf at that point.
+                #---------------------------------------------------------------
+
+            indices_of_spp_that_are_0 = which (Q_vec_spp == 0)
+            d_mat [indices_of_spp_that_are_0, ] = -Inf
+
             PU_max_loss_vec = apply (d_mat, 2, max)
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  PU_max_loss_vec = ", PU_max_loss_vec, "\n")
