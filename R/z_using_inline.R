@@ -65,11 +65,11 @@ z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
                                                                                 cat ("\n\n  bpm = \n")
                                                                                 print (bpm)
                                                                                 }
-            Q_vec = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
+            Q_vec_spp = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
                                                                                 if (verbose) {
-                                                                                cat ("\n\n  Q_vec = ", Q_vec, "\n")
+                                                                                cat ("\n\n  Q_vec_spp = ", Q_vec_spp, "\n")
                                                                                 }
-            d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec)
+            d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec_spp)
 d_mat [is.infinite (d_mat)] = 0  #  trying to fix NA problem, but this didn't work either...
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  d_mat = \n")

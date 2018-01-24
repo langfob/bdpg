@@ -43,11 +43,11 @@ choose_next_PU <- function (S_remaining_PUs_vec, vars_list)
     q_mat = vars_list$q_mat
     d_fixed_part_mat = vars_list$d_fixed_part_mat
 
-    Q_vec = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
+    Q_vec_spp = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
                                                                                 if (verbose) {
-                                                                                cat ("\n\n  Q_vec = ", Q_vec, "\n")
+                                                                                cat ("\n\n  Q_vec_spp = ", Q_vec_spp, "\n")
                                                                                 }
-    d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec)
+    d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec_spp)
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  d_mat = \n")
                                                                                 print (d_mat)
