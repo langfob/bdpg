@@ -1,14 +1,15 @@
 #===============================================================================
 
-                            #  z_test_for.R
+                            #  test_z_for.R
 
 #===============================================================================
 
 options(warn=2)
 library (bdpg)
 
+source ("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/R/test_greedy_reserve_selection.R")  #  for gen_dummy_bpm()
 source ("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/R/do_zonation_analysis_and_output.R")
-source ("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/R/z_test.R")
+source ("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/R/test_z.R")
 source ("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/R/z_using_for.R")
 
 verbose = FALSE
