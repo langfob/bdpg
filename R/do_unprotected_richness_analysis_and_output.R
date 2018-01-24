@@ -29,8 +29,8 @@ choose_next_PU_unprotected_richnesss <- function (S_remaining_PUs_vec, vars_list
         #  cur_solution_PUs will be NULL.
         #---------------------------------------------------------------------
 
-    if (length (S_remaining_PUs_vec) < num_PUs)
-        {
+    # if (length (S_remaining_PUs_vec) < num_PUs)
+    #     {
         all_PUs                          = 1:num_PUs
         cur_solution_PUs                 = all_PUs [-S_remaining_PUs_vec]
 
@@ -45,14 +45,14 @@ choose_next_PU_unprotected_richnesss <- function (S_remaining_PUs_vec, vars_list
             #        'x' must be an array of at least two dimensions
             #---------------------------------------------------------------
 
-        if (length (cur_solution_PUs) == 1)
-            {
-            cur_spp_reps_in_solution = bpm [, cur_solution_PUs]
-            }
-        else
-            {
-            cur_spp_reps_in_solution = rowSums (bpm [, cur_solution_PUs])
-            }
+        # if (length (cur_solution_PUs) == 1)
+        #     {
+        #     cur_spp_reps_in_solution = bpm [, cur_solution_PUs]
+        #     }
+        # else
+        #     {
+            cur_spp_reps_in_solution = rowSums (bpm [, cur_solution_PUs, drop=FALSE])
+            # }
 
             #  Remove species already meeting their targets.
         cur_spp_meeting_or_exceeding_tgt =
@@ -62,11 +62,11 @@ choose_next_PU_unprotected_richnesss <- function (S_remaining_PUs_vec, vars_list
         if (num_spp_meeting_or_exceeding_tgt < num_spp)
             unprotected_spp_bpm = bpm [-cur_spp_meeting_or_exceeding_tgt,]
 
-        } else
-        {
-        num_spp_meeting_or_exceeding_tgt = 0
-        unprotected_spp_bpm              = bpm
-        }
+        # } else
+        # {
+        # num_spp_meeting_or_exceeding_tgt = 0
+        # unprotected_spp_bpm              = bpm
+        # }
 
     if (num_spp_meeting_or_exceeding_tgt < num_spp)
         {
