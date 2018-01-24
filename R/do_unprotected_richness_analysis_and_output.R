@@ -20,23 +20,39 @@ choose_next_PU_unprotected_richnesss <- function (S_remaining_PUs_vec, vars_list
     num_spp         = dim(bpm)[1]
     num_PUs         = dim(bpm)[2]
 
+        #---------------------------------------------------------------------
         #  Find which species have already met or exceeded their target.
         #  On the first pass, nothing has been reserved, so use all of bpm
         #  in that case, i.e., when S is the whole PU set.
+        #  If you don't test for that case, S_remaining_PUs_vec will be the
+        #  entire set of PUs and when you remove that set from itself,
+        #  cur_solution_PUs will be NULL.
+        #---------------------------------------------------------------------
 
     if (length (S_remaining_PUs_vec) < num_PUs)
         {
         all_PUs                          = 1:num_PUs
         cur_solution_PUs                 = all_PUs [-S_remaining_PUs_vec]
 
+            #---------------------------------------------------------------
+            #  If there is only one column left, then R will complain that
+            #  it's no longer a matrix when it tries to do rowSums.
+            #  In that case, the rowSums for that single column are just
+            #  the values in the column since they're not added to
+            #  anything else.
+            #  If you don't trap for this case, the error you get is:
+            #      Error in rowSums(bpm[, cur_solution_PUs]) :
+            #        'x' must be an array of at least two dimensions
+            #---------------------------------------------------------------
+
         if (length (cur_solution_PUs) == 1)
-        {
+            {
             cur_spp_reps_in_solution = bpm [, cur_solution_PUs]
-        }
+            }
         else
-        {
-                cur_spp_reps_in_solution         = rowSums (bpm [, cur_solution_PUs])
-        }
+            {
+            cur_spp_reps_in_solution = rowSums (bpm [, cur_solution_PUs])
+            }
 
             #  Remove species already meeting their targets.
         cur_spp_meeting_or_exceeding_tgt =
