@@ -134,30 +134,30 @@ z <- function (num_spp,
                reverse_solution_order = TRUE  #  Always true for zonation.
                )
     {
-    if (z_meth == "funcs")
+    if ("funcs" %in% z_meth)
         {
         ranked_solution_PU_IDs_vec = z_using_funcs (num_spp,
                                                     num_PUs,
                                                     wt_spp_vec,
                                                     c_PU_vec,
                                                     bpm,
-                                                    reverse_solution_order = TRUE)
-        } else if (z_meth == "inline")
+                                                    reverse_solution_order)
+        } else if ("inline" %in% z_meth)
         {
         ranked_solution_PU_IDs_vec = z_using_inline (num_spp,
                                                      num_PUs,
                                                      wt_spp_vec,
                                                      c_PU_vec,
                                                      bpm,
-                                                     reverse_solution_order = TRUE)
-        } else if (z_meth == "for")
+                                                     reverse_solution_order)
+        } else if ("for" %in% z_meth)
         {
         ranked_solution_PU_IDs_vec = z_using_for (num_spp,
                                                   num_PUs,
                                                   wt_spp_vec,
                                                   c_PU_vec,
                                                   bpm,
-                                                  reverse_solution_order = TRUE)
+                                                  reverse_solution_order)
         } else
         {
         stop_bdpg (paste0 ("Unrecognized z_meth = '", z_meth, "'.  ",
@@ -170,8 +170,9 @@ z <- function (num_spp,
                                                    ranked_solution_PU_IDs_vec,
                                                    spp_rep_targets)
 
-    return (short_ranked_solution_PU_IDs_vec = short_ranked_solution_PU_IDs_vec,
-            full_ranked_solution_PU_IDs_vec = ranked_solution_PU_IDs_vec)
+    return (list (short_ranked_solution_PU_IDs_vec =
+                      short_ranked_solution_PU_IDs_vec,
+                  full_ranked_solution_PU_IDs_vec = ranked_solution_PU_IDs_vec))
     }
 
 #===============================================================================
