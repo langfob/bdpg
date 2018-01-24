@@ -124,6 +124,56 @@ find_first_solution_with_all_rep_tgts_met <- function (bpm,
 
 #===============================================================================
 
+z <- function (num_spp,
+               num_PUs,
+               wt_spp_vec,
+               c_PU_vec,
+               bpm,
+               z_meth = "funcs",
+               spp_rep_targets = rep (1, num_spp),
+               reverse_solution_order = TRUE  #  Always true for zonation.
+               )
+    {
+    if (z_meth == "funcs")
+        {
+        ranked_solution_PU_IDs_vec = z_using_funcs (num_spp,
+                                                    num_PUs,
+                                                    wt_spp_vec,
+                                                    c_PU_vec,
+                                                    bpm,
+                                                    reverse_solution_order = TRUE)
+        } else if (z_meth == "inline")
+        {
+        ranked_solution_PU_IDs_vec = z_using_inline (num_spp,
+                                                     num_PUs,
+                                                     wt_spp_vec,
+                                                     c_PU_vec,
+                                                     bpm,
+                                                     reverse_solution_order = TRUE)
+        } else if (z_meth == "for")
+        {
+        ranked_solution_PU_IDs_vec = z_using_for (num_spp,
+                                                  num_PUs,
+                                                  wt_spp_vec,
+                                                  c_PU_vec,
+                                                  bpm,
+                                                  reverse_solution_order = TRUE)
+        } else
+        {
+        stop_bdpg (paste0 ("Unrecognized z_meth = '", z_meth, "'.  ",
+                           "Must be one of 'funcs', 'inline', or 'for'."))
+        }
 
+
+    short_ranked_solution_PU_IDs_vec =
+        find_first_solution_with_all_rep_tgts_met (bpm,
+                                                   ranked_solution_PU_IDs_vec,
+                                                   spp_rep_targets)
+
+    return (short_ranked_solution_PU_IDs_vec = short_ranked_solution_PU_IDs_vec,
+            full_ranked_solution_PU_IDs_vec = ranked_solution_PU_IDs_vec)
+    }
+
+#===============================================================================
 
 
