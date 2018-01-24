@@ -25,14 +25,14 @@ init_for_choosing_PUs <- function (input_vars_list)
                                                                                 cat ("\n\n  qw_spp_weighted_q_mat = ", qw_spp_weighted_q_mat, "\n")
                                                                                 print (qw_spp_weighted_q_mat)
                                                                                 }
-    qw_over_c_mat =
+    d_fixed_part_mat =
         sweep (qw_spp_weighted_q_mat, MARGIN=2, FUN="/",STATS=c_PU_vec)
                                                                                 if (verbose) {
-                                                                                cat ("\n\n  qw_over_c_mat = \n")
-                                                                                print (qw_over_c_mat)
+                                                                                cat ("\n\n  d_fixed_part_mat = \n")
+                                                                                print (d_fixed_part_mat)
                                                                                 }
     return (list (q_mat         = q_mat,
-                  qw_over_c_mat = qw_over_c_mat))
+                  d_fixed_part_mat = d_fixed_part_mat))
     }
 
 #===============================================================================
@@ -41,13 +41,13 @@ choose_next_PU <- function (S_remaining_PUs_vec, vars_list)
     {
         #  Extract input variables for this function
     q_mat = vars_list$q_mat
-    qw_over_c_mat = vars_list$qw_over_c_mat
+    d_fixed_part_mat = vars_list$d_fixed_part_mat
 
     Q_vec = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  Q_vec = ", Q_vec, "\n")
                                                                                 }
-    delta_mat = sweep (qw_over_c_mat, MARGIN=1, FUN="/",STATS=Q_vec)
+    delta_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec)
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  delta_mat = \n")
                                                                                 print (delta_mat)

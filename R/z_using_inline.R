@@ -27,10 +27,10 @@ z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
                                                                                 cat ("\n\n  qw_spp_weighted_q_mat = ", qw_spp_weighted_q_mat, "\n")
                                                                                 print (qw_spp_weighted_q_mat)
                                                                                 }
-    qw_over_c_mat = sweep (qw_spp_weighted_q_mat, MARGIN=2, FUN="/",STATS=c_PU_vec)
+    d_fixed_part_mat = sweep (qw_spp_weighted_q_mat, MARGIN=2, FUN="/",STATS=c_PU_vec)
                                                                                 if (verbose) {
-                                                                                cat ("\n\n  qw_over_c_mat = \n")
-                                                                                print (qw_over_c_mat)
+                                                                                cat ("\n\n  d_fixed_part_mat = \n")
+                                                                                print (d_fixed_part_mat)
                                                                                 }
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #--------------------------------------------
@@ -69,7 +69,7 @@ z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  Q_vec = ", Q_vec, "\n")
                                                                                 }
-            delta_mat = sweep (qw_over_c_mat, MARGIN=1, FUN="/",STATS=Q_vec)
+            delta_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec)
 delta_mat [is.infinite (delta_mat)] = 0  #  trying to fix NA problem, but this didn't work either...
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  delta_mat = \n")
@@ -112,7 +112,7 @@ delta_mat [is.infinite (delta_mat)] = 0  #  trying to fix NA problem, but this d
  # print(chosen_PU)
  # if (cur_rank >= 4) browser()
              bpm [,chosen_PU] = 0
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                                                                print (qw_over_c_mat)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                                                                print (d_fixed_part_mat)
 #--------------------------------------------
 
                 #  Add current PU to ranked solution vector and
