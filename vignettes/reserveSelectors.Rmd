@@ -1,0 +1,75 @@
+---
+title: "Reserve selectors"
+author: "Bill Langford"
+date: '`r Sys.Date()`'
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+    toc: true # table of content true
+    toc_depth: 4  # upto three depths of headings (specified by #, ## and ###)
+#    number_sections: true  ## if you want number sections at each table header
+vignette: >
+  %\VignetteIndexEntry{Input Parameters and Yaml Files for bdpg}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+## Zonation 
+
+### 
+- Prioritizing multiple-use landscapes for conservation: methods for large multi-species planning problems
+- Atte Moilanen, Aldina M. A. Franco, Regan I. Early, Richard Fox, Brendan Wintle and Chris D. Thomas
+- Proc. R. Soc. B (2005) 272, 1885–1891 
+- doi:10.1098/rspb.2005.3164
+    
+### Algorithm and its evaluation function 
+
+Text below is taken from section 2 (b) on p. 1886 of the paper and broken into outline form as well as paraphrased in places.
+
+#### Overview
+
+- Because the distributions of different species are likely to overlap only partially (figure 1a–c), efficient landscape prioritization requires the identification of areas that support high connectivity for many species simultaneously (figure 1d ). 
+- Our approach is the Zonation algorithm, which 
+    - starts from the full landscape, and then 
+    - iteratively discards locations (grid cells) of lowest value from the edge of the remaining area, 
+    - thus maintaining a high degree of structural connectivity in the remaining habitat. 
+- The order of cell removal gives a landscape zoning with most important areas remaining last. 
+- Limiting cell removal to the edge of the remaining area is very important because
+    - it allows the identification of a nested sequence of aggregated landscape structures with the high priority core areas of species distributions remaining until the last, and 
+    - previously removed areas showing as lower priority buffer zones. 
+- A nested zoning can easily be visualized and interpreted for the purpose of conservation planning. 
+- Other currently used methods for generating aggregated spatial reserve designs 
+    - do not produce nested solutions (see Cabeza et al. 2004). 
+- Edge removal also has the advantage of reducing computation times by orders of magnitude (because only some cells are candidates for removal), making it possible to apply Zonation to extremely large landscapes with high spatial resolution and allowing rigorous sensitivity analysis within practical time-frames.
+
+#### Evaluation Function
+
+- The following algorithm description is in terms of 
+    - the proportion of the distribution of species j in cell i, qij; 
+        - qij = pij/sum_over_k(pkj) , 
+            - where pij is any measure of the abundance of species j in cell i. 
+            - For the butterflies of Britain we used pij = Iij 
+                - (connectivity, below), but pij could as well be a modelled probability of occurrence (as for HCC), or some measure of abundance, density, vegetation cover or eco- system type etc.
+- The rate of loss of value is minimized using measure
+    - deltai = max_over_j ((qij \* wij) / (Qj(S) \* ci)
+        - in which 
+            - wj is weight of species j, and 
+            - ci is cost of site i. 
+
+#### Algorithm
+
+- At each step, deltai is calculated for all sites at the edge of the remaining area, and the site having smallest deltai is removed. 
+- Candidates for removal must have at least one 8-neighbour cell that already has been removed. 
+- Initially, edge is defined as cells either at the borders of the study area or as cells neighbouring missing data. 
+- The order of removal is recorded to allow identification of the landscape zoning.
+- Importantly, equation (2.1) calculates **cell value** as the maximum biological value over *all* species 
+    - rather than as the sum of species-specific value. 
+    - Utilising such a sum could result in the 
+        - replacement of cells having 
+            - high value to a particular species by groups of cells 
+            - with low to moderate value for several other species 
+        - (thus allowing core areas of species occurring in otherwise species- poor areas to be wiped out). 
+    - This is not satisfactory if the aim is to assure the retention of some high quality areas for all species
+
+
