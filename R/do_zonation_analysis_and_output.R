@@ -103,6 +103,27 @@ solution_within_budget <- function (budget, cost, ranked_solution_PUs)
 
 #===============================================================================
 
+find_first_solution_with_all_rep_tgts_met <- function (bpm,
+                                                       ranked_solution_PUs,
+                                                       spp_rep_targets)
+    {
+    num_spp = dim(bpm)[1]
+    num_PUs = dim(bpm)[2]
+
+    for (cur_idx in 1:num_PUs)
+        {
+        cur_solution_PUs = ranked_solution_PUs [1:cur_idx]
+        cur_spp_reps_in_solution = rowSums (bpm [, cur_solution_PUs, drop=FALSE])
+        cur_spp_meeting_or_exceeding_tgt =
+            which (cur_spp_reps_in_solution > spp_rep_targets)
+        if (length (cur_spp_meeting_or_exceeding_tgt) == num_spp)  break
+        }
+
+    return (ranked_solution_PUs [1:cur_idx])
+    }
+
+#===============================================================================
+
 
 
 
