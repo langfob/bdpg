@@ -100,8 +100,6 @@ cat ("\nIn choose...(): cur_rank = ", cur_rank)
         {
         chosen_PU = break_tie_using_min_summed_loss (chosen_PUs_vec,
                                                      S_remaining_PUs_vec,
-                                                     ##delta_mat
-                                                     #delta_vec
                                                      d_mat
                                                      )
         }
