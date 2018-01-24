@@ -47,16 +47,16 @@ choose_next_PU <- function (S_remaining_PUs_vec, vars_list)
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  Q_vec = ", Q_vec, "\n")
                                                                                 }
-    delta_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec)
+    d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec)
                                                                                 if (verbose) {
-                                                                                cat ("\n\n  delta_mat = \n")
-                                                                                print (delta_mat)
+                                                                                cat ("\n\n  d_mat = \n")
+                                                                                print (d_mat)
                                                                                 }
-    PU_max_loss_vec = apply (delta_mat, 2, max)
+    PU_max_loss_vec = apply (d_mat, 2, max)
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  PU_max_loss_vec = ", PU_max_loss_vec, "\n")
                                                                                 }
-
+browser()
         #  This is a 1 element vector unless some eligible PUs have
         #  the same max loss.
     chosen_PUs_vec =
@@ -81,7 +81,7 @@ choose_next_PU <- function (S_remaining_PUs_vec, vars_list)
         {
         chosen_PU = break_tie_using_min_summed_loss (chosen_PUs_vec,
                                                      S_remaining_PUs_vec,
-                                                     delta_mat)
+                                                     d_mat)
         }
     else  chosen_PU = chosen_PUs_vec[1]
                                                                                 if (verbose) {

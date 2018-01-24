@@ -69,13 +69,13 @@ z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  Q_vec = ", Q_vec, "\n")
                                                                                 }
-            delta_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec)
-delta_mat [is.infinite (delta_mat)] = 0  #  trying to fix NA problem, but this didn't work either...
+            d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec)
+d_mat [is.infinite (d_mat)] = 0  #  trying to fix NA problem, but this didn't work either...
                                                                                 if (verbose) {
-                                                                                cat ("\n\n  delta_mat = \n")
-                                                                                print (delta_mat)
+                                                                                cat ("\n\n  d_mat = \n")
+                                                                                print (d_mat)
                                                                                 }
-            PU_max_loss_vec = apply (delta_mat, 2, max)
+            PU_max_loss_vec = apply (d_mat, 2, max)
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  PU_max_loss_vec = ", PU_max_loss_vec, "\n")
                                                                                 }
@@ -103,7 +103,7 @@ delta_mat [is.infinite (delta_mat)] = 0  #  trying to fix NA problem, but this d
                 {
                 chosen_PU = break_tie_using_min_summed_loss (chosen_PUs_vec,
                                                              S_remaining_PUs_vec,
-                                                             delta_mat)
+                                                             d_mat)
                 }
             else  chosen_PU = chosen_PUs_vec[1]
                                                                                 if (verbose) {
