@@ -139,7 +139,9 @@ greedy_using_funcs <- function (num_spp,
 
 #===============================================================================
 
-z_using_funcs <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm)
+z_using_funcs <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
+                           reverse_solution_order = TRUE  #  Always true for zonation.
+                           )
     {
     input_vars_list = list (wt_spp_vec = wt_spp_vec,
                             c_PU_vec   = c_PU_vec,
