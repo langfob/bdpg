@@ -10,7 +10,7 @@ z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
     {
 #--------------------------------------------
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-#  This section could be a function, but it would incur a lot of
+#  This section could be a function, but it might incur a lot of
 #  overhead copying large matrices on every iteration.
 
         #  Compute original_frac_abund_spp_j_on_PU_i, i.e.,
@@ -42,7 +42,7 @@ z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
 #--------------------------------------------
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-#  This section could be a function, but it would incur a lot of
+#  This section could be a function, but it might incur a lot of
 #  overhead returning and copying large matrices on every iteration.
             Q_vec_spp = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
 

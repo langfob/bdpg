@@ -10,15 +10,7 @@ choose_next_PU_using_for <- function (num_spp,
                                       q_mat,
                                       #c_vec_PU,
                                       #w_vec_spp,
-                                      d_fixed_part_mat,
-
-
-cur_rank
-
-
-
-
-                                      )
+                                      d_fixed_part_mat)
     {
         #----------------------------------------------------------------------
         #  Initialize with an unusual value that's easy to spot visually and
@@ -79,15 +71,10 @@ cur_rank
 
     PU_max_loss_vec = delta_vec
 
-if (cur_rank >= brank) browser()
-
         #  This is a 1 element vector unless some eligible PUs have
         #  the same max loss.
     chosen_PUs_vec =
         which (PU_max_loss_vec == min (PU_max_loss_vec[S_remaining_PUs_vec]))
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  initial chosen_PU = ", chosen_PUs_vec, "\n")
-                                                                                }
 
         #  Now we know what are ALL of the PUs in the whole system that
         #  match the min in S, but some of those can be ones that we've
@@ -111,9 +98,6 @@ if (cur_rank >= brank) browser()
                                                      )
         }
     else  chosen_PU = chosen_PUs_vec[1]
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  possibly sampled chosen_PU = ", chosen_PU, "\n")
-                                                                                }
 
     return (chosen_PU)
     }
@@ -180,10 +164,6 @@ z_using_for <- function (num_spp,
 
     for (cur_rank in 1:num_PUs)
         {
-                                                                                if (verbose) {
-                                                                                cat ("\n\n========================")
-                                                                                cat ("\n  cur_rank = ", cur_rank)
-                                                                                }
         if (cur_rank == num_PUs)    #  Last PU can just be copied into solution.
             {
             chosen_PU = S_remaining_PUs_vec [1]
@@ -197,39 +177,15 @@ z_using_for <- function (num_spp,
                                                   q_mat,
                                                   #c_vec_PU,
                                                   #w_vec_spp,
-                                                  d_fixed_part_mat,
-
-cur_rank
-                                                  )
-
-###            bpm [,chosen_PU] = 0
-
-if (cur_rank >= brank) browser()
+                                                  d_fixed_part_mat)
 
                 #  Add current PU to ranked solution vector and
                 #  remove it from the set of candidates for next
                 #  round.
             ranked_solution_PU_IDs_vec [cur_rank] = chosen_PU
 
-    #            S_remaining_PUs_vec = S_remaining_PUs_vec [-chosen_PU]
             idx_of_chosen_PU_in_S = which (S_remaining_PUs_vec == chosen_PU)
             S_remaining_PUs_vec = S_remaining_PUs_vec [-idx_of_chosen_PU_in_S]
-
-
-if (verbose)
-{
-cat ("\n\nAfter chosen assignment at rank ", cur_rank)
-if (cur_rank > 1)
-    {
-    cat ("\nspp reps in cur solution:\n")
-    cur_spp_reps = rowSums (bpm [, ranked_solution_PU_IDs_vec > 0])
-    print (cur_spp_reps)
-    }
-cat ("\n\ncurrent ranked_solution_PU_IDs_vec = \n")
-print (ranked_solution_PU_IDs_vec)
-#browser()
-}
-
 
             }  #  end else - not working on last PU
         }  #  end for - cur_rank
@@ -237,8 +193,9 @@ print (ranked_solution_PU_IDs_vec)
     if (reverse_solution_order)
         ranked_solution_PU_IDs_vec = rev (ranked_solution_PU_IDs_vec)
 
-if (length (ranked_solution_PU_IDs_vec) != length (unique (ranked_solution_PU_IDs_vec)))
-    stop_bdpg ("ranked_solution_PU_IDs_vec contains duplicate entries")
+    if (length (ranked_solution_PU_IDs_vec) !=
+        length (unique (ranked_solution_PU_IDs_vec)))
+        stop_bdpg ("ranked_solution_PU_IDs_vec contains duplicate entries")
 
     return (ranked_solution_PU_IDs_vec)
     }
