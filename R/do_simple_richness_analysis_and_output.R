@@ -11,14 +11,22 @@ init_for_choosing_PUs_simple_richness <- function (input_vars_list)
 
 #===============================================================================
 
-choose_next_PU_simple_richness <- function (S_remaining_PUs_vec, vars_list)
+choose_next_PU_simple_richness <- function (S_remaining_PUs_vec, vars_list,
+                                            forward)
     {
     richness_vec_PU = colSums (vars_list$bpm)
 
         #  This is a 1 element vector unless some eligible PUs have
         #  the same max loss.
+if (forward)
+{
     chosen_PUs_vec =
         which (richness_vec_PU == max (richness_vec_PU[S_remaining_PUs_vec]))
+} else
+{
+    chosen_PUs_vec =
+        which (richness_vec_PU == min (richness_vec_PU[S_remaining_PUs_vec]))
+}
 
         #  Now we know what are ALL of the PUs in the whole system that
         #  match the min in S, but some of those can be ones that we've
@@ -46,7 +54,7 @@ choose_next_PU_simple_richness <- function (S_remaining_PUs_vec, vars_list)
 
 #===============================================================================
 
-simple_richness_using_funcs <- function (num_spp, num_PUs, bpm)
+simple_richness_using_funcs <- function (num_spp, num_PUs, bpm, forward)
     {
     input_vars_list = list (bpm = bpm)
 
@@ -54,7 +62,7 @@ simple_richness_using_funcs <- function (num_spp, num_PUs, bpm)
         greedy_using_funcs (num_spp, num_PUs, input_vars_list,
                             init_for_choosing_PUs_simple_richness,
                             choose_next_PU_simple_richness,
-                            reverse_solution_order = FALSE)
+                            forward)
 
     return (ranked_solution_PU_IDs_vec)
     }
@@ -62,10 +70,11 @@ simple_richness_using_funcs <- function (num_spp, num_PUs, bpm)
 #===============================================================================
 
 simple_richness <- function (num_spp, num_PUs, bpm,
+                             forward = TRUE,
                              spp_rep_targets = rep (1, num_spp))
     {
     ranked_solution_PU_IDs_vec =
-        simple_richness_using_funcs (num_spp, num_PUs, bpm)
+        simple_richness_using_funcs (num_spp, num_PUs, bpm, forward)
 
     short_ranked_solution_PU_IDs_vec =
         find_first_solution_with_all_rep_tgts_met (bpm,
@@ -75,44 +84,6 @@ simple_richness <- function (num_spp, num_PUs, bpm,
     return (list (short_ranked_solution_PU_IDs_vec =
                       short_ranked_solution_PU_IDs_vec,
                   full_ranked_solution_PU_IDs_vec = ranked_solution_PU_IDs_vec))
-    }
-
-#===============================================================================
-
-test_simple_richness <- function (seed = 456, num_spp = 4, num_PUs = 3)
-    {
-                                                                                if (verbose) {
-                                                                                cat ("\n  num_spp = ", num_spp)
-                                                                                cat ("\n  num_PUs = ", num_PUs)
-                                                                                }
-    bpm = gen_dummy_bpm (num_spp, num_PUs, seed)
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  bpm = \n")
-                                                                                print (bpm)
-                                                                                }
-
-    set.seed (seed + 12345)
-    timings_using_funcs = system.time ({
-        sruf = simple_richness (num_spp, num_PUs, bpm)
-    })
-
-    cat ("\n\ntimings_using_funcs = \n")
-    print (timings_using_funcs)
-
-    full_sruf = sruf$full_ranked_solution_PU_IDs_vec
-
-    cat ("\nlength(full_sruf) = ", length (full_sruf))
-    print (full_sruf)
-
-    short_sruf = sruf$short_ranked_solution_PU_IDs_vec
-    cat ("\nlength(short_sruf) = ", length (short_sruf))
-    cat ("\nshort_sruf = \n")
-    print (short_sruf)
-
-    cat ("\n------------------------------------------------------------------------")
-
-    return (list (sruf_long  = sruf$full_ranked_solution_PU_IDs_vec,
-                  sruf_short = sruf$short_ranked_solution_PU_IDs_vec))
     }
 
 #===============================================================================
