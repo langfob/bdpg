@@ -13,14 +13,27 @@ break_tie_randomly <- function (chosen_PUs_vec)
 
 #===============================================================================
 
+#  This is an easy way to do this, but you could also do it by finding which
+#  of the tied PUs has the best 2nd highest value of the original measure, and
+#  then the third highest, etc., until you have a winner or exhaust the list.
+
 break_tie_using_min_summed_loss <- function (chosen_PUs_vec,
                                              S_remaining_PUs_vec,
-                                             d_mat)
+                                             d_mat,
+                                             forward)
     {
     PU_summed_loss_vec = colSums (d_mat)
 
+if (forward)
+{
+    chosen_PUs_vec =
+        which (PU_summed_loss_vec == max (PU_summed_loss_vec [S_remaining_PUs_vec]))
+
+} else  #  backward, i.e., normal zonation direction
+{
     chosen_PUs_vec =
         which (PU_summed_loss_vec == min (PU_summed_loss_vec [S_remaining_PUs_vec]))
+}
                                                                                 if (verbose) {
                                                                                 cat ("\n\n  initial chosen_PU = ", chosen_PUs_vec, "\n")
                                                                                 }
@@ -82,7 +95,7 @@ greedy_using_funcs <- function (num_spp,
                                 input_vars_list,
                                 init_for_choosing_PUs,
                                 choose_next_PU,
-                                reverse_solution_order)
+                                forward)
     {
     vars_list = init_for_choosing_PUs (input_vars_list)       #  <<<<<----------
 
@@ -96,11 +109,12 @@ greedy_using_funcs <- function (num_spp,
             {
             chosen_PU = S_remaining_PUs_vec [1]
             ranked_solution_PU_IDs_vec [cur_rank] = chosen_PU
-
             } else    #  Not the last PU, so need to do some computation
             {
+
             vars_list =
-                choose_next_PU (S_remaining_PUs_vec, vars_list)  #  <<<<<-------
+                choose_next_PU (S_remaining_PUs_vec, vars_list,   #  <<<<<-------
+                                forward)
 
             chosen_PU = vars_list$chosen_PU
 
@@ -114,7 +128,7 @@ greedy_using_funcs <- function (num_spp,
             }
         }
 
-    if (reverse_solution_order)
+    if (!forward)
         ranked_solution_PU_IDs_vec = rev (ranked_solution_PU_IDs_vec)
 
     if (length (ranked_solution_PU_IDs_vec) !=
