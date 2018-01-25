@@ -7,15 +7,6 @@
 compute_and_verify_APP_rep_scores_according_to_RS_marxan_sa <-
     function (marxan_mvbest_df, num_spp)
     {
-    results_list = list()
-
-      # data.frame (
-      #                 #  Apparent results as computed by bdpg
-      #             app_spp_rep_shortfall = rep (NA, num_runs),
-      #             app_solution_NUM_spp_covered = rep (NA, num_runs),
-      #             app_solution_FRAC_spp_covered = rep (NA, num_runs)
-      #             )
-
     #---------------------------------------------------------------------------
     #           Apparent representation scores as computed by marxan
     #---------------------------------------------------------------------------
@@ -25,24 +16,18 @@ compute_and_verify_APP_rep_scores_according_to_RS_marxan_sa <-
     app_solution_FRAC_spp_covered__fromMarxan = app_solution_NUM_spp_covered__fromMarxan / num_spp
     app_spp_rep_shortfall__fromMarxan         = 1 - app_solution_FRAC_spp_covered__fromMarxan
 
-      cat ("\n\n--------------------------------------")
-      cat ("\nAPP_ REP VALUES AS COMPUTED BY MARXAN:")
-      cat ("\n--------------------------------------")
-      cat ("\napp_solution_NUM_spp_covered__fromMarxan =", app_solution_NUM_spp_covered__fromMarxan)
-      cat ("\napp_solution_FRAC_spp_covered__fromMarxan =", app_solution_FRAC_spp_covered__fromMarxan)
-      cat ("\napp_spp_rep_shortfall__fromMarxan =", app_spp_rep_shortfall__fromMarxan)
+          cat ("\n\n--------------------------------------")
+          cat ("\nAPP_ REP VALUES AS COMPUTED BY MARXAN:")
+          cat ("\n--------------------------------------")
+          cat ("\napp_solution_NUM_spp_covered__fromMarxan =", app_solution_NUM_spp_covered__fromMarxan)
+          cat ("\napp_solution_FRAC_spp_covered__fromMarxan =", app_solution_FRAC_spp_covered__fromMarxan)
+          cat ("\napp_spp_rep_shortfall__fromMarxan =", app_spp_rep_shortfall__fromMarxan)
 
     #---------------------------------------------------------------------------
 
-        #  Apparent results as computed by Marxan
-    # results_list$rsr_app_spp_rep_shortfall__fromMarxan                          = app_spp_rep_shortfall__fromMarxan
-    # results_list$rsr_app_solution_NUM_spp_covered__fromMarxan                   = app_solution_NUM_spp_covered__fromMarxan
-    # results_list$rsr_app_solution_FRAC_spp_covered__fromMarxan                  = app_solution_FRAC_spp_covered__fromMarxan
-    results_list$rsr_app_spp_rep_shortfall__fromRS                          = app_spp_rep_shortfall__fromMarxan
-    results_list$rsr_app_solution_NUM_spp_covered__fromRS                   = app_solution_NUM_spp_covered__fromMarxan
-    results_list$rsr_app_solution_FRAC_spp_covered__fromRS                  = app_solution_FRAC_spp_covered__fromMarxan
-
-    return (results_list)
+    return (list (rsr_app_spp_rep_shortfall__fromRS = app_spp_rep_shortfall__fromMarxan,
+                  rsr_app_solution_NUM_spp_covered__fromRS = app_solution_NUM_spp_covered__fromMarxan,
+                  rsr_app_solution_FRAC_spp_covered__fromRS = app_solution_FRAC_spp_covered__fromMarxan))
     }
 
 #-------------------------------------------------------------------------------
