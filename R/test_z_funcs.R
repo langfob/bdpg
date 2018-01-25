@@ -68,6 +68,11 @@ test_z_using_funcs <- function (seed = 456, num_spp = 4, num_PUs = 3)
 
     cat ("\n------------------------------------------------------------------------")
 
+cat ("\n")
+print (rowSums (bpm [,short_zuf_FORWARD]))
+cat ("\n")
+print (rowSums (bpm [,short_zuf_BACKWARD]))
+
     return (list (zuf_FORWARD_long  = zuf_FORWARD$full_ranked_solution_PU_IDs_vec,
                   zuf_FORWARD_short = zuf_FORWARD$short_ranked_solution_PU_IDs_vec,
                   zuf_BACKWARD_long  = zuf_BACKWARD$full_ranked_solution_PU_IDs_vec,
@@ -94,9 +99,10 @@ forward = FALSE
 #zu =test_z_using_funcs (seed = 456, num_spp = 4, num_PUs = 3)
 #zu =test_z_using_funcs (seed = 456, num_spp = 20, num_PUs = 15)
 #zu =test_z_using_funcs (seed = 456, num_spp = 40, num_PUs = 30)
-zu =test_z_using_funcs (seed = 456, num_spp = 400, num_PUs = 300)
+#zu =test_z_using_funcs (seed = 456, num_spp = 400, num_PUs = 300)
 
 #zu =test_z_using_funcs (seed = 1223, num_spp = 6, num_PUs = 5)
+zu =test_z_using_funcs (seed = 1223, num_spp = 400, num_PUs = 300)
 
 cat ("\n")
 print (zu)

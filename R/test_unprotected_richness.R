@@ -58,6 +58,11 @@ test_unprotected_richness <- function (seed = 456, num_spp = 4, num_PUs = 3)
 
     cat ("\n------------------------------------------------------------------------")
 
+cat ("\n")
+print (bpm)
+cat ("\n")
+print (rowSums (bpm [,short_uruf_BACKWARD]))
+
     return (list (uruf_FORWARD_long  = uruf_FORWARD$full_ranked_solution_PU_IDs_vec,
                   uruf_FORWARD_short = uruf_FORWARD$short_ranked_solution_PU_IDs_vec,
                   uruf_BACKWARD_long  = uruf_BACKWARD$full_ranked_solution_PU_IDs_vec,

@@ -58,6 +58,11 @@ test_simple_richness <- function (seed = 456, num_spp = 4, num_PUs = 3)
 
     cat ("\n------------------------------------------------------------------------")
 
+cat ("\n")
+print (bpm)
+cat ("\n")
+print (rowSums (bpm [,short_sruf_BACKWARD]))
+
     return (list (sruf_FORWARD_long  = sruf_FORWARD$full_ranked_solution_PU_IDs_vec,
                   sruf_FORWARD_short = sruf_FORWARD$short_ranked_solution_PU_IDs_vec,
                   sruf_BACKWARD_long  = sruf_BACKWARD$full_ranked_solution_PU_IDs_vec,
