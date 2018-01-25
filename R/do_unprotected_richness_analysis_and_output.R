@@ -46,15 +46,8 @@ choose_next_PU_unprotected_richness <- function (S_remaining_PUs_vec, vars_list,
         #  can remove them from the matrix calculations.
         #------------------------------------------------------------------
 
-if (forward)
-{
     cur_spp_meeting_or_exceeding_tgt =
             which (cur_spp_reps_in_solution >= spp_rep_targets)
-} else
-{
-    cur_spp_meeting_or_exceeding_tgt =
-            which (cur_spp_reps_in_solution >= spp_rep_targets)
-}
     num_spp_meeting_or_exceeding_tgt = length (cur_spp_meeting_or_exceeding_tgt)
 
     if (num_spp_meeting_or_exceeding_tgt == num_spp)
