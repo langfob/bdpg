@@ -36,9 +36,9 @@ z <- function (num_spp,
                wt_spp_vec,
                c_PU_vec,
                bpm,
+               forward = FALSE,  #  Normally true for zonation.
                z_meth = "funcs",
-               spp_rep_targets = rep (1, num_spp),
-               reverse_solution_order = TRUE  #  Always true for zonation.
+               spp_rep_targets = rep (1, num_spp)
                )
     {
     if ("funcs" %in% z_meth)
@@ -48,7 +48,7 @@ z <- function (num_spp,
                                                     wt_spp_vec,
                                                     c_PU_vec,
                                                     bpm,
-                                                    reverse_solution_order)
+                                                    forward)
         } else if ("inline" %in% z_meth)
         {
         ranked_solution_PU_IDs_vec = z_using_inline (num_spp,
@@ -56,7 +56,7 @@ z <- function (num_spp,
                                                      wt_spp_vec,
                                                      c_PU_vec,
                                                      bpm,
-                                                     reverse_solution_order)
+                                                     forward)
         } else if ("for" %in% z_meth)
         {
         ranked_solution_PU_IDs_vec = z_using_for (num_spp,
@@ -64,7 +64,7 @@ z <- function (num_spp,
                                                   wt_spp_vec,
                                                   c_PU_vec,
                                                   bpm,
-                                                  reverse_solution_order)
+                                                  forward)
         } else
         {
         stop_bdpg (paste0 ("Unrecognized z_meth = '", z_meth, "'.  ",

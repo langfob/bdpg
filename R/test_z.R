@@ -4,7 +4,7 @@
 
 #===============================================================================
 
-test_z <- function (zmeths, seed = 456, num_spp = 4, num_PUs = 3)
+test_z <- function (zmeths, seed = 456, num_spp = 4, num_PUs = 3, forward=FALSE)
     {
                                                                                 if (verbose) {
                                                                                 cat ("\n  num_spp = ", num_spp)
@@ -39,6 +39,7 @@ timings_using_inline = system.time ({
              wt_spp_vec,
              c_PU_vec,
              bpm,
+             forward,
              z_meth="inline")
 })
 
@@ -67,6 +68,7 @@ if ("funcs" %in% zmeths)
                  wt_spp_vec,
                  c_PU_vec,
                  bpm,
+                 forward,
                  z_meth="funcs")
     })
 
@@ -95,6 +97,7 @@ if ("for" %in% zmeths)
                  wt_spp_vec,
                  c_PU_vec,
                  bpm,
+                 forward,
                  z_meth="for")
     })
 

@@ -28,16 +28,23 @@ init_for_choosing_PUs_z <- function (input_vars_list)
 
 #===============================================================================
 
-choose_next_PU_z <- function (S_remaining_PUs_vec, vars_list)
+choose_next_PU_z <- function (S_remaining_PUs_vec, vars_list, forward)
     {
+        #---------------------------------------------
         #  Extract input variables for this function
+        #---------------------------------------------
+
     q_mat = vars_list$q_mat
     d_fixed_part_mat = vars_list$d_fixed_part_mat
+
+        #---------------------------------------------
+        #  Extract input variables for this function
+        #---------------------------------------------
 
     Q_vec_spp = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
     d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec_spp)
 
-                #---------------------------------------------------------------
+                #--------------------------------------------------------------
                 #  If Q is 0, then it will cause a divide by zero error
                 #  in computing d.
                 #  Having a Q value of 0 means that the species no longer
@@ -52,17 +59,29 @@ choose_next_PU_z <- function (S_remaining_PUs_vec, vars_list)
                 #  difference which PU you end up picking since they're all
                 #  useless, so it doesn't matter if -Inf is picked as the
                 #  max since all species will have a d of -Inf at that point.
-                #---------------------------------------------------------------
+                #--------------------------------------------------------------
 
     indices_of_spp_that_are_0 = which (Q_vec_spp == 0)
     d_mat [indices_of_spp_that_are_0, ] = -Inf
 
+if (forward)  #  not the normal Zonation order
+{
+    PU_max_loss_vec = apply (d_mat, 2, min)
+
+        #  This is a 1 element vector unless some eligible PUs have
+        #  the same max loss.
+    chosen_PUs_vec =
+        which (PU_max_loss_vec == max (PU_max_loss_vec[S_remaining_PUs_vec]))
+
+} else  # normal Zonation order
+{
     PU_max_loss_vec = apply (d_mat, 2, max)
 
         #  This is a 1 element vector unless some eligible PUs have
         #  the same max loss.
     chosen_PUs_vec =
         which (PU_max_loss_vec == min (PU_max_loss_vec[S_remaining_PUs_vec]))
+}
 
         #  Now we know what are ALL of the PUs in the whole system that
         #  match the min in S, but some of those can be ones that we've
@@ -82,7 +101,8 @@ choose_next_PU_z <- function (S_remaining_PUs_vec, vars_list)
         {
         chosen_PU = break_tie_using_min_summed_loss (chosen_PUs_vec,
                                                      S_remaining_PUs_vec,
-                                                     d_mat)
+                                                     d_mat,
+                                                     forward)
         }
     else  chosen_PU = chosen_PUs_vec[1]
 
@@ -94,7 +114,7 @@ choose_next_PU_z <- function (S_remaining_PUs_vec, vars_list)
 #===============================================================================
 
 z_using_funcs <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
-                           reverse_solution_order = TRUE
+                           forward = FALSE
                            )
     {
     input_vars_list = list (wt_spp_vec = wt_spp_vec,
@@ -105,7 +125,7 @@ z_using_funcs <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
         greedy_using_funcs (num_spp, num_PUs, input_vars_list,
                             init_for_choosing_PUs_z,
                             choose_next_PU_z,
-                            reverse_solution_order)
+                            forward)
 
     return (ranked_solution_PU_IDs_vec)
     }

@@ -8,9 +8,8 @@ choose_next_PU_using_for <- function (num_spp,
                                       num_PUs,
                                       S_remaining_PUs_vec,
                                       q_mat,
-                                      #c_vec_PU,
-                                      #w_vec_spp,
-                                      d_fixed_part_mat)
+                                      d_fixed_part_mat,
+                                      forward)
     {
         #----------------------------------------------------------------------
         #  Initialize with an unusual value that's easy to spot visually and
@@ -65,16 +64,31 @@ choose_next_PU_using_for <- function (num_spp,
                 }
             }  #  end for - j_spp
 
+if (forward)
+{
+        delta_vec [i_PU] = min (d_mat [, i_PU])  #  largest loss VALUE across all spp on this PU
+} else
+{
         delta_vec [i_PU] = max (d_mat [, i_PU])  #  largest loss VALUE across all spp on this PU
-
+}
         }  #  end for - i_PU
 
     PU_max_loss_vec = delta_vec
 
+if (forward)
+{
         #  This is a 1 element vector unless some eligible PUs have
         #  the same max loss.
     chosen_PUs_vec =
         which (PU_max_loss_vec == min (PU_max_loss_vec[S_remaining_PUs_vec]))
+
+} else  #  normal zonation direction
+{
+        #  This is a 1 element vector unless some eligible PUs have
+        #  the same max loss.
+    chosen_PUs_vec =
+        which (PU_max_loss_vec == min (PU_max_loss_vec[S_remaining_PUs_vec]))
+}
 
         #  Now we know what are ALL of the PUs in the whole system that
         #  match the min in S, but some of those can be ones that we've
@@ -94,7 +108,8 @@ choose_next_PU_using_for <- function (num_spp,
         {
         chosen_PU = break_tie_using_min_summed_loss (chosen_PUs_vec,
                                                      S_remaining_PUs_vec,
-                                                     d_mat
+                                                     d_mat,
+                                                     forward
                                                      )
         }
     else  chosen_PU = chosen_PUs_vec[1]
@@ -109,7 +124,7 @@ z_using_for <- function (num_spp,
                          w_vec_spp,
                          c_vec_PU,
                          bpm,
-                         reverse_solution_order = TRUE  #  Always true for zonation.
+                         forward = FALSE  #  Normally true for zonation.
                          )
     {
     num_spp = vn (num_spp, range_lo = 1)
@@ -120,7 +135,7 @@ z_using_for <- function (num_spp,
     if (length (which (c_vec_PU == 0)) > 0)
         stop ("Cost vector has at least one 0 value.")
 
-    reverse_solution_order = vb (reverse_solution_order)
+    forward = vb (forward)
 
         #--------------------------------------------------------------------
         #  Compute original_frac_abund_spp_j_on_PU_i, i.e.,
@@ -164,6 +179,7 @@ z_using_for <- function (num_spp,
 
     for (cur_rank in 1:num_PUs)
         {
+cat ("\ncur_rank = ", cur_rank)
         if (cur_rank == num_PUs)    #  Last PU can just be copied into solution.
             {
             chosen_PU = S_remaining_PUs_vec [1]
@@ -175,9 +191,8 @@ z_using_for <- function (num_spp,
                                                   num_PUs,
                                                   S_remaining_PUs_vec,
                                                   q_mat,
-                                                  #c_vec_PU,
-                                                  #w_vec_spp,
-                                                  d_fixed_part_mat)
+                                                  d_fixed_part_mat,
+                                                  forward)
 
                 #  Add current PU to ranked solution vector and
                 #  remove it from the set of candidates for next
@@ -190,7 +205,7 @@ z_using_for <- function (num_spp,
             }  #  end else - not working on last PU
         }  #  end for - cur_rank
 
-    if (reverse_solution_order)
+    if (!forward)    #  Normally true for zonation
         ranked_solution_PU_IDs_vec = rev (ranked_solution_PU_IDs_vec)
 
     if (length (ranked_solution_PU_IDs_vec) !=

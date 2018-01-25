@@ -5,7 +5,7 @@
 #===============================================================================
 
 z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
-                           reverse_solution_order = TRUE  #  Always true for zonation.
+                            forward = FALSE  #  Normally true for zonation.
                            )
     {
 #--------------------------------------------
@@ -68,6 +68,17 @@ z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
             indices_of_spp_that_are_0 = which (Q_vec_spp == 0)
             d_mat [indices_of_spp_that_are_0, ] = -Inf
 
+if (forward)
+{
+            PU_max_loss_vec = apply (d_mat, 2, min)
+
+                #  This is a 1 element vector unless some eligible PUs have
+                #  the same max loss.
+            chosen_PUs_vec =
+                which (PU_max_loss_vec ==
+                       max (PU_max_loss_vec[S_remaining_PUs_vec]))
+} else
+{
             PU_max_loss_vec = apply (d_mat, 2, max)
 
                 #  This is a 1 element vector unless some eligible PUs have
@@ -75,6 +86,8 @@ z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
             chosen_PUs_vec =
                 which (PU_max_loss_vec ==
                        min (PU_max_loss_vec[S_remaining_PUs_vec]))
+}
+
 
                 #  Now we know what are ALL of the PUs in the whole system that
                 #  match the min in S, but some of those can be ones that we've
@@ -94,7 +107,8 @@ z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
                 {
                 chosen_PU = break_tie_using_min_summed_loss (chosen_PUs_vec,
                                                              S_remaining_PUs_vec,
-                                                             d_mat)
+                                                             d_mat,
+                                                             forward)
                 }
             else  chosen_PU = chosen_PUs_vec[1]
 
@@ -111,7 +125,7 @@ z_using_inline <- function (num_spp, num_PUs, wt_spp_vec, c_PU_vec, bpm,
             }
         }
 
-    if (reverse_solution_order)    #  Always true for zonation
+    if (!forward)    #  Normally true for zonation
         ranked_solution_PU_IDs_vec = rev (ranked_solution_PU_IDs_vec)
 
     if (length (ranked_solution_PU_IDs_vec) !=
