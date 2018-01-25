@@ -163,8 +163,9 @@ get_marxan_output_values <- function (rsrun,
               COR_bd_prob@correct_solution_cost)
 
     app_rep_scores_list_according_to_RS =
-      compute_and_verify_APP_rep_scores_according_to_RS (marxan_output_values$marxan_mvbest_df,
-                                                         COR_bd_prob@num_spp)
+#      compute_and_verify_APP_rep_scores_according_to_RS (marxan_output_values$marxan_mvbest_df,
+      compute_and_verify_APP_rep_scores_according_to_RS (sum (marxan_output_values$marxan_mvbest_df$MPM),
+                                                         COR_bd_prob@num_spp, "Marxan_SA")
 
     return (list(rs_best_solution_PU_IDs = rs_best_solution_PU_IDs,
                  app_rep_scores_list_according_to_RS = app_rep_scores_list_according_to_RS))
@@ -221,8 +222,8 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
 
         rs_best_solution_PU_IDs = rs_output_values$rs_best_solution_PU_IDs
 
-        app_rep_scores_list_according_to_RS =
-            rs_output_values$app_rep_scores_list_according_to_RS
+app_rep_scores_list_according_to_RS =
+    rs_output_values$app_rep_scores_list_according_to_RS
 
         } else if (rs_method_name == "Gurobi")
         {
@@ -233,11 +234,11 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
         rs_best_solution_PU_IDs =
             which (rs_control_values$gurobi_solution_vector > 0)
 
-            #----------------------------------------------------------------
-            #  Will figure this out later.
-            #  It's just copied into the output, so it's not that important
-            #  in starting to get a basic use of gurobi going.
-            #----------------------------------------------------------------
+#----------------------------------------------------------------
+#  Will figure this out later.
+#  It's just copied into the output, so it's not that important
+#  in starting to get a basic use of gurobi going.
+#----------------------------------------------------------------
 
         app_rep_scores_list_according_to_RS =
             NULL
