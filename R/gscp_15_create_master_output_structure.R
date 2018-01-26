@@ -106,9 +106,13 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
 
 #===============================================================================
 
-get_gurobi_best_solution_PU_IDs <- function (rs_control_values)
+get_gurobi_best_solution_PU_IDs <- function (rsrun, top_dir)
     {
-    return (which (rs_control_values$gurobi_solution_vector > 0))
+    gurobi_output_dir = get_RSrun_path_output (rsrun, top_dir)
+    gurobi_solution_PU_IDs =
+        readRDS (file.path (gurobi_output_dir, "solution_PU_IDs.rds"))
+
+    return (gurobi_solution_PU_IDs)
     }
 
 #===============================================================================
@@ -180,7 +184,8 @@ get_rs_best_solution_PU_IDs <- function (rs_method_name,
         } else if (rs_method_name == "Gurobi")
         {
         rs_best_solution_PU_IDs =
-                            get_gurobi_best_solution_PU_IDs (rs_control_values)
+                            get_gurobi_best_solution_PU_IDs (rsrun,
+                                                             exp_root_dir)
         #-------------------------------------
         } else
         {
