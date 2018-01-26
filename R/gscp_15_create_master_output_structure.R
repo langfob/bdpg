@@ -111,61 +111,43 @@ get_marxan_output_values <- function (rsrun,
                                       COR_bd_prob,
                                       APP_bd_prob)
     {
-      marxan_output_values =
-          read_marxan_output_files (get_RSrun_path_output (rsrun, exp_root_dir),
-                                    COR_bd_prob@all_PU_IDs)
+        #-----------------------------------------------------------
+        #  Read in the useful values from the marxan output.
+        #-----------------------------------------------------------
+        #  marxan_output_values is a list containing the following
+        #  named elements:
+        #    - marxan_best_df_sorted
+        #    - marxan_ssoln_df_sorted_by_PU
+        #    - marxan_mvbest_df_sorted_by_ConservationFeature
+        #-----------------------------------------------------------
 
-          #--------------------------------------------------------------
-          #  Find which PUs the reserve selector (marxan only, for now)
-          #  chose for its best solution.
-          #--------------------------------------------------------------
+    marxan_output_values =
+        read_marxan_output_files (get_RSrun_path_output (rsrun, exp_root_dir),
+                                  COR_bd_prob@all_PU_IDs)
 
-      rs_best_solution_PU_IDs =
-          which (marxan_output_values$marxan_best_df_sorted$SOLUTION > 0)
+        #--------------------------------------------------------------------
+        #  Find which PUs the reserve selector chose for its best solution.
+        #--------------------------------------------------------------------
 
-          #-----------------------------------------------------------------------
-          #-----------------------------------------------------------------------
+    rs_best_solution_PU_IDs =
+        which (marxan_output_values$marxan_best_df_sorted$SOLUTION > 0)
 
-          #-----------------------------------------------------------------------
-          #  These calls used to be part of read_marxan_output_files(), but
-          #  they didn't need to be in there since they return nothing and
-          #  are only called for their verificationa and plotting side effects.
-          #-----------------------------------------------------------------------
+        #--------------------------------------------------------------
+        #  Compute the apparent representation shortfall wrt to the
+        #  species targets as well as the apparent number and fraction
+        #  of species covered.
+        #--------------------------------------------------------------
+        #  app_rep_scores_list_according_to_RS is a list containing
+        #  the following named elements:
+        #    - rsr_app_spp_rep_shortfall__fromRS
+        #    - rsr_app_solution_NUM_spp_covered__fromRS
+        #    - rsr_app_solution_FRAC_spp_covered__fromRS
+        #--------------------------------------------------------------
 
-      find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
-              get_RSrun_path_output (rsrun, exp_root_dir),
-              COR_bd_prob@num_spp,
-              COR_bd_prob@PU_costs,
-              COR_bd_prob@bpm,
-          COR_bd_prob@bpm,
-              marxan_output_values$marxan_best_df_sorted,
-              get_RSrun_path_plots (rsrun, exp_root_dir),
-              COR_bd_prob@num_PUs,
-              COR_bd_prob@num_spp,
-              rsrun@targets,
-              get_RSrun_path_output (rsrun, exp_root_dir),
-              marxan_output_values$marxan_ssoln_df,
-              COR_bd_prob@correct_solution_cost)
-
-      find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
-              get_RSrun_path_output (rsrun, exp_root_dir),
-              COR_bd_prob@num_spp,
-              COR_bd_prob@PU_costs,
-              COR_bd_prob@bpm,
-          APP_bd_prob@bpm,
-              marxan_output_values$marxan_best_df_sorted,
-              get_RSrun_path_plots (rsrun, exp_root_dir),
-              COR_bd_prob@num_PUs,
-              COR_bd_prob@num_spp,
-              rsrun@targets,
-              get_RSrun_path_output (rsrun, exp_root_dir),
-              marxan_output_values$marxan_ssoln_df,
-              COR_bd_prob@correct_solution_cost)
+    app_solution_NUM_spp_covered__fromMarxan =
+                                sum (marxan_output_values$marxan_mvbest_df$MPM)
 
     app_rep_scores_list_according_to_RS =
-#      compute_and_verify_APP_rep_scores_according_to_RS (marxan_output_values$marxan_mvbest_df,
-      compute_and_verify_APP_rep_scores_according_to_RS (sum (marxan_output_values$marxan_mvbest_df$MPM),
-                                                         COR_bd_prob@num_spp, "Marxan_SA")
         compute_and_verify_APP_rep_scores_according_to_RS (
                                         app_solution_NUM_spp_covered__fromMarxan,
                                         COR_bd_prob@num_spp,
@@ -187,6 +169,11 @@ get_marxan_output_values <- function (rsrun,
                                                         APP_bd_prob,
                                                         marxan_output_values)
 
+
+    return (list(rs_best_solution_PU_IDs = rs_best_solution_PU_IDs,
+                 app_rep_scores_list_according_to_RS =
+                     app_rep_scores_list_according_to_RS))
+    }
 
 
     return (list(rs_best_solution_PU_IDs = rs_best_solution_PU_IDs,
