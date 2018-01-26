@@ -144,6 +144,12 @@ get_marxan_output_values <- function (rsrun,
         #    - rsr_app_solution_FRAC_spp_covered__fromRS
         #--------------------------------------------------------------
 
+            #  NOTE:  Should probably replace this sum with a call to the
+            #         more generic compute_num_spp_covered_by_solution()
+            #         as a step toward abstracting this function more
+            #         toward something that is the same for all reserve
+            #         selectors.
+            #  2018 01 26 - BTL
     app_solution_NUM_spp_covered__fromMarxan =
                                 sum (marxan_output_values$marxan_mvbest_df$MPM)
 
