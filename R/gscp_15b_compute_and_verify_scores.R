@@ -80,3 +80,16 @@ compute_and_verify_APP_rep_scores_according_to_RS <-
 
 #===============================================================================
 
+compute_num_spp_covered_by_solution <- function (rs_solution,
+                                                 bpm,
+                                                 spp_rep_targets)
+    {
+    spp_reps_in_sol = rowSums (bpm [, rs_solution, drop=FALSE])
+    spp_covered     = (spp_reps_in_sol >= spp_rep_targets)
+    num_spp_covered = length (spp_covered)
+
+    return (num_spp_covered)
+    }
+
+#===============================================================================
+
