@@ -190,13 +190,17 @@ get_gurobi_output_values <- function (rsrun,
     {
         #-----------------------------------------------------------
         #  Read in the useful values from the gurobi output.
+        #  For the moment, these are not read from a file since
+        #  gurobi output is not yet written to files.
+        #  Once they're written to files, then this could be
+        #  replaced.
         #-----------------------------------------------------------
         #  gurobi_output_values is a list containing the following
         #  named elements:
         #    - ???
         #-----------------------------------------------------------
 
-    gurobi_output_values = NULL
+    gurobi_output_values = rs_control_values
         # read_gurobi_output_files (get_RSrun_path_output (rsrun, exp_root_dir),
         #                           COR_bd_prob@all_PU_IDs)
 
