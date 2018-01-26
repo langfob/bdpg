@@ -198,7 +198,7 @@ rhs = pmin (spp_rep_targets, spp_abundances)
     if (save_inputs)
         {
         saveRDS (gurobi_model,
-                 file.path (gurobi_input_dir, "gurobi_mode.rds"))
+                 file.path (gurobi_input_dir, "gurobi_model.rds"))
         saveRDS (gurobi_params,
                  file.path (gurobi_input_dir, "gurobi_params.rds"))
         }
