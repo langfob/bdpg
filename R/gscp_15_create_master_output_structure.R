@@ -184,9 +184,10 @@ get_marxan_output_values <- function (rsrun,
 #===============================================================================
 
 get_gurobi_output_values <- function (rsrun,
-                                      exp_root_dir,
                                       COR_bd_prob,
-                                      APP_bd_prob)
+                                      APP_bd_prob,
+                                      rs_control_values
+                                      )
     {
         #-----------------------------------------------------------
         #  Read in the useful values from the gurobi output.
