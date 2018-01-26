@@ -8,7 +8,7 @@ create_RSprob_dir_and_subdirs(top_dir, rsprob)
 }
 \arguments{
 \item{top_dir}{character string giving the path to the top directory of the
-tree where the problem is written out, usually something like the tzar
+tree where the object is written out, usually something like the tzar
 output directory of the experiment followed by some object-specific
 information and the UUID of the object, e.g.,
 ~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587}

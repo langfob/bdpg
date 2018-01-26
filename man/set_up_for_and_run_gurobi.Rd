@@ -7,7 +7,8 @@
 \usage{
 set_up_for_and_run_gurobi(num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
   use_gap_limit, gap_limit, use_given_time_as_limit, time_limit,
-  use_marxan_time_as_limit, marxan_elapsed_time = NA)
+  use_marxan_time_as_limit, marxan_elapsed_time = NA, rsrun, top_dir,
+  save_inputs, save_outputs)
 }
 \arguments{
 \item{num_spp}{integer number of species in the problem}
@@ -38,6 +39,20 @@ should use marxan's elapsed run time as the time limit for its own run}
 
 \item{marxan_elapsed_time}{numeric value containing elapsed time for running
 marxan (in seconds)}
+
+\item{rsrun}{an RSrun (reserve selection run) object, e.g., a marxan run}
+
+\item{top_dir}{character string giving the path to the top directory of the
+tree where the object is written out, usually something like the tzar
+output directory of the experiment followed by some object-specific
+information and the UUID of the object, e.g.,
+~/tzarout/RSprob-COR-Base.299140ae-3be2-4331-bb72-b24570902587}
+
+\item{save_inputs}{boolean indicating whether input model and input params
+should be saved to disk}
+
+\item{save_outputs}{boolean indicating whether results and
+gurobi_controls_and_results params should be saved to disk}
 }
 \value{
 Returns named list of gurobi control and return values
