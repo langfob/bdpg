@@ -63,11 +63,10 @@ choose_next_PU_z <- function (S_remaining_PUs_vec, vars_list, forward)
 
     indices_of_spp_that_are_0 = which (Q_vec_spp == 0)
     d_mat [indices_of_spp_that_are_0, ] = -Inf
+    PU_max_loss_vec = apply (d_mat, 2, max)
 
 if (forward)  #  not the normal Zonation order
 {
-    PU_max_loss_vec = apply (d_mat, 2, min)
-
         #  This is a 1 element vector unless some eligible PUs have
         #  the same max loss.
     chosen_PUs_vec =
@@ -75,8 +74,6 @@ if (forward)  #  not the normal Zonation order
 
 } else  # normal Zonation order
 {
-    PU_max_loss_vec = apply (d_mat, 2, max)
-
         #  This is a 1 element vector unless some eligible PUs have
         #  the same max loss.
     chosen_PUs_vec =
