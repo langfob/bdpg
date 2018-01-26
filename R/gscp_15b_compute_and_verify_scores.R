@@ -52,8 +52,13 @@
 #===============================================================================
 
 compute_and_verify_APP_rep_scores_according_to_RS <-
-    function (app_solution_NUM_spp_covered__fromRS, num_spp, rs_name_string)
+    function (rs_solution, num_spp, bpm, spp_rep_targets, rs_name_string)
     {
+    app_solution_NUM_spp_covered__fromRS =
+        compute_num_spp_covered_by_solution (rs_solution,
+                                             bpm,
+                                             spp_rep_targets)
+
         #-------------------------------------------------------------------
         #   Apparent representation scores as computed by reserve selector
         #-------------------------------------------------------------------
