@@ -221,18 +221,23 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
 
     if (rs_method_name == "Marxan_SA")
         {
-        rs_output_values = get_marxan_output_values (rsrun, exp_root_dir,
-                                                     COR_bd_prob, APP_bd_prob)
-        # rs_output_values = get_rs_output_values (rsrun,
-        #                                          exp_root_dir,
-        #                                          COR_bd_prob,
-        #                                          APP_bd_prob,
-        #                                          rs_method_name)
+        rs_output_values = get_marxan_output_values (rsrun,
+                                                     exp_root_dir,
+                                                     COR_bd_prob,
+                                                     APP_bd_prob)
 
         rs_best_solution_PU_IDs = rs_output_values$rs_best_solution_PU_IDs
 
-app_rep_scores_list_according_to_RS =
-    rs_output_values$app_rep_scores_list_according_to_RS
+            #--------------------------------------------------------------
+            #  app_rep_scores_list_according_to_RS is a list containing
+            #  the following named elements:
+            #    - rsr_app_spp_rep_shortfall__fromRS
+            #    - rsr_app_solution_NUM_spp_covered__fromRS
+            #    - rsr_app_solution_FRAC_spp_covered__fromRS
+            #--------------------------------------------------------------
+
+        app_rep_scores_list_according_to_RS =
+                        rs_output_values$app_rep_scores_list_according_to_RS
 
         } else if (rs_method_name == "Gurobi")
         {
