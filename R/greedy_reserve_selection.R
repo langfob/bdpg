@@ -34,9 +34,6 @@ if (forward)
     chosen_PUs_vec =
         which (PU_summed_loss_vec == min (PU_summed_loss_vec [S_remaining_PUs_vec]))
 }
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  initial chosen_PU = ", chosen_PUs_vec, "\n")
-                                                                                }
 
         #  Now we know what are ALL of the PUs in the whole system that
         #  match the min in S, but some of those can be ones that we've
@@ -51,9 +48,7 @@ if (forward)
     if (length (chosen_PUs_vec) > 1)
         chosen_PU = break_tie_randomly (chosen_PUs_vec)    else
         chosen_PU = chosen_PUs_vec [1]
-                                                                                if (verbose) {
-                                                                                cat ("\n\n  A possibly sampled chosen_PU = ", chosen_PU, "\n")
-                                                                                }
+
     return (chosen_PU)
     }
 
