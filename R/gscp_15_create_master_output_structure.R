@@ -175,9 +175,56 @@ get_marxan_output_values <- function (rsrun,
                      app_rep_scores_list_according_to_RS))
     }
 
+#===============================================================================
+
+get_gurobi_output_values <- function (rsrun,
+                                      exp_root_dir,
+                                      COR_bd_prob,
+                                      APP_bd_prob)
+    {
+        #-----------------------------------------------------------
+        #  Read in the useful values from the gurobi output.
+        #-----------------------------------------------------------
+        #  gurobi_output_values is a list containing the following
+        #  named elements:
+        #    - ???
+        #-----------------------------------------------------------
+
+    gurobi_output_values = NULL
+        # read_gurobi_output_files (get_RSrun_path_output (rsrun, exp_root_dir),
+        #                           COR_bd_prob@all_PU_IDs)
+
+        #--------------------------------------------------------------------
+        #  Find which PUs the reserve selector chose for its best solution.
+        #--------------------------------------------------------------------
+
+    rs_best_solution_PU_IDs = c(1,2,3)
+#        which (gurobi_output_values$gurobi_best_df_sorted$SOLUTION > 0)
+
+        #--------------------------------------------------------------
+        #  Compute the apparent representation shortfall wrt to the
+        #  species targets as well as the apparent number and fraction
+        #  of species covered.
+        #--------------------------------------------------------------
+        #  app_rep_scores_list_according_to_RS is a list containing
+        #  the following named elements:
+        #    - rsr_app_spp_rep_shortfall__fromRS
+        #    - rsr_app_solution_NUM_spp_covered__fromRS
+        #    - rsr_app_solution_FRAC_spp_covered__fromRS
+        #--------------------------------------------------------------
+
+    app_solution_NUM_spp_covered__fromGurobi = 0
+#                                sum (gurobi_output_values$gurobi_mvbest_df$MPM)
+
+    app_rep_scores_list_according_to_RS =
+        compute_and_verify_APP_rep_scores_according_to_RS (
+                                        app_solution_NUM_spp_covered__fromGurobi,
+                                        COR_bd_prob@num_spp,
+                                        "Gurobi")
 
     return (list(rs_best_solution_PU_IDs = rs_best_solution_PU_IDs,
-                 app_rep_scores_list_according_to_RS = app_rep_scores_list_according_to_RS))
+                 app_rep_scores_list_according_to_RS =
+                     app_rep_scores_list_according_to_RS))
     }
 
 #===============================================================================
