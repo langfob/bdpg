@@ -140,7 +140,7 @@ set_up_for_and_run_gurobi <- function (num_spp,
                                        save_outputs
                                        )
     {
-    gurobi_result =
+    gurobi_controls_and_results =
         run_gurobi (num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
                     use_gap_limit, gap_limit,
                     use_given_time_as_limit, time_limit,
@@ -152,7 +152,27 @@ set_up_for_and_run_gurobi <- function (num_spp,
                     save_outputs = TRUE
                     )
 
-    return (gurobi_result)
+        #---------------------------------------------------------------------
+        #  Need to strip the solution vector out of the result.
+        #  The list returned from here will be added to the bdpg results
+        #  as part of a single line in a data frame and therefore,
+        #  can only contain single scalar values.
+        #  If the list contains a vector, then each element is added on a
+        #  new line in the rsrun results file with all scalar values in the
+        #  list copied on the new line.  In other words, if there are 100
+        #  PUs in the solution vector, there will be 100 identical lines
+        #  (plus a header line) in the resulting output file.
+        #
+        #  We don't want to remove the solution vector from the return in
+        #  the run_gurobi() function itself because it can be useful to
+        #  have the returned solution vector directly available rather than
+        #  having to read it back in from disk, e.g., in testing.
+        #---------------------------------------------------------------------
+
+    gurobi_control_values = gurobi_controls_and_results
+    gurobi_control_values$gurobi_solution_vector = NULL
+
+    return (gurobi_control_values)
     }
 
 #===============================================================================

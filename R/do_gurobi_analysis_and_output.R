@@ -248,47 +248,64 @@ if(FALSE)
          is_solution, "'\n")
 }
 
+    gurobi_controls =
+        list (
+                #  Output scalars
+              gurobi_status       = result$status,
+              gurobi_objval       = result$objval,
+              gurobi_objbound     = result$objbound,
+              gurobi_runtime      = result$runtime,
+              gurobi_itercount    = result$itercount,
+              gurobi_baritercount = result$baritercount,
+              gurobi_nodecount    = result$nodecount,
 
-gurobi_controls_and_results =
-    list (gurobi_solution_vector = result$x,
+                #  Input scalars
+              gurobi_num_spp                   = num_spp,
+              gurobi_num_PUs                   = num_PUs,
 
-            #  Output scalars
-          gurobi_status       = result$status,
-          gurobi_objval       = result$objval,
-          gurobi_objbound     = result$objbound,
-          gurobi_runtime      = result$runtime,
-          gurobi_itercount    = result$itercount,
-          gurobi_baritercount = result$baritercount,
-          gurobi_nodecount    = result$nodecount,
+              gurobi_use_gap_limit             = use_gap_limit,
+              gurobi_gap_limit_input           = gap_limit,
+              gurobi_gap_limit_used            = gurobi_params$MIPGap,
 
-            #  Input scalars
-          gurobi_num_spp                   = num_spp,
-          gurobi_num_PUs                   = num_PUs,
+              gurobi_use_given_time_as_limit   = use_given_time_as_limit,
+              gurobi_time_limit_input          = time_limit,
 
-          gurobi_use_gap_limit             = use_gap_limit,
-          gurobi_gap_limit_input           = gap_limit,
-          gurobi_gap_limit_used            = gurobi_params$MIPGap,
-#          gurobi_gap_limit_used            = gurobi_model_and_params$gurobi_params$MIPGap,
+              gurobi_use_marxan_time_as_limit  = use_marxan_time_as_limit,
+              gurobi_marxan_elapsed_time_input = marxan_elapsed_time,
 
-          gurobi_use_given_time_as_limit   = use_given_time_as_limit,
-          gurobi_time_limit_input          = time_limit,
+              gurobi_time_limit_used           = gurobi_params$TimeLimit
+              )
 
-          gurobi_use_marxan_time_as_limit  = use_marxan_time_as_limit,
-          gurobi_marxan_elapsed_time_input = marxan_elapsed_time,
+        #----------------------------------------------------------------------
+        #  Gurobi returns a solution as a set of 0s and 1s rather than as
+        #  the list of PU_IDs.  Convert the 0/1 set to PU_IDs now since
+        #  that is how the rest of bdpg expects a solution to be represented.
+        #----------------------------------------------------------------------
 
-          gurobi_time_limit_used           = gurobi_params$TimeLimit
-#          gurobi_time_limit_used           = gurobi_model_and_params$gurobi_params$TimeLimit
-          )
+    solution_PU_IDs = which (result$x > 0)
+
+        #----------------------------------------------------------------------
+        #  Save the results and the solution to separate output files so that
+        #  they don't have to be separated from each other in downstream uses.
+        #----------------------------------------------------------------------
 
     if (save_outputs)
         {
-        saveRDS (result,
-                 file.path (gurobi_output_dir, "result.rds"))
-        saveRDS (gurobi_controls_and_results,
-                 file.path (gurobi_output_dir, "gurobi_controls_and_results.rds"))
+        saveRDS (solution_PU_IDs,
+                 file.path (gurobi_output_dir, "solution_PU_IDs.rds"))
+        saveRDS (gurobi_controls,
+                 file.path (gurobi_output_dir, "gurobi_controls.rds"))
         }
 
-#browser()
+        #----------------------------------------------------------------------
+        #  Testing of the call to gurobi is easier if both the controls and
+        #  the results are returned in one list from this routine, so combine
+        #  them now for return.
+        #----------------------------------------------------------------------
+
+    gurobi_controls_and_results = gurobi_controls
+    gurobi_controls_and_results$gurobi_solution_vector = solution_PU_IDs
+
     return (gurobi_controls_and_results)
     }
 
