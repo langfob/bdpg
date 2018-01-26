@@ -166,6 +166,28 @@ get_marxan_output_values <- function (rsrun,
 #      compute_and_verify_APP_rep_scores_according_to_RS (marxan_output_values$marxan_mvbest_df,
       compute_and_verify_APP_rep_scores_according_to_RS (sum (marxan_output_values$marxan_mvbest_df$MPM),
                                                          COR_bd_prob@num_spp, "Marxan_SA")
+        compute_and_verify_APP_rep_scores_according_to_RS (
+                                        app_solution_NUM_spp_covered__fromMarxan,
+                                        COR_bd_prob@num_spp,
+                                        "Marxan_SA")
+
+        #----------------------------------------------------------------
+        #  This call used to be part of read_marxan_output_files(), but
+        #  didn't need to be in there since it returns nothing and is
+        #  only called for its verification and plotting side effects.
+        #----------------------------------------------------------------
+        #  May want to get rid of it in the end or maybe make it more
+        #  generic and run against the return of any reserve selector.
+        #----------------------------------------------------------------
+
+    find_best_marxan_solutions_and_plot_incremental_summed_solution_reps (
+                                                        rsrun,
+                                                        exp_root_dir,
+                                                        COR_bd_prob,
+                                                        APP_bd_prob,
+                                                        marxan_output_values)
+
+
 
     return (list(rs_best_solution_PU_IDs = rs_best_solution_PU_IDs,
                  app_rep_scores_list_according_to_RS = app_rep_scores_list_according_to_RS))

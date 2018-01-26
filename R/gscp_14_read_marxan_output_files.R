@@ -264,6 +264,44 @@ load_marxan_solutionsmatrix_and_add_missing_PUs <-
 
 #===============================================================================
 
+find_best_marxan_solutions_and_plot_incremental_summed_solution_reps <-
+        function (rsrun,
+                  exp_root_dir,
+                  COR_bd_prob,
+                  APP_bd_prob,
+                  marxan_output_values)
+    {
+      find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
+              get_RSrun_path_output (rsrun, exp_root_dir),
+              COR_bd_prob@num_spp,
+              COR_bd_prob@PU_costs,
+              COR_bd_prob@bpm,
+          COR_bd_prob@bpm,
+              marxan_output_values$marxan_best_df_sorted,
+              get_RSrun_path_plots (rsrun, exp_root_dir),
+              COR_bd_prob@num_PUs,
+              COR_bd_prob@num_spp,
+              rsrun@targets,
+              get_RSrun_path_output (rsrun, exp_root_dir),
+              marxan_output_values$marxan_ssoln_df,
+              COR_bd_prob@correct_solution_cost)
+
+      find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
+              get_RSrun_path_output (rsrun, exp_root_dir),
+              COR_bd_prob@num_spp,
+              COR_bd_prob@PU_costs,
+              COR_bd_prob@bpm,
+          APP_bd_prob@bpm,
+              marxan_output_values$marxan_best_df_sorted,
+              get_RSrun_path_plots (rsrun, exp_root_dir),
+              COR_bd_prob@num_PUs,
+              COR_bd_prob@num_spp,
+              rsrun@targets,
+              get_RSrun_path_output (rsrun, exp_root_dir),
+              marxan_output_values$marxan_ssoln_df,
+              COR_bd_prob@correct_solution_cost)
+    }
+
 #-------------------------------------------------------------------------------
 
     #  Moved this code out into a separate function because it doesn't
@@ -362,7 +400,6 @@ read_marxan_output_files <- function (marxan_output_dir_path,
 
     marxan_best_df_sorted_as_vector = as.vector (t(marxan_best_df_sorted [,"SOLUTION"]))
     app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)
-
 
   #---------------------------------
 
