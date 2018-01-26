@@ -61,6 +61,9 @@ compute_and_verify_APP_rep_scores_according_to_RS <-
     app_solution_FRAC_spp_covered__fromRS = app_solution_NUM_spp_covered__fromRS / num_spp
     app_spp_rep_shortfall__fromRS = 1 - app_solution_FRAC_spp_covered__fromRS
 
+#  IS THIS NECESSARY/USEFUL?  IF NOT, rs_name_string CAN ALSO BE REMOVED FROM
+#  THE ARG LIST.
+#  2018 01 26 - BTL
           cat ("\n\n--------------------------------------")
           cat ("\nAPP_ REP VALUES AS COMPUTED BY ", rs_name_string, ":", sep="")
           cat ("\n--------------------------------------")
