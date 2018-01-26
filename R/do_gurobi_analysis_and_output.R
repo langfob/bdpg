@@ -52,9 +52,13 @@ run_gurobi <- function (num_spp,
                         save_outputs = FALSE
                         )
     {
-        # set up Gurobi model object in R
+        #------------------------------------
+        #  Set up Gurobi model object in R.
+        #------------------------------------
+
     gurobi_model <- list()
 
+        #-----------------------------------------------------------------
         #  2018 01 20 - BTL
         #  Gurobi is leaving a log file in the bdpg root area when I run
         #  test code and CHECK is complaining about that.
@@ -64,10 +68,15 @@ run_gurobi <- function (num_spp,
         #  structure or are they command line flags or ???
         #  I'm going to try adding them to the model parameters list and
         #  see what happens...
+        #-----------------------------------------------------------------
+
     gurobi_model$LogToConsole = TRUE
     #gurobi_model$LogFile = "anotherGurobiLog"
 
+        #----------------------------------------
         #  Assign the constraints matrix object
+        #----------------------------------------
+
     constr = bpm
     gurobi_model$A <- constr
 
@@ -85,10 +94,6 @@ run_gurobi <- function (num_spp,
         #  given problem.
         #----------------------------------------------------------------
 
-#bpm = matrix (c (0, 0, 1, 1), nrow=2, ncol=2, byrow=TRUE)
-#spp_rep_targets = c(1,1)
-
-#spp_abundances = apply (bpm, 1, sum)
 spp_abundances = rowSums (bpm)
 if (length (spp_abundances) != length (spp_rep_targets))
     stop_bdpg (paste0 ("length (spp_abundances) = '",
@@ -97,9 +102,7 @@ if (length (spp_abundances) != length (spp_rep_targets))
                        length (spp_rep_targets), "'"))
 spp_with_subtarget_abundances = which (spp_abundances < spp_rep_targets)
 num_subtarget_abundances = length (spp_with_subtarget_abundances)
-cat ("\n\nlength (spp_abundances) = ", length (spp_abundances),
-     "\n\nnum_subtarget_abundances = ", num_subtarget_abundances,
-     "\n")
+
 if (num_subtarget_abundances > 0)
     {
     cat ("\nspp_with_subtarget_abundances = \n")
@@ -110,8 +113,11 @@ rhs = pmin (spp_rep_targets, spp_abundances)
 
     gurobi_model$rhs <- rhs
 
+        #----------------------------------------------------------------
         #  Make sure that the solution must have all species amounts be
         #  greater than or equal to the species target amounts.
+        #----------------------------------------------------------------
+
     sense <- rep(">=", num_spp)
     gurobi_model$sense <- sense
 
@@ -126,6 +132,8 @@ rhs = pmin (spp_rep_targets, spp_abundances)
 
         #  Set the parameters that control the algorithm.
     gurobi_params <- list (Presolve = 2)
+
+        #------------------------------------------------------------------
         #  http://www.gurobi.com/support/faqs
         #  13.  How do you set multiple termination criteria for a model?
         #  When you set multiple termination parameters, Gurobi Optimizer
@@ -140,6 +148,8 @@ rhs = pmin (spp_rep_targets, spp_abundances)
         #  when the time limit is reached, then increase the TimeLimit
         #  parameter, set the MIPGap parameter to 0.01, and continue to
         #  solve the MIP.
+        #------------------------------------------------------------------
+
     use_gap_limit = vb (use_gap_limit, def_on_empty = TRUE, def = FALSE)
     if (use_gap_limit)
         {
@@ -148,12 +158,12 @@ rhs = pmin (spp_rep_targets, spp_abundances)
              "'\n", sep='')
         }
 
-        #-----------------------------------------------------------------------
+        #------------------------------------------------------------------
         #  If the caller wants to use a time limit, then they can either
         #  specify the time limit directly or they can choose to use
         #  marxan's elapsed run time so that gurobi gets roughly the same
         #  amount of time as it took marxan to complete.
-        #-----------------------------------------------------------------------
+        #------------------------------------------------------------------
 
     use_given_time_as_limit = vb (use_given_time_as_limit,
                                   def_on_empty = TRUE, def = FALSE)
@@ -188,7 +198,9 @@ rhs = pmin (spp_rep_targets, spp_abundances)
 
     if (save_inputs || save_outputs)
         {
-                    #  Get paths to the gurobi IO subdirectories.
+            #----------------------------------------------
+            #  Get paths to the gurobi IO subdirectories.
+            #----------------------------------------------
 
 #        gurobi_IO_dir     = get_RSrun_path_IO (rsrun, top_dir)
         gurobi_input_dir  = get_RSrun_path_input (rsrun, top_dir)
@@ -203,22 +215,20 @@ rhs = pmin (spp_rep_targets, spp_abundances)
                  file.path (gurobi_input_dir, "gurobi_params.rds"))
         }
 
-    #--------------------
-
+        #--------------------
         # solve the problem
-    # result <- gurobi::gurobi (gurobi_model_and_params$gurobi_model,
-    #                           gurobi_model_and_params$gurobi_params)
+        #--------------------
 
     result <- gurobi::gurobi (gurobi_model, gurobi_params)
 
-    #--------------------
-
-        # the result object contains several data objects including the objective
-        # value achieved (result$objval) and the vector of decision variable
-        # values (0 or 1 in our example because the variables are binary).
+        #-----------------------------------------------------------------
+        #  The result object contains several data objects including the
+        #  objective value achieved (result$objval) and the vector of
+        #  decision variable values (0 or 1 in our example because the
+        #  variables are binary).
+        #-----------------------------------------------------------------
 
     cat ("\n--------------------\n\n")
-
     cat ("Gurobi result:\n")
     print (result)
 
@@ -238,39 +248,6 @@ if(FALSE)
          is_solution, "'\n")
 }
 
-# gurobi_output_scalars =
-#     list (
-#           gurobi_status       = result$status,
-#           gurobi_objval       = result$objval,
-#           gurobi_objbound     = result$objbound,
-#           gurobi_runtime      = result$runtime,
-#           gurobi_itercount    = result$itercount,
-#           gurobi_baritercount = result$baritercount,
-#           gurobi_nodecount    = result$nodecount
-#           )
-
-# gurobi_input_scalars =
-#     list (
-#           gurobi_num_spp                   = num_spp,
-#           gurobi_num_PUs                   = num_PUs,
-#
-#           gurobi_use_gap_limit             = use_gap_limit,
-#           gurobi_gap_limit_input           = gap_limit,
-#           gurobi_gap_limit_used            = gurobi_params$MIPGap,
-#
-#           gurobi_use_given_time_as_limit   = use_given_time_as_limit,
-#           gurobi_time_limit_input          = time_limit,
-#
-#           gurobi_use_marxan_time_as_limit  = use_marxan_time_as_limit,
-#           gurobi_marxan_elapsed_time_input = marxan_elapsed_time,
-#
-#           gurobi_time_limit_used           = gurobi_params$TimeLimit
-#           )
-
-# gurobi_controls_and_results =
-#     list (gurobi_solution_vector = result$x,
-#           gurobi_output_scalars  = gurobi_output_scalars,
-#           gurobi_input_scalars   = gurobi_input_scalars)
 
 gurobi_controls_and_results =
     list (gurobi_solution_vector = result$x,
@@ -332,42 +309,39 @@ do_COR_gurobi_analysis_and_output <- function (COR_bd_prob,
                                                parameters,
                                                rs_method_name,
                                                marxan_elapsed_time,
-                                               src_rds_file_dir=NULL,
-                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp))
+                                               src_rds_file_dir = NULL,
+                                               spp_rep_targets =
+                                                   rep (1,COR_bd_prob@num_spp))
     {
         #-------------------------
         #  Run reserve selector.
         #-------------------------
 
     COR_rs_run <- create_RSrun (COR_bd_prob@UUID,
-                                    spp_rep_targets,
-
-                            parameters,
-                            # value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
-                            # parameters$rsrun_rand_seed,
-                            #         parameters$fullOutputDir_NO_slash,
-
-                                    COR_bd_prob@cor_or_app_str,
-                                    COR_bd_prob@basic_or_wrapped_or_comb_str,
-                                    rs_method_name)    # = rs_method_name  #"Marxan_SA"
+                                spp_rep_targets,
+                                parameters,
+                                COR_bd_prob@cor_or_app_str,
+                                COR_bd_prob@basic_or_wrapped_or_comb_str,
+                                rs_method_name)
 
     rs_control_values = set_up_for_and_run_gurobi_COR (COR_bd_prob,
-                                                           COR_rs_run,
-                                                           parameters,
+                                                       COR_rs_run,
+                                                       parameters,
                                                        marxan_elapsed_time)
 
         #-------------------------------------
         #  Collect reserve selector results.
         #-------------------------------------
 
-    save_rsrun_results_data_for_one_rsrun (tzar_run_ID = parameters$run_ID,
-                                           exp_root_dir = parameters$fullOutputDir_NO_slash,
-                                              COR_rs_run,
-                                              COR_bd_prob,
-                                              COR_bd_prob,
-                                           rs_method_name,
-                                           rs_control_values,
-                                           src_rds_file_dir)
+    save_rsrun_results_data_for_one_rsrun (
+                            tzar_run_ID  = parameters$run_ID,
+                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+                            COR_rs_run,
+                            COR_bd_prob,
+                            COR_bd_prob,
+                            rs_method_name,
+                            rs_control_values,
+                            src_rds_file_dir)
 
     }  #  end function - do_COR_rs_analysis_and_output
 
@@ -391,8 +365,9 @@ do_APP_gurobi_analysis_and_output <- function (APP_bd_prob,
                                                parameters,
                                                rs_method_name,
                                                marxan_elapsed_time,
-                                               src_rds_file_dir=NULL,
-                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp)
+                                               src_rds_file_dir = NULL,
+                                               spp_rep_targets =
+                                                   rep (1,COR_bd_prob@num_spp)
                                                )
     {
         #-------------------------
@@ -400,35 +375,31 @@ do_APP_gurobi_analysis_and_output <- function (APP_bd_prob,
         #-------------------------
 
     APP_rs_run <- create_RSrun (APP_bd_prob@UUID,
-                                    spp_rep_targets,
-
-                            parameters,
-                            # value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
-                            # parameters$rsrun_rand_seed,
-                            #         parameters$fullOutputDir_NO_slash,
-
-                                    APP_bd_prob@cor_or_app_str,
-                                    APP_bd_prob@basic_or_wrapped_or_comb_str,
-                                    rs_method_name)    # = rs_method_name  #"Marxan_SA"
+                                spp_rep_targets,
+                                parameters,
+                                APP_bd_prob@cor_or_app_str,
+                                APP_bd_prob@basic_or_wrapped_or_comb_str,
+                                rs_method_name)
 
     rs_control_values = set_up_for_and_run_gurobi_APP (APP_bd_prob,
-                                                           COR_bd_prob,
-                                                           APP_rs_run,
-                                                           parameters,
+                                                       COR_bd_prob,
+                                                       APP_rs_run,
+                                                       parameters,
                                                        marxan_elapsed_time)
 
         #-------------------------------------
         #  Collect reserve selector results.
         #-------------------------------------
 
-    save_rsrun_results_data_for_one_rsrun (tzar_run_ID = parameters$run_ID,
-                                           exp_root_dir = parameters$fullOutputDir_NO_slash,
-                                              APP_rs_run,
-                                              COR_bd_prob,
-                                              APP_bd_prob,
-                                           rs_method_name,
-                                           rs_control_values,
-                                           src_rds_file_dir)
+    save_rsrun_results_data_for_one_rsrun (
+                            tzar_run_ID  = parameters$run_ID,
+                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+                            APP_rs_run,
+                            COR_bd_prob,
+                            APP_bd_prob,
+                            rs_method_name,
+                            rs_control_values,
+                            src_rds_file_dir)
 
     }  #  end function - do_APP_rs_analysis_and_output
 
