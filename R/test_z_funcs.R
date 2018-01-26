@@ -69,9 +69,9 @@ test_z_using_funcs <- function (seed = 456, num_spp = 4, num_PUs = 3)
     cat ("\n------------------------------------------------------------------------")
 
 cat ("\n")
-print (rowSums (bpm [,short_zuf_FORWARD]))
+print (rowSums (bpm [,short_zuf_FORWARD, drop=FALSE]))
 cat ("\n")
-print (rowSums (bpm [,short_zuf_BACKWARD]))
+print (rowSums (bpm [,short_zuf_BACKWARD, drop=FALSE]))
 
     return (list (zuf_FORWARD_long  = zuf_FORWARD$full_ranked_solution_PU_IDs_vec,
                   zuf_FORWARD_short = zuf_FORWARD$short_ranked_solution_PU_IDs_vec,
@@ -102,22 +102,15 @@ forward = FALSE
 #zu =test_z_using_funcs (seed = 456, num_spp = 400, num_PUs = 300)
 
 #zu =test_z_using_funcs (seed = 1223, num_spp = 6, num_PUs = 5)
-zu =test_z_using_funcs (seed = 1223, num_spp = 400, num_PUs = 300)
+#zu =test_z_using_funcs (seed = 1223, num_spp = 400, num_PUs = 300)
+
+zu =test_z_using_funcs (seed = 17, num_spp = 200, num_PUs = 600)
 
 cat ("\n")
 print (zu)
 
-#   user  system elapsed
-#  4.225                  first test with hard-coded func names
-#  4.109                  second test of same
-#  4.394   0.127   4.533
-#  4.498   0.145   4.654
-#  4.377   0.056   4.434
-
-#  4.135   0.053   4.189  using function names as variables
-#  4.350   0.119   4.478
-#  4.415   0.051   4.469
-#  4.188   0.049   4.238
+cat ("\nlength(short_zuf_FORWARD) = ", length (zu$zuf_FORWARD_short))
+cat ("\nlength(short_zuf_BACKWARD) = ", length (zu$zuf_BACKWARD_short))
 
 #===============================================================================
 
