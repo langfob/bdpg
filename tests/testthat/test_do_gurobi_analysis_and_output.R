@@ -77,7 +77,7 @@ test_gurobi <- function (use_gap_limit,
 
 #===============================================================================
 
-correct_solution_vector = c(0,1,0,0,1)
+correct_solution_vector = c(2,5)    # raw gurobi output form - c(0,1,0,0,1)
 correct_status = "OPTIMAL"
 correct_objval = 2
 
