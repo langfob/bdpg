@@ -106,92 +106,9 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
 
 #===============================================================================
 
-get_gurobi_output_values <- function (rsrun,
-                                      COR_bd_prob,
-                                      APP_bd_prob,
-                                      rs_control_values
-                                      )
+get_gurobi_best_solution_PU_IDs <- function (rs_control_values)
     {
-        #-----------------------------------------------------------
-        #  Read in the useful values from the gurobi output.
-        #  For the moment, these are not read from a file since
-        #  gurobi output is not yet written to files.
-        #  Once they're written to files, then this could be
-        #  replaced.
-        #-----------------------------------------------------------
-        #  gurobi_output_values is a list containing the following
-        #  named elements:
-        #    - ???
-        #-----------------------------------------------------------
-
-    gurobi_output_values = rs_control_values
-        # read_gurobi_output_files (get_RSrun_path_output (rsrun, exp_root_dir),
-        #                           COR_bd_prob@all_PU_IDs)
-
-        #--------------------------------------------------------------------
-        #  Find which PUs the reserve selector chose for its best solution.
-        #--------------------------------------------------------------------
-
-    rs_best_solution_PU_IDs =
-            which (gurobi_output_values$gurobi_solution_vector > 0)
-
-        #--------------------------------------------------------------
-        #  Compute the apparent representation shortfall wrt to the
-        #  species targets as well as the apparent number and fraction
-        #  of species covered.
-        #--------------------------------------------------------------
-        #  app_rep_scores_list_according_to_RS is a list containing
-        #  the following named elements:
-        #    - rsr_app_spp_rep_shortfall__fromRS
-        #    - rsr_app_solution_NUM_spp_covered__fromRS
-        #    - rsr_app_solution_FRAC_spp_covered__fromRS
-        #--------------------------------------------------------------
-
-    app_solution_NUM_spp_covered__fromGurobi =
-        compute_num_spp_covered_by_solution (rs_best_solution_PU_IDs,
-                                             APP_bd_prob@bpm,
-                                             rsrun@targets)
-
-    app_rep_scores_list_according_to_RS =
-        compute_and_verify_APP_rep_scores_according_to_RS (
-                                        app_solution_NUM_spp_covered__fromGurobi,
-                                        COR_bd_prob@num_spp,
-                                        "Gurobi")
-
-    return (list(rs_best_solution_PU_IDs = rs_best_solution_PU_IDs,
-                 app_rep_scores_list_according_to_RS =
-                     app_rep_scores_list_according_to_RS))
-    }
-
-#===============================================================================
-
-get_rs_output_values <- function (rs_method_name,
-                                  rsrun,
-                                  exp_root_dir,
-                                  COR_bd_prob,
-                                  APP_bd_prob,
-                                  rs_control_values)
-    {
-    if (rs_method_name == "Marxan_SA")
-        {
-        rs_output_values = get_marxan_output_values (rsrun,
-                                                     exp_root_dir,
-                                                     COR_bd_prob,
-                                                     APP_bd_prob)
-        } else if (rs_method_name == "Gurobi")
-        {
-        rs_output_values = get_gurobi_output_values (rsrun,
-                                                     COR_bd_prob,
-                                                     APP_bd_prob,
-                                                     rs_control_values)
-
-        } else
-        {
-        stop_bdpg (paste0 ("Unknown reserve selector name '",
-                           rs_method_name, "'"))
-        }
-
-    return (rs_output_values)
+    return (which (rs_control_values$gurobi_solution_vector > 0))
     }
 
 #===============================================================================
@@ -245,29 +162,32 @@ get_marxan_best_solution_PU_IDs <- function (rsrun,
 #===============================================================================
 
 get_rs_best_solution_PU_IDs <- function (rs_method_name,
-                                  rsrun,
-                                  exp_root_dir,
-                                  COR_bd_prob,
-                                  APP_bd_prob,
-                                  rs_control_values)
+                                         rsrun,
+                                         exp_root_dir,
+                                         COR_bd_prob,
+                                         APP_bd_prob,
+                                         rs_control_values)
     {
+        #-------------------------------------
     if (rs_method_name == "Marxan_SA")
         {
-        rs_best_solution_PU_IDs = get_marxan_best_solution_PU_IDs (rsrun,
-                                                     exp_root_dir,
-                                                     COR_bd_prob,
-                                                     APP_bd_prob)
+        rs_best_solution_PU_IDs =
+                            get_marxan_best_solution_PU_IDs (rsrun,
+                                                             exp_root_dir,
+                                                             COR_bd_prob,
+                                                             APP_bd_prob)
+        #-------------------------------------
         } else if (rs_method_name == "Gurobi")
         {
-        rs_best_solution_PU_IDs = get_gurobi_best_solution_PU_IDs (rsrun,
-                                                     COR_bd_prob,
-                                                     APP_bd_prob,
-                                                     rs_control_values)
+        rs_best_solution_PU_IDs =
+                            get_gurobi_best_solution_PU_IDs (rs_control_values)
+        #-------------------------------------
         } else
         {
         stop_bdpg (paste0 ("Unknown reserve selector name '",
                            rs_method_name, "'"))
         }
+        #-------------------------------------
 
     return (rs_best_solution_PU_IDs)
     }
@@ -284,19 +204,6 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                                                    src_rds_file_dir=NULL
                                                    )
     {
-    # tzar_run_ID  = parameters$run_id
-    # exp_root_dir = parameters$fullOutputDir_NO_slash
-
-        #-----------------------------------------------------------------------
-        #-----------------------------------------------------------------------
-
-    # rs_output_values = get_rs_output_values (rs_method_name,
-    #                                          rsrun,
-    #                                          exp_root_dir,
-    #                                          COR_bd_prob,
-    #                                          APP_bd_prob,
-    #                                          rs_control_values)
-
     rs_best_solution_PU_IDs = get_rs_best_solution_PU_IDs (rs_method_name,
                                                            rsrun,
                                                            exp_root_dir,
@@ -304,23 +211,13 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                                                            APP_bd_prob,
                                                            rs_control_values)
 
-    # rs_best_solution_PU_IDs = rs_output_values$rs_best_solution_PU_IDs
-    #
-    #     #--------------------------------------------------------------
-    #     #  app_rep_scores_list_according_to_RS is a list containing
-    #     #  the following named elements:
-    #     #    - rsr_app_spp_rep_shortfall__fromRS
-    #     #    - rsr_app_solution_NUM_spp_covered__fromRS
-    #     #    - rsr_app_solution_FRAC_spp_covered__fromRS
-    #     #--------------------------------------------------------------
-    #
-    # app_rep_scores_list_according_to_RS =
-    #                 rs_output_values$app_rep_scores_list_according_to_RS
-
-    # app_solution_NUM_spp_covered__fromGurobi =
-    #     compute_num_spp_covered_by_solution (rs_best_solution_PU_IDs,
-    #                                          APP_bd_prob@bpm,
-    #                                          rsrun@targets)
+        #--------------------------------------------------------------
+        #  app_rep_scores_list_according_to_RS is a list containing
+        #  the following named elements:
+        #    - rsr_app_spp_rep_shortfall__fromRS
+        #    - rsr_app_solution_NUM_spp_covered__fromRS
+        #    - rsr_app_solution_FRAC_spp_covered__fromRS
+        #--------------------------------------------------------------
 
     app_rep_scores_list_according_to_RS =
         compute_and_verify_APP_rep_scores_according_to_RS (
@@ -329,60 +226,6 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                                                         APP_bd_prob@bpm,
                                                         rsrun@targets,
                                                         "Gurobi")
-
-
-#     if (rs_method_name == "Marxan_SA")
-#         {
-#         rs_output_values = get_marxan_output_values (rsrun,
-#                                                      exp_root_dir,
-#                                                      COR_bd_prob,
-#                                                      APP_bd_prob)
-#
-#         rs_best_solution_PU_IDs = rs_output_values$rs_best_solution_PU_IDs
-#
-#             #--------------------------------------------------------------
-#             #  app_rep_scores_list_according_to_RS is a list containing
-#             #  the following named elements:
-#             #    - rsr_app_spp_rep_shortfall__fromRS
-#             #    - rsr_app_solution_NUM_spp_covered__fromRS
-#             #    - rsr_app_solution_FRAC_spp_covered__fromRS
-#             #--------------------------------------------------------------
-#
-#         app_rep_scores_list_according_to_RS =
-#                         rs_output_values$app_rep_scores_list_according_to_RS
-#
-#         } else if (rs_method_name == "Gurobi")
-#         {
-#         # rs_output_values = get_gurobi_output_values (rsrun,
-#         #                                              exp_root_dir,
-#         #                                              COR_bd_prob,
-#         #                                              APP_bd_prob)
-#
-#             #-------------------------------------------------------------------
-#             #  Find which PUs the reserve selector chose for its best solution.
-#             #-------------------------------------------------------------------
-#
-#         rs_best_solution_PU_IDs =
-#             which (rs_control_values$gurobi_solution_vector > 0)
-#
-# #----------------------------------------------------------------
-# #  Will figure this out later.
-# #  It's just copied into the output, so it's not that important
-# #  in starting to get a basic use of gurobi going.
-# #----------------------------------------------------------------
-#
-#         app_rep_scores_list_according_to_RS =
-#             NULL
-# #            rs_output_values$app_rep_scores_list_according_to_RS
-#
-#         rs_control_values$gurobi_solution_vector = NULL
-#
-#         } else
-#         {
-#         stop_bdpg (paste0 ("Unknown reserve selector name '",
-#                            rs_method_name, "'"))
-#         }
-
 
         #------------------------------------------------------------------
         #  Compute costs and cost error measures for the chosen solution.
