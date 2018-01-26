@@ -209,8 +209,8 @@ get_gurobi_output_values <- function (rsrun,
         #  Find which PUs the reserve selector chose for its best solution.
         #--------------------------------------------------------------------
 
-    rs_best_solution_PU_IDs = c(1,2,3)
-#        which (gurobi_output_values$gurobi_best_df_sorted$SOLUTION > 0)
+    rs_best_solution_PU_IDs =
+            which (gurobi_output_values$gurobi_solution_vector > 0)
 
         #--------------------------------------------------------------
         #  Compute the apparent representation shortfall wrt to the
@@ -224,8 +224,10 @@ get_gurobi_output_values <- function (rsrun,
         #    - rsr_app_solution_FRAC_spp_covered__fromRS
         #--------------------------------------------------------------
 
-    app_solution_NUM_spp_covered__fromGurobi = 0
-#                                sum (gurobi_output_values$gurobi_mvbest_df$MPM)
+    app_solution_NUM_spp_covered__fromGurobi =
+        compute_num_spp_covered_by_solution (rs_best_solution_PU_IDs,
+                                             APP_bd_prob@bpm,
+                                             rsrun@targets)
 
     app_rep_scores_list_according_to_RS =
         compute_and_verify_APP_rep_scores_according_to_RS (
