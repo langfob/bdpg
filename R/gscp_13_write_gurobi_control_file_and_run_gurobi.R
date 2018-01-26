@@ -11,7 +11,7 @@
 #'
 #-------------------------------------------------------------------------------
 
-#' @param gurobi_run an RSrun object (or subclass)
+#' @param rsrun an RSrun object (or subclass)
 #' @inheritParams std_param_defns
 #'
 #' @return Returns named list of gurobi control and return values
@@ -20,7 +20,7 @@
 #-------------------------------------------------------------------------------
 
 set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
-                                           gurobi_run,
+                                           rsrun,
                                            parameters,
                                            marxan_elapsed_time=NA)
     {
@@ -30,7 +30,7 @@ set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
                                    bpm     = COR_bd_prob@bpm,
 
                                    PU_costs     = COR_bd_prob@PU_costs,
-                                   spp_rep_targets = gurobi_run@targets,
+                                   spp_rep_targets = rsrun@targets,
 
                                    use_gap_limit = parameters$use_gap_limit,
                                    gap_limit     = parameters$gap_limit,
@@ -39,7 +39,13 @@ set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
                                    time_limit     = parameters$time_limit,
 
                                    parameters$use_marxan_time_as_limit,
-                                   marxan_elapsed_time)
+                                   marxan_elapsed_time,
+
+                                   rsrun,
+                                   top_dir = parameters$fullOutputDir_NO_slash,
+                                   save_inputs = TRUE,
+                                   save_outputs = TRUE
+                                   )
 
     return (gurobi_control_values)
     }
@@ -53,7 +59,7 @@ set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
 #'
 #-------------------------------------------------------------------------------
 
-#' @param gurobi_run an RSrun object (or subclass)
+#' @param rsrun an RSrun object (or subclass)
 #' @inheritParams std_param_defns
 #'
 #' @return Returns named list of gurobi control and return values
@@ -63,7 +69,7 @@ set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
 
 set_up_for_and_run_gurobi_APP <- function (APP_bd_prob,
                                            COR_bd_prob,
-                                           gurobi_run,
+                                           rsrun,
                                            parameters,
                                            marxan_elapsed_time=NA)
     {
@@ -73,7 +79,7 @@ set_up_for_and_run_gurobi_APP <- function (APP_bd_prob,
                                    bpm     = APP_bd_prob@bpm,
 
                                    PU_costs        = APP_bd_prob@PU_costs,
-                                   spp_rep_targets = gurobi_run@targets,
+                                   spp_rep_targets = rsrun@targets,
 
                                    use_gap_limit = parameters$use_gap_limit,
                                    gap_limit     = parameters$gap_limit,
@@ -82,7 +88,13 @@ set_up_for_and_run_gurobi_APP <- function (APP_bd_prob,
                                    time_limit     = parameters$time_limit,
 
                                    parameters$use_marxan_time_as_limit,
-                                   marxan_elapsed_time)
+                                   marxan_elapsed_time,
+
+                                   rsrun,
+                                   top_dir = parameters$fullOutputDir_NO_slash,
+                                   save_inputs = TRUE,
+                                   save_outputs = TRUE
+                                   )
 
     return (gurobi_control_values)
     }
@@ -99,6 +111,12 @@ set_up_for_and_run_gurobi_APP <- function (APP_bd_prob,
 #' @param time_limit numeric
 #' @param use_gap_limit boolean
 #' @param gap_limit numeric
+
+#' @param save_inputs boolean indicating whether input model and input params
+#'     should be saved to disk
+#' @param save_outputs boolean indicating whether results and
+#'     gurobi_controls_and_results params should be saved to disk
+
 #' @inheritParams std_param_defns
 #'
 #' @return Returns named list of gurobi control and return values
@@ -114,13 +132,25 @@ set_up_for_and_run_gurobi <- function (num_spp,
                                        use_given_time_as_limit,
                                        time_limit,
                                        use_marxan_time_as_limit,
-                                       marxan_elapsed_time=NA)
+                                       marxan_elapsed_time=NA,
+
+                                       rsrun,
+                                       top_dir,
+                                       save_inputs,
+                                       save_outputs
+                                       )
     {
     gurobi_result =
         run_gurobi (num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
                     use_gap_limit, gap_limit,
                     use_given_time_as_limit, time_limit,
-                    use_marxan_time_as_limit, marxan_elapsed_time)
+                    use_marxan_time_as_limit, marxan_elapsed_time,
+
+                    rsrun,
+                    top_dir,
+                    save_inputs = TRUE,
+                    save_outputs = TRUE
+                    )
 
     return (gurobi_result)
     }

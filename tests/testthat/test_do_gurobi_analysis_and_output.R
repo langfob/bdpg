@@ -66,6 +66,12 @@ test_gurobi <- function (use_gap_limit,
                          use_marxan_time_as_limit,
                          marxan_elapsed_time)
 
+                        # rsrun = NULL,
+                        # topdir = NULL,            #= parameters$fullOutputDir_NO_slash
+                        # save_inputs = FALSE,
+                        # save_outputs = FALSE
+                        # )
+
     return (result)
     }
 

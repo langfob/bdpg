@@ -16,6 +16,12 @@
 #'     enforced
 #' @param gap_limit numeric value for gap, measured in same units as the
 #'     objective function
+#'
+#' @param save_inputs boolean indicating whether input model and input params
+#'     should be saved to disk
+#' @param save_outputs boolean indicating whether results and
+#'     gurobi_controls_and_results params should be saved to disk
+#'
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a gurobi model result list with named elements that contains,
@@ -38,7 +44,12 @@ run_gurobi <- function (num_spp,
                         time_limit = 60,
 
                         use_marxan_time_as_limit = FALSE,
-                        marxan_elapsed_time = NA
+                        marxan_elapsed_time = NA,
+
+                        rsrun = NULL,
+                        top_dir = NULL,            #= parameters$fullOutputDir_NO_slash
+                        save_inputs = FALSE,
+                        save_outputs = FALSE
                         )
     {
         # set up Gurobi model object in R
@@ -175,9 +186,29 @@ rhs = pmin (spp_rep_targets, spp_abundances)
 
     cat ("\n--------------------\n\n")
 
+    if (save_inputs || save_outputs)
+        {
+                    #  Get paths to the gurobi IO subdirectories.
+
+#        gurobi_IO_dir     = get_RSrun_path_IO (rsrun, top_dir)
+        gurobi_input_dir  = get_RSrun_path_input (rsrun, top_dir)
+        gurobi_output_dir = get_RSrun_path_output (rsrun, top_dir)
+        }
+
+    if (save_inputs)
+        {
+        saveRDS (gurobi_model,
+                 file.path (gurobi_input_dir, "gurobi_mode.rds"))
+        saveRDS (gurobi_params,
+                 file.path (gurobi_input_dir, "gurobi_params.rds"))
+        }
+
     #--------------------
 
         # solve the problem
+    # result <- gurobi::gurobi (gurobi_model_and_params$gurobi_model,
+    #                           gurobi_model_and_params$gurobi_params)
+
     result <- gurobi::gurobi (gurobi_model, gurobi_params)
 
     #--------------------
@@ -260,6 +291,7 @@ gurobi_controls_and_results =
           gurobi_use_gap_limit             = use_gap_limit,
           gurobi_gap_limit_input           = gap_limit,
           gurobi_gap_limit_used            = gurobi_params$MIPGap,
+#          gurobi_gap_limit_used            = gurobi_model_and_params$gurobi_params$MIPGap,
 
           gurobi_use_given_time_as_limit   = use_given_time_as_limit,
           gurobi_time_limit_input          = time_limit,
@@ -268,7 +300,16 @@ gurobi_controls_and_results =
           gurobi_marxan_elapsed_time_input = marxan_elapsed_time,
 
           gurobi_time_limit_used           = gurobi_params$TimeLimit
+#          gurobi_time_limit_used           = gurobi_model_and_params$gurobi_params$TimeLimit
           )
+
+    if (save_outputs)
+        {
+        saveRDS (result,
+                 file.path (gurobi_output_dir, "result.rds"))
+        saveRDS (gurobi_controls_and_results,
+                 file.path (gurobi_output_dir, "gurobi_controls_and_results.rds"))
+        }
 
 #browser()
     return (gurobi_controls_and_results)
