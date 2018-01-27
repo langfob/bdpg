@@ -196,19 +196,10 @@ rhs = pmin (spp_rep_targets, spp_abundances)
 
     cat ("\n--------------------\n\n")
 
-    if (save_inputs || save_outputs)
-        {
-            #----------------------------------------------
-            #  Get paths to the gurobi IO subdirectories.
-            #----------------------------------------------
-
-#        gurobi_IO_dir     = get_RSrun_path_IO (rsrun, top_dir)
-        gurobi_input_dir  = get_RSrun_path_input (rsrun, top_dir)
-        gurobi_output_dir = get_RSrun_path_output (rsrun, top_dir)
-        }
-
     if (save_inputs)
         {
+        gurobi_input_dir  = get_RSrun_path_input (rsrun, top_dir)
+
         saveRDS (gurobi_model,
                  file.path (gurobi_input_dir, "gurobi_model.rds"))
         saveRDS (gurobi_params,
@@ -291,6 +282,8 @@ if(FALSE)
 
     if (save_outputs)
         {
+        gurobi_output_dir = get_RSrun_path_output (rsrun, top_dir)
+
         saveRDS (solution_PU_IDs,
                  file.path (gurobi_output_dir, "solution_PU_IDs.rds"))
         saveRDS (gurobi_controls,
