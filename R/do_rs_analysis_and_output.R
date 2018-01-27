@@ -26,39 +26,21 @@
 
 create_RSrun <- function (prob_UUID,
                           spp_rep_targets,
-
                           parameters,
-                  # set_rand_seed_at_creation_of_all_new_major_objects,
-                  #         starting_dir,
-
                           cor_or_app_str,
                           basic_or_wrapped_or_comb_str,
                           rs_method_name
                           )
     {
-    # forced_seed =
-    #     get_forced_seed_value_if_necessary (is_rsrun = TRUE,
-    #                                         is_rsprob = FALSE,
-    #                                         parameters,
-    #                                         cor_or_app_str,
-    #                                         basic_or_wrapped_or_comb_str)
-    #
-    # new_seed =
-    #     set_new_or_forced_rand_seed_if_necessary (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
-    #                                               paste0 ("Start of create_RSrun(),",
-    #                                                       cor_or_app_str, ",",
-    #                                                       basic_or_wrapped_or_comb_str),
-    #                                               forced_seed)
-
+    location_string = paste0 ("Start of create_RSrun(),",
+                              cor_or_app_str, ",", basic_or_wrapped_or_comb_str)
     new_seed_list =
         set_new_or_forced_rand_seed_if_necessary (is_rsrun = TRUE,
                                                   is_rsprob = FALSE,
                                                   parameters,
                                                   cor_or_app_str,
                                                   basic_or_wrapped_or_comb_str,
-                                                  location_string = paste0 ("Start of create_RSrun(),",
-                                                                            cor_or_app_str, ",",
-                                                                            basic_or_wrapped_or_comb_str))
+                                                  location_string)
 
     #------------------------------------------------------------------
 
@@ -96,7 +78,7 @@ create_RSrun <- function (prob_UUID,
 
 #===============================================================================
 
-#' Run reserve selector(s) on COR problem and write output from all analysis
+#' Run reserve selector(s) on COR problem and write output from all analyses
 #'
 #-------------------------------------------------------------------------------
 
@@ -108,10 +90,43 @@ create_RSrun <- function (prob_UUID,
 #-------------------------------------------------------------------------------
 
 do_COR_rs_analysis_and_output <- function (COR_bd_prob,
-                                               parameters,
-                                               src_rds_file_dir=NULL,
-                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp))
+                                           parameters,
+                                           src_rds_file_dir = NULL,
+                                           spp_rep_targets =
+                                               rep(1,COR_bd_prob@num_spp))
     {
+    do_simple_richness_forward = vb (parameters$do_simple_richness_forward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_simple_richness_forward)
+        {
+        forward = TRUE
+        rs_method_name = "SR_Forward"
+
+        do_COR_simple_richness_analysis_and_output (COR_bd_prob,
+                                                    parameters,
+                                                    rs_method_name,
+                                                    forward,
+                                                    src_rds_file_dir,
+                                                    spp_rep_targets)
+        }
+
+    do_simple_richness_backward = vb (parameters$do_simple_richness_backward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_simple_richness_backward)
+        {
+        forward = FALSE
+        rs_method_name = "SR_Backward"
+
+        do_COR_simple_richness_analysis_and_output (COR_bd_prob,
+                                                    parameters,
+                                                    rs_method_name,
+                                                    forward,
+                                                    src_rds_file_dir,
+                                                    spp_rep_targets)
+        }
+
     marxan_elapsed_time = NA
     run_marxan = vb (parameters$run_marxan, def_on_empty = TRUE, def = FALSE)
     if (run_marxan)
@@ -121,8 +136,8 @@ do_COR_rs_analysis_and_output <- function (COR_bd_prob,
             do_COR_marxan_analysis_and_output (COR_bd_prob,
                                                parameters,
                                                rs_method_name,
-                                               src_rds_file_dir=NULL,
-                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp))
+                                               src_rds_file_dir,
+                                               spp_rep_targets)
         }
 
     do_gurobi = vb (parameters$do_gurobi, def_on_empty = TRUE, def = FALSE)
@@ -133,14 +148,14 @@ do_COR_rs_analysis_and_output <- function (COR_bd_prob,
                                            parameters,
                                            rs_method_name,
                                            marxan_elapsed_time,
-                                           src_rds_file_dir=NULL,
-                                           spp_rep_targets=rep(1,COR_bd_prob@num_spp))
+                                           src_rds_file_dir,
+                                           spp_rep_targets)
         }
     }
 
 #===============================================================================
 
-#' Run reserve selector(s) on APP problem and write output from all analysis
+#' Run reserve selector(s) on APP problem and write output from all analyses
 #'
 #-------------------------------------------------------------------------------
 
@@ -152,12 +167,46 @@ do_COR_rs_analysis_and_output <- function (COR_bd_prob,
 #-------------------------------------------------------------------------------
 
 do_APP_rs_analysis_and_output <- function (APP_bd_prob,
-                                               COR_bd_prob,
-                                               parameters,
-                                               src_rds_file_dir=NULL,
-                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp)
-                                               )
+                                           COR_bd_prob,
+                                           parameters,
+                                           src_rds_file_dir = NULL,
+                                           spp_rep_targets =
+                                               rep(1,COR_bd_prob@num_spp))
     {
+    do_simple_richness_forward = vb (parameters$do_simple_richness_forward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_simple_richness_forward)
+        {
+        forward = TRUE
+        rs_method_name = "SR_Forward"
+
+        do_APP_simple_richness_analysis_and_output (APP_bd_prob,
+                                                    COR_bd_prob,
+                                                    parameters,
+                                                    rs_method_name,
+                                                    forward,
+                                                    src_rds_file_dir,
+                                                    spp_rep_targets)
+        }
+
+    do_simple_richness_backward = vb (parameters$do_simple_richness_backward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_simple_richness_backward)
+        {
+        forward = FALSE
+        rs_method_name = "SR_Backward"
+
+        do_APP_simple_richness_analysis_and_output (APP_bd_prob,
+                                                    COR_bd_prob,
+                                                    parameters,
+                                                    rs_method_name,
+                                                    forward,
+                                                    src_rds_file_dir,
+                                                    spp_rep_targets)
+        }
+
     marxan_elapsed_time = NA
     run_marxan = vb (parameters$run_marxan, def_on_empty = TRUE, def = FALSE)
     if (run_marxan)
@@ -168,8 +217,8 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
                                                rs_method_name,
-                                               src_rds_file_dir=NULL,
-                                               spp_rep_targets=rep(1,COR_bd_prob@num_spp))
+                                               src_rds_file_dir,
+                                               spp_rep_targets)
         }
 
     do_gurobi = vb (parameters$do_gurobi, def_on_empty = TRUE, def = FALSE)
@@ -181,8 +230,8 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
                                            parameters,
                                            rs_method_name,
                                            marxan_elapsed_time,
-                                           src_rds_file_dir=NULL,
-                                           spp_rep_targets=rep(1,COR_bd_prob@num_spp))
+                                           src_rds_file_dir,
+                                           spp_rep_targets)
         }
     }
 

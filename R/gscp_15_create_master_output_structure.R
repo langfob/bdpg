@@ -106,6 +106,19 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
 
 #===============================================================================
 
+get_simple_richness_best_solution_PU_IDs <- function (rsrun, top_dir)
+    {
+    sr_output_dir = get_RSrun_path_output (rsrun, top_dir)
+    sr_results =
+        readRDS (file.path (sr_output_dir, "simple_richness_results.rds"))
+
+    sr_solution_PU_IDs = sr_results$short_ranked_solution_PU_IDs_vec
+
+    return (sr_solution_PU_IDs)
+    }
+
+#===============================================================================
+
 get_gurobi_best_solution_PU_IDs <- function (rsrun, top_dir)
     {
     gurobi_output_dir = get_RSrun_path_output (rsrun, top_dir)
@@ -186,6 +199,13 @@ get_rs_best_solution_PU_IDs <- function (rs_method_name,
         rs_best_solution_PU_IDs =
                             get_gurobi_best_solution_PU_IDs (rsrun,
                                                              exp_root_dir)
+        #-------------------------------------
+        } else if ((rs_method_name == "SR_Forward") ||
+                   (rs_method_name == "SR_Backward"))
+        {
+        rs_best_solution_PU_IDs =
+                    get_simple_richness_best_solution_PU_IDs (rsrun,
+                                                              exp_root_dir)
         #-------------------------------------
         } else
         {

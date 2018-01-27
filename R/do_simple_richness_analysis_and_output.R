@@ -88,3 +88,55 @@ simple_richness <- function (num_spp, num_PUs, bpm,
 
 #===============================================================================
 
+run_simple_richness <- function (num_spp,
+                                 num_PUs,
+                                 bpm,
+
+                                 forward = TRUE,
+                                 spp_rep_targets = rep (1, num_spp),
+
+                                 rsrun = NULL,
+                                 top_dir = NULL,            #= parameters$fullOutputDir_NO_slash
+                                 save_inputs = FALSE,
+                                 save_outputs = FALSE)
+    {
+        #-------------------------------------------------------------------
+        #  simple_richness() returns a 2 element named list containing:
+        #    - short_ranked_solution_PU_IDs_vec
+        #    - full_ranked_solution_PU_IDs_vec
+        #  where the short element contains just the PUs required to cover
+        #  the representation targets while the full element contains the
+        #  rank ordering of all PUs in the landscape.
+        #-------------------------------------------------------------------
+
+    sr_results = simple_richness (num_spp, num_PUs, bpm,
+                                  forward,
+                                  spp_rep_targets)
+
+    sr_control_values = list (forward = forward)
+
+    if (save_inputs)
+        {
+        sr_input_dir  = get_RSrun_path_input (rsrun, top_dir)
+
+        saveRDS (sr_control_values,
+                 file.path (sr_input_dir, "simple_richness_input_params.rds"))
+        }
+
+    if (save_outputs)
+        {
+        sr_output_dir = get_RSrun_path_output (rsrun, top_dir)
+
+        saveRDS (sr_results,
+                 file.path (sr_output_dir, "simple_richness_results.rds"))
+        }
+
+    sr_control_values_and_results = sr_control_values
+    sr_control_values_and_results$simple_richness_solution_vector =
+        sr_results$short_ranked_solution_PU_IDs_vec
+
+    return (sr_control_values_and_results)
+    }
+
+#===============================================================================
+
