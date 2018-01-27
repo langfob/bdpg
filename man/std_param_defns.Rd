@@ -9,7 +9,7 @@ std_param_defns(all_correct_node_IDs, allow_imperfect_wrap, APP_bd_prob,
   compute_network_metrics_for_this_prob, COR_bd_prob, cor_or_app_label,
   correct_solution_vector_is_known, dependent_node_IDs, duplicate_links_allowed,
   edge_list, exp_root_dir, final_link_counts_for_each_node,
-  final_node_counts_for_each_link, final_rank_abundance_dist,
+  final_node_counts_for_each_link, final_rank_abundance_dist, forward,
   given_correct_solution_cost, integerize, integerize_string,
   marxan_elapsed_time, marxan_solution, max_allowed_num_spp,
   max_possible_tot_num_links, n__num_groups, nodes, num_nodes_per_group,
@@ -83,6 +83,10 @@ of nodes for each link, i.e., number of planning units for each species
 \item{final_rank_abundance_dist}{integer vector of counts of number
 of nodes for each link, i.e., number of planning units for each species
 (same as final_node_counts_for_each_link)}
+
+\item{forward}{boolean indicating whether to do the greedy search in the
+forward direction (adding PUs to the solution set) or the backward
+direction (removing PUs from the solution set); TRUE implies forward}
 
 \item{given_correct_solution_cost}{boolean indicating whether the correct
 optimal solution cost is given for a reserve selection problem}

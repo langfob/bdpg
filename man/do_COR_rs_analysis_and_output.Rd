@@ -2,7 +2,7 @@
 % Please edit documentation in R/do_rs_analysis_and_output.R
 \name{do_COR_rs_analysis_and_output}
 \alias{do_COR_rs_analysis_and_output}
-\title{Run reserve selector(s) on COR problem and write output from all analysis}
+\title{Run reserve selector(s) on COR problem and write output from all analyses}
 \usage{
 do_COR_rs_analysis_and_output(COR_bd_prob, parameters,
   src_rds_file_dir = NULL, spp_rep_targets = rep(1, COR_bd_prob@num_spp))
@@ -23,5 +23,5 @@ species in the problem}
 Returns nothing
 }
 \description{
-Run reserve selector(s) on COR problem and write output from all analysis
+Run reserve selector(s) on COR problem and write output from all analyses
 }
