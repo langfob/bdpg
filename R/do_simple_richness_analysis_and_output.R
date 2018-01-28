@@ -120,7 +120,7 @@ run_simple_richness <- function (num_spp,
         sr_input_dir  = get_RSrun_path_input (rsrun, top_dir)
 
         saveRDS (sr_control_values,
-                 file.path (sr_input_dir, "simple_richness_input_params.rds"))
+                 file.path (sr_input_dir, "input_params.rds"))
         }
 
     if (save_outputs)
@@ -128,7 +128,7 @@ run_simple_richness <- function (num_spp,
         sr_output_dir = get_RSrun_path_output (rsrun, top_dir)
 
         saveRDS (sr_results,
-                 file.path (sr_output_dir, "simple_richness_results.rds"))
+                 file.path (sr_output_dir, "results.rds"))
         }
 
     sr_control_values_and_results = sr_control_values
