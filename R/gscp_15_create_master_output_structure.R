@@ -106,15 +106,14 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
 
 #===============================================================================
 
-get_simple_richness_best_solution_PU_IDs <- function (rsrun, top_dir)
+get_greedy_best_solution_PU_IDs <- function (rsrun, top_dir)
     {
-    sr_output_dir = get_RSrun_path_output (rsrun, top_dir)
-    sr_results =
-        readRDS (file.path (sr_output_dir, "simple_richness_results.rds"))
+    greedy_output_dir = get_RSrun_path_output (rsrun, top_dir)
+    greedy_results = readRDS (file.path (greedy_output_dir, "results.rds"))
 
-    sr_solution_PU_IDs = sr_results$short_ranked_solution_PU_IDs_vec
+    greedy_solution_PU_IDs = greedy_results$short_ranked_solution_PU_IDs_vec
 
-    return (sr_solution_PU_IDs)
+    return (greedy_solution_PU_IDs)
     }
 
 #===============================================================================
@@ -204,8 +203,19 @@ get_rs_best_solution_PU_IDs <- function (rs_method_name,
                    (rs_method_name == "SR_Backward"))
         {
         rs_best_solution_PU_IDs =
-                    get_simple_richness_best_solution_PU_IDs (rsrun,
-                                                              exp_root_dir)
+                    get_greedy_best_solution_PU_IDs (rsrun, exp_root_dir)
+        #-------------------------------------
+        } else if ((rs_method_name == "UR_Forward") ||
+                   (rs_method_name == "UR_Backward"))
+        {
+        rs_best_solution_PU_IDs =
+                    get_greedy_best_solution_PU_IDs (rsrun, exp_root_dir)
+        #-------------------------------------
+        } else if ((rs_method_name == "ZL_Forward") ||
+                   (rs_method_name == "ZL_Backward"))
+        {
+        rs_best_solution_PU_IDs =
+                    get_greedy_best_solution_PU_IDs (rsrun, exp_root_dir)
         #-------------------------------------
         } else
         {
