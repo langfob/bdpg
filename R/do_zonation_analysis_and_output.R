@@ -4,6 +4,12 @@
 
 #===============================================================================
 
+#  2018 01 28 - BTL
+#  Have just replaced z() with zonation_like() but z() still appears in many
+#  of the old tests, so I'm just going to make a dummy z() with the same
+#  interface that just calls the new function zonation_like().
+#  Will change the tests in testthat/greedy later and then can get rid of this
+#  function.
 
 z <- function (num_spp,
                num_PUs,
@@ -12,8 +18,20 @@ z <- function (num_spp,
                bpm,
                forward = FALSE,  #  Normally true for zonation.
                z_meth = "funcs",
-               spp_rep_targets = rep (1, num_spp)
-               )
+               spp_rep_targets = rep (1, num_spp))
+    {
+    return (zonation_like  (num_spp,
+                            num_PUs,
+                            bpm,
+                            forward,
+                            spp_rep_targets,
+                            wt_spp_vec,
+                            c_PU_vec,
+                            z_meth))
+    }
+
+#===============================================================================
+
 zonation_like <- function (num_spp,
                            num_PUs,
                            bpm,
