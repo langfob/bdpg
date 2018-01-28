@@ -101,14 +101,20 @@ do_COR_rs_analysis_and_output <- function (COR_bd_prob,
     if (do_simple_richness_forward)
         {
         forward = TRUE
+        RS_specific_params = list (forward = forward)
         rs_method_name = "SR_Forward"
 
-        do_COR_simple_richness_analysis_and_output (COR_bd_prob,
-                                                    parameters,
-                                                    rs_method_name,
-                                                    forward,
-                                                    src_rds_file_dir,
-                                                    spp_rep_targets)
+        do_ResSel_analysis_and_output (COR_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = simple_richness,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
         }
 
     do_simple_richness_backward = vb (parameters$do_simple_richness_backward,
@@ -117,15 +123,115 @@ do_COR_rs_analysis_and_output <- function (COR_bd_prob,
     if (do_simple_richness_backward)
         {
         forward = FALSE
+        RS_specific_params = list (forward = forward)
         rs_method_name = "SR_Backward"
 
-        do_COR_simple_richness_analysis_and_output (COR_bd_prob,
-                                                    parameters,
-                                                    rs_method_name,
-                                                    forward,
-                                                    src_rds_file_dir,
-                                                    spp_rep_targets)
+        do_ResSel_analysis_and_output (COR_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = simple_richness,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
         }
+
+    #---------------------------------------------------------------------------
+
+    do_unprotected_richness_forward = vb (parameters$do_unprotected_richness_forward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_unprotected_richness_forward)
+        {
+        forward = TRUE
+        RS_specific_params = list (forward = forward)
+        rs_method_name = "UR_Forward"
+
+        do_ResSel_analysis_and_output (COR_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = unprotected_richness,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
+        }
+
+    do_unprotected_richness_backward = vb (parameters$do_unprotected_richness_backward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_unprotected_richness_backward)
+        {
+        forward = FALSE
+        RS_specific_params = list (forward = forward)
+        rs_method_name = "UR_Backward"
+
+        do_ResSel_analysis_and_output (COR_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = unprotected_richness,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
+        }
+
+    #---------------------------------------------------------------------------
+
+    do_zonation_like_forward = vb (parameters$do_zonation_like_forward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_zonation_like_forward)
+        {
+        forward = TRUE
+        RS_specific_params = list (forward = forward)
+        rs_method_name = "ZL_Forward"
+
+        do_ResSel_analysis_and_output (COR_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = zonation_like,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
+        }
+
+    do_zonation_like_backward = vb (parameters$do_zonation_like_backward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_zonation_like_backward)
+        {
+        forward = FALSE
+        RS_specific_params = list (forward = forward)
+        rs_method_name = "ZL_Backward"
+
+        do_ResSel_analysis_and_output (COR_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = zonation_like,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
+        }
+
+    #---------------------------------------------------------------------------
 
     marxan_elapsed_time = NA
     run_marxan = vb (parameters$run_marxan, def_on_empty = TRUE, def = FALSE)
@@ -139,6 +245,8 @@ do_COR_rs_analysis_and_output <- function (COR_bd_prob,
                                                src_rds_file_dir,
                                                spp_rep_targets)
         }
+
+    #---------------------------------------------------------------------------
 
     do_gurobi = vb (parameters$do_gurobi, def_on_empty = TRUE, def = FALSE)
     if (do_gurobi)
@@ -179,15 +287,20 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
     if (do_simple_richness_forward)
         {
         forward = TRUE
+        RS_specific_params = list (forward = forward)
         rs_method_name = "SR_Forward"
 
-        do_APP_simple_richness_analysis_and_output (APP_bd_prob,
-                                                    COR_bd_prob,
-                                                    parameters,
-                                                    rs_method_name,
-                                                    forward,
-                                                    src_rds_file_dir,
-                                                    spp_rep_targets)
+        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = simple_richness,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
         }
 
     do_simple_richness_backward = vb (parameters$do_simple_richness_backward,
@@ -196,16 +309,115 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
     if (do_simple_richness_backward)
         {
         forward = FALSE
+        RS_specific_params = list (forward = forward)
         rs_method_name = "SR_Backward"
 
-        do_APP_simple_richness_analysis_and_output (APP_bd_prob,
-                                                    COR_bd_prob,
-                                                    parameters,
-                                                    rs_method_name,
-                                                    forward,
-                                                    src_rds_file_dir,
-                                                    spp_rep_targets)
+        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = simple_richness,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
         }
+
+    #---------------------------------------------------------------------------
+
+    do_unprotected_richness_forward = vb (parameters$do_unprotected_richness_forward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_unprotected_richness_forward)
+        {
+        forward = TRUE
+        RS_specific_params = list (forward = forward)
+        rs_method_name = "UR_Forward"
+
+        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = unprotected_richness,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
+        }
+
+    do_unprotected_richness_backward = vb (parameters$do_unprotected_richness_backward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_unprotected_richness_backward)
+        {
+        forward = FALSE
+        RS_specific_params = list (forward = forward)
+        rs_method_name = "UR_Backward"
+
+        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = unprotected_richness,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
+        }
+
+    #---------------------------------------------------------------------------
+
+    do_zonation_like_forward = vb (parameters$do_zonation_like_forward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_zonation_like_forward)
+        {
+        forward = TRUE
+        RS_specific_params = list (forward = forward)
+        rs_method_name = "ZL_Forward"
+
+        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = zonation_like,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
+        }
+
+    do_zonation_like_backward = vb (parameters$do_zonation_like_backward,
+                                     def_on_empty = TRUE, def = FALSE)
+
+    if (do_zonation_like_backward)
+        {
+        forward = FALSE
+        RS_specific_params = list (forward = forward)
+        rs_method_name = "ZL_Backward"
+
+        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                       COR_bd_prob,    #  <<<<<-----------------
+                                       parameters,
+
+                                       rs_method_name,
+                                       resSel_func     = zonation_like,
+                                       run_ResSel_func = run_greedy_ResSel,
+                                       RS_specific_params,
+
+                                       src_rds_file_dir,
+                                       spp_rep_targets)
+        }
+
+    #---------------------------------------------------------------------------
 
     marxan_elapsed_time = NA
     run_marxan = vb (parameters$run_marxan, def_on_empty = TRUE, def = FALSE)
@@ -220,6 +432,8 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
                                                src_rds_file_dir,
                                                spp_rep_targets)
         }
+
+    #---------------------------------------------------------------------------
 
     do_gurobi = vb (parameters$do_gurobi, def_on_empty = TRUE, def = FALSE)
     if (do_gurobi)
