@@ -14,6 +14,14 @@ z <- function (num_spp,
                z_meth = "funcs",
                spp_rep_targets = rep (1, num_spp)
                )
+zonation_like <- function (num_spp,
+                           num_PUs,
+                           bpm,
+                           forward = TRUE,
+                           spp_rep_targets = rep (1, num_spp),
+                           wt_spp_vec      = rep (1, num_spp),
+                           c_PU_vec        = rep (1,num_PUs),
+                           z_meth          = "funcs")
     {
     if ("funcs" %in% z_meth)
         {
