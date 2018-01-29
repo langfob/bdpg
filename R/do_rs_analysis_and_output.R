@@ -71,7 +71,7 @@ create_RSrun <- function (prob_UUID,
 
     create_RSrun_dir_and_subdirs (rsrun, starting_dir)
 
-    rsrun <- save_rsrun (rsrun, starting_dir)
+    rsrun <- save_RSrun (rsrun, starting_dir)
 
     return (rsrun)
     }

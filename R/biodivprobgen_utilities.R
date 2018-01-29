@@ -636,23 +636,6 @@ save_rsprob <- function (rsprob, exp_root_dir)
 
 #===============================================================================
 
-save_rsrun <- function (rsrun, starting_dir)
-    {
-    # saved_rsrun_filename = paste0 ("saved_rsrun.",
-    #                                 rsrun@file_name_prefix,
-    #                                 rsrun@UUID,
-    #                                 ".rds")
-
-    base_outdir = get_RSrun_path_topdir (rsrun, starting_dir)
-    rsrun       = save_obj_with_checksum (rsrun,
-                                          #saved_rsrun_filename,
-                                          base_outdir)
-
-    return (rsrun)
-    }
-
-#===============================================================================
-
 load_saved_obj_from_file <- function (path_to_file)
     {
     return (readRDS (path_to_file))
