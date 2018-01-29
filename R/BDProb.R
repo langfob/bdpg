@@ -509,15 +509,15 @@ setClass ("Xu_wrapped_bd_problem",
 
 #===============================================================================
 
-    #  RS_run class.
+    #  EXPdirs class.
 
-setClass ("RSrun",
+setClass ("EXPdirs",
           representation (
                             UUID        = "character",
                             checksum    = "character",
 
-                            rand_seed             = "numeric",    #  Random seed set at the start of building this object.
-                            R_internal_seed_array = "numeric",    #  R's internal seed state array resulting from setting the seed at start of building this objec.
+        # rand_seed             = "numeric",    #  Random seed set at the start of building this object.
+        # R_internal_seed_array = "numeric",    #  R's internal seed state array resulting from setting the seed at start of building this objec.
 
                                 #  UUID of the problem the reserve selector
                                 #  is running on.
@@ -527,14 +527,14 @@ setClass ("RSrun",
                             obj_type_str     = "character",    #  e.g., "RSrun_" - used in building name for file and dir names
                             cor_or_app_str   = "character",    #  "COR" or "APP" - used in building file and dir names
                             basic_or_wrapped_or_comb_str = "character",    #  "Base" or "Wrap" or "Comb" - used in building file and dir names
-                            rs_method_name   = "character",    #  e.g., "Marxan_sa" - used in building file and dir names
+        # rs_method_name   = "character",    #  e.g., "Marxan_sa" - used in building file and dir names
                             file_name_prefix = "character",    #  string to combine with uuid to build file and dir names
 
                             input_dir_name  = "character",
                             output_dir_name = "character",
-                            plot_dir_name   = "character",
+                            plot_dir_name   = "character"    #,
 
-                            targets         = "vector"
+        # targets         = "vector"
                      ),
 
           #-----------------------------------------------------------------
@@ -548,7 +548,6 @@ setClass ("RSrun",
                             obj_type_str     = as.character (NA),
                             cor_or_app_str   = as.character (NA),
                             basic_or_wrapped_or_comb_str = as.character (NA),
-                            rs_method_name   = as.character (NA),
                             file_name_prefix = as.character (NA),
 
                     input_dir_name  = "input",
@@ -558,6 +557,105 @@ setClass ("RSrun",
                     )
 
          )
+
+#===============================================================================
+
+    #  RSrun class.
+
+setClass ("RSrun",
+          representation (
+                            rand_seed             = "numeric",    #  Random seed set at the start of building this object.
+                            R_internal_seed_array = "numeric",    #  R's internal seed state array resulting from setting the seed at start of building this objec.
+
+                            rs_method_name   = "character",    #  e.g., "Marxan_sa" - used in building file and dir names
+
+                            targets         = "vector"
+                     ),
+
+          #-----------------------------------------------------------------
+
+          contains = "EXPdirs",
+
+          #-----------------------------------------------------------------
+
+          prototype (
+                            rs_method_name   = as.character (NA)
+                    )
+
+         )
+
+#===============================================================================
+
+    #  RSnet class.
+
+setClass ("RSnet",
+          representation (
+                            net_method_name   = "character"    #  e.g., "igraph or bipart" - used in building file and dir names
+                     ),
+
+          #-----------------------------------------------------------------
+
+          contains = "EXPdirs",
+
+          #-----------------------------------------------------------------
+
+          prototype (
+                            net_method_name   = as.character (NA)
+                    )
+
+         )
+
+#===============================================================================
+
+#     #  RSrun class.
+#
+# setClass ("RSrun",
+#           representation (
+#                             UUID        = "character",
+#                             checksum    = "character",
+#
+#                             rand_seed             = "numeric",    #  Random seed set at the start of building this object.
+#                             R_internal_seed_array = "numeric",    #  R's internal seed state array resulting from setting the seed at start of building this objec.
+#
+#                                 #  UUID of the problem the reserve selector
+#                                 #  is running on.
+#
+#                             run_on_prob_UUID = "character",
+#
+#                             obj_type_str     = "character",    #  e.g., "RSrun_" - used in building name for file and dir names
+#                             cor_or_app_str   = "character",    #  "COR" or "APP" - used in building file and dir names
+#                             basic_or_wrapped_or_comb_str = "character",    #  "Base" or "Wrap" or "Comb" - used in building file and dir names
+#                             rs_method_name   = "character",    #  e.g., "Marxan_sa" - used in building file and dir names
+#                             file_name_prefix = "character",    #  string to combine with uuid to build file and dir names
+#
+#                             input_dir_name  = "character",
+#                             output_dir_name = "character",
+#                             plot_dir_name   = "character",
+#
+#                             targets         = "vector"
+#                      ),
+#
+#           #-----------------------------------------------------------------
+#
+#           prototype (
+#                             UUID        = as.character (NA),
+#                             checksum    = as.character (NA),
+#
+#                             run_on_prob_UUID = as.character (NA),
+#
+#                             obj_type_str     = as.character (NA),
+#                             cor_or_app_str   = as.character (NA),
+#                             basic_or_wrapped_or_comb_str = as.character (NA),
+#                             rs_method_name   = as.character (NA),
+#                             file_name_prefix = as.character (NA),
+#
+#                     input_dir_name  = "input",
+#                     output_dir_name = "output",
+#                     plot_dir_name   = "plots"
+#
+#                     )
+#
+#          )
 
 #===============================================================================
 
