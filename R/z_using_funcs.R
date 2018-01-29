@@ -42,7 +42,8 @@ choose_next_PU_z <- function (S_remaining_PUs_vec, vars_list, forward)
         #---------------------------------------------
 
     Q_vec_spp = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
-    d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec_spp)
+#    d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec_spp)
+    d_mat = (d_fixed_part_mat / Q_vec_spp)
 
                 #--------------------------------------------------------------
                 #  If Q is 0, then it will cause a divide by zero error
