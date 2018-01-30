@@ -194,6 +194,12 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
                   )
 
         #  Compute network metrics.
+
+    if (class (Xu_bdprob_APP) == "Xu_wrapped_bd_problem")
+        compute_network_metrics_APP = parameters$compute_network_metrics_wrapped_APP
+    else
+        compute_network_metrics_APP = parameters$compute_network_metrics_base_APP
+
     Xu_bdprob_APP =
         init_object_graph_data (
             Xu_bdprob_APP,

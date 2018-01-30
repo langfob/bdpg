@@ -20,8 +20,10 @@
 #' @param compute_network_metrics boolean flag indicating whether any graph
 #'     metrics should be computed for this problem; TRUE implies metrics
 #'     should be computed, FALSE implies not
-#' @param compute_network_metrics_COR_APP_WRAP character string containing "COR"
-#'     or "APP" or "WRAP"
+#' @param compute_network_metrics_COR_APP_WRAP boolean flag indicating whether
+#'     this type of problem (base_cor, base_app, wrapped_cor, or wrapped_app)
+#'     should have metrics computed for it; TRUE implies metrics should be
+#'     computed, FALSE implies not
 #' @param use_igraph_metrics boolean flag indicating whether metrics based
 #'     on the igraph package should be computed for this problem; TRUE implies
 #'     they should be computed, FALSE implies not
@@ -94,7 +96,10 @@ init_object_graph_data <- function (rsprob,
         #-----------------------------------------------------------------------
 
     compute_network_metrics              = value_or_FALSE_if_null (compute_network_metrics)
-    compute_network_metrics_COR_APP_WRAP = value_or_FALSE_if_null (compute_network_metrics_COR_APP_WRAP)
+
+    compute_network_metrics_COR_APP_WRAP =
+        vb (compute_network_metrics_COR_APP_WRAP, def_on_empty = TRUE, def = TRUE)
+
     use_igraph_metrics                   = value_or_FALSE_if_null (use_igraph_metrics)
     use_bipartite_metrics                = value_or_FALSE_if_null (use_bipartite_metrics)
 

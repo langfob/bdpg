@@ -610,7 +610,7 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
 
                                              parameters$compute_network_metrics,
 
-                                parameters$compute_network_metrics_COR,
+                                parameters$compute_network_metrics_base_COR,
 
                                              parameters$use_igraph_metrics,
                                              parameters$use_bipartite_metrics,
