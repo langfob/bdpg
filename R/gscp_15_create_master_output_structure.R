@@ -314,15 +314,26 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                                                                 exp_root_dir,
                                                                 use_src_rds_file_dir)
 
-    bipartite_measures_list   = read_bipartite_measures_list (APP_bd_prob,
-                                                              src_rds_file_dir,
-                                                              exp_root_dir,
-                                                              use_src_rds_file_dir)
+#-----------------------------------------------------------------------
+# 2018 01 30 - BTL
+# THESE MIGHT NOT COME FROM DISK.
+# THEY MIGHT BE STORED IN THE PROBLEM OBJECT ITSELF IF NETWORK COMPUTATIONS
+# WERE DONE IN BATCH INSTEAD OF DONE AT THE TIME OF PROBLEM CREATION.
+# MIGHT BE SAFER JUST TO ALWAYS TAKE THEM FROM THE OBJECT HERE.
 
-    igraph_measures_list      = read_igraph_measures_list (APP_bd_prob,
-                                                           src_rds_file_dir,
-                                                           exp_root_dir,
-                                                           use_src_rds_file_dir)
+    # bipartite_measures_list   = read_bipartite_measures_list (APP_bd_prob,
+    #                                                           src_rds_file_dir,
+    #                                                           exp_root_dir,
+    #                                                           use_src_rds_file_dir)
+    #
+    # igraph_measures_list      = read_igraph_measures_list (APP_bd_prob,
+    #                                                        src_rds_file_dir,
+    #                                                        exp_root_dir,
+    #                                                        use_src_rds_file_dir)
+
+    bipartite_measures_list   = as.list (APP_bd_prob@bipartite_metrics_from_bipartite_package)
+    igraph_measures_list      = as.list (APP_bd_prob@bipartite_metrics_from_igraph_package_df)
+#-----------------------------------------------------------------------
 
        #-----------------------------------------------------------------------
 
