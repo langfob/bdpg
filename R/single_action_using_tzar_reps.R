@@ -43,39 +43,24 @@ get_bdprob_from_rds_file <- function (prob_src,
     prob_from_rds_file_set_from_yaml_array = "rds_file_set_from_yaml_array"
 #    prob_from_Xu_bench_file                = "Xu_bench_file"
 
-##    prob_src = parameters$prob_src
-
     if (is.null (prob_src))
         {
         stop_bdpg ("No prob_src given")
 
         } else if (prob_src == prob_from_rds_file)
         {
-##            rds_file_path = parameters$rds_file_path
-
-            Xu_bdprob =
-                load_saved_obj_from_file (normalizePath (rds_file_path))
+        Xu_bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
 
         } else if (prob_src == prob_from_rds_file_set_from_file)
         {
-##            rds_file_set_path = parameters$rds_file_set_path
-            rds_file_set = readLines (rds_file_set_path)
-
-##            cur_input_prob_idx = parameters$cur_input_prob_idx
-            rds_file_path = rds_file_set [cur_input_prob_idx]
-
-            Xu_bdprob =
-                load_saved_obj_from_file (normalizePath (rds_file_path))
+        rds_file_set  = readLines (rds_file_set_path)
+        rds_file_path = rds_file_set [cur_input_prob_idx]
+        Xu_bdprob     = load_saved_obj_from_file (normalizePath (rds_file_path))
 
         } else if (prob_src == prob_from_rds_file_set_from_yaml_array)
         {
-##            rds_file_set = parameters$rds_file_set_yaml_array
-
-##            cur_input_prob_idx = parameters$cur_input_prob_idx
-            rds_file_path = rds_file_set [cur_input_prob_idx]
-
-            Xu_bdprob =
-                load_saved_obj_from_file (normalizePath (rds_file_path))
+        rds_file_path = rds_file_set [cur_input_prob_idx]
+        Xu_bdprob     = load_saved_obj_from_file (normalizePath (rds_file_path))
 
         } else
         {
@@ -349,7 +334,6 @@ single_action_using_tzar_reps <- function (parameters, integerize)
 
     if (gen_WRAP_prob)
         {
-#        bdprob_to_wrap =
         src_prob_and_path_list =
             get_bdprob_from_rds_file (parameters$WRAP_input_prob_src,
                                       parameters$cur_input_prob_idx,
@@ -361,11 +345,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
         src_bdprob_to_wrap = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir   = src_prob_and_path_list$src_rds_file_dir
 
-        bdpg::gen_single_bdprob_WRAP (src_bdprob_to_wrap,
-                                      parameters
-                                      # ,
-                                      # src_rds_file_dir    #  NO LONGER USED?
-                                      )
+        bdpg::gen_single_bdprob_WRAP (src_bdprob_to_wrap, parameters)
         }
 
     #---------------------------------------------------------------------------
@@ -377,7 +357,6 @@ single_action_using_tzar_reps <- function (parameters, integerize)
 
     if (gen_APP_prob)
         {
-#        bdprob_to_add_error_to =
         src_prob_and_path_list =
             get_bdprob_from_rds_file (parameters$APP_input_prob_src,
                                       parameters$cur_input_prob_idx,
@@ -387,14 +366,8 @@ single_action_using_tzar_reps <- function (parameters, integerize)
                                       parameters$APP_rds_file_path)
 
         bdprob_to_add_error_to = src_prob_and_path_list$src_Xu_bd_problem
-#        src_rds_file_dir       = src_prob_and_path_list$src_rds_file_dir
 
-        bdpg::gen_single_bdprob_APP (bdprob_to_add_error_to,
-                                     #value_or_FALSE_if_null (parameters$compute_network_metrics_APP),
-                                     parameters
-                                     #,
-                                     #integerize
-                                     )
+        bdpg::gen_single_bdprob_APP (bdprob_to_add_error_to, parameters)
         }
 
     #---------------------------------------------------------------------------
@@ -406,7 +379,6 @@ single_action_using_tzar_reps <- function (parameters, integerize)
 
     if (run_rs_on_COR_prob)
         {
-#        cor_bdprob =
         src_prob_and_path_list =
             get_bdprob_from_rds_file (parameters$RS_cor_input_prob_src,
                                       parameters$cur_input_prob_idx,
@@ -418,9 +390,6 @@ single_action_using_tzar_reps <- function (parameters, integerize)
         cor_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir = src_prob_and_path_list$src_rds_file_dir
 
-        # bdpg::do_COR_marxan_analysis_and_output (cor_bdprob,
-        #                                          parameters,
-        #                                          src_rds_file_dir)
         do_COR_rs_analysis_and_output (cor_bdprob, parameters, src_rds_file_dir)
         }
 
@@ -432,7 +401,6 @@ single_action_using_tzar_reps <- function (parameters, integerize)
 
     if (run_rs_on_APP_prob)
         {
-#        app_bdprob =
         src_prob_and_path_list =
             get_bdprob_from_rds_file (parameters$RS_app_input_prob_src,
                                       parameters$cur_input_prob_idx,
@@ -447,10 +415,6 @@ single_action_using_tzar_reps <- function (parameters, integerize)
         cor_bdprob = get_base_cor_bdprob_for_given_app_bdprob (app_bdprob,
                                                                parameters)
 
-        # bdpg::do_APP_marxan_analysis_and_output (app_bdprob,
-        #                                          cor_bdprob,
-        #                                          parameters,
-        #                                          src_rds_file_dir)
         do_APP_rs_analysis_and_output (app_bdprob,
                                        cor_bdprob,
                                        parameters,
