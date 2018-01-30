@@ -423,6 +423,97 @@ single_action_using_tzar_reps <- function (parameters, integerize)
 
     #---------------------------------------------------------------------------
 
+        #--------------------------------------------------
+        #  Run network metrics on a problem if requested.
+        #--------------------------------------------------
+        #  Note that we're not using the existing parameter
+        #  called compute_network_metrics to control this
+        #  process because if that was turned on for
+        #  generating a problem above, it would have already
+        #  caused the generation of network metrics.
+        #  We need to separate that process from this one
+        #  where we're trying to take a set of existing
+        #  COR or APP problems that don't already have their
+        #  network metrics computed and do those computations
+        #  in a separate batch from the original problem
+        #  creation.  The reason for this is that some of
+        #  the network metrics are really slow and aren't
+        #  needed for just measuring reserve selector
+        #  performance.  They're intended for use as
+        #  performance prediction features later on in the
+        #  process.  Separating them out like this allows
+        #  running lots of experiments to generate problems
+        #  and do reserve selection to get results for those
+        #  first.  These slow network metrics can then be
+        #  run while those initial results are being
+        #  analyzed.  Similarly, if you only ran a small
+        #  subset of the metrics at some point and want to
+        #  run a bigger set of metrics later, you can use
+        #  this to do that.
+        #--------------------------------------------------
+
+    run_network_metrics_on_prob = vb (parameters$run_network_metrics_on_prob,
+                                      def_on_empty = TRUE, def = FALSE)
+    if (run_network_metrics_on_prob)
+        {
+        src_prob_and_path_list =
+            get_bdprob_from_rds_file (parameters$RS_net_input_prob_src,
+                                      parameters$cur_input_prob_idx,
+                                      parameters$RS_net_input_rds_file_set_path,
+                                        #  never used?
+                                      parameters$RS_net_input_rds_file_set_yaml_array,
+                                      parameters$RS_net_rds_file_path)
+
+        net_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
+        src_rds_file_dir = src_prob_and_path_list$src_rds_file_dir
+
+            #------------------------------------------------------------
+            #  Creating network metric output is a bit different from
+            #  creating rsprobs or rsruns because the network output
+            #  is attached to the problem and usually goes into a
+            #  subdirectory of the problem's general directory.
+            #  When running these in batch like this, the problem's
+            #  directory probably no longer exists.
+            #  At a minimum, we want to attach the metric outputs back
+            #  onto the problem object in its slots for network output
+            #  and then write the modified problem object back out.
+            #  If we do that, we want to be careful not to mess up the
+            #  original object if something goes wrong.  We may also
+            #  want to preserve that original object anyway for some
+            #  other reason (e.g., it had a different set of network
+            #  metrics attached to it).
+            #  So, we will want to write the problem back out into a
+            #  different spot instead of just writing over the top of
+            #  the input problem.
+            #  The simplest way to do that seems to be just to create
+            #  a new output area for this output of this batch and
+            #  write the problems there.
+            #------------------------------------------------------------
+
+        net_batch_out_dir_name = parameters$net_batch_out_dir_name
+
+        if (is.null (net_batch_out_dir_name))
+            net_batch_out_dir_name = "Net_Batch_Output"
+
+        net_batch_out_dir = file.path (parameters$fullOutputDir_NO_slash,
+                                       net_batch_out_dir_name)
+
+        if (! dir.exists (net_batch_out_dir))
+            dir.create (net_batch_out_dir, showWarnings = TRUE, recursive = TRUE)
+
+#        do_network_analysis_and_output (net_bdprob, parameters, src_rds_file_dir)
+        net_bdprob = init_object_graph_data (net_bdprob,
+                                             net_batch_out_dir,
+                                             parameters$compute_network_metrics,
+                                             parameters$compute_network_metrics_COR_APP_WRAP,
+                                             parameters$use_igraph_metrics,
+                                             parameters$use_bipartite_metrics,
+                                             parameters$bipartite_metrics_to_use,
+                                             write_to_disk = FALSE)
+        }
+
+    #---------------------------------------------------------------------------
+
     return()
     }
 
