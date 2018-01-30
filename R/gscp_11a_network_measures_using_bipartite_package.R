@@ -86,6 +86,9 @@
 
 #' @inheritParams std_param_defns
 #' @param bipartite_metrics_to_use character string
+#' @param write_to_disk boolean flag indicating whether metrics should be
+#'     written to disk before being returned; TRUE implies write to disk,
+#'     FALSE implies not
 #'
 #' @return Returns bipartite_metrics_from_bipartite_package
 
@@ -93,7 +96,8 @@
 
 compute_network_measures_using_bipartite_package = function (rsprob,
                                                              exp_root_dir,
-                                                             bipartite_metrics_to_use)
+                                                             bipartite_metrics_to_use,
+                                                             write_to_disk = TRUE)
     {
     cat ("\n\nAbout to create all_except_slow_indices.")
 
@@ -253,7 +257,7 @@ compute_network_measures_using_bipartite_package = function (rsprob,
 
         #-----------------------------------------------------------------
         #  Add UUID of the problem as the first column and then save the
-        #  graph results data frame to disk.
+        #  graph results data frame.
         #-----------------------------------------------------------------
 
     uuid_col = data.frame (bip_rsp_UUID=rsprob@UUID)
@@ -264,16 +268,17 @@ compute_network_measures_using_bipartite_package = function (rsprob,
     print (bipartite_metrics_from_bipartite_package)
     cat ("\n\n")
 
-    bipartite_metrics_csv_file_name =
-        file.path (get_RSprob_path_networks (rsprob, exp_root_dir),
-                   paste0 (rsprob@bipartite_metrics_file_name_stem, ".csv"))
-#                   "bipartite_metrics_from_bipartite_package.csv")
+    if (write_to_disk)
+        {
+        bipartite_metrics_csv_file_name =
+            file.path (get_RSprob_path_networks (rsprob, exp_root_dir),
+                       paste0 (rsprob@bipartite_metrics_file_name_stem, ".csv"))
 
-    write.csv (bipartite_metrics_from_bipartite_package,
-               file = bipartite_metrics_csv_file_name,
-    #            col.names=TRUE,
-                row.names=FALSE
-                )
+        write.csv (bipartite_metrics_from_bipartite_package,
+                   file = bipartite_metrics_csv_file_name,
+                    row.names=FALSE
+                    )
+        }
 
 # Error in (function (cl, name, valueClass)  :
 #   assignment of an object of class “data.frame” is not valid for @‘bipartite_metrics_from_bipartite_package’ in an object of class “Xu_bd_problem”; is(value, "matrix") is not TRUE

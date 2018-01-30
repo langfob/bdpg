@@ -34,6 +34,9 @@
 #'     bipartite package metrics should be computed if any from that package
 #'     are to be computed; current choices are "ALLBUTDD" or
 #'     "all_except_slow_indices"
+#' @param write_to_disk boolean flag indicating whether metrics should be
+#'     written to disk before being returned; TRUE implies write to disk,
+#'     FALSE implies not
 #'
 #' The bipartite package has a range of measures that can be computed and some
 #' of them are quite slow, so the argument called "bipartite_metrics_to_use" is
@@ -87,7 +90,8 @@ init_object_graph_data <- function (rsprob,
                                     compute_network_metrics_COR_APP_WRAP,
                                     use_igraph_metrics,
                                     use_bipartite_metrics,
-                                    bipartite_metrics_to_use = "ALLBUTDD")
+                                    bipartite_metrics_to_use = "ALLBUTDD",
+                                    write_to_disk = TRUE)
     {
         #-----------------------------------------------------------------------
         #  Many of the input values are taken directly from the parameters list
@@ -130,18 +134,14 @@ init_object_graph_data <- function (rsprob,
             rsprob@bipartite_metrics_from_bipartite_package =
                 compute_network_measures_using_bipartite_package (rsprob,
                                                                   top_dir,
-                                                                  bipartite_metrics_to_use)
+                                                                  bipartite_metrics_to_use,
+                                                                  write_to_disk)
 
         if (use_igraph_metrics)
             rsprob@bipartite_metrics_from_igraph_package_df =
                 compute_igraph_related_network_measures (rsprob,
-                                                         top_dir
-                                                        # ,
-                                                        #  rsprob@PU_spp_pair_indices,
-                                                        #  get_RSprob_path_networks (rsprob, starting_dir),
-                                                        #  rsprob@PU_col_name,
-                                                        #  rsprob@spp_col_name
-                                                        )
+                                                         top_dir,
+                                                         write_to_disk)
         }
 
     return (rsprob)

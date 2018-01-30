@@ -248,6 +248,9 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c("type"))
 
 #' @param rsprob a reserve selection problem
 #' @param top_dir character string
+#' @param write_to_disk boolean flag indicating whether metrics should be
+#'     written to disk before being returned; TRUE implies write to disk,
+#'     FALSE implies not
 #'
 #' @import igraph
 
@@ -270,7 +273,8 @@ compute_igraph_related_network_measures <-
 #               network_output_dir
 #               )
     function (rsprob,
-              top_dir
+              top_dir,
+              write_to_disk = TRUE
              )
 #               ,
 #
@@ -594,7 +598,7 @@ compute_igraph_related_network_measures <-
 
         #-----------------------------------------------------------------
         #  Add UUID of the problem as the first column and then save the
-        #  graph results data frame to disk.
+        #  graph results data frame.
         #-----------------------------------------------------------------
 
     # uuid_col = data.frame (prob_UUID=rsprob@UUID)
@@ -605,17 +609,17 @@ compute_igraph_related_network_measures <-
     # print (bipartite_metrics_from_igraph_package_df)
     # cat ("\n\n")
 
-    igraph_metrics_csv_file_name =
-        file.path (network_output_dir,
-#                   "bipartite_metrics_from_igraph_package_df")
-#                   "bipartite_metrics_from_igraph_package_df.csv")
-                   paste0 (rsprob@igraph_metrics_file_name_stem, ".csv"))
+    if (write_to_disk)
+        {
+        igraph_metrics_csv_file_name =
+            file.path (network_output_dir,
+                       paste0 (rsprob@igraph_metrics_file_name_stem, ".csv"))
 
-    write.csv (bipartite_metrics_from_igraph_package_df,
-               file = igraph_metrics_csv_file_name,
-               # col.names=TRUE,
-               row.names=FALSE
-               )
+        write.csv (bipartite_metrics_from_igraph_package_df,
+                   file = igraph_metrics_csv_file_name,
+                   row.names=FALSE
+                   )
+        }
 
     return (bipartite_metrics_from_igraph_package_df)
     }
