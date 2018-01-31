@@ -138,29 +138,47 @@ init_object_graph_data <- function (rsprob,
     if (compute_network_metrics & compute_network_metrics_COR_APP_WRAP)
         {
         if (use_bipartite_metrics)
+            {
+            bip_timings = system.time (
+                {
+                bip_df =
+                    compute_network_measures_using_bipartite_package (rsprob,
+                                                                      top_dir,
+                                                                      bipartite_metrics_to_use,
+                                                                      write_to_disk)
+                })
+
+            bip_timings_list =
+                list (bip_user_time       = bip_timings ["user.self"],
+                      bip_system_time     = bip_timings ["sys.self"],
+                      bip_elapsed_time    = bip_timings ["elapsed"],
+                      bip_user_child_time = bip_timings ["user.child"],
+                      bip_sys_child_time  = bip_timings ["sys.child"])
+
             rsprob@bipartite_metrics_from_bipartite_package =
-                compute_network_measures_using_bipartite_package (rsprob,
-                                                                  top_dir,
-                                                                  bipartite_metrics_to_use,
-                                                                  write_to_disk)
+                cbind (bip_df, as.data.frame (bip_timings_list))
+            }
 
         if (use_igraph_metrics)
-{
-browser()
-cat ("\nIn init_object_graph_data(), class (rsprob) = '", class (rsprob), "'\n")
-cur_time = Sys.time()
-prof_file_base = paste ("prof", "igraph", year(cur_time), month(cur_time), day(cur_time), hour(cur_time), minute(cur_time), second(cur_time), sep="_")
-prof_file_name = file.path (top_dir, #parameters$fullOutputDir_NO_slash,
-                            "metadata",
-                            paste0 (prof_file_base, ".txt"))
-Rprof(prof_file_name)
+            {
+            ig_timings = system.time (
+                {
+                ig_df =
+                    compute_igraph_related_network_measures (rsprob,
+                                                             top_dir,
+                                                             write_to_disk)
+                })
+
+            ig_timings_list =
+                list (ig_user_time       = ig_timings ["user.self"],
+                      ig_system_time     = ig_timings ["sys.self"],
+                      ig_elapsed_time    = ig_timings ["elapsed"],
+                      ig_user_child_time = ig_timings ["user.child"],
+                      ig_sys_child_time  = ig_timings ["sys.child"])
 
             rsprob@bipartite_metrics_from_igraph_package_df =
-                compute_igraph_related_network_measures (rsprob,
-                                                         top_dir,
-                                                         write_to_disk)
-Rprof(NULL)
-}
+                cbind (ig_df, as.data.frame (ig_timings_list))
+            }
         }
 
     return (rsprob)
