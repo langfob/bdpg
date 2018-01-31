@@ -426,8 +426,9 @@ compute_igraph_related_network_measures <-
         #  Create the 2 projections of the bipartite graph, i.e.,
         #  a graph of just species and a graph of just planning units.
         #---------------------------------------------------------------
-
+cat ("\n>>>>>About to bipartite.projection(bg)\n")
     bgp = bipartite.projection (bg)
+cat ("\n>>>>>Done with bipartite.projection(bg)\n")
 
         #-----------------------------------------------------------------------
         #  Write out the PU projection, i.e., projection 1, then plot it to a file.
@@ -500,21 +501,29 @@ compute_igraph_related_network_measures <-
       # Density for bipartite network
     bidens <- m/(top*bottom)
 
+cat ("\n>>>>>About to clusters (bg, mode='weak')\n")
       # Largest connected component for top and bottom nodes:
     gclust <- clusters (bg, mode='weak')
+cat ("\n>>>>>Done with clusters (bg, mode='weak')\n")
+cat ("\n>>>>>About to induced.subgraph (bg, V(bg)[gclust$membership==1])\n")
     lcc <- induced.subgraph (bg, V(bg)[gclust$membership==1])
+cat ("\n>>>>>Done with induced.subgraph (bg, V(bg)[gclust$membership==1])\n")
     lcctop <- length (V(lcc)[type==FALSE])
     lccbottom <- length (V(lcc)[type==TRUE])
 
       # Mean distance for top and bottom nodes
+cat ("\n>>>>>About to distop <- mean (shortest.paths (lcc,\n")
     distop <- mean (shortest.paths (lcc,
                                   v=V(lcc)[type==FALSE],
                                   to=V(lcc)[type==FALSE],
                                   mode = 'all'))
+cat ("\n>>>>>Done with disbottom <- mean (shortest.paths (lcc,\n")
+cat ("\n>>>>>About to distop <- mean (shortest.paths (lcc,\n")
     disbottom <- mean (shortest.paths (lcc,
                                      v=V(lcc)[type==TRUE],
                                      to=V(lcc)[type==TRUE],
                                      mode = 'all'))
+cat ("\n>>>>>Done with disbottom <- mean (shortest.paths (lcc,\n")
 
     #===========================================================================
 
@@ -522,25 +531,35 @@ compute_igraph_related_network_measures <-
     target = bg
 
         # Network transitivity
+cat ("\n>>>>>About to graph.motifs (target, 4)\n")
     trtarget <- graph.motifs (target, 4)
+cat ("\n>>>>>Done with graph.motifs (target, 4)\n")
     ccglobal <- (2 * trtarget[20]) / trtarget[14]  #  Not sure why they calculated this...
 
         #  BTL - Had to move this code down below the definitions of the functions
         #        used here (ccBip(), etc.).
 
         # Clustering coefficients (cc, cclowdot, cctopdot) for top and bottom nodes
+#  SLOWS DOWN RIGHT HERE.
+cat ("\n>>>>>About to ccPointTarg <- ccBip(bg)\n")
     ccPointTarg <- ccBip(bg)
+cat ("\n>>>>>About to cctop <- mean(ccPointTarg$proj1, na.rm=TRUE)\n")
     cctop <- mean(ccPointTarg$proj1, na.rm=TRUE)
+cat ("\n>>>>>About to ccbottom <- mean(ccPointTarg$proj2, na.rm=TRUE)\n")
     ccbottom <- mean(ccPointTarg$proj2, na.rm=TRUE)
+cat ("\n>>>>>About to ccLowTarg <- ccLowDot(bg)\n")
     ccLowTarg <- ccLowDot(bg)
     cclowdottop <- mean(ccLowTarg$proj1, na.rm=TRUE)
+cat ("\n>>>>>About to cclowdotbottom <- mean(ccLowTarg$proj2, na.rm=TRUE)\n")
     cclowdotbottom <- mean(ccLowTarg$proj2, na.rm=TRUE)
+cat ("\n>>>>>About to ccTopTarg <- ccTopDot(bg)\n")
     ccTopTarg <- ccTopDot(bg)
     cctopdottop <- mean(ccTopTarg$proj1, na.rm=TRUE)
     cctopdotbottom <- mean(ccTopTarg$proj2, na.rm=TRUE)
 
     #===============================================================================
 
+cat ("\n>>>>>About to bottom_bg_redundancy = redundancy (bg, FALSE)\n")
     bottom_bg_redundancy = redundancy (bg, FALSE)
     cat ("\n\nbottom bg_redundancy = \n")
     print (bottom_bg_redundancy)
@@ -550,6 +569,7 @@ compute_igraph_related_network_measures <-
     median_bottom_bg_redundancy = median (bottom_bg_redundancy)
     cat ("\nmedian_bottom_bg_redundancy = ", median_bottom_bg_redundancy)
 
+cat ("\n>>>>>About to top_bg_redundancy = redundancy (bg, TRUE)\n")
     top_bg_redundancy = redundancy (bg, TRUE)
     cat ("\n\ntop bg_redundancy = \n")
     print (top_bg_redundancy)
@@ -558,6 +578,7 @@ compute_igraph_related_network_measures <-
     cat ("\nmean_top_bg_redundancy = ", mean_top_bg_redundancy)
     median_top_bg_redundancy = median (top_bg_redundancy)
     cat ("\nmedian_top_bg_redundancy = ", median_top_bg_redundancy)
+cat ("\n>>>>>Done with top_bg_redundancy = redundancy (bg, TRUE)\n")
 
     cat ("\n")
 

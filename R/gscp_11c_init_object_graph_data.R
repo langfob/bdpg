@@ -73,6 +73,13 @@
 #' @return modified version of the rsrun input variable, i.e., with graph-related
 #'     flags set
 #'
+#' @importFrom lubridate year
+#' @importFrom lubridate month
+#' @importFrom lubridate day
+#' @importFrom lubridate hour
+#' @importFrom lubridate minute
+#' @importFrom lubridate second
+#'
 #' @examples \dontrun{
 #'     Xu_bdprob_cor <- init_object_graph_data (Xu_bdprob_cor,
 #'                                              parameters$compute_network_metrics_COR,
@@ -138,10 +145,22 @@ init_object_graph_data <- function (rsprob,
                                                                   write_to_disk)
 
         if (use_igraph_metrics)
+{
+browser()
+cat ("\nIn init_object_graph_data(), class (rsprob) = '", class (rsprob), "'\n")
+cur_time = Sys.time()
+prof_file_base = paste ("prof", "igraph", year(cur_time), month(cur_time), day(cur_time), hour(cur_time), minute(cur_time), second(cur_time), sep="_")
+prof_file_name = file.path (top_dir, #parameters$fullOutputDir_NO_slash,
+                            "metadata",
+                            paste0 (prof_file_base, ".txt"))
+Rprof(prof_file_name)
+
             rsprob@bipartite_metrics_from_igraph_package_df =
                 compute_igraph_related_network_measures (rsprob,
                                                          top_dir,
                                                          write_to_disk)
+Rprof(NULL)
+}
         }
 
     return (rsprob)
