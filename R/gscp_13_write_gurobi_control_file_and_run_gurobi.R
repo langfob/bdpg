@@ -140,17 +140,20 @@ set_up_for_and_run_gurobi <- function (num_spp,
                                        save_outputs
                                        )
     {
-    gurobi_controls_and_results =
-        run_gurobi (num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
-                    use_gap_limit, gap_limit,
-                    use_given_time_as_limit, time_limit,
-                    use_marxan_time_as_limit, marxan_elapsed_time,
+    ResSel_timings = system.time (
+        {
+        gurobi_controls_and_results =
+            run_gurobi (num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
+                        use_gap_limit, gap_limit,
+                        use_given_time_as_limit, time_limit,
+                        use_marxan_time_as_limit, marxan_elapsed_time,
 
-                    rsrun,
-                    top_dir,
-                    save_inputs = TRUE,
-                    save_outputs = TRUE
-                    )
+                        rsrun,
+                        top_dir,
+                        save_inputs = TRUE,
+                        save_outputs = TRUE
+                        )
+        })
 
         #---------------------------------------------------------------------
         #  Need to strip the solution vector out of the result.
@@ -171,6 +174,12 @@ set_up_for_and_run_gurobi <- function (num_spp,
 
     gurobi_control_values = gurobi_controls_and_results
     gurobi_control_values$gurobi_solution_vector = NULL
+
+    gurobi_control_values$RS_user_time       = ResSel_timings["user.self"]
+    gurobi_control_values$RS_system_time     = ResSel_timings["sys.self"]
+    gurobi_control_values$RS_elapsed_time    = ResSel_timings["elapsed"]
+    gurobi_control_values$RS_user_child_time = ResSel_timings["user.child"]
+    gurobi_control_values$RS_sys_child_time  = ResSel_timings["sys.child"]
 
     return (gurobi_control_values)
     }

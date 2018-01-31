@@ -432,7 +432,11 @@ cat ("\n\nMarxan SA elapsed time = '", marxan_elapsed_time, "'")
     retVal$marxan_HEURTYPE       = marxan_HEURTYPE
     retVal$marxan_CLUMPTYPE      = marxan_CLUMPTYPE
 
-    retVal$marxan_elapsed_time   = marxan_elapsed_time
+    retVal$RS_user_time          = marxan_timings["user.self"]
+    retVal$RS_system_time        = marxan_timings["sys.self"]
+    retVal$RS_elapsed_time       = marxan_elapsed_time
+    retVal$RS_user_child_time    = marxan_timings["user.child"]
+    retVal$RS_sys_child_time     = marxan_timings["sys.child"]
 
     #---------------------------------------------------------------------------
 

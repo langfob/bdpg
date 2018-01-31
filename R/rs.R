@@ -107,13 +107,22 @@ run_greedy_ResSel <- function (bpm,
         #  rank ordering of all PUs in the landscape.
         #-------------------------------------------------------------------
 
-    ResSel_results = resSel_func (num_spp,
-                                  num_PUs,
-                                  bpm,
-                                  RS_specific_params$forward,
-                                  spp_rep_targets)
+    ResSel_timings = system.time (
+        {
+        ResSel_results = resSel_func (num_spp,
+                                      num_PUs,
+                                      bpm,
+                                      RS_specific_params$forward,
+                                      spp_rep_targets)
+        })
 
     ResSel_control_values = RS_specific_params
+
+    ResSel_control_values$RS_user_time       = ResSel_timings["user.self"]
+    ResSel_control_values$RS_system_time     = ResSel_timings["sys.self"]
+    ResSel_control_values$RS_elapsed_time    = ResSel_timings["elapsed"]
+    ResSel_control_values$RS_user_child_time = ResSel_timings["user.child"]
+    ResSel_control_values$RS_sys_child_time  = ResSel_timings["sys.child"]
 
     if (save_inputs)
         {
