@@ -7,7 +7,8 @@ flags in the RSprob.}
 \usage{
 init_object_graph_data(rsprob, top_dir, compute_network_metrics,
   compute_network_metrics_COR_APP_WRAP, use_igraph_metrics,
-  use_bipartite_metrics, bipartite_metrics_to_use = "ALLBUTDD")
+  use_bipartite_metrics, bipartite_metrics_to_use = "ALLBUTDD",
+  write_to_disk = TRUE)
 }
 \arguments{
 \item{rsprob}{An RSprob reserve selection problem object to run graph metrics
@@ -19,8 +20,10 @@ over if desired}
 metrics should be computed for this problem; TRUE implies metrics
 should be computed, FALSE implies not}
 
-\item{compute_network_metrics_COR_APP_WRAP}{character string containing "COR"
-or "APP" or "WRAP"}
+\item{compute_network_metrics_COR_APP_WRAP}{boolean flag indicating whether
+this type of problem (base_cor, base_app, wrapped_cor, or wrapped_app)
+should have metrics computed for it; TRUE implies metrics should be
+computed, FALSE implies not}
 
 \item{use_igraph_metrics}{boolean flag indicating whether metrics based
 on the igraph package should be computed for this problem; TRUE implies
@@ -31,9 +34,13 @@ on the bipartite package should be computed for this problem; TRUE
 implies they should be computed, FALSE implies not}
 
 \item{bipartite_metrics_to_use}{character string indication which set of
-    bipartite package metrics should be computed if any from that package
-    are to be computed; current choices are "ALLBUTDD" or
-    "all_except_slow_indices"
+bipartite package metrics should be computed if any from that package
+are to be computed; current choices are "ALLBUTDD" or
+"all_except_slow_indices"}
+
+\item{write_to_disk}{boolean flag indicating whether metrics should be
+    written to disk before being returned; TRUE implies write to disk,
+    FALSE implies not
 
 The bipartite package has a range of measures that can be computed and some
 of them are quite slow, so the argument called "bipartite_metrics_to_use" is

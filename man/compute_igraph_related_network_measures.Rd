@@ -5,12 +5,16 @@
 \alias{compute_igraph_related_network_measures}
 \title{Compute igraph-related network measures}
 \usage{
-compute_igraph_related_network_measures(rsprob, top_dir)
+compute_igraph_related_network_measures(rsprob, top_dir, write_to_disk = TRUE)
 }
 \arguments{
 \item{rsprob}{a reserve selection problem}
 
 \item{top_dir}{character string}
+
+\item{write_to_disk}{boolean flag indicating whether metrics should be
+written to disk before being returned; TRUE implies write to disk,
+FALSE implies not}
 }
 \description{
 Compute igraph-related network measures

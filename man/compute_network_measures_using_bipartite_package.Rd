@@ -6,7 +6,7 @@
 \title{Compute bipartite network measures using bipartite package}
 \usage{
 compute_network_measures_using_bipartite_package(rsprob, exp_root_dir,
-  bipartite_metrics_to_use)
+  bipartite_metrics_to_use, write_to_disk = TRUE)
 }
 \arguments{
 \item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}
@@ -15,6 +15,10 @@ compute_network_measures_using_bipartite_package(rsprob, exp_root_dir,
 experiment, usually parameters$fullOutputDir_NO_slash}
 
 \item{bipartite_metrics_to_use}{character string}
+
+\item{write_to_disk}{boolean flag indicating whether metrics should be
+written to disk before being returned; TRUE implies write to disk,
+FALSE implies not}
 }
 \value{
 Returns bipartite_metrics_from_bipartite_package
