@@ -194,7 +194,7 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
                   )
 
         #  Compute network metrics.
-browser()
+
     if (class (Xu_bdprob_APP) == "Xu_wrapped_bd_problem")
         compute_network_metrics_APP = parameters$compute_network_metrics_wrapped_APP
     else
@@ -204,12 +204,8 @@ browser()
         init_object_graph_data (
             Xu_bdprob_APP,
             starting_dir,
-
             parameters$compute_network_metrics,
-
             compute_network_metrics_APP,
-            #compute_network_metrics_for_this_prob,
-
             parameters$use_igraph_metrics,
             parameters$use_bipartite_metrics,
             parameters$bipartite_metrics_to_use)
