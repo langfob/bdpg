@@ -18,7 +18,27 @@ vignette: >
 
 This document is a short summary of yaml file commands related to using the tzar program to run and capture output from other programs.  More complete documentation for tzar can be found at [Tzar distributed computing framework](https://tzar-framework.atlassian.net/wiki/spaces/TD/overview)
 
-## Wildcards
+## Tzar links
+- Tzar documentation on Confluence
+    - https://tzar-framework.atlassian.net/wiki/display/TD/Tzar+documentation
+    - Introduction - Tzar documentation on Confluence
+        - https://tzar-framework.atlassian.net/wiki/display/TD/Introduction
+    - **Tzar project.yaml documentation**
+        - https://tzar-framework.atlassian.net/wiki/spaces/TD/pages/524338/The+project.yaml+file
+- Lucy's Django interface
+    - http://146.118.96.160/admin/
+- Nectar login dashboard
+    - https://dashboard.rc.nectar.org.au/
+- Glass
+    - http://glass.eres.rmit.edu.au/tzar_input/guppy/AlexFractalData/
+- Atlassian OnDemand
+    - https://tzar-framework.atlassian.net/login?dest-url=%2Fsecure%2FDashboard.jspa
+    
+
+    
+    
+
+# Wildcards
 
 ### Example
 
@@ -28,7 +48,7 @@ This document is a short summary of yaml file commands related to using the tzar
     run_id: $$run_id$$
 ```
 
-###  Specific wildcards
+##  Specific wildcards
 
 #### Output path - `$$output_path$$`
 
@@ -50,7 +70,7 @@ This document is a short summary of yaml file commands related to using the tzar
 
 
 
-## Tzar project.yaml section headers
+# Tzar project.yaml section headers
 
 ```yaml
 project_name: 
@@ -76,19 +96,19 @@ repetitions:
           count: 
 ```
 
-### Project name
+## Project name
 
 ```yaml
 project_name: 
 ```
 
-### Runner class
+## Runner class
 
 ```yaml
 runner_class: 
 ```
 
-### Libraries
+## Libraries
 
 ```yaml
 libraries:
@@ -98,19 +118,19 @@ libraries:
        download_mode: 
 ```
 
-### Base parameters
+## Base parameters
 
 ```yaml
 base_params: 
 ```
 
-### Scenarios
+## Scenarios
 
 ```yaml
 scenarios: 
 ```
 
-### Repetitions
+## Repetitions
 
 ```yaml
 repetitions:
@@ -126,7 +146,7 @@ repetitions:
           count: 
 ```
 
-### Generators
+## Generators
 
 ```yaml
     generators:
