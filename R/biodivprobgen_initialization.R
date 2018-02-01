@@ -46,12 +46,14 @@ get_current_os <- function ()
 #'
 #-------------------------------------------------------------------------------
 
-get_integerize_function <- function (integerize_string)
+get_integerize_function <- function (integerize_string = "round")
     {
+    if (is.null (integerize_string)) integerize_string = "round"
+
     switch (integerize_string,
-            round=round,
-            ceiling=ceiling,
-            floor=floor,
+            round   = round,
+            ceiling = ceiling,
+            floor   = floor,
             round)    #  default to round()
     }
 
