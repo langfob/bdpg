@@ -299,6 +299,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
     gen_APP_prob  = value_or_FALSE_if_null (parameters$gen_APP_prob)
     run_rs_on_COR_prob = value_or_FALSE_if_null (parameters$run_rs_on_COR_prob)
     run_rs_on_APP_prob = value_or_FALSE_if_null (parameters$run_rs_on_APP_prob)
+    run_network_metrics_on_prob = value_or_FALSE_if_null (parameters$run_network_metrics_on_prob)
 
     num_actions_chosen = gen_COR_prob + gen_WRAP_prob + gen_APP_prob +
                          run_rs_on_COR_prob + run_rs_on_APP_prob
@@ -310,6 +311,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
                       "gen_APP_prob (", gen_APP_prob, "), ",
                       "run_rs_on_COR_prob (", run_rs_on_COR_prob, "), ",
                       "run_rs_on_APP_prob (", run_rs_on_APP_prob, "), ",
+                      "run_network_metrics_on_prob (", run_network_metrics_on_prob, "), ",
                       "\n"))
 
     #---------------------------------------------------------------------------
