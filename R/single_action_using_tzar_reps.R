@@ -452,17 +452,15 @@ single_action_using_tzar_reps <- function (parameters, integerize)
         #  this to do that.
         #--------------------------------------------------
 
-    run_network_metrics_on_prob = vb (parameters$run_network_metrics_on_prob,
-                                      def_on_empty = TRUE, def = FALSE)
     if (run_network_metrics_on_prob)
         {
         src_prob_and_path_list =
-            get_bdprob_from_rds_file (parameters$RS_net_input_prob_src,
+            get_bdprob_from_rds_file (parameters$NET_input_prob_src,
                                       parameters$cur_input_prob_idx,
-                                      parameters$RS_net_input_rds_file_set_path,
+                                      parameters$NET_input_rds_file_set_path,
                                         #  never used?
-                                      parameters$RS_net_input_rds_file_set_yaml_array,
-                                      parameters$RS_net_rds_file_path)
+                                      parameters$NET_input_rds_file_set_yaml_array,
+                                      parameters$NET_rds_file_path)
 
         net_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir = src_prob_and_path_list$src_rds_file_dir
