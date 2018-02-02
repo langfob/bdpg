@@ -227,15 +227,15 @@ This section gives an example of the tzar project.yaml file commands for each of
 - `gen_WRAP_prob` on **base COR** problem
 ```yaml
     gen_WRAP_prob: TRUE
-    WRAP_input_prob_src: "rds_file_set_from_file"
-    WRAP_input_rds_file_set_path: "~/Work/Tzar_input_files/COR_rds_input_file_paths.txt"
+    prob_src: "rds_file_set_from_file"
+    rds_file_set_path: "~/Work/Tzar_input_files/COR_rds_input_file_paths.txt"
 ```
 
 - `gen_APP_prob` on **base COR** problem
 ```yaml
     gen_APP_prob: TRUE
-    APP_input_prob_src: "rds_file_set_from_file"
-    APP_input_rds_file_set_path: "~/Work/Tzar_input_files/COR_rds_input_file_paths.txt"
+    prob_src: "rds_file_set_from_file"
+    rds_file_set_path: "~/Work/Tzar_input_files/COR_rds_input_file_paths.txt"
 ```
 
 - `gen_APP_prob` on **wrap COR** problem
@@ -243,15 +243,15 @@ This section gives an example of the tzar project.yaml file commands for each of
 #find ~/tzar/outputdata/bdpgxupaper_single_action_WRAP_prob/default_runset | grep saved > WRAP_rds_input_file_paths.txt
 
     gen_APP_prob: TRUE
-    APP_input_prob_src: "rds_file_set_from_file"
-    APP_input_rds_file_set_path: "~/Work/Tzar_input_files/WRAP_rds_input_file_paths.txt"
+    prob_src: "rds_file_set_from_file"
+    rds_file_set_path: "~/Work/Tzar_input_files/WRAP_rds_input_file_paths.txt"
 ```
 
 - `run_rs_on_COR_prob` on **base COR** problem
 ```yaml
     run_rs_on_COR_prob: TRUE
-    RS_cor_input_prob_src: "rds_file_set_from_file"
-    RS_cor_input_rds_file_set_path: "~/Work/Tzar_input_files/COR_rds_input_file_paths.txt"
+    prob_src: "rds_file_set_from_file"
+    rds_file_set_path: "~/Work/Tzar_input_files/COR_rds_input_file_paths.txt"
 ```
 
 - `run_rs_on_APP_prob` on **base APP** problem
@@ -259,9 +259,8 @@ This section gives an example of the tzar project.yaml file commands for each of
 #find ~/tzar/outputdata/bdpgxupaper_single_action_APP_of_cor_base_prob/default_runset | grep saved >     ~/Work/Tzar_input_files/APP_cor_rds_input_file_paths.txt
 
     run_rs_on_APP_prob: TRUE
-    RS_app_input_prob_src: "rds_file_set_from_file"
-    RS_app_input_rds_file_set_path: "~/Work/Tzar_input_files/APP_cor_rds_input_file_paths.txt"
-    RS_app_base_input_rds_file_set_path: "~/Work/Tzar_input_files/COR_rds_input_file_paths.txt"
+    prob_src: "rds_file_set_from_file"
+    rds_file_set_path: "~/Work/Tzar_input_files/APP_cor_rds_input_file_paths.txt"
 ```
 
 - `run_rs_on_APP_prob` on **wrap APP** problem
@@ -269,13 +268,17 @@ This section gives an example of the tzar project.yaml file commands for each of
 #find ~/tzar/outputdata/bdpgxupaper_single_action_APP_of_cor_base_prob/default_runset | grep saved >     ~/Work/Tzar_input_files/APP_cor_rds_input_file_paths.txt
 
     run_rs_on_APP_prob: TRUE
-    RS_app_input_prob_src: "rds_file_set_from_file"
-    RS_app_input_rds_file_set_path: "~/Work/Tzar_input_files/APP_cor_rds_input_file_paths.txt"
-    RS_app_base_input_rds_file_set_path: "~/Work/Tzar_input_files/COR_rds_input_file_paths.txt"
+    prob_src: "rds_file_set_from_file"
+    rds_file_set_path: "~/Work/Tzar_input_files/APP_wrap_rds_input_file_paths.txt"
 ```
 
 - `run_network_metrics_on_prob`
 ```yaml
+#find ~/tzar/outputdata/bdpgxupaper_single_action_APP_of_cor_base_prob/default_runset | grep saved >     ~/Work/Tzar_input_files/APP_cor_rds_input_file_paths.txt
+
+    run_network_metrics_on_prob: TRUE
+    prob_src: "rds_file_set_from_file"
+    rds_file_set_path: "~/Work/Tzar_input_files/APP_wrap_rds_input_file_paths.txt"
 ```
 
 #### R only examples 
