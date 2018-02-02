@@ -59,6 +59,7 @@ get_bdprob_from_rds_file <- function (prob_src,
 
         } else if (prob_src == prob_from_rds_file_set_from_yaml_array)
         {
+        rds_file_set  = rds_file_set_yaml_array
         rds_file_path = rds_file_set [cur_input_prob_idx]
         Xu_bdprob     = load_saved_obj_from_file (normalizePath (rds_file_path))
 
