@@ -485,31 +485,22 @@ single_action_using_tzar_reps <- function (parameters, integerize)
             #  So, we will want to write the problem back out into a
             #  different spot instead of just writing over the top of
             #  the input problem.
-            #  The simplest way to do that seems to be just to create
-            #  a new output area for this output of this batch and
-            #  write the problems there.
             #------------------------------------------------------------
 
-        net_batch_out_dir_name = parameters$net_batch_out_dir_name
+        exp_root_dir = file.path (normalizePath (parameters$full_output_dir_with_slash))
+        create_RSprob_dir_and_subdirs (exp_root_dir, net_bdprob)
 
-        if (is.null (net_batch_out_dir_name))
-            net_batch_out_dir_name = "Net_Batch_Output"
-
-        net_batch_out_dir = file.path (parameters$fullOutputDir_NO_slash,
-                                       net_batch_out_dir_name)
-
-        if (! dir.exists (net_batch_out_dir))
-            dir.create (net_batch_out_dir, showWarnings = TRUE, recursive = TRUE)
-
-#        do_network_analysis_and_output (net_bdprob, parameters, src_rds_file_dir)
         net_bdprob = init_object_graph_data (net_bdprob,
-                                             net_batch_out_dir,
-                                             parameters$compute_network_metrics,
-                                             parameters$compute_network_metrics_COR_APP_WRAP,
+                                             exp_root_dir,
+                                             TRUE,
+                                             TRUE,
                                              parameters$use_igraph_metrics,
                                              parameters$use_bipartite_metrics,
                                              parameters$bipartite_metrics_to_use,
-                                             write_to_disk = FALSE)
+                                             write_to_disk = TRUE
+                                             )
+
+        net_bdprob = save_rsprob (net_bdprob, exp_root_dir)
         }
 
     #---------------------------------------------------------------------------
