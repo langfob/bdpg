@@ -303,7 +303,8 @@ single_action_using_tzar_reps <- function (parameters, integerize)
     run_network_metrics_on_prob = value_or_FALSE_if_null (parameters$run_network_metrics_on_prob)
 
     num_actions_chosen = gen_COR_prob + gen_WRAP_prob + gen_APP_prob +
-                         run_rs_on_COR_prob + run_rs_on_APP_prob
+                         run_rs_on_COR_prob + run_rs_on_APP_prob +
+                         run_network_metrics_on_prob
 
     if (num_actions_chosen != 1)
         stop_bdpg (paste0 ("\nMust set 1 and only 1 of these variables to TRUE: ",
@@ -338,12 +339,11 @@ single_action_using_tzar_reps <- function (parameters, integerize)
     if (gen_WRAP_prob)
         {
         src_prob_and_path_list =
-            get_bdprob_from_rds_file (parameters$WRAP_input_prob_src,
+            get_bdprob_from_rds_file (parameters$prob_src,
                                       parameters$cur_input_prob_idx,
-                                      parameters$WRAP_input_rds_file_set_path,
-                                        #  never used?
-                                      parameters$WRAP_input_rds_file_set_yaml_array,
-                                      parameters$WRAP_rds_file_path)
+                                      parameters$rds_file_set_path,
+                                      parameters$rds_file_set_yaml_array,
+                                      parameters$rds_file_path)
 
         src_bdprob_to_wrap = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir   = src_prob_and_path_list$src_rds_file_dir
@@ -361,12 +361,11 @@ single_action_using_tzar_reps <- function (parameters, integerize)
     if (gen_APP_prob)
         {
         src_prob_and_path_list =
-            get_bdprob_from_rds_file (parameters$APP_input_prob_src,
+            get_bdprob_from_rds_file (parameters$prob_src,
                                       parameters$cur_input_prob_idx,
-                                      parameters$APP_input_rds_file_set_path,
-                                        #  never used?
-                                      parameters$APP_input_rds_file_set_yaml_array,
-                                      parameters$APP_rds_file_path)
+                                      parameters$rds_file_set_path,
+                                      parameters$rds_file_set_yaml_array,
+                                      parameters$rds_file_path)
 
         bdprob_to_add_error_to = src_prob_and_path_list$src_Xu_bd_problem
 
@@ -383,12 +382,11 @@ single_action_using_tzar_reps <- function (parameters, integerize)
     if (run_rs_on_COR_prob)
         {
         src_prob_and_path_list =
-            get_bdprob_from_rds_file (parameters$RS_cor_input_prob_src,
+            get_bdprob_from_rds_file (parameters$prob_src,
                                       parameters$cur_input_prob_idx,
-                                      parameters$RS_cor_input_rds_file_set_path,
-                                        #  never used?
-                                      parameters$RS_cor_input_rds_file_set_yaml_array,
-                                      parameters$RS_cor_rds_file_path)
+                                      parameters$rds_file_set_path,
+                                      parameters$rds_file_set_yaml_array,
+                                      parameters$rds_file_path)
 
         cor_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir = src_prob_and_path_list$src_rds_file_dir
@@ -405,12 +403,11 @@ single_action_using_tzar_reps <- function (parameters, integerize)
     if (run_rs_on_APP_prob)
         {
         src_prob_and_path_list =
-            get_bdprob_from_rds_file (parameters$RS_app_input_prob_src,
+            get_bdprob_from_rds_file (parameters$prob_src,
                                       parameters$cur_input_prob_idx,
-                                      parameters$RS_app_input_rds_file_set_path,
-                                        #  never used?
-                                      parameters$RS_app_input_rds_file_set_yaml_array,
-                                      parameters$RS_app_rds_file_path)
+                                      parameters$rds_file_set_path,
+                                      parameters$rds_file_set_yaml_array,
+                                      parameters$rds_file_path)
 
         app_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir = src_prob_and_path_list$src_rds_file_dir
@@ -458,12 +455,11 @@ single_action_using_tzar_reps <- function (parameters, integerize)
     if (run_network_metrics_on_prob)
         {
         src_prob_and_path_list =
-            get_bdprob_from_rds_file (parameters$NET_input_prob_src,
+            get_bdprob_from_rds_file (parameters$prob_src,
                                       parameters$cur_input_prob_idx,
-                                      parameters$NET_input_rds_file_set_path,
-                                        #  never used?
-                                      parameters$NET_input_rds_file_set_yaml_array,
-                                      parameters$NET_rds_file_path)
+                                      parameters$rds_file_set_path,
+                                      parameters$rds_file_set_yaml_array,
+                                      parameters$rds_file_path)
 
         net_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir = src_prob_and_path_list$src_rds_file_dir
