@@ -97,19 +97,21 @@ if (parameters$gen_4_basic_variants)
     - Calls `gen_single_bdprob_APP ()`
     - Requires ???
 - `run_rs_on_COR_prob`
+    - One or more reserve selectors will be run based on the settings of reserve selector variables elsewhere in the parameters list.
     - Calls `do_COR_rs_analysis_and_output ()`
     - Requires ???
-    - One or more reserve selectors will be run based on the settings of reserve selector variables elsewhere in the parameters list.
 - `run_rs_on_APP_prob`
+    - One or more reserve selectors will be run based on the settings of reserve selector variables elsewhere in the parameters list.
     - Calls `do_APP_rs_analysis_and_output ()`
     - Requires ???
-    - One or more reserve selectors will be run based on the settings of reserve selector variables elsewhere in the parameters list.
 - `run_network_metrics_on_prob`
-    - Calls `init_object_graph_data ()`
-    - Requires ???
     - One or more network metric calculations will be run based on the settings of network metric variables elsewhere in the parameters list.
+    - Calls `init_object_graph_data ()`
+    - Requires:
+        - Setting `net_batch_out_dir_name` parameter to specify the location where the modified problems will be written out after the network results are attached to them.
+        - Setting problem source parameters to specify the location where the input problem(s) ".rds" files will be found.  See "Problem source specification for a *single action* runset"
 
-#### Input source specification for a *single action* runset
+#### Problem source specification for a *single action* runset
 
 Any problem that is to be acted on by one of the *single action* commands, is read in from a  ".rds" file.  These are files in the format R uses to save objects to disk.  Whenever bdpg creates a problem, it saves that problem to disk in a ".rds" file and that saved file can be used as input to a *single action* command.   There are 3 boolean parameters that can be used to specify the problem source for a *single action* and each of these has a complementary parameter specifying the location of the associated information.
 
@@ -182,6 +184,44 @@ repetitions:
           count: 3
 ```
 
+#### Running under tzar vs. under tzar emulation
+
+If you're running repetitions that have a count > 1, then tzar emulation can't handle that.  It will run tzar to generate a directory for each of the runs, but it will only run your code on the last run of the set.  If you're going to run the code locally under tzar instead of under the emulator, there are several things you need to do:  
+
+- Set the tzar emulation flag to FALSE in tzar_emulation.yaml.
+
+```yaml
+emulating_tzar:                         FALSE     #TRUE
+```
+
+- Copy model.R.tzar into model.R so that tzar will find a model.R.  (The tzar emulator normally deletes the model.R file so that it doesn't interfere with building a package.)
+
+```
+cp model.R.tzar model.R
+```
+
+- Run the tzar execlocalruns command.
+
+```
+> java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+
+Created 3 runs. 
+
+Outputdir: /Users/bill/tzar/outputdata/Easy/default_runset/15_Easy_single_action_gen_3_COR_prob.inprogress 
+Running model: /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R, run_id: 15, Project name: Easy, Scenario name: Easy_single_action_gen_3_COR_prob, Flags:  
+Run 15 succeeded. 
+
+Outputdir: /Users/bill/tzar/outputdata/Easy/default_runset/16_Easy_single_action_gen_3_COR_prob.inprogress 
+Running model: /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R, run_id: 16, Project name: Easy, Scenario name: Easy_single_action_gen_3_COR_prob, Flags:  
+Run 16 succeeded. 
+
+Outputdir: /Users/bill/tzar/outputdata/Easy/default_runset/17_Easy_single_action_gen_3_COR_prob.inprogress 
+Running model: /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R, run_id: 17, Project name: Easy, Scenario name: Easy_single_action_gen_3_COR_prob, Flags:  
+Run 17 succeeded. 
+
+Executed 3 runs: 3 succeeded. 0 failed 
+```
+
 #### Tzar-based examples 
 
 This section gives an example of the tzar project.yaml file commands for each of the recognized *single action* types.
@@ -244,36 +284,6 @@ This section gives an example of the tzar project.yaml file commands for each of
 - `run_network_metrics_on_prob`
 ```yaml
 ```
-
-
-
-```
-
-
-#    seed: 1400
-
-
-#find ~/tzar/outputdata/bdpgxupaper_single_action_APP_of_cor_WRAP_prob/default_runset | grep saved >     ~/Work/Tzar_input_files/APP_wrap_rds_input_file_paths.txt
-#    seed: 1600
-#    run_rs_on_APP_prob: TRUE
-#    RS_app_input_prob_src: "rds_file_set_from_file"
-#    RS_app_input_rds_file_set_path: "~/Work/Tzar_input_files/APP_wrap_rds_input_file_paths.txt"
-#    RS_app_base_input_rds_file_set_path: "~/Work/Tzar_input_files/WRAP_rds_input_file_paths.txt"
-
-
-#    seed: 1010
-#    prob_src: "rds_file_set_from_yaml_array"
-#    rds_file_set_yaml_array:
-#        - "~/tzar/outputdata/bdpgxupaper/default_runset/49_marxan_simulated_annealing/RSprob-COR-Base.fb9e78fc-5a6d-49b7-b8a9-74e918a86c92/saved.RSprob-COR-Base.fb9e78fc-5a6d-49b7-b8a9-74e918a86c92.rds"
-#        - "~/tzar/outputdata/bdpgxupaper/default_runset/51_marxan_simulated_annealing/RSprob-COR-Base.7151efe2-e13b-428b-ac76-62edc3b6b6a5/saved.RSprob-COR-Base.7151efe2-e13b-428b-ac76-62edc3b6b6a5.rds"
-#        - "~/tzar/outputdata/bdpgxupaper/default_runset/50_marxan_simulated_annealing/RSprob-COR-Base.0881452f-709a-4a4e-bd4c-9f502e1306c5/saved.RSprob-COR-Base.0881452f-709a-4a4e-bd4c-9f502e1306c5.rds"
-
-
-```
-
-
-
-
 
 #### R only examples 
 
