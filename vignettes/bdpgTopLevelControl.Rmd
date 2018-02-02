@@ -193,7 +193,7 @@ emulating_tzar:                         FALSE     #TRUE
 cp model.R.tzar model.R
 ```
 
-- Run the tzar execlocalruns command.
+- Run the tzar execlocalruns command if you're going to run the code on your local machine.  If you're going to do the runs on a cluster of machines using tzar's pollandrun facility, a different command will be necessary and for simplicity, is not explained here.
 
 ```
 > java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
