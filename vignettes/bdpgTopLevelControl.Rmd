@@ -160,33 +160,26 @@ find ~/tzar/outputdata/single_action_WRAP_prob/default_runset |
         WRAP_rds_input_file_paths.txt
 ```
 
-#### Required index variables
+#### Required index variable
 
-Need one or two index variables in some cases.
+Single actions that are to be run across a set of problems need to have an index variable for that set passed in as an element of the parameters list.  This is essentially an index for a `for` loop over the elements of the set.  Tzar's generators can load this variable automatically if you set up a repetitions section in the project.yaml file (see example below).  The index just specifies which element of the set will be accessed on a given run.
 
-- cur_input_prob_idx
-- rds_file_set_element_idx
-    - **NOT SURE WHAT THIS ONE IS.  CAN'T FIND IT IN THE CODE EXCEPT IN AN ERROR MESSAGE.**
+- This variable must be called `cur_input_prob_idx` to satisfy what `single_action_using_tzar_reps()` expects.
+- The only thing you need to change in the example yaml code below is the value given to `count`.  It just has to match the number of lines/files given in the yaml array or text file of rds file locations that you are feeding to bdpg.
 
 ```yaml
-#  WRAP prob generation
 repetitions:
     generators:
-        - key: rds_file_set_element_idx         #seed
+        - key: cur_input_prob_idx
           generator_type: linear_step
-          start: 1        #1020        #1                                  #1010
-          step_size: 1
-          count: 5
-        - key: cur_input_prob_idx        #rds_file_set_element_idx         #seed
-          generator_type: linear_step
-          start: 1                                  #1010
+          start: 1
           step_size: 1
           count: 3
 ```
 
 #### Running under tzar vs. under tzar emulation
 
-If you're running repetitions that have a count > 1, then tzar emulation can't handle that.  It will run tzar to generate a directory for each of the runs, but it will only run your code on the last run of the set.  If you're going to run the code locally under tzar instead of under the emulator, there are several things you need to do:  
+If you're running repetitions that have a count > 1, then tzar emulation can't handle that.  It will run tzar to *generate a directory* for each of the runs, but it will only *run your code* on the last run of the set.  If you're going to run the code under tzar instead of under the emulator, there are several things you need to do:  
 
 - Set the tzar emulation flag to FALSE in tzar_emulation.yaml.
 
