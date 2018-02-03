@@ -166,10 +166,10 @@ set_up_for_and_run_simple_richness_COR <- function (COR_bd_prob,
 #-------------------------------------------------------------------------------
 
 set_up_for_and_run_simple_richness_APP <- function (APP_bd_prob,
-                                           COR_bd_prob,
-                                           rsrun,
-                                           parameters,
-                                           forward = TRUE)
+                                                    COR_bd_prob,
+                                                    rsrun,
+                                                    parameters,
+                                                    forward = TRUE)
     {
     simple_richness_control_values =
         set_up_for_and_run_simple_richness (num_spp = COR_bd_prob@num_spp,
