@@ -238,6 +238,8 @@ setClass ("APP_prob_info_class",
           representation (
                             UUID_of_base_problem_that_has_err_added = "character",  #  UUID string
 
+                            cost_error_bound       = "numeric",  #  ret_vals_from_apply_cost_errors$cost_error_bound
+
                             original_FP_const_rate = "numeric",  #  ret_vals_from_apply_errors$original_FP_const_rate
                             original_FN_const_rate = "numeric",  #  ret_vals_from_apply_errors$original_FN_const_rate
                             match_error_counts     = "logical",  #  ret_vals_from_apply_errors$match_error_counts
@@ -257,6 +259,8 @@ setClass ("APP_prob_info_class",
 
           prototype (
                             UUID_of_base_problem_that_has_err_added = as.character (NA),  #  UUID string
+
+                            cost_error_bound       = 0,    #as.numeric (NA),  #  ret_vals_from_apply_cost_errors$cost_error_bound
 
                             original_FP_const_rate = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$original_FP_const_rate
                             original_FN_const_rate = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$original_FN_const_rate

@@ -215,6 +215,38 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
 
 #===============================================================================
 
+apply_unif_rand_error_to_PU_costs <- function (cor_PU_costs, parameters)
+    {
+    num_PUs = length (cor_PU_costs)
+    if (is.null (parameters$cost_error_frac_bound))
+        {
+        cost_error_bound = 0
+        cost_error_multipliers = rep (1, num_PUs)
+
+        app_PU_costs = cor_PU_costs    #  No cost error specified so use COR costs
+
+        } else
+        {
+        cost_error_bound = vn (parameters$cost_error_frac_bound,
+                               def_on_empty = FALSE,
+                               range_lo = 0, range_hi = 1)
+
+        PU_cost_lower_bound_frac = 1 - cost_error_bound
+        PU_cost_lower_bound_frac = 1 + cost_error_bound
+
+        cost_error_multipliers = runif (num_PUs,
+                                      PU_cost_lower_bound_frac,
+                                      PU_cost_lower_bound_frac)
+
+        app_PU_costs = cor_PU_costs * cost_error_multipliers
+        }
+
+    return (list (app_PU_costs = app_PU_costs,
+                  cost_error_bound = cost_error_bound,
+                  cost_error_multipliers = cost_error_multipliers))
+    }
+
+
 #-------------------------------------------------------------------------------
 #' Add error to the species occupancy data and save to APP_prob_info structure.
 #'
@@ -235,14 +267,6 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
     APP_prob_info@UUID_of_base_problem_that_has_err_added = Xu_bdprob_COR@UUID
 
 #-------------------------------------------------------------------------
-#  2017 12 02 - BTL
-#  Need to add APP costs to the object structure and set its value here.
-#  Also need to have a way to specify an error model for APP costs.
-#-------------------------------------------------------------------------
-
-#  ???  app costs = cor costs  ???
-
-#-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #  2017 12 02 - BTL
 #  Most, if not all, of this section needs to change for different kinds
@@ -253,36 +277,44 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 #  for the values to return in the results output file.
 #-------------------------------------------------------------------------
 
-ret_vals_from_build_const_err =
-  build_const_err_FP_and_FN_matrices (parameters,
-                                      Xu_bdprob_COR@bpm,     #cor_bpm,
-                                                  #cor_num_PU_spp_pairs,
-                                      Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
-                                      Xu_bdprob_COR@num_spp)     #cor_num_spp,
+        #--------------------------------------------------------
+        #  Compute PU cost errors and create apparent PU_costs.
+        #--------------------------------------------------------
 
-APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
-APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
-APP_prob_info@match_error_counts     = ret_vals_from_build_const_err$match_error_counts
-APP_prob_info@FP_const_rate          = ret_vals_from_build_const_err$FP_const_rate
-APP_prob_info@FN_const_rate          = ret_vals_from_build_const_err$FN_const_rate
+    ret_vals_from_apply_cost_errors =
+        apply_unif_rand_error_to_PU_costs (Xu_bdprob_COR@PU_costs,
+                                           parameters)
+    Xu_bdprob_APP@PU_costs = ret_vals_from_apply_cost_errors$app_PU_costs
+    APP_prob_info@cost_error_bound =
+        ret_vals_from_apply_cost_errors$cost_error_bound
 
-ret_vals_from_apply_errors =
-    apply_const_error_to_spp_occupancy_data (Xu_bdprob_COR@num_PUs,     #cor_num_PUs,
-                                             Xu_bdprob_COR@num_spp,     #cor_num_spp,
-                                             Xu_bdprob_COR@bpm,         #cor_bpm,
-                                             ret_vals_from_build_const_err$FP_rates_matrix,     #FP_rates_matrix,
-                                             ret_vals_from_build_const_err$FN_rates_matrix)     #FN_rates_matrix,
-      # apply_const_error_to_spp_occupancy_data (parameters,
-      #                                  Xu_bdprob_COR@bpm,     #  cor_bpm,
-      #                                  Xu_bdprob_COR@num_PU_spp_pairs,     #  cor_num_PU_spp_pairs,
-      #                                  Xu_bdprob_COR@num_PUs,     #  cor_num_PUs,
-      #                                  Xu_bdprob_COR@num_spp)     #  cor_num_spp,
+        #-----------------------------------------------------
+        #  Compute FP and FN errors and create apparent bpm.
+        #-----------------------------------------------------
 
+    ret_vals_from_build_const_err =
+      build_const_err_FP_and_FN_matrices (parameters,
+                                          Xu_bdprob_COR@bpm,
+                                          Xu_bdprob_COR@num_PUs,
+                                          Xu_bdprob_COR@num_spp)
 
-    #  Save the realized error rates.
+    APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
+    APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
+    APP_prob_info@match_error_counts     = ret_vals_from_build_const_err$match_error_counts
+    APP_prob_info@FP_const_rate          = ret_vals_from_build_const_err$FP_const_rate
+    APP_prob_info@FN_const_rate          = ret_vals_from_build_const_err$FN_const_rate
 
-APP_prob_info@realized_FP_rate          = ret_vals_from_apply_errors$realized_FP_rate
-APP_prob_info@realized_FN_rate          = ret_vals_from_apply_errors$realized_FN_rate
+    ret_vals_from_apply_errors =
+        apply_const_error_to_spp_occupancy_data (Xu_bdprob_COR@num_PUs,
+                                                 Xu_bdprob_COR@num_spp,
+                                                 Xu_bdprob_COR@bpm,
+                                                 ret_vals_from_build_const_err$FP_rates_matrix,
+                                                 ret_vals_from_build_const_err$FN_rates_matrix)
+
+        #  Save the realized error rates.
+
+    APP_prob_info@realized_FP_rate          = ret_vals_from_apply_errors$realized_FP_rate
+    APP_prob_info@realized_FN_rate          = ret_vals_from_apply_errors$realized_FN_rate
 
 #-------------------------------------------------------------------------
 #  2017 12 02 - BTL
