@@ -35,6 +35,10 @@ apply_error_to_spp_occupancy_data =
     {
     cat ("\nStarting apply_error_to_spp_occupancy_data loop.\n\n")
 
+        #  NOTE: I also tried recoding this routine usin mapply() instead of a
+        #        for loop and for some reason, mapply() was 10 times slower.
+        #        The test and its results are recorded in notes file for
+        #        2018 02 03.
     for (cur_spp_row in 1:num_spp)
         {
         for (cur_PU_col in 1:num_PUs)
