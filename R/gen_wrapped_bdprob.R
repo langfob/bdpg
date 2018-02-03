@@ -1166,7 +1166,16 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
               #         structure, e.g., using assertions.
               #-----------------------------------------------------------
 
-    wrapped_PU_costs = get_PU_costs (wrapped_num_PUs)
+    cor_costs_all_equal_1 = vb (parameters$cor_costs_all_equal_1,
+                                def_on_empty = TRUE, def = TRUE)
+    if (cor_costs_all_equal_1)
+        {
+        wrapped_PU_costs = get_default_identical_PU_costs (wrapped_highest_PU_ID)    #wrapped_num_PUs)
+        } else
+        {
+        stop_bdpg ("No code for handling case where COR costs are something other than all 1.")
+        }
+
     wrapped_bpm =
         create_adj_matrix_with_spp_rows_vs_PU_cols (
                                     wrapped_highest_spp_ID, #wrapped_num_spp,

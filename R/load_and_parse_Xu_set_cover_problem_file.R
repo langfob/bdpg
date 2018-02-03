@@ -305,9 +305,11 @@ read_Xu_problem_from_Xu_file <- function (infile_name, correct_solution_cost)
         #-------------------------------------------------------------------
         #  Also need to create costs, but hadn't decoded the num_PUs until
         #  just before now.
+        #  Xu problems all have identical PU cost of 1.
         #-------------------------------------------------------------------
 
-    PU_spp_pair_info@PU_costs = get_PU_costs (PU_spp_pair_info@num_PUs)
+    PU_spp_pair_info@PU_costs =
+        get_default_identical_PU_costs (PU_spp_pair_info@num_PUs)
 
         #-----------------------------------------------------------------------
         #  Downstream attempts to predict socres based on generator parameters

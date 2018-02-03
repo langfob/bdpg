@@ -215,7 +215,10 @@ write_results_to_files <- function (csv_outfile_name,
 
 #===============================================================================
 
-get_PU_costs = function (num_PUs) { return (rep (1, num_PUs)) }
+get_default_identical_PU_costs <- function (num_PUs, cost = 1)
+    {
+    return (rep (cost, num_PUs))
+    }
 
 #===============================================================================
 

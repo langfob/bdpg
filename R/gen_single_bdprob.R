@@ -285,7 +285,7 @@ create_Xu_problem_from_scratch_given_params <-
 
     dependent_node_IDs = get_dependent_node_IDs (nodes)
     num_PUs = get_num_nodes (nodes)
-    PU_costs = get_PU_costs (num_PUs)
+    PU_costs = get_default_identical_PU_costs (num_PUs)  #  Must always all = 1 for Xu problems
 
     #-------------------------------------------------------------------------------
 
