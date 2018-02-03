@@ -1181,7 +1181,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
                                     wrapped_highest_spp_ID, #wrapped_num_spp,
                                     wrapped_highest_PU_ID,  #wrapped_num_PUs,
                                     wrapped_PU_spp_indices,  #wrapped_PU_spp_pair_indices,
-                        wrapped_PU_costs,
+                        wrapped_PU_costs,  #  only used if verifying solution
                                     Xu_bdprob@spp_col_name,
                                     Xu_bdprob@PU_col_name,
                                     Xu_dep_set,
@@ -1261,12 +1261,13 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
         #  The vector of costs is longer though, since there are more PUs
         #  in the wrapped problem.
         #  At the moment, those PU costs are all dummied to 1 anyway.
-        #  If that ever changes, then get_PU_costs() is going to have to change.
+        #  If that ever changes, then get_default_identical_PU_costs() is
+        #  going to have to change.
         #-----------------------------------------------------------------------
 
     wrapped_bdprob@correct_solution_cost             = Xu_bdprob@correct_solution_cost  #correct_solution_cost
+    wrapped_bdprob@PU_costs                     = wrapped_PU_costs
 
-    wrapped_bdprob@PU_costs                     = wrapped_PU_costs    #get_PU_costs (wrapped_num_PUs)
     wrapped_bdprob@nodes                        = wrapped_nodes
 
     wrapped_bdprob@bpm                          = wrapped_bpm
