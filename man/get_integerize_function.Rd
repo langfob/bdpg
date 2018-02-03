@@ -4,7 +4,7 @@
 \alias{get_integerize_function}
 \title{Get function to use when converting numeric values to integers}
 \usage{
-get_integerize_function(integerize_string)
+get_integerize_function(integerize_string = "round")
 }
 \arguments{
 \item{integerize_string}{string containing name of the function to use to
