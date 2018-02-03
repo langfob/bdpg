@@ -38,7 +38,8 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c("number"))
 
 plot_incremental_marxan_summed_solution_representations =
     function (marxan_ssoln_df,
-              cor_PU_costs,
+
+        cor_PU_costs,
               optimum_cost,
               bpm,
               cor_app_prefix_string,
@@ -286,7 +287,8 @@ plot_incremental_marxan_summed_solution_representations =
 
 plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
     function (marxan_ssoln_df,
-                cor_PU_costs,
+
+        cor_PU_costs,
                 correct_solution_cost,
                 app_optimum_cost,
                 cor_bpm,
@@ -297,7 +299,8 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
     {
         #  Using correct scores...
     plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
-                                                                cor_PU_costs,
+
+                                                        cor_PU_costs,
                                                                 correct_solution_cost,
                                                                 cor_bpm,
                                                                 "cor",
@@ -307,7 +310,8 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
 
         #  Using apparent scores...
     plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
-                                                                cor_PU_costs,
+
+                                                        cor_PU_costs,
                                                                 app_optimum_cost,
                                                                 app_bpm,
                                                                 "app",
