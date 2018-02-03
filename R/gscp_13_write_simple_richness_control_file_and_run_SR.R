@@ -227,7 +227,7 @@ set_up_for_and_run_simple_richness <- function (num_spp,
                                          bpm,
 
                                          forward = TRUE,
-                                         spp_rep_targets = rep (1, num_spp),
+                                         spp_rep_targets,
 
                                          rsrun,
                                          top_dir,            #= parameters$fullOutputDir_NO_slash
