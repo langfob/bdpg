@@ -2,7 +2,7 @@
 % Please edit documentation in R/biodivprobgen_utilities.R
 \name{vn}
 \alias{vn}
-\title{Validate input as boolean and replace with default on empty input if desired}
+\title{Validate input as numeric and replace with default on empty input if desired}
 \usage{
 vn(var_value, range_lo = -Inf, range_hi = Inf, bounds_types = "ii",
   def_on_empty = FALSE, def = 0, treat_NULL_as_empty = TRUE,

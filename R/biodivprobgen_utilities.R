@@ -825,7 +825,7 @@ vb <- function (var_value, def_on_empty = FALSE, def = FALSE,
 
 #-------------------------------------------------------------------------------
 
-#' Validate input as boolean and replace with default on empty input if desired
+#' Validate input as numeric and replace with default on empty input if desired
 #'
 #' This function is intended to be a more flexible replacement for calling
 #' is.numeric().  In particular, it makes it possible to replace empty values
