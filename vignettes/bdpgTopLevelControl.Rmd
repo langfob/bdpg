@@ -37,8 +37,6 @@ There are currently two main ways of doing experiments using bdpg.  One is to do
 
 The *single action* view is most useful when running a large number of experiments that will take a long time and you want to be able to examine the all of the results of one type of action while other actions are still running.  For example, computing igraph network metrics on a problem is currently quite slow, but the results are only relevant to one kind of experimental question.  Consequently, it may be more practical to generate a set of problems and run reserve selectors on them before doing any of the network calculations.  Then, you can examine the reserve selector performance while the network metrics are running.  Similarly, you may want to add a new kind of reserve selector after all of the other experiments have been done and so you want to just run that reserve selector across all of the existing problems.
 
-One characteristic of the *single action* view is that it will generally need a list of inputs to act over.  Usually, this will be a list of input file names or a single file name of a file that in turn contains a list of file names.
-
 #### 4 variants runset
 
 The *4 variants* view is most useful when developing some new option that needs exercising over the full set of problem types, i.e., the four variants.  These are a basic correct problem, a basic apparent problem, a wrapped correct problem, and an apparent version of a wrapped problem.  A different use of the *4 variants* approach is in generating a large initial set of problems and results all at one time.  In that case, a generator would just run the *4 variants* code many times with different random seeds.
@@ -73,13 +71,30 @@ if (parameters$gen_4_basic_variants)
 
 ================================================================================
 
-## Specifics of each runset
+## Specifics of each view
 
-### *Single action* runset
+### *Single action* overview
 
-- If you prefer to start from examples, examples of each action are given at the end of this section.
-- Note that each single action creates a separate tzar run for each value of parameters$cur_input_prob_idx when running under tzar.
-- Details of exactly how the *single action* view works are in the code for the function `single_action_using_tzar_reps()` and other functions in the source file single_action_using_tzar_reps.R.
+Except for the `gen_COR_prob` action, all of the *single actions* require you to specify the location of an rds file or set of locations of rds files to use as input to the desired action.  If you're specifying more than one rds file, then you will also have to give a value for the `cur_input_prob_idx` variable to index into the set of rds files.  All of this is detailed below, but in short, it means that most single actions will include commands similar to the following in the yaml file:
+```yaml
+base_params:
+    single_action_using_tzar_reps: TRUE
+    run_network_metrics_on_prob: TRUE
+    prob_src:  rds_file_set_from_file
+    rds_file_set_path: "~/Work/net_rds_input_file_paths.txt"
+
+repetitions:
+    generators:
+        - key: cur_input_prob_idx
+          generator_type: linear_step
+          start: 1
+          step_size: 1
+          count: 3
+```
+
+Details of each aspect of single actions are given below, however, if you prefer to start from examples, examples of each action are given at the end of this section.  Very specific details of exactly how the *single action* view works can be found in the code for the function `single_action_using_tzar_reps()` and other functions in the source file single_action_using_tzar_reps.R.
+
+Finally, note that each single action creates a separate tzar run for each value of parameters$cur_input_prob_idx when running under tzar.  
 
 #### Control of a *single action* runset
 
@@ -113,24 +128,26 @@ if (parameters$gen_4_basic_variants)
 
 #### Problem source specification for a *single action* runset
 
-Any problem that is to be acted on by one of the *single action* commands, is read in from a  ".rds" file.  These are files in the format R uses to save objects to disk.  Whenever bdpg creates a problem, it saves that problem to disk in a ".rds" file and that saved file can be used as input to a *single action* command.   There are 3 boolean parameters that can be used to specify the problem source for a *single action* and each of these has a complementary parameter specifying the location of the associated information.
+Any problem that is to be acted on by one of the *single action* commands, is read in from a  ".rds" file.  These are files in the format R uses to save objects to disk.  Whenever bdpg creates a problem, it saves that problem to disk in a ".rds" file using R's `saveRDS()` function and that saved file can be used as input to a *single action* command.   
+
+There are 3 boolean parameters that can be used to specify the problem source for a *single action* and each of these has a complementary parameter specifying the location of the associated information.
 
 - `rds_file`
     - When TRUE, it specifies that just one problem will be read.
-    - The location will of the rds file is given in a parameter whose name ends in "_rds_file_path" and is one of the following:  `WRAP_rds_file_path`, `APP_rds_file_path`, `RS_cor_rds_file_path`, `RS_app_rds_file_path`, `NET_rds_file_path`. 
+    - The location will of the rds file is given in a parameter named `rds_file_path`. 
     - Example yaml:
 ```yaml
-    rds_file: TRUE
-    WRAP_rds_file_path: "~/Work/some_problem.rds"
+    prob_src:  "rds_file"
+    rds_file_path: "~/Work/some_problem.rds"
 ```
 
 - `rds_file_set_from_file`
     - Specifies that one or more problems will be read and their locations will come from a text file that contains one location per line.
-    - The location of the text files is given in a parameter whose name ends in "_input_rds_file_set_path" and is one of the following:  `WRAP_input_rds_file_set_path`, `APP_input_rds_file_set_path`, `RS_cor_input_rds_file_set_path`, `RS_app_input_rds_file_set_path`, `NET_input_rds_file_set_path`. 
+    - The location of the text files is given in a parameter named `rds_file_set_path`. 
     - Example yaml:
 ```yaml
-    rds_file: TRUE
-    NET_input_rds_file_set_path: "~/Work/Tzar_input_files/NET_rds_input_file_paths.txt"
+    prob_src:  "rds_file_set_from_file"
+    rds_file_set_path: "~/Work/Tzar_input_files/NET_rds_input_file_paths.txt"
 ```
     - Example input text file "~/Work/Tzar_input_files/NET_rds_input_file_paths.txt" containing locations:
 ```
@@ -141,11 +158,11 @@ Any problem that is to be acted on by one of the *single action* commands, is re
 
 - `rds_file_set_from_yaml_array`
     - Specifies that one or more problems will be read and their locations will come from an array that contains one location per line and the array is given directly in the yaml file .
-    - The locations of the rds files are given in a parameter whose name ends in "_rds_file_set_yaml_array" and is one of the following:  `WRAP_rds_file_set_yaml_array`, `APP_rds_file_set_yaml_array`, `RS_cor_rds_file_set_yaml_array`, `RS_app_rds_file_set_yaml_array`, `NET_rds_file_set_yaml_array`. 
+    - The locations of the rds files are given in a parameter `rds_file_set_yaml_array`. 
     - Example yaml:
 ```yaml
-    rds_file: TRUE
-    APP_rds_file_set_yaml_array:
+    prob_src: "rds_file_set_from_yaml_array"
+    rds_file_set_yaml_array:
         - "~/tzar/outputdata/bdpgxupaper/default_runset/49_marxan_simulated_annealing/RSprob-COR-Base.fb9e78fc-5a6d-49b7-b8a9-74e918a86c92/saved.RSprob-COR-Base.fb9e78fc-5a6d-49b7-b8a9-74e918a86c92.rds"
         - "~/tzar/outputdata/bdpgxupaper/default_runset/51_marxan_simulated_annealing/RSprob-COR-Base.7151efe2-e13b-428b-ac76-62edc3b6b6a5/saved.RSprob-COR-Base.7151efe2-e13b-428b-ac76-62edc3b6b6a5.rds"
         - "~/tzar/outputdata/bdpgxupaper/default_runset/50_marxan_simulated_annealing/RSprob-COR-Base.0881452f-709a-4a4e-bd4c-9f502e1306c5/saved.RSprob-COR-Base.0881452f-709a-4a4e-bd4c-9f502e1306c5.rds"
@@ -162,7 +179,7 @@ find ~/tzar/outputdata/single_action_WRAP_prob/default_runset |
 
 #### Required index variable
 
-Single actions that are to be run across a set of problems need to have an index variable for that set passed in as an element of the parameters list.  This is essentially an index for a `for` loop over the elements of the set.  Tzar's generators can load this variable automatically if you set up a repetitions section in the project.yaml file (see example below).  The index just specifies which element of the set will be accessed on a given run.
+Single actions that are to be run across a set of problems need to have an index variable for that set passed in as an element of the parameters list.  This is essentially an index to use in a `for` loop over the elements of the set.  Tzar's generators load this variable automatically if you set up a repetitions section in the project.yaml file that specifies `cur_input_prob_idx` as the `key`.  The index just specifies which element of the set will be accessed on a given run.
 
 - This variable must be called `cur_input_prob_idx` to satisfy what `single_action_using_tzar_reps()` expects.
 - The only thing you need to change in the example yaml code below is the value given to `count`.  It just has to match the number of lines/files given in the yaml array or text file of rds file locations that you are feeding to bdpg.
@@ -196,20 +213,20 @@ cp model.R.tzar model.R
 - Run the tzar execlocalruns command if you're going to run the code on your local machine.  If you're going to do the runs on a cluster of machines using tzar's pollandrun facility, a different command will be necessary and for simplicity, is not explained here.
 
 ```
-> java -jar ~/D/rdv-framework-latest-work/tzar.jar execlocalruns /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R
+> java -jar <your-tzar-jar-dir>/tzar.jar execlocalruns <your-R-code-dir>
 
 Created 3 runs. 
 
-Outputdir: /Users/bill/tzar/outputdata/Easy/default_runset/15_Easy_single_action_gen_3_COR_prob.inprogress 
-Running model: /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R, run_id: 15, Project name: Easy, Scenario name: Easy_single_action_gen_3_COR_prob, Flags:  
+Outputdir: ~/tzar/outputdata/Easy/default_runset/15_Easy_single_action_gen_3_COR_prob.inprogress 
+Running model: ~/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R, run_id: 15, Project name: Easy, Scenario name: Easy_single_action_gen_3_COR_prob, Flags:  
 Run 15 succeeded. 
 
-Outputdir: /Users/bill/tzar/outputdata/Easy/default_runset/16_Easy_single_action_gen_3_COR_prob.inprogress 
-Running model: /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R, run_id: 16, Project name: Easy, Scenario name: Easy_single_action_gen_3_COR_prob, Flags:  
+Outputdir: ~/tzar/outputdata/Easy/default_runset/16_Easy_single_action_gen_3_COR_prob.inprogress 
+Running model: ~/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R, run_id: 16, Project name: Easy, Scenario name: Easy_single_action_gen_3_COR_prob, Flags:  
 Run 16 succeeded. 
 
-Outputdir: /Users/bill/tzar/outputdata/Easy/default_runset/17_Easy_single_action_gen_3_COR_prob.inprogress 
-Running model: /Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R, run_id: 17, Project name: Easy, Scenario name: Easy_single_action_gen_3_COR_prob, Flags:  
+Outputdir: ~/tzar/outputdata/Easy/default_runset/17_Easy_single_action_gen_3_COR_prob.inprogress 
+Running model: ~/D/Projects/ProblemDifficulty/pkgs/bdpgxupaper/R, run_id: 17, Project name: Easy, Scenario name: Easy_single_action_gen_3_COR_prob, Flags:  
 Run 17 succeeded. 
 
 Executed 3 runs: 3 succeeded. 0 failed 
@@ -318,7 +335,7 @@ for (cur_idx in 1:num_runs)
 
 
 
-### *4 variants* runset
+### *4 variants* view
 
 #### Simple examples
 
