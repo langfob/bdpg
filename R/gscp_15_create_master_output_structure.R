@@ -265,18 +265,18 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
         #------------------------------------------------------------------
         #  Compute costs and cost error measures for the chosen solution.
         #------------------------------------------------------------------
-
-#  2017 11 26 - BTL
-#  Here, we are only computing the cost score against the correct
-#  costs.  Need to add another call to compute against apparent
-#  costs and add those results to the output.
-#  However, that requires adding a new element for apparent costs
-#  in the app_prob_info structure, so I'm going to postpone
-#  doing that until I know the changes I've just made here in
-#  computing the correct cost scores are working correctly.
-#  Not sure though whether the apparent cost score should be computed
-#  against the correct_solution_cost or the apparent cost of the correct
-#  solution...
+        #  2018 02 04 - BTL
+        #  Here, we are only computing the cost score against the correct
+        #  costs.  We could also compute it against the apparent costs,
+        #  but it would be hard to figure out what that meant and it
+        #  wouldn't give very useful information.
+        #  For example, the total landscape cost is used in computing some
+        #  of the measures and using apparent costs that were grossly
+        #  underestimating true costs, the total landscape cost could
+        #  actually be less than the correct optimum cost, which would
+        #  lead to some very strange numbers.
+        #  So, I'm just going to leave this computing only correct costs.
+        #------------------------------------------------------------------
 
     app_cost_scores_list_wrt_COR_costs_vec =
         compute_RS_solution_cost_scores_wrt_COR_costs_vec (rs_best_solution_PU_IDs,
