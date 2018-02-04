@@ -160,7 +160,7 @@ read_igraph_measures_list <- function (rsprob,
 
 #===============================================================================
 
-build_and_write_scores_list <-
+build_and_write_rep_and_cm_scores_list <-
     function (rsrun,
         app_bpm,    #bpm,
               rs_best_solution_PU_IDs,

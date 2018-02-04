@@ -77,28 +77,28 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
     num_patches_in_cor_solution = sum (COR_bd_prob@nodes$dependent_set_member)
 
     cor_scores_list =
-        build_and_write_scores_list (rsrun,
-                                     COR_bd_prob@bpm,
-                                     rs_best_solution_PU_IDs,
-                                     rsrun@targets,
-                                     COR_bd_prob@num_spp,
-                                     rs_best_num_patches_in_solution,
-                                     COR_bd_prob@num_PUs,
-                                     num_patches_in_cor_solution,
-                                     FP_const_rate,
-                                     FN_const_rate)
+        build_and_write_rep_and_cm_scores_list (rsrun,
+                                                 COR_bd_prob@bpm,
+                                                 rs_best_solution_PU_IDs,
+                                                 rsrun@targets,
+                                                 COR_bd_prob@num_spp,
+                                                 rs_best_num_patches_in_solution,
+                                                 COR_bd_prob@num_PUs,
+                                                 num_patches_in_cor_solution,
+                                                 FP_const_rate,
+                                                 FN_const_rate)
 
     app_scores_list =
-        build_and_write_scores_list (rsrun,
-                                     APP_bd_prob@bpm,
-                                     rs_best_solution_PU_IDs,
-                                     rsrun@targets,
-                                     COR_bd_prob@num_spp,
-                                     rs_best_num_patches_in_solution,
-                                     COR_bd_prob@num_PUs,
-                                     num_patches_in_cor_solution,
-                                     FP_const_rate,
-                                     FN_const_rate)
+        build_and_write_rep_and_cm_scores_list (rsrun,
+                                                 APP_bd_prob@bpm,
+                                                 rs_best_solution_PU_IDs,
+                                                 rsrun@targets,
+                                                 COR_bd_prob@num_spp,
+                                                 rs_best_num_patches_in_solution,
+                                                 COR_bd_prob@num_PUs,
+                                                 num_patches_in_cor_solution,
+                                                 FP_const_rate,
+                                                 FN_const_rate)
 
     return (list (cor_scores_list=cor_scores_list,
                   app_scores_list=app_scores_list))
