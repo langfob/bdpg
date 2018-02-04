@@ -73,13 +73,6 @@
 #' @return modified version of the rsrun input variable, i.e., with graph-related
 #'     flags set
 #'
-#' @importFrom lubridate year
-#' @importFrom lubridate month
-#' @importFrom lubridate day
-#' @importFrom lubridate hour
-#' @importFrom lubridate minute
-#' @importFrom lubridate second
-#'
 #' @examples \dontrun{
 #'     Xu_bdprob_cor <- init_object_graph_data (Xu_bdprob_cor,
 #'                                              parameters$compute_network_metrics_COR,
