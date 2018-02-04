@@ -256,7 +256,6 @@ compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs <-
 #'
 #' @param marxan_output_dir_path character string
 #' @param num_spp integer
-#' @param cor_PU_costs numeric vector
 #' @param cor_bpm matrix
 #' @param app_bpm matrix
 #' @param marxan_best_df_sorted_as_vector data frame

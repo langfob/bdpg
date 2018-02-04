@@ -273,7 +273,6 @@ plot_incremental_marxan_summed_solution_representations =
 #-------------------------------------------------------------------------------
 
 #' @param marxan_ssoln_df data frame
-#' @param cor_PU_costs numeric vector
 #' @param correct_solution_cost numeric
 #' @param cor_bpm matrix
 #' @param app_optimum_cost numeric
@@ -288,7 +287,7 @@ plot_incremental_marxan_summed_solution_representations =
 plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
     function (marxan_ssoln_df,
 
-        cor_PU_costs,
+        #cor_PU_costs,
                 correct_solution_cost,
                 app_optimum_cost,
                 cor_bpm,
