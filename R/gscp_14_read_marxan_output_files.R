@@ -349,7 +349,9 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and
 
 
           # Plot how marxan is actually doing vs. how it thinks it's doing
-    app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)
+#app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)    #  This only works if all costs == 1.
+app_optimum_cost = sum (PU_costs [which (marxan_best_df_sorted$SOLUTION > 0)])
+
     plot_incremental_marxan_summed_solution_reps_for_COR_and_APP (marxan_ssoln_df_sorted_by_PU,
 
                                                             cor_PU_costs,
