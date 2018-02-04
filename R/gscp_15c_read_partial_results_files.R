@@ -172,38 +172,22 @@ build_and_write_rep_and_cm_scores_list <-
               FP_const_rate,
               FN_const_rate
               )
-
-        # rsrun,
-        #         marxan_best_num_patches_in_solution,    #num_PUs_in_cand_solution,
-        #         num_PUs,
-        #         cor_num_patches_in_solution,            #num_PUs_in_optimal_solution,
-        #         app_frac_spp_covered,                   #app_rep_scores_list$frac_spp_covered,  #frac_spp_covered,
-        #         FP_const_rate,                          #input_err_FP = 0,
-        #         FN_const_rate
-                # )
     {
-  #    results_list = list (cls1=400, cls2=401)
+    app_rep_scores_list_according_to_bdpg =
+        compute_and_verify_APP_rep_scores_according_to_bdpg (app_bpm,
+                                                             rs_best_solution_PU_IDs,
+                                                             spp_rep_targets,
+                                                             num_spp)
 
-      #----------
+    #----------
 
-      app_rep_scores_list_according_to_bdpg =
-          compute_and_verify_APP_rep_scores_according_to_bdpg (app_bpm,
-                                                               rs_best_solution_PU_IDs,
-                                                               spp_rep_targets,
-                                                               num_spp)
-
-      #----------
-
-  # app_results_list = compute_solution_vector_scores (app_bpm = ref_spp_occ_matrix, ...
-
-      app_confusion_matrix_based_error_measures_list =
-          compute_confusion_matrix_based_scores (marxan_best_num_patches_in_solution,                      #num_PUs_in_cand_solution,
-                                                  num_PUs,
-                                                  cor_num_patches_in_solution,                             #num_PUs_in_optimal_solution,
-                                                  app_rep_scores_list_according_to_bdpg$frac_spp_covered,  #frac_spp_covered,
-                                                  FP_const_rate,                                           #input_err_FP = 0,
-                                                  FN_const_rate                                            #input_err_FN = 0,
-                                                 )
+    app_confusion_matrix_based_error_measures_list =
+        compute_confusion_matrix_based_scores (marxan_best_num_patches_in_solution,                      #num_PUs_in_cand_solution,
+                                               num_PUs,
+                                               cor_num_patches_in_solution,                             #num_PUs_in_optimal_solution,
+                                               app_rep_scores_list_according_to_bdpg$frac_spp_covered,  #frac_spp_covered,
+                                               FP_const_rate,                                           #input_err_FP = 0,
+                                               FN_const_rate)                                           #input_err_FN = 0,
 
     #----------
 

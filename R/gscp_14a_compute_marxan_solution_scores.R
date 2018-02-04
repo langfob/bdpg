@@ -273,7 +273,7 @@ compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs <-
 find_best_marxan_solutions <- function (marxan_output_dir_path,
                                         #num_PUs,     #  should this be largest_PU_ID?
                                         num_spp,     #  should this be largest_spp_ID?
-                                        cor_PU_costs,
+                                cor_PU_costs,
                                         cor_bpm,
                                         app_bpm,
                                         marxan_best_df_sorted_as_vector,
