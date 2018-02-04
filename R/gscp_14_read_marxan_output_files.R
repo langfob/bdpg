@@ -274,7 +274,7 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps <-
       find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
               get_RSrun_path_output (rsrun, exp_root_dir),
               COR_bd_prob@num_spp,
-        COR_bd_prob@PU_costs,
+        #COR_bd_prob@PU_costs,
               COR_bd_prob@bpm,
           COR_bd_prob@bpm,
               marxan_output_values$marxan_best_df_sorted,
@@ -289,7 +289,7 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps <-
       find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
               get_RSrun_path_output (rsrun, exp_root_dir),
               COR_bd_prob@num_spp,
-        APP_bd_prob@PU_costs,        #COR_bd_prob@PU_costs,
+        #APP_bd_prob@PU_costs,        #COR_bd_prob@PU_costs,
               COR_bd_prob@bpm,
           APP_bd_prob@bpm,
               marxan_output_values$marxan_best_df_sorted,
@@ -314,7 +314,7 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps <-
 find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP <-
         function (marxan_output_dir_path,
                   num_spp,
-            cor_PU_costs,
+            #PU_costs,            #cor_PU_costs,
                   cor_bpm,
                   app_bpm,
             marxan_best_df_sorted,
@@ -333,7 +333,7 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and
     find_best_marxan_solutions (marxan_output_dir_path,
   #                                num_PUs,     #  should this be largest_PU_ID?
                                   num_spp,     #  should this be largest_spp_ID?
-                            cor_PU_costs,
+                            #cor_bpm@PU_costs,            #cor_PU_costs,
                                   cor_bpm,
                                   app_bpm,
                                   marxan_best_df_sorted_as_vector,
@@ -354,7 +354,7 @@ app_optimum_cost = sum (PU_costs [which (marxan_best_df_sorted$SOLUTION > 0)])
 
     plot_incremental_marxan_summed_solution_reps_for_COR_and_APP (marxan_ssoln_df_sorted_by_PU,
 
-                                                            cor_PU_costs,
+                                                            PU_costs,            #cor_PU_costs,
                                                                       correct_solution_cost,
                                                                       app_optimum_cost,
                                                                       cor_bpm,
