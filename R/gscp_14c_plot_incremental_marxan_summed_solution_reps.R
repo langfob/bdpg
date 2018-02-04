@@ -299,7 +299,7 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
         #  Using correct scores...
     plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
 
-                                                        cor_PU_costs,
+                                                        cor_bpm@PU_costs,
                                                                 correct_solution_cost,
                                                                 cor_bpm,
                                                                 "cor",
@@ -310,7 +310,7 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
         #  Using apparent scores...
     plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
 
-                                                        cor_PU_costs,
+                                                        app_bpm@PU_costs,    #cor_PU_costs,  #Not sure which is right here...
                                                                 app_optimum_cost,
                                                                 app_bpm,
                                                                 "app",
