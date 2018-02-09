@@ -20,12 +20,12 @@ Imports:
     igraph,
     grDevices, 
     tools,
-    dplyr, 
-    gurobi
+    dplyr
 Suggests:
     knitr,
     rmarkdown,
-    testthat
+    testthat, 
+    gurobi
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 URL: https://github.com/langfob/bdpg
