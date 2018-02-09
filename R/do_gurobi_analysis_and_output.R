@@ -2,6 +2,11 @@
 
                     #  do_gurobi_analysis_and_output.R
 
+#  2018 02 08 - BTL
+#  Temporarily removed this line from run_gurobi() docs below.
+#  importFrom gurobi gurobi
+
+
 #===============================================================================
 
 #' Run gurobi linear programming optimizer
@@ -26,7 +31,6 @@
 #'
 #' @return Returns a gurobi model result list with named elements that contains,
 #'     among other things, an element x which is the solution vector
-#' @importFrom gurobi gurobi
 #' @export
 
 #-------------------------------------------------------------------------------
