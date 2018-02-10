@@ -48,20 +48,17 @@ gen_4_basic_variants <- function (parameters, integerize)
     #  Generate an APPARENT problem from the base problem, i.e., apply errors.
     #===============================================================================
 
-    if (value_or_FALSE_if_null (parameters$apply_error_to_COR))
-        {
-        base_APP_bd_prob =
-            bdpg::gen_single_bdprob_APP (base_COR_bd_prob,
-                                         parameters)
+    base_APP_bd_prob =
+        bdpg::gen_single_bdprob_APP (base_COR_bd_prob,
+                                     parameters)
 
-        do_APP_rs_analysis_and_output (base_APP_bd_prob,
-                                       base_COR_bd_prob,
-                                       parameters)
+    do_APP_rs_analysis_and_output (base_APP_bd_prob,
+                                   base_COR_bd_prob,
+                                   parameters)
 
-        cat("\n\njust after set_up_for_and_run_marxan() for Base APP problem")
-        cat ("\n\n================================================================================")
-        cat ("\n================================================================================\n\n")
-        }
+    cat("\n\njust after set_up_for_and_run_marxan() for Base APP problem")
+    cat ("\n\n================================================================================")
+    cat ("\n================================================================================\n\n")
 
     #===============================================================================
     #       Generate a wrapped problem around the base problem.
@@ -85,20 +82,17 @@ gen_4_basic_variants <- function (parameters, integerize)
     #  Generate an APPARENT problem from the wrapped problem, i.e., apply errors.
     #===============================================================================
 
-        if (value_or_FALSE_if_null (parameters$apply_error_to_spp_occupancy_data))
-            {
-            wrapped_APP_bd_prob =
-                gen_single_bdprob_APP (wrapped_COR_bd_prob,
+        wrapped_APP_bd_prob =
+            gen_single_bdprob_APP (wrapped_COR_bd_prob,
+                                   parameters)
+
+        do_APP_rs_analysis_and_output (wrapped_APP_bd_prob,
+                                       wrapped_COR_bd_prob,
                                        parameters)
 
-            do_APP_rs_analysis_and_output (wrapped_APP_bd_prob,
-                                           wrapped_COR_bd_prob,
-                                           parameters)
-
-            cat("\n\njust after set_up_for_and_run_marxan() for Wrapped APP problem")
-            cat ("\n\n================================================================================")
-            cat ("\n================================================================================\n\n")
-            }
+        cat("\n\njust after set_up_for_and_run_marxan() for Wrapped APP problem")
+        cat ("\n\n================================================================================")
+        cat ("\n================================================================================\n\n")
         }  #  end if - wrap_lognormal_dist_around_Xu
 
     }  #  end function - gen_4_basic_variants()
