@@ -108,14 +108,6 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
 
     Xu_bdprob_APP@nodes                     = Xu_bdprob_COR@nodes
 
-        #------------------------------------------------------------------
-        #  IN FUTURE ERROR MODELS, PU_COSTS COULD BE CHANGED.
-        #  IF THE COSTS ARE CHANGED THOUGH, THAT SHOULD BE DONE IN THE
-        #  APP_prob_info OBJECT, NOT IN THE MAIN PROBLEM OBJECT.
-        #  The COR costs should still be retained here for comparison and
-        #  error calculations.
-        #------------------------------------------------------------------
-
     Xu_bdprob_APP@PU_costs                  = Xu_bdprob_COR@PU_costs
 
     return (Xu_bdprob_APP)
