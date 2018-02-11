@@ -4,7 +4,162 @@
 
 #===============================================================================
 
+set_const_err_rate = function (err_type, const_rate,
+                               rate_lower_bound, rate_upper_bound,
+                               err_name_string)
+    {
+    const_err_rate = NA
+    if (err_type            == "CONSTANT")
+        {
+        const_err_rate = vn (const_rate)
+
+        } else if (err_type == "RANDOM_UNIFORM_CONSTANT")
+        {
+        lower_bound = vn (rate_lower_bound)
+        upper_bound = vn (rate_upper_bound)
+
+        const_err_rate = runif (1, min=lower_bound, max=upper_bound)
+
+        } else                           #  unknown type of error to add
+        {
+        stop_bdpg (paste0 ("Unknown error_type for '", err_name_string,
+                           "' = '", err_type, "'"))
+        }
+
+    return (const_err_rate)
+    }
+
+#===============================================================================
+
+set_const_FP_and_FN_err_rates = function (spp_occ_FP_error_type,
+                                          spp_occ_FP_const_rate,
+                                          spp_occ_FP_rate_lower_bound,
+                                          spp_occ_FP_rate_upper_bound,
+
+                                          spp_occ_FN_error_type,
+                                          spp_occ_FN_const_rate,
+                                          spp_occ_FN_rate_lower_bound,
+                                          spp_occ_FN_rate_upper_bound)
+    {
+        #----------------------------
+        #  Set False Positive rate.
+        #----------------------------
+
+    FP_const_rate = set_const_err_rate (spp_occ_FP_error_type,
+                                        spp_occ_FP_const_rate,
+                                        spp_occ_FP_rate_lower_bound,
+                                        spp_occ_FP_rate_upper_bound,
+                                        "spp_occ_FP_error_type")
+
+        #----------------------------
+        #  Set False Negative rate.
+        #----------------------------
+
+    FN_const_rate = set_const_err_rate (spp_occ_FN_error_type,
+                                        spp_occ_FN_const_rate,
+                                        spp_occ_FN_rate_lower_bound,
+                                        spp_occ_FN_rate_upper_bound,
+                                        "spp_occ_FN_error_type")
+
+    #--------------------
+
+    FP_and_FN_const_rates <- list (FP_const_rate = FP_const_rate,
+                                   FN_const_rate = FN_const_rate)
+
+    return (FP_and_FN_const_rates)
+    }
+
+#===============================================================================
+
+#' Set constant FP and FN rates
+#'
+#' Set the False Positive and False Negative error rate to either a
+#' given constant value or a constant value chosen from a uniform random
+#' distribution whose upper and lower bounds are given.
+#'
+#' As a result, the False
+#' Positive error rate for every PU/spp pair in the problem will be identical.
+#' The False Negative error rate for every PU/spp pair will also be identical
+#' but not necessarily the same value as the False Positive rate.
+#'
 #-------------------------------------------------------------------------------
+
+#' @inheritParams std_param_defns
+#'
+#' @return Returns FP_and_FN_const_rates list
+
+#-------------------------------------------------------------------------------
+
+set_const_FP_and_FN_rates = function (parameters)
+    {
+    FP_and_FN_const_rates =
+        set_const_FP_and_FN_err_rates (parameters$spp_occ_FP_error_type,
+                                       parameters$spp_occ_FP_const_rate,
+                                       parameters$spp_occ_FP_rate_lower_bound,
+                                       parameters$spp_occ_FP_rate_upper_bound,
+
+                                       parameters$spp_occ_FN_error_type,
+                                       parameters$spp_occ_FN_const_rate,
+                                       parameters$spp_occ_FN_rate_lower_bound,
+                                       parameters$spp_occ_FN_rate_upper_bound)
+
+    #     #----------------------------
+    #     #  Set False Positive rate.
+    #     #----------------------------
+    #
+    # spp_occ_FP_error_type = parameters$spp_occ_FP_error_type
+    #
+    # FP_const_rate = NA
+    # if (spp_occ_FP_error_type            == "CONSTANT")
+    #     {
+    #     FP_const_rate = parameters$spp_occ_FP_const_rate
+    #
+    #     } else if (spp_occ_FP_error_type == "RANDOM_UNIFORM_CONSTANT")
+    #     {
+    #     lower_bound = parameters$spp_occ_FP_rate_lower_bound
+    #     upper_bound = parameters$spp_occ_FP_rate_upper_bound
+    #
+    #     FP_const_rate = runif (1, min=lower_bound, max=upper_bound)
+    #
+    #     } else                           #  unknown type of error to add
+    #     {
+    #     quit (paste0 ("Unknown spp_occ_FP_error_type = '",
+    #                    spp_occ_FP_error_type, "'"))
+    #     }
+    #
+    #     #----------------------------
+    #     #  Set False Negative rate.
+    #     #----------------------------
+    #
+    # spp_occ_FN_error_type = parameters$spp_occ_FN_error_type
+    #
+    # FN_const_rate = NA
+    # if (spp_occ_FN_error_type            == "CONSTANT")
+    #     {
+    #     FN_const_rate = parameters$spp_occ_FN_const_rate
+    #
+    #     } else if (spp_occ_FN_error_type == "RANDOM_UNIFORM_CONSTANT")
+    #     {
+    #     lower_bound = parameters$spp_occ_FN_rate_lower_bound
+    #     upper_bound = parameters$spp_occ_FN_rate_upper_bound
+    #
+    #     FN_const_rate = runif (1, min=lower_bound, max=upper_bound)
+    #
+    #     } else                           #  unknown type of error to add
+    #     {
+    #     stop_bdpg (paste0 ("\n\nERROR: Unknown spp_occ_FN_error_type = '",
+    #             spp_occ_FN_error_type, "'"))
+    #     }
+    #
+    # #--------------------
+    #
+    # FP_and_FN_const_rates <- list (FP_const_rate = FP_const_rate,
+    #                                FN_const_rate = FN_const_rate)
+
+    return (FP_and_FN_const_rates)
+    }
+
+#===============================================================================
 
 #' Apply error to species occupancy data.
 #'
@@ -68,87 +223,6 @@ apply_error_to_spp_occupancy_data =
         }  #  end for - all spp rows
 
     return (bpm)
-    }
-
-#===============================================================================
-
-#-------------------------------------------------------------------------------
-
-#' Set constant FP and FN rates
-#'
-#' Set the False Positive and False Negative error rate to either a
-#' given constant value or a constant value chosen from a uniform random
-#' distribution whose upper and lower bounds are given.
-#'
-#' As a result, the False
-#' Positive error rate for every PU/spp pair in the problem will be identical.
-#' The False Negative error rate for every PU/spp pair will also be identical
-#' but not necessarily the same value as the False Positive rate.
-#'
-#-------------------------------------------------------------------------------
-
-#' @inheritParams std_param_defns
-#'
-#' @return Returns FP_and_FN_const_rates list
-
-#-------------------------------------------------------------------------------
-
-set_const_FP_and_FN_rates = function (parameters)
-    {
-        #----------------------------
-        #  Set False Positive rate.
-        #----------------------------
-
-    spp_occ_FP_error_type = parameters$spp_occ_FP_error_type
-
-    FP_const_rate = NA
-    if (spp_occ_FP_error_type            == "CONSTANT")
-        {
-        FP_const_rate = parameters$spp_occ_FP_const_rate
-
-        } else if (spp_occ_FP_error_type == "RANDOM_UNIFORM_CONSTANT")
-        {
-        lower_bound = parameters$spp_occ_FP_rate_lower_bound
-        upper_bound = parameters$spp_occ_FP_rate_upper_bound
-
-        FP_const_rate = runif (1, min=lower_bound, max=upper_bound)
-
-        } else                           #  unknown type of error to add
-        {
-        quit (paste0 ("Unknown spp_occ_FP_error_type = '",
-                       spp_occ_FP_error_type, "'"))
-        }
-
-        #----------------------------
-        #  Set False Negative rate.
-        #----------------------------
-
-    spp_occ_FN_error_type = parameters$spp_occ_FN_error_type
-
-    FN_const_rate = NA
-    if (spp_occ_FN_error_type            == "CONSTANT")
-        {
-        FN_const_rate = parameters$spp_occ_FN_const_rate
-
-        } else if (spp_occ_FN_error_type == "RANDOM_UNIFORM_CONSTANT")
-        {
-        lower_bound = parameters$spp_occ_FN_rate_lower_bound
-        upper_bound = parameters$spp_occ_FN_rate_upper_bound
-
-        FN_const_rate = runif (1, min=lower_bound, max=upper_bound)
-
-        } else                           #  unknown type of error to add
-        {
-        stop_bdpg (paste0 ("\n\nERROR: Unknown spp_occ_FN_error_type = '",
-                spp_occ_FN_error_type, "'"))
-        }
-
-    #--------------------
-
-    FP_and_FN_const_rates <- list (FP_const_rate = FP_const_rate,
-                                   FN_const_rate = FN_const_rate)
-
-    return (FP_and_FN_const_rates)
     }
 
 #===============================================================================
