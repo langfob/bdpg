@@ -254,8 +254,8 @@ match_FP_and_FN_counts_to_smaller_of_the_two <- function (num_TPs,
 #===============================================================================
 
 match_FP_and_FN_counts_if_necessary <- function (match_error_counts,
-                                                 sum_bpm,
-                                                 length_bpm,
+                                                 num_TPs,            #sum (cor_bpm)
+                                                 num_TPs_and_TNs,    #length (cor_bpm)
                                                  FP_const_rate,
                                                  FN_const_rate)
     {
@@ -264,8 +264,9 @@ match_FP_and_FN_counts_if_necessary <- function (match_error_counts,
 
     if (match_error_counts)
         {
-        num_TPs = sum_bpm                 #sum (cor_bpm)
-        num_TNs = length_bpm - num_TPs    #length (cor_bpm) - num_TPs
+#        num_TPs = sum_bpm                 #sum (cor_bpm)
+#        num_TNs = length_bpm - num_TPs    #length (cor_bpm) - num_TPs
+        num_TNs = num_TPs_and_TNs - num_TPs    #length (cor_bpm) - num_TPs
 
         FP_FN_const_rate_pair =
           match_FP_and_FN_counts_to_smaller_of_the_two (num_TPs,
@@ -283,25 +284,47 @@ match_FP_and_FN_counts_if_necessary <- function (match_error_counts,
 
 #===============================================================================
 
-build_const_err_FP_and_FN_matrices <- function (parameters,
-                                                cor_bpm,
+build_const_err_FP_and_FN_matrices <- function (num_TPs,            #  sum (cor_bpm)
+                                                num_TPs_and_TNs,    #  length (cor_bpm)
+
                                                 cor_num_PUs,
-                                                cor_num_spp)
+                                                cor_num_spp,
+
+                                                spp_occ_FP_error_type,
+                                                spp_occ_FP_const_rate,
+                                                spp_occ_FP_rate_lower_bound,
+                                                spp_occ_FP_rate_upper_bound,
+
+                                                spp_occ_FN_error_type,
+                                                spp_occ_FN_const_rate,
+                                                spp_occ_FN_rate_lower_bound,
+                                                spp_occ_FN_rate_upper_bound,
+
+                                                match_error_counts)
     {
 cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
 
-    FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters)
+#    FP_and_FN_const_rates = set_const_FP_and_FN_rates (parameters)
+    FP_and_FN_const_rates =
+        set_const_FP_and_FN_err_rates (spp_occ_FP_error_type,
+                                       spp_occ_FP_const_rate,
+                                       spp_occ_FP_rate_lower_bound,
+                                       spp_occ_FP_rate_upper_bound,
+
+                                       spp_occ_FN_error_type,
+                                       spp_occ_FN_const_rate,
+                                       spp_occ_FN_rate_lower_bound,
+                                       spp_occ_FN_rate_upper_bound)
 
     FP_const_rate = FP_and_FN_const_rates$FP_const_rate
     FN_const_rate = FP_and_FN_const_rates$FN_const_rate
 
     #----------
 
-    match_error_counts = parameters$match_error_counts
     FP_and_FN_const_rates =
         match_FP_and_FN_counts_if_necessary (match_error_counts,
-                                             sum (cor_bpm),
-                                             length (cor_bpm),
+                                             num_TPs,            #sum (cor_bpm),
+                                             num_TPs_and_TNs,    #length (cor_bpm),
                                              FP_const_rate,
                                              FN_const_rate)
 
@@ -323,13 +346,13 @@ cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
     #----------
 
     ret_vals_from_build_const_err_FP_and_FN_matrices =
-        list (original_FP_const_rate    = FP_and_FN_const_rates$FP_const_rate,
+        list (original_FP_const_rate  = FP_and_FN_const_rates$FP_const_rate,
               original_FN_const_rate  = FP_and_FN_const_rates$FN_const_rate,
               match_error_counts      = match_error_counts,
               FP_const_rate           = FP_const_rate,
               FN_const_rate           = FN_const_rate,
-              FP_rates_matrix = FP_rates_matrix,
-              FN_rates_matrix = FN_rates_matrix)
+              FP_rates_matrix         = FP_rates_matrix,
+              FN_rates_matrix         = FN_rates_matrix)
 
     return (ret_vals_from_build_const_err_FP_and_FN_matrices)
     }

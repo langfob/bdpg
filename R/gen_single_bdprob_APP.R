@@ -233,13 +233,20 @@ apply_unif_rand_error_to_PU_costs <- function (cor_PU_costs,
 #' @inheritParams std_param_defns
 #' @param Xu_bdprob_COR a Xu_bd_problem
 #' @param Xu_bdprob_APP an apparent Xu_bd_problem
+#' @param ret_vals_from_build_const_err list of return values from building
+#'     constant error values if already done, NULL if not already done
+#' @param ret_vals_from_apply_cost_errors list of return values from building
+#'     cost error values if already done, NULL if not already done
 #'
 #' @return an apparent Xu_bd_problem
 #-------------------------------------------------------------------------------
 
 create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
                                                                   Xu_bdprob_APP,
-                                                                  parameters)
+                                                                  parameters,
+                                                                  ret_vals_from_build_const_err = NULL,
+                                                                  ret_vals_from_apply_cost_errors = NULL
+                                                                  )
     {
     APP_prob_info = new ("APP_prob_info_class")
 
@@ -260,9 +267,12 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
         #  Compute PU cost errors and create apparent PU_costs.
         #--------------------------------------------------------
 
-    ret_vals_from_apply_cost_errors =
-        apply_unif_rand_error_to_PU_costs (Xu_bdprob_COR@PU_costs,
-                                           parameters$cost_error_frac_bound)
+    if (is.null (ret_vals_from_apply_cost_errors))
+        {
+        ret_vals_from_apply_cost_errors =
+            apply_unif_rand_error_to_PU_costs (Xu_bdprob_COR@PU_costs,
+                                               parameters$cost_error_frac_bound)
+        }
 
     Xu_bdprob_APP@PU_costs = ret_vals_from_apply_cost_errors$app_PU_costs
     APP_prob_info@cost_error_bound =
@@ -272,11 +282,27 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
         #  Compute FP and FN errors and create apparent bpm.
         #-----------------------------------------------------
 
-    ret_vals_from_build_const_err =
-      build_const_err_FP_and_FN_matrices (parameters,
-                                          Xu_bdprob_COR@bpm,
-                                          Xu_bdprob_COR@num_PUs,
-                                          Xu_bdprob_COR@num_spp)
+    if (is.null (ret_vals_from_build_const_err))
+        {
+        ret_vals_from_build_const_err =
+            build_const_err_FP_and_FN_matrices (sum (Xu_bdprob_COR@bpm),       #  num_TPs
+                                                length (Xu_bdprob_COR@bpm),    # num_TPs_and_TNs
+
+                                                Xu_bdprob_COR@num_PUs,
+                                                Xu_bdprob_COR@num_spp,
+
+                                                parameters$spp_occ_FP_error_type,
+                                                parameters$spp_occ_FP_const_rate,
+                                                parameters$spp_occ_FP_rate_lower_bound,
+                                                parameters$spp_occ_FP_rate_upper_bound,
+
+                                                parameters$spp_occ_FN_error_type,
+                                                parameters$spp_occ_FN_const_rate,
+                                                parameters$spp_occ_FN_rate_lower_bound,
+                                                parameters$spp_occ_FN_rate_upper_bound,
+
+                                                parameters$match_error_counts)
+        }
 
     APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
     APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
@@ -341,6 +367,10 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
 #' @inheritParams std_param_defns
 #' @param Xu_bdprob_COR correct Xu problem that is to have error added to it
+#' @param ret_vals_from_build_const_err list of return values from building
+#'     constant error values if already done, NULL if not already done
+#' @param ret_vals_from_apply_cost_errors list of return values from building
+#'     cost error values if already done, NULL if not already done
 #'
 #' @return Returns apparent version of either a Xu_bd_problem or a
 #'     Xu_wrapped_bd_problem
@@ -348,7 +378,10 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
 #-------------------------------------------------------------------------------
 
-gen_single_bdprob_APP <- function (Xu_bdprob_COR, parameters)
+gen_single_bdprob_APP <- function (Xu_bdprob_COR,
+                                   parameters,
+                                   ret_vals_from_build_const_err = NULL,
+                                   ret_vals_from_apply_cost_errors = NULL)
     {
     Xu_bdprob_APP =
         create_and_init_APP_bdprob (Xu_bdprob_COR,
@@ -357,7 +390,9 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR, parameters)
     Xu_bdprob_APP =
         create_APP_prob_info_by_adding_error_to_spp_occ_data (Xu_bdprob_COR,
                                                               Xu_bdprob_APP,
-                                                              parameters)
+                                                              parameters,
+                                                              ret_vals_from_build_const_err = NULL,
+                                                              ret_vals_from_apply_cost_errors = NULL)
 
     starting_dir = parameters$fullOutputDir_NO_slash
 

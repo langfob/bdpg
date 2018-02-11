@@ -5,7 +5,8 @@
 \title{Add error to the species occupancy data and save to APP_prob_info structure.}
 \usage{
 create_APP_prob_info_by_adding_error_to_spp_occ_data(Xu_bdprob_COR,
-  Xu_bdprob_APP, parameters)
+  Xu_bdprob_APP, parameters, ret_vals_from_build_const_err = NULL,
+  ret_vals_from_apply_cost_errors = NULL)
 }
 \arguments{
 \item{Xu_bdprob_COR}{a Xu_bd_problem}
@@ -14,6 +15,12 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data(Xu_bdprob_COR,
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{ret_vals_from_build_const_err}{list of return values from building
+constant error values if already done, NULL if not already done}
+
+\item{ret_vals_from_apply_cost_errors}{list of return values from building
+cost error values if already done, NULL if not already done}
 }
 \value{
 an apparent Xu_bd_problem
