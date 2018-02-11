@@ -27,19 +27,6 @@
 create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
                                         parameters)
     {
-    # forced_seed =
-    #     get_forced_seed_value_if_necessary (is_rsrun = FALSE,
-    #                                         is_rsprob = TRUE,
-    #                                         parameters,
-    #                                         "APP",
-    #                                         Xu_bdprob_COR@basic_or_wrapped_or_comb_str)
-    #
-    # new_seed =
-    #     set_new_or_forced_rand_seed_if_necessary (value_or_FALSE_if_null (parameters$set_rand_seed_at_creation_of_all_new_major_objects),
-    #                                               paste0 ("Start of create_and_init_APP_bdprob(),APP,",
-    #                                                       Xu_bdprob_COR@basic_or_wrapped_or_comb_str),
-    #                                               forced_seed)
-
     new_seed_list =
         set_new_or_forced_rand_seed_if_necessary (is_rsrun = FALSE,
                                                   is_rsprob = TRUE,
@@ -94,7 +81,6 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
     Xu_bdprob_APP@prob_generator_params_known      = Xu_bdprob_COR@prob_generator_params_known
     Xu_bdprob_APP@correct_solution_vector_is_known = Xu_bdprob_COR@correct_solution_vector_is_known
 
-#    Xu_bdprob_APP@PU_spp_pair_indices       = Xu_bdprob_COR@PU_spp_pair_indices
     Xu_bdprob_APP@cor_PU_spp_pair_indices       = Xu_bdprob_COR@cor_PU_spp_pair_indices
 
     Xu_bdprob_APP@all_PU_IDs                = Xu_bdprob_COR@all_PU_IDs
@@ -171,13 +157,12 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
         #  Summarize and plot graph and distribution structure information.
     Xu_bdprob_APP@final_link_counts_for_each_node =
         summarize_and_plot_graph_and_distribution_structure_information (
-#                  Xu_bdprob_APP@PU_spp_pair_indices,
+
                   Xu_bdprob_APP@APP_prob_info@app_PU_spp_pair_indices,
 
                   "APP",
                   Xu_bdprob_COR@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
 
-#                  Xu_bdprob_APP@derived_bdpg_dir_names$plot_output_dir,
                   get_RSprob_path_plots (Xu_bdprob_APP, starting_dir),
 
                   Xu_bdprob_APP@spp_col_name,
@@ -360,15 +345,7 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
 #-------------------------------------------------------------------------------
 
-gen_single_bdprob_APP <- function (Xu_bdprob_COR,
-                            #compute_network_metrics_for_this_prob,
-                                    #starting_dir,    #  not needed?  take from cor?
-                                    parameters
-#                            ,
-#                        integerize,                           #  NOT USED ANYMORE?
-#                        base_prob_name_stem = "base_prob",    #  NOT USED ANYMORE?
-#                        app_dir_name_stem = "app"             #  NOT USED ANYMORE?
-                                    )
+gen_single_bdprob_APP <- function (Xu_bdprob_COR, parameters)
     {
     Xu_bdprob_APP =
         create_and_init_APP_bdprob (Xu_bdprob_COR,
@@ -389,7 +366,6 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR,
     Xu_bdprob_APP =
         compute_and_save_dist_and_network_metrics_for_prob (Xu_bdprob_APP,
                                                             Xu_bdprob_COR,
-                                                            #compute_network_metrics_for_this_prob,
                                                             starting_dir,
                                                             parameters)
 
@@ -405,7 +381,6 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR,
 
     Xu_bdprob_APP <- save_rsprob (Xu_bdprob_APP, starting_dir)
 
-#    save_rsprob_results_data_for_Xu_NOT_read_from_bench_file (Xu_bdprob_APP,
     save_rsprob_results_data (Xu_bdprob_APP, starting_dir, parameters$run_ID)
 
     return (Xu_bdprob_APP)
