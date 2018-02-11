@@ -306,6 +306,36 @@ match_FP_and_FN_counts_to_smaller_of_the_two <- function (num_TPs,
 
 #===============================================================================
 
+match_FP_and_FN_counts_if_necessary <- function (match_error_counts,
+                                                 sum_bpm,
+                                                 length_bpm,
+                                                 FP_const_rate,
+                                                 FN_const_rate)
+    {
+    match_error_counts = vb (match_error_counts,
+                             def_on_empty = TRUE, def = FALSE)
+
+    if (match_error_counts)
+        {
+        num_TPs = sum_bpm                 #sum (cor_bpm)
+        num_TNs = length_bpm - num_TPs    #length (cor_bpm) - num_TPs
+
+        FP_FN_const_rate_pair =
+          match_FP_and_FN_counts_to_smaller_of_the_two (num_TPs,
+                                                        num_TNs,
+                                                        FP_const_rate,
+                                                        FN_const_rate)
+
+        FP_const_rate = FP_FN_const_rate_pair$FP_const_rate
+        FN_const_rate = FP_FN_const_rate_pair$FN_const_rate
+        }
+
+    return (list (FP_const_rate = FP_const_rate,
+                  FN_const_rate = FN_const_rate))
+    }
+
+#===============================================================================
+
 build_const_err_FP_and_FN_matrices <- function (parameters,
                                                 cor_bpm,
                                                 cor_num_PUs,
@@ -318,23 +348,38 @@ cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
     FP_const_rate = FP_and_FN_const_rates$FP_const_rate
     FN_const_rate = FP_and_FN_const_rates$FN_const_rate
 
-    match_error_counts = FALSE
-    if (! is.null (parameters$match_error_counts))
-        match_error_counts = parameters$match_error_counts
+    #----------
 
-    if (match_error_counts)
-        {
-        num_TPs = sum (cor_bpm)
-        num_TNs = length (cor_bpm) - num_TPs
+    match_error_counts = parameters$match_error_counts
+    FP_and_FN_const_rates =
+        match_FP_and_FN_counts_if_necessary (match_error_counts,
+                                             sum (cor_bpm),
+                                             length (cor_bpm),
+                                             FP_const_rate,
+                                             FN_const_rate)
 
-        FP_FN_const_rate_pair =
-          match_FP_and_FN_counts_to_smaller_of_the_two (num_TPs, num_TNs,
-                                                        FP_const_rate,
-                                                        FN_const_rate)
+    FP_const_rate = FP_and_FN_const_rates$FP_const_rate
+    FN_const_rate = FP_and_FN_const_rates$FN_const_rate
 
-        FP_const_rate = FP_FN_const_rate_pair$FP_const_rate
-        FN_const_rate = FP_FN_const_rate_pair$FN_const_rate
-        }
+# match_error_counts = FALSE
+    # if (! is.null (parameters$match_error_counts))
+    #     match_error_counts = parameters$match_error_counts
+    #
+    # if (match_error_counts)
+    #     {
+    #     num_TPs = sum (cor_bpm)
+    #     num_TNs = length (cor_bpm) - num_TPs
+    #
+    #     FP_FN_const_rate_pair =
+    #       match_FP_and_FN_counts_to_smaller_of_the_two (num_TPs, num_TNs,
+    #                                                     FP_const_rate,
+    #                                                     FN_const_rate)
+    #
+    #     FP_const_rate = FP_FN_const_rate_pair$FP_const_rate
+    #     FN_const_rate = FP_FN_const_rate_pair$FN_const_rate
+    #     }
+
+    #----------
 
     FP_rates_matrix = matrix (rep (FP_const_rate, (cor_num_PUs * cor_num_spp)),
                           nrow=cor_num_spp,
@@ -346,12 +391,14 @@ cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
                           ncol=cor_num_PUs,
                           byrow=TRUE)
 
+    #----------
+
     ret_vals_from_build_const_err_FP_and_FN_matrices =
         list (original_FP_const_rate    = FP_and_FN_const_rates$FP_const_rate,
-                original_FN_const_rate  = FP_and_FN_const_rates$FN_const_rate,
-                match_error_counts      = match_error_counts,
-                FP_const_rate           = FP_const_rate,
-                FN_const_rate           = FN_const_rate,
+              original_FN_const_rate  = FP_and_FN_const_rates$FN_const_rate,
+              match_error_counts      = match_error_counts,
+              FP_const_rate           = FP_const_rate,
+              FN_const_rate           = FN_const_rate,
               FP_rates_matrix = FP_rates_matrix,
               FN_rates_matrix = FN_rates_matrix)
 
