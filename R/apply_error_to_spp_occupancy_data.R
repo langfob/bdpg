@@ -103,59 +103,6 @@ set_const_FP_and_FN_rates = function (parameters)
                                        parameters$spp_occ_FN_rate_lower_bound,
                                        parameters$spp_occ_FN_rate_upper_bound)
 
-    #     #----------------------------
-    #     #  Set False Positive rate.
-    #     #----------------------------
-    #
-    # spp_occ_FP_error_type = parameters$spp_occ_FP_error_type
-    #
-    # FP_const_rate = NA
-    # if (spp_occ_FP_error_type            == "CONSTANT")
-    #     {
-    #     FP_const_rate = parameters$spp_occ_FP_const_rate
-    #
-    #     } else if (spp_occ_FP_error_type == "RANDOM_UNIFORM_CONSTANT")
-    #     {
-    #     lower_bound = parameters$spp_occ_FP_rate_lower_bound
-    #     upper_bound = parameters$spp_occ_FP_rate_upper_bound
-    #
-    #     FP_const_rate = runif (1, min=lower_bound, max=upper_bound)
-    #
-    #     } else                           #  unknown type of error to add
-    #     {
-    #     quit (paste0 ("Unknown spp_occ_FP_error_type = '",
-    #                    spp_occ_FP_error_type, "'"))
-    #     }
-    #
-    #     #----------------------------
-    #     #  Set False Negative rate.
-    #     #----------------------------
-    #
-    # spp_occ_FN_error_type = parameters$spp_occ_FN_error_type
-    #
-    # FN_const_rate = NA
-    # if (spp_occ_FN_error_type            == "CONSTANT")
-    #     {
-    #     FN_const_rate = parameters$spp_occ_FN_const_rate
-    #
-    #     } else if (spp_occ_FN_error_type == "RANDOM_UNIFORM_CONSTANT")
-    #     {
-    #     lower_bound = parameters$spp_occ_FN_rate_lower_bound
-    #     upper_bound = parameters$spp_occ_FN_rate_upper_bound
-    #
-    #     FN_const_rate = runif (1, min=lower_bound, max=upper_bound)
-    #
-    #     } else                           #  unknown type of error to add
-    #     {
-    #     stop_bdpg (paste0 ("\n\nERROR: Unknown spp_occ_FN_error_type = '",
-    #             spp_occ_FN_error_type, "'"))
-    #     }
-    #
-    # #--------------------
-    #
-    # FP_and_FN_const_rates <- list (FP_const_rate = FP_const_rate,
-    #                                FN_const_rate = FN_const_rate)
-
     return (FP_and_FN_const_rates)
     }
 
@@ -360,24 +307,6 @@ cat ("\n\nIN build_const_err_FP_and_FN_matrices()\n\n")
 
     FP_const_rate = FP_and_FN_const_rates$FP_const_rate
     FN_const_rate = FP_and_FN_const_rates$FN_const_rate
-
-# match_error_counts = FALSE
-    # if (! is.null (parameters$match_error_counts))
-    #     match_error_counts = parameters$match_error_counts
-    #
-    # if (match_error_counts)
-    #     {
-    #     num_TPs = sum (cor_bpm)
-    #     num_TNs = length (cor_bpm) - num_TPs
-    #
-    #     FP_FN_const_rate_pair =
-    #       match_FP_and_FN_counts_to_smaller_of_the_two (num_TPs, num_TNs,
-    #                                                     FP_const_rate,
-    #                                                     FN_const_rate)
-    #
-    #     FP_const_rate = FP_FN_const_rate_pair$FP_const_rate
-    #     FN_const_rate = FP_FN_const_rate_pair$FN_const_rate
-    #     }
 
     #----------
 

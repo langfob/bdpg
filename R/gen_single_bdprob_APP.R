@@ -197,7 +197,6 @@ apply_unif_rand_error_to_PU_costs <- function (cor_PU_costs,
                                                )
     {
     num_PUs = length (cor_PU_costs)
-#    if (is.null (parameters$cost_error_frac_bound))
     if (is.null (cost_error_frac_bound))
         {
         cost_error_bound = 0
@@ -207,7 +206,6 @@ apply_unif_rand_error_to_PU_costs <- function (cor_PU_costs,
 
         } else
         {
-#        cost_error_bound = vn (parameters$cost_error_frac_bound,
         cost_error_bound = vn (cost_error_frac_bound,
                                def_on_empty = FALSE,
                                range_lo = 0, range_hi = 1)
@@ -264,8 +262,8 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
     ret_vals_from_apply_cost_errors =
         apply_unif_rand_error_to_PU_costs (Xu_bdprob_COR@PU_costs,
-                                           parameters$cost_error_frac_bound    #parameters
-                                           )
+                                           parameters$cost_error_frac_bound)
+
     Xu_bdprob_APP@PU_costs = ret_vals_from_apply_cost_errors$app_PU_costs
     APP_prob_info@cost_error_bound =
         ret_vals_from_apply_cost_errors$cost_error_bound
