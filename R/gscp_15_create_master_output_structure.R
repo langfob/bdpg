@@ -305,7 +305,8 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
     tzar_run_ID_list          = list (rsr_tzar_run_ID = tzar_run_ID,
                                       rsr_UUID = rsrun@UUID,
                                       rsr_checksum = rsrun@checksum,
-                                      rsr_rand_seed = rsrun@rand_seed)
+                                      rsr_rand_seed = rsrun@rand_seed,
+                                      rs_method_name = rs_method_name)
 
     use_src_rds_file_dir = ! (is.null (src_rds_file_dir))
 
