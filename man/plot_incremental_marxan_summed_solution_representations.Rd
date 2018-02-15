@@ -12,15 +12,19 @@ plot_incremental_marxan_summed_solution_representations(marxan_ssoln_df,
 \arguments{
 \item{marxan_ssoln_df}{data frame}
 
-\item{cor_PU_costs}{numeric vector}
+\item{cor_PU_costs}{numeric vector giving correct cost of each planning unit}
 
 \item{optimum_cost}{numeric}
 
-\item{bpm}{matrix}
+\item{bpm}{bipartite matrix; integer matrix with one row for each species
+and one column for each planning unit.  Each matrix entry specifies
+whether that species occupies that planning unit; 1 indicates the
+species does occupy the planning unit and 0 indicates it does not.
+Same as occ_matrix.}
 
 \item{cor_app_prefix_string}{character string}
 
-\item{num_spp}{integer}
+\item{num_spp}{integer number of species in the problem}
 
 \item{plot_output_dir}{character string}
 }

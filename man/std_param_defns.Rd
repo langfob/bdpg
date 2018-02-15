@@ -5,13 +5,13 @@
 \title{Standardized parameter definitions for reuse across all functions}
 \usage{
 std_param_defns(all_correct_node_IDs, allow_imperfect_wrap, APP_bd_prob,
-  base_outdir_for_checksum, bdpg_error_name, bpm,
+  app_PU_costs, base_outdir_for_checksum, bdpg_error_name, bpm,
   compute_network_metrics_for_this_prob, COR_bd_prob, cor_or_app_label,
-  correct_solution_vector_is_known, dependent_node_IDs, duplicate_links_allowed,
-  edge_list, exp_root_dir, final_link_counts_for_each_node,
-  final_node_counts_for_each_link, final_rank_abundance_dist, forward,
-  given_correct_solution_cost, integerize, integerize_string,
-  marxan_elapsed_time, marxan_solution, max_allowed_num_spp,
+  cor_PU_costs, correct_solution_vector_is_known, dependent_node_IDs,
+  duplicate_links_allowed, edge_list, exp_root_dir,
+  final_link_counts_for_each_node, final_node_counts_for_each_link,
+  final_rank_abundance_dist, forward, given_correct_solution_cost, integerize,
+  integerize_string, marxan_elapsed_time, marxan_solution, max_allowed_num_spp,
   max_possible_tot_num_links, n__num_groups, nodes, num_nodes_per_group,
   num_PUs, num_rounds_of_linking_between_groups, num_spp, obj,
   obj_with_UUID_and_checksum, occ_matrix, parameters, plot_output_dir,
@@ -34,6 +34,8 @@ fully contain the base distribution}
 
 \item{APP_bd_prob}{an apparent Xu_bd_problem}
 
+\item{app_PU_costs}{numeric vector giving apparent cost of each planning unit}
+
 \item{base_outdir_for_checksum}{directory where temporary file for use in checksum
 computation will be written and then deleted}
 
@@ -54,6 +56,8 @@ indicate not compute any network metrics for the current problem.}
 \item{COR_bd_prob}{a correct Xu_bd_problem}
 
 \item{cor_or_app_label}{character string for labelling as Correct or Apparent}
+
+\item{cor_PU_costs}{numeric vector giving correct cost of each planning unit}
 
 \item{correct_solution_vector_is_known}{boolean flag indicating whether
 a correct optimal solution vector is known for the problem (as opposed
