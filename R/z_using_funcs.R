@@ -90,7 +90,11 @@ if (forward)  #  not the normal Zonation order
 
     chosen_PUs_vec = chosen_PUs_vec [chosen_PUs_vec %in% S_remaining_PUs_vec]
     if (length (chosen_PUs_vec) < 1)
+{
+cat ("\nJust before stop_bdpg: chosen_PUs_vec is empty in choose_next_PU_z\n\n")
+browser()
         stop_bdpg ("chosen_PUs_vec is empty in choose_next_PU_z")
+}
 
         #  When there is a tie in min of max loss,
         #  break the tie based on whichever tied PU has the
