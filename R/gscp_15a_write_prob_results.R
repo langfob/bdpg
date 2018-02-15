@@ -59,12 +59,14 @@ load_results_output_values_common_to_all_Xu_problems <- function (results_list,
     #--------------------
 
             #  Error generation parameters
-            #  Even those these values are meaningless for COR problems,
+            #  Even though these values are meaningless for COR problems,
             #  I'm going to write something out for them anyway
             #  just to keep the output tables having the same size and
             #  column headings, which should make merging tables simpler.
 
     results_list$rsp_UUID_of_base_problem_that_has_err_added                        = APP_prob_info@UUID_of_base_problem_that_has_err_added
+
+    results_list$rsp_cost_error_bound                                               = APP_prob_info@cost_error_bound
 
     results_list$rsp_original_FP_const_rate                                         = APP_prob_info@original_FP_const_rate
     results_list$rsp_original_FN_const_rate                                         = APP_prob_info@original_FN_const_rate

@@ -274,10 +274,6 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
                                                parameters$cost_error_frac_bound)
         }
 
-    Xu_bdprob_APP@PU_costs = ret_vals_from_apply_cost_errors$app_PU_costs
-    APP_prob_info@cost_error_bound =
-        ret_vals_from_apply_cost_errors$cost_error_bound
-
         #-----------------------------------------------------
         #  Compute FP and FN errors and create apparent bpm.
         #-----------------------------------------------------
@@ -303,6 +299,10 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
                                                 parameters$match_error_counts)
         }
+
+    Xu_bdprob_APP@PU_costs = ret_vals_from_apply_cost_errors$app_PU_costs
+    APP_prob_info@cost_error_bound =
+        ret_vals_from_apply_cost_errors$cost_error_bound
 
     APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
     APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
@@ -391,8 +391,8 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR,
         create_APP_prob_info_by_adding_error_to_spp_occ_data (Xu_bdprob_COR,
                                                               Xu_bdprob_APP,
                                                               parameters,
-                                                              ret_vals_from_build_const_err = NULL,
-                                                              ret_vals_from_apply_cost_errors = NULL)
+                                                              ret_vals_from_build_const_err,
+                                                              ret_vals_from_apply_cost_errors)
 
     starting_dir = parameters$fullOutputDir_NO_slash
 

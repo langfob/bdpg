@@ -274,7 +274,8 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps <-
       find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
               get_RSrun_path_output (rsrun, exp_root_dir),
               COR_bd_prob@num_spp,
-        #COR_bd_prob@PU_costs,
+COR_bd_prob@PU_costs,
+COR_bd_prob@PU_costs,
               COR_bd_prob@bpm,
           COR_bd_prob@bpm,
               marxan_output_values$marxan_best_df_sorted,
@@ -289,7 +290,8 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps <-
       find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
               get_RSrun_path_output (rsrun, exp_root_dir),
               COR_bd_prob@num_spp,
-        #APP_bd_prob@PU_costs,        #COR_bd_prob@PU_costs,
+COR_bd_prob@PU_costs,        #COR_bd_prob@PU_costs,
+APP_bd_prob@PU_costs,        #COR_bd_prob@PU_costs,
               COR_bd_prob@bpm,
           APP_bd_prob@bpm,
               marxan_output_values$marxan_best_df_sorted,
@@ -314,7 +316,11 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps <-
 find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP <-
         function (marxan_output_dir_path,
                   num_spp,
-            #PU_costs,            #cor_PU_costs,
+
+#PU_costs,            #cor_PU_costs,
+cor_PU_costs,
+app_PU_costs,
+
                   cor_bpm,
                   app_bpm,
             marxan_best_df_sorted,
@@ -333,7 +339,11 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and
     find_best_marxan_solutions (marxan_output_dir_path,
   #                                num_PUs,     #  should this be largest_PU_ID?
                                   num_spp,     #  should this be largest_spp_ID?
-                            #cor_bpm@PU_costs,            #cor_PU_costs,
+
+#cor_bpm@PU_costs,            #cor_PU_costs,
+cor_PU_costs,
+app_PU_costs,
+
                                   cor_bpm,
                                   app_bpm,
                                   marxan_best_df_sorted_as_vector,
@@ -349,12 +359,16 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and
 
 
           # Plot how marxan is actually doing vs. how it thinks it's doing
-#app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)    #  This only works if all costs == 1.
-app_optimum_cost = sum (app_bpm@PU_costs [which (marxan_best_df_sorted$SOLUTION > 0)])
+# #app_optimum_cost = sum (marxan_best_df_sorted$SOLUTION)    #  This only works if all costs == 1.
+# app_optimum_cost = sum (app_bpm@PU_costs [which (marxan_best_df_sorted$SOLUTION > 0)])
+app_optimum_cost = sum (app_PU_costs [which (marxan_best_df_sorted$SOLUTION > 0)])
 
     plot_incremental_marxan_summed_solution_reps_for_COR_and_APP (marxan_ssoln_df_sorted_by_PU,
 
-                                                            #PU_costs,            #cor_PU_costs,
+#PU_costs,            #cor_PU_costs,
+cor_PU_costs,
+app_PU_costs,
+
                                                                       correct_solution_cost,
                                                                       app_optimum_cost,
                                                                       cor_bpm,
@@ -387,7 +401,7 @@ app_optimum_cost = sum (app_bpm@PU_costs [which (marxan_best_df_sorted$SOLUTION 
 #-------------------------------------------------------------------------------
 
 #' @param marxan_output_dir_path character string output directory for the
-#' marxan run
+#'     marxan run
 #' @param all_correct_node_IDs integer vector
 #'
 #' @return Returns list

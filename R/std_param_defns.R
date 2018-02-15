@@ -104,6 +104,7 @@
 #'     it must fully contain the base distribution and FALSE implies it need not
 #'     fully contain the base distribution
 #' @param APP_bd_prob an apparent Xu_bd_problem
+#' @param app_PU_costs numeric vector giving apparent cost of each planning unit
 #' @param base_outdir_for_checksum directory where temporary file for use in checksum
 #'     computation will be written and then deleted
 #' @param bdpg_error_name string containing name of error code to look up in
@@ -119,6 +120,7 @@
 #'     indicate not compute any network metrics for the current problem.
 #' @param COR_bd_prob a correct Xu_bd_problem
 #' @param cor_or_app_label character string for labelling as Correct or Apparent
+#' @param cor_PU_costs numeric vector giving correct cost of each planning unit
 #' @param correct_solution_vector_is_known boolean flag indicating whether
 #'     a correct optimal solution vector is known for the problem (as opposed
 #'     for example, to only knowing the correct cost)
@@ -232,12 +234,14 @@ std_param_defns <-
             all_correct_node_IDs,
             allow_imperfect_wrap,
             APP_bd_prob,
+            app_PU_costs,
             base_outdir_for_checksum,
             bdpg_error_name,
             bpm,
             compute_network_metrics_for_this_prob,
             COR_bd_prob,
             cor_or_app_label,
+            cor_PU_costs,
             correct_solution_vector_is_known,
             dependent_node_IDs,
             duplicate_links_allowed,

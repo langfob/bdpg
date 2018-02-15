@@ -25,12 +25,10 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c("number"))
 #-------------------------------------------------------------------------------
 
 #' @param marxan_ssoln_df data frame
-#' @param cor_PU_costs numeric vector
 #' @param optimum_cost numeric
-#' @param bpm matrix
 #' @param cor_app_prefix_string character string
-#' @param num_spp integer
 #' @param plot_output_dir character string
+#' @inheritParams std_param_defns
 #'
 #' @return Returns nothing
 
@@ -262,8 +260,6 @@ plot_incremental_marxan_summed_solution_representations =
 
 #===============================================================================
 
-#-------------------------------------------------------------------------------
-
 #' Plot how marxan is actually doing vs. how marxan thinks it's doing
 #'
 #'  Evaluate apparent summed solutions as a function of the correct
@@ -279,6 +275,7 @@ plot_incremental_marxan_summed_solution_representations =
 #' @param app_bpm matrix
 #' @param num_spp integer
 #' @param plot_output_dir character string
+#' @inheritParams std_param_defns
 #'
 #' @return Returns nothing
 
@@ -288,6 +285,9 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
     function (marxan_ssoln_df,
 
         #cor_PU_costs,
+cor_PU_costs,
+app_PU_costs,
+
                 correct_solution_cost,
                 app_optimum_cost,
                 cor_bpm,
@@ -299,7 +299,9 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
         #  Using correct scores...
     plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
 
-                                                        cor_bpm@PU_costs,
+#cor_bpm@PU_costs,
+cor_PU_costs,
+
                                                                 correct_solution_cost,
                                                                 cor_bpm,
                                                                 "cor",
@@ -310,7 +312,9 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
         #  Using apparent scores...
     plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
 
-                                                        app_bpm@PU_costs,    #cor_PU_costs,  #Not sure which is right here...
+#app_bpm@PU_costs,    #cor_PU_costs,  #Not sure which is right here...
+app_PU_costs,
+
                                                                 app_optimum_cost,
                                                                 app_bpm,
                                                                 "app",
@@ -321,8 +325,6 @@ plot_incremental_marxan_summed_solution_reps_for_COR_and_APP <-
     }
 
 #===============================================================================
-
-#-------------------------------------------------------------------------------
 
 #' Plot marxan best solution scores COR and APP
 #'

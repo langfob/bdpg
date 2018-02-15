@@ -255,7 +255,6 @@ compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs <-
 #' Find best marxan soltuions
 #'
 #' @param marxan_output_dir_path character string
-#' @param num_spp integer
 #' @param cor_bpm matrix
 #' @param app_bpm matrix
 #' @param marxan_best_df_sorted_as_vector data frame
@@ -264,6 +263,7 @@ compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs <-
 #' @param largest_spp_ID integer
 #' @param targets numeric vector
 #' @param marxan_top_dir character string
+#' @inheritParams std_param_defns
 #'
 #' @return Returns nothing
 
@@ -272,7 +272,8 @@ compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs <-
 find_best_marxan_solutions <- function (marxan_output_dir_path,
                                         #num_PUs,     #  should this be largest_PU_ID?
                                         num_spp,     #  should this be largest_spp_ID?
-                                #cor_PU_costs,
+cor_PU_costs,
+app_PU_costs,
                                         cor_bpm,
                                         app_bpm,
                                         marxan_best_df_sorted_as_vector,
@@ -309,7 +310,10 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
 
     marxan_solution_scores_wrt_COR_reps_and_costs =
         compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs (cor_bpm,
-                                                                      cor_bpm@PU_costs,
+
+#cor_bpm@PU_costs,
+cor_PU_costs,
+
                                                                       num_marxan_solutions,
                                                                       marxan_solutions_matrix,
                                                                       targets,
@@ -319,7 +323,10 @@ find_best_marxan_solutions <- function (marxan_output_dir_path,
 
     marxan_solution_scores_wrt_APP_reps_and_costs =
         compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs (app_bpm,
-                                                                      app_bpm@PU_costs,
+
+#app_bpm@PU_costs,
+app_PU_costs,
+
                                                                       num_marxan_solutions,
                                                                       marxan_solutions_matrix,
                                                                       targets,
