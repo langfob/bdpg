@@ -38,7 +38,9 @@ gen_4_basic_variants <- function (parameters, integerize)
                     cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
                          "', checksum = '", base_COR_bd_prob@checksum, "'  -----\n\n")
 
-    do_COR_rs_analysis_and_output (base_COR_bd_prob, parameters)
+    do_rs_analysis_and_output (base_COR_bd_prob,
+                                   base_COR_bd_prob,
+                                   parameters)
 
                     cat("\n\njust after set_up_for_and_run_marxan() for Base COR problem")
                     cat ("\n\n================================================================================")
@@ -52,7 +54,7 @@ gen_4_basic_variants <- function (parameters, integerize)
         bdpg::gen_single_bdprob_APP (base_COR_bd_prob,
                                      parameters)
 
-    do_APP_rs_analysis_and_output (base_APP_bd_prob,
+    do_rs_analysis_and_output (base_APP_bd_prob,
                                    base_COR_bd_prob,
                                    parameters)
 
@@ -72,7 +74,9 @@ gen_4_basic_variants <- function (parameters, integerize)
                         integerize,
                         base_COR_bd_prob)
 
-        do_COR_rs_analysis_and_output (wrapped_COR_bd_prob, parameters)
+        do_rs_analysis_and_output (wrapped_COR_bd_prob,
+                                       wrapped_COR_bd_prob,
+                                       parameters)
 
                         cat("\n\njust after set_up_for_and_run_marxan() for Wrapped COR problem")
                         cat ("\n\n================================================================================")
@@ -86,7 +90,7 @@ gen_4_basic_variants <- function (parameters, integerize)
             gen_single_bdprob_APP (wrapped_COR_bd_prob,
                                    parameters)
 
-        do_APP_rs_analysis_and_output (wrapped_APP_bd_prob,
+        do_rs_analysis_and_output (wrapped_APP_bd_prob,
                                        wrapped_COR_bd_prob,
                                        parameters)
 

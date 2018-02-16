@@ -78,7 +78,7 @@ gen_1_app_variant <- function (base_bd_prob,
                                      ret_vals_from_build_const_err,
                                      ret_vals_from_apply_cost_errors)
 
-    do_APP_rs_analysis_and_output (APP_bd_prob,
+    do_rs_analysis_and_output (APP_bd_prob,
                                    base_bd_prob,
                                    parameters)
 
@@ -219,9 +219,11 @@ gen_20_basic_variants_including_cost_error <- function (parameters,
                     cat ("\n\n-----  base_COR_bd_prob@UUID = '", base_COR_bd_prob@UUID,
                          "', checksum = '", base_COR_bd_prob@checksum, "'  -----\n\n")
 
-    do_COR_rs_analysis_and_output (base_COR_bd_prob, parameters)
+    do_rs_analysis_and_output (base_COR_bd_prob,
+                               base_COR_bd_prob,
+                               parameters)
 
-                    cat("\n\njust after do_COR_rs_analysis_and_output() for Base COR problem")
+                    cat("\n\njust after do_rs_analysis_and_output() for Base COR problem")
                     cat ("\n\n================================================================================")
                     cat ("\n================================================================================\n\n")
 
@@ -269,7 +271,9 @@ cat (  "\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
                         integerize,
                         base_COR_bd_prob)
 
-        do_COR_rs_analysis_and_output (wrapped_COR_bd_prob, parameters)
+        do_rs_analysis_and_output (wrapped_COR_bd_prob,
+                                   wrapped_COR_bd_prob,
+                                   parameters)
 
                         cat("\n\njust after do_COR_rs_analysis_and_output() for Wrapped COR problem")
                         cat ("\n\n================================================================================")

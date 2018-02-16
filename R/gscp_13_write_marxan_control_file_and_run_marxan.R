@@ -505,8 +505,18 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                            marxan_run,
                                            parameters)
     {
+browser()
+    if (APP_bd_prob@cor_or_app_str == "APP")
+        {
+        PU_spp_pair_indices = APP_bd_prob@APP_prob_info@app_PU_spp_pair_indices
+        } else
+        {
+        PU_spp_pair_indices = APP_bd_prob@cor_PU_spp_pair_indices
+        }
+
     marxan_control_values =
-        set_up_for_and_run_marxan (APP_bd_prob@APP_prob_info@app_PU_spp_pair_indices,
+#        set_up_for_and_run_marxan (APP_bd_prob@APP_prob_info@app_PU_spp_pair_indices,
+        set_up_for_and_run_marxan (PU_spp_pair_indices,
                                     COR_bd_prob@all_PU_IDs,
                                     COR_bd_prob@all_spp_IDs,
                                     COR_bd_prob@PU_col_name,
@@ -573,7 +583,6 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
 
         #  Write the network of species and planning units to marxan input
         #  files.
-
     write_network_to_marxan_files (PU_spp_pair_indices,       #  app values if running on app
                                    PU_IDs, #####!!!!!#####    #  All values, i.e., cor values?
                                    spp_IDs,  #####!!!!!#####  #  All values, i.e., cor values?

@@ -391,7 +391,10 @@ single_action_using_tzar_reps <- function (parameters, integerize)
         cor_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir = src_prob_and_path_list$src_rds_file_dir
 
-        do_COR_rs_analysis_and_output (cor_bdprob, parameters, src_rds_file_dir)
+        do_rs_analysis_and_output (cor_bdprob,
+                                       cor_bdprob,
+                                       parameters,
+                                       src_rds_file_dir)
         }
 
     #---------------------------------------------------------------------------
@@ -415,7 +418,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
         cor_bdprob = get_base_cor_bdprob_for_given_app_bdprob (app_bdprob,
                                                                parameters)
 
-        do_APP_rs_analysis_and_output (app_bdprob,
+        do_rs_analysis_and_output (app_bdprob,
                                        cor_bdprob,
                                        parameters,
                                        src_rds_file_dir)

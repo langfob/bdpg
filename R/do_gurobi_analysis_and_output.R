@@ -307,63 +307,13 @@ if(FALSE)
     }
 
 #===============================================================================
-
-#' Run gurobi on COR problem and write output from all analysis
-#'
-#-------------------------------------------------------------------------------
-
-#' @inheritParams std_param_defns
-#'
-#' @return Returns nothing
-#' @export
-#'
-#-------------------------------------------------------------------------------
-
-do_COR_gurobi_analysis_and_output <- function (COR_bd_prob,
-                                               parameters,
-                                               rs_method_name,
-                                               marxan_elapsed_time,
-                                               src_rds_file_dir = NULL,
-                                               spp_rep_targets =
-                                                   rep (1,COR_bd_prob@num_spp))
-    {
-        #-------------------------
-        #  Run reserve selector.
-        #-------------------------
-
-    COR_rs_run <- create_RSrun (COR_bd_prob@UUID,
-                                spp_rep_targets,
-                                parameters,
-                                COR_bd_prob@cor_or_app_str,
-                                COR_bd_prob@basic_or_wrapped_or_comb_str,
-                                rs_method_name)
-
-    rs_control_values = set_up_for_and_run_gurobi_COR (COR_bd_prob,
-                                                       COR_rs_run,
-                                                       parameters,
-                                                       marxan_elapsed_time)
-
-        #-------------------------------------
-        #  Collect reserve selector results.
-        #-------------------------------------
-
-    save_rsrun_results_data_for_one_rsrun (
-                            tzar_run_ID  = parameters$run_ID,
-                            exp_root_dir = parameters$fullOutputDir_NO_slash,
-                            COR_rs_run,
-                            COR_bd_prob,
-                            COR_bd_prob,
-                            rs_method_name,
-                            rs_control_values,
-                            src_rds_file_dir)
-
-    }  #  end function - do_COR_rs_analysis_and_output
-
-#===============================================================================
 #===============================================================================
 #===============================================================================
 
-#' Run reserve selector on APP problem and write output from all analysis
+#' Run reserve selector on bd problem and write output from all analysis
+#'
+#' Note that the COR and APP arguments are the same if running on a correct
+#' problem.
 #'
 #-------------------------------------------------------------------------------
 
@@ -374,7 +324,7 @@ do_COR_gurobi_analysis_and_output <- function (COR_bd_prob,
 
 #-------------------------------------------------------------------------------
 
-do_APP_gurobi_analysis_and_output <- function (APP_bd_prob,
+do_gurobi_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
                                                rs_method_name,
