@@ -220,13 +220,13 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "SR_Forward"
 
-        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
 
                                        rs_method_name,
                                        resSel_func     = simple_richness,
-                                       run_ResSel_func = run_greedy_ResSel,
+                                       # run_ResSel_func = run_greedy_ResSel,
                                        RS_specific_params,
 
                                        src_rds_file_dir,
@@ -242,13 +242,13 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "SR_Backward"
 
-        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
 
                                        rs_method_name,
                                        resSel_func     = simple_richness,
-                                       run_ResSel_func = run_greedy_ResSel,
+                                       # run_ResSel_func = run_greedy_ResSel,
                                        RS_specific_params,
 
                                        src_rds_file_dir,
@@ -266,13 +266,13 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "UR_Forward"
 
-        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
 
                                        rs_method_name,
                                        resSel_func     = unprotected_richness,
-                                       run_ResSel_func = run_greedy_ResSel,
+                                       # run_ResSel_func = run_greedy_ResSel,
                                        RS_specific_params,
 
                                        src_rds_file_dir,
@@ -288,13 +288,13 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "UR_Backward"
 
-        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
 
                                        rs_method_name,
                                        resSel_func     = unprotected_richness,
-                                       run_ResSel_func = run_greedy_ResSel,
+                                       # run_ResSel_func = run_greedy_ResSel,
                                        RS_specific_params,
 
                                        src_rds_file_dir,
@@ -312,13 +312,13 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "ZL_Forward"
 
-        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
 
                                        rs_method_name,
                                        resSel_func     = zonation_like,
-                                       run_ResSel_func = run_greedy_ResSel,
+                                       # run_ResSel_func = run_greedy_ResSel,
                                        RS_specific_params,
 
                                        src_rds_file_dir,
@@ -334,13 +334,13 @@ do_APP_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "ZL_Backward"
 
-        do_ResSel_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
 
                                        rs_method_name,
                                        resSel_func     = zonation_like,
-                                       run_ResSel_func = run_greedy_ResSel,
+                                       # run_ResSel_func = run_greedy_ResSel,
                                        RS_specific_params,
 
                                        src_rds_file_dir,
