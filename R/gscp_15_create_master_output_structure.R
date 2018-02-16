@@ -260,7 +260,9 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                                                         COR_bd_prob@num_spp,
                                                         APP_bd_prob@bpm,
                                                         rsrun@targets,
-                                                        "Gurobi")
+                                                        # "Gurobi"
+                                                        rs_method_name
+                                                        )
 
         #------------------------------------------------------------------
         #  Compute costs and cost error measures for the chosen solution.
