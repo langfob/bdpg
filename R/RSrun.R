@@ -118,6 +118,16 @@ create_RSrun <- function (prob_UUID,
                                                   basic_or_wrapped_or_comb_str,
                                                   location_string)
 
+    return (create_RSrun_core (prob_UUID,
+                                 spp_rep_targets,
+                                 parameters,
+                                 cor_or_app_str,
+                                 basic_or_wrapped_or_comb_str,
+                                 rs_method_name,
+                                 new_seed_list
+                                 ))
+    }
+
 #===============================================================================
 
 #' Create an RSrun
@@ -136,9 +146,55 @@ create_RSrun <- function (prob_UUID,
 
 #-------------------------------------------------------------------------------
 
+repro_RSrun <- function (repro_RDS_file_loc,
+                         fullOutputDir_NO_slash = NULL)    #"~/Downloads")
     {
+    repro = load_saved_obj_from_file (repro_RDS_file_loc)
+
+        #-----------------------------------------------------------------------
+        #  If a different output area has been provided,
+        #  reset the slot for the output area in the original parameters list.
+        #-----------------------------------------------------------------------
+
+    parameters = repro$parameters
+    if (! is.null (fullOutputDir_NO_slash) & ! is.na (fullOutputDir_NO_slash))
+        parameters$fullOutputDir_NO_slash = fullOutputDir_NO_slash
+
+    rsrun = repro$rsrun
+    prob_UUID                    = rsrun@run_on_prob_UUID
+    spp_rep_targets              = rsrun@targets
+    cor_or_app_str               = rsrun@cor_or_app_str
+    basic_or_wrapped_or_comb_str = rsrun@basic_or_wrapped_or_comb_str
+    rs_method_name               = rsrun@rs_method_name
+    new_seed_list                =
+        list (seed_value = rsrun@rand_seed,
+              R_internal_seed_array = rsrun@R_internal_seed_array)
+
+#  Reset the random seed to match the previous run.
+#    set.seed (new_seed_list$R_internal_seed_array)
+.Random.seed <<- new_seed_list$R_internal_seed_array
+
+    return (create_RSrun_core (prob_UUID,
+                                 spp_rep_targets,
+                                 parameters,
+                                 cor_or_app_str,
+                                 basic_or_wrapped_or_comb_str,
+                                 rs_method_name,
+                                 new_seed_list
+                                 ))
     }
 
+#===============================================================================
+
+create_RSrun_core <- function (prob_UUID,
+                                 spp_rep_targets,
+                                 parameters,
+                                 cor_or_app_str,
+                                 basic_or_wrapped_or_comb_str,
+                                 rs_method_name,
+                                 new_seed_list
+                                 )
+    {
     #------------------------------------------------------------------
 
     rsrun <- new ("RSrun")
