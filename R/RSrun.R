@@ -118,6 +118,42 @@ create_RSrun <- function (prob_UUID,
                                                   basic_or_wrapped_or_comb_str,
                                                   location_string)
 
+#===============================================================================
+
+#' Create an RSrun
+#'
+#' Create a run of a reserve selector
+#'
+#-------------------------------------------------------------------------------
+
+#' @param repro_RDS_file_loc path to RDS file to be loaded
+#' @param fullOutputDir_NO_slash full path to directory where output should go
+#'     (with no slash on the end of the path)
+#'
+#' @return Returns an RSrun object
+#'
+#' @export
+
+#-------------------------------------------------------------------------------
+
+repro_RSrun_gui <- function (repro_RDS_file_loc     = NULL,
+                             fullOutputDir_NO_slash = NULL)
+    {
+    if (is.null (fullOutputDir_NO_slash))
+        {
+            #  Ask for the root of the dir tree where output should go.
+        fullOutputDir_NO_slash = tcltk::tk_choose.dir()
+        }
+
+    if (is.null (repro_RDS_file_loc))
+        {
+            #  Ask for the repro RDS file to be loaded.
+        repro_RDS_file_loc = file.choose ()
+        }
+
+    return (repro_RSrun (repro_RDS_file_loc, fullOutputDir_NO_slash))
+    }
+
     #------------------------------------------------------------------
 
     rsrun <- new ("RSrun")
