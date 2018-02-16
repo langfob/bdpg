@@ -136,22 +136,7 @@ create_RSrun <- function (prob_UUID,
 
 #-------------------------------------------------------------------------------
 
-repro_RSrun_gui <- function (repro_RDS_file_loc     = NULL,
-                             fullOutputDir_NO_slash = NULL)
     {
-    if (is.null (fullOutputDir_NO_slash))
-        {
-            #  Ask for the root of the dir tree where output should go.
-        fullOutputDir_NO_slash = tcltk::tk_choose.dir()
-        }
-
-    if (is.null (repro_RDS_file_loc))
-        {
-            #  Ask for the repro RDS file to be loaded.
-        repro_RDS_file_loc = file.choose ()
-        }
-
-    return (repro_RSrun (repro_RDS_file_loc, fullOutputDir_NO_slash))
     }
 
     #------------------------------------------------------------------

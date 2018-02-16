@@ -25,8 +25,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat, 
-    gurobi,
-    tcltk
+    gurobi
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 URL: https://github.com/langfob/bdpg
