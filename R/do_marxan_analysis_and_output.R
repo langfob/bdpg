@@ -42,7 +42,7 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
                                     APP_bd_prob@cor_or_app_str,
                                     APP_bd_prob@basic_or_wrapped_or_comb_str,
                                     rs_method_name)
-browser()
+
     marxan_control_values = set_up_for_and_run_marxan_APP (APP_bd_prob,
                                                            COR_bd_prob,
                                                            APP_marxan_run,

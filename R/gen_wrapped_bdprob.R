@@ -1041,8 +1041,8 @@ wrap_abundance_dist_around_Xu_problem <- function (starting_dir,
                                              rounded_abundances,
                                              Xu_bdprob@num_spp,  #Xu_tot_num_spp,
 
-#                                             Xu_bdprob@PU_spp_pair_indices,
-                                             Xu_bdprob@cor_PU_spp_pair_indices,
+                                             Xu_bdprob@PU_spp_pair_indices,
+##FixPUsppPairIndices-2018-02-17##                                             Xu_bdprob@cor_PU_spp_pair_indices,
 
                                              allow_imperfect_wrap,
                                              min_allowed_abundance = 2,
@@ -1245,7 +1245,8 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob@prob_generator_params_known          = Xu_bdprob@prob_generator_params_known
     wrapped_bdprob@correct_solution_vector_is_known     = Xu_bdprob@correct_solution_vector_is_known
 
-    wrapped_bdprob@cor_PU_spp_pair_indices          = wrapped_PU_spp_indices
+##FixPUsppPairIndices-2018-02-17##    wrapped_bdprob@cor_PU_spp_pair_indices          = wrapped_PU_spp_indices
+    wrapped_bdprob@PU_spp_pair_indices          = wrapped_PU_spp_indices
 
     wrapped_bdprob@all_PU_IDs                   = all_PU_IDs
     wrapped_bdprob@all_spp_IDs                  = all_spp_IDs
@@ -1338,7 +1339,9 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob@final_link_counts_for_each_node =
         summarize_and_plot_graph_and_distribution_structure_information (
 
-                  wrapped_bdprob@cor_PU_spp_pair_indices,
+##FixPUsppPairIndices-2018-02-17##                  wrapped_bdprob@cor_PU_spp_pair_indices,
+                  wrapped_bdprob@PU_spp_pair_indices,
+
                   "COR",
                   wrapped_bdprob@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
                   get_RSprob_path_plots (wrapped_bdprob, starting_dir),
