@@ -4,7 +4,7 @@
 \alias{repro_RSrun}
 \title{Create an RSrun}
 \usage{
-repro_RSrun(repro_RDS_file_loc, fullOutputDir_NO_slash = "~/Downloads")
+repro_RSrun(repro_RDS_file_loc, fullOutputDir_NO_slash = NULL)
 }
 \arguments{
 \item{repro_RDS_file_loc}{path to RDS file to be loaded}
