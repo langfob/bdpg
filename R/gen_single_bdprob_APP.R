@@ -81,6 +81,14 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
     Xu_bdprob_APP@prob_generator_params_known      = Xu_bdprob_COR@prob_generator_params_known
     Xu_bdprob_APP@correct_solution_vector_is_known = Xu_bdprob_COR@correct_solution_vector_is_known
 
+NEED TO CHANGE ALL OCCURRENCES OF cor_PU_spp_pair_indices TO BE SIMPLY PU_spp_pair_indices
+AND MAKE ALL OF THE APP_INFO VERSIONS OF IT BE IN HERE INSTEAD OF IN APP_prob_info_class
+THEN NEED TO MAKE ALL REFERENCES IN COR AND APP ROUTINES JUST POINT TO THE REFERENCE IN HERE.
+IN A COUPLE OF PLACES, RIGHT NOW IT HAS AN IF STATEMENT CHOOSING WHAT TO POINT AT AND THOSE
+NEED TO BE REPLACED.
+ALL OF THIS WILL MAKE PUT_SPP_PAIR_INDICES BE IN LINE WITH THE WAY BPM IS HANDLED AS POINTING
+HERE FOR BOTH COR AND APP.
+
     Xu_bdprob_APP@cor_PU_spp_pair_indices       = Xu_bdprob_COR@cor_PU_spp_pair_indices
 
     Xu_bdprob_APP@all_PU_IDs                = Xu_bdprob_COR@all_PU_IDs
