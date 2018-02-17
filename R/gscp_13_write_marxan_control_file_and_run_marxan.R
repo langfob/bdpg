@@ -466,7 +466,8 @@ set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                            parameters)
     {
     marxan_control_values =
-       set_up_for_and_run_marxan (COR_bd_prob@cor_PU_spp_pair_indices,
+##FixPUsppPairIndices-2018-02-17##       set_up_for_and_run_marxan (COR_bd_prob@cor_PU_spp_pair_indices,
+set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
                                     COR_bd_prob@all_PU_IDs,
                                     COR_bd_prob@all_spp_IDs,
                                     COR_bd_prob@PU_col_name,
@@ -505,18 +506,9 @@ set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                            marxan_run,
                                            parameters)
     {
-browser()
-    if (APP_bd_prob@cor_or_app_str == "APP")
-        {
-        PU_spp_pair_indices = APP_bd_prob@APP_prob_info@app_PU_spp_pair_indices
-        } else
-        {
-        PU_spp_pair_indices = APP_bd_prob@cor_PU_spp_pair_indices
-        }
-
     marxan_control_values =
-#        set_up_for_and_run_marxan (APP_bd_prob@APP_prob_info@app_PU_spp_pair_indices,
-        set_up_for_and_run_marxan (PU_spp_pair_indices,
+##FixPUsppPairIndices-2018-02-17##        set_up_for_and_run_marxan (APP_bd_prob@APP_prob_info@app_PU_spp_pair_indices,
+set_up_for_and_run_marxan (APP_bd_prob@PU_spp_pair_indices,
                                     COR_bd_prob@all_PU_IDs,
                                     COR_bd_prob@all_spp_IDs,
                                     COR_bd_prob@PU_col_name,

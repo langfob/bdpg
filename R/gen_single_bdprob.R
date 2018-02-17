@@ -524,7 +524,8 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
     Xu_bdprob_cor@prob_generator_params_known      = PU_spp_pair_info@prob_generator_params_known
     Xu_bdprob_cor@correct_solution_vector_is_known = PU_spp_pair_info@correct_solution_vector_is_known
 
-    Xu_bdprob_cor@cor_PU_spp_pair_indices       = PU_spp_pair_info@PU_spp_pair_indices
+##FixPUsppPairIndices-2018-02-17##    Xu_bdprob_cor@cor_PU_spp_pair_indices       = PU_spp_pair_info@PU_spp_pair_indices
+    Xu_bdprob_cor@PU_spp_pair_indices       = PU_spp_pair_info@PU_spp_pair_indices
 
     Xu_bdprob_cor@all_PU_IDs                = 1:PU_spp_pair_info@num_PUs
     Xu_bdprob_cor@all_spp_IDs               = 1:PU_spp_pair_info@num_spp
@@ -545,7 +546,8 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
         create_adj_matrix_with_spp_rows_vs_PU_cols (Xu_bdprob_cor@num_spp,
                                                     Xu_bdprob_cor@num_PUs,
 
-                                                    Xu_bdprob_cor@cor_PU_spp_pair_indices,
+##FixPUsppPairIndices-2018-02-17##                                                    Xu_bdprob_cor@cor_PU_spp_pair_indices,
+                                                    Xu_bdprob_cor@PU_spp_pair_indices,
 
                                             Xu_bdprob_cor@PU_costs,
                                                     Xu_bdprob_cor@spp_col_name,
@@ -591,8 +593,8 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
     Xu_bdprob_cor@final_link_counts_for_each_node =
         summarize_and_plot_graph_and_distribution_structure_information (
 
-#                  Xu_bdprob_cor@PU_spp_pair_indices,
-                  Xu_bdprob_cor@cor_PU_spp_pair_indices,
+                  Xu_bdprob_cor@PU_spp_pair_indices,
+##FixPUsppPairIndices-2018-02-17##                  Xu_bdprob_cor@cor_PU_spp_pair_indices,
 
                   "COR",
                   Xu_bdprob_cor@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,

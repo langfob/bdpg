@@ -81,15 +81,7 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
     Xu_bdprob_APP@prob_generator_params_known      = Xu_bdprob_COR@prob_generator_params_known
     Xu_bdprob_APP@correct_solution_vector_is_known = Xu_bdprob_COR@correct_solution_vector_is_known
 
-NEED TO CHANGE ALL OCCURRENCES OF cor_PU_spp_pair_indices TO BE SIMPLY PU_spp_pair_indices
-AND MAKE ALL OF THE APP_INFO VERSIONS OF IT BE IN HERE INSTEAD OF IN APP_prob_info_class
-THEN NEED TO MAKE ALL REFERENCES IN COR AND APP ROUTINES JUST POINT TO THE REFERENCE IN HERE.
-IN A COUPLE OF PLACES, RIGHT NOW IT HAS AN IF STATEMENT CHOOSING WHAT TO POINT AT AND THOSE
-NEED TO BE REPLACED.
-ALL OF THIS WILL MAKE PUT_SPP_PAIR_INDICES BE IN LINE WITH THE WAY BPM IS HANDLED AS POINTING
-HERE FOR BOTH COR AND APP.
-
-    Xu_bdprob_APP@cor_PU_spp_pair_indices       = Xu_bdprob_COR@cor_PU_spp_pair_indices
+##FixPUsppPairIndices-2018-02-17##    Xu_bdprob_APP@cor_PU_spp_pair_indices       = Xu_bdprob_COR@cor_PU_spp_pair_indices
 
     Xu_bdprob_APP@all_PU_IDs                = Xu_bdprob_COR@all_PU_IDs
     Xu_bdprob_APP@all_spp_IDs               = Xu_bdprob_COR@all_spp_IDs
@@ -166,7 +158,8 @@ compute_and_save_dist_and_network_metrics_for_prob <- function (Xu_bdprob_APP,
     Xu_bdprob_APP@final_link_counts_for_each_node =
         summarize_and_plot_graph_and_distribution_structure_information (
 
-                  Xu_bdprob_APP@APP_prob_info@app_PU_spp_pair_indices,
+##FixPUsppPairIndices-2018-02-17##                  Xu_bdprob_APP@APP_prob_info@app_PU_spp_pair_indices,
+                  Xu_bdprob_APP@PU_spp_pair_indices,
 
                   "APP",
                   Xu_bdprob_COR@all_PU_IDs,    #####!!!!!#####all_correct_node_IDs,
@@ -347,7 +340,8 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
     APP_prob_info@app_num_PUs            = ret_vals_from_apply_errors$app_num_PUs
 
         #  Set the values for the apparent problem structure.
-    APP_prob_info@app_PU_spp_pair_indices      = ret_vals_from_apply_errors$app_PU_spp_pair_indices
+##FixPUsppPairIndices-2018-02-17##    APP_prob_info@app_PU_spp_pair_indices      = ret_vals_from_apply_errors$app_PU_spp_pair_indices
+    Xu_bdprob_APP@PU_spp_pair_indices      = ret_vals_from_apply_errors$app_PU_spp_pair_indices
 
 #-------------------------------------------------------------------------
 
