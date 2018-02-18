@@ -42,6 +42,7 @@ choose_next_PU_z <- function (S_remaining_PUs_vec, vars_list, forward)
         #---------------------------------------------
 
     Q_vec_spp = rowSums (q_mat [,S_remaining_PUs_vec, drop=FALSE])
+Q_vec_spp [is.na (Q_vec_spp)] = 0    #  Apparent problems can lose a spp altogether and leave NA in Q_vec_spp
 #    d_mat = sweep (d_fixed_part_mat, MARGIN=1, FUN="/",STATS=Q_vec_spp)
     d_mat = (d_fixed_part_mat / Q_vec_spp)
 
@@ -87,7 +88,7 @@ if (forward)  #  not the normal Zonation order
         #  to the same PU being added to the solution more than once.
         #  So, now we need to intersect the chosen_PUs_vec with S because
         #  ONLY PUs in S are allowed to be selected in this round.
-
+#browser()
     chosen_PUs_vec = chosen_PUs_vec [chosen_PUs_vec %in% S_remaining_PUs_vec]
     if (length (chosen_PUs_vec) < 1)
 {
