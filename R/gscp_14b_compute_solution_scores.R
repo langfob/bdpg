@@ -14,14 +14,94 @@
 
 #-------------------------------------------------------------------------------
 
-#' Compute scores for candidate solution with respect to a reference
-#' spp occupancy matrix (i.e., COR or APP)
+#' Compute representation scores for candidate solution
+#'
+#' Scores are computed with respect to a reference spp occupancy matrix
+#' (i.e., COR or APP)
+#'
+#' The species occupancy matrix is referred to as the "ref_spp_occ_matrix" to
+#' indicate that we're computing scores with respect to a given reference, i.e.,
+#' either correct or apparent, rather than always computing the correct score.
+#'
+#' This is to allow us to see the difference between how well a method is
+#' actually doing and how it might appear to be doing when its performance is
+#' measured against data of unknown correctness, which is how nearly all results
+#' are presented in the literature.
+#'
+#-------------------------------------------------------------------------------
+
+#' @param cor_or_app_str string indicating whether reference matrix is COR or APP
+#' @param ref_spp_occ_matrix reference species occupancy matrix, e.g.,
+#'     correct or apparent species occupancy matrix
+#' @param cand_sol_PU_IDs vector of only the planning unit IDs that are
+#'     included in the candidate solution
+#' @inheritParams std_param_defns
+#'
+#' @return list of solution vector scores
+#' @export
+#'
+#-------------------------------------------------------------------------------
+
+#compute_and_verify_APP_rep_scores_according_to_bdpg <-
+compute_and_verify_rep_scores_wrt <- function (cor_or_app_str,
+                                               ref_spp_occ_matrix,
+                                               cand_sol_PU_IDs,
+                                               spp_rep_targets,
+                                               num_spp)
+    {
+        #----------------------------------------------------------------------
+        #  For each species, compute what fraction of its representation
+        #  target has been met by the candidate solution's vector of PU_IDs.
+        #  If the ref_spp_occ_matrix is the app_bpm, then the result will
+        #  be the representation fraction that the candidate solution APPEARS
+        #  to meet.  If the ref_spp_occ_matrix is the cor_bpm, then the
+        #  result will be the representation fraction actually achieved by
+        #  the candidate solution.
+        #------------------------------------------------------------------
+
+    num_spp_covered = compute_num_spp_covered_by_solution (cand_sol_PU_IDs,
+                                                           ref_spp_occ_matrix,
+                                                           spp_rep_targets)
+    frac_spp_covered = num_spp_covered  /  num_spp
+    spp_rep_shortfall = 1  -  frac_spp_covered
+
+        #----------
+
+    if (cor_or_app_str == "COR")
+        {
+        results_list =
+            list (rsr_COR_spp_rep_shortfall         = spp_rep_shortfall,
+                  rsr_COR_solution_NUM_spp_covered  = num_spp_covered,
+                  rsr_COR_solution_FRAC_spp_covered = frac_spp_covered)
+
+        } else if (cor_or_app_str == "APP")
+        {
+        results_list =
+            list (rsr_APP_spp_rep_shortfall         = spp_rep_shortfall,
+                  rsr_APP_solution_NUM_spp_covered  = num_spp_covered,
+                  rsr_APP_solution_FRAC_spp_covered = frac_spp_covered)
+
+        } else
+        {
+        stop_bdpg (paste0 ("cor_or_app_str = '", cor_or_app_str,
+                           "'.  Must be 'COR' or 'APP'"))
+        }
+
+    return (results_list)
+    }
+
+#===============================================================================
+
+#' Compute confustion matrix-based scores for candidate solution
 #'
 #' Computes error measures related to confusion matrix, etc. For the purpose of
 #' computing a performance score, start by treating the problem as if it's a
 #' classification problem, where a selected patch is classified as 1 and an
 #' unselected patch is classified as 0. This allows us to use any of the many
 #' existing measures developed for classifiers.
+#'
+#' Computations are done with respect to a reference spp occupancy matrix
+#' (i.e., COR or APP)
 #'
 #' Choice of measures
 #'
@@ -60,17 +140,6 @@
 #' combination of the 4 values from the confusion matrix (TP,TN,FP,FN), choosing
 #' those 4 values sets us up to compute all these scores.
 #'
-#' Reference species occupancy matrix
-#'
-#' The species occupancy matrix is referred to as the "ref_spp_occ_matrix" to
-#' indicate that we're computing scores with respect to a given reference, i.e.,
-#' either correct or apparent, rather than always computing the correct score.
-#'
-#' This is to allow us to see the difference between how well a method is
-#' actually doing and how it might appear to be doing when its performance is
-#' measured against data of unknown correctness, which is how nearly all results
-#' are presented in the literature.
-#'
 #-------------------------------------------------------------------------------
 
 #' Source of formulas for measures
@@ -87,148 +156,21 @@
 
 #-------------------------------------------------------------------------------
 
-#' @param ref_spp_occ_matrix reference species occupancy matrix, e.g.,
-#'     correct or apparent species occupancy matrix
-#' @param cand_sol_PU_IDs vector of only the planning unit IDs that are
-#'     included in the candidate solution
-#' @param spp_rep_targets vector of numeric species representation targets
-#' @param num_spp integer number of species in the problem
+#' @param cor_or_app_str string
+#' @param num_PUs_in_cand_solution integer
+#' @param num_PUs_in_optimal_solution integer
+#' @param frac_spp_covered float
+#' @param input_err_FP float
+#' @param input_err_FN float
+#' @inheritParams std_param_defns
 #'
-#' @return list of solution vector scores
+#' @return list of solution vector scores based on confusion matrix
 #' @export
 #'
-
 #-------------------------------------------------------------------------------
 
-compute_and_verify_APP_rep_scores_according_to_bdpg <-
-    function (ref_spp_occ_matrix, cand_sol_PU_IDs, spp_rep_targets, num_spp)
-    {
-    results_list = list()
-
-    #---------------------------------------------------------------------------
-    #           Apparent representation scores as computed by bdpg
-    #           as opposed to as computed by the reserve selector
-    #---------------------------------------------------------------------------
-
-        #----------------------------------------------------------------------
-        #  For each species, compute what fraction of its representation
-        #  target has been met by the candidate solution's vector of PU_IDs.
-        #  If the ref_spp_occ_matrix is the app_bpm, then the result will
-        #  be the representation fraction that the candidate solution APPEARS
-        #  to meet.  If the ref_spp_occ_matrix is the cor_bpm, then the
-        #  result will be the representation fraction actually achieved by
-        #  the candidate solution.
-        #----------------------------------------------------------------------
-
-    spp_rep_fracs = compute_rep_fraction (ref_spp_occ_matrix,
-                                          cand_sol_PU_IDs,
-                                          spp_rep_targets)
-
-
-        #------------------------------------------------------------------
-        #  Compute what fraction of all the species (appear to) have met
-        #  their target.
-        #  A representation fraction of 1 implies that the target is met.
-        #------------------------------------------------------------------
-
-    indices_of_spp_with_unmet_rep_frac =  which (spp_rep_fracs < 1)
-    num_spp_covered = num_spp  -  length (indices_of_spp_with_unmet_rep_frac)
-    frac_spp_covered = num_spp_covered  /  num_spp
-    spp_rep_shortfall = 1  -  frac_spp_covered
-
-                    cat ("\n\n----------------------------------------------------------------")
-#                    cat ("\nIn compute_solution_vector_scores(), SCORES AS COMPUTED BY BDPG:")
-                    cat ("\nIn compute_and_verify_APP_rep_scores_according_to_bdpg(), SCORES AS COMPUTED BY BDPG:")
-                    cat ("\n----------------------------------------------------------------")
-                    cat ("\nlength (indices_of_spp_with_unmet_rep_frac) = ",
-                       length (indices_of_spp_with_unmet_rep_frac))
-                    cat ("\nnum_spp_covered =", num_spp_covered)
-                    cat ("\nfrac_spp_covered =", frac_spp_covered)
-                    cat ("\nspp_rep_shortfall =", spp_rep_shortfall)
-
-
-    #---------------------------------------------------------------------------
-
-        #  Apparent results as computed by Marxan
-    results_list$rsr_app_spp_rep_shortfall__fromBDPG                          = spp_rep_shortfall
-    results_list$rsr_app_solution_NUM_spp_covered__fromBDPG                   = num_spp_covered
-    results_list$rsr_app_solution_FRAC_spp_covered__fromBDPG                  = frac_spp_covered
-
-
-                #     #  These 2 are vectors, while all the rest in the
-                #     #  solution_vector_scores list are scalars.
-                #     #  Should I remove these 2 from this list?
-                #
-                # spp_rep_fracs                        = spp_rep_fracs,
-                # indices_of_spp_with_unmet_rep_frac = indices_of_spp_with_unmet_rep_frac,
-#
-#                 num_spp_covered = num_spp_covered,
-#                 frac_spp_covered = frac_spp_covered,
-#                 spp_rep_shortfall = spp_rep_shortfall,
-
-
-
-    return (results_list)
-    }
-
-#===============================================================================
-
-#-------------------------------------------------------------------------------
-
-# compute_solution_vector_scores <- function (ref_spp_occ_matrix,    #  aka cor_bpm or app_bpm
-#
-#                                                 #  Identical args from here down
-#                                                 #  for cor and app.
-#                                             num_PUs,
-#                                             cand_sol_PU_IDs,
-#                                             num_PUs_in_cand_solution,
-#                                             num_PUs_in_optimal_solution,
-#                                             spp_rep_targets,
-#                                             num_spp,
-#                                             input_err_FP = 0,
-#                                             input_err_FN = 0)
-#     {
-#
-#
-#     #     #----------------------------------------------------------------------
-#     #     #  For each species, compute what fraction of its representation
-#     #     #  target has been met by the candidate solution's vector of PU_IDs.
-#     #     #  If the ref_spp_occ_matrix is the app_bpm, then the result will
-#     #     #  be the representation fraction that the candidate solution APPEARS
-#     #     #  to meet.  If the ref_spp_occ_matrix is the cor_bpm, then the
-#     #     #  result will be the representation fraction actually achieved by
-#     #     #  the candidate solution.
-#     #     #----------------------------------------------------------------------
-#     #
-#     # spp_rep_fracs = compute_rep_fraction (ref_spp_occ_matrix,
-#     #                                       cand_sol_PU_IDs,
-#     #                                       spp_rep_targets)
-#     #
-#     #
-#     #     #------------------------------------------------------------------
-#     #     #  Compute what fraction of all the species (appear to) have met
-#     #     #  their target.
-#     #     #  A representation fraction of 1 implies that the target is met.
-#     #     #------------------------------------------------------------------
-#     #
-#     # indices_of_spp_with_unmet_rep_frac =  which (spp_rep_fracs < 1)
-#     # num_spp_covered = num_spp  -  length (indices_of_spp_with_unmet_rep_frac)
-#     # frac_spp_covered = num_spp_covered  /  num_spp
-#     # spp_rep_shortfall = 1  -  frac_spp_covered
-#     #
-#     #                 cat ("\n\n-------------------------------------------------------------------------")
-#     #                 cat ("\nIn compute_solution_vector_scores(), SCORES AS COMPUTED BY BIODIVPROBGEN:")
-#     #                 cat ("\n-------------------------------------------------------------------------")
-#     #                 cat ("\nlength (indices_of_spp_with_unmet_rep_frac) = ",
-#     #                    length (indices_of_spp_with_unmet_rep_frac))
-#     #                 cat ("\nnum_spp_covered =", num_spp_covered)
-#     #                 cat ("\nfrac_spp_covered =", frac_spp_covered)
-#     #                 cat ("\nspp_rep_shortfall =", spp_rep_shortfall)
-#     #
-
-#-------------------------------------------------------------------------------
-
-compute_confusion_matrix_based_scores <- function (num_PUs_in_cand_solution,
+compute_confusion_matrix_based_scores <- function (cor_or_app_str,
+                                                   num_PUs_in_cand_solution,
                                                     num_PUs,
                                                     num_PUs_in_optimal_solution,
                                                   frac_spp_covered,
@@ -236,123 +178,118 @@ compute_confusion_matrix_based_scores <- function (num_PUs_in_cand_solution,
                                                     input_err_FN = 0
                                                     )
     {
-          #-------------------------------------------------------------
-          #  Classification counts to base confusion matrix on
-          #-------------------------------------------------------------
+        #-------------------------------------------------------------
+        #  Classification counts to base confusion matrix on
+        #-------------------------------------------------------------
 
-      num_cand_1s = num_PUs_in_cand_solution
-      num_cand_0s = num_PUs - num_cand_1s
+    num_cand_1s = num_PUs_in_cand_solution
+    num_cand_0s = num_PUs - num_cand_1s
 
-      num_optimum_1s = num_PUs_in_optimal_solution
-      num_optimum_0s = num_PUs - num_optimum_1s
+    num_optimum_1s = num_PUs_in_optimal_solution
+    num_optimum_0s = num_PUs - num_optimum_1s
 
-          #-------------------------------------------------------------
-          #  Confusion matrix fractions
-          #
-          #  Note that the TP and TN values are computed as the min
-          #  of the candidate and correct values.
-          #  This is because the number of "trues" for the candidate
-          #  can't exceed the number of "trues" in the correct
-          #  solution by definition.
-          #  Similarly, any count of TP or TN that falls short of the
-          #  corresponding counts in the correct solution represents
-          #  the number of TP or TN that the candidate got right and
-          #  using the number of TP or TN from the correct would
-          #  overstate the candidate's performance.
-          #-------------------------------------------------------------
+        #-------------------------------------------------------------
+        #  Confusion matrix fractions
+        #
+        #  Note that the TP and TN values are computed as the min
+        #  of the candidate and correct values.
+        #  This is because the number of "trues" for the candidate
+        #  can't exceed the number of "trues" in the correct
+        #  solution by definition.
+        #  Similarly, any count of TP or TN that falls short of the
+        #  corresponding counts in the correct solution represents
+        #  the number of TP or TN that the candidate got right and
+        #  using the number of TP or TN from the correct would
+        #  overstate the candidate's performance.
+        #-------------------------------------------------------------
 
-      TP = min (num_cand_1s, num_optimum_1s) / num_PUs
-      TN = min (num_cand_0s, num_optimum_0s) / num_PUs
-      FP = max (0, num_cand_1s - num_optimum_1s) / num_PUs
-      FN = max (0, num_cand_0s - num_optimum_0s) / num_PUs
+    TP = min (num_cand_1s, num_optimum_1s) / num_PUs
+    TN = min (num_cand_0s, num_optimum_0s) / num_PUs
+    FP = max (0, num_cand_1s - num_optimum_1s) / num_PUs
+    FN = max (0, num_cand_0s - num_optimum_0s) / num_PUs
 
-          #-------------------------------------------------------------
-          #  Base evaluation measures over the confusion matrix
-          #-------------------------------------------------------------
-          #  These, particularly sensitivity and specificity, are
-          #  the ingredients for many other compound measures
-          #  such as TSS.
-          #  I'm preceding their names with "c" to indicate that
-          #  they are with respect to 0/1 classification of the
-          #  PUs.
-          #  I'm doing this because I am also experimenting with
-          #  some other compound measures that have the same algebraic
-          #  form, but different constituents, e.g., a pseudo-TSS
-          #  based on cost savings and species representation
-          #  shortfall instead of classifications.
-          #  I will precede this experimental measures with
-          #-------------------------------------------------------------
+        #-------------------------------------------------------------
+        #  Base evaluation measures over the confusion matrix
+        #-------------------------------------------------------------
+        #  These, particularly sensitivity and specificity, are
+        #  the ingredients for many other compound measures
+        #  such as TSS.
+        #  I'm preceding their names with "c" to indicate that
+        #  they are with respect to 0/1 classification of the
+        #  PUs.
+        #  I'm doing this because I am also experimenting with
+        #  some other compound measures that have the same algebraic
+        #  form, but different constituents, e.g., a pseudo-TSS
+        #  based on cost savings and species representation
+        #  shortfall instead of classifications.
+        #  I will precede this experimental measures with
+        #-------------------------------------------------------------
 
-          #  cSe = sensitivity = fraction of correct presences (1's) predicted
-      cSe = TP / (TP + FN)
-          #  cSp = specificity = fraction of correct absences (0's) predicted
-      cSp = TN / (TN + FP)
-          #  cPPV = fraction of predicted presences (1's) that are correct
-      cPPV = TP / (TP + FP)
-          #  cNPV = fraction of predicted absences (0's) that are correct
-      cNPV = TN / (TN + FN)
+        #  cSe = sensitivity = fraction of correct presences (1's) predicted
+    cSe = TP / (TP + FN)
+        #  cSp = specificity = fraction of correct absences (0's) predicted
+    cSp = TN / (TN + FP)
+        #  cPPV = fraction of predicted presences (1's) that are correct
+    cPPV = TP / (TP + FP)
+        #  cNPV = fraction of predicted absences (0's) that are correct
+    cNPV = TN / (TN + FN)
 
-          #-------------------------------------------------------------
-          #  Common, simple compound measures
-          #-------------------------------------------------------------
+        #-------------------------------------------------------------
+        #  Common, simple compound measures
+        #-------------------------------------------------------------
 
-      acc_frac = TP + TN
-      acc_err_frac = 1 - acc_frac
+    acc_frac = TP + TN
+    acc_err_frac = 1 - acc_frac
 
-      cost_savings = 1 - (num_cand_1s / num_PUs)
-      opt_cost_savings = 1 - (num_optimum_1s / num_PUs)
+    cost_savings = 1 - (num_cand_1s / num_PUs)
+    opt_cost_savings = 1 - (num_optimum_1s / num_PUs)
 
-      TSS = cSe + cSp - 1
-      max_cSe_cSp = max (cSe, cSp)
-      min_cSe_cSp = min (cSe, cSp)
-      mean_cSe_cSp = (cSe + cSp) / 2
-      prod_cSe_cSp = cSe * cSp
-      euc_cSe_cSp = sqrt (cSe^2 + cSp^2) / sqrt (2)
+    TSS = cSe + cSp - 1
+    max_cSe_cSp = max (cSe, cSp)
+    min_cSe_cSp = min (cSe, cSp)
+    mean_cSe_cSp = (cSe + cSp) / 2
+    prod_cSe_cSp = cSe * cSp
+    euc_cSe_cSp = sqrt (cSe^2 + cSp^2) / sqrt (2)
 
-      #--------------------
+        #-------------------------------------------------------------
+        #  Error magnification with respect to input errors
+        #  added in experiments.
+        #  I base the magnfication on the larger of the two input
+        #  errors to make the magnification more conservative,
+        #  a little less sensational.
+        #-------------------------------------------------------------
 
-          #-------------------------------------------------------------
-          #  Error magnification with respect to input errors
-          #  added in experiments.
-          #  I base the magnfication on the larger of the two input
-          #  errors to make the magnification more conservative,
-          #  a little less sensational.
-          #-------------------------------------------------------------
+    mag_base = max (input_err_FP, input_err_FN)
+    if (mag_base == 0)
+        {
+        acc_err_mag = NA
 
-      mag_base = max (input_err_FP, input_err_FN)
-      if (mag_base == 0)
-          {
-          acc_err_mag = NA
+        } else
+        {
+        acc_err_mag = acc_err_frac / mag_base
+        }
 
-          } else
-          {
-          acc_err_mag = acc_err_frac / mag_base
-          }
+        #-------------------------------------------------------------
+        #  Experimental compound measures
+        #-------------------------------------------------------------
 
-      #--------------------
+    pseudoTSS = TSS + frac_spp_covered - 1
+    pseudo2TSS = TSS + (frac_spp_covered^2) - 1
 
-          #-------------------------------------------------------------
-          #  Experimental compound measures
-          #-------------------------------------------------------------
+    acc_TSS = acc_frac + frac_spp_covered - 1
+    acc2_TSS = acc_frac + (frac_spp_covered^2) - 1
 
-      pseudoTSS = TSS + frac_spp_covered - 1
-      pseudo2TSS = TSS + (frac_spp_covered^2) - 1
+    savings_TSS = cost_savings + frac_spp_covered - 1
+    savings2_TSS = cost_savings + (frac_spp_covered^2) - 1
 
-      acc_TSS = acc_frac + frac_spp_covered - 1
-      acc2_TSS = acc_frac + (frac_spp_covered^2) - 1
+    savings_TSS_opt = opt_cost_savings
+    savings2_TSS_opt = opt_cost_savings
 
-      savings_TSS = cost_savings + frac_spp_covered - 1
-      savings2_TSS = cost_savings + (frac_spp_covered^2) - 1
+    diff_savings_TSS = savings_TSS_opt - savings_TSS
+    diff_savings2_TSS = savings2_TSS_opt - savings2_TSS
 
-      savings_TSS_opt = opt_cost_savings
-      savings2_TSS_opt = opt_cost_savings
-
-      diff_savings_TSS = savings_TSS_opt - savings_TSS
-      diff_savings2_TSS = savings2_TSS_opt - savings2_TSS
-
-      ratio_savings_TSS = savings_TSS_opt / savings_TSS
-      ratio_savings2_TSS = savings2_TSS_opt / savings2_TSS
-#        }
+    ratio_savings_TSS = savings_TSS_opt / savings_TSS
+    ratio_savings2_TSS = savings2_TSS_opt / savings2_TSS
 
         #-------------------------------------------------------------
         # Measures still missing:
@@ -365,34 +302,71 @@ compute_confusion_matrix_based_scores <- function (num_PUs_in_cand_solution,
         # Confusion matrix and other supporting values
         #-------------------------------------------------------------
 
-#-------------------------------------------------------------
+    #-------------------------------------------------------------
 
-    results_list =
-        list (
-                TP = TP,
-                TN = TN,
-                FP = FP,
-                FN = FN,
+    if (cor_or_app_str == "COR")
+        {
+        results_list =
+            list (
+                rsr_COR_TP = TP,
+                rsr_COR_TN = TN,
+                rsr_COR_FP = FP,
+                rsr_COR_FN = FN,
 
-                cSe = cSe,
-                cSp = cSp,
-                cPPV = cPPV,
-                cNPV = cNPV,
+                rsr_COR_cSe  = cSe,
+                rsr_COR_cSp  = cSp,
+                rsr_COR_cPPV = cPPV,
+                rsr_COR_cNPV = cNPV,
 
-                acc_frac = acc_frac,
-                acc_err_frac = acc_err_frac,
-                cost_savings = cost_savings,
+                rsr_COR_acc_frac     = acc_frac,
+                rsr_COR_acc_err_frac = acc_err_frac,
+                rsr_COR_cost_savings = cost_savings,
 
-                opt_cost_savings = opt_cost_savings,
+                rsr_COR_opt_cost_savings = opt_cost_savings,
 
-                TSS = TSS,
-                max_cSe_cSp = max_cSe_cSp,
-                min_cSe_cSp = min_cSe_cSp,
-                mean_cSe_cSp = mean_cSe_cSp,
-                prod_cSe_cSp = prod_cSe_cSp,
-                euc_cSe_cSp = euc_cSe_cSp,
-                acc_err_mag = acc_err_mag
-                )
+                rsr_COR_TSS          = TSS,
+                rsr_COR_max_cSe_cSp  = max_cSe_cSp,
+                rsr_COR_min_cSe_cSp  = min_cSe_cSp,
+                rsr_COR_mean_cSe_cSp = mean_cSe_cSp,
+                rsr_COR_prod_cSe_cSp = prod_cSe_cSp,
+                rsr_COR_euc_cSe_cSp  = euc_cSe_cSp,
+                rsr_COR_acc_err_mag  = acc_err_mag
+            )
+
+        } else if (cor_or_app_str == "APP")
+        {
+        results_list =
+            list (
+                rsr_APP_TP = TP,
+                rsr_APP_TN = TN,
+                rsr_APP_FP = FP,
+                rsr_APP_FN = FN,
+
+                rsr_APP_cSe  = cSe,
+                rsr_APP_cSp  = cSp,
+                rsr_APP_cPPV = cPPV,
+                rsr_APP_cNPV = cNPV,
+
+                rsr_APP_acc_frac     = acc_frac,
+                rsr_APP_acc_err_frac = acc_err_frac,
+                rsr_APP_cost_savings = cost_savings,
+
+                rsr_APP_opt_cost_savings = opt_cost_savings,
+
+                rsr_APP_TSS          = TSS,
+                rsr_APP_max_cSe_cSp  = max_cSe_cSp,
+                rsr_APP_min_cSe_cSp  = min_cSe_cSp,
+                rsr_APP_mean_cSe_cSp = mean_cSe_cSp,
+                rsr_APP_prod_cSe_cSp = prod_cSe_cSp,
+                rsr_APP_euc_cSe_cSp  = euc_cSe_cSp,
+                rsr_APP_acc_err_mag  = acc_err_mag
+            )
+
+        } else
+        {
+        stop_bdpg (paste0 ("cor_or_app_str = '", cor_or_app_str,
+                           "'.  Must be 'COR' or 'APP'"))
+        }
 
     return (results_list)
     }

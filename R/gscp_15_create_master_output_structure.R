@@ -63,6 +63,9 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
     rs_best_num_patches_in_solution = length (rs_best_solution_PU_IDs)
     cat ("\nrs_best_num_patches_in_solution =", rs_best_num_patches_in_solution)
 
+        #  Need this because the call below that produces app_scores_list
+        #  crashes on NULL APP_bd_prob@APP_prob_info when you the problem
+        #  is a COR instead of an APP problem.
     if (APP_bd_prob@cor_or_app_str == "APP")
         {
         FP_const_rate = APP_bd_prob@APP_prob_info@FP_const_rate
@@ -77,7 +80,7 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
     num_patches_in_cor_solution = sum (COR_bd_prob@nodes$dependent_set_member)
 
     cor_scores_list =
-        build_and_write_rep_and_cm_scores_list (rsrun,
+        build_and_write_rep_and_cm_scores_list (APP_bd_prob@cor_or_app_str,    #rsrun,
                                                  COR_bd_prob@bpm,
                                                  rs_best_solution_PU_IDs,
                                                  rsrun@targets,
@@ -89,7 +92,7 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
                                                  FN_const_rate)
 
     app_scores_list =
-        build_and_write_rep_and_cm_scores_list (rsrun,
+        build_and_write_rep_and_cm_scores_list (APP_bd_prob@cor_or_app_str,    #rsrun,
                                                  APP_bd_prob@bpm,
                                                  rs_best_solution_PU_IDs,
                                                  rsrun@targets,
@@ -246,24 +249,6 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                                                            APP_bd_prob,
                                                            rs_control_values)
 
-        #--------------------------------------------------------------
-        #  app_rep_scores_list_according_to_RS is a list containing
-        #  the following named elements:
-        #    - rsr_app_spp_rep_shortfall__fromRS
-        #    - rsr_app_solution_NUM_spp_covered__fromRS
-        #    - rsr_app_solution_FRAC_spp_covered__fromRS
-        #--------------------------------------------------------------
-
-    app_rep_scores_list_according_to_RS =
-        compute_and_verify_APP_rep_scores_according_to_RS (
-                                                        rs_best_solution_PU_IDs,
-                                                        COR_bd_prob@num_spp,
-                                                        APP_bd_prob@bpm,
-                                                        rsrun@targets,
-                                                        # "Gurobi"
-                                                        rs_method_name
-                                                        )
-
         #------------------------------------------------------------------
         #  Compute costs and cost error measures for the chosen solution.
         #------------------------------------------------------------------
@@ -285,8 +270,31 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                                                            COR_bd_prob@correct_solution_cost,
                                                            COR_bd_prob@PU_costs)
 
-        #-----------------------------------------------------------------------
+# app_cost_scores_list_wrt_COR_costs_vec:
+# (list (           cor_optimum_cost = cor_optimum_cost,
+#                   rs_solution_cost = rs_solution_cost,
+#                   rs_solution_cost_err_frac = rs_solution_cost_err_frac,
+#                   abs_rs_solution_cost_err_frac = abs_rs_solution_cost_err_frac,
+#                   rs_over_opt_cost_err_frac_of_possible_overcost = rs_over_opt_cost_err_frac_of_possible_overcost,
+#                   rs_under_opt_cost_err_frac_of_possible_undercost = rs_under_opt_cost_err_frac_of_possible_undercost
+#                  ))
 
+        #--------------------------------------------------------------
+        #  app_rep_scores_list_according_to_RS is a list containing
+        #  the following named elements:
+        #    - rsr_app_spp_rep_shortfall__fromRS
+        #    - rsr_app_solution_NUM_spp_covered__fromRS
+        #    - rsr_app_solution_FRAC_spp_covered__fromRS
+        #--------------------------------------------------------------
+
+    # app_rep_scores_list_according_to_RS =
+    #     compute_and_verify_APP_rep_scores_according_to_RS (
+    #                                                     rs_best_solution_PU_IDs,
+    #                                                     COR_bd_prob@num_spp,
+    #                                                     APP_bd_prob@bpm,
+    #                                                     rsrun@targets)
+
+        #-----------------------------------------------------------------------
 
     cor_and_app_scores_lists =
         build_and_write_COR_and_APP_scores_lists (rs_best_solution_PU_IDs,
@@ -297,6 +305,13 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
     cor_scores_list = cor_and_app_scores_lists$cor_scores_list
     app_scores_list = cor_and_app_scores_lists$app_scores_list
 
+        #-----------------------------------------------------------------------
+
+
+    euc_COR_scores_list = compute_euc_cost_rep_score (
+        "COR",
+        app_cost_scores_list_wrt_COR_costs_vec$abs_rs_solution_cost_err_frac,
+        cor_scores_list$rep_scores_list$rsr_COR_solution_FRAC_spp_covered)
 
         #-----------------------------------------------------------------------
         #  Build or read a list for each aspect of the run.
@@ -353,7 +368,7 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                       bipartite_measures_list,
 
                       app_cost_scores_list_wrt_COR_costs_vec,
-                      app_rep_scores_list_according_to_RS,
+                      # app_rep_scores_list_according_to_RS,
 
                       cor_scores_list,
                       app_scores_list,

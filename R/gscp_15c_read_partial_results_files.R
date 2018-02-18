@@ -161,39 +161,57 @@ read_igraph_measures_list <- function (rsprob,
 #===============================================================================
 
 build_and_write_rep_and_cm_scores_list <-
-    function (rsrun,
+    function (cor_or_app_str,    #rsrun,
         app_bpm,    #bpm,
               rs_best_solution_PU_IDs,
               spp_rep_targets,
               num_spp,
-              marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
+
+              # marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
+              num_PUs_in_cand_solution,
+
               num_PUs,
               cor_num_patches_in_solution,             #num_PUs_in_optimal_solution,
               FP_const_rate,
               FN_const_rate
               )
     {
-    app_rep_scores_list_according_to_bdpg =
-        compute_and_verify_APP_rep_scores_according_to_bdpg (app_bpm,
-                                                             rs_best_solution_PU_IDs,
-                                                             spp_rep_targets,
-                                                             num_spp)
+    # app_rep_scores_list_according_to_bdpg =
+    #     compute_and_verify_APP_rep_scores_according_to_bdpg (app_bpm,
+
+    rep_scores_list =
+        compute_and_verify_rep_scores_wrt (cor_or_app_str,
+                                           app_bpm,
+                                           rs_best_solution_PU_IDs,
+                                           spp_rep_targets,
+                                           num_spp)
 
     #----------
 
-    app_confusion_matrix_based_error_measures_list =
-        compute_confusion_matrix_based_scores (marxan_best_num_patches_in_solution,                      #num_PUs_in_cand_solution,
+    # app_confusion_matrix_based_error_measures_list =
+
+    confusion_matrix_based_error_measures_list =
+        compute_confusion_matrix_based_scores (cor_or_app_str,
+
+                                               num_PUs_in_cand_solution,
+                                               # marxan_best_num_patches_in_solution,                      #num_PUs_in_cand_solution,
+
                                                num_PUs,
                                                cor_num_patches_in_solution,                             #num_PUs_in_optimal_solution,
-                                               app_rep_scores_list_according_to_bdpg$frac_spp_covered,  #frac_spp_covered,
+
+                                               # app_rep_scores_list_according_to_bdpg$frac_spp_covered,  #frac_spp_covered,
+                                               rep_scores_list$frac_spp_covered,  #frac_spp_covered,
+
                                                FP_const_rate,                                           #input_err_FP = 0,
                                                FN_const_rate)                                           #input_err_FN = 0,
 
     #----------
 
-    results_list = c (app_rep_scores_list_according_to_bdpg,
-                      app_confusion_matrix_based_error_measures_list
-                     )
+    # results_list = c (app_rep_scores_list_according_to_bdpg,
+    #                   app_confusion_matrix_based_error_measures_list
+    #                  )
+    results_list = c (rep_scores_list,
+                      confusion_matrix_based_error_measures_list)
 
     return (results_list)
     }
