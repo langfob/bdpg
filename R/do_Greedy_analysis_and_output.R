@@ -140,7 +140,7 @@ repro_do_Greedy_analysis_and_output <- function (repro_RDS_file_loc,
         #  If a different output area has been provided,
         #  reset the slot for the output area in the original parameters list.
         #-----------------------------------------------------------------------
-browser()
+
     parameters         = repro$parameters
     if (! is.null (fullOutputDir_NO_slash) & ! anyNA (fullOutputDir_NO_slash))    #is.na (fullOutputDir_NO_slash))
         parameters$fullOutputDir_NO_slash = fullOutputDir_NO_slash
