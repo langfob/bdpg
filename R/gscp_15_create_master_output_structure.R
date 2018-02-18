@@ -4,6 +4,31 @@
 
 #===============================================================================
 
+compute_euc_cost_rep_score <- function (cor_or_app_str,
+                                        cost_score,
+                                        frac_spp_covered)
+    {
+    euc_cost_rep_score = sqrt ((cost_score ^ 2) + ((1 - frac_spp_covered) ^2))
+
+    if (cor_or_app_str == "COR")
+        {
+        results_list = list (rsr_COR_euc_cost_rep_score = euc_cost_rep_score)
+
+        } else if (cor_or_app_str == "APP")
+        {
+        results_list = list (rsr_APP_euc_cost_rep_score = euc_cost_rep_score)
+
+        } else
+        {
+        stop_bdpg (paste0 ("cor_or_app_str = '", cor_or_app_str,
+                           "'.  Must be 'COR' or 'APP'"))
+        }
+
+    return (results_list)
+    }
+
+#===============================================================================
+
 compute_RS_solution_cost_scores_wrt_COR_costs_vec <-
                                             function (rs_solution_PU_IDs_vec,
                                                       cor_optimum_cost,
@@ -369,6 +394,8 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
 
                       app_cost_scores_list_wrt_COR_costs_vec,
                       # app_rep_scores_list_according_to_RS,
+
+                      euc_COR_scores_list,
 
                       cor_scores_list,
                       app_scores_list,
