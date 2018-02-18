@@ -248,6 +248,7 @@ setClass ("APP_prob_info_class",
 
                             realized_FP_rate       = "numeric",  #  ret_vals_from_apply_errors$realized_FP_rate
                             realized_FN_rate       = "numeric",  #  ret_vals_from_apply_errors$realized_FN_rate
+                            realized_Ftot_rate     = "numeric",  #  ret_vals_from_apply_errors$realized_Ftot_rate
 
                             app_num_spp = "numeric",  #  ret_vals_from_apply_errors$app_num_spp
                             app_num_PUs = "numeric"   #,  #  ret_vals_from_apply_errors$app_num_PUs
@@ -270,6 +271,7 @@ setClass ("APP_prob_info_class",
 
                             realized_FP_rate       = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$realized_FP_rate
                             realized_FN_rate       = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$realized_FN_rate
+                            realized_Ftot_rate     = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$realized_Ftot_rate
 
                             app_num_spp = as.numeric (NA),  #  ret_vals_from_apply_errors$app_num_spp
                             app_num_PUs = as.numeric (NA)    #,  #  ret_vals_from_apply_errors$app_num_PUs

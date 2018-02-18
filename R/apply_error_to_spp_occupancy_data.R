@@ -374,25 +374,31 @@ compute_realized_error_rates <- function (cor_bpm, app_bpm,
                                           target_FP_rate=NA,  # optional, only for display
                                           target_FN_rate=NA)  # optional, only for display
     {
-    num_TPs = sum (cor_bpm)    #  Assuming all entries are 0/1, not abundances
-    num_TNs = length (cor_bpm) - num_TPs
+    num_TPs  = length (which (cor_bpm > 0))    #  Allow for future possibility of abundances instead of just 0/1 values
+    num_TNs  = length (cor_bpm) - num_TPs
+    num_Ttot = length (cor_bpm)
 
-    num_FNs = sum (cor_bpm > app_bpm)
-    num_FPs = sum (cor_bpm < app_bpm)
+    num_FNs  = length (which (cor_bpm > app_bpm))    #sum (cor_bpm > app_bpm)
+    num_FPs  = length (which (cor_bpm < app_bpm))    #sum (cor_bpm < app_bpm)
+    num_Ftot = num_FNs + num_FPs
 
-    FN_rate = num_FNs / num_TPs
-    FP_rate = num_FPs / num_TNs
+    FN_rate   = num_FNs / num_TPs
+    FP_rate   = num_FPs / num_TNs
+    Ftot_rate = num_Ftot / num_Ttot
 
         #  Echo results for verification.
     cat ("\n-----  Realized error rates  -----\n")
-    cat ("\nnum_TPs = ", num_TPs)
-    cat ("\nnum_TNs = ", num_TNs)
+    cat ("\nnum_TPs   = ", num_TPs)
+    cat ("\nnum_TNs   = ", num_TNs)
+    cat ("\nnum_Ttot  = ", num_Ttot)
 
-    cat ("\nnum_FNs = ", num_FNs)
-    cat ("\nnum_FPs = ", num_FPs)
+    cat ("\nnum_FNs  = ", num_FNs)
+    cat ("\nnum_FPs  = ", num_FPs)
+    cat ("\nnum_Ftot = ", num_Ftot)
 
-    cat ("\nFN_rate = ", FN_rate)
-    cat ("\nFP_rate = ", FP_rate)
+    cat ("\nFN_rate   = ", FN_rate)
+    cat ("\nFP_rate   = ", FP_rate)
+    cat ("\nFtot_rate = ", Ftot_rate)
 
     if (! is.na (target_FP_rate))
         cat ("\ntarget_FP_rate = ", target_FP_rate)
@@ -400,8 +406,9 @@ compute_realized_error_rates <- function (cor_bpm, app_bpm,
         cat ("\ntarget_FN_rate = ", target_FN_rate)
     cat ("\n\n-----  End realized error rates  -----\n")
 
-    realized_error_rates = list (FN_ct=num_FNs, FN_rate=FN_rate,
-                                 FP_ct=num_FPs, FP_rate=FP_rate)
+    realized_error_rates = list (FN_ct=num_FNs,    FN_rate=FN_rate,
+                                 FP_ct=num_FPs,    FP_rate=FP_rate,
+                                 Ftot_ct=num_Ftot, Ftot_rate=Ftot_rate)
     return (realized_error_rates)
     }
 
@@ -529,6 +536,7 @@ cat ("\n\nIN apply_const_error_to_spp_occupancy_data()\n\n")
 
                 realized_FP_rate        = realized_error_rates$FP_rate,
                 realized_FN_rate        = realized_error_rates$FN_rate,
+                realized_Ftot_rate      = realized_error_rates$Ftot_rate,
 
                 app_num_spp             = cor_num_spp,     #app_num_spp,
                 app_num_PUs             = cor_num_PUs      #app_num_PUs

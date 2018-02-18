@@ -76,6 +76,7 @@ load_results_output_values_common_to_all_Xu_problems <- function (results_list,
 
     results_list$rsp_realized_FP_rate                                               = APP_prob_info@realized_FP_rate
     results_list$rsp_realized_FN_rate                                               = APP_prob_info@realized_FN_rate
+    results_list$rsp_realized_Ftot_rate                                             = APP_prob_info@realized_Ftot_rate
 
     results_list$rsp_app_num_spp                                                    = APP_prob_info@app_num_spp
     results_list$rsp_app_num_PUs                                                    = APP_prob_info@app_num_PUs

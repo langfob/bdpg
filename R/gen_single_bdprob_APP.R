@@ -322,6 +322,7 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
     APP_prob_info@realized_FP_rate          = ret_vals_from_apply_errors$realized_FP_rate
     APP_prob_info@realized_FN_rate          = ret_vals_from_apply_errors$realized_FN_rate
+    APP_prob_info@realized_Ftot_rate        = ret_vals_from_apply_errors$realized_Ftot_rate
 
 #-------------------------------------------------------------------------
 #  2017 12 02 - BTL
