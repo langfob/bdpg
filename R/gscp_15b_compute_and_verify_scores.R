@@ -90,8 +90,7 @@ compute_num_spp_covered_by_solution <- function (rs_solution,
                                                  spp_rep_targets)
     {
     spp_reps_in_sol = rowSums (bpm [, rs_solution, drop=FALSE])
-    spp_covered     = (spp_reps_in_sol >= spp_rep_targets)
-    num_spp_covered = length (spp_covered)
+    num_spp_covered = length (which (spp_reps_in_sol >= spp_rep_targets))
 
     return (num_spp_covered)
     }
