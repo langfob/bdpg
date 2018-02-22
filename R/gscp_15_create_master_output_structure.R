@@ -332,11 +332,11 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
 
         #-----------------------------------------------------------------------
 
-
     euc_COR_scores_list = compute_euc_cost_rep_score (
         "COR",
         app_cost_scores_list_wrt_COR_costs_vec$abs_rs_solution_cost_err_frac,
-        cor_scores_list$rep_scores_list$rsr_COR_solution_FRAC_spp_covered)
+        # cor_scores_list$rep_scores_list$rsr_COR_solution_FRAC_spp_covered)
+        cor_scores_list$rsr_COR_solution_FRAC_spp_covered)
 
         #-----------------------------------------------------------------------
         #  Build or read a list for each aspect of the run.

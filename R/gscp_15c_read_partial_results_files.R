@@ -210,6 +210,12 @@ build_and_write_rep_and_cm_scores_list <-
     # results_list = c (app_rep_scores_list_according_to_bdpg,
     #                   app_confusion_matrix_based_error_measures_list
     #                  )
+        #  2018 02 23 - BTL
+        #  Note that using c() instead of list() here flattens the result
+        #  into a single list rather than making it a list with 2 named
+        #  entries.  The downstream calculation of euc_COR_scores_list had
+        #  a bug when it mistakenly referenced the x$rep_scores_list element
+        #  of the return and that didn't exist because of the flattening.
     results_list = c (rep_scores_list,
                       confusion_matrix_based_error_measures_list)
 
