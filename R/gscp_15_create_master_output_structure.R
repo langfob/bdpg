@@ -88,9 +88,13 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
     rs_best_num_patches_in_solution = length (rs_best_solution_PU_IDs)
     cat ("\nrs_best_num_patches_in_solution =", rs_best_num_patches_in_solution)
 
-        #  Need this because the call below that produces app_scores_list
-        #  crashes on NULL APP_bd_prob@APP_prob_info when you the problem
-        #  is a COR instead of an APP problem.
+        #------------------------------------------------------------
+        #  Need to specially initialize the FP and FN rates because
+        #  the call below that produces app_scores_list crashes on
+        #  NULL APP_bd_prob@APP_prob_info, which is the value when
+        #  the problem is a COR instead of an APP problem.
+        #------------------------------------------------------------
+
     if (APP_bd_prob@cor_or_app_str == "APP")
         {
         FP_const_rate = APP_bd_prob@APP_prob_info@FP_const_rate
@@ -104,6 +108,13 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
 
     num_patches_in_cor_solution = sum (COR_bd_prob@nodes$dependent_set_member)
 
+    #----------
+
+        #-------------------------------------------------------------
+        #  Compute rep scores and scores based on confusion matrices
+        #  with respect to the CORRECT problem.
+        #-------------------------------------------------------------
+
     cor_scores_list =
         build_and_write_rep_and_cm_scores_list (APP_bd_prob@cor_or_app_str,    #rsrun,
                                                  COR_bd_prob@bpm,
@@ -116,6 +127,27 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
                                                  FP_const_rate,
                                                  FN_const_rate)
 
+        #------------------------------------------------------------
+        #  Relabel the generically labelled rep score components to
+        #  proper output names for CORRECT.
+        #------------------------------------------------------------
+
+    cor_scores_list$rsr_COR_spp_rep_shortfall = cor_scores_list$spp_rep_shortfall
+    cor_scores_list$spp_rep_shortfall = NULL
+
+    cor_scores_list$rsr_COR_solution_NUM_spp_covered = cor_scores_list$num_spp_covered
+    cor_scores_list$num_spp_covered = NULL
+
+    cor_scores_list$rsr_COR_solution_FRAC_spp_covered = cor_scores_list$frac_spp_covered
+    cor_scores_list$frac_spp_covered = NULL
+
+    #----------
+
+        #-------------------------------------------------------------
+        #  Compute rep scores and scores based on confusion matrices
+        #  with respect to the APPARENT problem.
+        #-------------------------------------------------------------
+
     app_scores_list =
         build_and_write_rep_and_cm_scores_list (APP_bd_prob@cor_or_app_str,    #rsrun,
                                                  APP_bd_prob@bpm,
@@ -127,6 +159,22 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
                                                  num_patches_in_cor_solution,
                                                  FP_const_rate,
                                                  FN_const_rate)
+
+        #------------------------------------------------------------
+        #  Relabel the generically labelled rep score components to
+        #  proper output names for APPARENT.
+        #------------------------------------------------------------
+
+    app_scores_list$rsr_APP_spp_rep_shortfall = app_scores_list$spp_rep_shortfall
+    app_scores_list$spp_rep_shortfall = NULL
+
+    app_scores_list$rsr_APP_solution_NUM_spp_covered = app_scores_list$num_spp_covered
+    app_scores_list$num_spp_covered = NULL
+
+    app_scores_list$rsr_APP_solution_FRAC_spp_covered = app_scores_list$frac_spp_covered
+    app_scores_list$frac_spp_covered = NULL
+
+    #----------
 
     return (list (cor_scores_list=cor_scores_list,
                   app_scores_list=app_scores_list))

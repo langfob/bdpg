@@ -30,7 +30,6 @@
 #'
 #-------------------------------------------------------------------------------
 
-#' @param cor_or_app_str string indicating whether reference matrix is COR or APP
 #' @param ref_spp_occ_matrix reference species occupancy matrix, e.g.,
 #'     correct or apparent species occupancy matrix
 #' @param cand_sol_PU_IDs vector of only the planning unit IDs that are
@@ -43,7 +42,8 @@
 #-------------------------------------------------------------------------------
 
 #compute_and_verify_APP_rep_scores_according_to_bdpg <-
-compute_and_verify_rep_scores_wrt <- function (cor_or_app_str,
+compute_and_verify_rep_scores_wrt <- function (
+                                               #cor_or_app_str,
                                                ref_spp_occ_matrix,
                                                cand_sol_PU_IDs,
                                                spp_rep_targets,
@@ -67,25 +67,29 @@ compute_and_verify_rep_scores_wrt <- function (cor_or_app_str,
 
         #----------
 
-    if (cor_or_app_str == "COR")
-        {
-        results_list =
-            list (rsr_COR_spp_rep_shortfall         = spp_rep_shortfall,
-                  rsr_COR_solution_NUM_spp_covered  = num_spp_covered,
-                  rsr_COR_solution_FRAC_spp_covered = frac_spp_covered)
+    results_list = list (spp_rep_shortfall = spp_rep_shortfall,
+                         num_spp_covered   = num_spp_covered,
+                         frac_spp_covered  = frac_spp_covered)
 
-        } else if (cor_or_app_str == "APP")
-        {
-        results_list =
-            list (rsr_APP_spp_rep_shortfall         = spp_rep_shortfall,
-                  rsr_APP_solution_NUM_spp_covered  = num_spp_covered,
-                  rsr_APP_solution_FRAC_spp_covered = frac_spp_covered)
-
-        } else
-        {
-        stop_bdpg (paste0 ("cor_or_app_str = '", cor_or_app_str,
-                           "'.  Must be 'COR' or 'APP'"))
-        }
+    # if (cor_or_app_str == "COR")
+    #     {
+    #     results_list =
+    #         list (rsr_COR_spp_rep_shortfall         = spp_rep_shortfall,
+    #               rsr_COR_solution_NUM_spp_covered  = num_spp_covered,
+    #               rsr_COR_solution_FRAC_spp_covered = frac_spp_covered)
+    #
+    #     } else if (cor_or_app_str == "APP")
+    #     {
+    #     results_list =
+    #         list (rsr_APP_spp_rep_shortfall         = spp_rep_shortfall,
+    #               rsr_APP_solution_NUM_spp_covered  = num_spp_covered,
+    #               rsr_APP_solution_FRAC_spp_covered = frac_spp_covered)
+    #
+    #     } else
+    #     {
+    #     stop_bdpg (paste0 ("cor_or_app_str = '", cor_or_app_str,
+    #                        "'.  Must be 'COR' or 'APP'"))
+    #     }
 
     return (results_list)
     }
