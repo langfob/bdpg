@@ -4,7 +4,7 @@
 \alias{gen_single_bdprob_APP}
 \title{Generate a single biodiversity problem with error added to it}
 \usage{
-gen_single_bdprob_APP(Xu_bdprob_COR, parameters,
+gen_single_bdprob_APP(Xu_bdprob_COR, parameters, compound_err_name = NULL,
   ret_vals_from_build_const_err = NULL,
   ret_vals_from_apply_cost_errors = NULL)
 }
@@ -13,6 +13,8 @@ gen_single_bdprob_APP(Xu_bdprob_COR, parameters,
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{compound_err_name}{string containing name of compound error condition}
 
 \item{ret_vals_from_build_const_err}{list of return values from building
 constant error values if already done, NULL if not already done}

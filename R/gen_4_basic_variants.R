@@ -2,11 +2,6 @@
 
                         #  gen_4_basic_variants.R
 
-# 2018 02 23 - BTL
-#     SHOULD THIS BE MODIFIED TO USE THE SAME gen_1_app_variant() CALL AS
-#     gen_20_basic_variants_including_cost_error() USES?
-
-
 #===============================================================================
 
 #' Create 1 of each of the 4 types of problems and run reserve selector on each
@@ -47,7 +42,7 @@ gen_4_basic_variants <- function (parameters, integerize)
                                    base_COR_bd_prob,
                                    parameters)
 
-                    cat("\n\njust after set_up_for_and_run_marxan() for Base COR problem")
+                    cat("\n\njust after do_rs_analysis_and_output() for Base COR problem")
                     cat ("\n\n================================================================================")
                     cat ("\n================================================================================\n\n")
 
@@ -55,15 +50,24 @@ gen_4_basic_variants <- function (parameters, integerize)
     #  Generate an APPARENT problem from the base problem, i.e., apply errors.
     #===============================================================================
 
-    base_APP_bd_prob =
-        bdpg::gen_single_bdprob_APP (base_COR_bd_prob,
-                                     parameters)
+    # base_APP_bd_prob = gen_single_bdprob_APP (base_COR_bd_prob,
+    #                                           parameters)
+#    base_APP_bd_prob =
+                       gen_1_app_variant (base_COR_bd_prob,
+                                          parameters,
+                                          gen_cost_errors        = FALSE,
+                                          cost_error_frac_bound  = 0,
+                                          gen_FP_FN_errors       = TRUE,
+                                          spp_occ_FP_const_rate  = parameters$spp_occ_FP_const_rate,
+                                          spp_occ_FN_const_rate  = parameters$spp_occ_FN_const_rate,
+                                          match_error_counts     = parameters$match_error_counts
+                                          )
 
-    do_rs_analysis_and_output (base_APP_bd_prob,
-                                   base_COR_bd_prob,
-                                   parameters)
+    # do_rs_analysis_and_output (base_APP_bd_prob,
+    #                                base_COR_bd_prob,
+    #                                parameters)
 
-                    cat("\n\njust after set_up_for_and_run_marxan() for Base APP problem")
+                    cat("\n\njust after gen_1_app_variant() for Base APP problem")
                     cat ("\n\n================================================================================")
                     cat ("\n================================================================================\n\n")
 
@@ -83,7 +87,7 @@ gen_4_basic_variants <- function (parameters, integerize)
                                        wrapped_COR_bd_prob,
                                        parameters)
 
-                        cat("\n\njust after set_up_for_and_run_marxan() for Wrapped COR problem")
+                        cat("\n\njust after do_rs_analysis_and_output() for Wrapped COR problem")
                         cat ("\n\n================================================================================")
                         cat ("\n================================================================================\n\n")
 
@@ -91,15 +95,24 @@ gen_4_basic_variants <- function (parameters, integerize)
     #  Generate an APPARENT problem from the wrapped problem, i.e., apply errors.
     #===============================================================================
 
-        wrapped_APP_bd_prob =
-            gen_single_bdprob_APP (wrapped_COR_bd_prob,
-                                   parameters)
+        # wrapped_APP_bd_prob = gen_single_bdprob_APP (wrapped_COR_bd_prob,
+        #                                              parameters)
+#        wrapped_APP_bd_prob =
+                              gen_1_app_variant (wrapped_COR_bd_prob,
+                                                 parameters,
+                                                 gen_cost_errors        = FALSE,
+                                                 cost_error_frac_bound  = 0,
+                                                 gen_FP_FN_errors       = TRUE,
+                                                 spp_occ_FP_const_rate  = parameters$spp_occ_FP_const_rate,
+                                                 spp_occ_FN_const_rate  = parameters$spp_occ_FN_const_rate,
+                                                 match_error_counts     = parameters$match_error_counts
+                                                 )
 
-        do_rs_analysis_and_output (wrapped_APP_bd_prob,
-                                       wrapped_COR_bd_prob,
-                                       parameters)
+        # do_rs_analysis_and_output (wrapped_APP_bd_prob,
+        #                                wrapped_COR_bd_prob,
+        #                                parameters)
 
-                        cat("\n\njust after set_up_for_and_run_marxan() for Wrapped APP problem")
+                        cat("\n\njust after gen_1_app_variant() for Wrapped APP problem")
                         cat ("\n\n================================================================================")
                         cat ("\n================================================================================\n\n")
         }  #  end if - wrap_lognormal_dist_around_Xu
