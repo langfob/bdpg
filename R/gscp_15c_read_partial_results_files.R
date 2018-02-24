@@ -176,13 +176,8 @@ build_and_write_rep_and_cm_scores_list <-
               FN_const_rate
               )
     {
-    # app_rep_scores_list_according_to_bdpg =
-    #     compute_and_verify_APP_rep_scores_according_to_bdpg (app_bpm,
-
     rep_scores_list =
-        compute_and_verify_rep_scores_wrt (
-                                                        #cor_or_app_str,
-                                           app_bpm,
+        compute_and_verify_rep_scores_wrt (app_bpm,
                                            rs_best_solution_PU_IDs,
                                            spp_rep_targets,
                                            num_spp)
