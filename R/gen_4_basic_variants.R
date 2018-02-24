@@ -2,6 +2,11 @@
 
                         #  gen_4_basic_variants.R
 
+# 2018 02 23 - BTL
+#     SHOULD THIS BE MODIFIED TO USE THE SAME gen_1_app_variant() CALL AS
+#     gen_20_basic_variants_including_cost_error() USES?
+
+
 #===============================================================================
 
 #' Create 1 of each of the 4 types of problems and run reserve selector on each
