@@ -374,6 +374,7 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 #'     constant error values if already done, NULL if not already done
 #' @param ret_vals_from_apply_cost_errors list of return values from building
 #'     cost error values if already done, NULL if not already done
+#' @param compound_err_name string containing name of compound error condition
 #'
 #' @return Returns apparent version of either a Xu_bd_problem or a
 #'     Xu_wrapped_bd_problem
@@ -383,6 +384,7 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
 gen_single_bdprob_APP <- function (Xu_bdprob_COR,
                                    parameters,
+                                   compound_err_name = NULL,
                                    ret_vals_from_build_const_err = NULL,
                                    ret_vals_from_apply_cost_errors = NULL)
     {
@@ -409,6 +411,8 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR,
                                                             Xu_bdprob_COR,
                                                             starting_dir,
                                                             parameters)
+
+    Xu_bdprob_APP@combined_err_label = compound_err_name
 
         #------------------------------------------------------------
         #  Everything seems to have worked.

@@ -345,6 +345,7 @@ setClass ("Xu_bd_problem",
                                 #--------------------------------
 
                             APP_prob_info                     = "ANY",
+                            combined_err_label                = "character",
 
                                 #-------------------------------------------------------
                                 #  Constant naming information for df cols and dirs
@@ -464,6 +465,8 @@ setClass ("Xu_bd_problem",
                             prob_is_ok                       = NA,
                             prob_generator_params_known      = NA,
                             prob_type                        = as.character (NA),
+
+                    combined_err_label = "Undefined_combined_err",
 
                           PU_col_name                      = "PU_ID",
                           spp_col_name                     = "spp_ID",

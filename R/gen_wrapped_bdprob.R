@@ -1364,6 +1364,8 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
             parameters$use_bipartite_metrics,
             parameters$bipartite_metrics_to_use)
 
+    wrapped_bdprob@combined_err_label = "01-NO_err"
+
         #------------------------------------------------------------
         #  Everything seems to have worked.
         #  Save the bdprob to disk as a first cut at how to archive

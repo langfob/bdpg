@@ -618,6 +618,8 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
                                              parameters$use_bipartite_metrics,
                                              parameters$bipartite_metrics_to_use)
 
+    Xu_bdprob_cor@combined_err_label = "01-NO_err"
+
         #------------------------------------------------------------
         #  Everything seems to have worked.
         #  Save the bdprob to disk as a first cut at how to archive

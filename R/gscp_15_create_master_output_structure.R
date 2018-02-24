@@ -357,6 +357,10 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                                                                 exp_root_dir,
                                                                 use_src_rds_file_dir)
 
+        #-----------------------------------------------------------------------
+
+    combined_err_label_list = list (combined_err_label = APP_bd_prob@combined_err_label)
+
 #-----------------------------------------------------------------------
 # 2018 01 30 - BTL
 # THESE MIGHT NOT COME FROM DISK.
@@ -396,6 +400,7 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                       # app_rep_scores_list_according_to_RS,
 
                       euc_COR_scores_list,
+                      combined_err_label_list,
 
                       cor_scores_list,
                       app_scores_list,
