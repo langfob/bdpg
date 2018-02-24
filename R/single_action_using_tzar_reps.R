@@ -324,7 +324,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
 
     if (gen_COR_prob)
         {
-        bdpg::gen_single_bdprob_COR (parameters,
+        gen_single_bdprob_COR (parameters,
                                      integerize,
                                      base_prob_name_stem = "base_prob",
                                      cor_dir_name_stem = "cor")
@@ -348,7 +348,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
         src_bdprob_to_wrap = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir   = src_prob_and_path_list$src_rds_file_dir
 
-        bdpg::gen_single_bdprob_WRAP (src_bdprob_to_wrap, parameters)
+        gen_single_bdprob_WRAP (src_bdprob_to_wrap, parameters)
         }
 
     #---------------------------------------------------------------------------
@@ -369,7 +369,12 @@ single_action_using_tzar_reps <- function (parameters, integerize)
 
         bdprob_to_add_error_to = src_prob_and_path_list$src_Xu_bd_problem
 
-        bdpg::gen_single_bdprob_APP (bdprob_to_add_error_to, parameters)
+MODIFY gen_single_bdprob_APP() TO SET THE COMPOUND ERROR NAME IF IT COMES
+INTO THE FUNCTION LIST AS A NULL?
+ALSO NOTE THAT THE gen_1_app_variant() FUNCTION CALLS THE RESERVE SELECTORS
+TOO AND WE DON'T WANT THAT HERE, SO WE CAN'T USE THAT FUNCTION HERE.
+
+        gen_single_bdprob_APP (bdprob_to_add_error_to, parameters)
         }
 
     #---------------------------------------------------------------------------
