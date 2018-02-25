@@ -369,10 +369,10 @@ single_action_using_tzar_reps <- function (parameters, integerize)
 
         bdprob_to_add_error_to = src_prob_and_path_list$src_Xu_bd_problem
 
-MODIFY gen_single_bdprob_APP() TO SET THE COMPOUND ERROR NAME IF IT COMES
-INTO THE FUNCTION LIST AS A NULL?
-ALSO NOTE THAT THE gen_1_app_variant() FUNCTION CALLS THE RESERVE SELECTORS
-TOO AND WE DON'T WANT THAT HERE, SO WE CAN'T USE THAT FUNCTION HERE.
+# MODIFY gen_single_bdprob_APP() TO SET THE COMPOUND ERROR NAME IF IT COMES
+# INTO THE FUNCTION LIST AS A NULL?
+# ALSO NOTE THAT THE gen_1_app_variant() FUNCTION CALLS THE RESERVE SELECTORS
+# TOO AND WE DON'T WANT THAT HERE, SO WE CAN'T USE THAT FUNCTION HERE.
 
         gen_single_bdprob_APP (bdprob_to_add_error_to, parameters)
         }
