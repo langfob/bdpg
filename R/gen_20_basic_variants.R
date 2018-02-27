@@ -241,7 +241,7 @@ gen_4_or_5_app_variants <- function (base_bd_prob,
 
                        gen_FP_FN_errors = TRUE,
 
-                       spp_occ_FP_const_rate = 0,
+                       spp_occ_FP_const_rate = err_amt,
                        spp_occ_FN_const_rate = err_amt,
 
                        match_error_counts = FALSE)
@@ -258,7 +258,7 @@ gen_4_or_5_app_variants <- function (base_bd_prob,
 
                        gen_FP_FN_errors = TRUE,
 
-                       spp_occ_FP_const_rate = 0,
+                       spp_occ_FP_const_rate = err_amt,
                        spp_occ_FN_const_rate = err_amt,
 
                        match_error_counts = TRUE)
