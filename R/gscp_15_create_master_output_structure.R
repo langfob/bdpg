@@ -4,19 +4,19 @@
 
 #===============================================================================
 
-compute_euc_cost_rep_score <- function (cor_or_app_str,
-                                        cost_score,
+compute_euc_out_err_frac <- function (cor_or_app_str,
+                                        solution_cost_err_frac,
                                         frac_spp_covered)
     {
-    euc_cost_rep_score = sqrt ((cost_score ^ 2) + ((1 - frac_spp_covered) ^2))
+    euc_out_err_frac = sqrt ((solution_cost_err_frac ^ 2) + ((1 - frac_spp_covered) ^2))
 
     if (cor_or_app_str == "COR")
         {
-        results_list = list (rsr_COR_euc_cost_rep_score = euc_cost_rep_score)
+        results_list = list (rsr_COR_euc_out_err_frac = euc_out_err_frac)
 
         } else if (cor_or_app_str == "APP")
         {
-        results_list = list (rsr_APP_euc_cost_rep_score = euc_cost_rep_score)
+        results_list = list (rsr_APP_euc_out_err_frac = euc_out_err_frac)
 
         } else
         {
@@ -380,7 +380,7 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
 
         #-----------------------------------------------------------------------
 
-    euc_COR_scores_list = compute_euc_cost_rep_score (
+    euc_COR_scores_list = compute_euc_out_err_frac (
         "COR",
         app_cost_scores_list_wrt_COR_costs_vec$abs_rs_solution_cost_err_frac,
         # cor_scores_list$rep_scores_list$rsr_COR_solution_FRAC_spp_covered)
