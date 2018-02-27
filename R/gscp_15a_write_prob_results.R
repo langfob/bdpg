@@ -17,7 +17,7 @@ load_results_output_values_common_to_all_Xu_problems <- function (results_list,
     results_list$rsp_checksum                                                   = rsprob@checksum
     results_list$rsp_rand_seed                                                  = rsprob@rand_seed
     results_list$rsp_cor_or_app_str                                             = rsprob@cor_or_app_str
-    results_list$rsp_basic_or_wrapped_or_comb_str                               = rsprob@basic_or_wrapped_or_comb_str
+    results_list$rsp_base_wrap_str                                              = rsprob@basic_or_wrapped_or_comb_str
     results_list$rsp_file_name_prefix                                           = rsprob@file_name_prefix
 
     results_list$rsp_prob_is_ok                                                 = rsprob@prob_is_ok
