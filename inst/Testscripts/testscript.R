@@ -40,6 +40,7 @@ source('~/D/Projects/ProblemDifficulty/pkgs/bdpg/R/create_dirs.R')
 source('~/D/Projects/ProblemDifficulty/pkgs/bdpg/R/do_marxan_analysis_and_output.R')
 source('~/D/Projects/ProblemDifficulty/pkgs/bdpg/R/do_gurobi_analysis_and_output.R')
 source('~/D/Projects/ProblemDifficulty/pkgs/bdpg/R/gen_4_basic_variants.R')
+source('~/D/Projects/ProblemDifficulty/pkgs/bdpg/R/gen_20_basic_variants.R')
 source('~/D/Projects/ProblemDifficulty/pkgs/bdpg/R/gen_bdprob.R')
 source('~/D/Projects/ProblemDifficulty/pkgs/bdpg/R/gen_lognormal_overlay.R')
 #source('~/D/Projects/ProblemDifficulty/pkgs/bdpg/R/gen_multi_bdprob.R')
@@ -81,11 +82,12 @@ source('~/D/Projects/ProblemDifficulty/pkgs/bdpg/R/write_marxan_input_files.R')
 
 #test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_random_seed_setting_utilities.R")
 #test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_biodivprobgen_utilities.R")
-test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_gen_single_bdprob.R")
+#test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_gen_single_bdprob.R")
 #test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_gen_wrapped_bdprob.R")
 #test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_vb.R")
 #test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_vn.R")
 #test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_do_gurobi_analysis_and_output.R")
+test_file("/Users/bill/D/Projects/ProblemDifficulty/pkgs/bdpg/tests/testthat/test_gen_20_basic_variants.R")
 
 #===============================================================================
 

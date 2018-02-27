@@ -10,6 +10,7 @@ get_compound_err_name <- function (gen_cost_errors,
                                    match_error_counts
                                    )
     {
+#browser()
     has_FP = (spp_occ_FP_const_rate != 0)
     has_FN = (spp_occ_FN_const_rate != 0)
 
@@ -17,67 +18,146 @@ get_compound_err_name <- function (gen_cost_errors,
 
     if (! gen_cost_errors)
         {
-        if (match_error_counts)
+        if (has_FP)
             {
-            value = "04-FP_and_FN_matched_NO_cost_err"
-
-            } else  #  unmatched FP/FN
-            {
-            if (has_FP)
+            if (has_FN)
                 {
-                if (has_FN)
+                if (match_error_counts)
+                    {
+                    value = "04-FP_and_FN_matched_NO_cost_err"
+                    } else
                     {
                     value = "05-FP_and_FN_not_matched_NO_cost_err"
-
-                    } else  #  unmatched and FP but no FN
-                    {
-                    value = "02-FP_only_NO_cost_err"
-
                     }
-                } else  #  unmatched and FN but no FP
+                } else  #  FP but no FN
                 {
-                if (has_FN)  value = "03-FN_only_NO_cost_err"
+                value = "02-FP_only_NO_cost_err"
                 }
-            }  #  end else - unmatched FP/FN
-
+            } else  #  no FP
+            {
+            if (has_FN)
+                value = "03-FN_only_NO_cost_err"
+            }
         } else  #  HAS COST ERROR
         {
-        if (match_error_counts)
+        if (has_FP)
             {
-            value = "08-FP_and_FN_matched_WITH_cost_err"
-
-            } else  #  unmatched FP/FN
-            {
-            if (has_FP)
+            if (has_FN)
                 {
-                if (has_FN)
+                if (match_error_counts)
+                    {
+                    value = "08-FP_and_FN_matched_WITH_cost_err"
+                    } else
                     {
                     value = "09-FP_and_FN_not_matched_WITH_cost_err"
-
-                    } else  #  unmatched and FP but no FN
-                    {
-                    value = "06-FP_only_WITH_cost_err"
-
                     }
-                } else  #  unmatched and FN but no FP
+                } else  #  FP but no FN
                 {
-                if (has_FN)
-                    {
-                    value = "07-FN_only_WITH_cost_err"
-
-                    } else  #  unmatched and no FP and no FN, so cost only
-                    {
-                    value = "10-Cost_err_only"
-                    }
+                value = "06-FP_only_WITH_cost_err"
                 }
-            }  #  end else - unmatched FP/FN
+            } else  #  no FP
+            {
+            if (has_FN)
+                {
+                value = "07-FN_only_WITH_cost_err"
 
+                } else  #  no FP and no FN, so cost only
+                {
+                value = "10-Cost_err_only"
+                }
+            }
         }  #  end else - has cost err
 
-    if (is.null (value))  stop (paste0 ("No compound error name was assigned"))
+    if (is.null (value))
+        {
+        value = "00_No_compound_error_name_assigned"
+#        stop (paste0 ("No compound error name was assigned"))
+        }
 
     return (value)
     }
+
+#===============================================================================
+
+# get_compound_err_name <- function (gen_cost_errors,
+#                                    spp_occ_FP_const_rate,
+#                                    spp_occ_FN_const_rate,
+#                                    match_error_counts
+#                                    )
+#     {
+# browser()
+#     has_FP = (spp_occ_FP_const_rate != 0)
+#     has_FN = (spp_occ_FN_const_rate != 0)
+#
+#     value = NULL
+#
+#     if (! gen_cost_errors)
+#         {
+#         if (match_error_counts)
+#             {
+#             value = "04-FP_and_FN_matched_NO_cost_err"
+#
+#             } else  #  unmatched FP/FN
+#             {
+#             if (has_FP)
+#                 {
+#                 if (has_FN)
+#                     {
+#                     value = "05-FP_and_FN_not_matched_NO_cost_err"
+#
+#                     } else  #  unmatched and FP but no FN
+#                     {
+#                     value = "02-FP_only_NO_cost_err"
+#
+#                     }
+#                 } else  #  unmatched and FN but no FP
+#                 {
+#                 if (has_FN)  value = "03-FN_only_NO_cost_err"
+#                 }
+#             }  #  end else - unmatched FP/FN
+#
+#         } else  #  HAS COST ERROR
+#         {
+#         if (match_error_counts)
+#             {
+#             value = "08-FP_and_FN_matched_WITH_cost_err"
+#
+#             } else  #  unmatched FP/FN
+#             {
+#             if (has_FP)
+#                 {
+#                 if (has_FN)
+#                     {
+#                     value = "09-FP_and_FN_not_matched_WITH_cost_err"
+#
+#                     } else  #  unmatched and FP but no FN
+#                     {
+#                     value = "06-FP_only_WITH_cost_err"
+#
+#                     }
+#                 } else  #  unmatched and FN but no FP
+#                 {
+#                 if (has_FN)
+#                     {
+#                     value = "07-FN_only_WITH_cost_err"
+#
+#                     } else  #  unmatched and no FP and no FN, so cost only
+#                     {
+#                     value = "10-Cost_err_only"
+#                     }
+#                 }
+#             }  #  end else - unmatched FP/FN
+#
+#         }  #  end else - has cost err
+#
+#     if (is.null (value))
+#         {
+#         value = "00_No_compound_error_name_assigned"
+# #        stop (paste0 ("No compound error name was assigned"))
+#         }
+#
+#     return (value)
+#     }
 
 #===============================================================================
 
