@@ -407,7 +407,7 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
 
         #-----------------------------------------------------------------------
 
-    combined_err_label_list = list (combined_err_label = APP_bd_prob@combined_err_label)
+    combined_err_label_list = list (rsp_combined_err_label = APP_bd_prob@combined_err_label)
 
 #-----------------------------------------------------------------------
 # 2018 01 30 - BTL
