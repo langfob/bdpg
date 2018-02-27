@@ -287,9 +287,22 @@ gen_4_or_5_app_variants <- function (base_bd_prob,
 
 gen_20_basic_variants_including_cost_error <- function (parameters,
                                                         integerize,
-                                                        err_amt = 0.05)
+                                                        err_amt = NA)
     {
                     cat ("\n\nAT START OF gen_20_basic_variants_including_cost_error().\n\n")
+
+    #===============================================================================
+    #       Generate a base problem, i.e, create the Xu graph nodes and edge_list.
+    #===============================================================================
+
+    default_err_amt = 0.05
+    if (is.na (err_amt))
+        {
+        err_amt = vn (parameters$gen_basic_variants_err_amt,
+                      range_lo = 0, bounds_types = "ii",
+                      def_on_empty = TRUE, def = default_err_amt,
+                      treat_NULL_as_empty = TRUE, treat_NA_as_empty = FALSE)
+        }
 
     #===============================================================================
     #       Generate a base problem, i.e, create the Xu graph nodes and edge_list.
