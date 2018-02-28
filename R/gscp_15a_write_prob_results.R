@@ -67,6 +67,9 @@ load_results_output_values_common_to_all_Xu_problems <- function (results_list,
     results_list$rsp_UUID_of_base_problem_that_has_err_added                        = APP_prob_info@UUID_of_base_problem_that_has_err_added
 
     results_list$rsp_cost_error_bound                                               = APP_prob_info@cost_error_bound
+    results_list$rsp_realized_median_abs_cost_err_frac                              = APP_prob_info@realized_median_abs_cost_err_frac
+    results_list$rsp_realized_mean_abs_cost_err_frac                                = APP_prob_info@realized_mean_abs_cost_err_frac
+    results_list$rsp_realized_sd_abs_cost_err_frac                                  = APP_prob_info@realized_sd_abs_cost_err_frac
 
     results_list$rsp_original_FP_const_rate                                         = APP_prob_info@original_FP_const_rate
     results_list$rsp_original_FN_const_rate                                         = APP_prob_info@original_FN_const_rate
@@ -77,6 +80,10 @@ load_results_output_values_common_to_all_Xu_problems <- function (results_list,
     results_list$rsp_realized_FP_rate                                               = APP_prob_info@realized_FP_rate
     results_list$rsp_realized_FN_rate                                               = APP_prob_info@realized_FN_rate
     results_list$rsp_realized_Ftot_rate                                             = APP_prob_info@realized_Ftot_rate
+
+    results_list$rsp_euc_realized_FP_and_cost_in_err_frac                           = APP_prob_info@euc_realized_FP_and_cost_in_err_frac
+    results_list$rsp_euc_realized_FN_and_cost_in_err_frac                           = APP_prob_info@euc_realized_FN_and_cost_in_err_frac
+    results_list$rsp_euc_realized_Ftot_and_cost_in_err_frac                         = APP_prob_info@euc_realized_Ftot_and_cost_in_err_frac
 
     results_list$rsp_app_num_spp                                                    = APP_prob_info@app_num_spp
     results_list$rsp_app_num_PUs                                                    = APP_prob_info@app_num_PUs

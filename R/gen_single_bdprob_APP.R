@@ -198,32 +198,76 @@ apply_unif_rand_error_to_PU_costs <- function (cor_PU_costs,
                                                )
     {
     num_PUs = length (cor_PU_costs)
-    if (is.null (cost_error_frac_bound))
+    if (is.null (cost_error_frac_bound))    #  Don't add any error to costs
         {
         cost_error_bound = 0
         cost_error_multipliers = rep (1, num_PUs)
 
         app_PU_costs = cor_PU_costs    #  No cost error specified so use COR costs
 
-        } else
+        realized_median_abs_cost_err_frac = 0
+        realized_mean_abs_cost_err_frac   = 0
+        realized_sd_abs_cost_err_frac     = 0
+
+        } else    #  Add error to costs
         {
         cost_error_bound = vn (cost_error_frac_bound,
                                def_on_empty = FALSE,
                                range_lo = 0, range_hi = 1)
 
         PU_cost_lower_bound_frac = 1 - cost_error_bound
-        PU_cost_lower_bound_frac = 1 + cost_error_bound
+        PU_cost_upper_bound_frac = 1 + cost_error_bound
 
         cost_error_multipliers = runif (num_PUs,
-                                      PU_cost_lower_bound_frac,
-                                      PU_cost_lower_bound_frac)
+                                        PU_cost_lower_bound_frac,
+                                        PU_cost_upper_bound_frac)
 
         app_PU_costs = cor_PU_costs * cost_error_multipliers
+
+            #--------------------------------------------------------
+            #  Compute summary statistics for cost error fractions.
+            #--------------------------------------------------------
+
+        abs_cost_err_fracs       = abs (cost_error_multipliers - 1)
+        realized_median_abs_cost_err_frac = median (abs_cost_err_fracs)
+        realized_mean_abs_cost_err_frac   = mean (abs_cost_err_fracs)
+        realized_sd_abs_cost_err_frac     = sd (abs_cost_err_fracs)
         }
 
     return (list (app_PU_costs = app_PU_costs,
                   cost_error_bound = cost_error_bound,
-                  cost_error_multipliers = cost_error_multipliers))
+                  cost_error_multipliers = cost_error_multipliers,
+
+                  realized_median_abs_cost_err_frac = realized_median_abs_cost_err_frac,
+                  realized_mean_abs_cost_err_frac = realized_mean_abs_cost_err_frac,
+                  realized_sd_abs_cost_err_frac   = realized_sd_abs_cost_err_frac
+                  ))
+    }
+
+#===============================================================================
+
+compute_realized_euc_in_errors <- function (realized_FP_rate,
+                                            realized_FN_rate,
+                                            realized_Ftot_rate,
+                                            realized_median_abs_cost_err_frac)
+    {
+    euc_realized_FP_and_cost_in_err_frac   =
+        sqrt (realized_FP_rate ^ 2 + realized_median_abs_cost_err_frac ^ 2)
+
+    euc_realized_FN_and_cost_in_err_frac   =
+        sqrt (realized_FN_rate ^ 2 + realized_median_abs_cost_err_frac ^ 2)
+
+    euc_realized_Ftot_and_cost_in_err_frac =
+        sqrt (realized_Ftot_rate ^ 2 + realized_median_abs_cost_err_frac ^ 2)
+
+    return (list (euc_realized_FP_and_cost_in_err_frac   =
+                      euc_realized_FP_and_cost_in_err_frac,
+
+                  euc_realized_FN_and_cost_in_err_frac   =
+                      euc_realized_FN_and_cost_in_err_frac,
+
+                  euc_realized_Ftot_and_cost_in_err_frac =
+                      euc_realized_Ftot_and_cost_in_err_frac))
     }
 
 #===============================================================================
@@ -304,6 +348,12 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
     Xu_bdprob_APP@PU_costs = ret_vals_from_apply_cost_errors$app_PU_costs
     APP_prob_info@cost_error_bound =
         ret_vals_from_apply_cost_errors$cost_error_bound
+    APP_prob_info@realized_median_abs_cost_err_frac =
+        ret_vals_from_apply_cost_errors$realized_median_abs_cost_err_frac
+    APP_prob_info@realized_mean_abs_cost_err_frac =
+        ret_vals_from_apply_cost_errors$realized_mean_abs_cost_err_frac
+    APP_prob_info@realized_sd_abs_cost_err_frac =
+        ret_vals_from_apply_cost_errors$realized_sd_abs_cost_err_frac
 
     APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
     APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
@@ -318,11 +368,29 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
                                                  ret_vals_from_build_const_err$FP_rates_matrix,
                                                  ret_vals_from_build_const_err$FN_rates_matrix)
 
+        #----------------------------------
         #  Save the realized error rates.
+        #----------------------------------
 
     APP_prob_info@realized_FP_rate          = ret_vals_from_apply_errors$realized_FP_rate
     APP_prob_info@realized_FN_rate          = ret_vals_from_apply_errors$realized_FN_rate
     APP_prob_info@realized_Ftot_rate        = ret_vals_from_apply_errors$realized_Ftot_rate
+
+    realized_euc_in_errors =
+        compute_realized_euc_in_errors (
+            ret_vals_from_apply_errors$realized_FP_rate,
+            ret_vals_from_apply_errors$realized_FN_rate,
+            ret_vals_from_apply_errors$realized_Ftot_rate,
+            ret_vals_from_apply_cost_errors$realized_median_abs_cost_err_frac)
+
+    APP_prob_info@euc_realized_FP_and_cost_in_err_frac =
+        realized_euc_in_errors$euc_realized_FP_and_cost_in_err_frac
+
+    APP_prob_info@euc_realized_FN_and_cost_in_err_frac =
+        realized_euc_in_errors$euc_realized_FN_and_cost_in_err_frac
+
+    APP_prob_info@euc_realized_Ftot_and_cost_in_err_frac =
+        realized_euc_in_errors$euc_realized_Ftot_and_cost_in_err_frac
 
 #-------------------------------------------------------------------------
 #  2017 12 02 - BTL

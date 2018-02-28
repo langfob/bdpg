@@ -238,7 +238,10 @@ setClass ("APP_prob_info_class",
           representation (
                             UUID_of_base_problem_that_has_err_added = "character",  #  UUID string
 
-                            cost_error_bound       = "numeric",  #  ret_vals_from_apply_cost_errors$cost_error_bound
+                            cost_error_bound                  = "numeric",  #  ret_vals_from_apply_cost_errors$cost_error_bound
+                            realized_median_abs_cost_err_frac = "numeric",  #  ret_vals_from_apply_cost_errors$realized_median_abs_cost_err_frac
+                            realized_mean_abs_cost_err_frac   = "numeric",  #  ret_vals_from_apply_cost_errors$realized_mean_abs_cost_err_frac
+                            realized_sd_abs_cost_err_frac     = "numeric",  #  ret_vals_from_apply_cost_errors$realized_sd_abs_cost_err_frac
 
                             original_FP_const_rate = "numeric",  #  ret_vals_from_apply_errors$original_FP_const_rate
                             original_FN_const_rate = "numeric",  #  ret_vals_from_apply_errors$original_FN_const_rate
@@ -249,6 +252,10 @@ setClass ("APP_prob_info_class",
                             realized_FP_rate       = "numeric",  #  ret_vals_from_apply_errors$realized_FP_rate
                             realized_FN_rate       = "numeric",  #  ret_vals_from_apply_errors$realized_FN_rate
                             realized_Ftot_rate     = "numeric",  #  ret_vals_from_apply_errors$realized_Ftot_rate
+
+                            euc_realized_FP_and_cost_in_err_frac   = "numeric",  #  realized_euc_in_errors$euc_realized_FP_and_cost_in_err_frac
+                            euc_realized_FN_and_cost_in_err_frac   = "numeric",  #  realized_euc_in_errors$euc_realized_FN_and_cost_in_err_frac
+                            euc_realized_Ftot_and_cost_in_err_frac = "numeric",  #  realized_euc_in_errors$euc_realized_Ftot_and_cost_in_err_frac
 
                             app_num_spp = "numeric",  #  ret_vals_from_apply_errors$app_num_spp
                             app_num_PUs = "numeric"   #,  #  ret_vals_from_apply_errors$app_num_PUs
@@ -261,17 +268,24 @@ setClass ("APP_prob_info_class",
           prototype (
                             UUID_of_base_problem_that_has_err_added = as.character (NA),  #  UUID string
 
-                            cost_error_bound       = 0,    #as.numeric (NA),  #  ret_vals_from_apply_cost_errors$cost_error_bound
+                            cost_error_bound                  = 0,    #as.numeric (NA),  #  ret_vals_from_apply_cost_errors$cost_error_bound
+                            realized_median_abs_cost_err_frac = 0,    #as.numeric (NA),  #  ret_vals_from_apply_cost_errors$realized_median_abs_cost_err_frac
+                            realized_mean_abs_cost_err_frac   = 0,    #as.numeric (NA),  #  ret_vals_from_apply_cost_errors$realized_mean_abs_cost_err_frac
+                            realized_sd_abs_cost_err_frac     = 0,    #as.numeric (NA),  #  ret_vals_from_apply_cost_errors$realized_sd_abs_cost_err_frac
 
                             original_FP_const_rate = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$original_FP_const_rate
                             original_FN_const_rate = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$original_FN_const_rate
-                            match_error_counts     = NA,               #  ret_vals_from_apply_errors$match_error_counts
+                            match_error_counts     = as.logical (NA),         #  ret_vals_from_apply_errors$match_error_counts
                             FP_const_rate          = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$FP_const_rate
                             FN_const_rate          = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$FN_const_rate
 
                             realized_FP_rate       = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$realized_FP_rate
                             realized_FN_rate       = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$realized_FN_rate
                             realized_Ftot_rate     = 0,    #as.numeric (NA),  #  ret_vals_from_apply_errors$realized_Ftot_rate
+
+                            euc_realized_FP_and_cost_in_err_frac   = 0,    #as.numeric (NA),  #  realized_euc_in_errors$euc_realized_FP_and_cost_in_err_frac
+                            euc_realized_FN_and_cost_in_err_frac   = 0,    #as.numeric (NA),  #  realized_euc_in_errors$euc_realized_FN_and_cost_in_err_frac
+                            euc_realized_Ftot_and_cost_in_err_frac = 0,    #as.numeric (NA),  #  realized_euc_in_errors$euc_realized_Ftot_and_cost_in_err_frac
 
                             app_num_spp = as.numeric (NA),  #  ret_vals_from_apply_errors$app_num_spp
                             app_num_PUs = as.numeric (NA)    #,  #  ret_vals_from_apply_errors$app_num_PUs
