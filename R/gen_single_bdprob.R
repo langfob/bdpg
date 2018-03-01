@@ -113,7 +113,7 @@ create_Xu_problem_from_scratch_given_4_Xu_metaparams <-
                                                           duplicate_links_allowed,
                                                           parameters,
                                                           integerize)
-{
+    {
         #----------------------------------------------------------
         #  The 4 basic Xu parameters describe problem attributes
         #  related to the theory in the original Xu paper, but

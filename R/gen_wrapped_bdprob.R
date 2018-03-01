@@ -443,9 +443,12 @@ check_for_imperfect_wrap <- function (final_wrapped_extra_spp_abund_hist,
 # 5     6    2
 
 #browser()
+    wrap_is_imperfect = FALSE
     num_neg_abund_freqs = sum (final_wrapped_extra_spp_abund_hist [,'freq'] < 0)
     if (num_neg_abund_freqs > 0)
         {
+            #  Wrap is imperfect.
+            #
             #  There is at least one negative abundance frequency, i.e.,
             #  abundance level where the number of species with that abundance
             #  in the problem being wrapped is greater than in the wrapping
@@ -454,6 +457,8 @@ check_for_imperfect_wrap <- function (final_wrapped_extra_spp_abund_hist,
             #  then there might only be 10 species that occur on exactly two
             #  PUs while the Xu base problem has 15 species occurring on
             #  exactly two PUs.
+
+        wrap_is_imperfect = TRUE
 
         if (allow_imperfect_wrap)
             {
@@ -494,9 +499,11 @@ check_for_imperfect_wrap <- function (final_wrapped_extra_spp_abund_hist,
 
         if (! allow_imperfect_wrap) stop_bdpg ("Fail on imperfect wrap of bdproblem")
 
-        }  #  end if - num_neg_abund_freqs > 0
+        }  #  end if - num_neg_abund_freqs > 0, i.e., imperfect wrap
 
-    return (final_wrapped_extra_spp_abund_hist)
+###2018 02 28 branch###    return (final_wrapped_extra_spp_abund_hist)
+    return (list (final_wrapped_extra_spp_abund_hist = final_wrapped_extra_spp_abund_hist,
+                  wrap_is_imperfect = wrap_is_imperfect))
     }
 
 #===============================================================================
@@ -569,11 +576,13 @@ compute_final_wrapped_extra_spp_abund_hist <- function (wrapped_extra_spp_abund_
 # 4     5    2
 # 5     6    2
 
-    final_wrapped_extra_spp_abund_hist =
+###2018 02 28 branch###    final_wrapped_extra_spp_abund_hist =
+    final_wrapped_extra_spp_abund_hist_list =
         check_for_imperfect_wrap (final_wrapped_extra_spp_abund_hist,
                                   allow_imperfect_wrap)
 
-    return (final_wrapped_extra_spp_abund_hist)
+###2018 02 28 branch###    return (final_wrapped_extra_spp_abund_hist)
+    return (final_wrapped_extra_spp_abund_hist_list)
     }
 
 #===============================================================================
@@ -654,10 +663,13 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge,
         #  9 PUs).
         #-----------------------------------------------------------------------
 
-    wrapped_extra_spp_abund_hist =
+###2018 02 28 branch###    wrapped_extra_spp_abund_hist =
+wrapped_extra_spp_abund_hist_list =                                 ###2018 02 28 branch###
         compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge,
                                                     allow_imperfect_wrap)
 
+wrapped_extra_spp_abund_hist =                                              ###2018 02 28 branch###
+    wrapped_extra_spp_abund_hist_list$final_wrapped_extra_spp_abund_hist    ###2018 02 28 branch###
 
         #-----------------------------------------------------------------------
         #  Now build a vector of the abundances for just the extra species
@@ -669,12 +681,13 @@ clean_up_wrapped_abund_dist <- function (wrapped_extra_spp_abund_merge,
     extra_spp_abund =
         build_vec_of_extra_spp_and_their_abundances (wrapped_extra_spp_abund_hist)
 
-    return (extra_spp_abund)
+###2018 02 28 branch###        return (extra_spp_abund)
+    return (list (extra_spp_abund = extra_spp_abund,                         ###2018 02 28 branch###
+                  wrap_is_imperfect =                                        ###2018 02 28 branch###
+                      wrapped_extra_spp_abund_hist_list$wrap_is_imperfect))  ###2018 02 28 branch###
     }
 
 #===============================================================================
-
-#-------------------------------------------------------------------------------
 
 #  Remove base species abundances from wrapping distribution
 
@@ -732,15 +745,15 @@ remove_base_spp_abundances_from_wrapping_distribution <-
                                            trimmed_rounded_abund_per_spp,
                                            spp_col_name)
 
-    extra_spp_abund = clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
+###2018 02 28 branch###    extra_spp_abund = clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
+    extra_spp_abund_list = clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,    ###2018 02 28 branch###
                                                    allow_imperfect_wrap)
 
-    return (extra_spp_abund)
+###2018 02 28 branch###    return (extra_spp_abund)
+    return (extra_spp_abund_list)    ###2018 02 28 branch###
     }
 
 #===============================================================================
-
-#-------------------------------------------------------------------------------
 
 #'  Create wrapping PU/species table
 
@@ -845,8 +858,6 @@ create_wrapping_PU_spp_table <- function (extra_abund,
 
 #===============================================================================
 
-#-------------------------------------------------------------------------------
-
 #' Wrap abundances around eligible set
 #'
 #' Take a given distribution (e.g., from a Xu problem) and add more species
@@ -913,11 +924,15 @@ wrap_abundances_around_eligible_set <- function (
         #  species.
         #-----------------------------------------------------------------
 
-    extra_abund =
+###2018 02 28 branch###    extra_abund =
+    extra_abund_list =               ###2018 02 28 branch###
         remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
                                                                trimmed_rounded_abund_per_spp,
                                                                spp_col_name,
                                                                allow_imperfect_wrap)
+
+    extra_abund = extra_abund_list$extra_spp_abund        ###2018 02 28 branch###
+    wrap_is_imperfect = extra_abund_list$wrap_is_imperfect        ###2018 02 28 branch###
 
     PU_spp_table =
         create_wrapping_PU_spp_table (extra_abund,
@@ -954,7 +969,10 @@ wrap_abundances_around_eligible_set <- function (
                     print (head (PU_spp_table))    #  usually too long to print entire table...
                     cat ("\n\n")
 
-    return (PU_spp_table)
+###2018 02 28 branch###    return (PU_spp_table)
+    return (list (PU_spp_table = PU_spp_table,                   ###2018 02 28 branch###
+                  wrap_is_imperfect = wrap_is_imperfect))        ###2018 02 28 branch###
+
     }  #  end function - wrap_abundances_around_eligible_set
 
 #===============================================================================
@@ -1035,7 +1053,8 @@ wrap_abundance_dist_around_Xu_problem <- function (starting_dir,
         #  table of pairs of indices of PUs and species.
         #---------------------------------------------------------------
 
-    wrapped_PU_spp_indices =
+###2018 02 28 branch###    wrapped_PU_spp_indices =
+wrapped_PU_spp_indices_list =        ###2018 02 28 branch###
         wrap_abundances_around_eligible_set (Xu_dep_set,
                                              eligible_PUs,
                                              rounded_abundances,
@@ -1049,6 +1068,9 @@ wrap_abundance_dist_around_Xu_problem <- function (starting_dir,
 
                                              Xu_bdprob@PU_col_name,
                                              Xu_bdprob@spp_col_name)
+
+wrapped_PU_spp_indices = wrapped_PU_spp_indices_list$PU_spp_table        ###2018 02 28 branch###
+wrap_is_imperfect = wrapped_PU_spp_indices_list$wrap_is_imperfect        ###2018 02 28 branch###
 
       #----------------------------------
 
@@ -1211,6 +1233,9 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
     wrapped_bdprob@R_internal_seed_array                = seed_value_for_search_list$R_internal_seed_array
 
     #----------
+
+    wrapped_bdprob@allow_imperfect_wrap = allow_imperfect_wrap
+    wrapped_bdprob@wrap_is_imperfect    = wrap_is_imperfect
 
 #*****************************************************************************************
 #  Possible bug (2017 02 09):

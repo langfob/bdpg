@@ -95,10 +95,14 @@ load_results_output_values_common_to_all_Xu_problems <- function (results_list,
     if (rsprob@basic_or_wrapped_or_comb_str == "Wrap")
         {
         results_list$rsp_UUID_of_base_problem_that_is_wrapped               = rsprob@UUID_of_base_problem_that_is_wrapped
+        results_list$rsp_allow_imperfect_wrap                               = rsprob@allow_imperfect_wrap
+        results_list$rsp_wrap_is_imperfect                                  = rsprob@wrap_is_imperfect
 
-        } else  #  Not a wrapped problem, so just write a dummy value.
+        } else  #  Not a wrapped problem, so just write dummy values.
         {
         results_list$rsp_UUID_of_base_problem_that_is_wrapped               = as.character (NA)
+        results_list$rsp_allow_imperfect_wrap                               = as.logical (NA)
+        results_list$rsp_wrap_is_imperfect                                  = as.logical (NA)
         }
 
     #---------------------------------------------------------------------------

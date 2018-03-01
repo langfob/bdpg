@@ -525,8 +525,24 @@ setClass ("Xu_bd_problem",
 
 setClass ("Xu_wrapped_bd_problem",
           representation (
-                            UUID_of_base_problem_that_is_wrapped = "character"  #  UUID string
+                            UUID_of_base_problem_that_is_wrapped = "character",  #  UUID string
+
+                            allow_imperfect_wrap                 = "logical",
+                            wrap_is_imperfect                    = "logical"
+
                             ),
+
+          #-----------------------------------------------------------------
+
+          prototype (
+                            UUID                             = as.character (NA),
+
+                            allow_imperfect_wrap             = as.logical (NA),
+                            wrap_is_imperfect                = as.logical (NA)
+                    ),
+
+          #-----------------------------------------------------------------
+
           contains = "Xu_bd_problem"
         )
 
