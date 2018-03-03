@@ -2,13 +2,15 @@
 
 #                                   buildcsv.sh
 
+#   ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh
+
 #  Cloned from ~/.../testgit.sh.  Not sure where that file came from...
 
 #  Don't forget to make executable.
 #  chmod u+x buildcsv.sh
 
 echo "Usage: rsName tzarOutDir"
-echo "    $0  Marxan_SA  ~/tzar/outputdata/bdpg_20_variants_all_rs_but_gurobi_1_easy_base/default_runset/24_easy.completedTzarEmulation"
+echo "    $0  Marxan_SA  ./24_easy.completedTzarEmulation"
 echo
 echo "Number of arguments = '$#'"
 echo
@@ -17,7 +19,7 @@ if [ "$#" -ne 2 ]; then
     echo "Illegal number of parameters"
 fi
 
-echo "Reserve selector name in dollar 1: '$1'"
+echo "Reserve selector name: '$1'"
 echo
 
 start_dir=`pwd`
@@ -31,9 +33,19 @@ moved_to_dir=`pwd`
 echo "Now in working dir: '$moved_to_dir'"
 echo
 
+###  nohup    time    find    ./1956?_easy    -name    rsrun_results.csv    >    easy_rsrun_results_1956.txt    &
+#nohup    time
+#find    ./198??_easy    -name    rsrun_results.csv    >    easy_rsrun_results_198.txt
+#find    ./198??_easy    -name    rsrun_results.csv    >    rsrun_results_paths.txt
+#&
+
         #  Collect rsrun output lines into one file that has 1 copy of the header line for each of the 20 output lines.
-find    .    -name    rsrun_results.csv    >    rsrun_results_for_20_variants.txt
-grep    -h    $1    rsrun_results_for_20_variants.txt    >    $1.txt
+find    .    -name    rsrun_results.csv    >    rsrun_results_full_paths.txt
+#find    $2??_easy    -name    rsrun_results.csv    >    rsrun_results_paths.txt
+
+grep    -h    $1    rsrun_results_full_paths.txt    >    $1.txt
+#grep    -h    $1    rsrun_results_paths.txt    >    $1.txt
+
 cat    $1.txt    |     xargs    -n1 cat    >    $1.csv.with.many.headers
 wc $1.csv.with.many.headers
 
@@ -43,117 +55,44 @@ grep    -v    UUID    $1.csv.with.many.headers    >>    $1.csv
 wc $1.csv
 
 
+ # 1006  find    ./198??_easy    -name    rsrun_results.csv    >    easy_rsrun_results_198.txt
+ # 1007  ls -l easy_rsrun_results_198.txt
+ # 1008  wc easy_rsrun_results_198.txt
+ # 1009  mv easy_rsrun_results_198.txt rsrun_results_paths.txt
+ # 1010  grep    -h    Marxan_SA    rsrun_results_paths.txt    >    Marxan_SA.txt
+ # 1011  cat    Marxan_SA.txt     |     xargs    -n1 cat    >    Marxan_SA.csv.with.many.headers
+ # 1012  wc Marxan_SA.csv.with.many.headers
+ # 1013  grep    -i    UUID          Marxan_SA.csv.with.many.headers    |     head    -n 1    > Marxan_SA.csv
+ # 1014  grep    -v    UUID          Marxan_SA.csv.with.many.headers   >>    Marxan_SA.csv
+ # 1015  wc Marxan_SA.csv
+ # 1016  history
+ # 1017  mkdir aggregated-2018-03-02-bdpg-100-runs-easy-198xx
+ # 1018  pwd
+ # 1019  mv rsrun_results_paths.txt aggregated-2018-03-02-bdpg-100-runs-easy-198xx
+ # 1020  ls -l Marxan_SA.*
+ # 1021  mv Marxan_SA.* aggregated-2018-03-02-bdpg-100-runs-easy-198xx
 
-
-repodir=$3
-#repodir="/Users/bill/D/Projects/Dummy"
-echo "repodir = '$repodir'"
-echo
-cd $repodir
-echo "Now in repo dir: '`pwd`'"
-echo
-ls -l
-echo
-
-reponame=$2
-#reponame="Dummy"
-echo "reponame = '$reponame'"
-echo
-
-username=$1
-#username=langfob
-echo "username is '$username'"
-echo
-
-github_PAT_token=$GITHUB_PAT
-echo "github_PAT_token = '$github_PAT_token'"
-echo
-
-
-#############
-#  Nothing here says private vs. public repository.
-#  How to do that?
-#############
-
-##git add -A && git commit -m "Your Message"
-git add -A
-git commit -m "Initial commit"
-
-echo "Creating Github repository '$reponame' ..."
-curl -u "$username:$github_PAT_token" https://api.github.com/user/repos -d '{"name":"'$reponame'"}' > /dev/null 2>&1
-echo " done."
-
-echo "Pushing local code to remote ..."
-echo "    First adding remote repository (i.e., github repository)..."
-git remote add origin git@github.com:$username/$reponame.git > /dev/null 2>&1
-echo "   done."
-echo
-echo "    Now pushing to that github remote repository..."
-git push -u origin master > /dev/null 2>&1
-echo "    done."
-
-
-
-echo
-cd $start_dir
-echo "Moved back to starting dir: '`pwd`'"
-
-echo
-echo "all done now..."
-
-
-#  From https://www.viget.com/articles/create-a-github-repo-from-the-command-line
-
-github-create() {
- reponame=$1
-
- dir_name=`basename $(pwd)`
-
- if [ "$reponame" = "" ]; then
- echo "Repo name (hit enter to use '$dir_name')?"
- read reponame
- fi
-
- if [ "$reponame" = "" ]; then
- reponame=$dir_name
- fi
-
- username=`git config github.user`
- if [ "$username" = "" ]; then
- echo "No user name given"
- invalid_credentials=1
- fi
-
- github_PAT_token=`git config github.github_PAT_token`
- if [ "$github_PAT_token" = "" ]; then
- echo "Could not find github_PAT_token"
- invalid_credentials=1
- fi
-
- if [ "$invalid_credentials" == "1" ]; then
- return 1
- fi
-
-
-
-
-
- # create and push new repository
-echo "Starting local git repository ..."
-#git init
-#git add .
-#git commit -m "$message"
-#  if [ $? -gt 1 ]; then echo "`basename $0`: could not commit local repository"; exit 8; fi
-
-echo "Creating Github repository '$reponame' ..."
-curl -s -u "$username:$github_PAT_token" https://$hostapi/user/repos -d '{"name":"'$reponame'"}' > /dev/null 2>&1
-  if [ $? -ne 0 ]; then echo "`basename $0`: curl could not perform POST"; exit 5; fi
-
-if $verbose; then echo "Pushing local code to remote server ..."; fi
-git remote add origin git@$hostname:$username/$reponame.git 2>&1
-  if [ $? -ne 0 ]; then echo "`basename $0`: could not add remote repository"; exit 8; fi
-git push -u origin master 2>&1
-  if [ $? -ne 0 ]; then echo "`basename $0`: could not push to new remote repository"; exit 8; fi
-
-if $verbose; then echo "`basename $0`: finished"; fi
-}
+# > pwd
+# /Users/bill/Downloads/bdpgout
+# ____________________________________________
+# > ls -l
+# total 1616
+# drwxr-xr-x  11 bill  staff     352 26 Feb 10:41 195xx
+# drwxr-xr-x  10 bill  staff     320 26 Feb 11:53 197xx
+# -rw-r--r--@  1 bill  staff   16080  1 Mar 13:59 bdpg_output_analysis.Rmd
+# -rw-r--r--   1 bill  staff  753180  1 Mar 13:59 bdpg_output_analysis.html
+# -rw-r--r--@  1 bill  staff   15476 25 Feb 17:27 marxan_analysis.Rmd
+# ____________________________________________
+# >
+# ____________________________________________
+# > mkdir 198xx
+# ____________________________________________
+# > cd 198xx
+# ____________________________________________
+# >
+# > scp    rdv@glass.eres.rmit.edu.au:tzar_output/aggregated-2018-03-02-bdpg-100-runs-easy-198xx/*    .
+# Marxan_SA.csv                                                                                             100% 4034KB 596.7KB/s   00:06
+# Marxan_SA.csv.with.many.headers                                                                           100%   14MB 854.9KB/s   00:16
+# Marxan_SA.txt                                                                                             100%  184KB  44.6KB/s   00:04
+# rsrun_results_paths.txt                                                                                   100% 1303KB 735.1KB/s   00:01
+# ____________________________________________
