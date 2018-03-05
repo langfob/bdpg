@@ -27,16 +27,42 @@ gg_20 <- function ()
 library (tidyverse)
 
 
-### Load the marxan data set.
+### Load the data set.
 
 #infile = "/Users/bill/Downloads/bdpgout/197xx/Marxan_SA.csv"    #  0.05 err_amt
 #infile = "/Users/bill/Downloads/bdpgout/198xx/Marxan_SA.csv"    #  0.02 err_amt
 
-infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_05_err_amt/default_runset/Gurobi.csv"
+#-------------------
+#infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/Gurobi.combined_results.csv"
+
+infile_02 = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_02_err_amt/default_runset/Gurobi.csv"
+msa_dt_02         = read.csv (infile_02, header=TRUE, stringsAsFactors = FALSE)
+
+infile_05 = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_05_err_amt/default_runset/Gurobi.csv"
+msa_dt_05         = read.csv (infile_05, header=TRUE, stringsAsFactors = FALSE)
+
+infile_075 = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_075_err_amt/default_runset/Gurobi.csv"
+msa_dt_075         = read.csv (infile_075, header=TRUE, stringsAsFactors = FALSE)
+
+infile_10 = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_10_err_amt/default_runset/Gurobi.csv"
+msa_dt_10         = read.csv (infile_10, header=TRUE, stringsAsFactors = FALSE)
+
+#-------------------
+
+msa_dt = rbind (msa_dt_02, msa_dt_05)
+
+#-------------------
+
     #  Need to find and load this value from somewhere in the results file,
     #  but I can't remember how it's labelled there at the moment, so
     #  I'm loading it by hand for now.
-ref_y = 0.05
+ref_y = 0
+
+# infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_05_err_amt/default_runset/Gurobi.csv"
+#     #  Need to find and load this value from somewhere in the results file,
+#     #  but I can't remember how it's labelled there at the moment, so
+#     #  I'm loading it by hand for now.
+# ref_y = 0.05
 
 # infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_02_err_amt/default_runset/Gurobi.csv"
 # ref_y = 0.02
@@ -44,7 +70,8 @@ ref_y = 0.05
 msa_dt         = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
 msa_tib        = as.tibble (msa_dt)
 sorted_msa_tib = arrange (msa_tib, rsp_combined_err_label)
-sorted_msa_tib$idx = rep (1:200, 10)    #1:dim(sorted_msa_tib)[1]
+#sorted_msa_tib$idx = rep (1:200, 10)    #1:dim(sorted_msa_tib)[1]
+sorted_msa_tib$idx = rep (1:800, 10)    #1:dim(sorted_msa_tib)[1]
 
 #----------------------------------------
 

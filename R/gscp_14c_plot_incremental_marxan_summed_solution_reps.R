@@ -74,9 +74,9 @@ plot_incremental_marxan_summed_solution_representations =
         cur_run_end_idx_in_PU_IDs = cur_run_start_idx + cur_run_length - 1
         cur_run_indices = cur_run_start_idx : cur_run_end_idx_in_PU_IDs
 
-        cur_solution_PUs =
-        c(cur_solution_PUs,
-        marxan_ssoln_PUs_ranked_by_votes_df [cur_run_indices, "planning_unit"])
+        cur_solution_PUs = c(cur_solution_PUs,
+                             marxan_ssoln_PUs_ranked_by_votes_df [cur_run_indices,
+                                                                  "planning_unit"])
 
         cur_rep_fractions = compute_rep_fraction (bpm,
                                         cur_solution_PUs,
@@ -112,6 +112,8 @@ plot_incremental_marxan_summed_solution_representations =
             if (cur_frac_of_all_spp_meeting_their_target >= 1.0)
                 {
                 thresh_found = TRUE
+
+                marxan_best_summed_solution_PU_IDs = cur_solution_PUs
 
                 cost_thresh_for_all_spp_meeting_targets = cur_cost
                 landscape_frac_cost_thresh_for_all_spp_meeting_targets =
@@ -256,6 +258,7 @@ plot_incremental_marxan_summed_solution_representations =
     abline (h=1.0, lty=6)
     dev.off()
 
+return (marxan_best_summed_solution_PU_IDs)
     }
 
 #===============================================================================
@@ -310,6 +313,8 @@ cor_PU_costs,
                                                              )
 
         #  Using apparent scores...
+
+marxan_best_summed_solution_PU_IDs =
     plot_incremental_marxan_summed_solution_representations (marxan_ssoln_df,
 
 #app_bpm@PU_costs,    #cor_PU_costs,  #Not sure which is right here...
@@ -322,6 +327,7 @@ app_PU_costs,
                                                                 plot_output_dir
                                                              )
 
+return (marxan_best_summed_solution_PU_IDs)
     }
 
 #===============================================================================

@@ -39,17 +39,22 @@ echo
 #find    ./198??_easy    -name    rsrun_results.csv    >    rsrun_results_paths.txt
 #&
 
-        #  Collect rsrun output lines into one file that has 1 copy of the header line for each of the 20 output lines.
-find    .    -name    rsrun_results.csv    >    rsrun_results_full_paths.txt
-#find    $2??_easy    -name    rsrun_results.csv    >    rsrun_results_paths.txt
+        #  Collect all rsrun output lines into one file that has 1 copy of the
+        #  header line for each of the 20 output lines.
+echo "Collect all rsrun file paths for all reserve selectors into one file."
+time    find    .    -name    rsrun_results.csv    >    rsrun_results_full_paths.txt
 
+        #  Use -h option on grep so that file names don't appear in output.
+echo "Select only the paths that are specific to the desired reserve selector."
 grep    -h    $1    rsrun_results_full_paths.txt    >    $1.txt
-#grep    -h    $1    rsrun_results_paths.txt    >    $1.txt
 
+echo "Aggregate contents of all outputs for given reserve selector into one file."
 cat    $1.txt    |     xargs    -n1 cat    >    $1.csv.with.many.headers
 wc $1.csv.with.many.headers
 
-#         #  Strip out the extra header lines so that there is only 20 data lines plus 1 header line left.
+        #  Strip out the extra header lines so that there are only
+        #  20 data lines plus 1 header line left.
+echo "Strip out all but 1 of the many duplicated header lines from agg file."
 grep    -i    UUID          $1.csv.with.many.headers     |     head    -n 1    > $1.csv
 grep    -v    UUID    $1.csv.with.many.headers    >>    $1.csv
 wc $1.csv
