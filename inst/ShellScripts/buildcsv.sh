@@ -9,14 +9,15 @@
 #  Don't forget to make executable.
 #  chmod u+x buildcsv.sh
 
-echo "Usage: rsName tzarOutDir"
-echo "    $0  Marxan_SA  ./24_easy.completedTzarEmulation"
-echo
-echo "Number of arguments = '$#'"
 echo
 
 if [ "$#" -ne 2 ]; then
-    echo "Illegal number of parameters"
+    echo
+    echo "Number of arguments = '$#'"
+    echo "Must have exactly 2 arguments."
+    echo "Usage: rsName outputDir"
+    echo "    $0  Marxan_SA  ./24_easy.completedTzarEmulation"
+    echo
 fi
 
 echo "Reserve selector name: '$1'"

@@ -18,7 +18,7 @@ gg_20 <- function ()
 #===============================================================================
 #===============================================================================
 #===============================================================================
-#  Fooling around with the 20 outputs from 100 gen_20_basic_variants() runs
+#  4 sets of 20 outputs from 100 gen_20_basic_variants() runs
 #  on nectar and copied to glass.
 #===============================================================================
 
@@ -26,14 +26,30 @@ gg_20 <- function ()
 
 library (tidyverse)
 
+rs_name = "Gurobi"
+infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/Gurobi.combined_results.csv"
 
-### Load the data set.
+ref_y = 0
 
-#infile = "/Users/bill/Downloads/bdpgout/197xx/Marxan_SA.csv"    #  0.05 err_amt
-#infile = "/Users/bill/Downloads/bdpgout/198xx/Marxan_SA.csv"    #  0.02 err_amt
+msa_dt         = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
+msa_tib        = as.tibble (msa_dt)
+sorted_msa_tib = arrange (msa_tib, rsp_combined_err_label)
+    #  Now that they are sorted by the 10 combined error labels,
+    #  give an index to each rsrun within each of the combined error labels
+    #  so that they can be spread out by index across a single facet plot.
+    #  The index has no meaning other than to give it a unique identifier
+    #  to spread along the x axis within each facet.
+sorted_msa_tib$idx = rep (1:800, 10)    #1:dim(sorted_msa_tib)[1]    #  For the 4 combined sets 0f 100 runs each
 
-#-------------------
-#infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/Gurobi.combined_results.csv"
+
+#===============================================================================
+#===============================================================================
+#===============================================================================
+
+library (tidyverse)
+
+rs_name = "Gurobi"
+ref_y = 0
 
 infile_02 = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_02_err_amt/default_runset/Gurobi.csv"
 msa_dt_02         = read.csv (infile_02, header=TRUE, stringsAsFactors = FALSE)
@@ -41,44 +57,80 @@ msa_dt_02         = read.csv (infile_02, header=TRUE, stringsAsFactors = FALSE)
 infile_05 = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_05_err_amt/default_runset/Gurobi.csv"
 msa_dt_05         = read.csv (infile_05, header=TRUE, stringsAsFactors = FALSE)
 
-infile_075 = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_075_err_amt/default_runset/Gurobi.csv"
-msa_dt_075         = read.csv (infile_075, header=TRUE, stringsAsFactors = FALSE)
+#infile_075 = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_075_err_amt/default_runset/Gurobi.csv"
+#msa_dt_075         = read.csv (infile_075, header=TRUE, stringsAsFactors = FALSE)
+infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_075_err_amt/default_runset/Gurobi.csv"
+msa_dt         = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
 
 infile_10 = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_10_err_amt/default_runset/Gurobi.csv"
 msa_dt_10         = read.csv (infile_10, header=TRUE, stringsAsFactors = FALSE)
 
-#-------------------
 
-msa_dt = rbind (msa_dt_02, msa_dt_05)
+msa_dt = rbind (msa_dt_02, msa_dt_05, msa_dt_075)
 
-#-------------------
-
-    #  Need to find and load this value from somewhere in the results file,
-    #  but I can't remember how it's labelled there at the moment, so
-    #  I'm loading it by hand for now.
-ref_y = 0
-
-# infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_05_err_amt/default_runset/Gurobi.csv"
-#     #  Need to find and load this value from somewhere in the results file,
-#     #  but I can't remember how it's labelled there at the moment, so
-#     #  I'm loading it by hand for now.
-# ref_y = 0.05
-
-# infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_02_err_amt/default_runset/Gurobi.csv"
-# ref_y = 0.02
-
-msa_dt         = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
 msa_tib        = as.tibble (msa_dt)
 sorted_msa_tib = arrange (msa_tib, rsp_combined_err_label)
-#sorted_msa_tib$idx = rep (1:200, 10)    #1:dim(sorted_msa_tib)[1]
-sorted_msa_tib$idx = rep (1:800, 10)    #1:dim(sorted_msa_tib)[1]
+    #  Now that they are sorted by the 10 combined error labels,
+    #  give an index to each rsrun within each of the combined error labels
+    #  so that they can be spread out by index across a single facet plot.
+    #  The index has no meaning other than to give it a unique identifier
+    #  to spread along the x axis within each facet.
+#sorted_msa_tib$idx = rep (1:600, 10)    #1:dim(sorted_msa_tib)[1]    #  For the single set of 100 runs
+sorted_msa_tib$idx = rep (1:200, 10)    #1:dim(sorted_msa_tib)[1]    #  For the single set of 100 runs
 
-#----------------------------------------
+
+
+msa_tib$rsp_combined_err_label [msa_tib$rsp_original_FP_const_rate == 0.05]
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#  1 set of 20 outputs from 100 gen_20_basic_variants() runs
+#  on nectar and copied to glass.
+#===============================================================================
+
+library (tidyverse)
+#library (viridis)
+
+rs_name = "Gurobi"
+infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_10_err_amt/default_runset/Gurobi.csv"
+#infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_10_err_amt/default_runset/Marxan_SA.csv"
+#infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_10_err_amt/default_runset/SR_Forward.csv"
+#infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_10_err_amt/default_runset/SR_Backward.csv"
+#infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_10_err_amt/default_runset/ZL_Backward.csv"
+#infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_10_err_amt/default_runset/ZL_Forward.csv"
+#infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_10_err_amt/default_runset/UR_Forward.csv"
+#infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_10_err_amt/default_runset/UR_Backward.csv"
+
+ref_y = 0.10
+msa_dt         = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
+
+#===============================================================================
+#===============================================================================
+#===============================================================================
+
+msa_tib        = as.tibble (msa_dt)
+sorted_msa_tib = arrange (msa_tib, rsp_combined_err_label)
+    #  Now that they are sorted by the 10 combined error labels,
+    #  give an index to each rsrun within each of the combined error labels
+    #  so that they can be spread out by index across a single facet plot.
+    #  The index has no meaning other than to give it a unique identifier
+    #  to spread along the x axis within each facet.
+sorted_msa_tib$idx = rep (1:200, 10)    #1:dim(sorted_msa_tib)[1]    #  For the single set of 100 runs
+
+#===============================================================================
+#===============================================================================
+#===============================================================================
 
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac, y = rsr_COR_euc_out_err_frac,
 #                            color = rsp_combined_err_label)) +
                             color = rsp_base_wrap_str)) +
+#scale_color_viridis(discrete=TRUE) +
+scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+
+ggtitle (paste0 (rs_name, " - Total input error vs. Total output error")) +
+theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
+
   geom_hline (yintercept = ref_y, linetype="dashed",
                 color = "black", size=0.5) +
   geom_abline (intercept=0, slope=1  #, linetype, color, size
@@ -96,6 +148,13 @@ ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac, y = rsr_COR_euc_out_err_frac,
 #                            color = rsp_combined_err_label)) +
                             color = rsp_base_wrap_str)) +
+#scale_color_viridis(discrete=TRUE) +
+#scale_color_brewer(palette="Set1") +
+scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+
+ggtitle (paste0 (rs_name, " - Total input error vs. Total output error by Error Class")) +
+theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
+
   facet_wrap (~ rsp_combined_err_label, nrow = 5) +
   geom_hline (yintercept = ref_y, linetype="dashed",
                 color = "black", size=0.5) +
@@ -105,10 +164,6 @@ ggplot (data = sorted_msa_tib) +
                ) +
   geom_abline (intercept=0, slope=10  #, linetype, color, size
                )
-
-
-
-
 
 
 
@@ -254,6 +309,7 @@ ggplot (data = sorted_msa_tib) +
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = idx, y = rsr_COR_euc_out_err_frac,
                             color = rsp_combined_err_label)) +
+#scale_color_viridis(discrete=TRUE) +
   facet_wrap (~ rsp_base_wrap_str, nrow = 5) +
   geom_hline (yintercept = ref_y, linetype="dashed",
                 color = "black", size=0.5)
@@ -317,6 +373,21 @@ ggplot (data = sorted_msa_tib) +
 
 
 
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
+#===============================================================================
 #===============================================================================
 #  Fooling around with the 20 outputs from 1 gen_20_basic_variants() run.
 #===============================================================================
