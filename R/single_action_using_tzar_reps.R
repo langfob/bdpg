@@ -373,6 +373,9 @@ single_action_using_tzar_reps <- function (parameters, integerize)
 # INTO THE FUNCTION LIST AS A NULL?
 # ALSO NOTE THAT THE gen_1_app_variant() FUNCTION CALLS THE RESERVE SELECTORS
 # TOO AND WE DON'T WANT THAT HERE, SO WE CAN'T USE THAT FUNCTION HERE.
+#  ALSO NEED TO ADD BOOLEAN ARGUMENTS ABOUT WHETHER TO GENERATE COST AND/OR
+#  FP/FN ERRORS SINCE THAT HAS BEEN ADDED TO THE CALL FOR gen_single_bdprob_APP()
+#  ON 2018 03 07.
 
         gen_single_bdprob_APP (bdprob_to_add_error_to, parameters)
         }
