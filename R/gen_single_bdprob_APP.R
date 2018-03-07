@@ -249,16 +249,16 @@ apply_unif_rand_error_to_PU_costs <- function (cor_PU_costs,
 compute_realized_euc_in_errors <- function (realized_FP_rate,
                                             realized_FN_rate,
                                             realized_Ftot_rate,
-                                            realized_median_abs_cost_err_frac)
+                                            realized_cost_err_frac)
     {
     euc_realized_FP_and_cost_in_err_frac   =
-        sqrt (realized_FP_rate ^ 2 + realized_median_abs_cost_err_frac ^ 2)
+        sqrt (realized_FP_rate ^ 2 + realized_cost_err_frac ^ 2)
 
     euc_realized_FN_and_cost_in_err_frac   =
-        sqrt (realized_FN_rate ^ 2 + realized_median_abs_cost_err_frac ^ 2)
+        sqrt (realized_FN_rate ^ 2 + realized_cost_err_frac ^ 2)
 
     euc_realized_Ftot_and_cost_in_err_frac =
-        sqrt (realized_Ftot_rate ^ 2 + realized_median_abs_cost_err_frac ^ 2)
+        sqrt (realized_Ftot_rate ^ 2 + realized_cost_err_frac ^ 2)
 
     return (list (euc_realized_FP_and_cost_in_err_frac   =
                       euc_realized_FP_and_cost_in_err_frac,
