@@ -13,6 +13,161 @@
 #
 #===============================================================================
 
+load_input_data <- function (rs_name, base_path, suffix,
+                             num_sets = 4,
+                             num_variants_per_set = 20,
+                             num_combined_err_labels = 10)
+    {
+    infile = paste0 (base_path, rs_name, suffix)
+
+    msa_dt         = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
+    msa_tib        = as.tibble (msa_dt)
+    sorted_msa_tib = arrange (msa_tib, rsp_combined_err_label)
+
+        #  Now that they are sorted by the 10 combined error labels,
+        #  give an index to each rsrun within each of the combined error labels
+        #  so that they can be spread out by index across a single facet plot.
+        #  The index has no meaning other than to give it a unique identifier
+        #  to spread along the x axis within each facet.
+
+    num_indices_per_combined_err_label =
+        num_sets * num_variants_per_set * num_combined_err_labels
+
+    sorted_msa_tib$idx = rep (1:num_indices_per_combined_err_label,
+                              num_combined_err_labels)
+
+    return (sorted_msa_tib)
+    }
+
+#===============================================================================
+
+compute_and_print_mag_stats <- function (rs_name,
+                                         rsr_COR_euc_out_err_frac,
+                                         rsp_euc_realized_Ftot_and_cost_in_err_frac)
+    {
+    err_mag_euc_Ftot_in_vs_euc_Ftot_out = rsr_COR_euc_out_err_frac /
+                                          rsp_euc_realized_Ftot_and_cost_in_err_frac
+
+    err_mag_euc_Ftot_in_vs_euc_Ftot_out [is.na (err_mag_euc_Ftot_in_vs_euc_Ftot_out)] = 0
+
+    mean_err_mag_euc_Ftot_in_vs_euc_Ftot_out = mean (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
+    sd_err_mag_euc_Ftot_in_vs_euc_Ftot_out = sd (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
+
+    median_err_mag_euc_Ftot_in_vs_euc_Ftot_out = median (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
+    mad_err_mag_euc_Ftot_in_vs_euc_Ftot_out = mad (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
+
+    cat ("\n\n", rs_name, " - err_mag_euc_Ftot_in_vs_euc_Ftot_out statistics:",
+         "\n\n  mean = ", mean_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
+         "\n    sd = ", sd_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
+         "\n\n  median = ", median_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
+         "\n    mad = ", mad_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
+         "\n", sep='')
+
+    cat ("Quantiles:\n")
+    print (quantile (err_mag_euc_Ftot_in_vs_euc_Ftot_out))
+    }
+
+#===============================================================================
+
+gg_multiple_err_amts <- function (rs_name, base_path, suffix,
+                                  num_sets = 4,
+                                  num_variants_per_set = 20,
+                                  num_combined_err_labels = 10)
+    {
+    sorted_msa_tib = load_input_data (rs_name, base_path, suffix)
+
+    compute_and_print_mag_stats (rs_name,
+                                 sorted_msa_tib$rsr_COR_euc_out_err_frac,
+                                 sorted_msa_tib$rsp_euc_realized_Ftot_and_cost_in_err_frac)
+
+    #----------
+
+ref_y = 0
+
+    #----------
+
+    ggplot (data = sorted_msa_tib) +
+      geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac, y = rsr_COR_euc_out_err_frac,
+    #                            color = rsp_combined_err_label)) +
+                                color = rsp_base_wrap_str)) +
+    #scale_color_viridis(discrete=TRUE) +
+    scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+
+    ggtitle (paste0 (rs_name, " - Total input error vs. Total output error")) +
+    theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
+
+      geom_hline (yintercept = ref_y, linetype="dashed",
+                    color = "black", size=0.5) +
+      geom_abline (intercept=0, slope=1  #, linetype, color, size
+                   ) +
+      geom_abline (intercept=0, slope=5  #, linetype, color, size
+                   ) +
+      geom_abline (intercept=0, slope=10  #, linetype, color, size
+                   ) +
+
+stat_smooth(method = "lm", col = "red")
+
+    #----------
+
+    ggplot (data = sorted_msa_tib) +
+      geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac, y = rsr_COR_euc_out_err_frac,
+    #                            color = rsp_combined_err_label)) +
+                                color = rsp_base_wrap_str)) +
+    #scale_color_viridis(discrete=TRUE) +
+    #scale_color_brewer(palette="Set1") +
+    scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+
+    ggtitle (paste0 (rs_name, " - Total input error vs. Total output error by Error Class")) +
+    theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
+
+      facet_wrap (~ rsp_combined_err_label, nrow = 5) +
+      geom_hline (yintercept = ref_y, linetype="dashed",
+                    color = "black", size=0.5) +
+      geom_abline (intercept=0, slope=1  #, linetype, color, size
+                   ) +
+      geom_abline (intercept=0, slope=5  #, linetype, color, size
+                   ) +
+      geom_abline (intercept=0, slope=10  #, linetype, color, size
+                   )
+    }
+
+#===============================================================================
+
+library (tidyverse)
+
+base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/"
+suffix = ".combined_results.csv"
+
+gg_multiple_err_amts ("Gurobi", base_path, suffix)
+gg_multiple_err_amts ("Marxan_SA", base_path, suffix)
+
+gg_multiple_err_amts ("ZL_Backward", base_path, suffix)
+gg_multiple_err_amts ("ZL_Forward", base_path, suffix)
+
+gg_multiple_err_amts ("UR_Backward", base_path, suffix)
+gg_multiple_err_amts ("UR_Forward", base_path, suffix)
+
+gg_multiple_err_amts ("SR_Backward", base_path, suffix)
+gg_multiple_err_amts ("SR_Forward", base_path, suffix)
+
+
+
+
+
+
+
+
+
+
+
+
+
+#===============================================================================
+
+#===============================================================================
+
+#===============================================================================
+
 gg_20 <- function ()
 {
 #===============================================================================
@@ -26,8 +181,30 @@ gg_20 <- function ()
 
 library (tidyverse)
 
-rs_name = "Gurobi"
-infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/Gurobi.combined_results.csv"
+# rs_name = "Gurobi"
+# infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/Gurobi.combined_results.csv"
+infile = paste0 (base_path, rs_name, suffix)
+
+# rs_name = "Marxan_SA"
+# infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/Marxan_SA.combined_results.csv"
+
+# rs_name = "ZL_Backward"
+# infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/ZL_Backward.combined_results.csv"
+
+# rs_name = "ZL_Forward"
+# infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/ZL_Forward.combined_results.csv"
+
+# rs_name = "SR_Forward"
+# infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/SR_Forward.combined_results.csv"
+
+# rs_name = "UR_Forward"
+# infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/UR_Forward.combined_results.csv"
+
+# rs_name = "UR_Backward"
+# infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/UR_Backward.combined_results.csv"
+
+rs_name = "SR_Backward"
+infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/SR_Backward.combined_results.csv"
 
 ref_y = 0
 
@@ -41,6 +218,28 @@ sorted_msa_tib = arrange (msa_tib, rsp_combined_err_label)
     #  to spread along the x axis within each facet.
 sorted_msa_tib$idx = rep (1:800, 10)    #1:dim(sorted_msa_tib)[1]    #  For the 4 combined sets 0f 100 runs each
 
+#----------
+
+    #  NOTE: the result of selecting for NA gives 201 instead of 200 results.
+    #  I would expect 200 since there are 200 correct values that have no
+    #  input error.  Not sure what 1 extra NA is from.
+
+err_mag_euc_Ftot_in_vs_euc_Ftot_out =
+    sorted_msa_tib$rsr_COR_euc_out_err_frac /
+    sorted_msa_tib$rsp_euc_realized_Ftot_and_cost_in_err_frac
+err_mag_euc_Ftot_in_vs_euc_Ftot_out [is.na (err_mag_euc_Ftot_in_vs_euc_Ftot_out)] = 0
+
+mean_err_mag_euc_Ftot_in_vs_euc_Ftot_out = mean (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
+sd_err_mag_euc_Ftot_in_vs_euc_Ftot_out = sd (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
+median_err_mag_euc_Ftot_in_vs_euc_Ftot_out = median (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
+mad_err_mag_euc_Ftot_in_vs_euc_Ftot_out = mad (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
+
+cat ("\n\n", rs_name, " - err_mag_euc_Ftot_in_vs_euc_Ftot_out statistics:",
+     "\n\n  mean = ", mean_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
+     "\n    sd = ", sd_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
+     "\n\n  median = ", median_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
+     "\n    mad = ", mad_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
+     "\n", sep='')
 
 #===============================================================================
 #===============================================================================
@@ -141,9 +340,6 @@ theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
                )
 
 
-
-
-
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac, y = rsr_COR_euc_out_err_frac,
 #                            color = rsp_combined_err_label)) +
@@ -168,24 +364,8 @@ theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
 
 
+#----------
 
-    #  Need to do some filtering and sorting and/or regression wrt
-    #  output error and problem size as measured by various functions of
-    #  the num_spp and num_PUs and by some graph measures like redundancy.
-    #  Here's a quick hack for looking at what values the spp & PU cts take,
-    #  but no effort to plot them in relation to various output errors.
-tot_spp_pu = sorted_msa_tib$rsp_num_spp + sorted_msa_tib$rsp_num_PUs
-plot (tot_spp_pu)
-plot (sorted_msa_tib$rsp_num_spp_per_PU)
-
-    #  NOTE: the result of selecting for NA gives 201 instead of 200 results.
-    #  I would expect 200 since there are 200 correct values that have no
-    #  input error.  Not sure what 1 extra NA is from.
-
-err_mag_euc_Ftot_in_vs_euc_Ftot_out =
-    sorted_msa_tib$rsr_COR_euc_out_err_frac /
-    sorted_msa_tib$rsp_euc_realized_Ftot_and_cost_in_err_frac
-err_mag_euc_Ftot_in_vs_euc_Ftot_out [is.na (err_mag_euc_Ftot_in_vs_euc_Ftot_out)] = 0
 
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac, y = err_mag_euc_Ftot_in_vs_euc_Ftot_out,
