@@ -81,12 +81,6 @@ get_compound_err_name <- function (gen_cost_errors,
 
     #  Generate an APPARENT problem from the base problem, i.e., apply errors.
 
-        gen_1_app_variant (base_bd_prob,
-                           parameters,
-                           gen_cost_errors = TRUE,
-                           cost_error_frac_bound = err_amt,
-                           gen_FP_FN_errors = FALSE)
-
 gen_1_app_variant <- function (base_bd_prob,
                                parameters,
 
@@ -161,6 +155,8 @@ gen_1_app_variant <- function (base_bd_prob,
 
     APP_bd_prob = gen_single_bdprob_APP (base_bd_prob,
                                          parameters,
+                           gen_cost_errors,
+                           gen_FP_FN_errors,
                                          compound_err_name,
                                          ret_vals_from_build_const_err,
                                          ret_vals_from_apply_cost_errors)

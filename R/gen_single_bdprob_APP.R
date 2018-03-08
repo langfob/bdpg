@@ -278,6 +278,11 @@ compute_realized_euc_in_errors <- function (realized_FP_rate,
 #' @inheritParams std_param_defns
 #' @param Xu_bdprob_COR a Xu_bd_problem
 #' @param Xu_bdprob_APP an apparent Xu_bd_problem
+#' @param gen_cost_errors boolean flag indicating whether to add cost error;
+#'     TRUE implies add cost error and FALSE implies don't add cost error
+#' @param gen_FP_FN_errors boolean flag indicating whether to add false positives
+#'     and/or false negatives;
+#'     TRUE implies add FP/FN error and FALSE implies don't add FP/FN error
 #' @param ret_vals_from_build_const_err list of return values from building
 #'     constant error values if already done, NULL if not already done
 #' @param ret_vals_from_apply_cost_errors list of return values from building
@@ -289,6 +294,8 @@ compute_realized_euc_in_errors <- function (realized_FP_rate,
 create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
                                                                   Xu_bdprob_APP,
                                                                   parameters,
+                                   gen_cost_errors,
+                                   gen_FP_FN_errors,
                                                                   ret_vals_from_build_const_err = NULL,
                                                                   ret_vals_from_apply_cost_errors = NULL
                                                                   )
@@ -312,69 +319,135 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
         #  Compute PU cost errors and create apparent PU_costs.
         #--------------------------------------------------------
 
-    if (is.null (ret_vals_from_apply_cost_errors))
+    if (gen_cost_errors)
         {
-        ret_vals_from_apply_cost_errors =
-            apply_unif_rand_error_to_PU_costs (Xu_bdprob_COR@PU_costs,
-                                               parameters$cost_error_frac_bound)
+        if (is.null (ret_vals_from_apply_cost_errors))
+            {
+                #------------------------------------------------
+                #  Cost errors have not already been generated,
+                #  so generate them now.
+                #------------------------------------------------
+
+            ret_vals_from_apply_cost_errors =
+                apply_unif_rand_error_to_PU_costs (Xu_bdprob_COR@PU_costs,
+                                                   parameters$cost_error_frac_bound)
+            }
+
+            #-------------------------------------------------
+            #  Save cost error values, regardless of whether
+            #  they were passed in or generated here.
+            #-------------------------------------------------
+
+        Xu_bdprob_APP@PU_costs = ret_vals_from_apply_cost_errors$app_PU_costs
+
+        APP_prob_info@cost_error_bound =
+            ret_vals_from_apply_cost_errors$cost_error_bound
+        APP_prob_info@realized_median_abs_cost_err_frac =
+            ret_vals_from_apply_cost_errors$realized_median_abs_cost_err_frac
+        APP_prob_info@realized_mean_abs_cost_err_frac =
+            ret_vals_from_apply_cost_errors$realized_mean_abs_cost_err_frac
+        APP_prob_info@realized_sd_abs_cost_err_frac =
+            ret_vals_from_apply_cost_errors$realized_sd_abs_cost_err_frac
+
+        } else
+        {
+            #-----------------------------------------------------
+            #  Not generating FP/FN errors so set them all to 0.
+            #  Use correct costs for apparent costs.
+            #-----------------------------------------------------
+
+        Xu_bdprob_APP@PU_costs = Xu_bdprob_COR@PU_costs
+
+        APP_prob_info@cost_error_bound                  = 0.0
+        APP_prob_info@realized_median_abs_cost_err_frac = 0.0
+        APP_prob_info@realized_mean_abs_cost_err_frac   = 0.0
+        APP_prob_info@realized_sd_abs_cost_err_frac     = 0.0
         }
 
         #-----------------------------------------------------
         #  Compute FP and FN errors and create apparent bpm.
         #-----------------------------------------------------
 
-    if (is.null (ret_vals_from_build_const_err))
+    if (gen_FP_FN_errors)
         {
-        ret_vals_from_build_const_err =
-            build_const_err_FP_and_FN_matrices (sum (Xu_bdprob_COR@bpm),       #  num_TPs
-                                                length (Xu_bdprob_COR@bpm),    # num_TPs_and_TNs
+        if (is.null (ret_vals_from_build_const_err))
+            {
+                #------------------------------------------------
+                #  Cost errors have not already been generated,
+                #  so generate them now.
+                #------------------------------------------------
 
-                                                Xu_bdprob_COR@num_PUs,
-                                                Xu_bdprob_COR@num_spp,
+            ret_vals_from_build_const_err =
+                build_const_err_FP_and_FN_matrices (sum (Xu_bdprob_COR@bpm),       #  num_TPs
+                                                    length (Xu_bdprob_COR@bpm),    # num_TPs_and_TNs
 
-                                                parameters$spp_occ_FP_error_type,
-                                                parameters$spp_occ_FP_const_rate,
-                                                parameters$spp_occ_FP_rate_lower_bound,
-                                                parameters$spp_occ_FP_rate_upper_bound,
+                                                    Xu_bdprob_COR@num_PUs,
+                                                    Xu_bdprob_COR@num_spp,
 
-                                                parameters$spp_occ_FN_error_type,
-                                                parameters$spp_occ_FN_const_rate,
-                                                parameters$spp_occ_FN_rate_lower_bound,
-                                                parameters$spp_occ_FN_rate_upper_bound,
+                                                    parameters$spp_occ_FP_error_type,
+                                                    parameters$spp_occ_FP_const_rate,
+                                                    parameters$spp_occ_FP_rate_lower_bound,
+                                                    parameters$spp_occ_FP_rate_upper_bound,
 
-                                                parameters$match_error_counts)
+                                                    parameters$spp_occ_FN_error_type,
+                                                    parameters$spp_occ_FN_const_rate,
+                                                    parameters$spp_occ_FN_rate_lower_bound,
+                                                    parameters$spp_occ_FN_rate_upper_bound,
+
+                                                    parameters$match_error_counts)
+            }
+
+            #--------------------------------------------------
+            #  Save FP/FN error values, regardless of whether
+            #  they were passed in or generated here.
+            #--------------------------------------------------
+
+        APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
+        APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
+        APP_prob_info@match_error_counts     = ret_vals_from_build_const_err$match_error_counts
+        APP_prob_info@FP_const_rate          = ret_vals_from_build_const_err$FP_const_rate
+        APP_prob_info@FN_const_rate          = ret_vals_from_build_const_err$FN_const_rate
+
+            #----------------------------------------
+            #  Ready to apply the FP/FN errors now.
+            #----------------------------------------
+
+        ret_vals_from_apply_errors =
+            apply_const_error_to_spp_occupancy_data (Xu_bdprob_COR@num_PUs,
+                                                     Xu_bdprob_COR@num_spp,
+                                                     Xu_bdprob_COR@bpm,
+                                                     ret_vals_from_build_const_err$FP_rates_matrix,
+                                                     ret_vals_from_build_const_err$FN_rates_matrix)
+
+            #----------------------------------------
+            #  Save the realized FP/FN error rates.
+            #----------------------------------------
+
+        APP_prob_info@realized_FP_rate          = ret_vals_from_apply_errors$realized_FP_rate
+        APP_prob_info@realized_FN_rate          = ret_vals_from_apply_errors$realized_FN_rate
+        APP_prob_info@realized_Ftot_rate        = ret_vals_from_apply_errors$realized_Ftot_rate
+
+
+                  #-----------------------------------------------------
+        } else    #  Not generating FP/FN errors so set them all to 0.
+        {         #-----------------------------------------------------
+
+        APP_prob_info@original_FP_const_rate = 0.0
+        APP_prob_info@original_FN_const_rate = 0.0
+        APP_prob_info@match_error_counts     = FALSE
+        APP_prob_info@FP_const_rate          = 0.0
+        APP_prob_info@FN_const_rate          = 0.0
+
+        APP_prob_info@realized_FP_rate       = 0.0
+        APP_prob_info@realized_FN_rate       = 0.0
+        APP_prob_info@realized_Ftot_rate     = 0.0
         }
 
-    Xu_bdprob_APP@PU_costs = ret_vals_from_apply_cost_errors$app_PU_costs
-    APP_prob_info@cost_error_bound =
-        ret_vals_from_apply_cost_errors$cost_error_bound
-    APP_prob_info@realized_median_abs_cost_err_frac =
-        ret_vals_from_apply_cost_errors$realized_median_abs_cost_err_frac
-    APP_prob_info@realized_mean_abs_cost_err_frac =
-        ret_vals_from_apply_cost_errors$realized_mean_abs_cost_err_frac
-    APP_prob_info@realized_sd_abs_cost_err_frac =
-        ret_vals_from_apply_cost_errors$realized_sd_abs_cost_err_frac
-
-    APP_prob_info@original_FP_const_rate = ret_vals_from_build_const_err$original_FP_const_rate
-    APP_prob_info@original_FN_const_rate = ret_vals_from_build_const_err$original_FN_const_rate
-    APP_prob_info@match_error_counts     = ret_vals_from_build_const_err$match_error_counts
-    APP_prob_info@FP_const_rate          = ret_vals_from_build_const_err$FP_const_rate
-    APP_prob_info@FN_const_rate          = ret_vals_from_build_const_err$FN_const_rate
-
-    ret_vals_from_apply_errors =
-        apply_const_error_to_spp_occupancy_data (Xu_bdprob_COR@num_PUs,
-                                                 Xu_bdprob_COR@num_spp,
-                                                 Xu_bdprob_COR@bpm,
-                                                 ret_vals_from_build_const_err$FP_rates_matrix,
-                                                 ret_vals_from_build_const_err$FN_rates_matrix)
-
-        #----------------------------------
-        #  Save the realized error rates.
-        #----------------------------------
-
-    APP_prob_info@realized_FP_rate          = ret_vals_from_apply_errors$realized_FP_rate
-    APP_prob_info@realized_FN_rate          = ret_vals_from_apply_errors$realized_FN_rate
-    APP_prob_info@realized_Ftot_rate        = ret_vals_from_apply_errors$realized_Ftot_rate
+        #----------------------------------------------------------
+        #  Compute and save euclidean error measures that combine
+        #  FP/FN error with cost error into a single 1D error
+        #  measure.
+        #----------------------------------------------------------
 
     realized_euc_in_errors =
         compute_realized_euc_in_errors (
@@ -438,6 +511,11 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
 #' @inheritParams std_param_defns
 #' @param Xu_bdprob_COR correct Xu problem that is to have error added to it
+#' @param gen_cost_errors boolean flag indicating whether to add cost error;
+#'     TRUE implies add cost error and FALSE implies don't add cost error
+#' @param gen_FP_FN_errors boolean flag indicating whether to add false positives
+#'     and/or false negatives;
+#'     TRUE implies add FP/FN error and FALSE implies don't add FP/FN error
 #' @param ret_vals_from_build_const_err list of return values from building
 #'     constant error values if already done, NULL if not already done
 #' @param ret_vals_from_apply_cost_errors list of return values from building
@@ -452,6 +530,8 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
 gen_single_bdprob_APP <- function (Xu_bdprob_COR,
                                    parameters,
+                           gen_cost_errors,
+                           gen_FP_FN_errors,
                                    compound_err_name = NULL,
                                    ret_vals_from_build_const_err = NULL,
                                    ret_vals_from_apply_cost_errors = NULL)
@@ -464,6 +544,8 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR,
         create_APP_prob_info_by_adding_error_to_spp_occ_data (Xu_bdprob_COR,
                                                               Xu_bdprob_APP,
                                                               parameters,
+                                           gen_cost_errors,
+                                           gen_FP_FN_errors,
                                                               ret_vals_from_build_const_err,
                                                               ret_vals_from_apply_cost_errors)
 
