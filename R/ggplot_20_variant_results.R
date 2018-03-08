@@ -36,35 +36,190 @@ load_input_data <- function (rs_name, base_path, suffix,
     sorted_msa_tib$idx = rep (1:num_indices_per_combined_err_label,
                               num_combined_err_labels)
 
+    unique_out_errs = unique (sorted_msa_tib$rsr_COR_euc_out_err_frac)
+    length (unique_out_errs)
+    sorted_unique_out_errs = sort (unique_out_errs)
+
+    cat ("\n\nhead (sorted_unique_OUT_errs) = \n")
+    print (head (sorted_unique_out_errs))
+
+    cat ("\ntail (sorted_unique_OUT_errs) = \n")
+    print (tail (sorted_unique_out_errs))
+    cat ("\n-----------------------")
+
+
+    unique_in_errs = unique (sorted_msa_tib$rsp_euc_realized_Ftot_and_cost_in_err_frac)
+    length (unique_in_errs)
+    sorted_unique_in_errs = sort (unique_in_errs)
+
+    cat ("\n\nhead (sorted_unique_IN_errs) = \n")
+    print (head (sorted_unique_in_errs))
+
+    cat ("\ntail (sorted_unique_IN_errs) = \n")
+    print (tail (sorted_unique_in_errs))
+    cat ("\n-----------------------")
+
     return (sorted_msa_tib)
     }
 
 #===============================================================================
 
-compute_and_print_mag_stats <- function (rs_name,
-                                         rsr_COR_euc_out_err_frac,
-                                         rsp_euc_realized_Ftot_and_cost_in_err_frac)
+compute_and_print_na_inf_stats <- function (rs_name,
+                                            out_err,
+                                            inp_err,
+                                            err_mag,
+                                            print_heading_str)
     {
-    err_mag_euc_Ftot_in_vs_euc_Ftot_out = rsr_COR_euc_out_err_frac /
-                                          rsp_euc_realized_Ftot_and_cost_in_err_frac
+    cat ("\n\n------------------------------------------------")
+    cat (paste0 ("\n\n-----  ", print_heading_str, "  -----"))
 
-    err_mag_euc_Ftot_in_vs_euc_Ftot_out [is.na (err_mag_euc_Ftot_in_vs_euc_Ftot_out)] = 0
+    #----------
 
-    mean_err_mag_euc_Ftot_in_vs_euc_Ftot_out = mean (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
-    sd_err_mag_euc_Ftot_in_vs_euc_Ftot_out = sd (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
+    num_inp_na = length (which (is.na (inp_err)))
+        cat ("\n\nnum_inp_na for err_mag = ", num_inp_na)
 
-    median_err_mag_euc_Ftot_in_vs_euc_Ftot_out = median (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
-    mad_err_mag_euc_Ftot_in_vs_euc_Ftot_out = mad (err_mag_euc_Ftot_in_vs_euc_Ftot_out)
+    num_inp_inf = length (which (is.infinite (inp_err)))
+        cat ("\nnum_inp_inf for err_mag = ", num_inp_inf)
 
-    cat ("\n\n", rs_name, " - err_mag_euc_Ftot_in_vs_euc_Ftot_out statistics:",
-         "\n\n  mean = ", mean_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
-         "\n    sd = ", sd_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
-         "\n\n  median = ", median_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
-         "\n    mad = ", mad_err_mag_euc_Ftot_in_vs_euc_Ftot_out,
-         "\n", sep='')
+    num_inp_0 = length (which (inp_err == 0))
+        cat ("\nnum_inp_0 for err_mag = ", num_inp_0, "\n\n")
+
+    #----------
+
+    num_out_na = length (which (is.na (out_err)))
+        cat ("\n\nnum_out_na for err_mag = ", num_out_na)
+
+    num_out_inf = length (which (is.infinite (out_err)))
+        cat ("\nnum_out_inf for err_mag = ", num_out_inf)
+
+    num_out_0 = length (which (inp_err == 0))
+        cat ("\nnum_out_0 for err_mag = ", num_out_0, "\n\n")
+
+    #----------
+
+    num_mag_na = length (which (is.na (err_mag)))
+        cat ("\n\nnum_mag_na for err_mag = ", num_mag_na)
+
+    num_mag_inf = length (which (is.infinite (err_mag)))
+        cat ("\nnum_mag_inf for err_mag = ", num_mag_inf)
+
+    num_mag_0 = length (which (inp_err == 0))
+        cat ("\nnum_mag_0 for err_mag = ", num_mag_0, "\n\n")
+
+    #----------
+
+        #  Set infinite values to NA.
+    err_mag [is.infinite (err_mag)] = NA
+
+    mean_err_mag = mean (err_mag, na.rm = TRUE)
+    sd_err_mag = sd (err_mag, na.rm = TRUE)
+
+    median_err_mag = median (err_mag, na.rm = TRUE)
+    mad_err_mag = mad (err_mag, na.rm = TRUE)
+
+    cat (rs_name, " - Error magnification statistics (i.e., outErr/inErr):",
+         "\n\n  mean = ", mean_err_mag,
+         "\n    sd = ", sd_err_mag,
+         "\n\n  median = ", median_err_mag,
+         "\n    mad = ", mad_err_mag,
+         "\n\n", sep='')
 
     cat ("Quantiles:\n")
-    print (quantile (err_mag_euc_Ftot_in_vs_euc_Ftot_out))
+    print (quantile (err_mag, na.rm = TRUE))
+
+#browser()
+    }
+
+compute_and_print_mag_stats <- function (rs_name,
+                                         out_err,
+                                         inp_err
+
+                                         , rsr_UUID
+                                         , rsp_combined_err_label
+                                         )
+    {
+    err_mag = out_err / inp_err
+
+inf_locs = which (is.infinite (err_mag))
+if (length (inf_locs) > 0)
+    {
+    for (iii in 1:length (inf_locs))
+        {
+        cat ("\nInf err_mag [", inf_locs[iii],
+             "], rsr_UUID = ", rsr_UUID [inf_locs[iii]], ", ", rsp_combined_err_label [inf_locs[iii]], ":  inp_err = ", inp_err[inf_locs[iii]], ",
+             out_err = ", out_err[inf_locs[iii]])
+        }
+    }
+
+
+    compute_and_print_na_inf_stats (rs_name,
+                                    out_err,
+                                    inp_err,
+                                    err_mag,
+                                    "FOR ALL DATA")
+
+    # cat ("\n\n------------------------------------------------")
+    # cat ("\n\n-----  FOR ALL DATA  -----")
+    # num_mag_na = length (which (is.na (err_mag)))
+    # cat ("\n\nnum_mag_na for err_mag = ", num_mag_na)
+    # num_inf = length (which (is.infinite (err_mag)))
+    # cat ("\nnum_inf for err_mag = ", num_inf, "\n\n")
+    # err_mag [is.infinite (err_mag)] = NA
+    #
+    # mean_err_mag = mean (err_mag, na.rm = TRUE)
+    # sd_err_mag = sd (err_mag, na.rm = TRUE)
+    #
+    # median_err_mag = median (err_mag, na.rm = TRUE)
+    # mad_err_mag = mad (err_mag, na.rm = TRUE)
+    #
+    # cat (rs_name, " - Error magnification statistics (i.e., outErr/inErr):",
+    #      "\n\n  mean = ", mean_err_mag,
+    #      "\n    sd = ", sd_err_mag,
+    #      "\n\n  median = ", median_err_mag,
+    #      "\n    mad = ", mad_err_mag,
+    #      "\n\n", sep='')
+    #
+    # cat ("Quantiles:\n")
+    # print (quantile (err_mag, na.rm = TRUE))
+
+#--------------------
+
+    # cat ("\n\n------------------------------------------------")
+    # cat ("\n\n-----  FOR input error >= 0.01  -----")
+
+    ge1_indices = which (inp_err >= 0.01)
+    num_indices_ge1 = length (ge1_indices)
+    cat ("\n\nnum_indices_ge1 = ", num_indices_ge1)
+    err_mag = err_mag [ge1_indices]
+
+    compute_and_print_na_inf_stats (rs_name,
+                                    out_err,
+                                    inp_err,
+                                    err_mag,
+                                    "FOR input error >= 0.01")
+
+    # num_mag_na = length (which (is.na (err_mag)))
+    # cat ("\n\nnum_mag_na for err_mag = ", num_mag_na)
+    #
+    # num_inf = length (which (is.infinite (err_mag)))
+    # cat ("\nnum_inf for err_mag = ", num_inf, "\n\n")
+    # err_mag [is.infinite (err_mag)] = NA
+    #
+    # mean_err_mag = mean (err_mag, na.rm = TRUE)
+    # sd_err_mag = sd (err_mag, na.rm = TRUE)
+    #
+    # median_err_mag = median (err_mag, na.rm = TRUE)
+    # mad_err_mag = mad (err_mag, na.rm = TRUE)
+    #
+    # cat (rs_name, " - Error magnification statistics (i.e., outErr/inErr):",
+    #      "\n\n  mean = ", mean_err_mag,
+    #      "\n    sd = ", sd_err_mag,
+    #      "\n\n  median = ", median_err_mag,
+    #      "\n    mad = ", mad_err_mag,
+    #      "\n\n", sep='')
+    #
+    # cat ("Quantiles:\n")
+    # print (quantile (err_mag, na.rm = TRUE))
     }
 
 #===============================================================================
@@ -78,39 +233,56 @@ gg_multiple_err_amts <- function (rs_name, base_path, suffix,
 
     compute_and_print_mag_stats (rs_name,
                                  sorted_msa_tib$rsr_COR_euc_out_err_frac,
-                                 sorted_msa_tib$rsp_euc_realized_Ftot_and_cost_in_err_frac)
+                                 sorted_msa_tib$rsp_euc_realized_Ftot_and_cost_in_err_frac
 
-    #----------
+                                 , sorted_msa_tib$rsr_UUID
+                                 , sorted_msa_tib$rsp_combined_err_label)
 
-ref_y = 0
+    return (sorted_msa_tib)
+    }
 
-    #----------
+#===============================================================================
 
+gg_eucInTot_vs_eucOutTot_all_on_1 <- function (rs_name,
+                                               sorted_msa_tib,
+                                               ref_y = 0)
+    {
+ggplot (data = sorted_msa_tib) +
+        aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
+                                    y = rsr_COR_euc_out_err_frac,
+        #                            color = rsp_combined_err_label)) +
+                                    color = rsp_base_wrap_str) +
+        geom_point() +
+        scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+        stat_smooth(method = "lm", col = "green") +
+
+    # ggplot (data = sorted_msa_tib) +
+    #       geom_point (mapping = ) +
+    #     #scale_color_viridis(discrete=TRUE) +
+    #     scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+    #
+        ggtitle (paste0 (rs_name, " - Total input error vs. Total output error")) +
+        theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
+
+          geom_hline (yintercept = ref_y, linetype="dashed",
+                        color = "black", size=0.5) +
+          geom_abline (intercept=0, slope=1  #, linetype, color, size
+                       ) +
+          geom_abline (intercept=0, slope=5  #, linetype, color, size
+                       ) +
+          geom_abline (intercept=0, slope=10  #, linetype, color, size
+                       )
+    }
+
+#===============================================================================
+
+gg_eucInTot_vs_eucOutTot_facetted_by_err_label <- function (rs_name,
+                                                            sorted_msa_tib,
+                                                            ref_y = 0)
+    {
     ggplot (data = sorted_msa_tib) +
-      geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac, y = rsr_COR_euc_out_err_frac,
-    #                            color = rsp_combined_err_label)) +
-                                color = rsp_base_wrap_str)) +
-    #scale_color_viridis(discrete=TRUE) +
-    scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
-
-    ggtitle (paste0 (rs_name, " - Total input error vs. Total output error")) +
-    theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
-
-      geom_hline (yintercept = ref_y, linetype="dashed",
-                    color = "black", size=0.5) +
-      geom_abline (intercept=0, slope=1  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=5  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=10  #, linetype, color, size
-                   ) +
-
-stat_smooth(method = "lm", col = "red")
-
-    #----------
-
-    ggplot (data = sorted_msa_tib) +
-      geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac, y = rsr_COR_euc_out_err_frac,
+      geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
+                                y = rsr_COR_euc_out_err_frac,
     #                            color = rsp_combined_err_label)) +
                                 color = rsp_base_wrap_str)) +
     #scale_color_viridis(discrete=TRUE) +
@@ -133,22 +305,53 @@ stat_smooth(method = "lm", col = "red")
 
 #===============================================================================
 
+dummy <- function()
+{
 library (tidyverse)
 
 base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/"
 suffix = ".combined_results.csv"
 
-gg_multiple_err_amts ("Gurobi", base_path, suffix)
-gg_multiple_err_amts ("Marxan_SA", base_path, suffix)
+rs_name = "Gurobi"
+sorted_msa_tib = gg_multiple_err_amts (rs_name, base_path, suffix)
+gg_eucInTot_vs_eucOutTot_all_on_1 (rs_name, sorted_msa_tib, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_facetted_by_err_label (rs_name, sorted_msa_tib, ref_y = 0)
 
-gg_multiple_err_amts ("ZL_Backward", base_path, suffix)
-gg_multiple_err_amts ("ZL_Forward", base_path, suffix)
+rs_name = "Marxan_SA"
+sorted_msa_tib = gg_multiple_err_amts (rs_name, base_path, suffix)
+gg_eucInTot_vs_eucOutTot_all_on_1 (rs_name, sorted_msa_tib, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_facetted_by_err_label (rs_name, sorted_msa_tib, ref_y = 0)
 
-gg_multiple_err_amts ("UR_Backward", base_path, suffix)
-gg_multiple_err_amts ("UR_Forward", base_path, suffix)
+rs_name = "ZL_Backward"
+sorted_msa_tib = gg_multiple_err_amts (rs_name, base_path, suffix)
+gg_eucInTot_vs_eucOutTot_all_on_1 (rs_name, sorted_msa_tib, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_facetted_by_err_label (rs_name, sorted_msa_tib, ref_y = 0)
 
-gg_multiple_err_amts ("SR_Backward", base_path, suffix)
-gg_multiple_err_amts ("SR_Forward", base_path, suffix)
+rs_name = "ZL_Forward"
+sorted_msa_tib = gg_multiple_err_amts (rs_name, base_path, suffix)
+gg_eucInTot_vs_eucOutTot_all_on_1 (rs_name, sorted_msa_tib, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_facetted_by_err_label (rs_name, sorted_msa_tib, ref_y = 0)
+
+rs_name = "UR_Backward"
+sorted_msa_tib = gg_multiple_err_amts (rs_name, base_path, suffix)
+gg_eucInTot_vs_eucOutTot_all_on_1 (rs_name, sorted_msa_tib, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_facetted_by_err_label (rs_name, sorted_msa_tib, ref_y = 0)
+
+rs_name = "UR_Forward"
+sorted_msa_tib = gg_multiple_err_amts (rs_name, base_path, suffix)
+gg_eucInTot_vs_eucOutTot_all_on_1 (rs_name, sorted_msa_tib, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_facetted_by_err_label (rs_name, sorted_msa_tib, ref_y = 0)
+
+rs_name = "SR_Backward"
+sorted_msa_tib = gg_multiple_err_amts (rs_name, base_path, suffix)
+gg_eucInTot_vs_eucOutTot_all_on_1 (rs_name, sorted_msa_tib, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_facetted_by_err_label (rs_name, sorted_msa_tib, ref_y = 0)
+
+rs_name = "SR_Forward"
+sorted_msa_tib = gg_multiple_err_amts (rs_name, base_path, suffix)
+gg_eucInTot_vs_eucOutTot_all_on_1 (rs_name, sorted_msa_tib, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_facetted_by_err_label (rs_name, sorted_msa_tib, ref_y = 0)
+}
 
 
 
@@ -426,7 +629,21 @@ plot (in_err, mag)
 #                )
 
 #----------------------------------------
+#----------------------------------------
+#----------------------------------------
+#----------------------------------------
+#----------------------------------------
+#----------------------------------------
+#----------------------------------------
+#----------------------------------------
+#----------------------------------------
+#----------------------------------------
+#----------------------------------------
+#----------------------------------------
+#----------------------------------------
+#----------------------------------------
 
+#  FP and cost in err vs tot out err
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = rsp_euc_realized_FP_and_cost_in_err_frac, y = rsr_COR_euc_out_err_frac,
                             color = rsp_base_wrap_str)) +
@@ -442,7 +659,7 @@ ggplot (data = sorted_msa_tib) +
 
 
 
-
+#  FN and cost in err vs tot out err
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = rsp_euc_realized_FN_and_cost_in_err_frac, y = rsr_COR_euc_out_err_frac,
                             color = rsp_base_wrap_str)) +
@@ -455,7 +672,7 @@ ggplot (data = sorted_msa_tib) +
   geom_abline (intercept=0, slope=10  #, linetype, color, size
                )
 
-
+#  median abs cost err vs tot out err
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = rsp_realized_median_abs_cost_err_frac,
                             y = rsr_COR_euc_out_err_frac,
@@ -486,15 +703,29 @@ ggplot (data = sorted_msa_tib) +
     #  Put the index of the base problem (from 1 to 100) along the x axis.
     #  At each index on each plot, plot all 10 y values for that set of variants.
 
+# index vs tot out err colored by Err Label, facetted by Base/Wrap side by side
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = idx, y = rsr_COR_euc_out_err_frac,
                             color = rsp_combined_err_label)) +
 #scale_color_viridis(discrete=TRUE) +
-  facet_wrap (~ rsp_base_wrap_str, nrow = 5) +
+  facet_wrap (~ rsp_base_wrap_str) +
+#  facet_wrap (~ rsp_base_wrap_str, nrow = 2) +
+  geom_hline (yintercept = ref_y, linetype="dashed",
+                color = "black", size=0.5)
+
+# index vs tot out colored by Err Label, facetted by Base/Wrap one above the other
+ggplot (data = sorted_msa_tib) +
+  geom_point (mapping = aes(x = idx, y = rsr_COR_euc_out_err_frac,
+                            color = rsp_combined_err_label)) +
+#scale_color_viridis(discrete=TRUE) +
+#  facet_wrap (~ rsp_base_wrap_str) +
+  facet_wrap (~ rsp_base_wrap_str, nrow = 2) +
   geom_hline (yintercept = ref_y, linetype="dashed",
                 color = "black", size=0.5)
 
 
+
+#----------------------------------------
 
 
 
@@ -507,7 +738,7 @@ ggplot (data = sorted_msa_tib) +
 
 
 
-
+# index vs tot out err facetted by Combined Err Label, colored by Base/Wrap
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = idx, y = rsr_COR_euc_out_err_frac,
                             color = rsp_base_wrap_str)) +
@@ -526,7 +757,7 @@ ggplot (data = sorted_msa_tib) +
 
 
 
-
+# index vs cost out err colored by Base/Wrap, facetted by Combined Err Label
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = idx, y = rs_solution_cost_err_frac,
                             color = rsp_base_wrap_str)) +
@@ -537,6 +768,7 @@ ggplot (data = sorted_msa_tib) +
                 color = "black", size=0.5)
 
 
+# index vs abs cost out err colored by Base/Wrap, facetted by Combined Err Label
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = idx, y = abs_rs_solution_cost_err_frac,
                             color = rsp_base_wrap_str)) +
@@ -544,6 +776,7 @@ ggplot (data = sorted_msa_tib) +
 
 
 
+# index vs rep shortfall err colored by Base/Wrap, facetted by Combined Err Label
 ggplot (data = sorted_msa_tib) +
   geom_point (mapping = aes(x = idx, y = rsr_APP_spp_rep_shortfall,
                             color = rsp_base_wrap_str)) +
