@@ -5,7 +5,7 @@
 \title{Generate 20 basic variants of a problem}
 \usage{
 gen_20_basic_variants_including_cost_error(parameters, integerize,
-  err_amt = 0.05)
+  err_amt = NA)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
