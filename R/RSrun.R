@@ -200,6 +200,8 @@ create_RSrun_core <- function (prob_UUID,
     rsrun <- new ("RSrun")
 
     rsrun@UUID             <- uuid::UUIDgenerate()
+cat ("\n\n>>>>> Creating rsrun ", rsrun@UUID)
+
     rsrun@run_on_prob_UUID <- prob_UUID
 
     rsrun@rand_seed             = new_seed_list$seed_value

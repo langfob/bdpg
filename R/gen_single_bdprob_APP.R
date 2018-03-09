@@ -64,6 +64,7 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
         #---------------------------------------------------------------
 
     Xu_bdprob_APP@UUID = uuid::UUIDgenerate()
+cat ("\n\n>>>>> Creating APP_bdprob ", Xu_bdprob_APP@UUID)
 
     Xu_bdprob_APP@prob_is_ok                       = FALSE
     Xu_bdprob_APP@rand_seed                        = new_seed_list$seed_value
@@ -563,6 +564,7 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR,
                                                             parameters)
 
     Xu_bdprob_APP@combined_err_label = compound_err_name
+cat ("\n\n>>> Creating APP_bdprob combined_err_label '", Xu_bdprob_APP@combined_err_label, "'")
 
         #------------------------------------------------------------
         #  Everything seems to have worked.
