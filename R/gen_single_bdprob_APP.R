@@ -373,10 +373,10 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
         {
         if (is.null (ret_vals_from_build_const_err))
             {
-                #------------------------------------------------
-                #  Cost errors have not already been generated,
+                #-------------------------------------------------
+                #  FN/FP errors have not already been generated,
                 #  so generate them now.
-                #------------------------------------------------
+                #-------------------------------------------------
 
             ret_vals_from_build_const_err =
                 build_const_err_FP_and_FN_matrices (sum (Xu_bdprob_COR@bpm),       #  num_TPs
