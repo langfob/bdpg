@@ -1226,7 +1226,7 @@ cat ("\n\nJust after loading wrapped_nodes:\n")
         #------------------------------------------------------------------
 
     wrapped_bdprob@UUID                                 = uuid::UUIDgenerate()
-cat ("\n\n>>>>> Creating wrapped_bdprob ", wrapped_bdprob@UUID)
+cat ("\n\n>>>>> Creating wrapped_bdprob ", wrapped_bdprob@UUID, "\n")
 
     wrapped_bdprob@UUID_of_base_problem_that_is_wrapped = Xu_bdprob@UUID
 

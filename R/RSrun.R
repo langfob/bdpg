@@ -200,7 +200,9 @@ create_RSrun_core <- function (prob_UUID,
     rsrun <- new ("RSrun")
 
     rsrun@UUID             <- uuid::UUIDgenerate()
-cat ("\n\n>>>>> Creating rsrun ", rsrun@UUID)
+cat ("\n\n>>>>> Creating rsrun: '", cor_or_app_str,
+     ", '", basic_or_wrapped_or_comb_str,
+     ", '", rs_method_name, "', ", rsrun@UUID)
 
     rsrun@run_on_prob_UUID <- prob_UUID
 

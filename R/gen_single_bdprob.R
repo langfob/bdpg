@@ -492,7 +492,7 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
         #---------------------------------------------------------------
 
     Xu_bdprob_cor@UUID = uuid::UUIDgenerate()
-cat ("\n\n>>>>> Creating COR_bdprob ", Xu_bdprob_cor@UUID)
+cat ("\n\n>>>>> Creating COR_bdprob ", Xu_bdprob_cor@UUID, "\n")
 
     Xu_bdprob_cor@prob_is_ok                       = FALSE
     Xu_bdprob_cor@rand_seed                        = new_seed_list$seed_value
