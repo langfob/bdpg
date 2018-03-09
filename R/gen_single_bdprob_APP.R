@@ -452,10 +452,10 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
     realized_euc_in_errors =
         compute_realized_euc_in_errors (
-            ret_vals_from_apply_errors$realized_FP_rate,
-            ret_vals_from_apply_errors$realized_FN_rate,
-            ret_vals_from_apply_errors$realized_Ftot_rate,
-            ret_vals_from_apply_cost_errors$realized_median_abs_cost_err_frac)
+            APP_prob_info@realized_FP_rate,                     #ret_vals_from_apply_errors$realized_FP_rate,
+            APP_prob_info@realized_FN_rate,                     #ret_vals_from_apply_errors$realized_FN_rate,
+            APP_prob_info@realized_Ftot_rate,                   #ret_vals_from_apply_errors$realized_Ftot_rate,
+            APP_prob_info@realized_median_abs_cost_err_frac)    #ret_vals_from_apply_cost_errors$realized_median_abs_cost_err_frac)
 
     APP_prob_info@euc_realized_FP_and_cost_in_err_frac =
         realized_euc_in_errors$euc_realized_FP_and_cost_in_err_frac
