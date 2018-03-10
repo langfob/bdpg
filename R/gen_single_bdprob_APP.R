@@ -235,7 +235,7 @@ apply_unif_rand_error_to_PU_costs <- function (cor_PU_costs,
         abs_cost_err_fracs       = abs (cost_error_multipliers - 1)
         realized_median_abs_cost_err_frac = median (abs_cost_err_fracs)
         realized_mean_abs_cost_err_frac   = mean (abs_cost_err_fracs)
-        realized_sd_abs_cost_err_frac     = sd (abs_cost_err_fracs)
+        realized_sd_abs_cost_err_frac     = stats::sd (abs_cost_err_fracs)
         }
 
     return (list (app_PU_costs = app_PU_costs,
