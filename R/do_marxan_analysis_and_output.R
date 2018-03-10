@@ -51,7 +51,7 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
         #---------------------------
         #  Collect marxan results.
         #---------------------------
-browser()
+
     # rs_best_solution_PU_IDs = get_rs_best_solution_PU_IDs (rs_method_name,
     #                                                        rsrun,
     #                                                        exp_root_dir,
@@ -71,7 +71,7 @@ browser()
     rs_best_solution_PU_IDs =
 #        rs_best_and_summed_solution_PU_IDs$marxan_best_solution_PU_IDs
         rs_best_and_summed_solution_PU_IDs$rs_best_solution_PU_IDs
-#browser()
+
     save_rsrun_results_data_for_one_rsrun_given_solution_PU_IDs (
                                                 rs_best_solution_PU_IDs,
                         tzar_run_ID = parameters$run_id,
