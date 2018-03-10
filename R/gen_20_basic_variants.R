@@ -367,9 +367,10 @@ cat (  "\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         ! value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file))
         {
         wrapped_COR_bd_prob =
-            gen_bdprob (parameters,
-                        integerize,
-                        base_COR_bd_prob)
+#            gen_bdprob (parameters,
+            gen_multi_bdprob (parameters,
+                              integerize,
+                              base_COR_bd_prob)
 
         do_rs_analysis_and_output (wrapped_COR_bd_prob,
                                    wrapped_COR_bd_prob,

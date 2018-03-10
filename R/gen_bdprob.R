@@ -6,12 +6,19 @@
 #
 #===============================================================================
 
-#' Generate a biodiversity problem
+#' Generate a base or wrapped biodiversity problem
 #'
-#'Generate a biodiversity problem.
+#' Problem can be a base problem or a wrapped problem.  Generally, the control
+#' for this decision is contained in the parameters list.  However, in some
+#' functions, you may want to set the value yourself while looping through
+#' lots of different combinations.  To allow that override, you can pass the
+#' controlling value for gen_multi_bdproblem as a non-NULL boolean argument.
 #'
 #-------------------------------------------------------------------------------
 
+#' @param gen_multi_bdproblem NULL or boolean indicating whether to generate
+#'     a multi_bdproblem or not; if NULL then derive the value from the
+#'     parameters list
 #' @param base_bdprob NULL or an existing bdprob to use in creating multi_bdproblem
 #' @inheritParams std_param_defns
 #'
@@ -21,12 +28,26 @@
 #-------------------------------------------------------------------------------
 
 gen_bdprob  = function (parameters,
-                        #compute_network_metrics_for_this_prob,
                         integerize,
+                        gen_multi_bdproblem = NULL,
                         base_bdprob = NULL)
     {
-    gen_multi_bdproblem         = vb (parameters$gen_multi_bdproblem,
+        #-----------------------------------------------------------------------
+        #  Decide whether to generate a multi problem or not.
+        #  Generally, you derive this from the parameters list.
+        #  When that is the case, then set the gen_multi_bdproblem argument
+        #  to this function to be NULL and a value will be derived in here.
+        #  In some functions, you may want to
+        #  set the value yourself while looping through lots of different
+        #  combinations.  To allow that override, you can pass the controlling
+        #  value for gen_multi_bdproblem as a non-NULL boolean argument.
+        #-----------------------------------------------------------------------
+
+    if (is.null (gen_multi_bdproblem))
+        {
+        gen_multi_bdproblem         = vb (parameters$gen_multi_bdproblem,
                                       def_on_empty = TRUE)
+        }
 
     if (gen_multi_bdproblem)
         {
