@@ -302,9 +302,11 @@ test_that("compute_final_wrapped_extra_spp_abund_hist: wrap fails when base set 
     desired_result = data.frame (abund = 2:6,
                                  freq = c(7, 46, 10, 2, 2))
 
-    final_wrapped_extra_spp_abund_merge =
+    ret_list =
         compute_final_wrapped_extra_spp_abund_hist (wrapped_extra_spp_abund_merge,
                                                     allow_imperfect_wrap = FALSE)
+    final_wrapped_extra_spp_abund_merge =
+        ret_list$final_wrapped_extra_spp_abund_hist
 
 test_that("compute_final_wrapped_extra_spp_abund_hist: proper wrap should succeed", {
     expect_equal (final_wrapped_extra_spp_abund_merge, desired_result)
@@ -332,18 +334,24 @@ test_that("compute_final_wrapped_extra_spp_abund_hist: proper wrap should succee
     in_final_wrapped_extra_spp_abund_hist =
         data.frame (abund = 2:6, freq = c(7, 46, 10, 2, 2))
 
-    out_final_wrapped_extra_spp_abund_hist =
+    ret_list =
         check_for_imperfect_wrap (in_final_wrapped_extra_spp_abund_hist,
                                   allow_imperfect_wrap = TRUE)
+
+    out_final_wrapped_extra_spp_abund_hist =
+        ret_list$final_wrapped_extra_spp_abund_hist
 
 test_that("check_for_imperfect_wrap: proper wrap should succeed when imperfect wrap allowed", {
     expect_equal (out_final_wrapped_extra_spp_abund_hist,
                   in_final_wrapped_extra_spp_abund_hist)
 })
 
-    out_final_wrapped_extra_spp_abund_hist =
+    ret_list =
         check_for_imperfect_wrap (in_final_wrapped_extra_spp_abund_hist,
                                   allow_imperfect_wrap = FALSE)
+
+    out_final_wrapped_extra_spp_abund_hist =
+        ret_list$final_wrapped_extra_spp_abund_hist
 
 test_that("check_for_imperfect_wrap: proper wrap should succeed when imperfect wrap NOT allowed", {
     expect_equal (out_final_wrapped_extra_spp_abund_hist,
@@ -374,9 +382,12 @@ test_that("check_for_imperfect_wrap: proper wrap should succeed when imperfect w
     corrected_final_wrapped_extra_spp_abund_hist = # hist with negs replaced with 0s
         data.frame (abund = 2:6, freq = c(0, 46, 10, 0, 2))
 
-    out_final_wrapped_extra_spp_abund_hist =
+    ret_list =
         check_for_imperfect_wrap (in_final_wrapped_extra_spp_abund_hist,
                                   allow_imperfect_wrap = TRUE)
+
+    out_final_wrapped_extra_spp_abund_hist =
+        ret_list$final_wrapped_extra_spp_abund_hist
 
 test_that("check_for_imperfect_wrap: imperfect wrap should succeed & correct when imperfect wrap allowed", {
     expect_equal (out_final_wrapped_extra_spp_abund_hist,
@@ -465,14 +476,35 @@ test_that("clean_up_wrapped_abund_dist: imperfect wrap should fail when imperfec
                        4,4,      #  2 spp on 4 patches
                        5,5,5,5)  #  4 spp on 5 patches
 
-test_that("clean_up_wrapped_abund_dist: proper wrap should succeed regardless of value of allow_imperfect_wrap flag", {
-    expect_equal (clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
-                                               allow_imperfect_wrap = TRUE),
-                  desired_result)
 
-    expect_equal (clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
-                                               allow_imperfect_wrap = FALSE),
-                  desired_result)
+        #--------------------------------
+        #  allow_imperfect_wrap is TRUE
+        #--------------------------------
+
+    ret_list = clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
+                                            allow_imperfect_wrap = TRUE)
+
+    extra_spp_abund = ret_list$extra_spp_abund
+    wrap_is_imperfect = ret_list$wrap_is_imperfect
+
+test_that("clean_up_wrapped_abund_dist: proper wrap should succeed with TRUE allow_imperfect_wrap flag", {
+    expect_equal (extra_spp_abund,   desired_result)
+    expect_equal (wrap_is_imperfect, FALSE)
+})
+
+        #---------------------------------
+        #  allow_imperfect_wrap is FALSE
+        #---------------------------------
+
+    ret_list = clean_up_wrapped_abund_dist (wrapped_extra_spp_abund_merge,
+                                            allow_imperfect_wrap = FALSE)
+
+    extra_spp_abund = ret_list$extra_spp_abund
+    wrap_is_imperfect = ret_list$wrap_is_imperfect
+
+test_that("clean_up_wrapped_abund_dist: proper wrap should succeed with FALSE allow_imperfect_wrap flag", {
+    expect_equal (extra_spp_abund,   desired_result)
+    expect_equal (wrap_is_imperfect, FALSE)
 })
 
 #===============================================================================
@@ -523,20 +555,28 @@ test_that("clean_up_wrapped_abund_dist: proper wrap should succeed regardless of
                        5,5,      #  2 spp on 5 patches
                        6)        #  1 spp on 6 patches
 
+    ret_list = remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
+                                                                             trimmed_rounded_abund_per_spp,
+                                                                             spp_col_name = "spp_ID",
+                                                                             allow_imperfect_wrap = TRUE)
+    extra_spp_abund   = ret_list$extra_spp_abund
+    wrap_is_imperfect = ret_list$wrap_is_imperfect
 
-test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example", {
-    expect_equal (remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
-                                                                         trimmed_rounded_abund_per_spp,
-                                                                         spp_col_name = "spp_ID",
-                                                                         allow_imperfect_wrap = TRUE),
-                  desired_result)
+test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example 1 with allow_imperfect_wrap TRUE", {
+    expect_equal (extra_spp_abund, desired_result)
+    expect_equal (wrap_is_imperfect, FALSE)
+})
 
-    expect_equal (remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
-                                                                         trimmed_rounded_abund_per_spp,
-                                                                         spp_col_name = "spp_ID",
-                                                                         allow_imperfect_wrap = FALSE),
-                  desired_result)
+    ret_list = remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
+                                                                             trimmed_rounded_abund_per_spp,
+                                                                             spp_col_name = "spp_ID",
+                                                                             allow_imperfect_wrap = FALSE)
+    extra_spp_abund   = ret_list$extra_spp_abund
+    wrap_is_imperfect = ret_list$wrap_is_imperfect
 
+test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example 1 with allow_imperfect_wrap FALSE", {
+    expect_equal (extra_spp_abund, desired_result)
+    expect_equal (wrap_is_imperfect, FALSE)
 })
 
     #---------------------------------------------------------
@@ -566,14 +606,21 @@ test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example
                        5,5,      #  2 spp on 5 patches
                        6)        #  1 spp on 6 patches
 
+    ret_list = remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
+                                                                             trimmed_rounded_abund_per_spp,
+                                                                             spp_col_name = "spp_ID",
+                                                                             allow_imperfect_wrap = TRUE)
+    extra_spp_abund   = ret_list$extra_spp_abund
+    wrap_is_imperfect = ret_list$wrap_is_imperfect
 
-test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example", {
-    expect_equal (remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
-                                                                         trimmed_rounded_abund_per_spp,
-                                                                         spp_col_name = "spp_ID",
-                                                                         allow_imperfect_wrap = TRUE),
-                  desired_result)
+test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example 2 with allow_imperfect_wrap TRUE", {
+    expect_equal (extra_spp_abund, desired_result)
+    expect_equal (wrap_is_imperfect, TRUE)
+})
 
+
+
+test_that("remove_base_spp_abundances_from_wrapping_distribution: simple example 2 with allow_imperfect_wrap FALSE", {
     expect_error (remove_base_spp_abundances_from_wrapping_distribution (Xu_PU_spp_table,
                                                                          trimmed_rounded_abund_per_spp,
                                                                          spp_col_name = "spp_ID",
@@ -847,7 +894,7 @@ test_that("create_wrapping_PU_spp_table: on dep PUs but they should NOT be eligi
                                 extra_PUs            = extra_PUs,
                                 dep_set_PUs_eligible = dep_set_PUs_eligible)
 
-    wrapped_PU_spp_indices =
+    ret_list =
         wrap_abundances_around_eligible_set (
             dep_set                         = Xu_dep_set,
             eligible_set                    = eligible_PUs,
@@ -861,6 +908,8 @@ test_that("create_wrapping_PU_spp_table: on dep PUs but they should NOT be eligi
             use_testing_only_rand_seed      = TRUE,
             testing_only_rand_seed          = 17)
 
+    wrapped_PU_spp_indices = ret_list$PU_spp_table
+    wrap_is_imperfect      = ret_list$wrap_is_imperfect
 
 desired_result =
     data.frame (PU_ID  = c(1,2,3,4,5,6,7,8,9,10,2,15,6,14,6,13,4,11,14,2,13,11,
@@ -871,7 +920,8 @@ desired_result =
                            15,15,15,15))
 
 test_that("wrap_abundances_around_eligible_set: simple example", {
-    expect_equal (desired_result, wrapped_PU_spp_indices)
+    expect_equal (wrapped_PU_spp_indices, desired_result)
+    expect_equal (wrap_is_imperfect, FALSE)
 })
 
 #===============================================================================
