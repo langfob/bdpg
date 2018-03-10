@@ -20,7 +20,8 @@ Imports:
     igraph,
     grDevices, 
     tools,
-    dplyr
+    dplyr, 
+    stats
 Suggests:
     knitr,
     rmarkdown,
