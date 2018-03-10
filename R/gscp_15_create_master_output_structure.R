@@ -324,6 +324,34 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                                                            APP_bd_prob,
                                                            rs_control_values)
 
+    save_rsrun_results_data_for_one_rsrun_given_solution_PU_IDs (
+                                                        rs_best_solution_PU_IDs,
+                                                        tzar_run_ID,
+                                                        exp_root_dir,
+                                                        rsrun,
+                                                        COR_bd_prob,
+                                                        APP_bd_prob,
+                                                        rs_method_name,
+                                csv_outfile_name = "rsrun_results.csv",
+                                                        rs_control_values,
+                                                        src_rds_file_dir)
+    }
+
+#===============================================================================
+
+save_rsrun_results_data_for_one_rsrun_given_solution_PU_IDs <-
+    function (rs_best_solution_PU_IDs,
+              tzar_run_ID,
+              exp_root_dir,
+              rsrun,
+              COR_bd_prob,
+              APP_bd_prob,
+              rs_method_name,
+        csv_outfile_name,
+              rs_control_values=NULL,
+              src_rds_file_dir=NULL
+              )
+    {
         #------------------------------------------------------------------
         #  Compute costs and cost error measures for the chosen solution.
         #------------------------------------------------------------------
@@ -459,7 +487,8 @@ save_rsrun_results_data_for_one_rsrun <- function (tzar_run_ID,
                     )
 
     write_results_to_files (
-        csv_outfile_name = "rsrun_results.csv",
+#        csv_outfile_name = "rsrun_results.csv",
+        csv_outfile_name,
         results_df       =
             list_as_data_frame_with_0_length_vals_replaced_by_NA (results_list),
         tzar_run_ID,
