@@ -152,7 +152,7 @@ load_results_output_values_specific_to_Xu_benchmark_problems <-
     results_list$rsp_derive_alpha_from_n__num_groups_and_opt_frac_0.5       = NA
     results_list$rsp_use_unif_rand_alpha__                                  = NA
 
-    results_list$rsp_n__num_groups                                          = NA
+#2018 03 10 - SHOULD NOT BE IN EXTENDED PARAMS SINCE IT'S A BASE PARAM#    results_list$rsp_n__num_groups                                          = NA
 
     results_list$rsp_n__num_groups_lower_bound                              = NA
     results_list$rsp_n__num_groups_upper_bound                              = NA
@@ -200,7 +200,7 @@ load_results_output_values_specific_to_non_benchmark_Xu_problem <-
         #  information about a Xu problem created from scratch.
         #  These are empty for Xu benchmark problems.
         #------------------------------------------------------------
-
+#browser()
     Xu_parameters           = rsprob@prob_gen_info@Xu_parameters
     Xu_base_params          = Xu_parameters@base_params
     Xu_bdpg_extended_params = Xu_parameters@bdpg_extended_params
@@ -240,7 +240,7 @@ load_results_output_values_specific_to_non_benchmark_Xu_problem <-
     results_list$rsp_derive_alpha_from_n__num_groups_and_opt_frac_0.5       = Xu_bdpg_extended_params@derive_alpha_from_n__num_groups_and_opt_frac_0.5
     results_list$rsp_use_unif_rand_alpha__                                  = Xu_bdpg_extended_params@use_unif_rand_alpha__
 
-    results_list$rsp_n__num_groups                                          = Xu_bdpg_extended_params@n__num_groups
+#2018 03 10 - SHOULD NOT BE IN EXTENDED PARAMS SINCE IT'S A BASE PARAM#    results_list$rsp_n__num_groups                                          = Xu_bdpg_extended_params@n__num_groups
 
     results_list$rsp_n__num_groups_lower_bound                              = Xu_bdpg_extended_params@n__num_groups_lower_bound
     results_list$rsp_n__num_groups_upper_bound                              = Xu_bdpg_extended_params@n__num_groups_upper_bound
