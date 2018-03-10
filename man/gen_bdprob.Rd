@@ -2,9 +2,10 @@
 % Please edit documentation in R/gen_bdprob.R
 \name{gen_bdprob}
 \alias{gen_bdprob}
-\title{Generate a biodiversity problem}
+\title{Generate a base or wrapped biodiversity problem}
 \usage{
-gen_bdprob(parameters, integerize, base_bdprob = NULL)
+gen_bdprob(parameters, integerize, gen_multi_bdproblem = NULL,
+  base_bdprob = NULL)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
@@ -12,11 +13,19 @@ and can have a varying number and set of elements depending on the run}
 
 \item{integerize}{function to use in converting floats to ints}
 
+\item{gen_multi_bdproblem}{NULL or boolean indicating whether to generate
+a multi_bdproblem or not; if NULL then derive the value from the
+parameters list}
+
 \item{base_bdprob}{NULL or an existing bdprob to use in creating multi_bdproblem}
 }
 \value{
 biodiversity problems
 }
 \description{
-Generate a biodiversity problem.
+Problem can be a base problem or a wrapped problem.  Generally, the control
+for this decision is contained in the parameters list.  However, in some
+functions, you may want to set the value yourself while looping through
+lots of different combinations.  To allow that override, you can pass the
+controlling value for gen_multi_bdproblem as a non-NULL boolean argument.
 }

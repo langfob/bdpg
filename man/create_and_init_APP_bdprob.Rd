@@ -4,13 +4,15 @@
 \alias{create_and_init_APP_bdprob}
 \title{Create and initialize apparent bdproblem from a correct problem.}
 \usage{
-create_and_init_APP_bdprob(Xu_bdprob_COR, parameters)
+create_and_init_APP_bdprob(Xu_bdprob_COR, parameters, compound_err_name)
 }
 \arguments{
 \item{Xu_bdprob_COR}{a Xu_bd_problem}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{compound_err_name}{string containing name of compound error condition}
 }
 \value{
 an apparent Xu_bd_problem
