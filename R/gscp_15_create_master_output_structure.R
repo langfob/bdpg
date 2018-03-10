@@ -205,7 +205,11 @@ get_gurobi_best_solution_PU_IDs <- function (rsrun, top_dir)
 
 #===============================================================================
 
-get_marxan_best_solution_PU_IDs <- function (rsrun,
+# get_marxan_best_solution_PU_IDs <- function (rsrun,
+#                                              exp_root_dir,
+#                                              COR_bd_prob,
+#                                              APP_bd_prob)
+get_marxan_best_and_summed_solution_PU_IDs <- function (rsrun,
                                              exp_root_dir,
                                              COR_bd_prob,
                                              APP_bd_prob)
@@ -231,15 +235,11 @@ get_marxan_best_solution_PU_IDs <- function (rsrun,
     rs_best_solution_PU_IDs =
         which (marxan_output_values$marxan_best_df_sorted$SOLUTION > 0)
 
-        #----------------------------------------------------------------
-        #  This call used to be part of read_marxan_output_files(), but
-        #  didn't need to be in there since it returns nothing and is
-        #  only called for its verification and plotting side effects.
-        #----------------------------------------------------------------
-        #  May want to get rid of it in the end or maybe make it more
-        #  generic and run against the return of any reserve selector.
-        #----------------------------------------------------------------
+        #----------------------------
+        #  Get summed solution IDs.
+        #----------------------------
 
+    marxan_best_summed_solution_PU_IDs =
     find_best_marxan_solutions_and_plot_incremental_summed_solution_reps (
                                                         rsrun,
                                                         exp_root_dir,
@@ -248,7 +248,9 @@ get_marxan_best_solution_PU_IDs <- function (rsrun,
                                                         marxan_output_values)
 
 
-    return (rs_best_solution_PU_IDs)
+    return (list (rs_best_solution_PU_IDs = rs_best_solution_PU_IDs,
+                  marxan_best_summed_solution_PU_IDs =
+                      marxan_best_summed_solution_PU_IDs))
     }
 
 #===============================================================================
