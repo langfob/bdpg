@@ -19,6 +19,7 @@
 #'
 #-------------------------------------------------------------------------------
 #' @param Xu_bdprob_COR a Xu_bd_problem
+#' @param compound_err_name string containing name of compound error condition
 #' @inheritParams std_param_defns
 #'
 #' @return an apparent Xu_bd_problem
