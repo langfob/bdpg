@@ -265,11 +265,19 @@ get_rs_best_solution_PU_IDs <- function (rs_method_name,
         #-------------------------------------
     if (rs_method_name == "Marxan_SA")
         {
+        # rs_best_solution_PU_IDs =
+        #                     get_marxan_best_solution_PU_IDs (rsrun,
+        #                                                      exp_root_dir,
+        #                                                      COR_bd_prob,
+        #                                                      APP_bd_prob)
+        rs_best_and_summed_solution_PU_IDs =
+                get_marxan_best_and_summed_solution_PU_IDs (rsrun,
+                                                            exp_root_dir,
+                                                            COR_bd_prob,
+                                                            APP_bd_prob)
         rs_best_solution_PU_IDs =
-                            get_marxan_best_solution_PU_IDs (rsrun,
-                                                             exp_root_dir,
-                                                             COR_bd_prob,
-                                                             APP_bd_prob)
+            rs_best_and_summed_solution_PU_IDs$rs_best_solution_PU_IDs
+
         #-------------------------------------
         } else if (rs_method_name == "Gurobi")
         {
