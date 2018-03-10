@@ -271,6 +271,7 @@ find_best_marxan_solutions_and_plot_incremental_summed_solution_reps <-
                   APP_bd_prob,
                   marxan_output_values)
     {
+if (FALSE) {    #  I don't think this is needed anymore.  2018 03 04 - BTL
       find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
               get_RSrun_path_output (rsrun, exp_root_dir),
               COR_bd_prob@num_spp,
@@ -286,7 +287,9 @@ COR_bd_prob@PU_costs,
               get_RSrun_path_output (rsrun, exp_root_dir),
               marxan_output_values$marxan_ssoln_df,
               COR_bd_prob@correct_solution_cost)
+}
 
+marxan_best_summed_solution_PU_IDs =
       find_best_marxan_solutions_and_plot_incremental_summed_solution_reps_for_COR_and_APP (
               get_RSrun_path_output (rsrun, exp_root_dir),
               COR_bd_prob@num_spp,
@@ -302,6 +305,8 @@ APP_bd_prob@PU_costs,        #COR_bd_prob@PU_costs,
               get_RSrun_path_output (rsrun, exp_root_dir),
               marxan_output_values$marxan_ssoln_df,
               COR_bd_prob@correct_solution_cost)
+return (marxan_best_summed_solution_PU_IDs)
+
     }
 
 #-------------------------------------------------------------------------------
@@ -363,6 +368,7 @@ app_PU_costs,
 # app_optimum_cost = sum (app_bpm@PU_costs [which (marxan_best_df_sorted$SOLUTION > 0)])
 app_optimum_cost = sum (app_PU_costs [which (marxan_best_df_sorted$SOLUTION > 0)])
 
+marxan_best_summed_solution_PU_IDs =
     plot_incremental_marxan_summed_solution_reps_for_COR_and_APP (marxan_ssoln_df_sorted_by_PU,
 
 #PU_costs,            #cor_PU_costs,
@@ -376,6 +382,8 @@ app_PU_costs,
                                                                       num_spp,
                                                                       plot_output_dir
                                                                       )
+
+return (marxan_best_summed_solution_PU_IDs)
     }
 
 #===============================================================================
