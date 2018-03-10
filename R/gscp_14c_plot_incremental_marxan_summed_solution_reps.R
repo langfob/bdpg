@@ -47,6 +47,11 @@ plot_incremental_marxan_summed_solution_representations =
     {
     marxan_ssoln_PUs_ranked_by_votes_df = plyr::arrange (marxan_ssoln_df, plyr::desc (number))
 
+#  Initialize best summed solution PU_IDs to all IDs in case no proper subset
+#  successfully represents every species.
+#  Added 2018 03 10 - BTL
+marxan_best_summed_solution_PU_IDs = marxan_ssoln_PUs_ranked_by_votes_df [, "planning_unit"]
+
     total_landscape_cost = sum (cor_PU_costs)
     correct_optimum_landscape_frac_cost = optimum_cost / total_landscape_cost
 
