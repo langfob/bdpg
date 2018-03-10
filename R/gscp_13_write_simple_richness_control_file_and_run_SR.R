@@ -44,7 +44,7 @@ do_COR_simple_richness_analysis_and_output <-
         #-------------------------------------
 
     save_rsrun_results_data_for_one_rsrun (
-                            tzar_run_ID  = parameters$run_ID,
+                            tzar_run_ID  = parameters$run_id,
                             exp_root_dir = parameters$fullOutputDir_NO_slash,
                             COR_rs_run,
                             COR_bd_prob,
@@ -99,7 +99,7 @@ do_APP_simple_richness_analysis_and_output <-
         #-------------------------------------
 
     save_rsrun_results_data_for_one_rsrun (
-                            tzar_run_ID  = parameters$run_ID,
+                            tzar_run_ID  = parameters$run_id,
                             exp_root_dir = parameters$fullOutputDir_NO_slash,
                             APP_rs_run,
                             COR_bd_prob,

@@ -633,7 +633,7 @@ cat ("\n\n>>>>> Creating COR_bdprob ", Xu_bdprob_cor@UUID, "\n")
 
     Xu_bdprob_cor <- save_rsprob (Xu_bdprob_cor, exp_root_dir)
 
-    save_rsprob_results_data (Xu_bdprob_cor, exp_root_dir, parameters$run_ID)
+    save_rsprob_results_data (Xu_bdprob_cor, exp_root_dir, parameters$run_id)
 
     return (Xu_bdprob_cor)
     }

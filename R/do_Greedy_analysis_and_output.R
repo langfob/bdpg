@@ -278,7 +278,7 @@ do_Greedy_analysis_and_output_core <-
         #-------------------------------------
 
     save_rsrun_results_data_for_one_rsrun (
-                            tzar_run_ID  = parameters$run_ID,
+                            tzar_run_ID  = parameters$run_id,
                             exp_root_dir = parameters$fullOutputDir_NO_slash,
                             ResSel_run,
                             COR_bd_prob,
