@@ -93,7 +93,10 @@ browser()
 
     rs_method_name = "Marxan_SA_SS"
     save_rsrun_results_data_for_one_rsrun_given_solution_PU_IDs (
-                                                rs_best_solution_PU_IDs,
+
+                                                # rs_best_solution_PU_IDs,
+                                                rs_best_summed_solution_PU_IDs,
+
                         tzar_run_ID = parameters$run_id,
                         exp_root_dir = parameters$fullOutputDir_NO_slash,
                                                 APP_marxan_run,
