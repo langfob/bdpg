@@ -467,6 +467,9 @@ msa_dt         = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
 infile_10 = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_10_err_amt/default_runset/Gurobi.csv"
 msa_dt_10         = read.csv (infile_10, header=TRUE, stringsAsFactors = FALSE)
 
+infile_15 = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_15_err_amt/default_runset/Gurobi.csv"
+msa_dt_15         = read.csv (infile_15, header=TRUE, stringsAsFactors = FALSE)
+
 
 msa_dt = rbind (msa_dt_02, msa_dt_05, msa_dt_075)
 
