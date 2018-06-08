@@ -6,7 +6,7 @@ Description: This package provides functions for generating biodiversity
     problems (particularly reserve selection) with known solutions and 
     testing algorithms for attempting to generate optimal solutions.
 Depends:
-    R (>= 3.3.2)
+    R (>= 3.2.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
