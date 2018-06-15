@@ -30,7 +30,7 @@ echo
 if [ "$#" -ne 4 ]; then
     echo
     echo "Number of arguments = '$#'"
-    echo "Must have exactly 2 arguments."
+    echo "Must have exactly 4 arguments."
     echo "Usage:   rsName   rsFileRoot   infilesName    outputDir"
     echo "    $0    Marxan_SA_SS    Marxan_SA    rsrun_results_summed_solution.csv    ."
     echo "OR"
