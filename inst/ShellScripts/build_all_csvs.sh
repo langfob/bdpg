@@ -23,15 +23,32 @@
 #  script it produces several intermediate files that lead up to one ".csv"
 #  file for each reserve selector, e.g., "Gurobi.csv".
 
-~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    Gurobi         Gurobi         rsrun_results.csv    .
-~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    Marxan_SA      Marxan_SA      rsrun_results.csv    .
-~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    ZL_Backward    ZL_Backward    rsrun_results.csv    .
-~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    ZL_Forward     ZL_Forward     rsrun_results.csv    .
-~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    SR_Forward     SR_Forward     rsrun_results.csv    .
-~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    SR_Backward    SR_Backward    rsrun_results.csv    .
-~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    UR_Backward    UR_Backward    rsrun_results.csv    .
-~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    UR_Forward     UR_Forward     rsrun_results.csv    .
+#-------------------------------------------------------------------------------
 
-~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    Marxan_SA_SS    Marxan_SA    rsrun_results_summed_solution.csv    .
+#  On nectar:
+/usr/local/lib/R/site-library/bdpg/ShellScripts/buildcsv.sh    Gurobi         Gurobi         rsrun_results.csv    .
+/usr/local/lib/R/site-library/bdpg/ShellScripts/buildcsv.sh    Marxan_SA      Marxan_SA      rsrun_results.csv    .
+/usr/local/lib/R/site-library/bdpg/ShellScripts/buildcsv.sh    ZL_Backward    ZL_Backward    rsrun_results.csv    .
+/usr/local/lib/R/site-library/bdpg/ShellScripts/buildcsv.sh    ZL_Forward     ZL_Forward     rsrun_results.csv    .
+/usr/local/lib/R/site-library/bdpg/ShellScripts/buildcsv.sh    SR_Forward     SR_Forward     rsrun_results.csv    .
+/usr/local/lib/R/site-library/bdpg/ShellScripts/buildcsv.sh    SR_Backward    SR_Backward    rsrun_results.csv    .
+/usr/local/lib/R/site-library/bdpg/ShellScripts/buildcsv.sh    UR_Backward    UR_Backward    rsrun_results.csv    .
+/usr/local/lib/R/site-library/bdpg/ShellScripts/buildcsv.sh    UR_Forward     UR_Forward     rsrun_results.csv    .
+
+/usr/local/lib/R/site-library/bdpg/ShellScripts/buildcsv.sh    Marxan_SA_SS    Marxan_SA    rsrun_results_summed_solution.csv    .
+
+#-------------------------------------------------------------------------------
+
+#  On the mac:
+# ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    Gurobi         Gurobi         rsrun_results.csv    .
+# ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    Marxan_SA      Marxan_SA      rsrun_results.csv    .
+# ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    ZL_Backward    ZL_Backward    rsrun_results.csv    .
+# ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    ZL_Forward     ZL_Forward     rsrun_results.csv    .
+# ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    SR_Forward     SR_Forward     rsrun_results.csv    .
+# ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    SR_Backward    SR_Backward    rsrun_results.csv    .
+# ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    UR_Backward    UR_Backward    rsrun_results.csv    .
+# ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    UR_Forward     UR_Forward     rsrun_results.csv    .
+#
+# ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    Marxan_SA_SS    Marxan_SA    rsrun_results_summed_solution.csv    .
 
 #-------------------------------------------------------------------------------
