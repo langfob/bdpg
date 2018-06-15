@@ -11,6 +11,18 @@
 
 #-------------------------------------------------------------------------------
 
+#  Best to run this script from the top directory of a set of runsets,
+#  which usually contains just one entry, i.e., a directory called
+#  default_runset (or whatever name you use for your runset).
+
+#  For example, my current test area on the nectar VM is:
+#      ~/tzar/outputdata/bdpg_20_variants_all_rs_easy_base_05_err_amt_100_reps_for_1st_large_multi_exp_gurobi_nectar_test
+#  and it only contains the directory called default_runset.
+
+#  I cd to that "~/tzar/..._gurobi_nectar_test" directory and run this
+#  script it produces several intermediate files that lead up to one ".csv"
+#  file for each reserve selector, e.g., "Gurobi.csv".
+
 ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    Gurobi         Gurobi         rsrun_results.csv    .
 ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    Marxan_SA      Marxan_SA      rsrun_results.csv    .
 ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/buildcsv.sh    ZL_Backward    ZL_Backward    rsrun_results.csv    .
