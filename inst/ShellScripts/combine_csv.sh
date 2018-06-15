@@ -6,6 +6,8 @@
 
 #   ~/D/Projects/ProblemDifficulty/pkgs/bdpg/inst/ShellScripts/combine_csv.sh
 
+#  Combine all different error levels for one reserve selector into one file.
+
 #===============================================================================
 
 #  Don't forget to make executable.
