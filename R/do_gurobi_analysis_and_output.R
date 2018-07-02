@@ -227,6 +227,80 @@ rhs = pmin (spp_rep_targets, spp_abundances)
     cat ("Gurobi result:\n")
     print (result)
 
+                #-----------------------------------------------------------
+                #  Here's an example of what gurobi result structure looks
+                #  like when printed:
+                #-----------------------------------------------------------
+
+                # Gurobi result:
+                # $status
+                # [1] "OPTIMAL"
+                #
+                # $runtime
+                # [1] 0.005516052
+                #
+                # $itercount
+                # [1] 0
+                #
+                # $baritercount
+                # [1] 0
+                #
+                # $nodecount
+                # [1] 0
+                #
+                # $objval
+                # [1] 79
+                #
+                # $x
+                #   [1] 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+                #  [38] 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
+                #  [75] 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+                # [112] 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
+                # [149] 0 1 0 1 0 1 0 1 0 1
+                #
+                # $pool
+                # $pool[[1]]
+                # $pool[[1]]$objval
+                # [1] 79
+                #
+                # $pool[[1]]$xn
+                #   [1] 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+                #  [38] 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
+                #  [75] 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+                # [112] 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
+                # [149] 0 1 0 1 0 1 0 1 0 1
+                #
+                #
+                #
+                # $poolobjbound
+                # [1] 79
+                #
+                # $slack
+                #   [1]  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+                #  [26]  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+                #  [51]  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+                #  [76]  0  0  0  0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+                # [101] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+                # [126] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+                # [151] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+                # [176] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+                # [201] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+                # [226] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+                # [251] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+                # [276] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+                # [301] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+                # [326] -1 -1 -1 -1 -1 -1 -1
+                #
+                # $objbound
+                # [1] 79
+                #
+                # $objboundc
+                # [1] 79
+                #
+                # $mipgap
+                # [1] 0
+
+
 if(FALSE)
 {
     solution = result$x
@@ -268,7 +342,32 @@ if(FALSE)
               gurobi_use_marxan_time_as_limit  = use_marxan_time_as_limit,
               gurobi_marxan_elapsed_time_input = marxan_elapsed_time,
 
-              gurobi_time_limit_used           = gurobi_params$TimeLimit
+              gurobi_time_limit_used           = gurobi_params$TimeLimit,
+
+                    #-----------------------------------------------------------
+                    #  2018 07 02 - BTL
+                    #  Late additions of more scalar outputs.
+                    #
+                    #  Adding them at the end of the list so that maybe in
+                    #  the output csv file, they will show up beyond the
+                    #  end of existing values from earlier runs and therefore,
+                    #  not mess up combined spreadsheets.
+                    #
+                    #  Mostly adding these to get the mipgap variable;
+                    #  it's 0 when gurobi has enough time to finish but
+                    #  can be non-zero when it has a time or gap limit that
+                    #  is met, e.g., on a hard problem.
+                    #  I doubt that any of the other values are useful, but
+                    #  I hadn't realized mipgap would be useful either, so
+                    #  I'm just adding every scalar value that gurobi has
+                    #  returned.
+                    #-----------------------------------------------------------
+
+              gurobi_runtime      = result$runtime,
+              gurobi_poolobjbound = result$poolobjbound,
+              gurobi_objbound     = result$objbound,
+              gurobi_objboundc    = result$objboundc,
+              gurobi_mipgap       = result$mipgap
               )
 
         #----------------------------------------------------------------------
