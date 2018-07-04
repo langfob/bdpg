@@ -430,6 +430,7 @@ save_rsrun_results_data_for_one_rsrun_given_solution_PU_IDs <-
         #  e.g., if a type of network metric was not computed for this problem.
         #-----------------------------------------------------------------------
 
+cat ("\n@@@TRACKING rand_seed in save_rsrun_results_data_for_one_rsrun_given_solution_PU_IDs:: rsrun@rand_seed = ", rsrun@rand_seed, "\n")
     tzar_run_ID_list          = list (rsr_tzar_run_ID = tzar_run_ID,
                                       rsr_UUID = rsrun@UUID,
                                       rsr_checksum = rsrun@checksum,

@@ -118,6 +118,8 @@ create_RSrun <- function (prob_UUID,
                                                   basic_or_wrapped_or_comb_str,
                                                   location_string)
 
+cat ("\n@@@TRACKING rand_seed in createRSrun:: new_seed_list$seed_value = ", new_seed_list$seed_value, "\n")
+
     return (create_RSrun_core (prob_UUID,
                                  spp_rep_targets,
                                  parameters,
@@ -170,6 +172,8 @@ repro_RSrun <- function (repro_RDS_file_loc,
         list (seed_value = rsrun@rand_seed,
               R_internal_seed_array = rsrun@R_internal_seed_array)
 
+cat ("\n@@@TRACKING rand_seed in repro_RSrun:: new_seed_list$seed_value = ", new_seed_list$seed_value, "\n")
+
 #  Reset the random seed to match the previous run.
 #    set.seed (new_seed_list$R_internal_seed_array)
 .Random.seed <<- new_seed_list$R_internal_seed_array
@@ -207,6 +211,9 @@ cat ("\n\n>>>>> Creating rsrun: '", cor_or_app_str,
     rsrun@run_on_prob_UUID <- prob_UUID
 
     rsrun@rand_seed             = new_seed_list$seed_value
+
+cat ("\n@@@TRACKING rand_seed in create_RSrun_core:: rsrun@rand_seed = ", rsrun@rand_seed, "\n")
+
     rsrun@R_internal_seed_array = new_seed_list$R_internal_seed_array
 
     rsrun@targets  <- spp_rep_targets

@@ -444,6 +444,8 @@ gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
                                                   basic_or_wrapped_or_comb_str = "BASE",
                                                   location_string = "Start of gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(),COR,BASE")
 
+cat ("\n@@@TRACKING rand_seed in gen_single_bdprob_COR_from_scratch_or_Xu_bench_file:: new_seed_list$seed_value = ", new_seed_list$seed_value, "\n")
+
         #-------------------------------------------------------------------
         #  Determine whether to create the problem from scratch or read it
         #  from a Xu benchmark file, then create the problem.
@@ -496,6 +498,7 @@ cat ("\n\n>>>>> Creating COR_bdprob ", Xu_bdprob_cor@UUID, "\n")
 
     Xu_bdprob_cor@prob_is_ok                       = FALSE
     Xu_bdprob_cor@rand_seed                        = new_seed_list$seed_value
+cat ("\n@@@TRACKING rand_seed in gen_single_bdprob_COR_from_scratch_or_Xu_bench_file:: Xu_bdprob_cor@rand_seed = ", Xu_bdprob_cor@rand_seed, "\n")
     Xu_bdprob_cor@R_internal_seed_array            = new_seed_list$R_internal_seed_array
 
         #---------------------------------------------------------------

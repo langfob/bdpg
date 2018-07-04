@@ -38,6 +38,8 @@ create_and_init_APP_bdprob <- function (Xu_bdprob_COR,
                                                   location_string = paste0 ("Start of create_and_init_APP_bdprob(),APP,",
                                                                             Xu_bdprob_COR@basic_or_wrapped_or_comb_str))
 
+cat ("\n@@@TRACKING rand_seed in create_and_init_APP_bdprob:: new_seed_list$seed_value = ", new_seed_list$seed_value, "\n")
+
         #------------------------------------------------------------
         #  Save data known so far for the newly created Xu problem.
         #  Note that the base class here may be a basic Xu problem
@@ -71,6 +73,7 @@ cat ("\n\n>>>>> Creating APP_bdprob '",
 
     Xu_bdprob_APP@prob_is_ok                       = FALSE
     Xu_bdprob_APP@rand_seed                        = new_seed_list$seed_value
+cat ("\n@@@TRACKING rand_seed in create_and_init_APP_bdprob:: Xu_bdprob_APP@rand_seed = ", Xu_bdprob_APP@rand_seed, "\n")
     Xu_bdprob_APP@R_internal_seed_array            = new_seed_list$R_internal_seed_array
 
         #-----------------------------------------------------------------

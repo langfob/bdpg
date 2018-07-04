@@ -166,7 +166,9 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
         #           so that I get reproducible results.
         #*******
 
+cat ("\n@@@TRACKING rand_seed in set_marxan_controls_and_run_marxan:: rand_seed = ", rand_seed, "\n")
     marxan_RANDSEED  = rand_seed    #parameters$seed    #  Default to same seed as the R code.
+cat ("\n@@@TRACKING marxan_RANDSEED in set_marxan_controls_and_run_marxan:: marxan_RANDSEED = ", marxan_RANDSEEDs, "\n")
     marxan_NUMREPS  = 10
 
         #  Annealing Parameters
@@ -592,6 +594,7 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
 
     #--------------------
 
+cat ("\n@@@TRACKING rand_seed in set_up_for_and_run_marxan:: rsrun@rand_seed = ", rsrun@rand_seed, "\n")
     marxan_control_values =
         set_marxan_controls_and_run_marxan (marxan_input_dir,
                                             marxan_output_dir,

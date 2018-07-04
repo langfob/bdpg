@@ -155,6 +155,8 @@ repro_do_Greedy_analysis_and_output <- function (repro_RDS_file_loc,
         list (seed_value = ResSel_run@rand_seed,
               R_internal_seed_array = ResSel_run@R_internal_seed_array)
 
+cat ("\n@@@TRACKING rand_seed in repro_do_Greedy_analysis_and_output:: new_seed_list$seed_value = ", new_seed_list$seed_value, "\n")
+
         #  Reset the random seed to match the previous run.
 #    set.seed (new_seed_list$R_internal_seed_array)
 .Random.seed <<- new_seed_list$R_internal_seed_array

@@ -1232,6 +1232,7 @@ cat ("\n\n>>>>> Creating wrapped_bdprob ", wrapped_bdprob@UUID, "\n")
 
     wrapped_bdprob@prob_is_ok                           = FALSE
     wrapped_bdprob@rand_seed                            = seed_value_for_search_list$seed_value
+cat ("\n@@@TRACKING rand_seed in wrap_abundance_dist_around_Xu_problem:: wrapped_bdprob@rand_seed = ", wrapped_bdprob@rand_seed, "\n")
     wrapped_bdprob@R_internal_seed_array                = seed_value_for_search_list$R_internal_seed_array
 
     #----------
@@ -1499,6 +1500,8 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                                                       cor_or_app_str = "COR",
                                                       basic_or_wrapped_or_comb_str = "WRAP",
                                                       location_string = "Start of wrap_abundance_dist_around_Xu_problem(),COR,WRAP")
+
+cat ("\n@@@TRACKING rand_seed in gen_wrapped_bdprob_COR:: seed_value_for_search_list$seed_value = ", seed_value_for_search_list$seed_value, "\n")
 
             #-----------------------------------------------------------
             #  Search for a set of lognormal parameters that fit the
