@@ -11,16 +11,22 @@ When you save the notebook, an HTML file containing the code and output will be 
 
 The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
 
+-----   
 
 #  Load necessary libraries
+
+-----   
 
 ```{r}
 library (dplyr)
 
 ```
 
+-----   
 
 #  Set file paths
+
+-----   
 
 ```{r setFilePaths}
 #===============================================================================
@@ -39,9 +45,15 @@ hard_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_varia
 suffix = ".combined_results.csv"
 ```
 
+-----   
+
 #  Define functions
 
-```{r funcdefs}
+-----   
+
+##  Define function to load input data
+
+```{r loadInputData}
 #===============================================================================
 
 load_input_data <- function (rs_name, base_path, suffix)
@@ -58,61 +70,7 @@ load_input_data <- function (rs_name, base_path, suffix)
 
 ```
 
-#  Load input data
-
-```{r loadAndSummarizeInputData}
-
-rs_name = "Gurobi"
-#rs_name = "Marxan_SA"
-#rs_name = "Marxan_SA_SS"
-#rs_name = "ZL_Backward"
-#rs_name = "ZL_Forward"
-#rs_name = "SR_Backward"
-#rs_name = "SR_Forward"
-#rs_name = "UR_Backward"
-#rs_name = "UR_Forward"
-
-easy_msa_dt = load_input_data (rs_name, easy_base_path, suffix)
-#glimpse (easy_msa_dt)
-
-
-hard_msa_dt = load_input_data (rs_name, hard_base_path, suffix)
-#glimpse (hard_msa_dt)
-```
-
-#  Need to convert error type column to factors?
-
-Not sure whether error type column should be a string or a factor.  
-
-It seems like ggplot required it to be a factor?  Can't remember...
-
-#  Separate COR and APP data
-```{r separateCorAndAppdata}
-
-                # rs_method_name, 
-                # rsp_combined_err_label, 
-                # rsp_cor_or_app_str, 
-                # rsp_base_wrap_str, 
-
-COR_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "COR")
-#glimpse (COR_easy_msa_dt)
-APP_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "APP")
-#glimpse (APP_easy_msa_dt)
-
-COR_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "COR")
-#glimpse (COR_hard_msa_dt)
-APP_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "APP")
-#glimpse (APP_hard_msa_dt)
-```
-
-# Combine the easy and hard data into one data frame
-
-```{r combineEasyHard}
-msa_dt = bind_rows (easy_msa_dt, hard_msa_dt,  .id = "id")
-#glimpse (msa_dt)
-```
-
-#  See which columns contain any NAs
+##  Define function to see which columns contain any NAs
 
 Sometimes NAs indicate bad data, so find all columns that have NAs so that you can see whether they're OK.
 
@@ -194,6 +152,74 @@ getColsWithNonZeroNAct <- function (aDataframe)
     }
 ```
 
+
+-----   
+
+#  Load input data
+
+-----   
+
+```{r loadAndSummarizeInputData}
+
+rs_name = "Gurobi"
+#rs_name = "Marxan_SA"
+#rs_name = "Marxan_SA_SS"
+#rs_name = "ZL_Backward"
+#rs_name = "ZL_Forward"
+#rs_name = "SR_Backward"
+#rs_name = "SR_Forward"
+#rs_name = "UR_Backward"
+#rs_name = "UR_Forward"
+
+easy_msa_dt = load_input_data (rs_name, easy_base_path, suffix)
+#glimpse (easy_msa_dt)
+
+
+hard_msa_dt = load_input_data (rs_name, hard_base_path, suffix)
+#glimpse (hard_msa_dt)
+```
+
+-----   
+
+#  Need to convert error type column to factors?
+
+Not sure whether error type column should be a string or a factor.  
+
+It seems like ggplot required it to be a factor?  Can't remember...
+
+#  Separate COR and APP data
+```{r separateCorAndAppdata}
+
+                # rs_method_name, 
+                # rsp_combined_err_label, 
+                # rsp_cor_or_app_str, 
+                # rsp_base_wrap_str, 
+
+COR_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "COR")
+#glimpse (COR_easy_msa_dt)
+APP_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "APP")
+#glimpse (APP_easy_msa_dt)
+
+COR_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "COR")
+#glimpse (COR_hard_msa_dt)
+APP_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "APP")
+#glimpse (APP_hard_msa_dt)
+```
+
+# Combine the easy and hard data into one data frame
+
+```{r combineEasyHard}
+msa_dt = bind_rows (easy_msa_dt, hard_msa_dt,  .id = "id")
+#glimpse (msa_dt)
+    #  Convert dplyr's automatically generated dataset ids of "1" and "2" to 
+    #  "Easy" and "Hard".
+msa_dt$id = sapply (msa_dt$id, function (x) if (x == "1") "Easy" else "Hard")
+```
+
+#  See which columns contain any NAs
+
+Sometimes NAs indicate bad data, so find all columns that have NAs so that you can see whether they're OK.
+
 ```{r findColsWithNAsUsingdplyr}
 getColsWithNonZeroNAct (COR_easy_msa_dt)
 getColsWithNonZeroNAct (APP_easy_msa_dt)
@@ -206,7 +232,20 @@ getColsWithNonZeroNAct (msa_dt)
 
 ```
 
+#  Group the data
 
+This page mentions that you can group by more than one variable at a time, which I didn't realize:  
+
+https://data-se.netlify.com/2017/06/28/second_look_group_by/
+
+```{r groupTheData}
+msa_dt %>% 
+    group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> grouped_msa_dt
+#glimpse (grouped_msa_dt)
+print (grouped_msa_dt)
+
+```
 
 
 
