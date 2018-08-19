@@ -1,0 +1,213 @@
+---
+title: "Clean BDPG easy/hard data"
+output: html_notebook
+---
+
+###  Using this as a notebook instead of a knitr file for now
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+
+#  Load necessary libraries
+
+```{r}
+library (dplyr)
+
+```
+
+
+#  Set file paths
+
+```{r setFilePaths}
+#===============================================================================
+
+# # # base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/"
+# 
+#     #  Easy
+easy_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base_2nd_attempt/bdpg_20_variants_all_rs_easy_base_2nd_try_Combined_err_amts/"
+# 
+#     #  Hard
+# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_1st_try_Combined_err_amts/"
+
+    #  Hard - 2, 5, 7.5, 10 % error
+hard_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_02_05_075_10_Combined_err_amts/"
+
+suffix = ".combined_results.csv"
+```
+
+#  Define functions
+
+```{r funcdefs}
+#===============================================================================
+
+load_input_data <- function (rs_name, base_path, suffix)
+    {
+    infile = paste0 (base_path, rs_name, suffix)
+
+        #  I can't remember why I called these "msa".  It might stand for 
+        #  multi-set analysis...
+    
+    msa_dt         = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
+    
+    return (msa_dt)
+    }
+
+```
+
+#  Load input data
+
+```{r loadAndSummarizeInputData}
+
+rs_name = "Gurobi"
+#rs_name = "Marxan_SA"
+#rs_name = "Marxan_SA_SS"
+#rs_name = "ZL_Backward"
+#rs_name = "ZL_Forward"
+#rs_name = "SR_Backward"
+#rs_name = "SR_Forward"
+#rs_name = "UR_Backward"
+#rs_name = "UR_Forward"
+
+easy_msa_dt = load_input_data (rs_name, easy_base_path, suffix)
+#glimpse (easy_msa_dt)
+
+
+hard_msa_dt = load_input_data (rs_name, hard_base_path, suffix)
+#glimpse (hard_msa_dt)
+```
+
+#  Need to convert error type column to factors?
+
+Not sure whether error type column should be a string or a factor.  
+
+It seems like ggplot required it to be a factor?  Can't remember...
+
+#  Separate COR and APP data
+```{r separateCorAndAppdata}
+
+                # rs_method_name, 
+                # rsp_combined_err_label, 
+                # rsp_cor_or_app_str, 
+                # rsp_base_wrap_str, 
+
+COR_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "COR")
+#glimpse (COR_easy_msa_dt)
+APP_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "APP")
+#glimpse (APP_easy_msa_dt)
+
+COR_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "COR")
+#glimpse (COR_hard_msa_dt)
+APP_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "APP")
+#glimpse (APP_hard_msa_dt)
+```
+
+# Combine the easy and hard data into one data frame
+
+```{r combineEasyHard}
+msa_dt = bind_rows (easy_msa_dt, hard_msa_dt,  .id = "id")
+#glimpse (msa_dt)
+```
+
+#  See which columns contain any NAs
+
+Sometimes NAs indicate bad data, so find all columns that have NAs so that you can see whether they're OK.
+
+### First try (and failure)
+
+This code is taken from the blog post "Checking for NA with dplyr", posted on 
+October 16, 2016 at https://sebastiansauer.github.io/NAs-with-dplyr/
+
+The original code from that page is:
+
+```
+msa_dt %>% 
+  select_if(function(x) any(is.na(x))) %>% 
+  summarise_each(funs(sum(is.na(.)))) -> extra_NA
+```
+
+It gives an error:
+
+```
+`summarise_each()` is deprecated.
+Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead.
+To map `funs` over all variables, use `summarise_all()`
+package ‘bindrcpp’ was built under R version 3.4.4
+```
+
+###  Second try (and failure)
+
+Also tried the following, which ran OK, but couldn't find a way to make it count the number of NAs along the way:
+
+```
+msa_dt %>% 
+    summarise_if (function(x) any(is.na(x)), length) -> extra_NA
+```
+
+### Third try, doesn't use dplyr but it works (but not best)
+
+So trying again using a completely different method based on some code in an answer at: https://stackoverflow.com/questions/24027605/determine-the-number-of-na-values-in-a-column.  
+
+```
+    #  Get the number of NAs in each column.
+
+na_counts <- sapply (msa_dt, function(y) sum(is.na(y)))    #  Returns a vector w/ named elements
+glimpse (na_counts)
+
+    #  Get the number of NAs in only the columns that have at least one NA.
+
+non_zero_counts = na_counts [which (na_counts != 0)]    #  Returns a vector w/ named elements
+glimpse (non_zero_counts)
+
+        #  Print actually makes it easier to see what the values are than glimpse,  
+        #  but it takes up many rows of output, so I'm commenting it out for now.
+#print (non_zero_counts)
+```
+
+###  Fourth try, solutions using dplyr (best yet)
+
+Different ways to count NAs over multiple columns  
+September 08, 2017  
+
+https://sebastiansauer.github.io/sum-isna/
+
+Here, derive na_counts using "Way 3: using dplyr" from that web page.  This gives the most  readable display of the output I've found yet.  Will go with this one for now.
+
+Unfortunately, it returns 64 columns containing NAs !!  
+
+It actually looks like it might be more informative to run this on each variatn of the data separately because many values match the row count for one or the other.  That can flag values that are purposely not set for that variant or ones that I forgot to set.  Other columns that have counts that don't match the number of rows may indicate similar kinds of things.
+
+```{r defineFuncToFindNAcols}
+getColsWithNonZeroNAct <- function (aDataframe)
+    {
+    aDataframe %>%
+      select (everything()) %>%  # replace to your needs
+      summarise_all (funs (sum (is.na (.)))) -> na_counts
+    
+    non_zero_counts = na_counts [which (na_counts != 0)]    #  Returns a vector w/ named elements
+    glimpse (non_zero_counts)
+    
+    return (na_counts)
+    }
+```
+
+```{r findColsWithNAsUsingdplyr}
+getColsWithNonZeroNAct (COR_easy_msa_dt)
+getColsWithNonZeroNAct (APP_easy_msa_dt)
+getColsWithNonZeroNAct (COR_hard_msa_dt)
+getColsWithNonZeroNAct (APP_hard_msa_dt)
+
+getColsWithNonZeroNAct (easy_msa_dt)
+getColsWithNonZeroNAct (hard_msa_dt)
+getColsWithNonZeroNAct (msa_dt)
+
+```
+
+
+
+
+
+
