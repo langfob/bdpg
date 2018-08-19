@@ -241,12 +241,33 @@ https://data-se.netlify.com/2017/06/28/second_look_group_by/
 ```{r groupTheData}
 msa_dt %>% 
     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
-    summarise (n_per_group = n()) -> grouped_msa_dt
-#glimpse (grouped_msa_dt)
-print (grouped_msa_dt)
+    summarise (n_per_group = n()) -> group_cts
+#glimpse (group_cts)
+print (group_cts)
 
 ```
 
+#  Compute error magnifications and count resulting NaNs
+
+Should only be NaNs for COR problems.  Why are there some for Easy App problems?  Are they just incredibly small input errors in the denominator (since they're all dominated by FN values)?
+
+
+```{r computeErrMags}
+msa_dt %>% 
+    mutate (emag = rsr_COR_euc_out_err_frac / 
+                   rsp_euc_realized_Ftot_and_cost_in_err_frac) -> msa_dt
+
+msa_dt %>%
+    filter (is.nan (emag)) %>% 
+    select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>%            group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> emag_nan_lines_group_cts
+#emag_nan_lines
+#print (msa_dt$emag)
+#glimpse (emag_nan_lines)
+#print (unique (emag_nan_lines$rsp_combined_err_label))
+print (emag_nan_lines_group_cts)
+
+```
 
 
 
