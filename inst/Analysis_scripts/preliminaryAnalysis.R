@@ -404,8 +404,11 @@ working_data = select (msa_dt,
                 rsp_num_PUs,
                 rsp_num_spp,
                 rsp_num_spp_per_PU,
-##!!  MISSING IN EASY PROBLEM DATA!!  !!##                rsp_correct_solution_cost,
 
+#  2018 08 20 - Not sure why I thought this was missing in easy data.
+#  Doing data cleaning now and it seems like the values ARE there, not missing...
+##!!  MISSING IN EASY PROBLEM DATA!!  !!##                rsp_correct_solution_cost,
+rsp_correct_solution_cost,
 
         #  Post-gen knowable problem descriptors
 
