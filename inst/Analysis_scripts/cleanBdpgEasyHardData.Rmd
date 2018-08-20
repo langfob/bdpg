@@ -363,11 +363,12 @@ emag_nan_lines %>%
 print (emag_nan_lines_group_cts)
 ```
 
-### There should only be NaNs for COR problems, but there some for Easy App problems.
+### POSSIBLE BUG:  
+####  There should only be emag NaNs for COR problems, but there are some for Easy App problems.
 
-Are they just incredibly small input errors in the denominator (since they're all dominated by FN values)?
+Do they just have incredibly small input errors in the denominator (since they're all dominated by FN values)?
 
-Looking more closely, it looks like these have 0/0 for the mag.  These may be a result of how I'm drawing instances of FNs and FPs.  I think that I'm drawing a uniform random number and seeing if it's less than the nominal error rate, e.g., 2%.  If you do this enough times, you may end up randomly getting the occasional case (particularly in small problems) where you never get a random number under the nominal value, so you get 0 realized input error.  Also, 0 input error leads to 0 output error in most cases, so you'd get the 0/0 magnification.  
+Looking more closely, it looks like these have 0/0 for the magnification computation.  This may be a result of how I'm drawing instances of FNs and FPs.  I think that I'm drawing a uniform random number and seeing if it's less than the nominal error rate, e.g., 2%.  If you do this enough times, you may end up randomly getting the occasional case (particularly in small problems) where you never get a random number under the nominal value, so you get 0 realized input error.  Also, 0 input error leads to 0 output error in most cases, so you'd get the 0/0 magnification.  
 
 (Note that the nominal FN rate is 2% for all except the last 4 cases, which are all Base problems with 3 at 5% and 1 at 7.5%, all having between 34 and 37 species, which have 2 Positives for each species, meaning between 68 and 74 Positives that would all have to draw runif() values greater than the nominal value.  That seems unlikely, but maybe it's possible for the idea in the previous paragraph to hold.)
 
