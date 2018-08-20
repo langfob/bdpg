@@ -187,31 +187,6 @@ hard_msa_dt = load_input_data (rs_name, hard_base_path, suffix)
 
 -----   
 
-#  Need to convert error type column to factors?
-
-Not sure whether error type column should be a string or a factor.  
-
-It seems like ggplot required it to be a factor?  Can't remember...
-
-#  Separate COR and APP data
-```{r separateCorAndAppdata}
-
-                # rs_method_name, 
-                # rsp_combined_err_label, 
-                # rsp_cor_or_app_str, 
-                # rsp_base_wrap_str, 
-
-COR_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "COR")
-#glimpse (COR_easy_msa_dt)
-APP_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "APP")
-#glimpse (APP_easy_msa_dt)
-
-COR_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "COR")
-#glimpse (COR_hard_msa_dt)
-APP_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "APP")
-#glimpse (APP_hard_msa_dt)
-```
-
 # Combine the easy and hard data into one data frame
 
 ```{r combineEasyHard}
@@ -227,18 +202,63 @@ msa_dt$id = sapply (msa_dt$id, function (x) if (x == "1") "Easy" else "Hard")
 Sometimes NAs indicate bad data, so find all columns that have NAs so that you can see whether they're OK.
 
 ```{r findColsWithNAsUsingdplyr}
-getColsWithNonZeroNAct (COR_easy_msa_dt)
-getColsWithNonZeroNAct (APP_easy_msa_dt)
-getColsWithNonZeroNAct (COR_hard_msa_dt)
-getColsWithNonZeroNAct (APP_hard_msa_dt)
-
 getColsWithNonZeroNAct (easy_msa_dt)
 getColsWithNonZeroNAct (hard_msa_dt)
 getColsWithNonZeroNAct (msa_dt)
-
 ```
 
-#  Group the data
+
+
+-----  
+
+#  Add metadata columns to mark row removals & modifications  
+
+-----  
+
+While cleaning the data, some rows may be removed or modified.  To document what's been and where to find where it was done, do two things.  First, add a column called "cln_mod" to the original data set.  Second, create a new, empty data set that will all lines removed from the data set during cleaning.  
+
+Initialize all "cln_mod" values in the original data set to "keep".  
+
+If the line is removed at some point, replace "keep" with a string naming the step where that line is removed and copy the line to the removed data set.  It doesn't matter what those strings are; they're just anything that enables you to find that processing step in this document.  
+
+Same idea for modifications to a line, but don't remove it and instead, set the cln_mod value to a label string.  
+
+Originally, I had a column for removals and a column for modifications, but it seemed difficult to manage for removals because they have to be tracked separately from the evolving data since they disappear from the evolving data.  This would make it cumbersome to find the matching lines in the original and evolving data sets.  Modified lines could be tracked in the evolving data set without any problem.  
+
+```{r addClnCols}
+save_removed_lines <- 
+        function (all_removed_lines,  #  dataframe:  existing cache of previously removed lines
+                  new_removed_lines,  #  dataframe:  lines currently being removed from original data
+                  label)              #  string:     label indicating where in cleaning process the lines are removed from the original data
+    {
+        #  If no lines to remove are passed in, then do nothing to the 
+        #  existing cache of removed lines.
+    
+    if (! is.null (new_removed_lines))
+        {
+            #  Attach a label to the removed lines to indicate where they 
+            #  were removed during the data cleaning process.
+        
+        new_removed_lines$cln_mod = label
+        
+            #  If there's already a data frame of previously removed lines, 
+            #  then add to it.
+            #  Otherwise, initialize it as the newly removed lines.
+        
+        all_removed_lines = 
+            if (is.null (all_removed_lines))  new_removed_lines  else  
+                                              bind_rows (all_removed_lines)
+        }
+    
+    return (all_removed_lines)
+    }
+
+msa_dt %>% 
+    mutate (cln_mod = "keep") -> msa_dt
+glimpse (msa_dt)
+```
+
+#  Count number of problems in each problem class
 
 This page mentions that you can group by more than one variable at a time, which I didn't realize:  
 
@@ -293,12 +313,64 @@ Need to look more closely at the code to see if this is what's going on...
 
 ```{r examineAppMagNaNs}
 
+    #  Find the APP lines that have NaN emag values.
 emag_nan_lines %>%
     filter (rsp_cor_or_app_str == "APP") -> app_emag_nan_lines
 glimpse (app_emag_nan_lines)
 print (app_emag_nan_lines)
-
 ```
+
+For the moment, I'm going to just remove those Easy App problems with NaNs.
+
+```{r removeAppMagNaNs}
+    #  Copy and save the lines to be deleted.
+msa_dt %>%
+    filter (id == "Easy" & rsp_cor_or_app_str == "APP" & is.nan (emag)) -> easy_app_nan_mag_lines
+cat ("\n\n\n\neasy_app_nan_mag_lines\n\n")
+glimpse (easy_app_nan_mag_lines)
+
+removed_msa_dt_lines = NULL
+removed_msa_dt_lines = save_removed_lines (removed_msa_dt_lines, 
+                                           easy_app_nan_mag_lines, 
+                                           "removeAppMagNaNs")
+cat ("\n\n\n\nremoved_msa_dt_lines\n\n")
+glimpse (removed_msa_dt_lines)
+
+    #  Now, remove those lines from the original data set.
+msa_dt %>%
+    filter (! (id == "Easy" & rsp_cor_or_app_str == "APP" & is.nan (emag))) -> msa_dt
+cat ("\n\n\n\nmsa_dt after easy_app_nan_mag_lines removed\n\n")
+glimpse (msa_dt)
+```
+
+-----  
+#  Not ready to do these yet...
+---  
+
+#  Separate COR and APP data
+```{r separateCorAndAppdata}
+
+                # rs_method_name, 
+                # rsp_combined_err_label, 
+                # rsp_cor_or_app_str, 
+                # rsp_base_wrap_str, 
+
+# COR_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "COR")
+# #glimpse (COR_easy_msa_dt)
+# APP_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "APP")
+# #glimpse (APP_easy_msa_dt)
+
+# COR_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "COR")
+# #glimpse (COR_hard_msa_dt)
+# APP_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "APP")
+# #glimpse (APP_hard_msa_dt)
+
+# getColsWithNonZeroNAct (COR_easy_msa_dt)
+# getColsWithNonZeroNAct (APP_easy_msa_dt)
+# getColsWithNonZeroNAct (COR_hard_msa_dt)
+# getColsWithNonZeroNAct (APP_hard_msa_dt)
+```
+
 
 
 
