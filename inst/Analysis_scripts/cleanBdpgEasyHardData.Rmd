@@ -76,9 +76,9 @@ load_input_data <- function (rs_name, base_path, suffix)
         #  I can't remember why I called these "msa".  It might stand for 
         #  multi-set analysis...
     
-    msa_dt         = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
+    df = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
     
-    return (msa_dt)
+    return (df)
     }
 
 write_output_data <- function (df, rs_name, base_path, suffix)
@@ -103,7 +103,7 @@ October 16, 2016 at https://sebastiansauer.github.io/NAs-with-dplyr/
 The original code from that page is:
 
 ```
-msa_dt %>% 
+easyHard_df %>% 
   select_if(function(x) any(is.na(x))) %>% 
   summarise_each(funs(sum(is.na(.)))) -> extra_NA
 ```
@@ -122,7 +122,7 @@ package ‘bindrcpp’ was built under R version 3.4.4
 Also tried the following, which ran OK, but couldn't find a way to make it count the number of NAs along the way:
 
 ```
-msa_dt %>% 
+easyHard_df %>% 
     summarise_if (function(x) any(is.na(x)), length) -> extra_NA
 ```
 
@@ -133,7 +133,7 @@ So trying again using a completely different method based on some code in an ans
 ```
     #  Get the number of NAs in each column.
 
-na_counts <- sapply (msa_dt, function(y) sum(is.na(y)))    #  Returns a vector w/ named elements
+na_counts <- sapply (easyHard_df, function(y) sum(is.na(y)))    #  Returns a vector w/ named elements
 glimpse (na_counts)
 
     #  Get the number of NAs in only the columns that have at least one NA.
@@ -194,12 +194,12 @@ rs_name = "Gurobi"
 #rs_name = "UR_Backward"
 #rs_name = "UR_Forward"
 
-easy_msa_dt = load_input_data (rs_name, easy_base_path, suffix)
-#glimpse (easy_msa_dt)
+easy_df = load_input_data (rs_name, easy_base_path, suffix)
+#glimpse (easy_df)
 
 
-hard_msa_dt = load_input_data (rs_name, hard_base_path, suffix)
-#glimpse (hard_msa_dt)
+hard_df = load_input_data (rs_name, hard_base_path, suffix)
+#glimpse (hard_df)
 ```
 
 -----   
@@ -207,11 +207,11 @@ hard_msa_dt = load_input_data (rs_name, hard_base_path, suffix)
 # Combine the easy and hard data into one data frame
 
 ```{r combineEasyHard}
-msa_dt = bind_rows (easy_msa_dt, hard_msa_dt,  .id = "id")
-#glimpse (msa_dt)
+easyHard_df = bind_rows (easy_df, hard_df,  .id = "id")
+#glimpse (easyHard_df)
     #  Convert dplyr's automatically generated dataset ids of "1" and "2" to 
     #  "Easy" and "Hard".
-msa_dt$id = sapply (msa_dt$id, function (x) if (x == "1") "Easy" else "Hard")
+easyHard_df$id = sapply (easyHard_df$id, function (x) if (x == "1") "Easy" else "Hard")
 ```
 
 #  POSSIBLE BUGS:
@@ -224,9 +224,9 @@ There are lots of columns with NAs, but most of them look innocuous.  The ones t
 One thing to note is that there are a lot more columns with NAs in the combined easy/hard data set than in either individually.  This is primarily because when I ran the easy problems, the bdpg code wasn't writing the bipartite metrics to the output file, while it _was_ writing them for the hard problems (even though they were empty because I forgot to turn on more than connectance in this first pass).  When the two data frames are merged, it adds those bipartite metric columns to the full set and fills the easy problem values with NAs.
 
 ```{r findColsWithNAsUsingdplyr}
-getColsWithNonZeroNAct (easy_msa_dt)
-getColsWithNonZeroNAct (hard_msa_dt)
-getColsWithNonZeroNAct (msa_dt)
+getColsWithNonZeroNAct (easy_df)
+getColsWithNonZeroNAct (hard_df)
+getColsWithNonZeroNAct (easyHard_df)
 ```
 
 
@@ -275,9 +275,9 @@ save_removed_lines <-
     return (all_removed_lines)
     }
 
-msa_dt %>% 
-    mutate (cln_mod = "keep") -> msa_dt
-glimpse (msa_dt)
+easyHard_df %>% 
+    mutate (cln_mod = "keep") -> easyHard_df
+glimpse (easyHard_df)
 ```
 
 #  Count number of problems in each problem class
@@ -287,7 +287,7 @@ This page mentions that you can group by more than one variable at a time, which
 https://data-se.netlify.com/2017/06/28/second_look_group_by/
 
 ```{r groupTheData}
-msa_dt %>% 
+easyHard_df %>% 
     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
     summarise (n_per_group = n()) -> group_cts
 #glimpse (group_cts)
@@ -303,7 +303,7 @@ rsp_app_num_spp and rsp_app_num_PUs are both missing for all COR problems.  Prob
 Implied fix?  Maybe I should just set these values to the same as the COR values and I've just forgotten to do that anywhere.
 
 ```{r examineMissingAppNumSppPU}
-msa_dt %>%
+easyHard_df %>%
     filter (is.na (rsp_app_num_spp)) %>% 
     select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_app_num_spp) -> app_num_spp_na_lines
 
@@ -313,7 +313,7 @@ app_num_spp_na_lines %>%
 cat ("\n\n\n\napp_num_spp_na_lines_group_cts\n\n")
 glimpse (app_num_spp_na_lines_group_cts)
 
-msa_dt %>%
+easyHard_df %>%
     filter (is.na (rsp_app_num_PUs)) %>% 
     select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_app_num_PUs) -> app_num_PUs_na_lines
 
@@ -324,7 +324,7 @@ cat ("\n\n\n\napp_num_PUs_na_lines_group_cts\n\n")
 glimpse (app_num_PUs_na_lines_group_cts)
 
 
-msa_dt %>%
+easyHard_df %>%
     filter (is.na (rsp_app_num_spp) & is.na (rsp_app_num_PUs)) %>% 
     select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_app_num_PUs) -> app_num_spp_and_PUs_na_lines
 
@@ -341,27 +341,27 @@ Still, those APP cts should probably have a value.  For the moment, I'll just se
     #  Show lines where COR and APP num_spp don't match.
     #  The != test returns NA if either of the variables is NA, so 
     #  you have to explicitly test for NA too.
-msa_dt %>% 
+easyHard_df %>% 
     filter ((rsp_num_spp != rsp_app_num_spp) | (is.na (rsp_app_num_spp))) %>%
     select (rsp_num_spp, rsp_app_num_spp, cln_mod) %>%
     glimpse
     
     #  Change all the APP num spp and num PUs to equal their COR values.
     #  Also set the mod flag to show they were modified here.
-msa_dt %>%
+easyHard_df %>%
     mutate (cln_mod = ifelse ((is.na (rsp_app_num_spp) | is.na (rsp_app_num_PUs)), 
                               "setMissingAppNumSppPUtoCorValues", cln_mod)) %>%
     mutate (rsp_app_num_spp = ifelse (is.na (rsp_app_num_spp), rsp_num_spp, rsp_app_num_spp)) %>%
-    mutate (rsp_app_num_PUs = ifelse (is.na (rsp_app_num_PUs), rsp_num_PUs, rsp_app_num_PUs)) -> msa_dt
+    mutate (rsp_app_num_PUs = ifelse (is.na (rsp_app_num_PUs), rsp_num_PUs, rsp_app_num_PUs)) -> easyHard_df
 
 cat ("\n\n\n\nAfter mutating, remaining unset APP num spp & PUs:\n\n")
-msa_dt %>%
+easyHard_df %>%
     filter (is.na (rsp_app_num_spp) | is.na (rsp_app_num_PUs)) %>%
     select (rsp_num_spp, rsp_num_PUs, rsp_app_num_spp, rsp_app_num_PUs, cln_mod) %>%
     glimpse
 
 cat ("\n\n\n\nand lines that were modified:\n\n")
-msa_dt %>%
+easyHard_df %>%
     filter (cln_mod == "setMissingAppNumSppPUtoCorValues") %>%
     select (rsp_num_spp, rsp_num_PUs, rsp_app_num_spp, rsp_app_num_PUs, cln_mod) %>%
     glimpse
@@ -378,7 +378,7 @@ Need to check this out.  It may be that it just defaults to not allowing imperfe
 
 ```{r examineMissingImperfectWrapValues}
 cat ("\n\n\n\nrsp_allow_imperfect_wrap group cts\n\n")
-msa_dt %>%
+easyHard_df %>%
     filter (!is.na (rsp_allow_imperfect_wrap)) %>% 
     select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_allow_imperfect_wrap) %>%            
     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
@@ -386,7 +386,7 @@ msa_dt %>%
     glimpse
 
 cat ("\n\n\n\nrsp_wrap_is_imperfect group cts\n\n")
-msa_dt %>%
+easyHard_df %>%
     filter (!is.na (rsp_wrap_is_imperfect)) %>% 
     select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_wrap_is_imperfect) %>%            
     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
@@ -404,7 +404,7 @@ In all cases, either undercost or undercost err frac wrt possible err frac or bo
 Doing nothing here for now.  Need to look at the code and make sure it's doing the right thing here.
 
 ```{r examineMissingOverUnder}
-msa_dt %>%
+easyHard_df %>%
     filter (is.na (rs_over_opt_cost_err_frac_of_possible_overcost)) %>% 
     select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost) %>%            
     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
@@ -412,7 +412,7 @@ msa_dt %>%
 cat ("\n\n\n\novercost_na_lines_group_cts\n\n")
 glimpse (overcost_na_lines_group_cts)
 
-msa_dt %>%
+easyHard_df %>%
     filter (is.na (rs_under_opt_cost_err_frac_of_possible_undercost)) %>% 
     select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_under_opt_cost_err_frac_of_possible_undercost) %>%            
     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
@@ -421,7 +421,7 @@ cat ("\n\n\n\nundercost_na_lines_group_cts\n\n")
 glimpse (undercost_na_lines_group_cts)
 
 
-msa_dt %>%
+easyHard_df %>%
     filter (is.na (rs_over_opt_cost_err_frac_of_possible_overcost) & is.na (rs_under_opt_cost_err_frac_of_possible_undercost)) %>% 
     select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost, rs_under_opt_cost_err_frac_of_possible_undercost) %>%     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
     summarise (n_per_group = n()) -> overcost_AND_undercost_na_lines_group_cts
@@ -430,7 +430,7 @@ glimpse (overcost_AND_undercost_na_lines_group_cts)
 
 
 
-msa_dt %>%
+easyHard_df %>%
     filter (xor (is.na (rs_over_opt_cost_err_frac_of_possible_overcost), is.na (rs_under_opt_cost_err_frac_of_possible_undercost))) %>% 
     select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost, rs_under_opt_cost_err_frac_of_possible_undercost) %>%     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
     summarise (n_per_group = n()) -> overcost_XOR_undercost_na_lines_group_cts
@@ -439,7 +439,7 @@ glimpse (overcost_XOR_undercost_na_lines_group_cts)
 
 
 
-msa_dt %>%
+easyHard_df %>%
     filter (!is.na (rs_over_opt_cost_err_frac_of_possible_overcost) & !is.na (rs_under_opt_cost_err_frac_of_possible_undercost)) %>% 
     select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost, rs_under_opt_cost_err_frac_of_possible_undercost) %>%     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
     summarise (n_per_group = n()) -> NEITHER_overcost_or_undercost_na_lines_group_cts
@@ -454,33 +454,33 @@ glimpse (NEITHER_overcost_or_undercost_na_lines_group_cts)
 if(FALSE){
 looksLikeAlwaysOneOrBoth = c ('rs_over_opt_cost_err_frac_of_possible_overcost', 'rs_under_opt_cost_err_frac_of_possible_undercost')
 
-missingOverIdxs = which (is.na (msa_dt$rs_over_opt_cost_err_frac_of_possible_overcost))
+missingOverIdxs = which (is.na (easyHard_df$rs_over_opt_cost_err_frac_of_possible_overcost))
 
-missingUnderIdxs = which (is.na (msa_dt$rs_under_opt_cost_err_frac_of_possible_undercost))
+missingUnderIdxs = which (is.na (easyHard_df$rs_under_opt_cost_err_frac_of_possible_undercost))
 
 missingBothIdxs = 
-    which ((is.na (msa_dt$rs_over_opt_cost_err_frac_of_possible_overcost)
+    which ((is.na (easyHard_df$rs_over_opt_cost_err_frac_of_possible_overcost)
             & 
-            is.na (msa_dt$rs_under_opt_cost_err_frac_of_possible_undercost)))
+            is.na (easyHard_df$rs_under_opt_cost_err_frac_of_possible_undercost)))
 
 missingOneButNotBothIdxs = 
     which (xor (
-        is.na (msa_dt$rs_over_opt_cost_err_frac_of_possible_overcost),
-        is.na (msa_dt$rs_under_opt_cost_err_frac_of_possible_undercost)))
+        is.na (easyHard_df$rs_over_opt_cost_err_frac_of_possible_overcost),
+        is.na (easyHard_df$rs_under_opt_cost_err_frac_of_possible_undercost)))
 
 notMissingEitherIdxs = which (
-    ! is.na (msa_dt$rs_over_opt_cost_err_frac_of_possible_overcost)
+    ! is.na (easyHard_df$rs_over_opt_cost_err_frac_of_possible_overcost)
             & 
-    ! is.na (msa_dt$rs_under_opt_cost_err_frac_of_possible_undercost))
+    ! is.na (easyHard_df$rs_under_opt_cost_err_frac_of_possible_undercost))
 }
 ```
 
 #  Compute error magnifications and count resulting NaNs
 
 ```{r computeErrMags}
-msa_dt %>% 
+easyHard_df %>% 
     mutate (emag = rsr_COR_euc_out_err_frac / 
-                   rsp_euc_realized_Ftot_and_cost_in_err_frac) -> msa_dt
+                   rsp_euc_realized_Ftot_and_cost_in_err_frac) -> easyHard_df
 
                                 # rsp_num_PUs, 
                                 # rsp_num_spp, 
@@ -491,7 +491,7 @@ msa_dt %>%
                                 # rsp_realized_FN_rate, 
                                 # rsp_realized_Ftot_rate, 
 
-msa_dt %>%
+easyHard_df %>%
     filter (is.nan (emag)) %>% 
     select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_num_spp, rsp_num_PUs, rsp_FN_const_rate, rsr_COR_euc_out_err_frac, rsp_euc_realized_Ftot_and_cost_in_err_frac) -> emag_nan_lines
 
@@ -527,23 +527,23 @@ For the moment, I'm going to just remove those Easy App problems with NaNs.
 
 ```{r removeAppMagNaNs}
     #  Copy and save the lines to be deleted.
-msa_dt %>%
+easyHard_df %>%
     filter (id == "Easy" & rsp_cor_or_app_str == "APP" & is.nan (emag)) -> easy_app_nan_mag_lines
 cat ("\n\n\n\neasy_app_nan_mag_lines\n\n")
 glimpse (easy_app_nan_mag_lines)
 
-removed_msa_dt_lines = NULL
-removed_msa_dt_lines = save_removed_lines (removed_msa_dt_lines, 
+removed_easyHard_df_lines = NULL
+removed_easyHard_df_lines = save_removed_lines (removed_easyHard_df_lines, 
                                            easy_app_nan_mag_lines, 
                                            "removeAppMagNaNs")
-cat ("\n\n\n\nremoved_msa_dt_lines\n\n")
-glimpse (removed_msa_dt_lines)
+cat ("\n\n\n\nremoved_easyHard_df_lines\n\n")
+glimpse (removed_easyHard_df_lines)
 
     #  Now, remove those lines from the original data set.
-msa_dt %>%
-    filter (! (id == "Easy" & rsp_cor_or_app_str == "APP" & is.nan (emag))) -> msa_dt
-cat ("\n\n\n\nmsa_dt after easy_app_nan_mag_lines removed\n\n")
-glimpse (msa_dt)
+easyHard_df %>%
+    filter (! (id == "Easy" & rsp_cor_or_app_str == "APP" & is.nan (emag))) -> easyHard_df
+cat ("\n\n\n\neasyHard_df after easy_app_nan_mag_lines removed\n\n")
+glimpse (easyHard_df)
 ```
 
 #  Write the full clean data set to a csv file
@@ -556,7 +556,7 @@ base_path = cln_combinedEasyHard_path
 outfile = paste0 (base_path, rs_name, suffix)
 print (outfile)
 
-write_output_data (msa_dt, rs_name, cln_combinedEasyHard_path, suffix)
+write_output_data (easyHard_df, rs_name, cln_combinedEasyHard_path, suffix)
 ```
 
 -----  
@@ -571,20 +571,20 @@ write_output_data (msa_dt, rs_name, cln_combinedEasyHard_path, suffix)
                 # rsp_cor_or_app_str, 
                 # rsp_base_wrap_str, 
 
-# COR_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "COR")
-# #glimpse (COR_easy_msa_dt)
-# APP_easy_msa_dt = filter (easy_msa_dt, rsp_cor_or_app_str == "APP")
-# #glimpse (APP_easy_msa_dt)
+# COR_easy_df = filter (easy_df, rsp_cor_or_app_str == "COR")
+# #glimpse (COR_easy_df)
+# APP_easy_df = filter (easy_df, rsp_cor_or_app_str == "APP")
+# #glimpse (APP_easy_df)
 
-# COR_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "COR")
-# #glimpse (COR_hard_msa_dt)
-# APP_hard_msa_dt = filter (hard_msa_dt, rsp_cor_or_app_str == "APP")
-# #glimpse (APP_hard_msa_dt)
+# COR_hard_df = filter (hard_df, rsp_cor_or_app_str == "COR")
+# #glimpse (COR_hard_df)
+# APP_hard_df = filter (hard_df, rsp_cor_or_app_str == "APP")
+# #glimpse (APP_hard_df)
 
-# getColsWithNonZeroNAct (COR_easy_msa_dt)
-# getColsWithNonZeroNAct (APP_easy_msa_dt)
-# getColsWithNonZeroNAct (COR_hard_msa_dt)
-# getColsWithNonZeroNAct (APP_hard_msa_dt)
+# getColsWithNonZeroNAct (COR_easy_df)
+# getColsWithNonZeroNAct (APP_easy_df)
+# getColsWithNonZeroNAct (COR_hard_df)
+# getColsWithNonZeroNAct (APP_hard_df)
 ```
 
 
