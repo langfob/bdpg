@@ -267,9 +267,9 @@ save_removed_lines <-
             #  then add to it.
             #  Otherwise, initialize it as the newly removed lines.
         
-        all_removed_lines = 
-            if (is.null (all_removed_lines))  new_removed_lines  else  
-                                              bind_rows (all_removed_lines)
+        all_removed_lines = ifelse (is.null (all_removed_lines), 
+                                    new_removed_lines, 
+                                    bind_rows (all_removed_lines))
         }
     
     return (all_removed_lines)
