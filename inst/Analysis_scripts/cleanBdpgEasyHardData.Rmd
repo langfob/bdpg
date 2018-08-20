@@ -343,6 +343,114 @@ msa_dt %>%
     glimpse
 ```
 
+
+### POSSIBLE BUG:  
+####  Missing values related to allowing or not allowing imperfect wraps
+
+rsp_allow_imperfect_wrap and rsp_wrap_is_imperfect both have missing values.  Looks like the values are only set in the COR/Wrap/01-No_err case.  Seems like it needs to be set in every Wrap case.  
+
+Need to check this out.  It may be that it just defaults to not allowing imperfect wrap but doesn't echo that value to the output file.
+
+
+```{r examineMissingImperfectWrapValues}
+cat ("\n\n\n\nrsp_allow_imperfect_wrap group cts\n\n")
+msa_dt %>%
+    filter (!is.na (rsp_allow_imperfect_wrap)) %>% 
+    select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_allow_imperfect_wrap) %>%            
+    group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) %>% 
+    glimpse
+
+cat ("\n\n\n\nrsp_wrap_is_imperfect group cts\n\n")
+msa_dt %>%
+    filter (!is.na (rsp_wrap_is_imperfect)) %>% 
+    select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_wrap_is_imperfect) %>%            
+    group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) %>% 
+    glimpse
+
+```
+
+
+###  POSSIBLE BUG (though I doubt it):  
+####  Missing values for over and/or under cost err fracs wrt possible
+
+In all cases, either undercost or undercost err frac wrt possible err frac or both is missing.  They're never both set, which I think is correct.  
+
+Doing nothing here for now.  Need to look at the code and make sure it's doing the right thing here.
+
+```{r examineMissingOverUnder}
+msa_dt %>%
+    filter (is.na (rs_over_opt_cost_err_frac_of_possible_overcost)) %>% 
+    select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost) %>%            
+    group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> overcost_na_lines_group_cts
+cat ("\n\n\n\novercost_na_lines_group_cts\n\n")
+glimpse (overcost_na_lines_group_cts)
+
+msa_dt %>%
+    filter (is.na (rs_under_opt_cost_err_frac_of_possible_undercost)) %>% 
+    select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_under_opt_cost_err_frac_of_possible_undercost) %>%            
+    group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> undercost_na_lines_group_cts
+cat ("\n\n\n\nundercost_na_lines_group_cts\n\n")
+glimpse (undercost_na_lines_group_cts)
+
+
+msa_dt %>%
+    filter (is.na (rs_over_opt_cost_err_frac_of_possible_overcost) & is.na (rs_under_opt_cost_err_frac_of_possible_undercost)) %>% 
+    select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost, rs_under_opt_cost_err_frac_of_possible_undercost) %>%     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> overcost_AND_undercost_na_lines_group_cts
+cat ("\n\n\n\novercost_AND_undercost_na_lines_group_cts\n\n")
+glimpse (overcost_AND_undercost_na_lines_group_cts)
+
+
+
+msa_dt %>%
+    filter (xor (is.na (rs_over_opt_cost_err_frac_of_possible_overcost), is.na (rs_under_opt_cost_err_frac_of_possible_undercost))) %>% 
+    select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost, rs_under_opt_cost_err_frac_of_possible_undercost) %>%     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> overcost_XOR_undercost_na_lines_group_cts
+cat ("\n\n\n\novercost_XOR_undercost_na_lines_group_cts\n\n")
+glimpse (overcost_XOR_undercost_na_lines_group_cts)
+
+
+
+msa_dt %>%
+    filter (!is.na (rs_over_opt_cost_err_frac_of_possible_overcost) & !is.na (rs_under_opt_cost_err_frac_of_possible_undercost)) %>% 
+    select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost, rs_under_opt_cost_err_frac_of_possible_undercost) %>%     group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> NEITHER_overcost_or_undercost_na_lines_group_cts
+cat ("\n\n\n\nNEITHER_overcost_or_undercost_na_lines_group_cts\n\n")
+glimpse (NEITHER_overcost_or_undercost_na_lines_group_cts)
+
+
+
+
+
+
+if(FALSE){
+looksLikeAlwaysOneOrBoth = c ('rs_over_opt_cost_err_frac_of_possible_overcost', 'rs_under_opt_cost_err_frac_of_possible_undercost')
+
+missingOverIdxs = which (is.na (msa_dt$rs_over_opt_cost_err_frac_of_possible_overcost))
+
+missingUnderIdxs = which (is.na (msa_dt$rs_under_opt_cost_err_frac_of_possible_undercost))
+
+missingBothIdxs = 
+    which ((is.na (msa_dt$rs_over_opt_cost_err_frac_of_possible_overcost)
+            & 
+            is.na (msa_dt$rs_under_opt_cost_err_frac_of_possible_undercost)))
+
+missingOneButNotBothIdxs = 
+    which (xor (
+        is.na (msa_dt$rs_over_opt_cost_err_frac_of_possible_overcost),
+        is.na (msa_dt$rs_under_opt_cost_err_frac_of_possible_undercost)))
+
+notMissingEitherIdxs = which (
+    ! is.na (msa_dt$rs_over_opt_cost_err_frac_of_possible_overcost)
+            & 
+    ! is.na (msa_dt$rs_under_opt_cost_err_frac_of_possible_undercost))
+}
+```
+
 #  Compute error magnifications and count resulting NaNs
 
 ```{r computeErrMags}
