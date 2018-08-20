@@ -272,7 +272,69 @@ msa_dt %>%
     summarise (n_per_group = n()) -> group_cts
 #glimpse (group_cts)
 print (group_cts)
+```
 
+
+### POSSIBLE BUG:  Missing values for some APP numSpp and numPU
+
+rsp_app_num_spp and rsp_app_num_PUs are both missing for all COR problems.  Probably not much of a bug since the value isn't used on COR data as far as I can remember.
+
+Implied fix?  Maybe I should just set these values to the same as the COR values and I've just forgotten to do that anywhere.
+
+```{r examineMissingAppNumSppPU}
+msa_dt %>%
+    filter (is.na (rsp_app_num_spp)) %>% 
+    select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_app_num_spp) -> app_num_spp_na_lines
+
+app_num_spp_na_lines %>%            
+    group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> app_num_spp_na_lines_group_cts
+cat ("\n\n\n\napp_num_spp_na_lines_group_cts\n\n")
+glimpse (app_num_spp_na_lines_group_cts)
+
+msa_dt %>%
+    filter (is.na (rsp_app_num_PUs)) %>% 
+    select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_app_num_PUs) -> app_num_PUs_na_lines
+
+app_num_PUs_na_lines %>%            
+    group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> app_num_PUs_na_lines_group_cts
+cat ("\n\n\n\napp_num_PUs_na_lines_group_cts\n\n")
+glimpse (app_num_PUs_na_lines_group_cts)
+
+
+msa_dt %>%
+    filter (is.na (rsp_app_num_PUs) & is.na (rsp_app_num_PUs)) %>% 
+    select (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_app_num_PUs) -> app_num_spp_and_PUs_na_lines
+
+app_num_spp_and_PUs_na_lines %>%            
+    group_by (id, rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> app_num_spp_and_PUs_na_lines_group_cts
+cat ("\n\n\n\napp_num_spp_and_PUs_na_lines_group_cts\n\n")
+glimpse (app_num_spp_and_PUs_na_lines_group_cts)
+```
+
+Still, those APP cts should probably have a value.  For the moment, I'll just set their values here to match their COR values.
+
+```{r setMissingAppNumSppPUtoCorValues}
+msa_dt %>%
+    filter (is.na (rsp_app_num_spp) & is.na (rsp_app_num_PUs)) %>% 
+    mutate (rsp_app_num_spp = rsp_num_spp, 
+            rsp_app_num_PUs = rsp_num_PUs, 
+            cln_mod = "setMissingAppNumSppPUtoCorValues")
+#glimpse (msa_dt)
+
+cat ("\n\n\n\nAfter mutating, remaining unset APP num spp & PUs:\n\n")
+msa_dt %>%
+    filter (is.na (rsp_app_num_spp) | is.na (rsp_app_num_PUs)) %>%
+    select (rsp_num_spp, rsp_num_PUs, rsp_app_num_spp, rsp_app_num_PUs, cln_mod) %>%
+    glimpse
+
+cat ("\n\n\n\nand lines that were modified:\n\n")
+msa_dt %>%
+    filter (cln_mod == "setMissingAppNumSppPUtoCorValues") %>%
+    select (rsp_num_spp, rsp_num_PUs, rsp_app_num_spp, rsp_app_num_PUs, cln_mod) %>%
+    glimpse
 ```
 
 #  Compute error magnifications and count resulting NaNs
