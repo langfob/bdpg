@@ -199,9 +199,14 @@ msa_dt = bind_rows (easy_msa_dt, hard_msa_dt,  .id = "id")
 msa_dt$id = sapply (msa_dt$id, function (x) if (x == "1") "Easy" else "Hard")
 ```
 
-#  See which columns contain any NAs
+#  POSSIBLE BUGS:
+##  See which columns contain any NAs
 
 Sometimes NAs indicate bad data, so find all columns that have NAs so that you can see whether they're OK.
+
+There are lots of columns with NAs, but most of them look innocuous.  The ones that don't are examined later in this document.
+
+One thing to note is that there are a lot more columns with NAs in the combined easy/hard data set than in either individually.  This is primarily because when I ran the easy problems, the bdpg code wasn't writing the bipartite metrics to the output file, while it _was_ writing them for the hard problems (even though they were empty because I forgot to turn on more than connectance in this first pass).  When the two data frames are merged, it adds those bipartite metric columns to the full set and fills the easy problem values with NAs.
 
 ```{r findColsWithNAsUsingdplyr}
 getColsWithNonZeroNAct (easy_msa_dt)
