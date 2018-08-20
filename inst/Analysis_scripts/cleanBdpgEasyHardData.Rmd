@@ -1,6 +1,12 @@
 ---
 title: "Clean BDPG easy/hard data"
-output: html_notebook
+author: "Bill Langford"
+date: '`r Sys.Date()`'
+output: 
+  html_notebook:
+    toc: true # table of content true
+    toc_depth: 4  # upto three depths of headings (specified by #, ## and ###)
+
 ---
 
 ###  Using this as a notebook instead of a knitr file for now
