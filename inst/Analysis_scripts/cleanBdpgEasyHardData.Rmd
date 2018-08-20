@@ -161,9 +161,11 @@ getColsWithNonZeroNAct <- function (aDataframe)
 
 -----   
 
-#  Load input data
+#  Load input data    
 
 -----   
+
+Note that each reserve selector needs to be treated separately because each one may have columns that are specific to that reserve selector.  For example, gurobi has mipgap information that no other reserve selector has.
 
 ```{r loadAndSummarizeInputData}
 
