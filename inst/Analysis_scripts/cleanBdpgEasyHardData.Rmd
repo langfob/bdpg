@@ -37,6 +37,10 @@ library (dplyr)
 ```{r setFilePaths}
 #===============================================================================
 
+results_dir = "/Users/bill/D/Projects/ProblemDifficulty/Results/"
+
+easyHard_results_dir = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/"
+
 # # # base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/"
 # 
 #     #  Easy
@@ -48,6 +52,9 @@ easy_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_varia
     #  Hard - 2, 5, 7.5, 10 % error
 hard_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_02_05_075_10_Combined_err_amts/"
 
+    #  Output file path for combined Easy and Hard data after cleaning here.
+cln_combinedEasyHard_path = paste0 (easyHard_results_dir, "cln_easyHard.")
+
 suffix = ".combined_results.csv"
 ```
 
@@ -57,7 +64,7 @@ suffix = ".combined_results.csv"
 
 -----   
 
-##  Define function to load input data
+##  Define functions to read and write input and output data
 
 ```{r loadInputData}
 #===============================================================================
@@ -72,6 +79,14 @@ load_input_data <- function (rs_name, base_path, suffix)
     msa_dt         = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
     
     return (msa_dt)
+    }
+
+write_output_data <- function (df, rs_name, base_path, suffix)
+    {
+    outfile = paste0 (base_path, rs_name, suffix)
+    cat ("\n\nIn write_output_data(), outfile = '", outfile, 
+         "'\n", sep='')
+    write.csv (df, outfile, row.names=FALSE)
     }
 
 ```
@@ -520,6 +535,19 @@ msa_dt %>%
     filter (! (id == "Easy" & rsp_cor_or_app_str == "APP" & is.nan (emag))) -> msa_dt
 cat ("\n\n\n\nmsa_dt after easy_app_nan_mag_lines removed\n\n")
 glimpse (msa_dt)
+```
+
+#  Write the full clean data set to a csv file
+
+```{r saveFullClnData}
+print (cln_combinedEasyHard_path)
+print (rs_name)
+print (suffix)
+base_path = cln_combinedEasyHard_path
+outfile = paste0 (base_path, rs_name, suffix)
+print (outfile)
+
+write_output_data (msa_dt, rs_name, cln_combinedEasyHard_path, suffix)
 ```
 
 -----  
