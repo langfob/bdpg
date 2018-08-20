@@ -338,12 +338,21 @@ glimpse (app_num_spp_and_PUs_na_lines_group_cts)
 Still, those APP cts should probably have a value.  For the moment, I'll just set their values here to match their COR values.
 
 ```{r setMissingAppNumSppPUtoCorValues}
+    #  Show lines where COR and APP num_spp don't match.
+    #  The != test returns NA if either of the variables is NA, so 
+    #  you have to explicitly test for NA too.
+msa_dt %>% 
+    filter ((rsp_num_spp != rsp_app_num_spp) | (is.na (rsp_app_num_spp))) %>%
+    select (rsp_num_spp, rsp_app_num_spp, cln_mod) %>%
+    glimpse
+    
+    #  Change all the APP num spp and num PUs to equal their COR values.
+    #  Also set the mod flag to show they were modified here.
 msa_dt %>%
-    filter (is.na (rsp_app_num_spp) & is.na (rsp_app_num_PUs)) %>% 
-    mutate (rsp_app_num_spp = rsp_num_spp, 
-            rsp_app_num_PUs = rsp_num_PUs, 
-            cln_mod = "setMissingAppNumSppPUtoCorValues")
-#glimpse (msa_dt)
+    mutate (cln_mod = ifelse ((is.na (rsp_app_num_spp) | is.na (rsp_app_num_PUs)), 
+                              "setMissingAppNumSppPUtoCorValues", cln_mod)) %>%
+    mutate (rsp_app_num_spp = ifelse (is.na (rsp_app_num_spp), rsp_num_spp, rsp_app_num_spp)) %>%
+    mutate (rsp_app_num_PUs = ifelse (is.na (rsp_app_num_PUs), rsp_num_PUs, rsp_app_num_PUs)) -> msa_dt
 
 cat ("\n\n\n\nAfter mutating, remaining unset APP num spp & PUs:\n\n")
 msa_dt %>%
