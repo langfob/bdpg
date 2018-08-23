@@ -6,7 +6,6 @@ output:
   html_notebook:
     toc: true # table of content true
     toc_depth: 4  # upto three depths of headings (specified by #, ## and ###)
-
 ---
 
 ###  Using this as a notebook instead of a knitr file for now
@@ -25,7 +24,6 @@ The preview shows you a rendered HTML copy of the contents of the editor. Conseq
 
 ```{r}
 library (dplyr)
-
 ```
 
 -----   
@@ -532,18 +530,54 @@ easyHard_df %>%
 cat ("\n\n\n\neasy_app_nan_mag_lines\n\n")
 glimpse (easy_app_nan_mag_lines)
 
-removed_easyHard_df_lines = NULL
-removed_easyHard_df_lines = save_removed_lines (removed_easyHard_df_lines, 
-                                           easy_app_nan_mag_lines, 
-                                           "removeAppMagNaNs")
-cat ("\n\n\n\nremoved_easyHard_df_lines\n\n")
-glimpse (removed_easyHard_df_lines)
+    #  If any lines are removed, save them.
+if (dim (easy_app_nan_mag_lines) [1] != 0)
+    {
+    removed_easyHard_df_lines = NULL
+    removed_easyHard_df_lines = save_removed_lines (removed_easyHard_df_lines, 
+                                               easy_app_nan_mag_lines, 
+                                               "removeAppMagNaNs")
+    cat ("\n\n\n\nremoved_easyHard_df_lines\n\n")
+    glimpse (removed_easyHard_df_lines)
+    }
 
     #  Now, remove those lines from the original data set.
 easyHard_df %>%
     filter (! (id == "Easy" & rsp_cor_or_app_str == "APP" & is.nan (emag))) -> easyHard_df
 cat ("\n\n\n\neasyHard_df after easy_app_nan_mag_lines removed\n\n")
 glimpse (easyHard_df)
+```
+
+#  Compute magnifications
+
+```{r computeMag}
+# easyHard_df %>%
+#   mutate (err_mag = rsr_COR_euc_out_err_frac / 
+#                     rsp_euc_realized_Ftot_and_cost_in_err_frac)
+
+
+emag = easyHard_df$rsr_COR_euc_out_err_frac / 
+       easyHard_df$rsp_euc_realized_Ftot_and_cost_in_err_frac
+emag [is.na (emag)] = 0
+
+easyHard_df$err_mag = emag
+```
+
+#  Compute PU,spp vars
+
+```{r computePUsppVars}
+# easyHard_df %>%
+#  mutate (sppPUsum = rsp_app_num_spp + rsp_app_num_PUs,
+#          sppPUprod = rsp_app_num_spp * rsp_app_num_PUs)
+
+sppPUsum = easyHard_df$rsp_num_spp + easyHard_df$rsp_num_PUs
+easyHard_df$sppPUsum = sppPUsum
+
+sppPUprod = easyHard_df$rsp_num_spp * easyHard_df$rsp_num_PUs
+easyHard_df$sppPUprod = sppPUprod
+
+cat (length (easyHard_df$sppPUsum))
+cat (length (easyHard_df$sppPUprod))
 ```
 
 #  Write the full clean data set to a csv file
