@@ -24,8 +24,12 @@ library (dplyr)
 #     #  Hard
 # base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_1st_try_Combined_err_amts/"
 
-    #  Hard - 2, 5, 7.5, 10 % error
-base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_02_05_075_10_Combined_err_amts/"
+#     #  Hard - 2, 5, 7.5, 10 % error
+# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_02_05_075_10_Combined_err_amts/"
+
+
+    #  Combined Easy and Hard (all Easy error levels, all Hard except 15%)
+base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/cln_easyHard."
 
 suffix = ".combined_results.csv"
 ```

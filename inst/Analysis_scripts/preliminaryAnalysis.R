@@ -6,14 +6,18 @@ library (dplyr)
 
 # # # base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/"
 #
-    #  Easy
-base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base_2nd_attempt/bdpg_20_variants_all_rs_easy_base_2nd_try_Combined_err_amts/"
+#     #  Easy
+# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base_2nd_attempt/bdpg_20_variants_all_rs_easy_base_2nd_try_Combined_err_amts/"
 #
 #     #  Hard
 # base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_1st_try_Combined_err_amts/"
 
 #     #  Hard - 2, 5, 7.5, 10 % error
 # base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_02_05_075_10_Combined_err_amts/"
+
+
+    #  Combined Easy and Hard (all Easy error levels, all Hard except 15%)
+base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/cln_easyHard."
 
 suffix = ".combined_results.csv"
 
@@ -68,8 +72,8 @@ convert_input_dt_to_sorted_tibble <- function (msa_dt)
 
 #  Load input data
 
-rs_name = "Gurobi"
-#rs_name = "Marxan_SA"
+#rs_name = "Gurobi"
+rs_name = "Marxan_SA"
 #rs_name = "Marxan_SA_SS"
 #rs_name = "ZL_Backward"
 #rs_name = "ZL_Forward"
@@ -508,12 +512,13 @@ glimpse (working_data)
 
 #  See how many times gurobi timed out and what the distribution of gaps was.
 
-#  if (gurobi...
-# {
-# plyr::count (gurobi_only_values$gurobi_status)
+# if (rs_name == "Gurobi")
+#     {
+#     plyr::count (gurobi_only_values$gurobi_status)
 #
-# hist (gurobi_only_values$gurobi_mipgap [gurobi_only_values$gurobi_mipgap > 0])
-# }
+#     hist (gurobi_only_values$gurobi_mipgap [gurobi_only_values$gurobi_mipgap > 0])
+#     }
+
 #===============================================================================
 
 #  Plot run times
