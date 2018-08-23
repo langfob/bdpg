@@ -59,6 +59,8 @@ load_input_data <- function (rs_name, base_path, suffix)
     return (df)
     }
 
+#===============================================================================
+
 write_output_data <- function (df, rs_name, base_path, suffix)
     {
     outfile = paste0 (base_path, rs_name, suffix)
@@ -66,6 +68,8 @@ write_output_data <- function (df, rs_name, base_path, suffix)
          "'\n", sep='')
     write.csv (df, outfile, row.names=FALSE)
     }
+
+#===============================================================================
 
 reduce_full_data_to_working_set <- function (full_df)
     {
@@ -202,56 +206,9 @@ reduce_full_data_to_working_set <- function (full_df)
     
     return (working_df)
     }
-```
 
-#  Load combined Easy/Hard input data
+#===============================================================================
 
-```{r loadCombinedEasyAndHardInputData}
-
-    #  Combined Easy and Hard (all Easy error levels, all Hard except 15%)
-base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/cln_easyHard."
-
-#----------
-
-easyHard_df_Gurobi       = load_input_data ("Gurobi", base_path, suffix)
-easyHard_df_Marxan_SA    = load_input_data ("Marxan_SA", base_path, suffix)
-easyHard_df_Marxan_SA_SS = load_input_data ("Marxan_SA_SS", base_path, suffix)
-easyHard_df_ZL_Backward  = load_input_data ("ZL_Backward", base_path, suffix)
-
-easyHard_df_ZL_Forward  = load_input_data ("ZL_Forward", base_path, suffix)
-easyHard_df_SR_Forward  = load_input_data ("SR_Forward", base_path, suffix)
-easyHard_df_SR_Backward  = load_input_data ("SR_Backward", base_path, suffix)
-easyHard_df_UR_Forward  = load_input_data ("UR_Forward", base_path, suffix)
-easyHard_df_UR_Backward  = load_input_data ("UR_Backward", base_path, suffix)
-```
-
-# Reduce the full data set down to a working set
-
-```{r reduceFullDataToWorkingSet}
-working_df_Gurobi       = reduce_full_data_to_working_set (easyHard_df_Gurobi)
-working_df_Marxan_SA    = reduce_full_data_to_working_set (easyHard_df_Marxan_SA)
-working_df_Marxan_SA_SS = reduce_full_data_to_working_set (easyHard_df_Marxan_SA_SS)
-working_df_ZL_Backward  = reduce_full_data_to_working_set (easyHard_df_ZL_Backward)
-
-working_df_ZL_Forward  = reduce_full_data_to_working_set (easyHard_df_ZL_Forward)
-working_df_SR_Forward  = reduce_full_data_to_working_set (easyHard_df_SR_Forward)
-working_df_SR_Backward  = reduce_full_data_to_working_set (easyHard_df_SR_Backward)
-working_df_UR_Forward  = reduce_full_data_to_working_set (easyHard_df_UR_Forward)
-working_df_UR_Backward  = reduce_full_data_to_working_set (easyHard_df_UR_Backward)
-
-```
-##  Input error vs. output error
-
-- Generated hard problems were much harder than generated easy problems, as predicted
-- There is lots of variation in problem difficulty at every level of input error
-- Solution quality under uncertainty is not good, regardless of optimizer
-- Not much difference in reserve selectors  
-    - Smoothers were slightly better in median (ZL and SA_SS)
-- Possible difference for Simple Richness on difficult problem?
-
-####  ggplot version of plots 
-
-```{r ggplotFunctions}
 gg_eucInTot_vs_eucOutTot_all_on_1 <- function (rs_name,
                                                sorted_msa_tib,
                                                ref_y = 0)
@@ -313,261 +270,164 @@ gg_eucInTot_vs_eucOutTot_facetted_by_err_label <- function (rs_name,
     }
 ```
 
-```{r ggplotOutputs}
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Gurobi", easyHard_df_Gurobi, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Gurobi", working_df_Gurobi, ref_y = 0)
+#  Load combined Easy/Hard input data
 
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", easyHard_df_Marxan_SA, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", working_df_Marxan_SA, ref_y = 0)
+```{r loadCombinedEasyAndHardInputData}
 
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA_SS", easyHard_df_Marxan_SA_SS, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA_SS", working_df_Marxan_SA_SS, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Backward", easyHard_df_ZL_Backward, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Backward", working_df_ZL_Backward, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Forward", easyHard_df_ZL_Forward, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Forward", working_df_ZL_Forward, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Forward", easyHard_df_SR_Forward, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Forward", working_df_SR_Forward, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Backward", easyHard_df_SR_Backward, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Backward", working_df_SR_Backward, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Forward", easyHard_df_UR_Forward, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Forward", working_df_UR_Forward, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Backward", easyHard_df_UR_Backward, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Backward", working_df_UR_Backward, ref_y = 0)
-
-```
-
-####  base R version of plots 
-
-```{r}
-# plot (working_df_Gurobi$rsp_euc_realized_Ftot_and_cost_in_err_frac,
-#       working_df_Gurobi$rsr_COR_euc_out_err_frac,
-#       main=paste0 ("Input error vs. output error\n", "Gurobi"),
-#       xlab="Total Euc Input Error Frac",
-#       ylab="Total Euc Output Error Frac")
-# 
-# plot (working_df_Marxan_SA$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-#       working_df_Marxan_SA$rsr_COR_euc_out_err_frac, 
-#       main=paste0 ("Input error vs. output error\n", "Marxan_SA"), 
-#       xlab="Total Euc Input Error Frac",
-#       ylab="Total Euc Output Error Frac")
-# 
-# plot (working_df_Marxan_SA_SS$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-#       working_df_Marxan_SA_SS$rsr_COR_euc_out_err_frac, 
-#       main=paste0 ("Input error vs. output error\n", "Marxan_SA_SS"), 
-#       xlab="Total Euc Input Error Frac",
-#       ylab="Total Euc Output Error Frac")
-# 
-# plot (working_df_ZL_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-#       working_df_ZL_Backward$rsr_COR_euc_out_err_frac, 
-#       main=paste0 ("Input error vs. output error\n", "ZL_Backward"), 
-#       xlab="Total Euc Input Error Frac",
-#       ylab="Total Euc Output Error Frac")
+    #  Combined Easy and Hard (all Easy error levels, all Hard except 15%)
+base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/cln_easyHard."
 
 #----------
 
-# plot (working_df_ZL_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-#       working_df_ZL_Forward$rsr_COR_euc_out_err_frac, 
-#       main=paste0 ("Input error vs. output error\n", "ZL_Forward"), 
-#       xlab="Total Euc Input Error Frac",
-#       ylab="Total Euc Output Error Frac")
-# 
-# plot (working_df_SR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-#       working_df_SR_Forward$rsr_COR_euc_out_err_frac, 
-#       main=paste0 ("Input error vs. output error\n", "SR_Forward"), 
-#       xlab="Total Euc Input Error Frac",
-#       ylab="Total Euc Output Error Frac")
-# 
-# plot (working_df_SR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-#       working_df_SR_Backward$rsr_COR_euc_out_err_frac, 
-#       main=paste0 ("Input error vs. output error\n", "SR_Backward"), 
-#       xlab="Total Euc Input Error Frac",
-#       ylab="Total Euc Output Error Frac")
-# 
-# plot (working_df_UR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-#       working_df_UR_Forward$rsr_COR_euc_out_err_frac, 
-#       main=paste0 ("Input error vs. output error\n", "UR_Forward"), 
-#       xlab="Total Euc Input Error Frac",
-#       ylab="Total Euc Output Error Frac")
-# 
-# plot (working_df_UR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-#       working_df_UR_Backward$rsr_COR_euc_out_err_frac, 
-#       main=paste0 ("Input error vs. output error\n", "UR_Backward"), 
-#       xlab="Total Euc Input Error Frac",
-#       ylab="Total Euc Output Error Frac")
+easyHard_df_Gurobi       = load_input_data ("Gurobi", base_path, suffix)
+easyHard_df_Marxan_SA    = load_input_data ("Marxan_SA", base_path, suffix)
+easyHard_df_Marxan_SA_SS = load_input_data ("Marxan_SA_SS", base_path, suffix)
+easyHard_df_ZL_Backward  = load_input_data ("ZL_Backward", base_path, suffix)
+
+easyHard_df_ZL_Forward  = load_input_data ("ZL_Forward", base_path, suffix)
+easyHard_df_SR_Forward  = load_input_data ("SR_Forward", base_path, suffix)
+easyHard_df_SR_Backward  = load_input_data ("SR_Backward", base_path, suffix)
+easyHard_df_UR_Forward  = load_input_data ("UR_Forward", base_path, suffix)
+easyHard_df_UR_Backward  = load_input_data ("UR_Backward", base_path, suffix)
 ```
 
-####  Show all output error fractions values below 1
+# Reduce the full data set down to a working set
 
-This gets rid of all the extreme values.
+```{r reduceFullDataToWorkingSet}
+working_df_Gurobi       = reduce_full_data_to_working_set (easyHard_df_Gurobi)
+working_df_Marxan_SA    = reduce_full_data_to_working_set (easyHard_df_Marxan_SA)
+working_df_Marxan_SA_SS = reduce_full_data_to_working_set (easyHard_df_Marxan_SA_SS)
+working_df_ZL_Backward  = reduce_full_data_to_working_set (easyHard_df_ZL_Backward)
 
-ggplot versions
-```{r}
+working_df_ZL_Forward  = reduce_full_data_to_working_set (easyHard_df_ZL_Forward)
+working_df_SR_Forward  = reduce_full_data_to_working_set (easyHard_df_SR_Forward)
+working_df_SR_Backward  = reduce_full_data_to_working_set (easyHard_df_SR_Backward)
+working_df_UR_Forward  = reduce_full_data_to_working_set (easyHard_df_UR_Forward)
+working_df_UR_Backward  = reduce_full_data_to_working_set (easyHard_df_UR_Backward)
+
+```
+##  Input error vs. output error
+
+- Generated hard problems were much harder than generated easy problems, as predicted
+- There is lots of variation in problem difficulty at every level of input error
+- Solution quality under uncertainty is not good, regardless of optimizer
+- Not much difference in reserve selectors  
+    - Smoothers were slightly better in median (ZL and SA_SS)
+- Possible difference for Simple Richness on difficult problem?
+
+####  ggplot version of plots 
+
+Also show all output error fractions values below 1
+
+```{r ggplotOutputs}
+
+#-----  Gurobi
+
+gg_eucInTot_vs_eucOutTot_all_on_1 ("Gurobi", easyHard_df_Gurobi, ref_y = 0)
 easyHard_df_Gurobi %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Gurobi", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("Gurobi", not_huge_out_err_df, ref_y = 0)
+
+gg_eucInTot_vs_eucOutTot_all_on_1 ("Gurobi", working_df_Gurobi, ref_y = 0)
 working_df_Gurobi %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Gurobi", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("Gurobi", not_huge_out_err_df, ref_y = 0)
 
+#-----  Marxan_SA
 
+gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", easyHard_df_Marxan_SA, ref_y = 0)
 easyHard_df_Marxan_SA %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("Marxan_SA", not_huge_out_err_df, ref_y = 0)
+
+gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", working_df_Marxan_SA, ref_y = 0)
 working_df_Marxan_SA %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("Marxan_SA", not_huge_out_err_df, ref_y = 0)
 
+#-----  Marxan_SA_SS
 
+gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA_SS", easyHard_df_Marxan_SA_SS, ref_y = 0)
 easyHard_df_Marxan_SA_SS %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA_SS", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("Marxan_SA_SS", not_huge_out_err_df, ref_y = 0)
+
+gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA_SS", working_df_Marxan_SA_SS, ref_y = 0)
 working_df_Marxan_SA_SS %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA_SS", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("Marxan_SA_SS", not_huge_out_err_df, ref_y = 0)
 
+#-----  ZL_Backward
 
+gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Backward", easyHard_df_ZL_Backward, ref_y = 0)
 easyHard_df_ZL_Backward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Backward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("ZL_Backward", not_huge_out_err_df, ref_y = 0)
+
+gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Backward", working_df_ZL_Backward, ref_y = 0)
 working_df_ZL_Backward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Backward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("ZL_Backward", not_huge_out_err_df, ref_y = 0)
 
+#-----  ZL_Forward
 
+gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Forward", easyHard_df_ZL_Forward, ref_y = 0)
 easyHard_df_ZL_Forward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Forward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("ZL_Forward", not_huge_out_err_df, ref_y = 0)
+
+gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Forward", working_df_ZL_Forward, ref_y = 0)
 working_df_ZL_Forward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Forward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("ZL_Forward", not_huge_out_err_df, ref_y = 0)
 
+#-----  SR_Forward
 
+gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Forward", easyHard_df_SR_Forward, ref_y = 0)
 easyHard_df_SR_Forward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Forward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("SR_Forward", not_huge_out_err_df, ref_y = 0)
+
+gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Forward", working_df_SR_Forward, ref_y = 0)
 working_df_SR_Forward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Forward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("SR_Forward", not_huge_out_err_df, ref_y = 0)
 
+#-----  SR_Backward
 
+gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Backward", easyHard_df_SR_Backward, ref_y = 0)
 easyHard_df_SR_Backward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Backward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("SR_Backward", not_huge_out_err_df, ref_y = 0)
+
+gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Backward", working_df_SR_Backward, ref_y = 0)
 working_df_SR_Backward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Backward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("SR_Backward", not_huge_out_err_df, ref_y = 0)
 
+#-----  UR_Forward
 
+gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Forward", easyHard_df_UR_Forward, ref_y = 0)
 easyHard_df_UR_Forward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Forward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("UR_Forward", not_huge_out_err_df, ref_y = 0)
+
+gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Forward", working_df_UR_Forward, ref_y = 0)
 working_df_UR_Forward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Forward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("UR_Forward", not_huge_out_err_df, ref_y = 0)
 
+#-----  UR_Backward
 
+gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Backward", easyHard_df_UR_Backward, ref_y = 0)
 easyHard_df_UR_Backward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Backward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("UR_Backward", not_huge_out_err_df, ref_y = 0)
+
+gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Backward", working_df_UR_Backward, ref_y = 0)
 working_df_UR_Backward %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Backward", not_huge_out_err_df, ref_y = 0)
-gg_eucInTot_vs_eucOutTot_facetted_by_err_label ("UR_Backward", not_huge_out_err_df, ref_y = 0)
-
-
-```
-
-
-base R versions
-```{r}
-idxs_of_not_huge_out_err_fracs = which (working_df_Gurobi$rsr_COR_euc_out_err_frac <= 1)
-plot (working_df_Gurobi$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
-      working_df_Gurobi$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
-      main=paste0 ("Input error vs. Output error (<= 1)\n", "Gurobi"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-idxs_of_not_huge_out_err_fracs = which (working_df_Marxan_SA$rsr_COR_euc_out_err_frac <= 1)
-plot (working_df_Marxan_SA$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
-      working_df_Marxan_SA$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
-      main=paste0 ("Input error vs. Output error (<= 1)\n", "Marxan_SA"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-idxs_of_not_huge_out_err_fracs = which (working_df_Marxan_SA_SS$rsr_COR_euc_out_err_frac <= 1)
-plot (working_df_Marxan_SA_SS$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
-      working_df_Marxan_SA_SS$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
-      main=paste0 ("Input error vs. Output error (<= 1)\n", "Marxan_SA_SS"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-idxs_of_not_huge_out_err_fracs = which (working_df_ZL_Backward$rsr_COR_euc_out_err_frac <= 1)
-plot (working_df_ZL_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
-      working_df_ZL_Backward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
-      main=paste0 ("Input error vs. Output error (<= 1)\n", "ZL_Backward"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-#----------
-
-idxs_of_not_huge_out_err_fracs = which (working_df_ZL_Forward$rsr_COR_euc_out_err_frac <= 1)
-plot (working_df_ZL_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
-      working_df_ZL_Forward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
-      main=paste0 ("Input error vs. Output error (<= 1)\n", "ZL_Forward"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-idxs_of_not_huge_out_err_fracs = which (working_df_SR_Forward$rsr_COR_euc_out_err_frac <= 1)
-plot (working_df_SR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
-      working_df_SR_Forward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
-      main=paste0 ("Input error vs. Output error (<= 1)\n", "SR_Forward"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-idxs_of_not_huge_out_err_fracs = which (working_df_SR_Backward$rsr_COR_euc_out_err_frac <= 1)
-plot (working_df_SR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
-      working_df_SR_Backward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
-      main=paste0 ("Input error vs. Output error (<= 1)\n", "SR_Backward"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-idxs_of_not_huge_out_err_fracs = which (working_df_UR_Forward$rsr_COR_euc_out_err_frac <= 1)
-plot (working_df_UR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
-      working_df_UR_Forward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
-      main=paste0 ("Input error vs. Output error (<= 1)\n", "UR_Forward"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-idxs_of_not_huge_out_err_fracs = which (working_df_UR_Backward$rsr_COR_euc_out_err_frac <= 1)
-plot (working_df_UR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
-      working_df_UR_Backward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
-      main=paste0 ("Input error vs. Output error (<= 1)\n", "UR_Backward"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
 ```
 
 ##  Error magnification
