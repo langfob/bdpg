@@ -1,0 +1,590 @@
+---
+title: "BDPG main results"
+author: "Bill Langford"
+date: '`r Sys.Date()`'
+output: 
+  html_notebook:
+    toc: true # table of content true
+    toc_depth: 4  # upto three depths of headings (specified by #, ## and ###)
+---
+
+This is just a quick and dirty summary of what I think are the main results that I want to put in the first paper.  I need this to pare down what I'm doing in the other documents.
+
+#  Load necessary libraries
+
+```{r}
+library (tidyverse)
+```
+
+#  Set file paths
+
+```{r setFilePaths}
+#===============================================================================
+
+# # # base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/"
+# 
+#     #  Easy
+# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base_2nd_attempt/bdpg_20_variants_all_rs_easy_base_2nd_try_Combined_err_amts/"
+# 
+#     #  Hard
+# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_1st_try_Combined_err_amts/"
+
+#     #  Hard - 2, 5, 7.5, 10 % error
+# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_02_05_075_10_Combined_err_amts/"
+
+
+suffix = ".combined_results.csv"
+```
+
+-----   
+
+#  Define functions
+
+-----   
+
+##  Define functions to read and write input and output data
+
+```{r loadInputData}
+#===============================================================================
+
+load_input_data <- function (rs_name, base_path, suffix)
+    {
+    infile = paste0 (base_path, rs_name, suffix)
+
+        #  I can't remember why I called these "msa".  It might stand for 
+        #  multi-set analysis...
+    
+    df = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
+    
+    return (df)
+    }
+
+write_output_data <- function (df, rs_name, base_path, suffix)
+    {
+    outfile = paste0 (base_path, rs_name, suffix)
+    cat ("\n\nIn write_output_data(), outfile = '", outfile, 
+         "'\n", sep='')
+    write.csv (df, outfile, row.names=FALSE)
+    }
+
+reduce_full_data_to_working_set <- function (full_df)
+    {
+    working_df = select (full_df, 
+                      
+            #  Problem and reserve selector labels                     
+                    rs_method_name, 
+                    rsp_combined_err_label, 
+                    rsp_cor_or_app_str, 
+                    rsp_base_wrap_str, 
+                    
+                    # rsr_tzar_run_ID, 
+                    # rsr_UUID, 
+                    # 
+                    # rsp_file_name_prefix, 
+                    # 
+                    # rsp_UUID, 
+                    # rsp_UUID_of_base_problem_that_has_err_added, 
+                    # rsp_UUID_of_base_problem_that_is_wrapped, 
+    
+    
+            #  Input descriptors
+                    rsp_num_PUs, 
+                    rsp_num_spp, 
+                    rsp_num_spp_per_PU, 
+                    rsp_correct_solution_cost, 
+            
+                    sppPUsum,
+                    sppPUprod, 
+            
+            #  Post-gen knowable problem descriptors
+            
+                #  Species and PU counts
+                    rsp_app_num_spp, 
+                    rsp_app_num_PUs, 
+                    
+                #  igraph package metrics
+    #                ig_rsp_UUID, 
+            
+                    ig_top, 
+                    ig_bottom, 
+                    ig_num_edges_m, 
+                    ig_ktop, 
+                    ig_kbottom, 
+                    ig_bidens, 
+                    ig_lcctop, 
+                    ig_lccbottom, 
+                    ig_distop, 
+                    ig_disbottom, 
+                    ig_cctop, 
+                    ig_ccbottom, 
+                    ig_cclowdottop, 
+                    ig_cclowdotbottom, 
+                    ig_cctopdottop, 
+                    ig_cctopdotbottom, 
+                    ig_mean_bottom_bg_redundancy, 
+                    ig_median_bottom_bg_redundancy, 
+                    ig_mean_top_bg_redundancy, 
+                    ig_median_top_bg_redundancy, 
+                    
+                    # ig_user_time, 
+                    # ig_system_time, 
+                    # ig_elapsed_time, 
+                    # ig_user_child_time, 
+                    # ig_sys_child_time, 
+                                    
+                #  bipartite package metrics
+    #                bip_rsp_UUID, 
+            
+                    connectance, 
+                    number.of.PUs, 
+                    number.of.Spp, 
+                    
+                    # bip_user_time, 
+                    # bip_system_time, 
+                    # bip_elapsed_time, 
+                    # bip_user_child_time, 
+                    # bip_sys_child_time, 
+    
+    
+                #  Possibly knowable realized input error values
+                    rsp_realized_median_abs_cost_err_frac, 
+                    rsp_realized_mean_abs_cost_err_frac, 
+                    rsp_realized_sd_abs_cost_err_frac, 
+                    rsp_FP_const_rate, 
+                    rsp_FN_const_rate, 
+                    
+                    rsp_realized_FP_rate, 
+                    rsp_realized_FN_rate, 
+                    rsp_realized_Ftot_rate, 
+                    rsp_euc_realized_FP_and_cost_in_err_frac, 
+                    rsp_euc_realized_FN_and_cost_in_err_frac, 
+                    rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+                    
+                    rsp_wrap_is_imperfect,
+                            
+    
+                #  Results and their errors
+                    rs_solution_cost, 
+                    rs_solution_cost_err_frac, 
+                    abs_rs_solution_cost_err_frac, 
+                    
+                    rs_over_opt_cost_err_frac_of_possible_overcost, 
+                    rs_under_opt_cost_err_frac_of_possible_undercost, 
+                    
+                    rsr_COR_euc_out_err_frac, 
+                    
+                    rsr_APP_spp_rep_shortfall, 
+                    rsr_APP_solution_NUM_spp_covered, 
+                    rsr_APP_solution_FRAC_spp_covered, 
+    
+                    err_mag
+                    #, 
+                    
+                #  Reserve selector run times
+                    # RS_user_time, 
+                    # RS_system_time, 
+                    # RS_elapsed_time, 
+                    # RS_user_child_time, 
+                    # RS_sys_child_time
+                      )
+    
+    #--------------------
+    
+        #  Now, remove all COR and BASE problems to leave just he APP WRAPs.
+    
+    working_df %>%
+        filter (rsp_cor_or_app_str == "APP" & rsp_base_wrap_str == "Wrap") -> working_df 
+    
+    return (working_df)
+    }
+```
+
+#  Load combined Easy/Hard input data
+
+```{r loadCombinedEasyAndHardInputData}
+
+    #  Combined Easy and Hard (all Easy error levels, all Hard except 15%)
+base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/cln_easyHard."
+
+#----------
+
+easyHard_df_Gurobi       = load_input_data ("Gurobi", base_path, suffix)
+easyHard_df_Marxan_SA    = load_input_data ("Marxan_SA", base_path, suffix)
+easyHard_df_Marxan_SA_SS = load_input_data ("Marxan_SA_SS", base_path, suffix)
+easyHard_df_ZL_Backward  = load_input_data ("ZL_Backward", base_path, suffix)
+
+easyHard_df_ZL_Forward  = load_input_data ("ZL_Forward", base_path, suffix)
+easyHard_df_SR_Forward  = load_input_data ("SR_Forward", base_path, suffix)
+easyHard_df_SR_Backward  = load_input_data ("SR_Backward", base_path, suffix)
+easyHard_df_UR_Forward  = load_input_data ("UR_Forward", base_path, suffix)
+easyHard_df_UR_Backward  = load_input_data ("UR_Backward", base_path, suffix)
+```
+
+# Reduce the full data set down to a working set
+
+```{r reduceFullDataToWorkingSet}
+working_df_Gurobi       = reduce_full_data_to_working_set (easyHard_df_Gurobi)
+working_df_Marxan_SA    = reduce_full_data_to_working_set (easyHard_df_Marxan_SA)
+working_df_Marxan_SA_SS = reduce_full_data_to_working_set (easyHard_df_Marxan_SA_SS)
+working_df_ZL_Backward  = reduce_full_data_to_working_set (easyHard_df_ZL_Backward)
+
+working_df_ZL_Forward  = reduce_full_data_to_working_set (easyHard_df_ZL_Forward)
+working_df_SR_Forward  = reduce_full_data_to_working_set (easyHard_df_SR_Forward)
+working_df_SR_Backward  = reduce_full_data_to_working_set (easyHard_df_SR_Backward)
+working_df_UR_Forward  = reduce_full_data_to_working_set (easyHard_df_UR_Forward)
+working_df_UR_Backward  = reduce_full_data_to_working_set (easyHard_df_UR_Backward)
+
+```
+##  Input error vs. output error
+
+- Generated hard problems were much harder than generated easy problems, as predicted
+- There is lots of variation in problem difficulty at every level of input error
+- Solution quality under uncertainty is not good, regardless of optimizer
+- Not much difference in reserve selectors  
+    - Smoothers were slightly better in median (ZL and SA_SS)
+- Possible difference for Simple Richness on difficult problem?
+
+```{r}
+plot (working_df_Gurobi$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_Gurobi$rsr_COR_euc_out_err_frac, 
+      main=paste0 ("Input error vs. output error\n", "Gurobi"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_Marxan_SA$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_Marxan_SA$rsr_COR_euc_out_err_frac, 
+      main=paste0 ("Input error vs. output error\n", "Marxan_SA"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_Marxan_SA_SS$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_Marxan_SA_SS$rsr_COR_euc_out_err_frac, 
+      main=paste0 ("Input error vs. output error\n", "Marxan_SA_SS"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_ZL_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_ZL_Backward$rsr_COR_euc_out_err_frac, 
+      main=paste0 ("Input error vs. output error\n", "ZL_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+#----------
+
+plot (working_df_ZL_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_ZL_Forward$rsr_COR_euc_out_err_frac, 
+      main=paste0 ("Input error vs. output error\n", "ZL_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_SR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_SR_Forward$rsr_COR_euc_out_err_frac, 
+      main=paste0 ("Input error vs. output error\n", "SR_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_SR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_SR_Backward$rsr_COR_euc_out_err_frac, 
+      main=paste0 ("Input error vs. output error\n", "SR_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_UR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_UR_Forward$rsr_COR_euc_out_err_frac, 
+      main=paste0 ("Input error vs. output error\n", "UR_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_UR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_UR_Backward$rsr_COR_euc_out_err_frac, 
+      main=paste0 ("Input error vs. output error\n", "UR_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+```
+
+####  Show all output error fractions values below 1
+
+This gets rid of all the extreme values.
+
+```{r}
+idxs_of_not_huge_out_err_fracs = which (working_df_Gurobi$rsr_COR_euc_out_err_frac <= 1)
+plot (working_df_Gurobi$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
+      working_df_Gurobi$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
+      main=paste0 ("Input error vs. Output error (<= 1)\n", "Gurobi"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_out_err_fracs = which (working_df_Marxan_SA$rsr_COR_euc_out_err_frac <= 1)
+plot (working_df_Marxan_SA$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
+      working_df_Marxan_SA$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
+      main=paste0 ("Input error vs. Output error (<= 1)\n", "Marxan_SA"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_out_err_fracs = which (working_df_Marxan_SA_SS$rsr_COR_euc_out_err_frac <= 1)
+plot (working_df_Marxan_SA_SS$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
+      working_df_Marxan_SA_SS$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
+      main=paste0 ("Input error vs. Output error (<= 1)\n", "Marxan_SA_SS"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_out_err_fracs = which (working_df_ZL_Backward$rsr_COR_euc_out_err_frac <= 1)
+plot (working_df_ZL_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
+      working_df_ZL_Backward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
+      main=paste0 ("Input error vs. Output error (<= 1)\n", "ZL_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+#----------
+
+idxs_of_not_huge_out_err_fracs = which (working_df_ZL_Forward$rsr_COR_euc_out_err_frac <= 1)
+plot (working_df_ZL_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
+      working_df_ZL_Forward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
+      main=paste0 ("Input error vs. Output error (<= 1)\n", "ZL_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_out_err_fracs = which (working_df_SR_Forward$rsr_COR_euc_out_err_frac <= 1)
+plot (working_df_SR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
+      working_df_SR_Forward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
+      main=paste0 ("Input error vs. Output error (<= 1)\n", "SR_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_out_err_fracs = which (working_df_SR_Backward$rsr_COR_euc_out_err_frac <= 1)
+plot (working_df_SR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
+      working_df_SR_Backward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
+      main=paste0 ("Input error vs. Output error (<= 1)\n", "SR_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_out_err_fracs = which (working_df_UR_Forward$rsr_COR_euc_out_err_frac <= 1)
+plot (working_df_UR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
+      working_df_UR_Forward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
+      main=paste0 ("Input error vs. Output error (<= 1)\n", "UR_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_out_err_fracs = which (working_df_UR_Backward$rsr_COR_euc_out_err_frac <= 1)
+plot (working_df_UR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_out_err_fracs], 
+      working_df_UR_Backward$rsr_COR_euc_out_err_frac [idxs_of_not_huge_out_err_fracs], 
+      main=paste0 ("Input error vs. Output error (<= 1)\n", "UR_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+```
+
+##  Error magnification
+
+### Optimization often amplifies input error
+
+Not sure this needs a separate plot, since the 10:1, 5:1, and 1:1 lines show it so well and the actual exact numbers aren't that important.
+
+####  Show all magnification values first (to show full range)
+
+```{r}
+plot (working_df_Gurobi$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_Gurobi$err_mag, 
+      main=paste0 ("Input error vs. Error Magnification\n", "Gurobi"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_Marxan_SA$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_Marxan_SA$err_mag, 
+      main=paste0 ("Input error vs. Error Magnification\n", "Marxan_SA"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_Marxan_SA_SS$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_Marxan_SA_SS$err_mag, 
+      main=paste0 ("Input error vs. Error Magnification\n", "Marxan_SA_SS"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_ZL_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_ZL_Backward$err_mag, 
+      main=paste0 ("Input error vs. Error Magnification\n", "ZL_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+#----------
+
+plot (working_df_ZL_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_ZL_Forward$err_mag, 
+      main=paste0 ("Input error vs. Error Magnification\n", "ZL_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_SR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_SR_Forward$err_mag, 
+      main=paste0 ("Input error vs. Error Magnification\n", "SR_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_SR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_SR_Backward$err_mag, 
+      main=paste0 ("Input error vs. Error Magnification\n", "SR_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_UR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_UR_Forward$err_mag, 
+      main=paste0 ("Input error vs. Error Magnification\n", "UR_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+plot (working_df_UR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+      working_df_UR_Backward$err_mag, 
+      main=paste0 ("Input error vs. Error Magnification\n", "UR_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+```
+
+####  Show all magnification values below 10
+
+This gets rid of all the extreme values that result at tiny, tiny input errors.
+
+```{r}
+idxs_of_not_huge_err_mags = which (working_df_Gurobi$err_mag <= 10)
+plot (working_df_Gurobi$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_err_mags], 
+      working_df_Gurobi$err_mag [idxs_of_not_huge_err_mags], 
+      main=paste0 ("Input error vs. Error Magnification (<= 10)\n", "Gurobi"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_err_mags = which (working_df_Marxan_SA$err_mag <= 10)
+plot (working_df_Marxan_SA$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_err_mags], 
+      working_df_Marxan_SA$err_mag [idxs_of_not_huge_err_mags], 
+      main=paste0 ("Input error vs. Error Magnification (<= 10)\n", "Marxan_SA"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_err_mags = which (working_df_Marxan_SA_SS$err_mag <= 10)
+plot (working_df_Marxan_SA_SS$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_err_mags], 
+      working_df_Marxan_SA_SS$err_mag [idxs_of_not_huge_err_mags], 
+      main=paste0 ("Input error vs. Error Magnification (<= 10)\n", "Marxan_SA_SS"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_err_mags = which (working_df_ZL_Backward$err_mag <= 10)
+plot (working_df_ZL_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_err_mags], 
+      working_df_ZL_Backward$err_mag [idxs_of_not_huge_err_mags], 
+      main=paste0 ("Input error vs. Error Magnification (<= 10)\n", "ZL_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+#----------
+
+idxs_of_not_huge_err_mags = which (working_df_ZL_Forward$err_mag <= 10)
+plot (working_df_ZL_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_err_mags], 
+      working_df_ZL_Forward$err_mag [idxs_of_not_huge_err_mags], 
+      main=paste0 ("Input error vs. Error Magnification (<= 10)\n", "ZL_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_err_mags = which (working_df_SR_Forward$err_mag <= 10)
+plot (working_df_SR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_err_mags], 
+      working_df_SR_Forward$err_mag [idxs_of_not_huge_err_mags], 
+      main=paste0 ("Input error vs. Error Magnification (<= 10)\n", "SR_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_err_mags = which (working_df_SR_Backward$err_mag <= 10)
+plot (working_df_SR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_err_mags], 
+      working_df_SR_Backward$err_mag [idxs_of_not_huge_err_mags], 
+      main=paste0 ("Input error vs. Error Magnification (<= 10)\n", "SR_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_err_mags = which (working_df_UR_Forward$err_mag <= 10)
+plot (working_df_UR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_err_mags], 
+      working_df_UR_Forward$err_mag [idxs_of_not_huge_err_mags], 
+      main=paste0 ("Input error vs. Error Magnification (<= 10)\n", "UR_Forward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+
+idxs_of_not_huge_err_mags = which (working_df_UR_Backward$err_mag <= 10)
+plot (working_df_UR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_err_mags], 
+      working_df_UR_Backward$err_mag [idxs_of_not_huge_err_mags], 
+      main=paste0 ("Input error vs. Error Magnification (<= 10)\n", "UR_Backward"), 
+      xlab="Total Euc Input Error Frac",
+      ylab="Total Euc Output Error Frac")
+```
+
+##  Different types of input error produced different amounts of output error
+
+- Uniform random cost error had almost no impact anywhere  
+- FN produced ...  
+- FP produced ...  
+- Mixed was determined by FN or FP dominance  
+
+```{r}
+cat ("\n...  Break out by different types of input error  ...\n")
+
+```
+
+
+##  Different types of output error
+
+Ascelin's comment
+
+Decompose output errors into over/under, etc
+
+Also look at problem of putting errors on equal footing, i.e., how much error is _possible_
+
+```{r}
+cat ("\n...  How much error is possible  ...\n")
+```
+
+
+#  Predicting performance of specific RS on specific problems
+
+Given all this variability, can you predict how a particular reserve selector will perform on a specific problem?
+
+###  Problem size (num_spp, num_PUs) not a good predictor of problem difficulty
+
+```{r}
+cat ("\n...  NOT cheating:  Fit prediction using problem size  ...\n")
+```
+
+###  Graph measures help
+
+####  Without cheating
+
+- Graph measures do broadly predict trend in output error, but still lots of variability. 
+- What about with problem size information too?
+
+```{r}
+cat ("\n...  NOT cheating:  Fit prediction using graph measures, problem size  ...\n")
+```
+
+####  With cheating
+
+- Generally, output error does increase with input error, but still has large variability.
+- Did combination of the two predict better? 
+
+```{r}
+cat ("\n...  CHEATING:  Fit prediction using input error  ...\n")
+cat ("\n...  CHEATING:  Fit prediction using input error, graph measures, problem size  ...\n")
+```
+
+#  Does Easy vs. Hard matter?
+
+Since all existing papers use easy problems (small toy problems or random problems), does that matter?
+
+####  Are descriptive results different?
+
+```{r}
+cat ("\n...  Break down by Easy vs. Hard  ...\n")
+```
+
+####  Are predictive results different?
+
+- If I train on Easy, how well do I do predicting on Hard?  
+- If I train on Hard, how well do I do predicting on Easy?  
+- If I train on mixed, how well do I do predicting on mixed?  
+
+```{r}
+cat ("\n...  Predict using different train/test sources  ...\n")
+```
+
+
