@@ -2,7 +2,10 @@
 title: "BDPG preliminary analysis"
 author: "Bill Langford"
 date: "Aug 14, 2018"
-output: html_document
+output: 
+  html_document:
+    toc: true # table of content true
+    toc_depth: 4  # upto three depths of headings (specified by #, ## and ###)
 ---
 
 ```{r setup, include=FALSE}
@@ -90,8 +93,8 @@ convert_input_dt_to_sorted_tibble <- function (msa_dt)
 
 ```{r loadAndSummarizeInputData}
 
-rs_name = "Gurobi"
-#rs_name = "Marxan_SA"
+#rs_name = "Gurobi"
+rs_name = "Marxan_SA"
 #rs_name = "Marxan_SA_SS"
 #rs_name = "ZL_Backward"
 #rs_name = "ZL_Forward"
@@ -599,12 +602,12 @@ corrplot (correlations
 See how many times gurobi timed out and what the distribution of gaps was.
 
 ```{r examineGurobiSpecificData}
-
-plyr::count (gurobi_only_values$gurobi_status) 
-
-hist (gurobi_only_values$gurobi_mipgap [gurobi_only_values$gurobi_mipgap > 0]) 
-
-
+if (rs_name == "Gurobi")
+    {
+    plyr::count (gurobi_only_values$gurobi_status) 
+    
+    hist (gurobi_only_values$gurobi_mipgap [gurobi_only_values$gurobi_mipgap > 0]) 
+    }
 ```
 
 #  Plot run times
