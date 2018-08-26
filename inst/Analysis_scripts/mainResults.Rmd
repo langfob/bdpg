@@ -23,7 +23,19 @@ This is just a quick and dirty summary of what I think are the main results that
 
 #  Load necessary libraries
 
-```{r}
+```{r message=FALSE}
+    #  Note that "message=FALSE" is necessary for this chunk if you want to 
+    #  generate pdfs.  When the tidyverse package is loaded, it writes puts 
+    #  out a message that includes some unicode that the normal latex engine 
+    #  (used to produce the pdf) can't handle and it crashes with the following 
+    #  message:
+    #       ! Package inputenc Error: Unicode character √ (U+221A)
+    #       (inputenc)                not set up for use with LaTeX.
+    #  More information about this can be found at:
+    #   - https://community.rstudio.com/t/tidyverse-1-2-1-knitting-to-pdf-issue/2880/4
+    #   - https://community.rstudio.com/t/cant-render-tidyverse-1-2-startup-message-in-latex/2811/5
+    #   - https://chrisbeeley.net/?p=1037
+
 library (tidyverse)
 ```
 
