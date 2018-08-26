@@ -320,32 +320,13 @@ base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/cln
 
 #----------
 
-easyHard_df_Gurobi       = load_input_data ("Gurobi", base_path, suffix)
 easyHard_df_Marxan_SA    = load_input_data ("Marxan_SA", base_path, suffix)
-easyHard_df_Marxan_SA_SS = load_input_data ("Marxan_SA_SS", base_path, suffix)
-easyHard_df_ZL_Backward  = load_input_data ("ZL_Backward", base_path, suffix)
-
-easyHard_df_ZL_Forward  = load_input_data ("ZL_Forward", base_path, suffix)
-easyHard_df_SR_Forward  = load_input_data ("SR_Forward", base_path, suffix)
-easyHard_df_SR_Backward  = load_input_data ("SR_Backward", base_path, suffix)
-easyHard_df_UR_Forward  = load_input_data ("UR_Forward", base_path, suffix)
-easyHard_df_UR_Backward  = load_input_data ("UR_Backward", base_path, suffix)
 ```
 
 # Reduce the full data set down to a working set
 
 ```{r reduceFullDataToWorkingSet}
-working_df_Gurobi       = reduce_full_data_to_working_set (easyHard_df_Gurobi)
 working_df_Marxan_SA    = reduce_full_data_to_working_set (easyHard_df_Marxan_SA)
-working_df_Marxan_SA_SS = reduce_full_data_to_working_set (easyHard_df_Marxan_SA_SS)
-working_df_ZL_Backward  = reduce_full_data_to_working_set (easyHard_df_ZL_Backward)
-
-working_df_ZL_Forward  = reduce_full_data_to_working_set (easyHard_df_ZL_Forward)
-working_df_SR_Forward  = reduce_full_data_to_working_set (easyHard_df_SR_Forward)
-working_df_SR_Backward  = reduce_full_data_to_working_set (easyHard_df_SR_Backward)
-working_df_UR_Forward  = reduce_full_data_to_working_set (easyHard_df_UR_Forward)
-working_df_UR_Backward  = reduce_full_data_to_working_set (easyHard_df_UR_Backward)
-
 ```
 ##  Input error vs. output error
 
