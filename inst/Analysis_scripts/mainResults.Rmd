@@ -1214,8 +1214,124 @@ gg_eucInTot_vs_fracPossibleUnder_facetted_by_err_label ("Marxan_SA", working_Mar
 
 Given all this variability, can you predict how a particular reserve selector will perform on a specific problem?
 
-###  Problem size (num_spp, num_PUs) not a good predictor of problem difficulty
+##  Compute correlations among all working data variables
 
+```{r computeAllCorrs}
+
+library (corrplot)
+
+    #  Compute correlation matrix after stripping out non-continuous 
+    #  variables.
+
+continuous_vars_working_df_Marxan_SA = 
+    select (working_df_Marxan_SA, 
+            
+                    #  Input descriptors
+                    rsp_num_PUs, 
+                    rsp_num_spp, 
+                    rsp_num_spp_per_PU, 
+                    rsp_correct_solution_cost, 
+            
+                    sppPUsum,
+                    sppPUprod, 
+            
+            #  Post-gen knowable problem descriptors
+            
+                #  Species and PU counts
+                    rsp_app_num_spp, 
+                    rsp_app_num_PUs, 
+                    
+                #  igraph package metrics
+    #                ig_rsp_UUID, 
+            
+                        # ig_top, 
+                        # ig_bottom, 
+                        # ig_num_edges_m, 
+                        # ig_ktop, 
+                        # ig_kbottom, 
+                        # ig_bidens, 
+                        # ig_lcctop, 
+                        # ig_lccbottom, 
+                        # ig_distop, 
+                        # ig_disbottom, 
+                        # ig_cctop, 
+                        # ig_ccbottom, 
+                        # ig_cclowdottop, 
+                        # ig_cclowdotbottom, 
+                        # ig_cctopdottop, 
+                        # ig_cctopdotbottom, 
+                    ig_mean_bottom_bg_redundancy, 
+                    ig_median_bottom_bg_redundancy, 
+                    ig_mean_top_bg_redundancy, 
+                    ig_median_top_bg_redundancy, 
+                    
+                    # ig_user_time, 
+                    # ig_system_time, 
+                    # ig_elapsed_time, 
+                    # ig_user_child_time, 
+                    # ig_sys_child_time, 
+                                    
+                #  bipartite package metrics
+    #                bip_rsp_UUID, 
+            
+                    connectance, 
+                    number.of.PUs, 
+                    number.of.Spp, 
+                    
+                    # bip_user_time, 
+                    # bip_system_time, 
+                    # bip_elapsed_time, 
+                    # bip_user_child_time, 
+                    # bip_sys_child_time, 
+    
+    
+                #  Possibly knowable realized input error values
+                    rsp_realized_median_abs_cost_err_frac, 
+                    rsp_realized_mean_abs_cost_err_frac, 
+                    rsp_realized_sd_abs_cost_err_frac, 
+                    rsp_FP_const_rate, 
+                    rsp_FN_const_rate, 
+                    
+                    rsp_realized_FP_rate, 
+                    rsp_realized_FN_rate, 
+                    rsp_realized_Ftot_rate, 
+                    rsp_euc_realized_FP_and_cost_in_err_frac, 
+                    rsp_euc_realized_FN_and_cost_in_err_frac, 
+                    rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+                    
+#                        rsp_wrap_is_imperfect,
+                            
+    
+                #  Results and their errors
+                    rs_solution_cost, 
+                    rs_solution_cost_err_frac, 
+                    abs_rs_solution_cost_err_frac, 
+                    
+                    rs_over_opt_cost_err_frac_of_possible_overcost, 
+                    rs_under_opt_cost_err_frac_of_possible_undercost, 
+                    
+                    rsr_COR_euc_out_err_frac, 
+                    
+                    rsr_APP_spp_rep_shortfall, 
+                    rsr_APP_solution_NUM_spp_covered, 
+                    rsr_APP_solution_FRAC_spp_covered, 
+    
+                    err_mag
+    )
+
+correlations = cor (continuous_vars_working_df_Marxan_SA)
+
+    #  Plot the correlation matrix.
+
+corrplot (correlations
+#          , order = "hclust"    #  This fails because of NAs or NaNs in the data...
+          )
+
+dim (correlations)
+correlations [21:25, 36]
+```
+
+## 
 ```{r}
 cat ("\n...  NOT cheating:  Fit prediction using problem size  ...\n")
 ```
