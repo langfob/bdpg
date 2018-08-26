@@ -1,12 +1,23 @@
 ---
 title: "BDPG main results"
 author: "Bill Langford"
-date: '`r Sys.Date()`'
-output: 
+date: "`r Sys.Date()`"
+output:
+  html_notebook:
+    toc: yes
+    toc_depth: 4
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
   html_document:
-    toc: true # table of content true
-    toc_depth: 4  # upto three depths of headings (specified by #, ## and ###)
+    df_print: paged
+    toc: yes
+    toc_depth: '4'
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 This is just a quick and dirty summary of what I think are the main results that I want to put in the first paper.  I need this to pare down what I'm doing in the other documents.
 
