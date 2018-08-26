@@ -99,6 +99,8 @@ reduce_full_data_to_working_set <- function (full_df)
     working_df = select (full_df, 
                       
             #  Problem and reserve selector labels                     
+                    id,     #  Easy or Hard
+            
                     rs_method_name, 
                     rsp_combined_err_label, 
                     rsp_cor_or_app_str, 
