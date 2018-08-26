@@ -1,5 +1,5 @@
 ---
-title: "BDPG main results"
+title: "BDPG main results for single Reserve Selector"
 author: "Bill Langford"
 date: "`r Sys.Date()`"
 output:
@@ -17,6 +17,20 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+```
+
+This file is cloned from mainResults.Rmd, which was getting too big and unwieldy and taking much too long to run.  In here, I will strip out all references to anything other than a single reserve selector.  The whole thing should be trivial to rerun for each different reserve selector by just changing the variable `rs_name`.
+
+```{r setRSname}
+#rs_name = "Gurobi"
+rs_name = "Marxan_SA"
+#rs_name = "Marxan_SA_SS"
+#rs_name = "ZL_Backward"
+#rs_name = "ZL_Forward"
+#rs_name = "SR_Backward"
+#rs_name = "SR_Forward"
+#rs_name = "UR_Backward"
+#rs_name = "UR_Forward"
 ```
 
 This is just a quick and dirty summary of what I think are the main results that I want to put in the first paper.  I need this to pare down what I'm doing in the other documents.
