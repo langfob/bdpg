@@ -1779,6 +1779,175 @@ ols_plot_resid_hist (model)
 
 
 
+##  Look at residuals using `car` package
+
+Copied from https://www.statmethods.net/stats/rdiagnostics.html
+
+Regression Diagnostics
+
+An excellent review of regression diagnostics is provided in John Fox's aptly named Overview of Regression Diagnostics (http://socserv.socsci.mcmaster.ca/jfox/Courses/Brazil-2009/index.html). Dr. Fox's `car` package provides advanced utilities for regression modeling. 
+
+```{r}
+library (car)
+#fit = working_Marxan_SA_not_huge_out_err_lm_fit
+fit = working_Marxan_SA_not_huge_out_err_lm_fit__using_graph_and_prob_size
+```
+
+###  Outliers
+
+```{r}
+    # Assessing Outliers
+outlierTest (fit) # Bonferonni p-value for most extreme obs
+qqPlot (fit, main="QQ Plot") #qq plot for studentized resid
+
+leveragePlots (fit) # leverage plots
+#  THIS FAILS:
+#leveragePlots (fit) # leverage plots 
+#  ERROR OUTPUT:
+#Error in L %*% V : non-conformable arguments
+#4.solve(L %*% V %*% t(L))
+#3.leveragePlot.lm(model, term, main = "", ...)
+#2.leveragePlot(model, term, main = "", ...)
+#1.leveragePlots(fit)
+
+```
+
+
+###  Influential Observations
+
+```{r}
+    # added variable plots
+#av.Plots (fit)
+avPlots (fit)
+
+#    THIS SECTION IS RELATED TO THE mtcars DATASET, NOT MY DATA.
+#    NEED TO FIGURE OUT IF/HOW IT TRANSLATES TO MY DATA.
+#
+#     # Cook's D plot
+#     # identify D values > 4/(n-k-1)
+
+# cutoff <- 4 / ((nrow (mtcars)                                - length (fit$coefficients) - 2))
+  cutoff <- 4 / ((nrow (working_Marxan_SA_not_huge_out_err_df) - length (fit$coefficients) - 2))
+  
+plot(fit, which=4, cook.levels=cutoff)
+```
+
+That plot marks rows 2094, 3032, and 3033.  Other plots also mention 2092.
+
+```{r}
+#glimpse (working_Marxan_SA_not_huge_out_err_df [c(2092, 2094, 3032, 3033), ])
+
+print (working_Marxan_SA_not_huge_out_err_df [c(2092, 2094, 3032, 3033), ])
+```
+
+This influencePlot call gives the same error message 7 times.  I think that the format of the call may be out of date.  The message it gives is:
+
+```
+"id.method" is not a graphical parameter
+```
+
+Looking at the help page for `influencePlot` shows a different way to invoke the "identify" option:
+
+```
+id	
+settings for labelling points; see link{showLabels} for details. To omit point labelling, set id=FALSE; the default, id=TRUE is equivalent to id=list(method="noteworthy", n=2, cex=1, col=carPalette()[1], location="lr"). The default method="noteworthy" is used only in this function and indicates setting labels for points with large Studentized residuals, hat-values or Cook's distances. Set id=list(method="identify") for interactive point identification.
+...
+Examples
+
+...
+## Not run: 
+influencePlot(lm(prestige ~ income + education, data=Duncan), 
+    id=list(method="identify"))
+
+## End(Not run)
+```
+
+So, modifying the influencePlot() call to match that gives:
+
+```{r}
+    # Influence Plot
+influencePlot (fit, 
+               
+                       #id.method="identify", 
+                       id=list (method="identify"), 
+               
+               main="Influence Plot", sub="Circle size is proportial to Cook's Distance" )
+```
+
+
+###  Non-normality
+
+```{r}
+    # Normality of Residuals
+    # qq plot for studentized resid
+qqPlot (fit, main="QQ Plot")
+
+    # distribution of studentized residuals
+library (MASS)
+sresid <- studres(fit)
+hist (sresid, freq=FALSE, main="Distribution of Studentized Residuals")
+xfit <- seq (min (sresid), max (sresid), length=40)
+yfit <- dnorm (xfit)
+lines (xfit, yfit) 
+```
+
+### Non-constant Error Variance
+
+```{r}
+    # Evaluate homoscedasticity
+    # non-constant error variance test
+ncvTest (fit)
+
+    # plot studentized residuals vs. fitted values
+spreadLevelPlot (fit)
+```
+
+
+###  Multi-collinearity
+
+```{r}
+    # Evaluate Collinearity
+vif (fit)               # variance inflation factors
+sqrt (vif (fit)) > 2    # problem?
+```
+
+###  Nonlinearity
+
+```{r}
+    # Evaluate Nonlinearity
+    # component + residual plot
+crPlots (fit)
+
+    # Ceres plots
+ceresPlots (fit)
+```
+
+
+###  Non-independence of Errors
+
+```{r}
+    # Test for Autocorrelated Errors
+durbinWatsonTest(fit)
+```
+
+
+###  Additional Diagnostic Help
+
+The gvlma( ) function in the gvlma package, performs a global validation of linear model assumptions as well separate evaluations of skewness, kurtosis, and heteroscedasticity.
+
+```{r}
+    # Global test of model assumptions
+library (gvlma)
+
+gvmodel <- gvlma (fit)
+summary (gvmodel) 
+```
+
+
+
+
+
+
 #  Does Easy vs. Hard matter?
 
 Since all existing papers use easy problems (small toy problems or random problems), does that matter?
