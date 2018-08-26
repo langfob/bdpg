@@ -1631,7 +1631,82 @@ summary (working_Marxan_SA_not_huge_out_err_lm_fit)
 
 
 
+####  Cheating, using input errors and non-cheating problem characteristics
+
+```{r}
 cat ("\n...  CHEATING:  Fit prediction using input error, graph measures, problem size  ...\n")
+```
+
+```{r}
+easyHard_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot_and_cost_in_err_frac + 
+                                   rsp_realized_FP_rate + 
+                                   rsp_realized_FN_rate + 
+                                   rsp_realized_Ftot_rate + 
+                                   rsp_euc_realized_FP_and_cost_in_err_frac + 
+                                   rsp_euc_realized_FN_and_cost_in_err_frac + 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance + 
+                              rsp_num_PUs + rsp_num_spp + 
+                                   rsp_num_spp_per_PU + sppPUprod, 
+                      easyHard_df_Marxan_SA)
+
+summary (easyHard_Marxan_SA_lm_fit)
+```
+
+```{r}
+# easyHard_df_Marxan_SA %>% 
+#     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
+
+easyHard_Marxan_SA_not_huge_out_err_lm_fit = 
+    lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot_and_cost_in_err_frac + 
+                                   rsp_realized_FP_rate + 
+                                   rsp_realized_FN_rate + 
+                                   rsp_realized_Ftot_rate + 
+                                   rsp_euc_realized_FP_and_cost_in_err_frac + 
+                                   rsp_euc_realized_FN_and_cost_in_err_frac + 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance + 
+                              rsp_num_PUs + rsp_num_spp + 
+                                   rsp_num_spp_per_PU + sppPUprod, 
+        easyHard_Marxan_SA_not_huge_out_err_df)
+
+summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
+```
+
+```{r}
+working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot_and_cost_in_err_frac + 
+                                   rsp_realized_FP_rate + 
+                                   rsp_realized_FN_rate + 
+                                   rsp_realized_Ftot_rate + 
+                                   rsp_euc_realized_FP_and_cost_in_err_frac + 
+                                   rsp_euc_realized_FN_and_cost_in_err_frac + 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance + 
+                              rsp_num_PUs + rsp_num_spp + 
+                                   rsp_num_spp_per_PU + sppPUprod, 
+                      working_df_Marxan_SA)
+
+summary (working_Marxan_SA_lm_fit)
+```
+
+```{r}
+# working_df_Marxan_SA %>% 
+#     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
+
+working_Marxan_SA_not_huge_out_err_lm_fit = 
+    lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot_and_cost_in_err_frac + 
+                                   rsp_realized_FP_rate + 
+                                   rsp_realized_FN_rate + 
+                                   rsp_realized_Ftot_rate + 
+                                   rsp_euc_realized_FP_and_cost_in_err_frac + 
+                                   rsp_euc_realized_FN_and_cost_in_err_frac + 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance + 
+                              rsp_num_PUs + rsp_num_spp + 
+                                   rsp_num_spp_per_PU + sppPUprod, 
+        working_Marxan_SA_not_huge_out_err_df)
+
+summary (working_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
 #  Does Easy vs. Hard matter?
