@@ -242,15 +242,17 @@ ggplot (data = sorted_msa_tib) +
         aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                     y = rsr_COR_euc_out_err_frac,
         #                            color = rsp_combined_err_label)) +
-                                    color = rsp_base_wrap_str) +
+#####                                    color = rsp_base_wrap_str) +
+                                    color = id) +
         geom_point() +
-        scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+#####        scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+        scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
         stat_smooth(method = "lm", col = "green") +
 
     # ggplot (data = sorted_msa_tib) +
     #       geom_point (mapping = ) +
     #     #scale_color_viridis(discrete=TRUE) +
-    #     scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+    #     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
     #
         ggtitle (paste0 (rs_name, " - Total input error vs. Total output error")) +
         theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
@@ -275,10 +277,10 @@ gg_eucInTot_vs_eucOutTot_facetted_by_err_label <- function (rs_name,
       geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                 y = rsr_COR_euc_out_err_frac,
     #                            color = rsp_combined_err_label)) +
-                                color = rsp_base_wrap_str)) +
+                                color = id)) +
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
-    scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+    scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
 
     ggtitle (paste0 (rs_name, " - Total input error vs. Total output error by Error Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
@@ -729,15 +731,15 @@ gg_eucInTot_vs_signedCostErrFrac_all_on_1 <- function (rs_name,
             aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                         y = rs_solution_cost_err_frac, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
-                                        color = rsp_base_wrap_str) +
+                                        color = id) +
             geom_point() +
-            scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+            scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
             stat_smooth(method = "lm", col = "green") +
     
         # ggplot (data = sorted_msa_tib) +
         #       geom_point (mapping = ) +
         #     #scale_color_viridis(discrete=TRUE) +
-        #     scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+        #     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
         #
             ggtitle (paste0 (rs_name, " - Total input error vs. Signed cost err frac"    #Total output error"
                              )) +
@@ -763,10 +765,10 @@ gg_eucInTot_vs_signedCostErrFrac_facetted_by_err_label <- function (rs_name,
       geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                 y = rs_solution_cost_err_frac,
     #                            color = rsp_combined_err_label)) +
-                                color = rsp_base_wrap_str)) +
+                                color = id)) +
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
-    scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+    scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
 
     ggtitle (paste0 (rs_name, " - Total input error vs. Signed cost err frac by Error Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
@@ -793,15 +795,15 @@ gg_eucInTot_vs_sppRepShortfall_all_on_1 <- function (rs_name,
             aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                         y = rsr_APP_spp_rep_shortfall, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
-                                        color = rsp_base_wrap_str) +
+                                        color = id) +
             geom_point() +
-            scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+            scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
             stat_smooth(method = "lm", col = "green") +
     
         # ggplot (data = sorted_msa_tib) +
         #       geom_point (mapping = ) +
         #     #scale_color_viridis(discrete=TRUE) +
-        #     scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+        #     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
         #
             ggtitle (paste0 (rs_name, " - Total input error vs. Spp Rep Shortfall"    #Total output error"
                              )) +
@@ -827,10 +829,10 @@ gg_eucInTot_vs_sppRepShortfall_facetted_by_err_label <- function (rs_name,
       geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                 y = rsr_APP_spp_rep_shortfall,
     #                            color = rsp_combined_err_label)) +
-                                color = rsp_base_wrap_str)) +
+                                color = id)) +
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
-    scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+    scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
 
     ggtitle (paste0 (rs_name, " - Total input error vs. Spp Rep Shortfall by Error Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
@@ -897,15 +899,15 @@ gg_sppRepShortfall_vs_signedCostErrFrac_all_on_1 <- function (rs_name,
             aes(x = rsr_APP_spp_rep_shortfall,
                                         y = rs_solution_cost_err_frac, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
-                                        color = rsp_base_wrap_str) +
+                                        color = id) +
             geom_point() +
-            scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+            scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
             stat_smooth(method = "lm", col = "green") +
     
         # ggplot (data = sorted_msa_tib) +
         #       geom_point (mapping = ) +
         #     #scale_color_viridis(discrete=TRUE) +
-        #     scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+        #     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
         #
             ggtitle (paste0 (rs_name, " - Spp Rep Shortfall vs. Signed cost err frac"    #Total output error"
                              )) +
@@ -931,10 +933,10 @@ gg_sppRepShortfall_vs_signedCostErrFrac_facetted_by_err_label <- function (rs_na
       geom_point (mapping = aes(x = rsr_APP_spp_rep_shortfall,
                                 y = rs_solution_cost_err_frac,
     #                            color = rsp_combined_err_label)) +
-                                color = rsp_base_wrap_str)) +
+                                color = id)) +
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
-    scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+    scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
 
     ggtitle (paste0 (rs_name, " - Spp Rep Shortfall vs. Signed cost err frac by Error Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
@@ -1033,15 +1035,15 @@ gg_eucInTot_vs_fracPossibleOver_all_on_1 <- function (rs_name,
             aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                         y = rs_over_opt_cost_err_frac_of_possible_overcost, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
-                                        color = rsp_base_wrap_str) +
+                                        color = id) +
             geom_point() +
-            scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+            scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
             stat_smooth(method = "lm", col = "green") +
     
         # ggplot (data = sorted_msa_tib) +
         #       geom_point (mapping = ) +
         #     #scale_color_viridis(discrete=TRUE) +
-        #     scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+        #     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
         #
             ggtitle (paste0 (rs_name, " - Total input error vs. Over err frac of possible"    #Total output error"
                              )) +
@@ -1067,10 +1069,10 @@ gg_eucInTot_vs_fracPossibleOver_facetted_by_err_label <- function (rs_name,
       geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                 y = rs_over_opt_cost_err_frac_of_possible_overcost,
     #                            color = rsp_combined_err_label)) +
-                                color = rsp_base_wrap_str)) +
+                                color = id)) +
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
-    scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+    scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
 
     ggtitle (paste0 (rs_name, " - Total input error vs. Over err frac of possible by Error Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
@@ -1108,15 +1110,15 @@ gg_eucInTot_vs_fracPossibleUnder_all_on_1 <- function (rs_name,
             aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                         y = rs_under_opt_cost_err_frac_of_possible_undercost, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
-                                        color = rsp_base_wrap_str) +
+                                        color = id) +
             geom_point() +
-            scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+            scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
             stat_smooth(method = "lm", col = "green") +
     
         # ggplot (data = sorted_msa_tib) +
         #       geom_point (mapping = ) +
         #     #scale_color_viridis(discrete=TRUE) +
-        #     scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+        #     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
         #
             ggtitle (paste0 (rs_name, " - Total input error vs. Under err frac of possible"    #Total output error"
                              )) +
@@ -1142,10 +1144,10 @@ gg_eucInTot_vs_fracPossibleUnder_facetted_by_err_label <- function (rs_name,
       geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                 y = rs_under_opt_cost_err_frac_of_possible_undercost,
     #                            color = rsp_combined_err_label)) +
-                                color = rsp_base_wrap_str)) +
+                                color = id)) +
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
-    scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+    scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
 
     ggtitle (paste0 (rs_name, " - Total input error vs. Under err frac of possible by Error Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
