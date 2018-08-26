@@ -365,59 +365,9 @@ Not sure this needs a separate plot, since the 10:1, 5:1, and 1:1 lines show it 
 ####  Show all magnification values first (to show full range)
 
 ```{r}
-plot (working_df_Gurobi$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-      working_df_Gurobi$err_mag, 
-      main=paste0 ("Input error vs. Error Magnification\n", "Gurobi"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
 plot (working_df_Marxan_SA$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
       working_df_Marxan_SA$err_mag, 
       main=paste0 ("Input error vs. Error Magnification\n", "Marxan_SA"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-plot (working_df_Marxan_SA_SS$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-      working_df_Marxan_SA_SS$err_mag, 
-      main=paste0 ("Input error vs. Error Magnification\n", "Marxan_SA_SS"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-plot (working_df_ZL_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-      working_df_ZL_Backward$err_mag, 
-      main=paste0 ("Input error vs. Error Magnification\n", "ZL_Backward"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-#----------
-
-plot (working_df_ZL_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-      working_df_ZL_Forward$err_mag, 
-      main=paste0 ("Input error vs. Error Magnification\n", "ZL_Forward"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-plot (working_df_SR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-      working_df_SR_Forward$err_mag, 
-      main=paste0 ("Input error vs. Error Magnification\n", "SR_Forward"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-plot (working_df_SR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-      working_df_SR_Backward$err_mag, 
-      main=paste0 ("Input error vs. Error Magnification\n", "SR_Backward"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-plot (working_df_UR_Forward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-      working_df_UR_Forward$err_mag, 
-      main=paste0 ("Input error vs. Error Magnification\n", "UR_Forward"), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
-
-plot (working_df_UR_Backward$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-      working_df_UR_Backward$err_mag, 
-      main=paste0 ("Input error vs. Error Magnification\n", "UR_Backward"), 
       xlab="Total Euc Input Error Frac",
       ylab="Total Euc Output Error Frac")
 ```
