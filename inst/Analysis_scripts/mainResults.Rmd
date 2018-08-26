@@ -1364,15 +1364,133 @@ easyHard_Marxan_SA_not_huge_out_err_lm_fit =
 summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
-###  Graph measures help
+```{r}
+working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
+                          rsp_num_PUs + rsp_num_spp + 
+                          rsp_num_spp_per_PU + sppPUprod, 
+                      working_df_Marxan_SA)
 
-####  Without cheating
+summary (working_Marxan_SA_lm_fit)
+```
+
+```{r}
+# working_df_Marxan_SA %>% 
+#     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
+
+working_Marxan_SA_not_huge_out_err_lm_fit = 
+    lm (rsr_COR_euc_out_err_frac ~ rsp_num_PUs + rsp_num_spp + 
+                                   rsp_num_spp_per_PU + sppPUprod, 
+        working_Marxan_SA_not_huge_out_err_df)
+
+summary (working_Marxan_SA_not_huge_out_err_lm_fit)
+```
+
+##  Graph measures help
+
+###  Without cheating
 
 - Graph measures do broadly predict trend in output error, but still lots of variability. 
 - What about with problem size information too?
 
 ```{r}
 cat ("\n...  NOT cheating:  Fit prediction using graph measures, problem size  ...\n")
+
+                #  igraph package metrics
+            #                ig_rsp_UUID, 
+            
+                    # ig_top, 
+                    # ig_bottom, 
+                    # ig_num_edges_m, 
+                    # ig_ktop, 
+                    # ig_kbottom, 
+                    # ig_bidens, 
+                    # ig_lcctop, 
+                    # ig_lccbottom, 
+                    # ig_distop, 
+                    # ig_disbottom, 
+                    # ig_cctop, 
+                    # ig_ccbottom, 
+                    # ig_cclowdottop, 
+                    # ig_cclowdotbottom, 
+                    # ig_cctopdottop, 
+                    # ig_cctopdotbottom, 
+                    # ig_mean_bottom_bg_redundancy, 
+                    # ig_median_bottom_bg_redundancy, 
+                    # ig_mean_top_bg_redundancy, 
+                    # ig_median_top_bg_redundancy, 
+                    
+                            # ig_user_time, 
+                            # ig_system_time, 
+                            # ig_elapsed_time, 
+                            # ig_user_child_time, 
+                            # ig_sys_child_time, 
+                                    
+                #  bipartite package metrics
+            #                bip_rsp_UUID, 
+            
+                    # connectance, 
+```
+
+
+```{r}
+                    # ig_mean_bottom_bg_redundancy, 
+                    # ig_median_bottom_bg_redundancy, 
+                    # ig_mean_top_bg_redundancy, 
+                    # ig_median_top_bg_redundancy, 
+                    
+                            # ig_user_time, 
+                            # ig_system_time, 
+                            # ig_elapsed_time, 
+                            # ig_user_child_time, 
+                            # ig_sys_child_time, 
+                                    
+                #  bipartite package metrics
+            #                bip_rsp_UUID, 
+            
+                    # connectance, 
+easyHard_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance, 
+                      easyHard_df_Marxan_SA)
+
+summary (easyHard_Marxan_SA_lm_fit)
+```
+
+```{r}
+# easyHard_df_Marxan_SA %>% 
+#     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
+
+easyHard_Marxan_SA_not_huge_out_err_lm_fit = 
+    lm (rsr_COR_euc_out_err_frac ~ 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance, 
+        easyHard_Marxan_SA_not_huge_out_err_df)
+
+summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
+```
+
+```{r}
+working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance, 
+                      working_df_Marxan_SA)
+
+summary (working_Marxan_SA_lm_fit)
+```
+
+```{r}
+# working_df_Marxan_SA %>% 
+#     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
+
+working_Marxan_SA_not_huge_out_err_lm_fit = 
+    lm (rsr_COR_euc_out_err_frac ~ 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance, 
+        working_Marxan_SA_not_huge_out_err_df)
+
+summary (working_Marxan_SA_not_huge_out_err_lm_fit)
+```
+
 ```
 
 ####  With cheating
