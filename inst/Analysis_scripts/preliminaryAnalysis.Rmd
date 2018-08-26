@@ -594,7 +594,6 @@ correlations [21:25, 36]
 corrplot (correlations
 #          , order = "hclust"    #  This fails because of NAs or NaNs in the data...
           )
-
 ```
 
 #  Examine gurobi-specific data
