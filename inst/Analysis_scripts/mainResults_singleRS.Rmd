@@ -343,18 +343,6 @@ Also show all output error fractions values below 1
 
 ```{r ggplotOutputs}
 
-#-----  Gurobi
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Gurobi", easyHard_df_Gurobi, ref_y = 0)
-easyHard_df_Gurobi %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Gurobi", not_huge_out_err_df, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Gurobi", working_df_Gurobi, ref_y = 0)
-working_df_Gurobi %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Gurobi", not_huge_out_err_df, ref_y = 0)
-
 #-----  Marxan_SA
 
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", easyHard_df_Marxan_SA, ref_y = 0)
@@ -366,90 +354,6 @@ gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", working_df_Marxan_SA, ref_y = 0)
 working_df_Marxan_SA %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> working_Marxan_SA_not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", working_Marxan_SA_not_huge_out_err_df, ref_y = 0)
-
-#-----  Marxan_SA_SS
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA_SS", easyHard_df_Marxan_SA_SS, ref_y = 0)
-easyHard_df_Marxan_SA_SS %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA_SS", not_huge_out_err_df, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA_SS", working_df_Marxan_SA_SS, ref_y = 0)
-working_df_Marxan_SA_SS %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA_SS", not_huge_out_err_df, ref_y = 0)
-
-#-----  ZL_Backward
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Backward", easyHard_df_ZL_Backward, ref_y = 0)
-easyHard_df_ZL_Backward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Backward", not_huge_out_err_df, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Backward", working_df_ZL_Backward, ref_y = 0)
-working_df_ZL_Backward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Backward", not_huge_out_err_df, ref_y = 0)
-
-#-----  ZL_Forward
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Forward", easyHard_df_ZL_Forward, ref_y = 0)
-easyHard_df_ZL_Forward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Forward", not_huge_out_err_df, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Forward", working_df_ZL_Forward, ref_y = 0)
-working_df_ZL_Forward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("ZL_Forward", not_huge_out_err_df, ref_y = 0)
-
-#-----  SR_Forward
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Forward", easyHard_df_SR_Forward, ref_y = 0)
-easyHard_df_SR_Forward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Forward", not_huge_out_err_df, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Forward", working_df_SR_Forward, ref_y = 0)
-working_df_SR_Forward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Forward", not_huge_out_err_df, ref_y = 0)
-
-#-----  SR_Backward
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Backward", easyHard_df_SR_Backward, ref_y = 0)
-easyHard_df_SR_Backward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Backward", not_huge_out_err_df, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Backward", working_df_SR_Backward, ref_y = 0)
-working_df_SR_Backward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("SR_Backward", not_huge_out_err_df, ref_y = 0)
-
-#-----  UR_Forward
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Forward", easyHard_df_UR_Forward, ref_y = 0)
-easyHard_df_UR_Forward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Forward", not_huge_out_err_df, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Forward", working_df_UR_Forward, ref_y = 0)
-working_df_UR_Forward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Forward", not_huge_out_err_df, ref_y = 0)
-
-#-----  UR_Backward
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Backward", easyHard_df_UR_Backward, ref_y = 0)
-easyHard_df_UR_Backward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Backward", not_huge_out_err_df, ref_y = 0)
-
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Backward", working_df_UR_Backward, ref_y = 0)
-working_df_UR_Backward %>% 
-    filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("UR_Backward", not_huge_out_err_df, ref_y = 0)
 ```
 
 ##  Error magnification
