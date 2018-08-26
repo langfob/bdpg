@@ -1334,6 +1334,34 @@ correlations [21:25, 36]
 ## 
 ```{r}
 cat ("\n...  NOT cheating:  Fit prediction using problem size  ...\n")
+
+            # #  Input descriptors
+            #         rsp_num_PUs, 
+            #         rsp_num_spp, 
+            #         rsp_num_spp_per_PU, 
+            #         rsp_correct_solution_cost, 
+            # 
+            #         sppPUsum,
+            #         sppPUprod, 
+
+easyHard_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
+                          rsp_num_PUs + rsp_num_spp + 
+                          rsp_num_spp_per_PU + sppPUprod, 
+                      easyHard_df_Marxan_SA)
+
+summary (easyHard_Marxan_SA_lm_fit)
+```
+
+```{r}
+# easyHard_df_Marxan_SA %>% 
+#     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
+
+easyHard_Marxan_SA_not_huge_out_err_lm_fit = 
+    lm (rsr_COR_euc_out_err_frac ~ rsp_num_PUs + rsp_num_spp + 
+                                   rsp_num_spp_per_PU + sppPUprod, 
+        easyHard_Marxan_SA_not_huge_out_err_df)
+
+summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
 ###  Graph measures help
