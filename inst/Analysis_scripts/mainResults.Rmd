@@ -1491,6 +1491,73 @@ working_Marxan_SA_not_huge_out_err_lm_fit =
 summary (working_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
+####  Again, without cheating, graph measures + problem size data
+
+```{r}
+                    # ig_mean_bottom_bg_redundancy, 
+                    # ig_median_bottom_bg_redundancy, 
+                    # ig_mean_top_bg_redundancy, 
+                    # ig_median_top_bg_redundancy, 
+                    
+                            # ig_user_time, 
+                            # ig_system_time, 
+                            # ig_elapsed_time, 
+                            # ig_user_child_time, 
+                            # ig_sys_child_time, 
+                                    
+                #  bipartite package metrics
+            #                bip_rsp_UUID, 
+            
+                    # connectance, 
+easyHard_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance + 
+                              rsp_num_PUs + rsp_num_spp + 
+                                   rsp_num_spp_per_PU + sppPUprod, 
+                      easyHard_df_Marxan_SA)
+
+summary (easyHard_Marxan_SA_lm_fit)
+```
+
+```{r}
+# easyHard_df_Marxan_SA %>% 
+#     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
+
+easyHard_Marxan_SA_not_huge_out_err_lm_fit = 
+    lm (rsr_COR_euc_out_err_frac ~ 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance + 
+                              rsp_num_PUs + rsp_num_spp + 
+                                   rsp_num_spp_per_PU + sppPUprod, 
+        easyHard_Marxan_SA_not_huge_out_err_df)
+
+summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
+```
+
+```{r}
+working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance + 
+                              rsp_num_PUs + rsp_num_spp + 
+                                   rsp_num_spp_per_PU + sppPUprod, 
+                      working_df_Marxan_SA)
+
+summary (working_Marxan_SA_lm_fit)
+```
+
+```{r}
+# working_df_Marxan_SA %>% 
+#     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
+
+working_Marxan_SA_not_huge_out_err_lm_fit__using_graph_and_prob_size = 
+    lm (rsr_COR_euc_out_err_frac ~ 
+                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
+                          connectance + 
+                              rsp_num_PUs + rsp_num_spp + 
+                                   rsp_num_spp_per_PU + sppPUprod, 
+        working_Marxan_SA_not_huge_out_err_df)
+
+summary (working_Marxan_SA_not_huge_out_err_lm_fit__using_graph_and_prob_size)
 ```
 
 ####  With cheating
