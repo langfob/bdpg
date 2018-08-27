@@ -29,7 +29,7 @@ This is just a quick and dirty summary of what I think are the main results that
     #  out a message that includes some unicode that the normal latex engine 
     #  (used to produce the pdf) can't handle and it crashes with the following 
     #  message:
-    #       ! Package inputenc Error: Unicode character √ (U+221A)
+    #       ! Package inputenc Error: Unicode character [sqroot symbol goes here] (U+221A)
     #       (inputenc)                not set up for use with LaTeX.
     #  More information about this can be found at:
     #   - https://community.rstudio.com/t/tidyverse-1-2-1-knitting-to-pdf-issue/2880/4
