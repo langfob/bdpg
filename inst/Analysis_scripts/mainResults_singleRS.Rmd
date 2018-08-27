@@ -947,8 +947,8 @@ continuous_vars_working_df_Marxan_SA =
             #  Post-gen knowable problem descriptors
             
                 #  Species and PU counts
-                    rsp_app_num_spp, 
-                    rsp_app_num_PUs, 
+                        # rsp_app_num_spp, 
+                        # rsp_app_num_PUs, 
                     
                 #  igraph package metrics
     #                ig_rsp_UUID, 
@@ -984,8 +984,8 @@ continuous_vars_working_df_Marxan_SA =
     #                bip_rsp_UUID, 
             
                     connectance, 
-                    number.of.PUs, 
-                    number.of.Spp, 
+                            # number.of.PUs, 
+                            # number.of.Spp, 
                     
                     # bip_user_time, 
                     # bip_system_time, 
@@ -995,11 +995,11 @@ continuous_vars_working_df_Marxan_SA =
     
     
                 #  Possibly knowable realized input error values
-                    rsp_realized_median_abs_cost_err_frac, 
-                    rsp_realized_mean_abs_cost_err_frac, 
-                    rsp_realized_sd_abs_cost_err_frac, 
-                    rsp_FP_const_rate, 
-                    rsp_FN_const_rate, 
+                            # rsp_realized_median_abs_cost_err_frac, 
+                            # rsp_realized_mean_abs_cost_err_frac, 
+                            # rsp_realized_sd_abs_cost_err_frac, 
+                            # rsp_FP_const_rate, 
+                            # rsp_FN_const_rate, 
                     
                     rsp_realized_FP_rate, 
                     rsp_realized_FN_rate, 
@@ -1012,21 +1012,22 @@ continuous_vars_working_df_Marxan_SA =
                             
     
                 #  Results and their errors
-                    rs_solution_cost, 
-                    rs_solution_cost_err_frac, 
-                    abs_rs_solution_cost_err_frac, 
-                    
-                    rs_over_opt_cost_err_frac_of_possible_overcost, 
-                    rs_under_opt_cost_err_frac_of_possible_undercost, 
-                    
-                    rsr_COR_euc_out_err_frac, 
-                    
-                    rsr_APP_spp_rep_shortfall, 
-                    rsr_APP_solution_NUM_spp_covered, 
-                    rsr_APP_solution_FRAC_spp_covered, 
+                            # rs_solution_cost, 
+                            # rs_solution_cost_err_frac, 
+                            # abs_rs_solution_cost_err_frac, 
+                            # 
+                            # rs_over_opt_cost_err_frac_of_possible_overcost, 
+                            # rs_under_opt_cost_err_frac_of_possible_undercost, 
+                            # 
+                    rsr_COR_euc_out_err_frac,
+                            # 
+                            # rsr_APP_spp_rep_shortfall, 
+                            # rsr_APP_solution_NUM_spp_covered, 
+                            # rsr_APP_solution_FRAC_spp_covered, 
     
                     err_mag
     )
+)
 
 correlations = cor (continuous_vars_working_df_Marxan_SA)
 
@@ -1037,10 +1038,11 @@ corrplot (correlations, tl.cex=0.5
           )
 
 dim (correlations)
-correlations [21:25, 36]
+correlations [, 18:19]
 ```
 
-## 
+## NOT cheating:  Fit prediction using problem size 
+
 ```{r}
 cat ("\n...  NOT cheating:  Fit prediction using problem size  ...\n")
 
