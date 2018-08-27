@@ -1,0 +1,180 @@
+---
+title: "BDPG paper skeleton"
+author: "Bill Langford"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: '4'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#  Abstract
+
+#  Introduction
+
+##  Reserve selection commonly used but without any measured estimates of solution quality under uncertainty
+- Optimizer performance is only guaranteed under data without uncertainty.
+- But there's a lot of uncertainty in inputs
+- Some attempts to address this, but no generally test and predict performance under uncertainty
+- While reserve selection is intended as a decision aid rather than a decision-making device, the tacit assumption is 
+
+
+##  Can't predict how reliable specific RS is on specific problem   
+- Toy problems
+    - Little complexity
+    - No acknowledgement or consideration of variability in problem difficulty
+- Currently no work looking at mean performance and variability under uncertainty
+- Absolutely no work on predicting error given a *specific* problem
+
+## Prediction requires several things that are missing now
+- Lots of training data with known solutions and error characteristics
+    - Training data has to represent the range of problems in the universe to be generalized over
+    - Need to generate many problems of varying difficulty with known solutions
+        - Difficulties generating problems with known solutions
+            - Currently can't predictably vary problem difficulty
+            - Can run ILP like Gurobi but too slow for large numbers of problems
+- Measurable attributes of problems
+    - Currently only know # of spp and # of PUs
+    - Need other measures that *can* be known
+    - Might assume that input error amount/type are known, but ...
+
+##  Here, we describe a method for learning to predict the amount of output error
+- Generating problems of varying difficulty with known solutions
+- New input features for predicting problem difficulty
+
+#  Methods
+
+## Problem generation
+
+###  Xu base problem generation
+
+###  Wrapped problem generation
+
+####  Lognormal
+
+###  Input error generation
+
+####  Input error types
+
+####  Nominal vs. Realized errors
+
+## Problem measures
+
+###  Problem size
+
+##  Graph/Network complexity measures
+
+###  igraph package measures
+
+###  bipartite package measures
+
+##  Problem difficulty measures
+
+###  Output error measures
+
+####  Fractional error
+
+####  Error magnification
+
+###  Run-time measures
+
+##  Reserve selectors
+
+###  Primary reserve selectors
+
+###  Less important greedy selectors
+
+##  Prediction 
+
+###  Values to predict
+
+###  Prediction methods
+
+####  Linear models
+
+####  Regression trees
+
+####  Random forest
+
+##  Running and managing many experiments
+
+###  Number of experiments
+
+###  Tzar
+
+###  Nectar
+
+#  Results
+
+##  Input errors vs. output errors
+
+###  Errors have huge variability regardless of input error amount and type
+
+###  Optimization often amplifies input error
+
+####  Error amplification
+
+####  Error correction
+
+##  Error predictability
+
+###  Problem size is poor predictor
+
+###  Graph measures appear to predict well
+
+##  Discussion
+
+##  Caveats
+
+###  No generalization beyond this data set
+
+Only intended as starting point to test the code and explore general behavior.
+
+##  Lit review
+
+###  Future work
+
+####  Need broader random sample within Xu universe to generalize there
+
+Running more experiments now.
+
+####  Need more realistic distributions and problems (e.g., boundary lengths)
+
+Will ask Marxan community for input files since there are lots of them applied to lots of real problems and all use the same common input file format and it's easy to anonymize.
+
+#  Conclusion
+
+##  Contributions
+- Mapping of methods from theory of computation into reserve selection for problem generation accounting for
+    - varying problem difficulty
+    - known solutions
+    - scalable generation time
+- New method for wrapping Xu problems to make them more realistic for ecology
+- Mapping bipartite network attributes into problem difficulty prediction in reserve selection
+- Reasonably large first study with both easy and hard problems and tested predictions of error
+- Reproducible data and R package code
+
+##  Recommendations
+- Test and predict the robustness of methods to uncertainty and problem difficulty
+- Make optimization evaluation reflect true goals
+    - If we're going to declare reserve selectors to be decision-*support* tools rather than decision-*making* tools, then evaluation functions used in optimization should reflect what it means for a solution or solution set to be optimal as decision support.  The current phrasing of optimality measures tacitly assume optimality is how well invidual solutions meet the cost and representation targets specified for them, independent of other solutions and of input uncertainty.  Instead, they should explicitly state and measure what it would mean for a single solution or a set of solutions to be optimal as decision advice.  For example, they could include things like:  
+        - a measure of the *variety* in solutions produced (while still being decent individual solutions), or 
+        - the measured *robustness* of solutions to relative problem difficulty and to uncertainty (of all kinds or specific kinds and amounts).
+
+    
+
+
+#  References
+
+#  Supplementary Material
+
