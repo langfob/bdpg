@@ -171,7 +171,11 @@ Will ask Marxan community for input files since there are lots of them applied t
         - a measure of the *variety* in solutions produced (while still being decent individual solutions), or 
         - the measured *robustness* of solutions to relative problem difficulty and to uncertainty (of all kinds or specific kinds and amounts).
 
-    
+##  Software and data availability
+
+###  bdpg package on github
+
+###  data on ???
 
 
 #  References
