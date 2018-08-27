@@ -1059,6 +1059,7 @@ easyHard_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~
                       easyHard_df_Marxan_SA)
 
 summary (easyHard_Marxan_SA_lm_fit)
+plot (easyHard_Marxan_SA_lm_fit)
 ```
 
 ```{r}
@@ -1071,6 +1072,7 @@ easyHard_Marxan_SA_not_huge_out_err_lm_fit =
         easyHard_Marxan_SA_not_huge_out_err_df)
 
 summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
+plot (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
 ```{r}
@@ -1080,6 +1082,7 @@ working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~
                       working_df_Marxan_SA)
 
 summary (working_Marxan_SA_lm_fit)
+plot (working_Marxan_SA_lm_fit)
 ```
 
 ```{r}
@@ -1092,6 +1095,7 @@ working_Marxan_SA_not_huge_out_err_lm_fit =
         working_Marxan_SA_not_huge_out_err_df)
 
 summary (working_Marxan_SA_not_huge_out_err_lm_fit)
+plot (working_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
 ##  Graph measures help
@@ -1163,6 +1167,7 @@ easyHard_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~
                       easyHard_df_Marxan_SA)
 
 summary (easyHard_Marxan_SA_lm_fit)
+plot (easyHard_Marxan_SA_lm_fit)
 ```
 
 ```{r}
@@ -1176,6 +1181,7 @@ easyHard_Marxan_SA_not_huge_out_err_lm_fit =
         easyHard_Marxan_SA_not_huge_out_err_df)
 
 summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
+plot (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
 ```{r}
@@ -1185,6 +1191,7 @@ working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~
                       working_df_Marxan_SA)
 
 summary (working_Marxan_SA_lm_fit)
+plot (working_Marxan_SA_lm_fit)
 ```
 
 ```{r}
@@ -1198,6 +1205,7 @@ working_Marxan_SA_not_huge_out_err_lm_fit =
         working_Marxan_SA_not_huge_out_err_df)
 
 summary (working_Marxan_SA_not_huge_out_err_lm_fit)
+plot (working_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
 ####  Again, without cheating, graph measures + problem size data
@@ -1226,6 +1234,7 @@ easyHard_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~
                       easyHard_df_Marxan_SA)
 
 summary (easyHard_Marxan_SA_lm_fit)
+plot (easyHard_Marxan_SA_lm_fit)
 ```
 
 ```{r}
@@ -1241,6 +1250,7 @@ easyHard_Marxan_SA_not_huge_out_err_lm_fit =
         easyHard_Marxan_SA_not_huge_out_err_df)
 
 summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
+plot (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
 ```{r}
@@ -1252,6 +1262,7 @@ working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~
                       working_df_Marxan_SA)
 
 summary (working_Marxan_SA_lm_fit)
+plot (working_Marxan_SA_lm_fit)
 ```
 
 ```{r}
@@ -1267,6 +1278,7 @@ working_Marxan_SA_not_huge_out_err_lm_fit__using_graph_and_prob_size =
         working_Marxan_SA_not_huge_out_err_df)
 
 summary (working_Marxan_SA_not_huge_out_err_lm_fit__using_graph_and_prob_size)
+plot (working_Marxan_SA_not_huge_out_err_lm_fit__using_graph_and_prob_size)
 ```
 
 
@@ -1292,6 +1304,7 @@ easyHard_Marxan_SA_lm_fit =
                       easyHard_df_Marxan_SA)
 
 summary (easyHard_Marxan_SA_lm_fit)
+plot (easyHard_Marxan_SA_lm_fit)
 ```
 
 ```{r}
@@ -1308,6 +1321,7 @@ easyHard_Marxan_SA_not_huge_out_err_lm_fit =
         easyHard_Marxan_SA_not_huge_out_err_df)
 
 summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
+plot (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
 ```{r}
@@ -1320,6 +1334,7 @@ working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot_
                       working_df_Marxan_SA)
 
 summary (working_Marxan_SA_lm_fit)
+plot (working_Marxan_SA_lm_fit)
 ```
 
 ```{r}
@@ -1336,6 +1351,7 @@ working_Marxan_SA_not_huge_out_err_lm_fit =
         working_Marxan_SA_not_huge_out_err_df)
 
 summary (working_Marxan_SA_not_huge_out_err_lm_fit)
+plot (working_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
 
@@ -1360,6 +1376,7 @@ easyHard_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot
                       easyHard_df_Marxan_SA)
 
 summary (easyHard_Marxan_SA_lm_fit)
+plot (easyHard_Marxan_SA_lm_fit)
 ```
 
 ```{r}
@@ -1380,6 +1397,7 @@ easyHard_Marxan_SA_not_huge_out_err_lm_fit =
         easyHard_Marxan_SA_not_huge_out_err_df)
 
 summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
+plot (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
 ```{r}
@@ -1396,6 +1414,7 @@ working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot_
                       working_df_Marxan_SA)
 
 summary (working_Marxan_SA_lm_fit)
+plot (working_Marxan_SA_lm_fit)
 ```
 
 ```{r}
@@ -1416,6 +1435,7 @@ working_Marxan_SA_not_huge_out_err_lm_fit =
         working_Marxan_SA_not_huge_out_err_df)
 
 summary (working_Marxan_SA_not_huge_out_err_lm_fit)
+plot (working_Marxan_SA_not_huge_out_err_lm_fit)
 ```
 
 ## Look at residuals using `olsrr` package
