@@ -927,7 +927,7 @@ gg_eucInTot_vs_fracPossibleUnder_facetted_by_err_label ("Marxan_SA", working_Mar
 
 Given all this variability, can you predict how a particular reserve selector will perform on a specific problem?
 
-##  Compute correlations among all working data variables
+##  Compute correlations among primary working data variables
 
 ```{r computeAllCorrs}
 
