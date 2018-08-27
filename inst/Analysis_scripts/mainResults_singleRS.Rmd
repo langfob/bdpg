@@ -113,7 +113,7 @@ write_output_data <- function (df, rs_name, base_path, suffix)
 
 reduce_full_data_to_working_set <- function (full_df)
     {
-    working_df = select (full_df, 
+    working_df = select (full_df, #c(
                       
             #  Problem and reserve selector labels                     
                     id,     #  Easy or Hard
@@ -233,6 +233,7 @@ reduce_full_data_to_working_set <- function (full_df)
                     # RS_user_child_time, 
                     # RS_sys_child_time
                       )
+#    )
     
     #--------------------
     
@@ -936,7 +937,7 @@ library (corrplot)
     #  variables.
 
 continuous_vars_working_df_Marxan_SA = 
-    select (working_df_Marxan_SA, 
+    select (working_df_Marxan_SA, #c (
             
                     #  Input descriptors
                     rsp_num_PUs, 
@@ -1030,7 +1031,7 @@ continuous_vars_working_df_Marxan_SA =
     
                     err_mag
     )
-)
+#)
 
 correlations = cor (continuous_vars_working_df_Marxan_SA)
 
