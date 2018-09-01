@@ -375,7 +375,7 @@ plot (working_df_Marxan_SA$rsp_euc_realized_Ftot_and_cost_in_err_frac,
       working_df_Marxan_SA$err_mag, 
       main=paste0 ("Input error vs. Error Magnification\n", "Marxan_SA"), 
       xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
+      ylab="Err magnification")
 ```
 
 ####  Show all magnification values below 10
@@ -388,7 +388,7 @@ plot (working_df_Marxan_SA$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_n
       working_df_Marxan_SA$err_mag [idxs_of_not_huge_err_mags], 
       main=paste0 ("Input error vs. Error Magnification (<= 10)\n", "Marxan_SA"), 
       xlab="Total Euc Input Error Frac",
-      ylab="Total Euc Output Error Frac")
+      ylab="Err magnification")
 ```
 
 ##  Different types of input error produced different amounts of output error
