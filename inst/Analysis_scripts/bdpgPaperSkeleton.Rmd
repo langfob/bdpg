@@ -174,7 +174,7 @@ giving:
     - **r** = ...
     - **s** = ...
 
-We made one other modification to these values.  Since the solution size is always g \* (k - 1)  and the part of the landscape not in the solution is only g, some algebra shows that the fraction of the landscape included in the solution = 1 - 1/k.  So, as the size of the groups increases, so does the fraction of the landscape included in the solution.  These large fractions are not ecologically realistic as an amount to reserve, so we fixed k = 2 to get the smallest possible size (1/2) for the solution fraction of the landscape for these experiments.  In the future, we would not repeat this choice when the emphasis is on the wrapped problems since we can directly choose a realistic landscape fraction there.   
+We made one other modification to these values.  Since the solution size is always g \* (k - 1)  and the part of the landscape not in the solution is only g, some algebra shows that the fraction of the landscape included in the solution = 1 - 1/k.  So, as the size of the groups increases, so does the fraction of the landscape included in the solution.  These large fractions are not ecologically realistic as an amount to reserve, so we fixed k = 2 to get the smallest possible size (1/2) for the solution fraction of the landscape for these experiments.  In the future, we would not repeat this choice when the emphasis is on the wrapped problems since we can directly choose a realistic landscape fraction there and this choice of k moves us away from the predictive choices specified in [XuPaper].   
 
 ###  Wrapped problem generation
 
