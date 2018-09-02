@@ -56,7 +56,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 All data and R source code [cite R team] for this paper are open source and available under the [xyz] license. The R code is at [github].  The data is at [someplace].
 
-To our knowledge, this work is novel in 1) raising the question of the relative difficulty of different reserve selection problems, 2) mapping methods from the theory of computation for generating reserve selection problems with known difficulty and known solutions, 3) extending those methods to allow more ecologically realistic species distributions, 4) attempting to predict output error of specific reserve selectors on specific reserve selection problems, and 5) identifying bipartite network complexity measures useful in predicting reserve selection output error.  While this is only a first step in being able to predict the accuracy of particular reserve selectors on particular reserve selection problems in general, it is a significant step in showing its importance and possibility
+To our knowledge, this work is novel in 1) raising the question of the relative difficulty of different reserve selection problems, 2) mapping methods from the theory of computation for generating reserve selection problems with known difficulty and known solutions, 3) extending those methods to allow more ecologically realistic species distributions, 4) attempting to predict output error of specific reserve selectors on specific reserve selection problems, 5) identifying bipartite network complexity measures useful in predicting reserve selection output error, and 6) attempting to predict the amount of error in reserve selector output for specific given problems.  While this is only a first step in being able to predict the accuracy of particular reserve selectors on particular reserve selection problems in general, it is a significant step in showing its importance and possibility
 
 
 
@@ -78,12 +78,103 @@ All of this gives us the skeleton for generating non-trivial reserve selection p
 
 To answer these questions for specific problems, we need to identify descriptors for each problem that are knowable or measurable without knowing the correct solution.  To our knowledge, the only descriptors people might currently use to guess the likely performance of a reserve selector would be related to the number of species and/or the number of patches.  We show here that, in our experiments, these are virtually useless as predictors of problem difficulty.  Instead, we reframe the problem as a bipartite network of species and patches, analogous to networks used in studying plant-pollinator interactions.  We then compute network metrics related to the relative complexity of these networks and show their utility in our experiments for predicting output errors in representation and cost.  
 
+## Problem set generation
 
-## Problem generation
+In this section, we give an overview of the structure and number of experiments.  Details of each component are given in later sections.  For this paper, we generated a set of problems that we could use to do initial explorations of the data as well as test the code under a fairly large number of conditions.  Later papers will formally define universes of problems and sample from those universes to learn and attempt to generalize over them using the methods developed in this paper.  
+
+We developed problems with known correct answers in blocks of 20 problems, where each of the 20 is derived from a single base problem by adding specific complexities and uncertainties (described below).  We then repeated stochastic variants of the block generation procedure 100 times for each of 5 different input error levels and 2 different problem difficulty levels. This led to the generation of 20 * 100 * 5 * 2 = 20,000 different reserve selection problems.  For each problem, we then applied 9 different reserve selection methods.  
+
+Each block of 20 problems began with:
+
+- 1 Base problem generated using the XXXX method and no input error
+- 1 Wrapped problem derived from the Base problem and no input error
+
+These are referred to as the correct or COR problems.
+
+For each of those problems, we created 9 new variations using different combinations of input errors at a single specified rate:
+
+- Cost error only
+- Each of the 4 below with and without cost error for a total of 8 variants
+    - False negatives only
+    - False positives only
+    - Both false negative and false positive at the given error rate
+    - Both false negative and false positive with error counts matched
+    
+These are referred to as the apparent or APP problems since they are the data that would be apparent to the user in a real situation where the correct data is unknown.
+
+## Individual problem generation
+
+Generating individual problems relies on the idea of the *maximum independent set*.  In a network, an independent set is any set of nodes where none of those nodes are connected to any other nodes *in that set*.  The *maximum* independent set for a network is defined to be the largest such set possible for that network.  
 
 ###  XXXX base problem generation
 
-We generated 
+We generated each base problem by generating a Maximum Independent Set problem with a known optimal solution using the methods given in [XuPaper][XuWebsite].  We then mapped the network into a corresponding reserve selection problem and used the complement of the independent set solution as the optimal solution to the reserve selection problem.  The mapping is as follows:
+
+- Each node in the network corresponds to a unique patch.
+- Each link corresponds to a unique species.  
+    - That species is designated as occurring in each of the two patches connected by the link.
+- Every node/patch NOT in the independent set is included in the optimal solution to the reserve selection problem.
+
+####  Base network generation procedure
+
+The basic idea was to build a set of identical groups of nodes whose structure forced exactly one element of each group to be the independent set for that group.  That way, when we combined the groups, the maximum independent set was just the union of the individual independent nodes.  Finally, we added complexity to this network by adding extra links between the groups, excluding the independent nodes so that they are still the maximum independent set for the more complicated network.
+
+- Define a network that is a collection of **g** identically structured groups of nodes and links, where:
+    - Each group consists of **k** nodes where each node has a link to every other node in the group.
+- Arbitrarily choose one node in each group and designate each as the independent node for that group.
+- For a given number of rounds **r**: 
+    - Randomly choose a pair of groups
+    - For a given number of linkings **s**:
+        - Randomly choose a non-independent node in each of the chosen groups and link them.  (Multiple links between the same node pairs are allowed.)
+
+Note that:
+
+- The union of the group independent nodes is the maximum independent set.
+- The optimal reserve selection is the set of g * (k - 1) nodes not in the maximum independent set.
+
+####  Parameter choice
+
+The size and relative difficulty of the problem generated is determined by the choice of parameters in the procedure above.  We derived these parameters from 4 parameters in the XXXX method described in [XuPaper].  The parameters there are driven by theoretical considerations to control problem difficulty and are as follows:
+
+- **alpha** ...
+- **N** ...
+- **r** ...
+- **p** ...
+
+For the experiments in this paper, we chose two distinct sets of values that corresponded to what Xu et al had found to generate easy problems and hard problems:
+
+- EASY
+    - **alpha** = ...
+    - **N** = ...
+    - **r** = ...
+    - **p** = ...
+- HARD
+    - **alpha** = ...
+    - **N** = ...
+    - **r** = ...
+    - **p** = ...
+
+Those values were then converted into the values necessary for the procedure above:
+
+- **g** = ...
+- **k** = ...
+- **r** = ...
+- **s** = ...
+
+giving:
+
+- EASY
+    - **g** = ...
+    - **k** = ...
+    - **r** = ...
+    - **s** = ...
+- HARD
+    - **g** = ...
+    - **k** = ...
+    - **r** = ...
+    - **s** = ...
+
+We made one other modification to these values.  Since the solution size is always g \* (k - 1)  and the part of the landscape not in the solution is only g, some algebra shows that the fraction of the landscape included in the solution = 1 - 1/k.  So, as the size of the groups increases, so does the fraction of the landscape included in the solution.  These large fractions are not ecologically realistic as an amount to reserve, so we fixed k = 2 to get the smallest possible size (1/2) for the solution fraction of the landscape for these experiments.  In the future, we would not repeat this choice when the emphasis is on the wrapped problems since we can directly choose a realistic landscape fraction there.   
 
 ###  Wrapped problem generation
 
@@ -101,11 +192,13 @@ We generated
 
 ###  Graph/Network complexity measures
 
+For each problem, we converted the problem to a bipartite network and measured various network complexity metrics on the network to use in attempting to predict reserve selector output error.
+
 ####  igraph package measures
 
-####  bipartite package measures
-
 Latapy redundancy measures and the web page used as the basis for the R code 
+
+####  bipartite package measures
 
 ##  Problem difficulty measures
 
