@@ -178,7 +178,47 @@ We made one other modification to these values.  Since the solution size is alwa
 
 ###  Wrapped problem generation
 
-####  Lognormal
+The XXXX method gave us an ecologically unrealistic, completely flat species distribution with exactly 2 occurrences of every species as well as unrealistically large fractions of the landscape to reserve.  To generate more realistic problems, we developed a method for wrapping a base XXXX problem in a larger species distribution and landscape.  
+
+The basic idea for wrapping is to note that any given species abundance distribution will have one section of the curve where it specifies a certain number of species that occur on exactly two patches.  To generate a wrapped problem then, we need to: 
+
+- Search for a curve that has a section that specifies roughly the same number of species that occur on exactly 2 patches as we have in our base XXXX problem and then,
+- Add more species that correspond to the rest of the curve and 
+- While making sure that:
+    - each of the new species has at least one occurrence in the original optimal reserve selection and 
+    - none of the original problem's species occurs outside the original problem's set of patches.
+    
+We will generally also add more patches to the landscape as a way to control what fraction of the total landscape will be taken up by the optimal reserve selection.  
+
+####  Computing number of patches to add
+
+Given a desired solution fraction and an original XXXX problem:
+
+- (total landscape size) = (ind set size) + (soln size) + (num extra patches), and 
+- (soln frac) = (soln size) / (total landscape size) => 
+
+- (soln frac)((ind set size) + (soln size) + (num extra patches)) = (soln size) =>
+- (soln frac)(num extra patches) = (soln size) - ((soln frac)(ind set size) + (soln frac)(soln size)) =>
+- (num extra patches) = ((soln size) - ((soln frac)(ind set size) + (soln frac)(soln size))) / (soln frac) =>
+- (num extra patches) = (soln size)/(soln frac) - (ind set size) - (soln size) =>
+- **(num extra patches)** = (soln size)/(soln frac) - (XXXX prob size)
+
+#### Species abundance distribution
+
+To our knowledge, there are unfortunately no studies of what species distributions do occur in real reserve selection problems.  While species distributions in general are studied, the choice of which *subset* of the full distribution to include in a reserve selection problem is completely at the discretion of whoever is doing the selection.  Consequently, for our experiments we had to arbitrarily choose what species distribution to use as something more realistic than two occurrences for every species.  A lognormal is one commonly discussed model of species abundance distribution, so we chose that as an example abundance distribution for our experiments.  
+
+####  Spatial distribution of species
+
+Again, to our knowledge, there are no studies of the spatial co-occurence distributions of species in real reserve selection problems.  Given no reason to choose any particular spatial distribution, we randomly assigned new species occurrences to patches, with two caveats:
+
+- No occurrence could be added to any patch in the XXXX problem's independent set.  
+    - This is probably slightly stricter than necessary, but is guaranteed not to violate the original solution.
+- The first added occurrence for any new species had to go on a patch in the XXXX solution so that the original solution was guaranteed to also be a solution for the wrapped problem.
+    - Subsequent occurrence additions for new species were assigned to the extra patches set, though again, this is stricter than necessary.  
+
+####  No singleton species
+
+If any species occurs on just one patch, then that patch must be included in the solution to insure that all species are represented in the solution.  For this reason, we didn't add any species that occurred on just one patch.
 
 ###  Input error generation
 
