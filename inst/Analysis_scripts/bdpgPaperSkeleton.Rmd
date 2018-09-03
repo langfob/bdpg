@@ -71,7 +71,7 @@ One technique for generating difficult problems is "solution hiding".  There, a 
 
 Xu et al.[xxx] describes a solution-hiding algorithm for generating instances of a well-known problem called Satisfiability.  Importantly, they also provide theoretical predictions of the relative difficulty of each problem based on the constructor's parameters.  Elsewhere [xxx], Xu briefly describes a variation of the generator that is extremely simple and generates instances with known solutions for a difficult graph problem called Maximum Independent Set.  This is the first step in mapping from problem to problem to find a way to generate reserve selection problems of known difficulty with known solutions.  We give more details below, but the basic idea is that the solution of the Maximum Independent Set problem is known to be the complement of the solution to another graph problem called Minimum Vertex Cover.  Minimum Vertex Cover is in turn, a special case of the Minimum Set Cover problem, which brings us back to reserve selection.  Consequently, we have a very simple algorithm for generating reserve selection problems of varying difficulty and known solutions.
 
-There are two major drawbacks to problems generated with the XXXX method.  First, it only generates problems where *every* species in *every* problem occurs on exactly 2 patches.  Since this is ecologically unrealistic, we modified the XXXX method to allow the wrapping of nearly any species distribution around XXXX problems while preserving the known optimal solution.  The second ecologically unrealistic attribute of these problems is that there is no error or uncertainty in the occurrence and cost data.  Consequently, we built a series of simple models of false positive and false negative input errors and cost errors and applied them to the data.   
+There are two major drawbacks to problems generated with the XXXX method.  First, it only generates problems where *every* species in *every* problem occurs on *exactly* 2 patches.  Since this is ecologically unrealistic, we modified the XXXX method to allow the wrapping of nearly any species distribution around XXXX problems while preserving the known optimal solution.  The second ecologically unrealistic attribute of these problems is that there is no error or uncertainty in the occurrence and cost data.  Consequently, we built a series of simple models of false positive and false negative input errors and cost errors and applied them to the data.   
 
 All of this gives us the skeleton for generating non-trivial reserve selection problems with known solutions and approximately known difficulty so that we can properly evaluate the performance of different reserve selectors.  However, what we would really like to know is, given a particular reserve selection problem and reserve selector, can we predict how much error is likely in the specific solution to this specific problem?  By error, we mean two things: 1) How much does it fall short of its representation targets? and 2) How much more does it cost than the correct optimal solution?  
 
@@ -382,6 +382,8 @@ Unlike Zonation, both Simple Richness and Unprotected Richness are typically run
 ###  No generalization beyond this data set
 
 Only intended as starting point to test the code and explore general behavior.
+
+However, interesting to look at implications of trying to generalize to Hard problems from Easy data in this experiment, since that's the history of the field.
 
 ##  Lit review
 
