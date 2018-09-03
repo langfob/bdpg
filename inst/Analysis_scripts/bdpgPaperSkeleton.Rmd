@@ -310,7 +310,7 @@ We ran 9 different reserve selection methods on each problem.  The 4 most import
 
 **Gurobi**   
 
-We encoded each reserve selection problem as an integer linear programming problem and attempted to solve it using the  **Gurobi** linear programming program.  Unfortunately, many of the Hard problems were not solved after 12 hours of run time even though most of the Easy problems took less than a minute.  Because this was just an exploratory study and we were running thousands of problems, we decided to limit Gurobi to whatever solution it found within the first 10 minutes.  
+We encoded each reserve selection problem as an integer linear programming problem and attempted to solve it using the  Gurobi linear programming software  Unfortunately, many of the Hard problems were not solved after 12 hours of run time even though most of the Easy problems took less than a minute.  Because this was just an exploratory study and we were running thousands of problems, we decided to limit Gurobi to whatever solution it found within the first 10 minutes.  
 
 **Marxan**   
 
@@ -332,6 +332,10 @@ The evaluation function used was:
 **...  Zonation evaluation function  ...**
 
 ###  Less important greedy selectors
+
+We also encoded the well-known greedy selection heuristics "Simple Richness" and "Unprotected Richness".  Simple Richness values each patch simply by the number of species that occur on the patch.  Unprotected Richness values each patch by the number of species on the patch that have not yet had their target met in the current solution that is being incrementally built.  
+
+Unlike Zonation, both Simple Richness and Unprotected Richness are typically run in the forward direction.  That is, they build a solution by starting with nothing and then progressively adding the next best patch according to their evaluation function.  Because Zonation works so well using the reverse strategy of starting with everything and progressively removing things, we were curious about running backwards with other greedy heuristics.  Consequently, we encoded both a forward and a backward version of all 3 greedy methods, for a total of 6 greedy methods.  The source code is in the `bdpg` package R source files **... greedy files ...**.
 
 ##  Prediction 
 
