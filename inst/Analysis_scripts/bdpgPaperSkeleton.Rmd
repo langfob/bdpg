@@ -252,9 +252,9 @@ Because a perfect fit was very unlikely, we also defined:
 
 ###  Input error generation
 
-####  Input error types
+We generated 2 basic types of occurrence error (false positive and false negative) and 1 type of cost error (uniform random).  
 
-####  Nominal vs. Realized errors
+For **false negative errors** (FP), at each occurrence of a species on a patch, we drew a uniform random number in the interval [0,1] and if that value was less than or equal to the desired, nominal error rate, we changed the occurrence to an absence.  
 
 ## Problem measures
 
