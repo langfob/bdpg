@@ -193,14 +193,11 @@ We will generally also add more patches to the landscape as a way to control wha
 
 Given a desired solution fraction and an original XXXX problem:
 
-- (total landscape size) = (ind set size) + (soln size) + (num extra patches), and 
-- (soln frac) = (soln size) / (total landscape size) => 
-
-- (soln frac)((ind set size) + (soln size) + (num extra patches)) = (soln size) =>
-- (soln frac)(num extra patches) = (soln size) - ((soln frac)(ind set size) + (soln frac)(soln size)) =>
-- (num extra patches) = ((soln size) - ((soln frac)(ind set size) + (soln frac)(soln size))) / (soln frac) =>
-- (num extra patches) = (soln size)/(soln frac) - (ind set size) - (soln size) =>
-- **(num extra patches)** = (soln size)/(soln frac) - (XXXX prob size)
+```
+    (soln frac) = (soln size) / ((ind set size) + (soln size) + (num extra patches))
+        =>
+    (num extra patches) = (soln size)/(soln frac) - ((ind set size) + (soln size))
+```
 
 #### Species abundance distribution
 
@@ -218,6 +215,40 @@ Again, to our knowledge, there are no studies of the spatial co-occurence distri
 ####  No singleton species
 
 If any species occurs on just one patch, then that patch must be included in the solution to insure that all species are represented in the solution.  For this reason, we didn't add any species that occurred on just one patch.
+
+####  Fitting abundance distribution parameters
+
+[NOTE:  *Details of the fitting procedures are in gen_lognormal_overlay.R.*]
+
+Given a desired number of species to occur on exactly two patches and a type of distribution to fit (lognormal in this case), the next steps are:
+
+- identify the parameters of the distribution,
+- specify a search algorithm to use in fitting, and 
+- define an evaluation function to determine the degree of fit.
+
+**Parameters of lognormal**
+
+The lognormal function is:
+
+xxx = ... [*dnorm (log (abundance))*] ...
+
+So, the parameters that need to be found are **meanlog** and **sdlog**.
+
+**Search algorithm**
+
+Any effective search algorithm could be used.  Since we were programming in R, we used R's `optim` function.  This function requires an initial value and an evaluation function.  We used zzz as the initial value.
+
+**Evaluation function**
+
+We defined the evaluation function a) to reward closeness of the lognormal's count of species on exactly two patches and b) to penalize having large numbers of species and large numbers of occurrences.  
+
+mmm = nnn
+
+Because a perfect fit was very unlikely, we also defined: 
+
+- a tolerance allowed for the fit = xxxx 
+- a bound on the number of search iterations = yyyy
+- an "imperfect wrap" logical flag indicating whether to accept the best fit found even if it was not within the tolerance.
 
 ###  Input error generation
 
