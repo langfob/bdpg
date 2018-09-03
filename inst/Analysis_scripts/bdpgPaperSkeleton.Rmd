@@ -256,21 +256,21 @@ We generated 2 basic types of occurrence error (false positive and false negativ
 
 For **false negative errors** (FP), at each occurrence of a species on a patch, we drew a uniform random number in the interval [0,1] and if that value was less than or equal to the desired, nominal error rate, we changed the occurrence to an absence.  
 
-## Problem measures
+For **false positive errors** (FN), we considered all absences of all species on all patches and used the same process as above to flip particular absences to presences.
 
-###  Problem size
+For **cost errors**, we took the true cost of each patch to be 1 and then applied the given error rate as a fraction of 1 to create an interval of [1-rate,1+rate].  We then drew a uniform random number in that interval to be the apparent cost.  We chose this error model because we are unaware of any research specifying a better model to use and we wanted to see what effects *some* kind of cost error might have.
 
-###  Graph/Network complexity measures
+We also generated several combinations of the errors above.  First, we generated a combined error false positives and false negatives.  Second, we generated a "matched" form of that error to take into account the fact that the fraction of occurrences is generally far smaller than the fraction of absences.  In the matched case, we generated the same *number* of false positives as false negatives rather than the same rate.  Finally, we combined cost error with all 4 of the different sole and combined occurrence errors.  As a result, each correct problem had 9 different error models available to it.
 
-For each problem, we converted the problem to a bipartite network and measured various network complexity metrics on the network to use in attempting to predict reserve selector output error.
+Note that the *realized* error rates in the resulting apparent data generally did not exactly match the *nominal* error rate because of the generation method. We chose this realized rate rather than selecting for the exact nominal rate so that we would get a bit more variation in the error rates tested.  Input error rates reported in the Results are the realized values.
 
-####  igraph package measures
+## Problem attributes
 
-Latapy redundancy measures and the web page used as the basis for the R code 
+For each problem, we recorded 2 classes of problem attributes that can be measured by the user in hopes of predicting the relative difficulty and/or error rate for the reserve selector: problem size and bipartite network complexity.  Problem size is simply the number of species and the number of patches.  Measuring network complexity is more involved. For each problem, we converted the problem to a bipartite network and computed a number of network metrics using the R packages `igraph` and `bipartite`.  
 
-####  bipartite package measures
+####  `bipartite` package measures
 
-##  Problem difficulty measures
+For these first exploratory tests, the only measure we computed with the `bipartite` package was *connectance*, however the R package we produced has options to compute many more `bipartite` metrics.
 
 ###  Output error measures
 
