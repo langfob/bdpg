@@ -324,7 +324,7 @@ Latapy redundancy measures and the web page used as the basis for the R code
 
 ###  Graph measures appear to predict well
 
-##  Discussion
+#  Discussion
 
 ##  Caveats
 
@@ -365,10 +365,7 @@ Will ask Marxan community for input files since there are lots of them applied t
 
 #  Software and data availability and reproducibility
 
-##  R bdpg package on github
-
-##  data on ???
-
+All data and R source code [cite R team] for this paper are open source and available under the [xyz] license. The R code is at [github].  The data is at [someplace].
 
 #  References
 
