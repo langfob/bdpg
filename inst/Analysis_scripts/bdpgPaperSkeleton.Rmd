@@ -272,13 +272,35 @@ For each problem, we recorded 2 classes of problem attributes that can be measur
 
 For these first exploratory tests, the only measure we computed with the `bipartite` package was *connectance*, however the R package we produced has options to compute many more `bipartite` metrics.
 
-###  Output error measures
+**...  definition of connectance  ...**
 
-####  Fractional error
+####  `igraph` package measures
+
+The most important network metrics we computed were redundancy measures given by Latapy et al. in [Latapy].  **We chose these measures because ...**
+
+**...  definition of redundancy measures  ...**
+
+These measures aren't available in either the `igraph` or `bipartite` packages in R.  The measures are complicated to compute and we relied on an R  implementation on a web page by XXX [xxx].  That implementation had a few errors when we tried to run it, so we modified that code to allow it to run.  The final R code is given in the xxxxx.R source file in the R package built for this paper, `bdpg` [bdpg]. 
+
+##  Problem difficulty and performance measures
+
+We computed 3 different kinds of measures reflecting the relative difficulty of problems and the performance of reserve selectors on them: fractional error in representation and cost, magnification of input error, and reserve selector run time.  
+
+####  Fractional euclidean error
+
+We measured output error as a Euclidean combination of fractional representation shortfall and fractional cost overrun with respect to the optimal value on the correct data:
+
+fracEucError = sqrt (((numSpp - numSppMeetingTarget)/numSpp)^2 + ((cost - optCost)/optCost)^2)
 
 ####  Error magnification
 
+We measured error magnification as the ratio of fractional Euclidean output error to realized input error:
+
+errMag = fracEucError / realizedInputError
+
 ###  Run-time measures
+
+We measured the run time for each reserve selector using R's `sys.time` function.
 
 ##  Reserve selectors
 
