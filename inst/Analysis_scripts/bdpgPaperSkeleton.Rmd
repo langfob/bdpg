@@ -25,6 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ##  Reserve selection commonly used but without any measured estimates of solution quality under uncertainty
 - Optimizer performance is only guaranteed under data without uncertainty.
 - But there's a lot of uncertainty in inputs
+- Also, variation in problem difficulty
 - Some attempts to address this, but no generally test and predict performance under uncertainty
 - While reserve selection is intended as a decision aid rather than a decision-making device, the tacit assumption is that the solutions offered have at least reasonable quality, but this has never been evaluated.
 
@@ -53,8 +54,6 @@ knitr::opts_chunk$set(echo = TRUE)
 - New input features for predicting problem difficulty
 
 
-
-All data and R source code [cite R team] for this paper are open source and available under the [xyz] license. The R code is at [github].  The data is at [someplace].
 
 To our knowledge, this work is novel in 1) raising the question of the relative difficulty of different reserve selection problems, 2) mapping methods from the theory of computation for generating reserve selection problems with known difficulty and known solutions, 3) extending those methods to allow more ecologically realistic species distributions, 4) attempting to predict output error of specific reserve selectors on specific reserve selection problems, 5) identifying bipartite network complexity measures useful in predicting reserve selection output error, and 6) attempting to predict the amount of error in reserve selector output for specific given problems.  While this is only a first step in being able to predict the accuracy of particular reserve selectors on particular reserve selection problems in general, it is a significant step in showing its importance and possibility
 
