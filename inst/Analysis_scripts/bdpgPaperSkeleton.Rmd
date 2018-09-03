@@ -282,7 +282,32 @@ Latapy redundancy measures and the web page used as the basis for the R code
 
 ##  Reserve selectors
 
+We ran 9 different reserve selection methods on each problem.  The 4 most important ones were gurobi, marxan, marxan summed solution, and a zonation-like greedy reserve selector.  We also ran 5 other simple greedy reserve selectors for comparison and to see whether any of them behaved better under uncertainty than they did on correct data.  
+
 ###  Primary reserve selectors
+
+**Gurobi**   
+
+We encoded each reserve selection problem as an integer linear programming problem and attempted to solve it using the  **Gurobi** linear programming program.  Unfortunately, many of the Hard problems were not solved after 12 hours of run time even though most of the Easy problems took less than a minute.  Because this was just an exploratory study and we were running thousands of problems, we decided to limit Gurobi to whatever solution it found within the first 10 minutes.  
+
+**Marxan**   
+
+We ran Marxan on each problem using default settings and the following variable settings:
+
+- xxx = yyy
+- ...
+
+**Marxan summed solution**
+
+When regular Marxan runs, it also outputs a ranking of each patch according to the number of solutions the patch occurred in.  We created a solution from this ranked output by adding patches to the solution in descending order until all species were represented.
+
+**Zonation-like backwards**   
+
+Zonation is generally used in situations where the inputs are pixels rather than patches, but the evaluation function it uses in its greedy search is effective and is interesting to consider in terms of its performance under uncertainty.  We wrote an R function using that encodes Zonation's evaluation function and applied it inside a greedy search algorithm, starting from a solution that includes all patches and progressively removing the least valuable patch (according to the evaluation function) at each step.  Zonation normally starts at the outside of a region and works inward, but the problems in this study have no notion of spatial arrangement, so that aspect of Zonation is ignored.  For this reason, we refer to this method as "Zonation-like".  We also call include "backwards" in the name because it doesn't work like normal greedy algorithms that start from nothing and progressively add the next "best" element.  
+
+The evaluation function used was:
+
+**...  Zonation evaluation function  ...**
 
 ###  Less important greedy selectors
 
