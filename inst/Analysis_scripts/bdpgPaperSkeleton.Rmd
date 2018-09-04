@@ -69,7 +69,7 @@ The simple form of reserve selection is related to a problem known in theory of 
 
 One technique for generating difficult problems is "solution hiding".  There, a problem is generated in a way that has an obvious solution, then, obfuscating elements are added to the problem in a way that they don't change the solution but they make searching for it difficult.  As a simple analogy, suppose there was a 10,000 hectare forest of nothing but pine trees, except for three rose bushes and the "problem" was to find the three bushes.  If the problem generator started with an empty landscape, planted the three bushes at locations they knew and then planted the pine forest afterwards, the generator would easily know the solution but make it difficult for the searcher to find.  
 
-Xu et al.[xxx] describes a solution-hiding algorithm for generating instances of a well-known problem called Satisfiability.  Importantly, they also provide theoretical predictions of the relative difficulty of each problem based on the constructor's parameters.  Elsewhere [xxx], Xu briefly describes a variation of the generator that is extremely simple and generates instances with known solutions for a difficult graph problem called Maximum Independent Set.  This is the first step in mapping from problem to problem to find a way to generate reserve selection problems of known difficulty with known solutions.  We give more details below, but the basic idea is that the solution of the Maximum Independent Set problem is known to be the complement of the solution to another graph problem called Minimum Vertex Cover.  Minimum Vertex Cover is in turn, a special case of the Minimum Set Cover problem, which brings us back to reserve selection.  Consequently, we have a very simple algorithm for generating reserve selection problems of varying difficulty and known solutions.
+Xu et al.[XuPaper] describes a solution-hiding algorithm for generating instances of a well-known problem called Satisfiability.  Importantly, they also provide theoretical predictions of the relative difficulty of each problem based on the constructor's parameters.  Elsewhere [XuWebsite], Xu briefly describes a variation of the generator that is extremely simple and generates instances with known solutions for a difficult graph problem called Maximum Independent Set.  This is the first step in mapping from problem to problem to find a way to generate reserve selection problems of known difficulty with known solutions.  We give more details below, but the basic idea is that the solution of the Maximum Independent Set problem is known to be the complement of the solution to another graph problem called Minimum Vertex Cover.  Minimum Vertex Cover is in turn, a special case of the Minimum Set Cover problem, which brings us back to reserve selection.  Consequently, we have a very simple algorithm for generating reserve selection problems of varying difficulty and known solutions.
 
 There are two major drawbacks to problems generated with the XXXX method.  First, it only generates problems where *every* species in *every* problem occurs on *exactly* 2 patches.  Since this is ecologically unrealistic, we modified the XXXX method to allow the wrapping of nearly any species distribution around XXXX problems while preserving the known optimal solution.  The second ecologically unrealistic attribute of these problems is that there is no error or uncertainty in the occurrence and cost data.  Consequently, we built a series of simple models of false positive and false negative input errors and cost errors and applied them to the data.   
 
@@ -266,7 +266,7 @@ Note that the *realized* error rates in the resulting apparent data generally di
 
 ## Problem attributes
 
-For each problem, we recorded 2 classes of problem attributes that can be measured by the user in hopes of predicting the relative difficulty and/or error rate for the reserve selector: problem size and bipartite network complexity.  Problem size is simply the number of species and the number of patches.  Measuring network complexity is more involved. For each problem, we converted the problem to a bipartite network and computed a number of network metrics using the R packages `igraph` and `bipartite`.  
+For each problem, we recorded 2 classes of problem attributes that can be measured by the user in hopes of predicting the relative difficulty and/or error rate for the reserve selector: problem size and bipartite network complexity.  Problem size is simply the number of species and the number of patches.  Measuring network complexity is more involved. For each problem, we converted the problem to a bipartite network and computed a number of network metrics using the R packages `igraph` and `bipartite` [igraphPackage][bipartitePackage].  
 
 ####  `bipartite` package measures
 
@@ -276,11 +276,11 @@ For these first exploratory tests, the only measure we computed with the `bipart
 
 ####  `igraph` package measures
 
-The most important network metrics we computed were redundancy measures given by Latapy et al. in [Latapy].  **We chose these measures because ...**
+The most important network metrics we computed were redundancy measures given by Latapy et al. in [LatapyPaper].  **We chose these measures because ...**
 
 **...  definition of redundancy measures  ...**
 
-These measures aren't available in either the `igraph` or `bipartite` packages in R.  The measures are complicated to compute and we relied on an R  implementation on a web page by XXX [xxx].  That implementation had a few errors when we tried to run it, so we modified that code to allow it to run.  The final R code is given in the xxxxx.R source file in the R package built for this paper, `bdpg` [bdpg]. 
+These measures aren't available in either the `igraph` or `bipartite` packages in R.  The measures are complicated to compute and we relied on an R  implementation on a web page by XXX [LatapyCodeWebsite].  That implementation had a few errors when we tried to run it, so we modified that code to allow it to run.  The final R code is given in the xxxxx.R source file in the R package built for this paper, `bdpg` [bdpgGithub]. 
 
 ##  Problem difficulty and performance measures
 
@@ -359,7 +359,7 @@ Unlike Zonation, both Simple Richness and Unprotected Richness are typically run
 
 #  Results
 
-##  Input errors vs. output errors
+##  Problem difficulty - Input errors vs. output errors
 
 ###  Errors have huge variability regardless of input error amount and type
 
@@ -368,6 +368,16 @@ Unlike Zonation, both Simple Richness and Unprotected Richness are typically run
 ####  Error amplification
 
 ####  Error correction
+
+###  Run times?
+
+**[Do we care about this in this paper?]**
+
+## Robustness to uncertainty
+
+None of the reserve selectors tested were particularly robust to input uncertainty.  Marxan's summed solution is an attempt to increase the robustness of Marxan to input errors but it was only a little better than Gurobi and Marxan itself.  The Zonation-like method also slightly outperformed Gurobi and Marxan in terms of robustness but was roughly equivalent to Marxan's summed solution.  All other greedy selectors performed poorly.   
+
+**[although didn't one of the richness ones do better on hard problems?  can't remember...]**
 
 ##  Error predictability
 
@@ -418,9 +428,25 @@ Will ask Marxan community for input files since there are lots of them applied t
 
 #  Software and data availability and reproducibility
 
-All data and R source code [cite R team] for this paper are open source and available under the [xyz] license. The R code is at [github].  The data is at [someplace].
+All data and R source code [Rdevelopers] for this paper are open source and available under the [xyz] license. The R code is at [bdpgGithub].  The data is at [someplace].
 
 #  References
+
+[bdpgGithub]
+
+[bipartitePackage]
+
+[igraphPackage]
+
+[LatapyCodeWebsite]
+
+[LatapyPaper]
+
+[Rdevelopers]
+
+[XuPaper]
+
+[XuWebsite]
 
 #  Supplementary Material
 
