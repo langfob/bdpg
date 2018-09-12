@@ -19,7 +19,7 @@ output:
 
 Need to fix:
 
-- Many (all?) plots of spp rep shortfall are showing APP shortfall, not COR shortfall
+- Missing plots of rep shortfall vs FRAC_spp_covered
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)    #, message=FALSE)
@@ -84,13 +84,13 @@ suffix = ".combined_results.csv"
 
 -----   
 
-#  Define functions
+#  Load data
 
 -----   
 
 ##  Define functions to read and write input and output data
 
-```{r loadInputData}
+```{r loadInputData, include=FALSE}
 #===============================================================================
 
 load_input_data <- function (rs_name, base_path, suffix)
@@ -264,6 +264,43 @@ reduce_full_data_to_working_set <- function (full_df)
     return (working_df)
     }
 
+```
+
+##  Load combined Easy/Hard input data
+
+```{r loadCombinedEasyAndHardInputData}
+
+    #  Combined Easy and Hard (all Easy error levels, all Hard except 15%)
+base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/cln_easyHard."
+
+#----------
+
+easyHard_df_Marxan_SA    = load_input_data ("Marxan_SA", base_path, suffix)
+```
+
+## Reduce the full data set down to a working set 
+
+Reduce the data set to just APP WRAP problems and examples with no input cost error.
+
+```{r reduceFullDataToWorkingSet}
+working_df_Marxan_SA    = reduce_full_data_to_working_set (easyHard_df_Marxan_SA)
+```
+
+#  Plot the results
+
+## Input error vs. output error
+
+- Generated hard problems were much harder than generated easy problems, as predicted
+- There is lots of variation in problem difficulty at every level of input error
+- Solution quality under uncertainty is not good, regardless of optimizer
+- Not much difference in reserve selectors  
+    - Smoothers were slightly better in median (ZL and SA_SS)
+- Possible difference for Simple Richness on difficult problem?
+- Also need to add plots for all output error fractions values below 1.
+
+### Define plotting functions for input error vs. output error 
+
+```{r include=FALSE}
 #===============================================================================
 
 gg_eucInTot_vs_eucOutTot_all_on_1 <- function (rs_name,
@@ -370,56 +407,45 @@ gg_eucInTot_vs_eucOutTot_facetted_by_err_label <- function (rs_name,
     }
 ```
 
-#  Load combined Easy/Hard input data
+### Plot the input error vs output error 
 
-```{r loadCombinedEasyAndHardInputData}
+#### Full data set
 
-    #  Combined Easy and Hard (all Easy error levels, all Hard except 15%)
-base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/cln_easyHard."
-
-#----------
-
-easyHard_df_Marxan_SA    = load_input_data ("Marxan_SA", base_path, suffix)
-```
-
-# Reduce the full data set down to a working set
-
-```{r reduceFullDataToWorkingSet}
-working_df_Marxan_SA    = reduce_full_data_to_working_set (easyHard_df_Marxan_SA)
-```
-##  Input error vs. output error
-
-- Generated hard problems were much harder than generated easy problems, as predicted
-- There is lots of variation in problem difficulty at every level of input error
-- Solution quality under uncertainty is not good, regardless of optimizer
-- Not much difference in reserve selectors  
-    - Smoothers were slightly better in median (ZL and SA_SS)
-- Possible difference for Simple Richness on difficult problem?
-
-####  ggplot version of plots 
-
-Also show all output error fractions values below 1
-
-```{r ggplotOutputs}
-
-#-----  Marxan_SA
+```{r}
 
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", easyHard_df_Marxan_SA, ref_y = 0
-                                   , shape_type = 1, alpha_level = 1
+#                                   , shape_type = 1, alpha_level = 1
                                    )
+```
+
+#### Full data set, just values that are not huge errors
+
+```{r}
 easyHard_df_Marxan_SA %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> easyHard_Marxan_SA_not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", easyHard_Marxan_SA_not_huge_out_err_df, ref_y = 0
 , shape_type = ".", alpha_level = 1
 )
 
+```
+
+#### Working data set
+
+Plot the same results for working data set that only includes APP WRAP problems that have no input cost error.  Note that this changes the scaling and the fit lines.
+
+```{r}
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", working_df_Marxan_SA, ref_y = 0
-, shape_type = 1, alpha_level = 1/20
+#, shape_type = 1, alpha_level = 1/20
                                    )
+```
+
+#### Working data set, just values that are not huge errors
+
+```{r}
 working_df_Marxan_SA %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> working_Marxan_SA_not_huge_out_err_df
 gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", working_Marxan_SA_not_huge_out_err_df, ref_y = 0
-, shape_type = ".", alpha_level = 1/20
+#, shape_type = ".", alpha_level = 1/20
                                    )
 ```
 
@@ -499,7 +525,7 @@ I've tracked the overcost and undercost and the underrepresentation (shortfall).
 - rsr_COR_spp_rep_shortfall 
 - rsr_COR_solution_FRAC_spp_covered 
 
-```{r funcsGgplotSignedErrFracsAndRepShortfalls}
+```{r funcsGgplotSignedErrFracsAndRepShortfalls, include=FALSE}
 #===============================================================================
 
 gg_eucInTot_vs_signedCostErrFrac_all_on_1 <- function (rs_name,
@@ -702,7 +728,7 @@ gg_eucInTot_vs_sppRepShortfall_facetted_by_err_label ("Marxan_SA", working_Marxa
 
 ####  Spp rep shortfall vs. Signed cost error
 
-```{r funcsGgplotRepShortfallVsSignedErrFracs}
+```{r funcsGgplotRepShortfallVsSignedErrFracs, include=FALSE}
 #===============================================================================
 
 gg_sppRepShortfall_vs_signedCostErrFrac_all_on_1 <- function (rs_name,
@@ -859,7 +885,7 @@ I've also tracked the _fraction of possible_ overcost and undercost as a way of 
 - rs_over_opt_cost_err_frac_of_possible_overcost 
 - rs_under_opt_cost_err_frac_of_possible_undercost 
 
-```{r funcsForGgplotPossibleErrorFracs}
+```{r funcsForGgplotPossibleErrorFracs, include=FALSE}
 #===============================================================================
 
 gg_eucInTot_vs_fracPossibleOver_all_on_1 <- function (rs_name,
