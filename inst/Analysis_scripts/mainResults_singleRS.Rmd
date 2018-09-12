@@ -225,13 +225,13 @@ reduce_full_data_to_working_set <- function (full_df)
                     
                     rsr_COR_euc_out_err_frac, 
                     
-                            # rsr_AxPP_spp_rep_shortfall, 
-                            # rsr_AxPP_solution_NUM_spp_covered, 
-                            # rsr_AxPP_solution_FRAC_spp_covered, 
+                            # rsr_APP_spp_rep_shortfall, 
+                            # rsr_APP_solution_NUM_spp_covered, 
+                            # rsr_APP_solution_FRAC_spp_covered, 
 
-                    rsr_APP_spp_rep_shortfall, 
-                    rsr_APP_solution_NUM_spp_covered, 
-                    rsr_APP_solution_FRAC_spp_covered, 
+                    rsr_COR_spp_rep_shortfall, 
+                    rsr_COR_solution_NUM_spp_covered, 
+                    rsr_COR_solution_FRAC_spp_covered, 
 
     
     
@@ -496,8 +496,8 @@ I've tracked the overcost and undercost and the underrepresentation (shortfall).
 - rs_solution_cost_err_frac 
 - abs_rs_solution_cost_err_frac 
 
-- rsr_APP_spp_rep_shortfall 
-- rsr_APP_solution_FRAC_spp_covered 
+- rsr_COR_spp_rep_shortfall 
+- rsr_COR_solution_FRAC_spp_covered 
 
 ```{r funcsGgplotSignedErrFracsAndRepShortfalls}
 #===============================================================================
@@ -586,7 +586,7 @@ gg_eucInTot_vs_sppRepShortfall_all_on_1 <- function (rs_name,
     {
     ggplot (data = sorted_msa_tib) +
             aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
-                                        y = rsr_APP_spp_rep_shortfall, #rsr_COR_euc_out_err_frac,
+                                        y = rsr_COR_spp_rep_shortfall, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
 #                                         color = id
 #         ,
@@ -629,7 +629,7 @@ gg_eucInTot_vs_sppRepShortfall_facetted_by_err_label <- function (rs_name,
     {
     ggplot (data = sorted_msa_tib) +
       geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
-                                y = rsr_APP_spp_rep_shortfall,
+                                y = rsr_COR_spp_rep_shortfall,
     #                            color = rsp_combined_err_label)) +
     #                             color = id
     # , 
@@ -683,7 +683,7 @@ gg_eucInTot_vs_signedCostErrFrac_facetted_by_err_label ("Marxan_SA", working_df_
 gg_eucInTot_vs_signedCostErrFrac_all_on_1 ("Marxan_SA", working_Marxan_SA_not_huge_out_err_df, ref_y = 0)
 gg_eucInTot_vs_signedCostErrFrac_facetted_by_err_label ("Marxan_SA", working_Marxan_SA_not_huge_out_err_df, ref_y = 0)
 
-#--  rsr_APP_spp_rep_shortfall 
+#--  rsr_COR_spp_rep_shortfall 
 
 gg_eucInTot_vs_sppRepShortfall_all_on_1 ("Marxan_SA", easyHard_df_Marxan_SA, ref_y = 0)
 gg_eucInTot_vs_sppRepShortfall_facetted_by_err_label ("Marxan_SA", easyHard_df_Marxan_SA, ref_y = 0)
@@ -710,7 +710,7 @@ gg_sppRepShortfall_vs_signedCostErrFrac_all_on_1 <- function (rs_name,
                                                ref_y = 0)
     {
     ggplot (data = sorted_msa_tib) +
-            aes(x = rsr_APP_spp_rep_shortfall,
+            aes(x = rsr_COR_spp_rep_shortfall,
                                         y = rs_solution_cost_err_frac, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
 #                                         color = id
@@ -763,7 +763,7 @@ gg_sppRepShortfall_vs_signedCostErrFrac_facetted_by_err_label <- function (rs_na
                                                             ref_y = 0)
     {
     ggplot (data = sorted_msa_tib) +
-      geom_point (mapping = aes(x = rsr_APP_spp_rep_shortfall,
+      geom_point (mapping = aes(x = rsr_COR_spp_rep_shortfall,
                                 y = rs_solution_cost_err_frac,
     #                            color = rsp_combined_err_label)) +
     #                             color = id
@@ -820,7 +820,7 @@ gg_sppRepShortfall_vs_signedCostErrFrac_facetted_by_err_label ("Marxan_SA", work
 gg_sppRepShortfall_vs_signedCostErrFrac_all_on_1 ("Marxan_SA", working_Marxan_SA_not_huge_out_err_df, ref_y = 0)
 gg_sppRepShortfall_vs_signedCostErrFrac_facetted_by_err_label ("Marxan_SA", working_Marxan_SA_not_huge_out_err_df, ref_y = 0)
 
-#--  rsr_APP_spp_rep_shortfall 
+#--  rsr_COR_spp_rep_shortfall 
 
 gg_eucInTot_vs_sppRepShortfall_all_on_1 ("Marxan_SA", easyHard_df_Marxan_SA, ref_y = 0)
 gg_eucInTot_vs_sppRepShortfall_facetted_by_err_label ("Marxan_SA", easyHard_df_Marxan_SA, ref_y = 0)
@@ -873,8 +873,8 @@ gg_eucInTot_vs_fracPossibleOver_all_on_1 <- function (rs_name,
 # - rs_over_opt_cost_err_frac_of_possible_overcost 
 # - rs_under_opt_cost_err_frac_of_possible_undercost 
 # 
-# - rsr_APP_spp_rep_shortfall 
-# - rsr_APP_solution_FRAC_spp_covered 
+# - rsr_COR_spp_rep_shortfall 
+# - rsr_COR_solution_FRAC_spp_covered 
 
     
     
@@ -983,8 +983,8 @@ gg_eucInTot_vs_fracPossibleUnder_all_on_1 <- function (rs_name,
 # - rs_over_opt_cost_err_frac_of_possible_overcost 
 # - rs_under_opt_cost_err_frac_of_possible_undercost 
 # 
-# - rsr_APP_spp_rep_shortfall 
-# - rsr_APP_solution_FRAC_spp_covered 
+# - rsr_COR_spp_rep_shortfall 
+# - rsr_COR_solution_FRAC_spp_covered 
 
     
     
@@ -1225,9 +1225,9 @@ continuous_vars_working_df_Marxan_SA =
                             # 
                     rsr_COR_euc_out_err_frac,
                             # 
-                            # rsr_APP_spp_rep_shortfall, 
-                            # rsr_APP_solution_NUM_spp_covered, 
-                            # rsr_APP_solution_FRAC_spp_covered, 
+                            # rsr_COR_spp_rep_shortfall, 
+                            # rsr_COR_solution_NUM_spp_covered, 
+                            # rsr_COR_solution_FRAC_spp_covered, 
     
                     err_mag
     )
@@ -1350,7 +1350,7 @@ cat ("\n...  NOT cheating:  Fit prediction using graph measures, problem size  .
                     # connectance, 
 ```
 
-#  Quick and dirty plot of redundancy vs. output error fraction
+###  Quick and dirty plot of redundancy vs. output error fraction
 
 Still lots of variance at every level, however, redundancy does seem to put a lower bound on the amount of input error in this data, i.e., you can bet that your output error will be **at least** this much.  That seems pretty useful even if you can't predict the exact error amount.  
 
