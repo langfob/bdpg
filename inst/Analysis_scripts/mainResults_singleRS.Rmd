@@ -17,6 +17,10 @@ output:
     toc_depth: '4'
 ---
 
+Need to fix:
+
+- Many (all?) plots of spp rep shortfall are showing APP shortfall, not COR shortfall
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)    #, message=FALSE)
 ```
@@ -221,10 +225,18 @@ reduce_full_data_to_working_set <- function (full_df)
                     
                     rsr_COR_euc_out_err_frac, 
                     
+                            # rsr_AxPP_spp_rep_shortfall, 
+                            # rsr_AxPP_solution_NUM_spp_covered, 
+                            # rsr_AxPP_solution_FRAC_spp_covered, 
+
                     rsr_APP_spp_rep_shortfall, 
                     rsr_APP_solution_NUM_spp_covered, 
                     rsr_APP_solution_FRAC_spp_covered, 
+
     
+    
+    
+        
                     err_mag
                     #, 
                     
@@ -256,15 +268,40 @@ reduce_full_data_to_working_set <- function (full_df)
 
 gg_eucInTot_vs_eucOutTot_all_on_1 <- function (rs_name,
                                                sorted_msa_tib,
-                                               ref_y = 0)
+                                               ref_y = 0
+                                               
+                                               , shape_type="."
+                                               , alpha_level=1
+                                               )
     {
 ggplot (data = sorted_msa_tib) +
         aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                     y = rsr_COR_euc_out_err_frac,
         #                            color = rsp_combined_err_label)) +
 #####                                    color = rsp_base_wrap_str) +
-                                    color = id) +
-        geom_point() +
+                                     color = id) +
+# ##        geom_point() +
+# #        geom_point(shape=".", alpha=1/10) +
+         geom_point(shape=shape_type, alpha=alpha_level) +
+# #        geom_point(shape=".") +
+# #        geom_point(alpha=1/25) +
+
+
+#             #                            color = rsp_combined_err_label)) +
+# #                                         color = id
+# #         ,
+# #         shape="."
+# #         ) +
+# # ##            geom_point() +
+# # #        geom_point(shape=".") +
+# 
+#                                     color = id) +
+#         geom_point(shape=".", alpha=1) +
+
+    
+
+
+
 #####        scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
         scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
         stat_smooth(method = "lm", col = "green") +
@@ -291,13 +328,29 @@ ggplot (data = sorted_msa_tib) +
 
 gg_eucInTot_vs_eucOutTot_facetted_by_err_label <- function (rs_name,
                                                             sorted_msa_tib,
-                                                            ref_y = 0)
+                                                            ref_y = 0
+                                                            , shape_type = "."
+                                                            , alpha_level = 1
+                                                            )
     {
     ggplot (data = sorted_msa_tib) +
       geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                 y = rsr_COR_euc_out_err_frac,
     #                            color = rsp_combined_err_label)) +
-                                color = id)) +
+    #                             color = id
+    # ), 
+    # shape="."
+    # ) +
+ # color = id
+ #    ), 
+ #    shape="."
+ #    ) +
+ color = id
+    ), 
+    shape="."
+    ) +
+        
+
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
@@ -351,15 +404,23 @@ Also show all output error fractions values below 1
 
 #-----  Marxan_SA
 
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", easyHard_df_Marxan_SA, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", easyHard_df_Marxan_SA, ref_y = 0
+                                   , shape_type = 1, alpha_level = 1
+                                   )
 easyHard_df_Marxan_SA %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> easyHard_Marxan_SA_not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", easyHard_Marxan_SA_not_huge_out_err_df, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", easyHard_Marxan_SA_not_huge_out_err_df, ref_y = 0
+, shape_type = ".", alpha_level = 1
+)
 
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", working_df_Marxan_SA, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", working_df_Marxan_SA, ref_y = 0
+, shape_type = 1, alpha_level = 1/20
+                                   )
 working_df_Marxan_SA %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> working_Marxan_SA_not_huge_out_err_df
-gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", working_Marxan_SA_not_huge_out_err_df, ref_y = 0)
+gg_eucInTot_vs_eucOutTot_all_on_1 ("Marxan_SA", working_Marxan_SA_not_huge_out_err_df, ref_y = 0
+, shape_type = ".", alpha_level = 1/20
+                                   )
 ```
 
 ##  Error magnification
@@ -450,7 +511,9 @@ gg_eucInTot_vs_signedCostErrFrac_all_on_1 <- function (rs_name,
                                         y = rs_solution_cost_err_frac, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
                                         color = id) +
-            geom_point() +
+#            geom_point() +
+        geom_point(shape=".") +
+        
             scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
             stat_smooth(method = "lm", col = "green") +
     
@@ -483,7 +546,19 @@ gg_eucInTot_vs_signedCostErrFrac_facetted_by_err_label <- function (rs_name,
       geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                 y = rs_solution_cost_err_frac,
     #                            color = rsp_combined_err_label)) +
-                                color = id)) +
+    #                             color = id
+    # ,
+    # shape="."
+    # )) +
+# color = id
+#     ), 
+#     shape="."
+#     ) +
+ color = id
+    ), 
+    shape="."
+    ) +
+
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
@@ -513,8 +588,17 @@ gg_eucInTot_vs_sppRepShortfall_all_on_1 <- function (rs_name,
             aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                         y = rsr_APP_spp_rep_shortfall, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
-                                        color = id) +
-            geom_point() +
+#                                         color = id
+#         ,
+#         shape="."
+#         ) +
+# ##            geom_point() +
+# #        geom_point(shape=".") +
+
+                                    color = id) +
+        geom_point(shape=".", alpha=1) +
+
+    
             scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
             stat_smooth(method = "lm", col = "green") +
     
@@ -547,7 +631,19 @@ gg_eucInTot_vs_sppRepShortfall_facetted_by_err_label <- function (rs_name,
       geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                 y = rsr_APP_spp_rep_shortfall,
     #                            color = rsp_combined_err_label)) +
-                                color = id)) +
+    #                             color = id
+    # , 
+    # shape="."
+    # )) +
+# color = id
+#     ), 
+#     shape="."
+#     ) +
+ color = id
+    ), 
+    shape="."
+    ) +
+
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
@@ -617,8 +713,27 @@ gg_sppRepShortfall_vs_signedCostErrFrac_all_on_1 <- function (rs_name,
             aes(x = rsr_APP_spp_rep_shortfall,
                                         y = rs_solution_cost_err_frac, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
-                                        color = id) +
-            geom_point() +
+#                                         color = id
+#             ,
+#             shape="."
+#             ) +
+# #            geom_point() +
+# #        geom_point(shape=".") +
+
+
+            #                            color = rsp_combined_err_label)) +
+#                                         color = id
+#         ,
+#         shape="."
+#         ) +
+# ##            geom_point() +
+# #        geom_point(shape=".") +
+
+                                    color = id) +
+        geom_point(shape=".", alpha=1) +
+
+    
+
             scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
             stat_smooth(method = "lm", col = "green") +
     
@@ -651,7 +766,21 @@ gg_sppRepShortfall_vs_signedCostErrFrac_facetted_by_err_label <- function (rs_na
       geom_point (mapping = aes(x = rsr_APP_spp_rep_shortfall,
                                 y = rs_solution_cost_err_frac,
     #                            color = rsp_combined_err_label)) +
-                                color = id)) +
+    #                             color = id
+    # ,
+    # shape="."
+    # )) +
+ # color = id
+ #    ), 
+ #    shape="."
+ #    ) +
+ color = id
+    ), 
+    shape="."
+    ) +
+        
+#        geom_point(shape=".") +
+        
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
@@ -753,8 +882,27 @@ gg_eucInTot_vs_fracPossibleOver_all_on_1 <- function (rs_name,
             aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                         y = rs_over_opt_cost_err_frac_of_possible_overcost, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
-                                        color = id) +
-            geom_point() +
+#                                         color = id
+#             ,
+#             shape="."
+#             ) +
+# #            geom_point() +
+# #        geom_point(shape=".") +
+
+
+             #                            color = rsp_combined_err_label)) +
+#                                         color = id
+#         ,
+#         shape="."
+#         ) +
+# ##            geom_point() +
+# #        geom_point(shape=".") +
+
+                                    color = id) +
+        geom_point(shape=".", alpha=1) +
+
+    
+
             scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
             stat_smooth(method = "lm", col = "green") +
     
@@ -787,7 +935,23 @@ gg_eucInTot_vs_fracPossibleOver_facetted_by_err_label <- function (rs_name,
       geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                 y = rs_over_opt_cost_err_frac_of_possible_overcost,
     #                            color = rsp_combined_err_label)) +
-                                color = id)) +
+    #                             color = id
+    # ,
+    # shape="."
+    # )) +
+    # color = id
+    # ), 
+    # shape="."
+    # ) +
+ color = id
+    ), 
+    shape="."
+    ) +
+        
+        
+     
+#        geom_point(shape=".") +
+
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
@@ -828,8 +992,27 @@ gg_eucInTot_vs_fracPossibleUnder_all_on_1 <- function (rs_name,
             aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                         y = rs_under_opt_cost_err_frac_of_possible_undercost, #rsr_COR_euc_out_err_frac,
             #                            color = rsp_combined_err_label)) +
-                                        color = id) +
-            geom_point() +
+#                                         color = id
+#             ,
+#             shape="."
+#             ) +
+# #            geom_point() +
+# #        geom_point(shape=".") +
+
+
+            #                            color = rsp_combined_err_label)) +
+#                                         color = id
+#         ,
+#         shape="."
+#         ) +
+# ##            geom_point() +
+# #        geom_point(shape=".") +
+
+                                    color = id) +
+        geom_point(shape=".", alpha=1) +
+
+    
+
             scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
             stat_smooth(method = "lm", col = "green") +
     
@@ -862,7 +1045,22 @@ gg_eucInTot_vs_fracPossibleUnder_facetted_by_err_label <- function (rs_name,
       geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
                                 y = rs_under_opt_cost_err_frac_of_possible_undercost,
     #                            color = rsp_combined_err_label)) +
-                                color = id)) +
+    #                             color = id
+    # ,
+    # shape="."
+    # )) +
+ # color = id
+ #    ), 
+ #    shape="."
+ #    ) +
+ color = id
+    ), 
+    shape="."
+    ) +
+        
+        
+#        geom_point(shape=".") +
+
     #scale_color_viridis(discrete=TRUE) +
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
@@ -1152,6 +1350,17 @@ cat ("\n...  NOT cheating:  Fit prediction using graph measures, problem size  .
                     # connectance, 
 ```
 
+#  Quick and dirty plot of redundancy vs. output error fraction
+
+Still lots of variance at every level, however, redundancy does seem to put a lower bound on the amount of input error in this data, i.e., you can bet that your output error will be **at least** this much.  That seems pretty useful even if you can't predict the exact error amount.  
+
+```{r}
+plot (easyHard_df_Marxan_SA$ig_median_bottom_bg_redundancy, easyHard_df_Marxan_SA$rsr_COR_euc_out_err_frac)
+plot (easyHard_df_Marxan_SA$ig_median_top_bg_redundancy, easyHard_df_Marxan_SA$rsr_COR_euc_out_err_frac)
+
+plot (working_df_Marxan_SA$ig_median_bottom_bg_redundancy, working_df_Marxan_SA$rsr_COR_euc_out_err_frac)
+plot (working_df_Marxan_SA$ig_median_top_bg_redundancy, working_df_Marxan_SA$rsr_COR_euc_out_err_frac)
+```
 
 ```{r}
                     # ig_mean_bottom_bg_redundancy, 
@@ -1169,6 +1378,8 @@ cat ("\n...  NOT cheating:  Fit prediction using graph measures, problem size  .
             #                bip_rsp_UUID, 
             
                     # connectance, 
+
+
 easyHard_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
                           ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
                           connectance, 
