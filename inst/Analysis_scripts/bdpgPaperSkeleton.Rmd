@@ -8,6 +8,9 @@ output:
     number_sections: yes
     toc: yes
     toc_depth: 4
+  word_document:
+    toc: yes
+    toc_depth: '4'
   html_document:
     df_print: paged
     toc: yes
@@ -71,7 +74,7 @@ One technique for generating difficult problems is "solution hiding".  There, a 
 
 Xu et al.[XuPaper] describes a solution-hiding algorithm for generating instances of a well-known problem called Satisfiability.  Importantly, they also provide theoretical predictions of the relative difficulty of each problem based on the constructor's parameters.  Elsewhere [XuWebsite], Xu briefly describes a variation of the generator that is extremely simple and generates instances with known solutions for a difficult graph problem called Maximum Independent Set.  This is the first step in mapping from problem to problem to find a way to generate reserve selection problems of known difficulty with known solutions.  We give more details below, but the basic idea is that the solution of the Maximum Independent Set problem is known to be the complement of the solution to another graph problem called Minimum Vertex Cover.  Minimum Vertex Cover is in turn, a special case of the Minimum Set Cover problem, which brings us back to reserve selection.  Consequently, we have a very simple algorithm for generating reserve selection problems of varying difficulty and known solutions.
 
-There are two major drawbacks to problems generated with the XXXX method.  First, it only generates problems where *every* species in *every* problem occurs on *exactly* 2 patches.  Since this is ecologically unrealistic, we modified the XXXX method to allow the wrapping of nearly any species distribution around XXXX problems while preserving the known optimal solution.  The second ecologically unrealistic attribute of these problems is that there is no error or uncertainty in the occurrence and cost data.  Consequently, we built a series of simple models of false positive and false negative input errors and cost errors and applied them to the data.   
+There are two major drawbacks to problems generated with the XU_xxxx method.  First, it only generates problems where *every* species in *every* problem occurs on *exactly* 2 patches.  Since this is ecologically unrealistic, we modified the XU_xxxx method to allow the wrapping of nearly any species distribution around XU_xxxx problems while preserving the known optimal solution.  The second ecologically unrealistic attribute of these problems is that there is no error or uncertainty in the occurrence and cost data.  Consequently, we built a series of simple models of false positive and false negative input errors and cost errors and applied them to the data.   
 
 All of this gives us the skeleton for generating non-trivial reserve selection problems with known solutions and approximately known difficulty so that we can properly evaluate the performance of different reserve selectors.  However, what we would really like to know is, given a particular reserve selection problem and reserve selector, can we predict how much error is likely in the specific solution to this specific problem?  By error, we mean two things: 1) How much does it fall short of its representation targets? and 2) How much more does it cost than the correct optimal solution?  
 
@@ -85,7 +88,7 @@ We developed problems with known correct answers in blocks of 20 problems, where
 
 Each block of 20 problems began with:
 
-- 1 Base problem generated using the XXXX method and no input error
+- 1 Base problem generated using the XU_xxxx method and no input error
 - 1 Wrapped problem derived from the Base problem and no input error
 
 These are referred to as the correct or COR problems.
@@ -105,7 +108,7 @@ These are referred to as the apparent or APP problems since they are the data th
 
 Generating individual problems relies on the idea of the *maximum independent set*.  In a network, an independent set is any set of nodes where none of those nodes are connected to any other nodes *in that set*.  The *maximum* independent set for a network is defined to be the largest such set possible for that network.  
 
-###  XXXX base problem generation
+###  XU_xxxx base problem generation
 
 We generated each base problem by generating a Maximum Independent Set problem with a known optimal solution using the methods given in [XuPaper][XuWebsite].  We then mapped the network into a corresponding reserve selection problem and used the complement of the independent set solution as the optimal solution to the reserve selection problem.  The mapping is as follows:
 
@@ -133,7 +136,7 @@ Note that:
 
 ####  Parameter choice
 
-The size and relative difficulty of the problem generated is determined by the choice of parameters in the procedure above.  We derived these parameters from 4 parameters in the XXXX method described in [XuPaper].  The parameters there are driven by theoretical considerations to control problem difficulty and are as follows:
+The size and relative difficulty of the problem generated is determined by the choice of parameters in the procedure above.  We derived these parameters from 4 parameters in the XU_xxxx method described in [XuPaper].  The parameters there are driven by theoretical considerations to control problem difficulty and are as follows:
 
 - **alpha** ...
 - **N** ...
@@ -177,11 +180,11 @@ We made one other modification to these values.  Since the solution size is alwa
 
 ###  Wrapped problem generation
 
-The XXXX method gave us an ecologically unrealistic, completely flat species distribution with exactly 2 occurrences of every species as well as unrealistically large fractions of the landscape to reserve.  To generate more realistic problems, we developed a method for wrapping a base XXXX problem in a larger species distribution and landscape.  
+The XU_xxxx method gave us an ecologically unrealistic, completely flat species distribution with exactly 2 occurrences of every species as well as unrealistically large fractions of the landscape to reserve.  To generate more realistic problems, we developed a method for wrapping a base XU_xxxx problem in a larger species distribution and landscape.  
 
 The basic idea for wrapping is to note that any given species abundance distribution will have one section of the curve where it specifies a certain number of species that occur on exactly two patches.  To generate a wrapped problem then, we need to: 
 
-- Search for a curve that has a section that specifies roughly the same number of species that occur on exactly 2 patches as we have in our base XXXX problem and then,
+- Search for a curve that has a section that specifies roughly the same number of species that occur on exactly 2 patches as we have in our base XU_xxxx problem and then,
 - Add more species that correspond to the rest of the curve and 
 - While making sure that:
     - each of the new species has at least one occurrence in the original optimal reserve selection and 
@@ -191,7 +194,7 @@ We will generally also add more patches to the landscape as a way to control wha
 
 ####  Computing number of patches to add
 
-Given a desired solution fraction and an original XXXX problem:
+Given a desired solution fraction and an original XU_xxxx problem:
 
 ```
     (soln frac) = (soln size) / ((ind set size) + (soln size) + (num extra patches))
@@ -207,9 +210,9 @@ To our knowledge, there are unfortunately no studies of what species distributio
 
 Again, to our knowledge, there are no studies of the spatial co-occurence distributions of species in real reserve selection problems.  Given no reason to choose any particular spatial distribution, we randomly assigned new species occurrences to patches, with two caveats:
 
-- No occurrence could be added to any patch in the XXXX problem's independent set.  
+- No occurrence could be added to any patch in the XU_xxxx problem's independent set.  
     - This is probably slightly stricter than necessary, but is guaranteed not to violate the original solution.
-- The first added occurrence for any new species had to go on a patch in the XXXX solution so that the original solution was guaranteed to also be a solution for the wrapped problem.
+- The first added occurrence for any new species had to go on a patch in the XU_xxxx solution so that the original solution was guaranteed to also be a solution for the wrapped problem.
     - Subsequent occurrence additions for new species were assigned to the extra patches set, though again, this is stricter than necessary.  
 
 ####  No singleton species
