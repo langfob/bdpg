@@ -1385,6 +1385,16 @@ easyHard_Marxan_SA_not_huge_out_err_lm_fit =
 
 summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
 plot (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
+
+
+pred_easyHard_Marxan_SA_not_huge_out_err_lm_fit = 
+    predict (easyHard_Marxan_SA_not_huge_out_err_lm_fit, 
+             easyHard_Marxan_SA_not_huge_out_err_df)
+
+plot (easyHard_Marxan_SA_not_huge_out_err_df$rsr_COR_euc_out_err_frac, 
+      pred_easyHard_Marxan_SA_not_huge_out_err_lm_fit, 
+      xlab="rsr_COR_euc_out_err_frac", ylab="Predictions", main="COR OutErr vs. Fit Values from Problem Size")
+
 ```
 
 ```{r}
@@ -1495,6 +1505,9 @@ summary (easyHard_Marxan_SA_lm_fit)
 plot (easyHard_Marxan_SA_lm_fit)
 ```
 
+###  Compute the fit of prediction to graph measures (redundancy, connectance)
+
+
 ```{r}
 # easyHard_df_Marxan_SA %>% 
 #     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
@@ -1507,7 +1520,18 @@ easyHard_Marxan_SA_not_huge_out_err_lm_fit =
 
 summary (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
 plot (easyHard_Marxan_SA_not_huge_out_err_lm_fit)
+
+pred_easyHard_Marxan_SA_not_huge_out_err_lm_fit = 
+    predict (easyHard_Marxan_SA_not_huge_out_err_lm_fit, 
+             easyHard_Marxan_SA_not_huge_out_err_df)
+
+plot (easyHard_Marxan_SA_not_huge_out_err_df$rsr_COR_euc_out_err_frac, 
+      pred_easyHard_Marxan_SA_not_huge_out_err_lm_fit, 
+      xlab="rsr_COR_euc_out_err_frac", ylab="Predictions", main="EasyHard COR OutErr vs. Fit Values from Graph Measures")
+
 ```
+
+### Plot Working COR OutErr vs. Fit Values from Graph Measures
 
 ```{r}
 working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
@@ -1517,6 +1541,15 @@ working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~
 
 summary (working_Marxan_SA_lm_fit)
 plot (working_Marxan_SA_lm_fit)
+
+pred_working_Marxan_SA_lm_fit = 
+    predict (working_Marxan_SA_lm_fit, 
+             working_df_Marxan_SA)
+
+plot (working_df_Marxan_SA$rsr_COR_euc_out_err_frac, 
+      pred_working_Marxan_SA_lm_fit, 
+      xlab="rsr_COR_euc_out_err_frac", ylab="Predictions", main="Working COR OutErr vs. Fit Values from Graph Measures")
+
 ```
 
 ```{r}
@@ -1560,6 +1593,8 @@ easyHard_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~
 
 summary (easyHard_Marxan_SA_lm_fit)
 plot (easyHard_Marxan_SA_lm_fit)
+
+
 ```
 
 ```{r}
@@ -1662,6 +1697,22 @@ summary (working_Marxan_SA_lm_fit)
 plot (working_Marxan_SA_lm_fit)
 ```
 
+### Plot Working COR OutErr vs. Fit Values from Cheating
+
+```{r}
+pred_working_Marxan_SA_lm_fit = 
+    predict (working_Marxan_SA_lm_fit, 
+             working_df_Marxan_SA)
+
+plot (working_df_Marxan_SA$rsr_COR_euc_out_err_frac, 
+      pred_working_Marxan_SA_lm_fit, 
+      xlab="rsr_COR_euc_out_err_frac", ylab="Predictions", main="Working COR OutErr vs. Fit Values from Cheating")
+
+```
+
+
+```
+
 ```{r}
 # working_df_Marxan_SA %>% 
 #     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
@@ -1741,6 +1792,20 @@ working_Marxan_SA_lm_fit = lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot_
 summary (working_Marxan_SA_lm_fit)
 plot (working_Marxan_SA_lm_fit)
 ```
+
+### Plot Working COR OutErr vs. Fit Values from Cheating & Prob Size
+
+```{r}
+pred_working_Marxan_SA_lm_fit = 
+    predict (working_Marxan_SA_lm_fit, 
+             working_df_Marxan_SA)
+
+plot (working_df_Marxan_SA$rsr_COR_euc_out_err_frac, 
+      pred_working_Marxan_SA_lm_fit, 
+      xlab="rsr_COR_euc_out_err_frac", ylab="Predictions", main="Working COR OutErr vs. Fit Values from Cheating & Prob Size")
+
+```
+
 
 ```{r}
 # working_df_Marxan_SA %>% 
