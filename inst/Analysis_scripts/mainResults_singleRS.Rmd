@@ -1273,6 +1273,86 @@ correlations [, 18:19]
 
 ## NOT cheating:  Fit prediction using problem size 
 
+### Plot num PUs vs. num spp to show range of problem sizes
+
+```{r include=FALSE}
+#===============================================================================
+
+gg_numSpp_vs_numPUs_all_on_1 <- function (rs_name,
+                                               sorted_msa_tib,
+                                               ref_y = 0
+                                               
+                                               , shape_type="."
+                                               , alpha_level=1
+                                               )
+    {
+ggplot (data = sorted_msa_tib) +
+        aes(x = rsp_num_spp,
+                                    y = rsp_num_PUs,
+        #                            color = rsp_combined_err_label)) +
+#####                                    color = rsp_base_wrap_str) +
+                                     color = id) +
+# ##        geom_point() +
+# #        geom_point(shape=".", alpha=1/10) +
+         geom_point(shape=shape_type, alpha=alpha_level) +
+# #        geom_point(shape=".") +
+# #        geom_point(alpha=1/25) +
+
+
+#             #                            color = rsp_combined_err_label)) +
+# #                                         color = id
+# #         ,
+# #         shape="."
+# #         ) +
+# # ##            geom_point() +
+# # #        geom_point(shape=".") +
+# 
+#                                     color = id) +
+#         geom_point(shape=".", alpha=1) +
+
+    
+
+
+
+#####        scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+        scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
+#        stat_smooth(method = "lm", col = "green") +
+
+    # ggplot (data = sorted_msa_tib) +
+    #       geom_point (mapping = ) +
+    #     #scale_color_viridis(discrete=TRUE) +
+    #     scale_color_manual(breaks = c("Easy", "Hard"), values=c("blue", "red")) +
+    #
+        ggtitle (paste0 (rs_name, " - Num Spp vs. Num PUs")) +
+        theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
+
+          geom_hline (yintercept = ref_y, linetype="dashed",
+                        color = "black", size=0.5) +
+          geom_abline (intercept=0, slope=1  #, linetype, color, size
+                       ) +
+          geom_abline (intercept=0, slope=5  #, linetype, color, size
+                       ) +
+          geom_abline (intercept=0, slope=10  #, linetype, color, size
+                       )
+    }
+
+#===============================================================================
+
+```
+
+```{r}
+gg_numSpp_vs_numPUs_all_on_1 (rs_name,
+                                               easyHard_df_Marxan_SA,
+                                               ref_y = 0
+                                               
+                                               # , shape_type="."
+                                               # , alpha_level=1
+                                               )
+
+```
+
+###  Compute the fit of prediction to problem size
+
 ```{r}
 cat ("\n...  NOT cheating:  Fit prediction using problem size  ...\n")
 
