@@ -412,6 +412,14 @@ Will ask Marxan community for input files since there are lots of them applied t
 
 #  Conclusion
 
+- Need for a better shared method of collaboration and testing in reserve design
+    - everybody recreates everything
+    - no distributional information about any aspect of reserve design (costs, species, etc)
+    - no repository of test problems to generate methods more widely everything's an anecdote, can't generalise (wink wink)
+    - no notion of variance in problem difficulty
+    - no re-usable, evaluated error models
+    - no cost models
+
 ##  Contributions
 - Mapping of methods from theory of computation into reserve selection for problem generation accounting for
     - varying problem difficulty
