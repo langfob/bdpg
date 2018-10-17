@@ -129,7 +129,7 @@ scp_one_existing_tzar_run <- function (src_filename_or_dirname_to_scp,
 
 #===============================================================================
 
-    #  Test
+    #  Test code for command line.
 if (FALSE)
     {
     getwd()
