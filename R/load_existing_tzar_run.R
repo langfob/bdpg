@@ -40,8 +40,9 @@ if (FALSE)
 }
 
         #  Test using a source directory instead of a single file.
-    src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/Old_runs/20321_easy"
-#    cat ("\n\nsrc_filename_or_dirname_to_scp to scp from = '", src_filename_or_dirname_to_scp, "'\n")
+#    src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/Old_runs/20321_easy"
+    src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/TEST_loading_old/20321_easy"
+    #    cat ("\n\nsrc_filename_or_dirname_to_scp to scp from = '", src_filename_or_dirname_to_scp, "'\n")
 
     scp_one_existing_tzar_run (src_filename_or_dirname_to_scp,
                                dir_to_scp_into)
