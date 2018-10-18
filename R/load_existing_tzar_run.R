@@ -22,15 +22,25 @@
 
 #' Load an existing tzar run from glass
 
+#' @export
+
 #-------------------------------------------------------------------------------
 
 load_existing_tzar_run_from_glass <- function ()
     {
-    dir_to_scp_into = "/Users/bill/Downloads/test"
+###    dir_to_scp_into = "/Users/bill/Downloads/test"
 #    cat ("\nDir to scp into = ", dir_to_scp_into, "\n")
 
-    setwd (dir_to_scp_into)
+dir_to_scp_into = "."
+#    cat ("\nDir to scp into = ", dir_to_scp_into, "\n")
+
+
+
+
+###    setwd (dir_to_scp_into)
 #    cat ("\nAbout to scp, sitting in: '", getwd(), "'\n")
+
+
 
 if (FALSE)
 {
@@ -39,6 +49,8 @@ if (FALSE)
 #    cat ("\n\nsrc_filename_or_dirname_to_scp to scp from = '", src_filename_or_dirname_to_scp, "'\n")
 }
 
+if(FALSE)
+{
         #  Test using a source directory instead of a single file.
 #    src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/Old_runs/20321_easy"
     src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/TEST_loading_old/20321_easy"
@@ -46,6 +58,27 @@ if (FALSE)
 
     scp_one_existing_tzar_run (src_filename_or_dirname_to_scp,
                                dir_to_scp_into)
+}
+
+
+
+cat ("\nStarting in load_existing_tzar_run_from_glass().\n")
+
+    src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/TEST_loading_old/20321_easy"
+    tgt_filename_or_dirname_for_scp = parameters$full_output_dir_with_slash
+
+#    scpcmd = paste0 ("scp    -r    rdv@glass.eres.rmit.edu.au:", src_filename_or_dirname_to_scp, "    .")
+    scpcmd = paste0 ("scp    -r    rdv@glass.eres.rmit.edu.au:",
+                     src_filename_or_dirname_to_scp,
+                     "    ", tgt_filename_or_dirname_for_scp)
+    cat ("\n\nscpcmd = '", scpcmd, "'\n")
+
+    retval = -555
+    retval = system (scpcmd)
+    cat ("\nAfter scp cmd, retval = '", retval, "'\n")
+
+cat ("\nAbout to return from load_existing_tzar_run_from_glass().\n")
+
     }
 
 #-------------------------------------------------------------------------------
@@ -89,8 +122,8 @@ scp_one_existing_tzar_run <- function (src_filename_or_dirname_to_scp,
     #dir_to_scp_into = "/Users/bill/Downloads/test"
     cat ("\nDir to scp into = ", dir_to_scp_into, "\n")
 
-    setwd (dir_to_scp_into)
-    cat ("\nAbout to scp, sitting in: '", getwd(), "'\n")
+    # setwd (dir_to_scp_into)
+    # cat ("\nAbout to scp, sitting in: '", getwd(), "'\n")
 
     #src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/Old_runs/20321_easy/RSprob-APP-Base.0649e4f9-d5c7-44d4-8481-3abd7ce7f666/saved.RSprob-APP-Base.0649e4f9-d5c7-44d4-8481-3abd7ce7f666.rds"
     cat ("\n\nsrc_filename_or_dirname_to_scp to scp from = '", src_filename_or_dirname_to_scp, "'\n")
