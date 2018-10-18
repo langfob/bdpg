@@ -4,8 +4,8 @@
 \alias{apply_error_to_spp_occupancy_data}
 \title{Apply error to species occupancy data.}
 \usage{
-apply_error_to_spp_occupancy_data(bpm, FP_rates, FN_rates, num_PUs, num_spp,
-  random_values)
+apply_error_to_spp_occupancy_data(bpm, FP_rates, FN_rates, num_PUs,
+  num_spp, random_values)
 }
 \arguments{
 \item{bpm}{bipartite matrix; integer matrix with one row for each species

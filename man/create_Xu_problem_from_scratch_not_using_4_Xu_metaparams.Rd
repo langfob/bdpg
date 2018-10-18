@@ -4,7 +4,8 @@
 \alias{create_Xu_problem_from_scratch_not_using_4_Xu_metaparams}
 \title{create_Xu_problem_from_scratch_not_using_4_Xu_metaparams}
 \usage{
-create_Xu_problem_from_scratch_not_using_4_Xu_metaparams(max_allowed_num_spp,
+
+  create_Xu_problem_from_scratch_not_using_4_Xu_metaparams(max_allowed_num_spp,
   duplicate_links_allowed, parameters, integerize)
 }
 \arguments{
@@ -29,3 +30,4 @@ Other interfaces to creation of Xu problems: \code{\link{create_Xu_problem_from_
   \code{\link{create_Xu_problem_from_scratch_given_params}},
   \code{\link{create_Xu_problem_from_scratch}}
 }
+\concept{interfaces to creation of Xu problems}

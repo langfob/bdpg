@@ -4,8 +4,8 @@
 \alias{match_FP_and_FN_counts_to_smaller_of_the_two}
 \title{Match FP and FN counts to smaller of the two}
 \usage{
-match_FP_and_FN_counts_to_smaller_of_the_two(num_TPs, num_TNs, FP_const_rate,
-  FN_const_rate)
+match_FP_and_FN_counts_to_smaller_of_the_two(num_TPs, num_TNs,
+  FP_const_rate, FN_const_rate)
 }
 \arguments{
 \item{num_TPs}{integer}

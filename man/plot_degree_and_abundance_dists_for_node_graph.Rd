@@ -5,9 +5,10 @@
 \alias{plot_degree_and_abundance_dists_for_node_graph}
 \title{Plot degree and abundance distributions for node graph}
 \usage{
-plot_degree_and_abundance_dists_for_node_graph(final_link_counts_for_each_node,
-  final_rank_abundance_dist, PU_col_name, plot_output_dir, cor_or_app_label,
-  spp_col_name)
+
+  plot_degree_and_abundance_dists_for_node_graph(final_link_counts_for_each_node,
+  final_rank_abundance_dist, PU_col_name, plot_output_dir,
+  cor_or_app_label, spp_col_name)
 }
 \arguments{
 \item{final_link_counts_for_each_node}{integer vector of counts of number

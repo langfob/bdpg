@@ -5,10 +5,10 @@
 \title{Wrap abundances around eligible set}
 \usage{
 wrap_abundances_around_eligible_set(dep_set, eligible_set,
-  rounded_abund_per_spp, num_base_spp, Xu_PU_spp_table, allow_imperfect_wrap,
-  min_allowed_abundance = 2, PU_col_name = "PU_ID",
-  spp_col_name = "spp_ID", use_testing_only_rand_seed = FALSE,
-  testing_only_rand_seed = 17)
+  rounded_abund_per_spp, num_base_spp, Xu_PU_spp_table,
+  allow_imperfect_wrap, min_allowed_abundance = 2,
+  PU_col_name = "PU_ID", spp_col_name = "spp_ID",
+  use_testing_only_rand_seed = FALSE, testing_only_rand_seed = 17)
 }
 \arguments{
 \item{dep_set}{integer vector}

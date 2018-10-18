@@ -4,7 +4,8 @@
 \alias{save_obj_with_checksum}
 \title{Save object with checksum}
 \usage{
-save_obj_with_checksum(obj_with_UUID_and_checksum, base_outdir_for_checksum)
+save_obj_with_checksum(obj_with_UUID_and_checksum,
+  base_outdir_for_checksum)
 }
 \arguments{
 \item{obj_with_UUID_and_checksum}{object whose checksum is to be computed}

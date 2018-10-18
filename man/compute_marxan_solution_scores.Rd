@@ -4,9 +4,11 @@
 \alias{compute_marxan_solution_scores}
 \title{Compute marxan solution scores}
 \usage{
-compute_marxan_solution_scores(spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
+
+  compute_marxan_solution_scores(spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
   marxan_solution_PU_IDs, targets, num_spp, marxan_solutions_matrix,
-  cur_solution_num, marxan_solution_scores, cor_PU_costs, total_landscape_cost)
+  cur_solution_num, marxan_solution_scores, cor_PU_costs,
+  total_landscape_cost)
 }
 \arguments{
 \item{spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU}{matrix}

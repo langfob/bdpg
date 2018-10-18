@@ -4,8 +4,9 @@
 \alias{write_all_marxan_input_files_from_vectors}
 \title{Write all marxan input files except bound.dat and input.dat given vectors for individual elements.}
 \usage{
-write_all_marxan_input_files_from_vectors(PU_IDs, spp_IDs, spp_PU_amount_table,
-  spf_values, target_values, cost_values, status_values)
+write_all_marxan_input_files_from_vectors(PU_IDs, spp_IDs,
+  spp_PU_amount_table, spf_values, target_values, cost_values,
+  status_values)
 }
 \arguments{
 \item{PU_IDs}{A vector of planning unit IDs}

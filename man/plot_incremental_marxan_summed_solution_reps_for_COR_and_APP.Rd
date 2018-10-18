@@ -5,9 +5,10 @@
 \alias{plot_incremental_marxan_summed_solution_reps_for_COR_and_APP}
 \title{Plot how marxan is actually doing vs. how marxan thinks it's doing}
 \usage{
-plot_incremental_marxan_summed_solution_reps_for_COR_and_APP(marxan_ssoln_df,
-  cor_PU_costs, app_PU_costs, correct_solution_cost, app_optimum_cost, cor_bpm,
-  app_bpm, num_spp, plot_output_dir)
+
+  plot_incremental_marxan_summed_solution_reps_for_COR_and_APP(marxan_ssoln_df,
+  cor_PU_costs, app_PU_costs, correct_solution_cost, app_optimum_cost,
+  cor_bpm, app_bpm, num_spp, plot_output_dir)
 }
 \arguments{
 \item{marxan_ssoln_df}{data frame}

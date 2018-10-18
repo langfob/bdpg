@@ -29,3 +29,4 @@ Other interfaces to creation of Xu problems: \code{\link{create_Xu_problem_from_
   \code{\link{create_Xu_problem_from_scratch_not_using_4_Xu_metaparams}},
   \code{\link{create_Xu_problem_from_scratch}}
 }
+\concept{interfaces to creation of Xu problems}

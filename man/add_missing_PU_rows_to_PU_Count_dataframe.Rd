@@ -4,8 +4,8 @@
 \alias{add_missing_PU_rows_to_PU_Count_dataframe}
 \title{Add missing PUs to PU_Count data frame}
 \usage{
-add_missing_PU_rows_to_PU_Count_dataframe(marxan_solution, all_correct_node_IDs,
-  PU_col_name, presences_col_name)
+add_missing_PU_rows_to_PU_Count_dataframe(marxan_solution,
+  all_correct_node_IDs, PU_col_name, presences_col_name)
 }
 \arguments{
 \item{marxan_solution}{data frame with one row for each planning unit.

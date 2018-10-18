@@ -4,7 +4,8 @@
 \alias{write_marxan_spec.dat_input_file}
 \title{Write species input file (spec.dat) using constant values for species penalties and targets.}
 \usage{
-write_marxan_spec.dat_input_file(spp_IDs, spf_const = 1, target_const = 1)
+write_marxan_spec.dat_input_file(spp_IDs, spf_const = 1,
+  target_const = 1)
 }
 \arguments{
 \item{spp_IDs}{A vector of species IDs}

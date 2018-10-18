@@ -5,8 +5,8 @@
 \alias{do_APP_simple_richness_analysis_and_output}
 \title{Run reserve selector on APP problem and write output from all analysis}
 \usage{
-do_APP_simple_richness_analysis_and_output(APP_bd_prob, COR_bd_prob, parameters,
-  rs_method_name, forward = TRUE, src_rds_file_dir = NULL,
+do_APP_simple_richness_analysis_and_output(APP_bd_prob, COR_bd_prob,
+  parameters, rs_method_name, forward = TRUE, src_rds_file_dir = NULL,
   spp_rep_targets = rep(1, COR_bd_prob@num_spp))
 }
 \arguments{
