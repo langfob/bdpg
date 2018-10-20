@@ -28,7 +28,7 @@
 
 load_existing_tzar_run_from_glass <- function ()
     {
-####    dir_to_scp_into = "/Users/bill/Downloads/test"
+###    dir_to_scp_into = "/Users/bill/Downloads/test"
 #    cat ("\nDir to scp into = ", dir_to_scp_into, "\n")
 
 dir_to_scp_into = "."
@@ -67,6 +67,11 @@ cat ("\nStarting in load_existing_tzar_run_from_glass().\n")
     src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/TEST_loading_old/20321_easy"
     tgt_filename_or_dirname_for_scp = parameters$full_output_dir_with_slash
 
+    scp_one_existing_tzar_run (src_filename_or_dirname_to_scp,
+                                       tgt_filename_or_dirname_for_scp)
+
+if(FALSE)
+{
 #    scpcmd = paste0 ("scp    -r    rdv@glass.eres.rmit.edu.au:", src_filename_or_dirname_to_scp, "    .")
     scpcmd = paste0 ("scp    -r    rdv@glass.eres.rmit.edu.au:",
                      src_filename_or_dirname_to_scp,
@@ -76,15 +81,16 @@ cat ("\nStarting in load_existing_tzar_run_from_glass().\n")
     retval = -555
     retval = system (scpcmd)
     cat ("\nAfter scp cmd, retval = '", retval, "'\n")
+}
 
 cat ("\nAbout to return from load_existing_tzar_run_from_glass().\n")
-
     }
 
 #-------------------------------------------------------------------------------
 
 scp_one_existing_tzar_run <- function (src_filename_or_dirname_to_scp,
-                                       dir_to_scp_into)
+                                       #dir_to_scp_into
+                                       tgt_filename_or_dirname_for_scp)
     {
         #  Create a file listing all tzar runs to reload.
         #
@@ -118,6 +124,18 @@ scp_one_existing_tzar_run <- function (src_filename_or_dirname_to_scp,
             #  some fiddling when I scp (and unzip?) the original directories
             #  so that the current log doesn't get clobbered (overwritten)?
 
+    scpcmd = paste0 ("scp    -r    rdv@glass.eres.rmit.edu.au:",
+                     src_filename_or_dirname_to_scp,
+                     "    ", tgt_filename_or_dirname_for_scp)
+    cat ("\n\nscpcmd = '", scpcmd, "'\n")
+
+    retval = -555
+    retval = system (scpcmd)
+    cat ("\nAfter scp cmd, retval = '", retval, "'\n")
+
+
+if(FALSE)
+{
     original_dir = getwd()
     #dir_to_scp_into = "/Users/bill/Downloads/test"
     cat ("\nDir to scp into = ", dir_to_scp_into, "\n")
@@ -137,6 +155,7 @@ scp_one_existing_tzar_run <- function (src_filename_or_dirname_to_scp,
 
     setwd (original_dir)
     cat ("After finishing scp, sitting in: '", getwd(), "'\n")
+}
 
     #  Move old metadata directory to the
     #  current tzar run's metadata area as an appropriately named subdirectory.
