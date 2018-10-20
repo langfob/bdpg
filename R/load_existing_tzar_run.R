@@ -28,7 +28,7 @@
 
 load_existing_tzar_run_from_glass <- function ()
     {
-###    dir_to_scp_into = "/Users/bill/Downloads/test"
+####    dir_to_scp_into = "/Users/bill/Downloads/test"
 #    cat ("\nDir to scp into = ", dir_to_scp_into, "\n")
 
 dir_to_scp_into = "."
