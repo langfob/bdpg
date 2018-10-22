@@ -26,72 +26,105 @@
 
 #-------------------------------------------------------------------------------
 
-load_existing_tzar_run_from_glass <- function ()
+load_existing_tzar_run_from_glass <- function (file_of_runs_to_load,
+                                               prev_run_idx,
+                                               tgt_filename_or_dirname_for_scp)
     {
-###    dir_to_scp_into = "/Users/bill/Downloads/test"
-#    cat ("\nDir to scp into = ", dir_to_scp_into, "\n")
+    cat ("\nStarting in load_existing_tzar_run_from_glass().\n")
 
-dir_to_scp_into = "."
-#    cat ("\nDir to scp into = ", dir_to_scp_into, "\n")
+        #-------------------------------------------------------
+        #  Load array of file names for old tzar runs to load
+        #  in the current run set.
+        #-------------------------------------------------------
 
+    cat ("\n\nFile name for runs to load = '", file_of_runs_to_load, "'\n")
 
+    runs_to_load = readLines (parameters$file_of_runs_to_load)
+    for (iii in 1:length(runs_to_load))
+        {
+        cat ("\n", iii, " : ", runs_to_load [iii])
+        }
+    cat ("\n")
 
+        #-------------------------------------------------------
+        #  Get the file name of the one old tzar run to be
+        #  acted on in the current tzar run inside the current
+        #  tzar run set.
+        #-------------------------------------------------------
 
-###    setwd (dir_to_scp_into)
-#    cat ("\nAbout to scp, sitting in: '", getwd(), "'\n")
+    cat ("\nprev_run_idx = '", prev_run_idx, "'\n")
+    prev_run_idx = vn (prev_run_idx, range_lo=1, range_hi=length(runs_to_load))
 
-
-
-if (FALSE)
-{
-        #  Test using a single source file instead of a directory.
-    src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/Old_runs/20321_easy/RSprob-APP-Base.0649e4f9-d5c7-44d4-8481-3abd7ce7f666/saved.RSprob-APP-Base.0649e4f9-d5c7-44d4-8481-3abd7ce7f666.rds"
-#    cat ("\n\nsrc_filename_or_dirname_to_scp to scp from = '", src_filename_or_dirname_to_scp, "'\n")
-}
-
-if(FALSE)
-{
-        #  Test using a source directory instead of a single file.
-#    src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/Old_runs/20321_easy"
-    src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/TEST_loading_old/20321_easy"
-    #    cat ("\n\nsrc_filename_or_dirname_to_scp to scp from = '", src_filename_or_dirname_to_scp, "'\n")
-
-    scp_one_existing_tzar_run (src_filename_or_dirname_to_scp,
-                               dir_to_scp_into)
-}
+    cat ("\nruns_to_load [prev_run_idx] = '", runs_to_load [prev_run_idx], "'\n")
+    src_filename_or_dirname_to_scp = runs_to_load [prev_run_idx]
 
 
+        #---------------------------------------------------------
+        #  scp that run into the current tzar run's output area.
+        #---------------------------------------------------------
 
-cat ("\nStarting in load_existing_tzar_run_from_glass().\n")
-
-    src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/TEST_loading_old/20321_easy"
     tgt_filename_or_dirname_for_scp = parameters$full_output_dir_with_slash
 
     scp_one_existing_tzar_run (src_filename_or_dirname_to_scp,
-                                       tgt_filename_or_dirname_for_scp)
+                               tgt_filename_or_dirname_for_scp)
 
-if(FALSE)
-{
-#    scpcmd = paste0 ("scp    -r    rdv@glass.eres.rmit.edu.au:", src_filename_or_dirname_to_scp, "    .")
-    scpcmd = paste0 ("scp    -r    rdv@glass.eres.rmit.edu.au:",
-                     src_filename_or_dirname_to_scp,
-                     "    ", tgt_filename_or_dirname_for_scp)
-    cat ("\n\nscpcmd = '", scpcmd, "'\n")
+        #---------------------------------------------------------
+        #  At this point, the old run's data is inside a directory
+        #  named for the old run, but it needs to be moved up
+        #  into the current run's output area where it can be
+        #  acted on as if it had been created in the current run.
+        #  So, move all of the files in the copy of the old run's
+        #  directory up into the current run's output area and
+        #  get rid of the old directory copy area that is now
+        #  empty.
+        #  There is one complication.  The old run is likely to
+        #  have a tzar metatdata subdirectory that would end up
+        #  being copied over the current run's metadata directory.
+        #  Instead, move that old metadata directory into the
+        #  current metadata directory, but put it there under
+        #  a new directory whose name is that of the old run.
+        #  This will allow you to identify where that metadata
+        #  came from as well as allow loading this run again
+        #  later if other actions need to be performed on it
+        #  without getting all the metadata mixed up between
+        #  the various runs.
+        #
+        #  To summarize what happens after the scp has finished:
+        #
+        #  STARTING DIR STRUCTURE BEFORE THIS ROUTINE:
+        #  ------------------------------------------
+        #      cur_run_output_dir
+        #          metadata
+        #          old_run_copy
+        #              metadata
+        #              RSprob1
+        #              RSprob2
+        #              ...
+        #  BECOMES AFTER THIS ROUTINE:
+        #  --------------------------
+        #      cur_run_output_dir
+        #          metadata
+        #               old_run_copy
+        #                  metadata
+        #          RSprob1
+        #          RSprob2
+        #          ...
+        #---------------------------------------------------------
 
-    retval = -555
-    retval = system (scpcmd)
-    cat ("\nAfter scp cmd, retval = '", retval, "'\n")
-}
+    move_old_tzar_run_files_to_cur_run_locations (src_filename_or_dirname_to_scp,
+                                                  tgt_filename_or_dirname_for_scp)
 
-cat ("\nAbout to return from load_existing_tzar_run_from_glass().\n")
+    cat ("\nAbout to return from load_existing_tzar_run_from_glass().\n")
     }
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 scp_one_existing_tzar_run <- function (src_filename_or_dirname_to_scp,
-                                       #dir_to_scp_into
                                        tgt_filename_or_dirname_for_scp)
     {
+    #---------------------------------------------------------------------
+    #  To test:
+
         #  Create a file listing all tzar runs to reload.
         #
         #  Need this because we want each scheduled tzar run to grab a
@@ -111,57 +144,68 @@ scp_one_existing_tzar_run <- function (src_filename_or_dirname_to_scp,
 
     #  Add the line/section by hand.
 
-        #  Find or add code to scp the directory to the right place in the
-        #  current run.
-        #  May need to scp it into a temporary area of its own on the
-        #  nectar machine and then copy from that area into the new tzar run
-        #  in progress on the nectar machine.
-        #  However, there might be some conflict between the old log file and
-        #  overwriting the new log file etc.
-        #  Make an appropriated named copy of the original log file from the
-        #  original run so that can be tracked.
-            #  Not sure, will tzar append to it already or do I need to do
-            #  some fiddling when I scp (and unzip?) the original directories
-            #  so that the current log doesn't get clobbered (overwritten)?
+    #---------------------------------------------------------------------
 
     scpcmd = paste0 ("scp    -r    rdv@glass.eres.rmit.edu.au:",
                      src_filename_or_dirname_to_scp,
                      "    ", tgt_filename_or_dirname_for_scp)
     cat ("\n\nscpcmd = '", scpcmd, "'\n")
 
-    retval = -555
     retval = system (scpcmd)
+
     cat ("\nAfter scp cmd, retval = '", retval, "'\n")
+    }
 
+#===============================================================================
 
-if(FALSE)
-{
-    original_dir = getwd()
-    #dir_to_scp_into = "/Users/bill/Downloads/test"
-    cat ("\nDir to scp into = ", dir_to_scp_into, "\n")
+move_old_tzar_run_files_to_cur_run_locations <-
+                                    function (src_filename_or_dirname_to_scp,
+                                              tgt_filename_or_dirname_for_scp)
+    {
+        #-----------------------------------------------------------------------
+        #  Move old metadata directory to the current tzar run's metadata area
+        #  as a new subdirectory with the name of the old run and the old
+        #  metadata directory inside that.
+        #-----------------------------------------------------------------------
 
-    # setwd (dir_to_scp_into)
-    # cat ("\nAbout to scp, sitting in: '", getwd(), "'\n")
+    name_of_old_run = basename (src_filename_or_dirname_to_scp)
+    old_metadata_path = file.path (tgt_filename_or_dirname_for_scp, name_of_old_run, "metadata")
 
-    #src_filename_or_dirname_to_scp = "/home/rdv/tzar_output/bdpg_nectar/Old_runs/20321_easy/RSprob-APP-Base.0649e4f9-d5c7-44d4-8481-3abd7ce7f666/saved.RSprob-APP-Base.0649e4f9-d5c7-44d4-8481-3abd7ce7f666.rds"
-    cat ("\n\nsrc_filename_or_dirname_to_scp to scp from = '", src_filename_or_dirname_to_scp, "'\n")
+    if (dir.exists (old_metadata_path))
+        {
+        dir_for_old_metadata = file.path (tgt_filename_or_dirname_for_scp, "metadata", name_of_old_run)
+        dir.create (dir_for_old_metadata)
+        file.rename (old_metadata_path, file.path (dir_for_old_metadata, "metadata"))
+        }
 
-    scpcmd = paste0 ("scp    -r    rdv@glass.eres.rmit.edu.au:", src_filename_or_dirname_to_scp, "    .")
-    cat ("\n\nscpcmd = '", scpcmd, "'\n")
+        #-----------------------------------------------------------------------
+        #  Move remaining old data from landing area to current tzar run's
+        #  working area.
+        #  I don't know a graceful way to do this in R since it seems like
+        #  it would require some kind of awkward fooling with lists of files
+        #  and regular expressions and getting all that to work with R's
+        #  file.rename command.
+        #  However, it's trivial to do in the shell, so I'll just do it with
+        #  a system call.
+        #-----------------------------------------------------------------------
 
-    retval = -555
-    retval = system (scpcmd)
-    cat ("\nAfter scp cmd, retval = '", retval, "'\n")
+    path_to_copy_of_old_run = file.path (tgt_filename_or_dirname_for_scp, name_of_old_run)
+    mvcmd = paste0 ("mv    ", path_to_copy_of_old_run, "/*",
+                    "    ", tgt_filename_or_dirname_for_scp)
+    cat ("\n\nmvcmd = '", mvcmd, "'\n")
 
-    setwd (original_dir)
-    cat ("After finishing scp, sitting in: '", getwd(), "'\n")
-}
+    retval = system (mvcmd)
 
-    #  Move old metadata directory to the
-    #  current tzar run's metadata area as an appropriately named subdirectory.
+    cat ("\nAfter mv cmd, retval = '", retval, "'\n")
 
-    #  Move remaining old data from landing area to current tzar run's
-    #  working area.
+        #-----------------------------------------------------------------------
+        #  Remove the now-empty directory that contained the copy of the
+        #  old tzar run.
+        #-----------------------------------------------------------------------
+
+    unlink (path_to_copy_of_old_run, recursive = TRUE)
+
+    #-----------------------------------------------
 
         #  Add code to cd (if necessary) or point to correct position to
         #  allow graph and/or gurobi calls as if done inside the original
@@ -170,14 +214,13 @@ if(FALSE)
         #  existing output for the original run, though I think that everything
         #  is originally done from a relative path.
 
-    #  Possibly cd to current run's working area if not there already.
+        #  Possibly cd to current run's working area if not there already.
 
-        #  After that, you can begin doing whatever operations you want to do
-        #  on each problem directory from the old problem.
-        #  That will require a bunch of logic like what is already in
-        #  single_action_using_tzar_reps.R.  Calls in there might work as is,
-        #  but I suspect they will need modification...
-
+            #  After that, you can begin doing whatever operations you want to do
+            #  on each problem directory from the old problem.
+            #  That will require a bunch of logic like what is already in
+            #  single_action_using_tzar_reps.R.  Calls in there might work as is,
+            #  but I suspect they will need modification...
     }
 
 #===============================================================================
