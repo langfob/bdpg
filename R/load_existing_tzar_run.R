@@ -31,6 +31,7 @@ load_existing_tzar_run_from_glass <- function (file_of_runs_to_load,
                                                tgt_filename_or_dirname_for_scp)
     {
     cat ("\nStarting in load_existing_tzar_run_from_glass().\n")
+    cat ("\ntgt_filename_or_dirname_for_scp = '", tgt_filename_or_dirname_for_scp, "'\n")
 
         #-------------------------------------------------------
         #  Load array of file names for old tzar runs to load
@@ -135,8 +136,12 @@ load_existing_tzar_run_from_glass <- function (file_of_runs_to_load,
 scp_one_existing_tzar_run <- function (src_filename_or_dirname_to_scp,
                                        tgt_filename_or_dirname_for_scp)
     {
+    cat ("\nStarting scp_one_existing_tzar_run().\n")
+    cat ("\nsrc_filename_or_dirname_to_scp = '", src_filename_or_dirname_to_scp, "'\n")
+    cat ("\ntgt_filename_or_dirname_for_scp = '", tgt_filename_or_dirname_for_scp, "'\n")
+
     #---------------------------------------------------------------------
-    #  To test:
+    #  To test this routine:
 
         #  Create a file listing all tzar runs to reload.
         #
@@ -175,6 +180,10 @@ move_old_tzar_run_files_to_cur_run_locations <-
                                     function (src_filename_or_dirname_to_scp,
                                               tgt_filename_or_dirname_for_scp)
     {
+    cat ("\nStarting move_old_tzar_run_files_to_cur_run_locations().\n")
+    cat ("\nsrc_filename_or_dirname_to_scp = '", src_filename_or_dirname_to_scp, "'\n")
+    cat ("\ntgt_filename_or_dirname_for_scp = '", tgt_filename_or_dirname_for_scp, "'\n")
+
         #-----------------------------------------------------------------------
         #  Move old metadata directory to the current tzar run's metadata area
         #  as a new subdirectory with the name of the old run and the old
@@ -265,6 +274,9 @@ get_loaded_cor_bdprob_for_loaded_app_bdprob <-
               app_bdprob,
               parameters)
     {
+    cat ("\nStarting get_loaded_cor_bdprob_for_loaded_app_bdprob().\n")
+    cat ("\ntgt_filename_or_dirname_for_scp = '", tgt_filename_or_dirname_for_scp, "'\n")
+
     app_bdprob_base_UUID =
             app_bdprob@APP_prob_info@UUID_of_base_problem_that_has_err_added
 
@@ -320,6 +332,9 @@ get_loaded_cor_bdprob_for_loaded_app_bdprob <-
 act_on_loaded_existing_tzar_run <- function (tgt_filename_or_dirname_for_scp,
                                              parameters)
     {
+    cat ("\nStarting act_on_loaded_existing_tzar_run().\n")
+    cat ("\ntgt_filename_or_dirname_for_scp = '", tgt_filename_or_dirname_for_scp, "'\n")
+
         #------------------------------------------------------
         #  Make sure that exactly one action has been chosen.
         #  Quit if none or more than one chosen.
@@ -442,12 +457,24 @@ if(FALSE){
         list_of_RSprob_COR_dirs =
             get_list_of_RSprob_COR_dirs (tgt_filename_or_dirname_for_scp)
 
+cat ("\n\nIn run_rs_on_COR_prob branch of act_on_loaded_existing_tzar_run():\n",
+     "list_of_RSprob_COR_dirs = \n")
+print (list_of_RSprob_COR_dirs)
+cat ("\n")
+
         for (cur_prob_dir in list_of_RSprob_COR_dirs)
             {
+cat ("\nStarting for (cur_prob_dir in list_of_RSprob_COR_dirs).\n")
+cat ("\ntgt_filename_or_dirname_for_scp = '", tgt_filename_or_dirname_for_scp, "'\n")
+
 cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
+cat ("\ncur_prob_dir = '", cur_prob_dir, "'\n")
+
                 #  "saved.RSprob-COR-Wrap.2f261556-b9c4-4568-be52-dd45a154d696.rds"
             rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
+cat ("\nrds_file_name = '", rds_file_name, "'\n")
             rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
+cat ("\nrds_file_path = '", rds_file_path, "'\n")
 
             cor_bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
 
