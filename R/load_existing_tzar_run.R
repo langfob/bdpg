@@ -114,6 +114,21 @@ load_existing_tzar_run_from_glass <- function (file_of_runs_to_load,
     move_old_tzar_run_files_to_cur_run_locations (src_filename_or_dirname_to_scp,
                                                   tgt_filename_or_dirname_for_scp)
 
+
+
+
+
+
+
+act_on_loaded_existing_tzar_run (tgt_filename_or_dirname_for_scp,
+                                 parameters
+                                 #, integerize
+                                 )
+
+
+
+
+
     cat ("\nAbout to return from load_existing_tzar_run_from_glass().\n")
     }
 
@@ -223,6 +238,350 @@ move_old_tzar_run_files_to_cur_run_locations <-
             #  but I suspect they will need modification...
     }
 
+#===============================================================================
+
+get_list_of_RSprob_dirs <- function (lookindir)
+    {
+    return (list.files (lookindir, pattern="RSprob*"))
+    }
+
+#===============================================================================
+
+get_list_of_RSprob_COR_dirs <- function (lookindir)
+    {
+    return (list.files (lookindir, pattern="RSprob-COR*"))
+    }
+
+#===============================================================================
+
+get_list_of_RSprob_APP_dirs <- function (lookindir)
+    {
+    return (list.files (lookindir, pattern="RSprob-APP*"))
+    }
+
+#===============================================================================
+#===============================================================================
+
+get_loaded_cor_bdprob_for_loaded_app_bdprob <-
+    function (tgt_filename_or_dirname_for_scp,
+              app_bdprob,
+              parameters)
+    {
+    app_bdprob_base_UUID =
+            app_bdprob@APP_prob_info@UUID_of_base_problem_that_has_err_added
+
+    cor_rds_file_list_file_name = paste0 (tgt_filename_or_dirname_for_scp,
+                                        "/tmp_cor_file_list.txt")
+
+    lscmd = paste0 ("ls ", tgt_filename_or_dirname_for_scp,
+                  "/RSprob-COR*/saved* > ",
+                  cor_rds_file_list_file_name)
+
+    retval = system (lscmd)
+    cat ("\nAfter ls cmd, retval = '", retval, "'\n")
+
+
+    # list_of_RSprob_COR_rds_files = readlines ()
+    #     get_list_of_RSprob_COR_dirs (tgt_filename_or_dirname_for_scp)
+    #
+    # list.files (lookindir, pattern="RSprob-COR*/saved.RSprob-COR*")
+
+    list_of_RSprob_COR_rds_files = readLines (cor_rds_file_list_file_name)
+    file.remove (cor_rds_file_list_file_name)
+
+    cor_bdprob =
+      look_up_object_by_UUID (app_bdprob_base_UUID,
+                              list_of_RSprob_COR_rds_files)
+
+    make_sure_that_cor_bdprob_is_base_of_app_bdprob (app_bdprob,
+                                                   cor_bdprob,
+                                                   parameters)
+    }
+
+#===============================================================================
+#===============================================================================
+
+#' Execute a single action based on tzar repetition values in project.yaml
+#'
+#' This is the main workhorse function for bdpg.  It's intended to generate
+#' a single bdproblem of a chosen type (COR, WRAP, APP) or a single reserve
+#' selector run based on inputs specified in the yaml file and its
+#' repetitions section.  In general, tzar will spawn a process that calls this
+#' function across a set of problems, e.g., generating 10 apparent problems
+#' for each correct problem whose path is given in an input file.
+#'
+#-------------------------------------------------------------------------------
+
+#' @inheritParams std_param_defns
+#'
+#' @return Returns nothing.
+#' @export
+
+#-------------------------------------------------------------------------------
+
+act_on_loaded_existing_tzar_run <- function (tgt_filename_or_dirname_for_scp,
+                                             parameters, integerize)
+    {
+        #------------------------------------------------------
+        #  Make sure that exactly one action has been chosen.
+        #  Quit if none or more than one chosen.
+        #------------------------------------------------------
+
+    # gen_COR_prob  = value_or_FALSE_if_null (parameters$gen_COR_prob)
+    gen_WRAP_prob = value_or_FALSE_if_null (parameters$gen_WRAP_prob)
+    gen_APP_prob  = value_or_FALSE_if_null (parameters$gen_APP_prob)
+    run_rs_on_ALL_prob = value_or_FALSE_if_null (parameters$run_rs_on_ALL_prob)
+    run_rs_on_COR_prob = value_or_FALSE_if_null (parameters$run_rs_on_COR_prob)
+    run_rs_on_APP_prob = value_or_FALSE_if_null (parameters$run_rs_on_APP_prob)
+    run_network_metrics_on_prob = value_or_FALSE_if_null (parameters$run_network_metrics_on_prob)
+
+    # num_actions_chosen = gen_COR_prob + gen_WRAP_prob + gen_APP_prob +
+    #                      run_rs_on_COR_prob + run_rs_on_APP_prob +
+    #                      run_network_metrics_on_prob
+
+    # if (num_actions_chosen != 1)
+    #     stop_bdpg (paste0 ("\nMust set 1 and only 1 of these variables to TRUE: ",
+    #                   "gen_COR_prob (", gen_COR_prob, "), ",
+    #                   "gen_WRAP_prob (", gen_WRAP_prob, "), ",
+    #                   "gen_APP_prob (", gen_APP_prob, "), ",
+    #                   "run_rs_on_COR_prob (", run_rs_on_COR_prob, "), ",
+    #                   "run_rs_on_APP_prob (", run_rs_on_APP_prob, "), ",
+    #                   "run_network_metrics_on_prob (", run_network_metrics_on_prob, "), ",
+    #                   "\n"))
+
+    #---------------------------------------------------------------------------
+
+        #--------------------------------------------
+        #  Generate a correct problem if requested.
+        #--------------------------------------------
+
+    # if (gen_COR_prob)
+    #     {
+    #     gen_single_bdprob_COR (parameters,
+    #                                  integerize,
+    #                                  base_prob_name_stem = "base_prob",
+    #                                  cor_dir_name_stem = "cor")
+    #     }
+
+    #---------------------------------------------------------------------------
+#---------------------------------------------------------------------------
+#---------------------------------------------------------------------------
+
+if (FALSE)
+{
+        #--------------------------------------------
+        #  Generate a wrapped problem if requested.
+        #--------------------------------------------
+
+    if (gen_WRAP_prob)
+        {
+        src_prob_and_path_list =
+            get_bdprob_from_rds_file (parameters$prob_src,
+                                      parameters$cur_input_prob_idx,
+                                      parameters$rds_file_set_path,
+                                      parameters$rds_file_set_yaml_array,
+                                      parameters$rds_file_path)
+
+        src_bdprob_to_wrap = src_prob_and_path_list$src_Xu_bd_problem
+        src_rds_file_dir   = src_prob_and_path_list$src_rds_file_dir
+
+        gen_single_bdprob_WRAP (src_bdprob_to_wrap, parameters)
+        }
+
+    #---------------------------------------------------------------------------
+
+        #----------------------------------------------
+        #  Generate an apparent problem if requested,
+        #  i.e., add error to a correct problem.
+        #----------------------------------------------
+
+    if (gen_APP_prob)
+        {
+        src_prob_and_path_list =
+            get_bdprob_from_rds_file (parameters$prob_src,
+                                      parameters$cur_input_prob_idx,
+                                      parameters$rds_file_set_path,
+                                      parameters$rds_file_set_yaml_array,
+                                      parameters$rds_file_path)
+
+        bdprob_to_add_error_to = src_prob_and_path_list$src_Xu_bd_problem
+
+# MODIFY gen_single_bdprob_APP() TO SET THE COMPOUND ERROR NAME IF IT COMES
+# INTO THE FUNCTION LIST AS A NULL?
+# ALSO NOTE THAT THE gen_1_app_variant() FUNCTION CALLS THE RESERVE SELECTORS
+# TOO AND WE DON'T WANT THAT HERE, SO WE CAN'T USE THAT FUNCTION HERE.
+#  ALSO NEED TO ADD BOOLEAN ARGUMENTS ABOUT WHETHER TO GENERATE COST AND/OR
+#  FP/FN ERRORS SINCE THAT HAS BEEN ADDED TO THE CALL FOR gen_single_bdprob_APP()
+#  ON 2018 03 07.
+
+        gen_single_bdprob_APP (bdprob_to_add_error_to, parameters)
+        }
+
+}    #  END - if (FALSE)
+#---------------------------------------------------------------------------
+#---------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
+
+        #------------------------------------------------------------------
+        #  Run a reserve selector on all COR and/or APP problems
+        #  (base or wrapped), if requested.
+        #------------------------------------------------------------------
+
+    if (run_rs_on_ALL_prob)
+        {
+        run_rs_on_COR_prob = TRUE
+        run_rs_on_APP_prob = TRUE
+        }
+
+    #---------------------------------------------------------------------------
+
+        #------------------------------------------------------------------
+        #  Run a reserve selector on a correct problem (base or wrapped),
+        #  if requested.
+        #------------------------------------------------------------------
+
+    if (run_rs_on_COR_prob)
+        {
+        list_of_RSprob_COR_dirs =
+            get_list_of_RSprob_COR_dirs (tgt_filename_or_dirname_for_scp)
+
+        for (cur_prob_dir in list_of_RSprob_COR_dirs)
+            {
+                #  "saved.RSprob-COR-Wrap.2f261556-b9c4-4568-be52-dd45a154d696.rds"
+            rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
+            rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
+
+            cor_bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
+
+            do_rs_analysis_and_output (cor_bdprob,
+                                       cor_bdprob,
+                                       parameters,
+                                       cur_prob_dir)
+            }  #  end for - COR dirs
+        }  #  end if - run rs on COR dirs
+
+    #---------------------------------------------------------------------------
+
+        #---------------------------------------------------------------
+        #  Run a reserve selector on an apparent problem if requested.
+        #---------------------------------------------------------------
+
+#  NOTE:
+#      THIS REQUIRES THE COR PROBLEM FOR THE APP PROBLEM TO BE AVAILABLE
+#      IN THE OLD TZAR RUN TOO.
+#      I THINK THAT'S BECAUSE IT'S NEEDED IN COMPUTING THE COR SCORE FOR THE
+#      APP RS RESULTS.
+
+    if (run_rs_on_APP_prob)
+        {
+        list_of_RSprob_APP_dirs =
+            get_list_of_RSprob_APP_dirs (tgt_filename_or_dirname_for_scp)
+
+        for (cur_prob_dir in list_of_RSprob_APP_dirs)
+            {
+                #  "saved.RSprob-APP-Wrap.2f261556-b9c4-4568-be52-dd45a154d696.rds"
+            rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
+            rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
+
+            app_bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
+            cor_bdprob =
+                get_loaded_cor_bdprob_for_loaded_app_bdprob (
+                                                tgt_filename_or_dirname_for_scp,
+                                                app_bdprob,
+                                                parameters)
+
+            do_rs_analysis_and_output (app_bdprob,
+                                       cor_bdprob,
+                                       parameters,
+                                       cur_prob_dir)
+            }  #  end for - APP dirs
+        }  #  end if - run rs on APP dirs
+
+    #---------------------------------------------------------------------------
+
+        #--------------------------------------------------
+        #  Run network metrics on a problem if requested.
+        #--------------------------------------------------
+        #  Note that we're not using the existing parameter
+        #  called compute_network_metrics to control this
+        #  process because if that was turned on for
+        #  generating a problem above, it would have already
+        #  caused the generation of network metrics.
+        #  We need to separate that process from this one
+        #  where we're trying to take a set of existing
+        #  COR or APP problems that don't already have their
+        #  network metrics computed and do those computations
+        #  in a separate batch from the original problem
+        #  creation.  The reason for this is that some of
+        #  the network metrics are really slow and aren't
+        #  needed for just measuring reserve selector
+        #  performance.  They're intended for use as
+        #  performance prediction features later on in the
+        #  process.  Separating them out like this allows
+        #  running lots of experiments to generate problems
+        #  and do reserve selection to get results for those
+        #  first.  These slow network metrics can then be
+        #  run while those initial results are being
+        #  analyzed.  Similarly, if you only ran a small
+        #  subset of the metrics at some point and want to
+        #  run a bigger set of metrics later, you can use
+        #  this to do that.
+        #--------------------------------------------------
+
+    if (run_network_metrics_on_prob)
+        {
+        src_prob_and_path_list =
+            get_bdprob_from_rds_file (parameters$prob_src,
+                                      parameters$cur_input_prob_idx,
+                                      parameters$rds_file_set_path,
+                                      parameters$rds_file_set_yaml_array,
+                                      parameters$rds_file_path)
+
+        net_bdprob       = src_prob_and_path_list$src_Xu_bd_problem
+        src_rds_file_dir = src_prob_and_path_list$src_rds_file_dir
+
+            #------------------------------------------------------------
+            #  Creating network metric output is a bit different from
+            #  creating rsprobs or rsruns because the network output
+            #  is attached to the problem and usually goes into a
+            #  subdirectory of the problem's general directory.
+            #  When running these in batch like this, the problem's
+            #  directory probably no longer exists.
+            #  At a minimum, we want to attach the metric outputs back
+            #  onto the problem object in its slots for network output
+            #  and then write the modified problem object back out.
+            #  If we do that, we want to be careful not to mess up the
+            #  original object if something goes wrong.  We may also
+            #  want to preserve that original object anyway for some
+            #  other reason (e.g., it had a different set of network
+            #  metrics attached to it).
+            #  So, we will want to write the problem back out into a
+            #  different spot instead of just writing over the top of
+            #  the input problem.
+            #------------------------------------------------------------
+
+        exp_root_dir = file.path (normalizePath (parameters$full_output_dir_with_slash))
+        create_RSprob_dir_and_subdirs (exp_root_dir, net_bdprob)
+
+        net_bdprob = init_object_graph_data (net_bdprob,
+                                             exp_root_dir,
+                                             TRUE,
+                                             TRUE,
+                                             parameters$use_igraph_metrics,
+                                             parameters$use_bipartite_metrics,
+                                             parameters$bipartite_metrics_to_use,
+                                             write_to_disk = TRUE
+                                             )
+
+        net_bdprob = save_rsprob (net_bdprob, exp_root_dir)
+        }
+
+    #---------------------------------------------------------------------------
+
+    return()
+    }
+
+#===============================================================================
 #===============================================================================
 
     #  Test code for command line.
