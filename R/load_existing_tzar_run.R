@@ -508,6 +508,8 @@ cat ("\nrds_file_path = '", rds_file_path, "'\n")
 
         for (cur_prob_dir in list_of_RSprob_APP_dirs)
             {
+            cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
+
                 #  "saved.RSprob-APP-Wrap.2f261556-b9c4-4568-be52-dd45a154d696.rds"
             rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
             rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
