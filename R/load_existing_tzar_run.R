@@ -320,7 +320,7 @@ get_loaded_cor_bdprob_for_loaded_app_bdprob <-
 #-------------------------------------------------------------------------------
 
 act_on_loaded_existing_tzar_run <- function (tgt_filename_or_dirname_for_scp,
-                                             parameters, integerize)
+                                             parameters)
     {
         #------------------------------------------------------
         #  Make sure that exactly one action has been chosen.
