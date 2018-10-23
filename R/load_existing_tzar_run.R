@@ -450,10 +450,14 @@ if(FALSE){
 
             cor_bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
 
+            cat ("\nWould now run RS on COR problem '", rds_file_path, "'\n")
+            if (FALSE)
+            {
             do_rs_analysis_and_output (cor_bdprob,
                                        cor_bdprob,
                                        parameters,
                                        cur_prob_dir)
+            }
             }  #  end for - COR dirs
         }  #  end if - run rs on COR dirs
 
@@ -487,10 +491,15 @@ if(FALSE){
                                                 app_bdprob,
                                                 parameters)
 
+            cat ("\nWould now run RS on APP problem '", rds_file_path, "'\n")
+            if (FALSE)
+            {
             do_rs_analysis_and_output (app_bdprob,
                                        cor_bdprob,
                                        parameters,
                                        cur_prob_dir)
+            }
+
             }  #  end for - APP dirs
         }  #  end if - run rs on APP dirs
 
