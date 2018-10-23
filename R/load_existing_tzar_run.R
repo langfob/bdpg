@@ -63,7 +63,7 @@ load_existing_tzar_run_from_glass <- function (file_of_runs_to_load,
         #  scp that run into the current tzar run's output area.
         #---------------------------------------------------------
 
-    tgt_filename_or_dirname_for_scp = parameters$full_output_dir_with_slash
+#    tgt_filename_or_dirname_for_scp = parameters$full_output_dir_with_slash
 
     scp_one_existing_tzar_run (src_filename_or_dirname_to_scp,
                                tgt_filename_or_dirname_for_scp)
