@@ -586,6 +586,9 @@ if(FALSE){
             net_bdprob = get_loaded_bdprob (tgt_filename_or_dirname_for_scp,
                                             cur_prob_dir)
 
+#  NEED TO CLEAR ANY OLD NETWORK RESULTS IN
+#      - NETWORK DIRECTORY?
+#      - OLD OBJECT'S NETWORK SLOTS?
             net_bdprob = init_object_graph_data (net_bdprob,
                                                  tgt_filename_or_dirname_for_scp,    #  exp_root_dir,
                                                  TRUE,
@@ -617,6 +620,9 @@ if(FALSE){
             net_bdprob = get_loaded_bdprob (tgt_filename_or_dirname_for_scp,
                                             cur_prob_dir)
 
+#  NEED TO CLEAR ANY OLD NETWORK RESULTS IN
+#      - NETWORK DIRECTORY?
+#      - OLD OBJECT'S NETWORK SLOTS?
             net_bdprob = init_object_graph_data (net_bdprob,
                                                  tgt_filename_or_dirname_for_scp,    #  exp_root_dir,
                                                  TRUE,
