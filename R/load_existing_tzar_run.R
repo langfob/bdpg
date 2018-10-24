@@ -271,6 +271,21 @@ get_list_of_RSprob_APP_dirs <- function (lookindir)
 #===============================================================================
 #===============================================================================
 
+get_loaded_bdprob <- function (tgt_filename_or_dirname_for_scp,
+                               cur_prob_dir)
+    {
+    cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
+
+    rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
+    rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
+
+    bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
+
+    return (bdprob)
+    }
+
+#-------------------------------------------------------------------------------
+
 get_loaded_cor_bdprob_for_loaded_app_bdprob <-
     function (tgt_filename_or_dirname_for_scp,
               app_bdprob,
@@ -485,7 +500,7 @@ if(FALSE){
     #---------------------------------------------------------------------------
 
         #------------------------------------------------------------------
-        #  Run a reserve selector on a correct problem (base or wrapped),
+        #  Run a reserve selector on CORRECT problems (base or wrapped),
         #  if requested.
         #------------------------------------------------------------------
 
@@ -493,14 +508,17 @@ if(FALSE){
         {
         for (cur_prob_dir in list_of_RSprob_COR_dirs)
             {
-            cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
+            # cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
+            #
+            # rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
+            # rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
+            #
+            # cor_bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
 
-            rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
-            rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
+            cor_bdprob = get_loaded_bdprob (tgt_filename_or_dirname_for_scp,
+                                            cur_prob_dir)
 
-            cor_bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
 
-            cat ("\nWould now run RS on COR problem '", rds_file_path, "'\n")
 
             do_rs_analysis_and_output (cor_bdprob,
                                        cor_bdprob,
@@ -512,7 +530,7 @@ if(FALSE){
     #---------------------------------------------------------------------------
 
         #---------------------------------------------------------------
-        #  Run a reserve selector on an apparent problem if requested.
+        #  Run a reserve selector on APPARENT problems if requested.
         #---------------------------------------------------------------
 
 #  NOTE:
@@ -525,12 +543,20 @@ if(FALSE){
         {
         for (cur_prob_dir in list_of_RSprob_APP_dirs)
             {
-            cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
+            # cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
+            #
+            # rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
+            # rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
+            #
+            # app_bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
 
-            rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
-            rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
+            app_bdprob = get_loaded_bdprob (tgt_filename_or_dirname_for_scp,
+                                            cur_prob_dir)
 
-            app_bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
+
+
+
+
             cor_bdprob =
                 get_loaded_cor_bdprob_for_loaded_app_bdprob (
                                                 tgt_filename_or_dirname_for_scp,
