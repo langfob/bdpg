@@ -346,10 +346,14 @@ act_on_loaded_existing_tzar_run <- function (tgt_filename_or_dirname_for_scp,
     # gen_COR_prob  = value_or_FALSE_if_null (parameters$gen_COR_prob)
     gen_WRAP_prob = value_or_FALSE_if_null (parameters$gen_WRAP_prob)
     gen_APP_prob  = value_or_FALSE_if_null (parameters$gen_APP_prob)
+
     run_rs_on_ALL_prob = value_or_FALSE_if_null (parameters$run_rs_on_ALL_prob)
     run_rs_on_COR_prob = value_or_FALSE_if_null (parameters$run_rs_on_COR_prob)
     run_rs_on_APP_prob = value_or_FALSE_if_null (parameters$run_rs_on_APP_prob)
-    run_network_metrics_on_prob = value_or_FALSE_if_null (parameters$run_network_metrics_on_prob)
+
+    run_network_metrics_on_ALL_prob = value_or_FALSE_if_null (parameters$run_network_metrics_on_ALL_prob)
+    run_network_metrics_on_COR_prob = value_or_FALSE_if_null (parameters$run_network_metrics_on_COR_prob)
+    run_network_metrics_on_APP_prob = value_or_FALSE_if_null (parameters$run_network_metrics_on_APP_prob)
 
     # num_actions_chosen = gen_COR_prob + gen_WRAP_prob + gen_APP_prob +
     #                      run_rs_on_COR_prob + run_rs_on_APP_prob +
@@ -364,6 +368,48 @@ act_on_loaded_existing_tzar_run <- function (tgt_filename_or_dirname_for_scp,
     #                   "run_rs_on_APP_prob (", run_rs_on_APP_prob, "), ",
     #                   "run_network_metrics_on_prob (", run_network_metrics_on_prob, "), ",
     #                   "\n"))
+
+    #---------------------------------------------------------------------------
+
+        #------------------------------------------------------------------
+        #  Load COR and/or APP problem file lists according to the input
+        #  options selected.
+        #------------------------------------------------------------------
+
+    if (run_rs_on_ALL_prob)
+        {
+        run_rs_on_COR_prob = TRUE
+        run_rs_on_APP_prob = TRUE
+        }
+
+    if (run_network_metrics_on_ALL_prob)
+        {
+        run_network_metrics_on_COR_prob = TRUE
+        run_network_metrics_on_APP_prob = TRUE
+        }
+
+    if (run_rs_on_COR_prob | run_network_metrics_on_COR_prob)
+        {
+        list_of_RSprob_COR_dirs =
+            get_list_of_RSprob_COR_dirs (tgt_filename_or_dirname_for_scp)
+
+        cat ("\n\nIn act_on_loaded_existing_tzar_run():\n",
+             "list_of_RSprob_COR_dirs = \n")
+        print (list_of_RSprob_COR_dirs)
+        cat ("\n")
+        }
+
+    if (run_rs_on_APP_prob | run_network_metrics_on_APP_prob)
+        {
+        list_of_RSprob_APP_dirs =
+            get_list_of_RSprob_APP_dirs (tgt_filename_or_dirname_for_scp)
+
+        cat ("\n\nIn act_on_loaded_existing_tzar_run():\n",
+             "list_of_RSprob_APP_dirs = \n")
+        print (list_of_RSprob_APP_dirs)
+        cat ("\n")
+        }
+
 
     #---------------------------------------------------------------------------
 
@@ -438,33 +484,12 @@ if(FALSE){
     #---------------------------------------------------------------------------
 
         #------------------------------------------------------------------
-        #  Run a reserve selector on all COR and/or APP problems
-        #  (base or wrapped), if requested.
-        #------------------------------------------------------------------
-
-    if (run_rs_on_ALL_prob)
-        {
-        run_rs_on_COR_prob = TRUE
-        run_rs_on_APP_prob = TRUE
-        }
-
-    #---------------------------------------------------------------------------
-
-        #------------------------------------------------------------------
         #  Run a reserve selector on a correct problem (base or wrapped),
         #  if requested.
         #------------------------------------------------------------------
 
     if (run_rs_on_COR_prob)
         {
-        list_of_RSprob_COR_dirs =
-            get_list_of_RSprob_COR_dirs (tgt_filename_or_dirname_for_scp)
-
-cat ("\n\nIn run_rs_on_COR_prob branch of act_on_loaded_existing_tzar_run():\n",
-     "list_of_RSprob_COR_dirs = \n")
-print (list_of_RSprob_COR_dirs)
-cat ("\n")
-
         for (cur_prob_dir in list_of_RSprob_COR_dirs)
             {
 cat ("\nStarting for (cur_prob_dir in list_of_RSprob_COR_dirs).\n")
@@ -504,9 +529,6 @@ cat ("\nrds_file_path = '", rds_file_path, "'\n")
 
     if (run_rs_on_APP_prob)
         {
-        list_of_RSprob_APP_dirs =
-            get_list_of_RSprob_APP_dirs (tgt_filename_or_dirname_for_scp)
-
         for (cur_prob_dir in list_of_RSprob_APP_dirs)
             {
             cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
