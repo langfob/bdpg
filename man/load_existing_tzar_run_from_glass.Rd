@@ -4,8 +4,8 @@
 \alias{load_existing_tzar_run_from_glass}
 \title{Load an existing tzar run from glass}
 \usage{
-load_existing_tzar_run_from_glass(file_of_runs_to_load, prev_run_idx,
-  tgt_filename_or_dirname_for_scp)
+load_existing_tzar_run_from_glass(parameters, file_of_runs_to_load,
+  prev_run_idx, tgt_filename_or_dirname_for_scp)
 }
 \description{
 Load an existing tzar run from glass

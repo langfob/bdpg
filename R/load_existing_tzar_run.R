@@ -26,7 +26,8 @@
 
 #-------------------------------------------------------------------------------
 
-load_existing_tzar_run_from_glass <- function (file_of_runs_to_load,
+load_existing_tzar_run_from_glass <- function (parameters,
+                                               file_of_runs_to_load,
                                                prev_run_idx,
                                                tgt_filename_or_dirname_for_scp)
     {
