@@ -307,6 +307,8 @@ get_loaded_cor_bdprob_for_loaded_app_bdprob <-
     make_sure_that_cor_bdprob_is_base_of_app_bdprob (app_bdprob,
                                                    cor_bdprob,
                                                    parameters)
+
+    return (cor_bdprob)
     }
 
 #===============================================================================
