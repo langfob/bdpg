@@ -13,7 +13,8 @@
 #  nectar machines.
 #
 #  See daily log for 2017-08-19 Saturday for earlier work related to something
-#  similar to this in file single_action_using_tzar_reps.R.  That work only
+#  similar to this in file single_action_using_tzar_reps.R.  Much of the code
+#  in here was initially cloned from that earlier file.  That work only
 #  loads specific files from the same disk rather than loading entire
 #  tzar runs from a different machine.  It also has some other restrictions
 #  like only allowing one action to be done at a time, etc.
@@ -492,17 +493,10 @@ if(FALSE){
         {
         for (cur_prob_dir in list_of_RSprob_COR_dirs)
             {
-cat ("\nStarting for (cur_prob_dir in list_of_RSprob_COR_dirs).\n")
-cat ("\ntgt_filename_or_dirname_for_scp = '", tgt_filename_or_dirname_for_scp, "'\n")
+            cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
 
-cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
-cat ("\ncur_prob_dir = '", cur_prob_dir, "'\n")
-
-                #  "saved.RSprob-COR-Wrap.2f261556-b9c4-4568-be52-dd45a154d696.rds"
             rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
-cat ("\nrds_file_name = '", rds_file_name, "'\n")
             rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
-cat ("\nrds_file_path = '", rds_file_path, "'\n")
 
             cor_bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
 
@@ -533,7 +527,6 @@ cat ("\nrds_file_path = '", rds_file_path, "'\n")
             {
             cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
 
-                #  "saved.RSprob-APP-Wrap.2f261556-b9c4-4568-be52-dd45a154d696.rds"
             rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
             rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
 
