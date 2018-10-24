@@ -573,6 +573,70 @@ if(FALSE){
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
     #---------------------------------------------------------------------------
+
+        #------------------------------------------------------------
+        #  Run graph metrics on CORRECT problems (base or wrapped),
+        #  if requested.
+        #------------------------------------------------------------
+
+    if (run_network_metrics_on_COR_prob)
+        {
+        for (cur_prob_dir in list_of_RSprob_COR_dirs)
+            {
+            net_bdprob = get_loaded_bdprob (tgt_filename_or_dirname_for_scp,
+                                            cur_prob_dir)
+
+            net_bdprob = init_object_graph_data (net_bdprob,
+                                                 tgt_filename_or_dirname_for_scp,    #  exp_root_dir,
+                                                 TRUE,
+                                                 TRUE,
+                                                 parameters$use_igraph_metrics,
+                                                 parameters$use_bipartite_metrics,
+                                                 parameters$bipartite_metrics_to_use,
+                                                 write_to_disk = TRUE
+                                                 )
+#  NEED TO RM THE OLD SAVED PROBLEM?
+            net_bdprob = save_rsprob (net_bdprob,
+                                      tgt_filename_or_dirname_for_scp    #, exp_root_dir
+                                      )
+
+            }  #  end for - COR dirs
+        }  #  end if - run rs on COR dirs
+
+    #---------------------------------------------------------------------------
+
+        #------------------------------------------------------------
+        #  Run graph metrics on APPARENT problems (base or wrapped),
+        #  if requested.
+        #------------------------------------------------------------
+
+    if (run_network_metrics_on_APP_prob)
+        {
+        for (cur_prob_dir in list_of_RSprob_APP_dirs)
+            {
+            net_bdprob = get_loaded_bdprob (tgt_filename_or_dirname_for_scp,
+                                            cur_prob_dir)
+
+            net_bdprob = init_object_graph_data (net_bdprob,
+                                                 tgt_filename_or_dirname_for_scp,    #  exp_root_dir,
+                                                 TRUE,
+                                                 TRUE,
+                                                 parameters$use_igraph_metrics,
+                                                 parameters$use_bipartite_metrics,
+                                                 parameters$bipartite_metrics_to_use,
+                                                 write_to_disk = TRUE
+                                                 )
+#  NEED TO RM THE OLD SAVED PROBLEM?
+            net_bdprob = save_rsprob (net_bdprob,
+                                      tgt_filename_or_dirname_for_scp    #, exp_root_dir
+                                      )
+
+            }  #  end for - COR dirs
+        }  #  end if - run rs on COR dirs
+
+    #---------------------------------------------------------------------------
+
+
 if(FALSE){
 
         #--------------------------------------------------
