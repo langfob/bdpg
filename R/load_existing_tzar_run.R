@@ -588,12 +588,15 @@ act_on_loaded_existing_tzar_run <- function (tgt_filename_or_dirname_for_scp,
 #===============================================================================
 
     #  Test code for command line.
-if (FALSE)
-    {
-    getwd()
-    load_existing_tzar_run_from_glass()
-    getwd()
-    }
+# if (FALSE)
+#     {
+#     getwd()
+#     load_existing_tzar_run_from_glass (parameters,
+#                                        file_of_runs_to_load,
+#                                        prev_run_idx,
+#                                        tgt_filename_or_dirname_for_scp)
+#     getwd()
+#     }
 
 #===============================================================================
 
