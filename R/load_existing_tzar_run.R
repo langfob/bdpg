@@ -351,6 +351,38 @@ get_loaded_cor_bdprob_for_loaded_app_bdprob <-
 #===============================================================================
 #===============================================================================
 
+run_graph_metrics_on_RSprob <- function (tgt_filename_or_dirname_for_scp,
+                                         cur_prob_dir,
+                                         parameters)
+    {
+
+    full_path_for_loaded_bdprob =
+        get_full_path_for_loaded_bdprob (tgt_filename_or_dirname_for_scp,
+                                         cur_prob_dir)
+
+    net_bdprob = load_saved_obj_from_file (full_path_for_loaded_bdprob)
+
+
+#  NEED TO CLEAR ANY OLD NETWORK RESULTS IN
+#      - NETWORK DIRECTORY?
+#      - OLD OBJECT'S NETWORK SLOTS?
+
+    net_bdprob = init_object_graph_data (net_bdprob,
+                                         tgt_filename_or_dirname_for_scp,    #  exp_root_dir,
+                                         TRUE,
+                                         TRUE,
+                                         parameters$use_igraph_metrics,
+                                         parameters$use_bipartite_metrics,
+                                         parameters$bipartite_metrics_to_use,
+                                         write_to_disk = TRUE
+                                         )
+
+    net_bdprob = save_rsprob (net_bdprob, tgt_filename_or_dirname_for_scp)
+    }
+
+#===============================================================================
+#===============================================================================
+
 #' Execute a single action based on tzar repetition values in project.yaml
 #'
 #' This is the main workhorse function for bdpg.  It's intended to generate
@@ -516,25 +548,9 @@ act_on_loaded_existing_tzar_run <- function (tgt_filename_or_dirname_for_scp,
         {
         for (cur_prob_dir in list_of_RSprob_COR_dirs)
             {
-            net_bdprob = get_loaded_bdprob (tgt_filename_or_dirname_for_scp,
-                                            cur_prob_dir)
-
-#  NEED TO CLEAR ANY OLD NETWORK RESULTS IN
-#      - NETWORK DIRECTORY?
-#      - OLD OBJECT'S NETWORK SLOTS?
-            net_bdprob = init_object_graph_data (net_bdprob,
-                                                 tgt_filename_or_dirname_for_scp,    #  exp_root_dir,
-                                                 TRUE,
-                                                 TRUE,
-                                                 parameters$use_igraph_metrics,
-                                                 parameters$use_bipartite_metrics,
-                                                 parameters$bipartite_metrics_to_use,
-                                                 write_to_disk = TRUE
-                                                 )
-#  NEED TO RM THE OLD SAVED PROBLEM?
-            net_bdprob = save_rsprob (net_bdprob,
-                                      tgt_filename_or_dirname_for_scp    #, exp_root_dir
-                                      )
+            run_graph_metrics_on_RSprob (tgt_filename_or_dirname_for_scp,
+                                         cur_prob_dir,
+                                         parameters)
 
             }  #  end for - COR dirs
         }  #  end if - run rs on COR dirs
@@ -550,34 +566,12 @@ act_on_loaded_existing_tzar_run <- function (tgt_filename_or_dirname_for_scp,
         {
         for (cur_prob_dir in list_of_RSprob_APP_dirs)
             {
-            net_bdprob = get_loaded_bdprob (tgt_filename_or_dirname_for_scp,
-                                            cur_prob_dir)
+            run_graph_metrics_on_RSprob (tgt_filename_or_dirname_for_scp,
+                                         cur_prob_dir,
+                                         parameters)
 
-#  NEED TO CLEAR ANY OLD NETWORK RESULTS IN
-#      - NETWORK DIRECTORY?
-#      - OLD OBJECT'S NETWORK SLOTS?
-            net_bdprob = init_object_graph_data (net_bdprob,
-                                                 tgt_filename_or_dirname_for_scp,    #  exp_root_dir,
-                                                 TRUE,
-                                                 TRUE,
-                                                 parameters$use_igraph_metrics,
-                                                 parameters$use_bipartite_metrics,
-                                                 parameters$bipartite_metrics_to_use,
-                                                 write_to_disk = TRUE
-                                                 )
-#  NEED TO RM THE OLD SAVED PROBLEM?
-#  Also, is the UUID of the problem correct?  Need to make sure that it stays
-#  the same as the original UUID.
-            net_bdprob = save_rsprob (net_bdprob,
-                                      tgt_filename_or_dirname_for_scp    #, exp_root_dir
-                                      )
-
-            }  #  end for - COR dirs
-        }  #  end if - run rs on COR dirs
-
-    #---------------------------------------------------------------------------
-
-
+            }  #  end for - APP dirs
+        }  #  end if - run rs on APP dirs
 
     #---------------------------------------------------------------------------
 
