@@ -377,6 +377,17 @@ run_graph_metrics_on_RSprob <- function (tgt_filename_or_dirname_for_scp,
                                          write_to_disk = TRUE
                                          )
 
+        #  Remove old saved problem and replace it with the new one.
+
+#  Also, are the UUID and the checksum of the problem correct?
+#  Need to make sure that it stays the same as the original UUID but has a
+#  new checksum since the graph metrics have changed.
+
+    if (file.exists(full_path_for_loaded_bdprob))
+        {
+        file.remove(full_path_for_loaded_bdprob)
+        }
+
     net_bdprob = save_rsprob (net_bdprob, tgt_filename_or_dirname_for_scp)
     }
 
