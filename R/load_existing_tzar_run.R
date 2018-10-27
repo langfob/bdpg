@@ -633,6 +633,8 @@ if(FALSE){
                                                  write_to_disk = TRUE
                                                  )
 #  NEED TO RM THE OLD SAVED PROBLEM?
+#  Also, is the UUID of the problem correct?  Need to make sure that it stays
+#  the same as the original UUID.
             net_bdprob = save_rsprob (net_bdprob,
                                       tgt_filename_or_dirname_for_scp    #, exp_root_dir
                                       )
