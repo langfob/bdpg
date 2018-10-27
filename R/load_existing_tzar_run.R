@@ -271,15 +271,36 @@ get_list_of_RSprob_APP_dirs <- function (lookindir)
 #===============================================================================
 #===============================================================================
 
-get_loaded_bdprob <- function (tgt_filename_or_dirname_for_scp,
-                               cur_prob_dir)
+get_full_path_for_loaded_bdprob <- function (tgt_filename_or_dirname_for_scp,
+                                             cur_prob_dir)
     {
     cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
 
     rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
     rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
 
-    bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
+    full_path_for_loaded_bdprob = normalizePath (rds_file_path)
+
+    return (full_path_for_loaded_bdprob)
+    }
+
+#-------------------------------------------------------------------------------
+
+get_loaded_bdprob <- function (tgt_filename_or_dirname_for_scp,
+                               cur_prob_dir)
+    {
+# cur_prob_dir = file.path (tgt_filename_or_dirname_for_scp, cur_prob_dir)
+#
+# rds_file_name = list.files (cur_prob_dir, pattern="saved.RSprob*")
+# rds_file_path = file.path (cur_prob_dir, rds_file_name [1])  #  There should only be one element in the rds_file_name vector.
+#
+# bdprob = load_saved_obj_from_file (normalizePath (rds_file_path))
+
+    full_path_for_loaded_bdprob =
+        get_full_path_for_loaded_bdprob (tgt_filename_or_dirname_for_scp,
+                                         cur_prob_dir)
+
+    bdprob = load_saved_obj_from_file (full_path_for_loaded_bdprob)
 
     return (bdprob)
     }
