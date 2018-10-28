@@ -294,7 +294,7 @@ gen_20_basic_variants_including_cost_error <- function (parameters,
                     cat ("\n\nAT START OF gen_20_basic_variants_including_cost_error().\n\n")
 
     #===============================================================================
-    #       Generate a base problem, i.e, create the Xu graph nodes and edge_list.
+    #            Determine amount of error to add in apparent problems.
     #===============================================================================
 
     default_err_amt = 0.05
