@@ -235,7 +235,7 @@ always_set_new_or_forced_rand_seed <- function (location_string,
     R_internal_seed_array = .Random.seed
 
     cat ("\n\nRAND_SEED - always_set_new_or_forced_rand_seed: ", location_string,
-         "\n    forced_seed = '", forced_seed,
+         "\n    forced_seed = '", forced_seed, "'",
          "\n    new_seed = '", "'\n", sep='')
 
     return (list (seed_value = new_seed,
