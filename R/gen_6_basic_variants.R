@@ -68,7 +68,7 @@ gen_6_basic_variants <- function (parameters, integerize, err_amt = NA)
             }
         }
 
-    cat ("\n\nIn gen_6_basic_variants(), chosen err_amt = ", err_amt, "\n", sep='')
+                    cat ("\n\nIn gen_6_basic_variants(), chosen err_amt = ", err_amt, "\n", sep='')
 
     #===========================================================================
     #  Generate a base problem, i.e, create the Xu graph nodes and edge_list.
