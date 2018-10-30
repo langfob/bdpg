@@ -34,11 +34,41 @@ gen_6_basic_variants <- function (parameters, integerize, err_amt = NA)
     default_err_amt = 0.05
     if (is.na (err_amt))
         {
-        err_amt = vn (parameters$gen_basic_variants_err_amt,
-                      range_lo = 0, bounds_types = "ii",
-                      def_on_empty = TRUE, def = default_err_amt,
-                      treat_NULL_as_empty = TRUE, treat_NA_as_empty = FALSE)
+        use_unif_rand_err_amt =vb (parameters$use_unif_rand_err_amt,
+                                   def_on_empty = TRUE, def = FALSE)
+
+        if (use_unif_rand_err_amt)
+            {
+            default_err_amt_lower_bound = 0
+            err_amt_lower_bound = vn (parameters$err_amt_lower_bound,
+                                      range_lo = 0,
+                                      bounds_types = "ii",
+                                      def_on_empty = TRUE,
+                                      def = default_err_amt_lower_bound,
+                                      treat_NULL_as_empty = TRUE,
+                                      treat_NA_as_empty = FALSE)
+
+            default_err_amt_upper_bound = 0.10
+            err_amt_upper_bound = vn (parameters$err_amt_upper_bound,
+                                      range_lo = err_amt_lower_bound,
+                                      bounds_types = "ii",
+                                      def_on_empty = TRUE,
+                                      def = default_err_amt_upper_bound,
+                                      treat_NULL_as_empty = TRUE,
+                                      treat_NA_as_empty = FALSE)
+
+            err_amt = runif (1, err_amt_lower_bound, err_amt_upper_bound)
+
+            }  else
+            {
+            err_amt = vn (parameters$gen_basic_variants_err_amt,
+                          range_lo = 0, bounds_types = "ii",
+                          def_on_empty = TRUE, def = default_err_amt,
+                          treat_NULL_as_empty = TRUE, treat_NA_as_empty = FALSE)
+            }
         }
+
+    cat ("\n\nIn gen_6_basic_variants(), chosen err_amt = ", err_amt, "\n", sep='')
 
     #===========================================================================
     #  Generate a base problem, i.e, create the Xu graph nodes and edge_list.
