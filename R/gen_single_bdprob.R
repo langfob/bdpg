@@ -393,13 +393,20 @@ create_allowable_size_Xu_problem_from_scratch <- function (
 
             try_num = try_num + 1
             if (try_num > num_prob_size_retries_allowed)
+                {
                 keep_trying = FALSE
+                stop_bdpg (paste0 ("Failed to find allowable size Xu problem ",
+                                   " in < ", num_prob_size_retries_allowed,
+                                   " tries.\n"))
+                }
 
             }  else  #  Got a legal sized problem so quit looking for one
             {
             keep_trying = FALSE
             }
         }  #  end - while (keep_trying)
+
+    cat ("\n\nFound allowable size Xu problem after ", try_num, " tries.\n")
 
     return (PU_spp_pair_info)
     }
