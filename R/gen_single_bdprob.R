@@ -355,56 +355,6 @@ create_Xu_problem_from_scratch_given_params <-
 
 #===============================================================================
 
-check_for_allowable_number_of_spp <- function (num_spp,
-                                               max_allowed_num_spp,
-                                               try_num,
-                                               dont_derive_prob_params_from_4_Xu_metaparams,
-                                               num_prob_size_retries_allowed)
-    {
-    if (num_spp > max_allowed_num_spp)
-        {
-        cat ("\n\nAt prob size try '", try_num,
-             "': PU_spp_pair_info@num_spp (",
-             num_spp, ") > maximum allowed (",
-             max_allowed_num_spp, ").\n\n")  #parameters$max_allowed_num_spp, ").\n\n")
-
-            #-----------------------------------------------------------
-            #  If derived problem parameters were given directly, then
-            #  quit if the problem is too big.  Otherwise, keep trying
-            #  to find a problem that is a legal size.
-            #-----------------------------------------------------------
-
-        if (dont_derive_prob_params_from_4_Xu_metaparams)
-            {
-            keep_trying = FALSE
-            stop_bdpg (paste0 ("Derived Xu parameters passed in directly and ",
-                                " resulting Xu problem number of species (",
-                                num_spp, ") is > allowed (",
-                                max_allowed_num_spp, ").\n"))
-
-            } else  #  Deriving indirectly from 4 Xu metaparameters
-            {
-            if (try_num > num_prob_size_retries_allowed)
-                {
-                keep_trying = FALSE
-                stop_bdpg (paste0 ("Failed to find allowable size Xu problem ",
-                                   " in ", num_prob_size_retries_allowed,
-                                   " tries\nwhere max allowed number ",
-                                   "of species is ", max_allowed_num_spp,
-                                   ".\n"))
-                }
-            }
-
-        }  else  #  Got a legal sized problem so quit looking for one
-        {
-        keep_trying = FALSE
-        }
-
-    return (keep_trying)
-    }
-
-#===============================================================================
-
 #' Generate a Xu problem from scratch but insure it's less than a given size
 #'
 #' Generate a Xu biodiversity problem based on 4 input control parameters
