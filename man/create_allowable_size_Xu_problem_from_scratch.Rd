@@ -5,7 +5,7 @@
 \title{Generate a Xu problem from scratch but insure it's less than a given size}
 \usage{
 create_allowable_size_Xu_problem_from_scratch(max_allowed_num_spp,
-  parameters, integerize, default_num_prob_size_retries_allowed = 20)
+  parameters, integerize, default_num_prob_size_tries_allowed = 20)
 }
 \arguments{
 \item{max_allowed_num_spp}{integer maximum number of species allowed in the
@@ -17,7 +17,7 @@ and can have a varying number and set of elements depending on the run}
 
 \item{integerize}{function to use in converting floats to ints}
 
-\item{default_num_prob_size_retries_allowed}{integer number of retries of
+\item{default_num_prob_size_tries_allowed}{integer number of retries of
 problem creation to try to find one no larger than a given number of
 species}
 }

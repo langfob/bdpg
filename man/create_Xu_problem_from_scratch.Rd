@@ -4,10 +4,13 @@
 \alias{create_Xu_problem_from_scratch}
 \title{Generate a Xu problem from scratch}
 \usage{
-create_Xu_problem_from_scratch(max_allowed_num_spp, parameters, integerize)
+create_Xu_problem_from_scratch(max_allowed_num_spp,
+  dont_derive_prob_params_from_4_Xu_metaparams, parameters, integerize)
 }
 \arguments{
 \item{max_allowed_num_spp}{integer}
+
+\item{dont_derive_prob_params_from_4_Xu_metaparams}{boolean}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
