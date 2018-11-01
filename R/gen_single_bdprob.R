@@ -48,7 +48,8 @@ gen_single_bdprob_COR <- function (parameters,
 #' rather than reading it from a file.
 #'
 #' @param max_allowed_num_spp integer
-
+#' @param dont_derive_prob_params_from_4_Xu_metaparams boolean
+#'
 #' @inheritParams std_param_defns
 #'
 #' @return Returns a PU_spp_pair_info_class object
@@ -60,14 +61,12 @@ gen_single_bdprob_COR <- function (parameters,
 #-------------------------------------------------------------------------------
 
 create_Xu_problem_from_scratch <- function (max_allowed_num_spp,
+                                            dont_derive_prob_params_from_4_Xu_metaparams,
                                             parameters,
                                             integerize)
     {
     duplicate_links_allowed =
         value_or_FALSE_if_null (parameters$duplicate_links_allowed)
-
-    dont_derive_prob_params_from_4_Xu_metaparams =
-        value_or_FALSE_if_null (parameters$dont_derive_prob_params_from_4_Xu_metaparams)
 
     if (dont_derive_prob_params_from_4_Xu_metaparams)
         {
@@ -135,22 +134,32 @@ create_Xu_problem_from_scratch_given_4_Xu_metaparams <-
 
     #-------------------------------------------------------------------------------
 
-    PU_spp_pair_info =
-        create_Xu_problem_from_scratch_given_params (
+    if (derived_Xu_params@max_possible_tot_num_links > max_allowed_num_spp)
+        {
+        PU_spp_pair_info = NULL
 
-                 derived_Xu_params@tot_num_nodes,
-                 derived_Xu_params@num_nodes_per_group,
-                    base_Xu_params@n__num_groups,
-              bdpg_extended_params@num_independent_nodes_per_group,
-                 derived_Xu_params@max_possible_tot_num_links,
-                 derived_Xu_params@target_num_links_between_2_groups_per_round,
-                 derived_Xu_params@num_rounds_of_linking_between_groups,
-                                   duplicate_links_allowed,
-                                                    max_allowed_num_spp,
-                                                    parameters,
-                                                    integerize)
+        } else  #  OK
 
-    PU_spp_pair_info@Xu_parameters = Xu_parameters
+    #-------------------------------------------------------------------------------
+
+        {
+        PU_spp_pair_info =
+            create_Xu_problem_from_scratch_given_params (
+
+                     derived_Xu_params@tot_num_nodes,
+                     derived_Xu_params@num_nodes_per_group,
+                        base_Xu_params@n__num_groups,
+                  bdpg_extended_params@num_independent_nodes_per_group,
+                     derived_Xu_params@max_possible_tot_num_links,
+                     derived_Xu_params@target_num_links_between_2_groups_per_round,
+                     derived_Xu_params@num_rounds_of_linking_between_groups,
+                                       duplicate_links_allowed,
+                                                        max_allowed_num_spp,
+                                                        parameters,
+                                                        integerize)
+
+        PU_spp_pair_info@Xu_parameters = Xu_parameters
+        }
 
     return (PU_spp_pair_info)
     }
@@ -180,28 +189,39 @@ create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowe
                                                                       parameters,
                                                                       integerize)
     {
-    tot_num_nodes                               = parameters$tot_num_nodes
-    num_nodes_per_group                         = parameters$num_nodes_per_group
-    n__num_groups                               = parameters$n__num_groups
-    num_independent_nodes_per_group             = parameters$num_independent_nodes_per_group
-    max_possible_tot_num_links                  = parameters$max_possible_tot_num_links
-    target_num_links_between_2_groups_per_round = parameters$target_num_links_between_2_groups_per_round
-    num_rounds_of_linking_between_groups        = parameters$num_rounds_of_linking_between_groups
+    max_possible_tot_num_links = parameters$max_possible_tot_num_links
 
-    PU_spp_pair_info =
-        create_Xu_problem_from_scratch_given_params (
-            tot_num_nodes,
-            num_nodes_per_group,
-            n__num_groups,
-            num_independent_nodes_per_group,
-            max_possible_tot_num_links,
-            target_num_links_between_2_groups_per_round,
-            num_rounds_of_linking_between_groups,
+    if (max_possible_tot_num_links > max_allowed_num_spp)
+        {
+        stop_bdpg (paste0 ("Derived Xu parameters passed in directly and ",
+                            " resulting Xu problem possible number of species (",
+                            max_possible_tot_num_links, ") is > allowed (",
+                            max_allowed_num_spp, ").\n"))
 
-            duplicate_links_allowed,
-            max_allowed_num_spp,
-            parameters,
-            integerize)
+        } else  #  OK
+        {
+        tot_num_nodes                               = parameters$tot_num_nodes
+        num_nodes_per_group                         = parameters$num_nodes_per_group
+        n__num_groups                               = parameters$n__num_groups
+        num_independent_nodes_per_group             = parameters$num_independent_nodes_per_group
+        target_num_links_between_2_groups_per_round = parameters$target_num_links_between_2_groups_per_round
+        num_rounds_of_linking_between_groups        = parameters$num_rounds_of_linking_between_groups
+
+        PU_spp_pair_info =
+            create_Xu_problem_from_scratch_given_params (
+                tot_num_nodes,
+                num_nodes_per_group,
+                n__num_groups,
+                num_independent_nodes_per_group,
+                max_possible_tot_num_links,
+                target_num_links_between_2_groups_per_round,
+                num_rounds_of_linking_between_groups,
+
+                duplicate_links_allowed,
+                max_allowed_num_spp,
+                parameters,
+                integerize)
+        }
 
     return (PU_spp_pair_info)
     }
@@ -335,12 +355,62 @@ create_Xu_problem_from_scratch_given_params <-
 
 #===============================================================================
 
+check_for_allowable_number_of_spp <- function (num_spp,
+                                               max_allowed_num_spp,
+                                               try_num,
+                                               dont_derive_prob_params_from_4_Xu_metaparams,
+                                               num_prob_size_retries_allowed)
+    {
+    if (num_spp > max_allowed_num_spp)
+        {
+        cat ("\n\nAt prob size try '", try_num,
+             "': PU_spp_pair_info@num_spp (",
+             num_spp, ") > maximum allowed (",
+             max_allowed_num_spp, ").\n\n")  #parameters$max_allowed_num_spp, ").\n\n")
+
+            #-----------------------------------------------------------
+            #  If derived problem parameters were given directly, then
+            #  quit if the problem is too big.  Otherwise, keep trying
+            #  to find a problem that is a legal size.
+            #-----------------------------------------------------------
+
+        if (dont_derive_prob_params_from_4_Xu_metaparams)
+            {
+            keep_trying = FALSE
+            stop_bdpg (paste0 ("Derived Xu parameters passed in directly and ",
+                                " resulting Xu problem number of species (",
+                                num_spp, ") is > allowed (",
+                                max_allowed_num_spp, ").\n"))
+
+            } else  #  Deriving indirectly from 4 Xu metaparameters
+            {
+            if (try_num > num_prob_size_retries_allowed)
+                {
+                keep_trying = FALSE
+                stop_bdpg (paste0 ("Failed to find allowable size Xu problem ",
+                                   " in ", num_prob_size_retries_allowed,
+                                   " tries\nwhere max allowed number ",
+                                   "of species is ", max_allowed_num_spp,
+                                   ".\n"))
+                }
+            }
+
+        }  else  #  Got a legal sized problem so quit looking for one
+        {
+        keep_trying = FALSE
+        }
+
+    return (keep_trying)
+    }
+
+#===============================================================================
+
 #' Generate a Xu problem from scratch but insure it's less than a given size
 #'
 #' Generate a Xu biodiversity problem based on 4 input control parameters
 #' rather than reading it from a file.
 #'
-#' @param default_num_prob_size_retries_allowed integer number of retries of
+#' @param default_num_prob_size_tries_allowed integer number of retries of
 #'     problem creation to try to find one no larger than a given number of
 #'     species
 #' @inheritParams std_param_defns
@@ -354,55 +424,59 @@ create_allowable_size_Xu_problem_from_scratch <- function (
         max_allowed_num_spp,
         parameters,
         integerize,
-        default_num_prob_size_retries_allowed = 20)
+        default_num_prob_size_tries_allowed = 20)
     {
-        #-----------------------------------------------------------------------
-        #  If the parameters list didn't specify a number of retries to allow,
-        #  then use a default value.
-        #-----------------------------------------------------------------------
-
     num_prob_size_retries_allowed = vn (parameters$num_prob_size_retries_allowed,
                                         def_on_empty = TRUE,
-                                        def = default_num_prob_size_retries_allowed,
+                                        def = default_num_prob_size_tries_allowed,
                                         range_lo = 0, bounds_types = "ii")
 
-        #-----------------------------------------------------------------------
-        #  Create a problem and check its size.
-        #  If too big, try again unless you've now reached the allowed number
-        #  of retries.
-        #  If not too big, then return the problem's information.
-        #-----------------------------------------------------------------------
+    dont_derive_prob_params_from_4_Xu_metaparams =
+        value_or_FALSE_if_null (parameters$dont_derive_prob_params_from_4_Xu_metaparams)
 
     if (is.null (max_allowed_num_spp)) max_allowed_num_spp = Inf
 
+        #-----------------------------------------------------------------------
+        #  Create a problem and make sure that it doesn't have too many species.
+        #  If too many, try again unless you've reached the allowed number
+        #  of retries.
+        #  If not too many, then return the problem's information.
+        #-----------------------------------------------------------------------
+
     keep_trying = TRUE
-    try_num = 1
+    try_num = 0
     while (keep_trying)
         {
         PU_spp_pair_info =
             create_Xu_problem_from_scratch (max_allowed_num_spp,
+                                            dont_derive_prob_params_from_4_Xu_metaparams,
                                             parameters,
                                             integerize)
 
-        if (PU_spp_pair_info@num_spp > max_allowed_num_spp)
-            {
-            cat ("\n\nAt prob size try '", try_num,
-                 "': PU_spp_pair_info@num_spp (",
-                 PU_spp_pair_info@num_spp, ") > maximum allowed (",
-                 max_allowed_num_spp, ").\n\n")  #parameters$max_allowed_num_spp, ").\n\n")
+            #-------------------------------------------------------------------
+            #  Check to see whether the problem has too many species.
+            #  create_Xu_problem_from_scratch() will return NULL if the
+            #  created problem has more species than allowed.
+            #  If it does and you've already done too many retries, then stop.
+            #  Otherwise, try again to generate a properly sized problem.
+            #
+            #      NOTE that if the derived parameters were passed directly
+            #      to the problem builder, then only one try is allowed
+            #      because the parameters wouldn't be changed on a retry.
+            #      If those parameters specify too many species, then
+            #      create_Xu_problem_from_scratch() will stop R right there
+            #      and not return to this routine.
+            #-------------------------------------------------------------------
 
-            try_num = try_num + 1
-            if (try_num > num_prob_size_retries_allowed)
-                {
-                keep_trying = FALSE
-                stop_bdpg (paste0 ("Failed to find allowable size Xu problem ",
-                                   " in < ", num_prob_size_retries_allowed,
-                                   " tries.\n"))
-                }
-
-            }  else  #  Got a legal sized problem so quit looking for one
+        try_num = try_num + 1
+        if (is.null (PU_spp_pair_info) & (try_num > num_prob_size_retries_allowed))
             {
             keep_trying = FALSE
+            stop_bdpg (paste0 ("Failed to find allowable size Xu problem ",
+                               " in ", num_prob_size_retries_allowed,
+                               " tries\nwhere max allowed number ",
+                               "of species is ", max_allowed_num_spp,
+                               ".\n"))
             }
         }  #  end - while (keep_trying)
 
