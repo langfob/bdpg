@@ -134,6 +134,9 @@ create_Xu_problem_from_scratch_given_4_Xu_metaparams <-
 
     #-------------------------------------------------------------------------------
 
+    cat ("\n\nIn create_Xu_problem_from_scratch_given_4_Xu_metaparams(), max_possible_tot_num_links = ",
+         derived_Xu_params@max_possible_tot_num_links)
+
     if (derived_Xu_params@max_possible_tot_num_links > max_allowed_num_spp)
         {
         PU_spp_pair_info = NULL
@@ -189,7 +192,11 @@ create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowe
                                                                       parameters,
                                                                       integerize)
     {
+    PU_spp_pair_info = NULL
     max_possible_tot_num_links = parameters$max_possible_tot_num_links
+
+    cat ("\n\nIn create_Xu_problem_from_scratch_not_using_4_Xu_metaparams(), max_possible_tot_num_links = ",
+         max_possible_tot_num_links)
 
     if (max_possible_tot_num_links > max_allowed_num_spp)
         {
@@ -411,8 +418,9 @@ create_allowable_size_Xu_problem_from_scratch <- function (
             #  Otherwise, try again to generate a properly sized problem.
             #
             #      NOTE that if the derived parameters were passed directly
-            #      to the problem builder, then only one try is allowed
-            #      because the parameters wouldn't be changed on a retry.
+            #      to the problem builder instead of being derived inside
+            #      the problem builder, then only one try is allowed
+            #      because the parameters would not be changed by a retry.
             #      If those parameters specify too many species, then
             #      create_Xu_problem_from_scratch() will stop R right there
             #      and not return to this routine.
