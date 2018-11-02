@@ -427,14 +427,23 @@ create_allowable_size_Xu_problem_from_scratch <- function (
             #-------------------------------------------------------------------
 
         try_num = try_num + 1
-        if (is.null (PU_spp_pair_info) & (try_num > num_prob_size_retries_allowed))
+        if (is.null (PU_spp_pair_info))
+            {
+                #  Number of species was too large.
+            if (try_num > num_prob_size_retries_allowed)
+                {
+                stop_bdpg (paste0 ("Failed to find allowable size Xu problem ",
+                                   " in ", num_prob_size_retries_allowed,
+                                   " tries\nwhere max allowed number ",
+                                   "of species is ", max_allowed_num_spp,
+                                   ".\n"))
+                } else  #  Still have more retries allowed, so keep trying.
+                {
+                keep_trying = TRUE
+                }
+            } else    #  Found a problem with a legal number of species.
             {
             keep_trying = FALSE
-            stop_bdpg (paste0 ("Failed to find allowable size Xu problem ",
-                               " in ", num_prob_size_retries_allowed,
-                               " tries\nwhere max allowed number ",
-                               "of species is ", max_allowed_num_spp,
-                               ".\n"))
             }
         }  #  end - while (keep_trying)
 
