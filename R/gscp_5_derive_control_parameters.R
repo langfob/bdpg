@@ -360,7 +360,14 @@ derive_Xu_control_parameters = function (parameters, integerize)
 
         #  Derived control parameters.
 
-    cat ("\n\n--------------------  Building derived control parameters.\n")
+    cat ("\n\n--------------------  About to build derived control parameters.\n")
+
+    cat ("\n\nInput variable settings")
+    cat ("\n\t\t n__num_groups = ", n__num_groups)
+    cat ("\n\t\t alpha__ = ", alpha__)
+    cat ("\n\t\t p__prop_of_links_between_groups = ", p__prop_of_links_between_groups)
+    cat ("\n\t\t r__density = ", r__density)
+
 
         #  Originally, this parameter was set assuming that there was only
         #  1 independent node per group.
@@ -368,6 +375,11 @@ derive_Xu_control_parameters = function (parameters, integerize)
         #  number of nodes per group.  However, we only want to add the
         #  the excess independent nodes that are beyond the original 1,
         #  so we have to subtract 1 from the number we're adding on.
+
+cat ("\n\n\t\t integerize (n__num_groups ^ alpha__) = ", integerize (n__num_groups ^ alpha__))
+cat ("\n\n\t\t integerize (n__num_groups ^ alpha__)  - (num_independent_nodes_per_group - 1) = ",
+     integerize (n__num_groups ^ alpha__)  - (num_independent_nodes_per_group - 1))
+#browser()
 
     #original#    num_nodes_per_group = integerize (n__num_groups ^ alpha__)
     num_nodes_per_group =
@@ -432,12 +444,14 @@ derive_Xu_control_parameters = function (parameters, integerize)
                             max_possible_num_links_between_groups)
     max_possible_tot_num_node_link_pairs = 2 * max_possible_tot_num_links
 
-    cat ("\n\nInput variable settings")
-    cat ("\n\t\t n__num_groups = ", n__num_groups)
-    cat ("\n\t\t alpha__ = ", alpha__)
-    cat ("\n\t\t p__prop_of_links_between_groups = ", p__prop_of_links_between_groups)
-    cat ("\n\t\t r__density = ", r__density)
+    cat ("\n\n--------------------  After building derived control parameters.\n")
 
+    # cat ("\n\nInput variable settings")
+    # cat ("\n\t\t n__num_groups = ", n__num_groups)
+    # cat ("\n\t\t alpha__ = ", alpha__)
+    # cat ("\n\t\t p__prop_of_links_between_groups = ", p__prop_of_links_between_groups)
+    # cat ("\n\t\t r__density = ", r__density)
+    #
     cat ("\n\nDerived variable settings")
     cat ("\n\t\t num_nodes_per_group = ", num_nodes_per_group)
     cat ("\n\t\t num_rounds_of_linking_between_groups = ", num_rounds_of_linking_between_groups)
