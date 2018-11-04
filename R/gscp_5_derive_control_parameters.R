@@ -382,9 +382,30 @@ cat ("\n\n\t\t integerize (n__num_groups ^ alpha__)  - (num_independent_nodes_pe
 #browser()
 
     #original#    num_nodes_per_group = integerize (n__num_groups ^ alpha__)
+        #  2018 11 04 - BTL
+        #  When n__num_groups and alpha__ are both small, then the
+        #  num_nodes_per_group can be very small and this call to vn()
+        #  will fail.
+        #  I need a more robust solution that allows for redrawing when alpha__
+        #  was a random value, but it will take some work and possible changes
+        #  to vn(), vb(), etc to allow exception handling.  I don't want to
+        #  get into that right now, so I'm just going to set the value to
+        #  the smallest legal value (i.e., 2) when the derived value is illegal.
+        #  I would normally be fine with it just failing, but tzar has a bug
+        #  right now that means the run is not flagged as failing when this
+        #  error occurs and that causes more problems than just hacking in
+        #  smallest legal size here.  When that tzar bug is fixed then this
+        #  could revert back to the vn() call.
+        #  Meanwhile, I've written this up as issue #57 in the bdpg repository
+        #  on github.
+    # num_nodes_per_group =
+    #     vn (integerize (n__num_groups ^ alpha__) -
+    #             (num_independent_nodes_per_group - 1), range_lo=2)
     num_nodes_per_group =
-        vn (integerize (n__num_groups ^ alpha__) -
-                (num_independent_nodes_per_group - 1), range_lo=2)
+        max (2,
+             integerize (n__num_groups ^ alpha__) -
+                        (num_independent_nodes_per_group - 1))
+
 
     #original#    num_independent_set_nodes = n__num_groups
     num_independent_set_nodes =
