@@ -411,7 +411,6 @@ cat ("\n\n\t\t integerize (n__num_groups ^ alpha__)  - (num_independent_nodes_pe
         num_nodes_per_group = 2
         }
 
-
     #original#    num_independent_set_nodes = n__num_groups
     num_independent_set_nodes =
         vn (n__num_groups * num_independent_nodes_per_group, range_lo=1)
