@@ -402,9 +402,14 @@ cat ("\n\n\t\t integerize (n__num_groups ^ alpha__)  - (num_independent_nodes_pe
     #     vn (integerize (n__num_groups ^ alpha__) -
     #             (num_independent_nodes_per_group - 1), range_lo=2)
     num_nodes_per_group =
-        max (2,
-             integerize (n__num_groups ^ alpha__) -
-                        (num_independent_nodes_per_group - 1))
+        integerize (n__num_groups ^ alpha__) -
+                                    (num_independent_nodes_per_group - 1)
+    if (num_nodes_per_group < 2)
+        {
+        cat ("\n\nDerived num_nodes_per_group was too small (i.e., < 2), ",
+             "so setting it to 2.\n")
+        num_nodes_per_group = 2
+        }
 
 
     #original#    num_independent_set_nodes = n__num_groups
