@@ -421,6 +421,34 @@ gen_raw_histogram_of_wrapped_dist <- function (Xu_PU_spp_table,
 
 #===============================================================================
 
+#' See whether wrapping species fully contain base species
+#'
+#' When wrapping a species distribution around a Xu biodiversity problem,
+#' the optimizer may have stopped before finding a distribution that fully
+#' encloses the base distribution, i.e., the wrapping distribution has fewer
+#' species that occur on exactly 2 patches than the base distribution has.
+#' In that case, the freq entry in the wrapping abundance distribution will
+#' be negative.  If the allow_imperfect_wrap flag is set to TRUE, then
+#' set that histogram value to be 0 instead of the negative value, otherwise,
+#' it's a fatal error and the program should stop.
+#'
+#' Note that the reason the value gets set to 0 instead of to the number of
+#' species on 2 patches in the base distribution is that the histogram is
+#' representing the total number of Extra species to be added that occur on
+#' exactly 2 patches rather than the total number of species occurring on 2
+#' patches in the entire combined distribution.
+#'
+#-------------------------------------------------------------------------------
+
+#' @param final_wrapped_extra_spp_abund_hist data frame showing the number of
+#' species to be added for each occurrence count, e.g., how many new species
+#' to add that occur on exactly 2 patches, exactly 3 patches, etc.
+#' @param allow_imperfect_wrap boolean indicating whether the proposed wrapping
+#' distribution is allowed to not fully enclose the base distribution
+#'
+#' @return list containing the final wrapping abundance histogram and a boolean
+#' flag indicating whether the wrap is imperfect or not
+
 check_for_imperfect_wrap <- function (final_wrapped_extra_spp_abund_hist,
                                       allow_imperfect_wrap)
     {
@@ -490,6 +518,16 @@ check_for_imperfect_wrap <- function (final_wrapped_extra_spp_abund_hist,
         if (allow_imperfect_wrap)
             {
             indices_of_negative_freqs = which (final_wrapped_extra_spp_abund_hist [,'freq'] < 0)
+
+                #  In the current incarnation of problems, this should only
+                #  occur for species that occur on exactly 2 patches.
+                #  Set the count in the histogram to 0; don't set it to the
+                #  number of species occuring on 2 patches in the base problem,
+                #  since this histogram represents the number of species to
+                #  be ADDED for the wrapped distribution.  It doesn't
+                #  represent the total resulting number of species on exactly
+                #  2 patches in the combined wrapping and base set.
+
             final_wrapped_extra_spp_abund_hist [indices_of_negative_freqs, 'freq'] = 0
             }
 
