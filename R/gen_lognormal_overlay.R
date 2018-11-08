@@ -852,7 +852,11 @@ seed_value_for_search,
                                             )
 
     rounded_abundances = lognormal_search_results$abundance_data$rounded_abundances
+#browser()
     plot (sort(rounded_abundances, decreasing = TRUE))
+#max_abund = max (rounded_abundances)
+#normalized_abundances_xxx = rounded_abundances / max_abund
+#plot (normalized_abundances_xxx)
 
     return (rounded_abundances)
 
