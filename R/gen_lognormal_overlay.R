@@ -780,7 +780,8 @@ find_lognormal_to_wrap_around_Xu = function (Xu_bdprob, parameters,
         }
 
     num_spp_to_generate =
-        round (Xu_tot_num_spp / (1 - desired_Xu_spp_frac_of_all_spp))
+        round (Xu_tot_num_spp * (1 - desired_Xu_spp_frac_of_all_spp) /
+                                desired_Xu_spp_frac_of_all_spp)
 
     max_abundance_frac         = min (1.0,
                                       max (0,
