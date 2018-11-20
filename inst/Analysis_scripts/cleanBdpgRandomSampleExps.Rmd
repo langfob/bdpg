@@ -1,0 +1,658 @@
+---
+title: "Clean BDPG random sample experiments data"
+author: "Bill Langford"
+date: '`r Sys.Date()`'
+output: 
+  html_notebook:
+    toc: true # table of content true
+    toc_depth: 4  # upto three depths of headings (specified by #, ## and ###)
+---
+
+###  Using this as a notebook instead of a knitr file for now
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+-----   
+
+#  Load necessary libraries
+
+-----   
+
+```{r}
+library (dplyr)
+```
+
+-----   
+
+#  Set file paths
+
+-----   
+
+```{r setFilePaths}
+#===============================================================================
+
+results_dir = "/Users/bill/D/Projects/ProblemDifficulty/Results/"
+exp_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Batch_1_500/"
+exp_results_dir = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Batch_1_500/Clean/"
+
+    #  Output file path for combined data after cleaning here.
+cln_exp_path = paste0 (exp_results_dir, "cln_exp.")
+suffix = ".csv"
+
+#----------------
+#  OLD easyHard
+#----------------
+
+#eh#  easyHard_results_dir = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/"
+
+# # # base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/"
+# 
+#     #  Easy
+#eh#  easy_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base_2nd_attempt/bdpg_20_variants_all_rs_easy_base_2nd_try_Combined_err_amts/"
+# 
+#     #  Hard
+# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_1st_try_Combined_err_amts/"
+
+    #  Hard - 2, 5, 7.5, 10 % error
+#eh#  hard_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_02_05_075_10_Combined_err_amts/"
+
+    #  Output file path for combined Easy and Hard data after cleaning here.
+#eh#  cln_combinedEasyHard_path = paste0 (easyHard_results_dir, "cln_easyHard.")
+
+#eh#  suffix = ".combined_results.csv"
+```
+
+-----   
+
+#  Define functions
+
+-----   
+
+##  Define functions to read and write input and output data
+
+```{r loadInputData}
+#===============================================================================
+
+load_input_data <- function (rs_name, base_path, suffix)
+    {
+    infile = paste0 (base_path, rs_name, suffix)
+    cat ("\nIn load_input_data:  infile = '", infile, "'\n")
+
+        #  I can't remember why I called these "msa".  It might stand for 
+        #  multi-set analysis...
+    
+    df = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
+    
+    return (df)
+    }
+
+write_output_data <- function (df, rs_name, base_path, suffix)
+    {
+    outfile = paste0 (base_path, rs_name, suffix)
+    cat ("\n\nIn write_output_data(), outfile = '", outfile, 
+         "'\n", sep='')
+    write.csv (df, outfile, row.names=FALSE)
+    }
+
+```
+
+##  Define function to see which columns contain any NAs
+
+Sometimes NAs indicate bad data, so find all columns that have NAs so that you can see whether they're OK.
+
+###  Solutions using dplyr
+
+Different ways to count NAs over multiple columns  
+September 08, 2017  
+
+https://sebastiansauer.github.io/sum-isna/
+
+Here, derive na_counts using "Way 3: using dplyr" from that web page.  This gives the most  readable display of the output I've found yet.  Will go with this one for now.
+
+Unfortunately, it returns 64 columns containing NAs !!  
+
+It actually looks like it might be more informative to run this on each variant of the data separately because many values match the row count for one or the other.  That can flag values that are purposely not set for that variant or ones that I forgot to set.  Other columns that have counts that don't match the number of rows may indicate similar kinds of things.
+
+```{r defineFuncToFindNAcols}
+getColsWithNonZeroNAct <- function (aDataframe)
+    {
+    aDataframe %>%
+      select (everything()) %>%  # replace to your needs
+      summarise_all (funs (sum (is.na (.)))) -> na_counts
+    
+    non_zero_counts = na_counts [which (na_counts != 0)]    #  Returns a vector w/ named elements
+    glimpse (non_zero_counts)
+    
+    return (na_counts)
+    }
+```
+
+
+-----   
+
+#  Load input data    
+
+-----   
+
+Note that each reserve selector needs to be treated separately because each one may have columns that are specific to that reserve selector.  For example, gurobi has mipgap information that no other reserve selector has.
+
+```{r loadAndSummarizeInputData}
+
+#rs_name = "Gurobi"
+rs_name = "Marxan_SA"
+#rs_name = "Marxan_SA_SS"
+#rs_name = "ZL_Backward"
+#rs_name = "ZL_Forward"
+#rs_name = "SR_Backward"
+#rs_name = "SR_Forward"
+#rs_name = "UR_Backward"
+#rs_name = "UR_Forward"
+
+#eh#  easy_df = load_input_data (rs_name, easy_base_path, suffix)
+#glimpse (easy_df)
+
+
+#eh#  hard_df = load_input_data (rs_name, hard_base_path, suffix)
+#glimpse (hard_df)
+
+exp_df = load_input_data (rs_name, exp_base_path, suffix)
+#glimpse (exp_df)
+```
+
+-----   
+
+# Combine the easy and hard data into one data frame
+
+```{r combineEasyHard}
+#eh#  easyHard_df = bind_rows (easy_df, hard_df,  .id = "id")
+#glimpse (easyHard_df)
+    #  Convert dplyr's automatically generated dataset ids of "1" and "2" to 
+    #  "Easy" and "Hard".
+#eh#  easyHard_df$id = sapply (easyHard_df$id, function (x) if (x == "1") "Easy" else "Hard")
+```
+
+#  POSSIBLE BUGS:
+##  See which columns contain any NAs
+
+Sometimes NAs indicate bad data, so find all columns that have NAs so that you can see whether they're OK.
+
+There are lots of columns with NAs, but most of them look innocuous.  The ones that don't are examined later in this document.
+
+One thing to note is that there are a lot more columns with NAs in the combined easy/hard data set than in either individually.  This is primarily because when I ran the easy problems, the bdpg code wasn't writing the bipartite metrics to the output file, while it _was_ writing them for the hard problems (even though they were empty because I forgot to turn on more than connectance in this first pass).  When the two data frames are merged, it adds those bipartite metric columns to the full set and fills the easy problem values with NAs.
+
+```{r findColsWithNAsUsingdplyr}
+#eh#  getColsWithNonZeroNAct (easy_df)
+#eh#  getColsWithNonZeroNAct (hard_df)
+#eh#  getColsWithNonZeroNAct (easyHard_df)
+
+getColsWithNonZeroNAct (exp_df)
+```
+
+
+
+-----  
+
+#  Add metadata columns to mark row removals & modifications  
+
+-----  
+
+While cleaning the data, some rows may be removed or modified.  To document what's been and where to find where it was done, do two things.  First, add a column called "cln_mod" to the original data set.  Second, create a new, empty data set that will all lines removed from the data set during cleaning.  
+
+Initialize all "cln_mod" values in the original data set to "keep".  
+
+If the line is removed at some point, replace "keep" with a string naming the step where that line is removed and copy the line to the removed data set.  It doesn't matter what those strings are; they're just anything that enables you to find that processing step in this document.  
+
+Same idea for modifications to a line, but don't remove it and instead, set the cln_mod value to a label string.  
+
+Originally, I had a column for removals and a column for modifications, but it seemed difficult to manage for removals because they have to be tracked separately from the evolving data since they disappear from the evolving data.  This would make it cumbersome to find the matching lines in the original and evolving data sets.  Modified lines could be tracked in the evolving data set without any problem.  
+
+```{r addClnCols}
+save_removed_lines <- 
+        function (all_removed_lines,  #  dataframe:  existing cache of previously removed lines
+                  new_removed_lines,  #  dataframe:  lines currently being removed from original data
+                  label)              #  string:     label indicating where in cleaning process the lines are removed from the original data
+    {
+        #  If no lines to remove are passed in, then do nothing to the 
+        #  existing cache of removed lines.
+    
+    if (! is.null (new_removed_lines))
+        {
+            #  Attach a label to the removed lines to indicate where they 
+            #  were removed during the data cleaning process.
+        
+        new_removed_lines$cln_mod = label
+        
+            #  If there's already a data frame of previously removed lines, 
+            #  then add to it.
+            #  Otherwise, initialize it as the newly removed lines.
+        
+        all_removed_lines = ifelse (is.null (all_removed_lines), 
+                                    new_removed_lines, 
+                                    bind_rows (all_removed_lines))
+        }
+    
+    return (all_removed_lines)
+    }
+
+exp_df %>% 
+    mutate (cln_mod = "keep") -> exp_df
+glimpse (exp_df)
+```
+
+#  Count number of problems in each problem class
+
+This page mentions that you can group by more than one variable at a time, which I didn't realize:  
+
+https://data-se.netlify.com/2017/06/28/second_look_group_by/
+
+```{r groupTheData}
+exp_df %>% 
+    group_by (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> group_cts
+#glimpse (group_cts)
+print (group_cts)
+```
+
+
+### POSSIBLE BUG:  
+####  Missing values for some APP numSpp and numPU
+
+rsp_app_num_spp and rsp_app_num_PUs are both missing for all COR problems.  Probably not much of a bug since the value isn't used on COR data as far as I can remember.
+
+Implied fix?  Maybe I should just set these values to the same as the COR values and I've just forgotten to do that anywhere.
+
+```{r examineMissingAppNumSppPU}
+exp_df %>%
+    filter (is.na (rsp_app_num_spp)) %>% 
+    select (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_app_num_spp) -> app_num_spp_na_lines
+
+app_num_spp_na_lines %>%            
+    group_by (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> app_num_spp_na_lines_group_cts
+cat ("\n\n\n\napp_num_spp_na_lines_group_cts\n\n")
+glimpse (app_num_spp_na_lines_group_cts)
+
+exp_df %>%
+    filter (is.na (rsp_app_num_PUs)) %>% 
+    select (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_app_num_PUs) -> app_num_PUs_na_lines
+
+app_num_PUs_na_lines %>%            
+    group_by (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> app_num_PUs_na_lines_group_cts
+cat ("\n\n\n\napp_num_PUs_na_lines_group_cts\n\n")
+glimpse (app_num_PUs_na_lines_group_cts)
+
+
+exp_df %>%
+    filter (is.na (rsp_app_num_spp) & is.na (rsp_app_num_PUs)) %>% 
+    select (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_app_num_PUs) -> app_num_spp_and_PUs_na_lines
+
+app_num_spp_and_PUs_na_lines %>%            
+    group_by (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> app_num_spp_and_PUs_na_lines_group_cts
+cat ("\n\n\n\napp_num_spp_and_PUs_na_lines_group_cts\n\n")
+glimpse (app_num_spp_and_PUs_na_lines_group_cts)
+```
+
+Still, those APP cts should probably have a value.  For the moment, I'll just set their values here to match their COR values.
+
+```{r setMissingAppNumSppPUtoCorValues}
+    #  Show lines where COR and APP num_spp don't match.
+    #  The != test returns NA if either of the variables is NA, so 
+    #  you have to explicitly test for NA too.
+exp_df %>%
+    filter ((rsp_num_spp != rsp_app_num_spp) | (is.na (rsp_app_num_spp))) %>%
+    select (rsp_num_spp, rsp_app_num_spp, cln_mod) %>%
+    glimpse
+    
+    #  Change all the APP num spp and num PUs to equal their COR values.
+    #  Also set the mod flag to show they were modified here.
+exp_df %>%
+    mutate (cln_mod = ifelse ((is.na (rsp_app_num_spp) | is.na (rsp_app_num_PUs)), 
+                              "setMissingAppNumSppPUtoCorValues", cln_mod)) %>%
+    mutate (rsp_app_num_spp = ifelse (is.na (rsp_app_num_spp), rsp_num_spp, rsp_app_num_spp)) %>%
+    mutate (rsp_app_num_PUs = ifelse (is.na (rsp_app_num_PUs), rsp_num_PUs, rsp_app_num_PUs)) -> exp_df
+
+cat ("\n\n\n\nAfter mutating, remaining unset APP num spp & PUs:\n\n")
+exp_df %>%
+    filter (is.na (rsp_app_num_spp) | is.na (rsp_app_num_PUs)) %>%
+    select (rsp_num_spp, rsp_num_PUs, rsp_app_num_spp, rsp_app_num_PUs, cln_mod) %>%
+    glimpse
+
+cat ("\n\n\n\nand lines that were modified:\n\n")
+exp_df %>%
+    filter (cln_mod == "setMissingAppNumSppPUtoCorValues") %>%
+    select (rsp_num_spp, rsp_num_PUs, rsp_app_num_spp, rsp_app_num_PUs, cln_mod) %>%
+    glimpse
+```
+
+
+### POSSIBLE BUG:  
+####  Missing values related to allowing or not allowing imperfect wraps
+
+rsp_allow_imperfect_wrap and rsp_wrap_is_imperfect both have missing values.  Looks like the values are only set in the COR/Wrap/01-No_err case.  Seems like it needs to be set in every Wrap case.  
+
+Need to check this out.  It may be that it just defaults to not allowing imperfect wrap but doesn't echo that value to the output file.
+
+
+```{r examineMissingImperfectWrapValues}
+cat ("\n\n\n\nrsp_allow_imperfect_wrap group cts\n\n")
+exp_df %>%
+    filter (!is.na (rsp_allow_imperfect_wrap)) %>% 
+    select (
+#eh#         id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_allow_imperfect_wrap) %>%            
+    group_by (
+#eh#         id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) %>% 
+    glimpse
+
+cat ("\n\n\n\nrsp_wrap_is_imperfect group cts\n\n")
+exp_df %>%
+    filter (!is.na (rsp_wrap_is_imperfect)) %>% 
+    select (
+#eh#         id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_wrap_is_imperfect) %>%            
+    group_by (
+#eh#         id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) %>% 
+    glimpse
+
+```
+
+
+###  POSSIBLE BUG (though I doubt it):  
+####  Missing values for over and/or under cost err fracs wrt possible
+
+In all cases, either undercost or undercost err frac wrt possible err frac or both is missing.  They're never both set, which I think is correct.  
+
+Doing nothing here for now.  Need to look at the code and make sure it's doing the right thing here.
+
+```{r examineMissingOverUnder}
+exp_df %>%
+    filter (is.na (rs_over_opt_cost_err_frac_of_possible_overcost)) %>% 
+    select (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost) %>%            
+    group_by (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> overcost_na_lines_group_cts
+cat ("\n\n\n\novercost_na_lines_group_cts\n\n")
+glimpse (overcost_na_lines_group_cts)
+
+exp_df %>%
+    filter (is.na (rs_under_opt_cost_err_frac_of_possible_undercost)) %>% 
+    select (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_under_opt_cost_err_frac_of_possible_undercost) %>%            
+    group_by (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> undercost_na_lines_group_cts
+cat ("\n\n\n\nundercost_na_lines_group_cts\n\n")
+glimpse (undercost_na_lines_group_cts)
+
+
+exp_df %>%
+    filter (is.na (rs_over_opt_cost_err_frac_of_possible_overcost) & is.na (rs_under_opt_cost_err_frac_of_possible_undercost)) %>% 
+    select (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost, rs_under_opt_cost_err_frac_of_possible_undercost) %>%     
+    group_by (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> overcost_AND_undercost_na_lines_group_cts
+cat ("\n\n\n\novercost_AND_undercost_na_lines_group_cts\n\n")
+glimpse (overcost_AND_undercost_na_lines_group_cts)
+
+
+
+exp_df %>%
+    filter (xor (is.na (rs_over_opt_cost_err_frac_of_possible_overcost), is.na (rs_under_opt_cost_err_frac_of_possible_undercost))) %>% 
+    select (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost, rs_under_opt_cost_err_frac_of_possible_undercost) %>%     
+    group_by (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> overcost_XOR_undercost_na_lines_group_cts
+cat ("\n\n\n\novercost_XOR_undercost_na_lines_group_cts\n\n")
+glimpse (overcost_XOR_undercost_na_lines_group_cts)
+
+
+
+exp_df %>%
+    filter (!is.na (rs_over_opt_cost_err_frac_of_possible_overcost) & !is.na (rs_under_opt_cost_err_frac_of_possible_undercost)) %>% 
+    select (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rs_over_opt_cost_err_frac_of_possible_overcost, rs_under_opt_cost_err_frac_of_possible_undercost) %>%     
+    group_by (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> NEITHER_overcost_or_undercost_na_lines_group_cts
+cat ("\n\n\n\nNEITHER_overcost_or_undercost_na_lines_group_cts\n\n")
+glimpse (NEITHER_overcost_or_undercost_na_lines_group_cts)
+
+
+
+
+
+
+if(FALSE){
+looksLikeAlwaysOneOrBoth = c ('rs_over_opt_cost_err_frac_of_possible_overcost', 'rs_under_opt_cost_err_frac_of_possible_undercost')
+
+missingOverIdxs = which (is.na (exp_df$rs_over_opt_cost_err_frac_of_possible_overcost))
+
+missingUnderIdxs = which (is.na (exp_df$rs_under_opt_cost_err_frac_of_possible_undercost))
+
+missingBothIdxs = 
+    which ((is.na (exp_df$rs_over_opt_cost_err_frac_of_possible_overcost)
+            & 
+            is.na (exp_df$rs_under_opt_cost_err_frac_of_possible_undercost)))
+
+missingOneButNotBothIdxs = 
+    which (xor (
+        is.na (exp_df$rs_over_opt_cost_err_frac_of_possible_overcost),
+        is.na (exp_df$rs_under_opt_cost_err_frac_of_possible_undercost)))
+
+notMissingEitherIdxs = which (
+    ! is.na (exp_df$rs_over_opt_cost_err_frac_of_possible_overcost)
+            & 
+    ! is.na (exp_df$rs_under_opt_cost_err_frac_of_possible_undercost))
+}
+```
+
+#  Compute error magnifications and count resulting NaNs
+
+```{r computeErrMags}
+exp_df %>% 
+    mutate (emag = rsr_COR_euc_out_err_frac / 
+                   rsp_euc_realized_Ftot_and_cost_in_err_frac) -> exp_df
+
+                                # rsp_num_PUs, 
+                                # rsp_num_spp, 
+
+                                # rsp_FP_const_rate, 
+                                # rsp_FN_const_rate, 
+                                # rsp_realized_FP_rate, 
+                                # rsp_realized_FN_rate, 
+                                # rsp_realized_Ftot_rate, 
+
+exp_df %>%
+    filter (is.nan (emag)) %>% 
+    select (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label, rsp_num_spp, rsp_num_PUs, rsp_FN_const_rate, rsr_COR_euc_out_err_frac, rsp_euc_realized_Ftot_and_cost_in_err_frac) -> emag_nan_lines
+
+emag_nan_lines %>%            
+    group_by (
+#eh#          id, 
+        rsp_cor_or_app_str, rsp_base_wrap_str, rsp_combined_err_label) %>% 
+    summarise (n_per_group = n()) -> emag_nan_lines_group_cts
+print (emag_nan_lines_group_cts)
+```
+
+### POSSIBLE BUG:  
+####  There should only be emag NaNs for COR problems, but there are some for Easy App problems.
+
+Do they just have incredibly small input errors in the denominator (since they're all dominated by FN values)?
+
+Looking more closely, it looks like these have 0/0 for the magnification computation.  This may be a result of how I'm drawing instances of FNs and FPs.  I think that I'm drawing a uniform random number and seeing if it's less than the nominal error rate, e.g., 2%.  If you do this enough times, you may end up randomly getting the occasional case (particularly in small problems) where you never get a random number under the nominal value, so you get 0 realized input error.  Also, 0 input error leads to 0 output error in most cases, so you'd get the 0/0 magnification.  
+
+(Note that the nominal FN rate is 2% for all except the last 4 cases, which are all Base problems with 3 at 5% and 1 at 7.5%, all having between 34 and 37 species, which have 2 Positives for each species, meaning between 68 and 74 Positives that would all have to draw runif() values greater than the nominal value.  That seems unlikely, but maybe it's possible for the idea in the previous paragraph to hold.)
+
+An alternative method would be to use safe_sample() instead of runif() and draw indices of exactly 2% of the Positives to turn into False Negatives.  That way, you'd never get 0 input error (assuming there were enough Positives so that 2% of them was >= 1, i.e., at least 50 Positives for the example of 2%).  I like the current method though because it gets you values scattered around the nominal value rather than all being exactly the nominal value.  This gives a bit more variation in training examples to learn from.  However, you could get the same result by just scattering the nominal values themselves instead.  
+
+Need to look more closely at the code to see if this is what's going on...
+
+```{r examineAppMagNaNs}
+
+    #  Find the APP lines that have NaN emag values.
+emag_nan_lines %>%
+    filter (rsp_cor_or_app_str == "APP") -> app_emag_nan_lines
+glimpse (app_emag_nan_lines)
+print (app_emag_nan_lines)
+```
+
+For the moment, I'm going to just remove those Easy App problems with NaNs.
+
+```{r removeAppMagNaNs}
+
+#  Not doing easy/hard now, so comment this out until it's apparent whether it applies in some other way.
+
+if (FALSE)
+{
+    
+    
+    
+    #  Copy and save the lines to be deleted.
+exp_df %>%
+    filter (id == "Easy" & rsp_cor_or_app_str == "APP" & is.nan (emag)) -> easy_app_nan_mag_lines
+cat ("\n\n\n\neasy_app_nan_mag_lines\n\n")
+glimpse (easy_app_nan_mag_lines)
+
+    #  If any lines are removed, save them.
+if (dim (easy_app_nan_mag_lines) [1] != 0)
+    {
+    removed_exp_df_lines = NULL
+    removed_exp_df_lines = save_removed_lines (removed_exp_df_lines, 
+                                               easy_app_nan_mag_lines, 
+                                               "removeAppMagNaNs")
+    cat ("\n\n\n\nremoved_exp_df_lines\n\n")
+    glimpse (removed_exp_df_lines)
+    }
+
+    #  Now, remove those lines from the original data set.
+exp_df %>%
+    filter (! (id == "Easy" & rsp_cor_or_app_str == "APP" & is.nan (emag))) -> exp_df
+cat ("\n\n\n\nexp_df after easy_app_nan_mag_lines removed\n\n")
+glimpse (exp_df)
+
+
+
+}
+```
+
+#  Compute magnifications
+
+```{r computeMag}
+# exp_df %>%
+#   mutate (err_mag = rsr_COR_euc_out_err_frac / 
+#                     rsp_euc_realized_Ftot_and_cost_in_err_frac)
+
+
+emag = exp_df$rsr_COR_euc_out_err_frac / 
+       exp_df$rsp_euc_realized_Ftot_and_cost_in_err_frac
+emag [is.na (emag)] = 0
+
+exp_df$err_mag = emag
+```
+
+#  Compute PU,spp vars
+
+```{r computePUsppVars}
+# exp_df %>%
+#  mutate (sppPUsum = rsp_app_num_spp + rsp_app_num_PUs,
+#          sppPUprod = rsp_app_num_spp * rsp_app_num_PUs)
+
+sppPUsum = exp_df$rsp_num_spp + exp_df$rsp_num_PUs
+exp_df$sppPUsum = sppPUsum
+
+sppPUprod = exp_df$rsp_num_spp * exp_df$rsp_num_PUs
+exp_df$sppPUprod = sppPUprod
+
+cat (length (exp_df$sppPUsum))
+cat (length (exp_df$sppPUprod))
+```
+
+#  Write the full clean data set to a csv file
+
+```{r saveFullClnData}
+#eh#  print (cln_combinedEasyHard_path)    cln_exp_path
+print (cln_exp_path)
+
+print (rs_name)
+print (suffix)
+
+#eh#  base_path = cln_combinedEasyHard_path
+base_path = cln_exp_path
+
+outfile = paste0 (base_path, rs_name, suffix)
+print (outfile)
+
+#eh#  write_output_data (exp_df, rs_name, cln_combinedEasyHard_path, suffix)
+write_output_data (exp_df, rs_name, cln_exp_path, suffix)
+```
+
+-----  
+#  Not ready to do these yet...
+---  
+
+#  Separate COR and APP data
+```{r separateCorAndAppdata}
+
+                # rs_method_name, 
+                # rsp_combined_err_label, 
+                # rsp_cor_or_app_str, 
+                # rsp_base_wrap_str, 
+
+# COR_easy_df = filter (easy_df, rsp_cor_or_app_str == "COR")
+# #glimpse (COR_easy_df)
+# APP_easy_df = filter (easy_df, rsp_cor_or_app_str == "APP")
+# #glimpse (APP_easy_df)
+
+# COR_hard_df = filter (hard_df, rsp_cor_or_app_str == "COR")
+# #glimpse (COR_hard_df)
+# APP_hard_df = filter (hard_df, rsp_cor_or_app_str == "APP")
+# #glimpse (APP_hard_df)
+
+# getColsWithNonZeroNAct (COR_easy_df)
+# getColsWithNonZeroNAct (APP_easy_df)
+# getColsWithNonZeroNAct (COR_hard_df)
+# getColsWithNonZeroNAct (APP_hard_df)
+```
+
+
+
+
