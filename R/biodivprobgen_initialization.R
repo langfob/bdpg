@@ -186,6 +186,8 @@ init_for_bdpg <- function (parameters)
 
     full_run_rand_seed = get_full_run_random_seed (parameters)
 
+    cat ("\n\nfull_run_rand_seed = '", full_run_rand_seed, "'", sep='')
+
     always_set_new_or_forced_rand_seed ("Start of init_for_bdpg()",
                                         full_run_rand_seed)
     #                                     parameters$bdpg_run_init_rand_seed)
