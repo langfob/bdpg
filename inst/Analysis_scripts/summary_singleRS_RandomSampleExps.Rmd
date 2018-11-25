@@ -341,6 +341,87 @@ cat ("\nNumber of correct and apparent spp pairs that are not the same = ",
 plot (working_df$rsp_num_spp, working_df$rsp_app_num_spp)
 ```
 
+### Plot num PUs vs. num spp to show range of problem sizes
+
+```{r include=FALSE}
+#===============================================================================
+
+gg_numSpp_vs_numPUs_all_on_1 <- function (rs_name,
+                                               sorted_msa_tib,
+                                               ref_y = 0
+                                               
+                                               , shape_type="."
+                                               , alpha_level=1
+                                               )
+    {
+ggplot (data = sorted_msa_tib) +
+        aes(x = rsp_num_spp,
+                                    y = rsp_num_PUs,
+        #                            color = rsp_combined_err_label)) +
+#####                                    color = rsp_base_wrap_str) +
+                                     color = id) +
+# ##        geom_point() +
+# #        geom_point(shape=".", alpha=1/10) +
+         geom_point(shape=shape_type, alpha=alpha_level) +
+# #        geom_point(shape=".") +
+# #        geom_point(alpha=1/25) +
+
+
+#             #                            color = rsp_combined_err_label)) +
+# #                                         color = id
+# #         ,
+# #         shape="."
+# #         ) +
+# # ##            geom_point() +
+# # #        geom_point(shape=".") +
+# 
+#                                     color = id) +
+#         geom_point(shape=".", alpha=1) +
+
+    
+
+
+
+#####        scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+        scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
+#        stat_smooth(method = "lm", col = "green") +
+
+    # ggplot (data = sorted_msa_tib) +
+    #       geom_point (mapping = ) +
+    #     #scale_color_viridis(discrete=TRUE) +
+    #     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
+    #
+        ggtitle (paste0 (rs_name, " - Num Spp vs. Num PUs")) +
+        theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
+
+          geom_hline (yintercept = ref_y, linetype="dashed",
+                        color = "black", size=0.5) +
+          geom_abline (intercept=0, slope=1  #, linetype, color, size
+                       ) +
+          geom_abline (intercept=0, slope=5  #, linetype, color, size
+                       ) +
+          geom_abline (intercept=0, slope=10  #, linetype, color, size
+                       )
+    }
+
+#===============================================================================
+
+```
+
+```{r}
+gg_numSpp_vs_numPUs_all_on_1 (rs_name,
+                              
+                                               #####easyHard_df,
+                              working_df,
+                              
+                                               ref_y = 0
+                                               
+                                               # , shape_type="."
+                                               # , alpha_level=1
+                                               )
+
+```
+
 -----   
 
 #  Plot results
@@ -408,7 +489,7 @@ ggplot (data = sorted_msa_tib) +
     #     #scale_color_viridis(discrete=TRUE) +
     #     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
     #
-        ggtitle (paste0 (rs_name, " - Total input error vs. Total output error")) +
+        ggtitle (paste0 (rs_name, " - Tot in err vs. Tot out err")) +
         theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
           geom_hline (yintercept = ref_y, linetype="dashed",
@@ -452,7 +533,7 @@ gg_eucInTot_vs_eucOutTot_facetted_by_err_label <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - Total input error vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - Tot in err vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 5) +
@@ -497,7 +578,7 @@ gg_eucInTot_vs_eucOutTot_facetted_by_id <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - Total input error vs. Total output error by Batch ID")) +
+    ggtitle (paste0 (rs_name, " - Tot in err vs. Tot out err by Batch ID")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ id, nrow = 2) +
@@ -551,7 +632,6 @@ gg_eucInTot_vs_eucOutTot_all_on_1 (rs_name, working_df, ref_y = 0
 
 Will comment this out for the moment, since I'm not sure I want to plot these anymore.  They seem to not apply for gurobi and Marxan_SA, since they don't have such huge errors as some of the other reserve selectors.  May just need to have some of these outputs be dependent on which reserve selector you're looking at.
 
-#```{r}
 ```
 working_df %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> working_not_huge_out_err_df
@@ -651,7 +731,7 @@ gg_eucInTot_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - Total input error vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - Tot in err vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -696,7 +776,7 @@ gg_rsp_realized_FN_rate_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_na
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - Realized FN rate vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - Realized FN rate vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -766,7 +846,7 @@ gg_rsp_num_PUs_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR num PUs vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR num PUs vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -820,7 +900,7 @@ gg_rsp_num_spp_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR num spp vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR num spp vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -874,7 +954,7 @@ gg_rsp_num_spp_per_PU_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR num_spp_per_PU vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR num_spp_per_PU vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -929,7 +1009,7 @@ gg_rsp_correct_solution_cost_vs_eucOutTot_facetted_by_FN_dominance <- function (
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR solution_cost vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR solution_cost vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -983,7 +1063,7 @@ gg_sppPUsum_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR sppPUsum vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR sppPUsum vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -1038,7 +1118,7 @@ gg_sppPUprod_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR sppPUprod vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR sppPUprod vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -1112,7 +1192,7 @@ gg_eucInTot_vs_eucOutTot_facetted_by_FP_dominance <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - Total input error vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - Total input error vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -1157,7 +1237,7 @@ gg_rsp_realized_FP_rate_vs_eucOutTot_facetted_by_FP_dominance <- function (rs_na
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - Realized FP rate vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - Realized FP rate vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -1220,7 +1300,7 @@ gg_rsp_num_PUs_vs_eucOutTot_facetted_by_FP_dominance <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR num_PUs vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR num_PUs vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -1274,7 +1354,7 @@ gg_rsp_num_spp_vs_eucOutTot_facetted_by_FP_dominance <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR num_spp vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR num_spp vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -1327,7 +1407,7 @@ gg_rsp_num_spp_per_PU_vs_eucOutTot_facetted_by_FP_dominance <- function (rs_name
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR num_spp_per_PU vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR num_spp_per_PU vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -1380,7 +1460,7 @@ gg_rsp_correct_solution_cost_vs_eucOutTot_facetted_by_FP_dominance <- function (
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR correct_solution_cost vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR correct_solution_cost vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -1433,7 +1513,7 @@ gg_sppPUsum_vs_eucOutTot_facetted_by_FP_dominance <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR sppPUsum vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR sppPUsum vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -1487,7 +1567,7 @@ gg_sppPUprod_vs_eucOutTot_facetted_by_FP_dominance <- function (rs_name,
     #scale_color_brewer(palette="Set1") +
     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
 
-    ggtitle (paste0 (rs_name, " - COR sppPUprod vs. Total output error by Error Class")) +
+    ggtitle (paste0 (rs_name, " - COR sppPUprod vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
       facet_wrap (~ rsp_combined_err_label, nrow = 2) +
@@ -2175,12 +2255,14 @@ Given all this variability, can you predict how a particular reserve selector wi
 ##  Compute correlations among primary working data variables
 
 ```{r computeAllCorrs}
-
 library (corrplot)
+```
 
+###  Old version before timings and bipartite measures
+
+```{r selectOldCorrs}
     #  Compute correlation matrix after stripping out non-continuous 
     #  variables.
-
 continuous_vars_working_df = 
     select (working_df, #c (
             
@@ -2268,110 +2350,387 @@ continuous_vars_working_df =
                             # rs_over_opt_cost_err_frac_of_possible_overcost, 
                             # rs_under_opt_cost_err_frac_of_possible_undercost, 
                             # 
-                    rsr_COR_euc_out_err_frac,
+                    err_mag, 
+                    rsr_COR_euc_out_err_frac
                             # 
                             # rsr_COR_spp_rep_shortfall, 
                             # rsr_COR_solution_NUM_spp_covered, 
                             # rsr_COR_solution_FRAC_spp_covered, 
-    
-                    err_mag
     )
-#)
 
 correlations = cor (continuous_vars_working_df)
 
+num_corr_cols = ncol (correlations)
+correlations [, num_corr_cols-1 : num_corr_cols]
+```
+
+
+```{r plotOldCorrs}
     #  Plot the correlation matrix.
 
 corrplot (correlations, tl.cex=0.5
 #          , order = "hclust"    #  This fails because of NAs or NaNs in the data...
           )
-
-dim (correlations)
-correlations [, 18:19]
 ```
 
-## NOT cheating:  Fit prediction using problem size 
 
-### Plot num PUs vs. num spp to show range of problem sizes
+###  Revised set of variables to examine for correlations
 
-```{r include=FALSE}
-#===============================================================================
+```
+new_continuous_vars_working_df = 
+    select (working_df, #c (
 
-gg_numSpp_vs_numPUs_all_on_1 <- function (rs_name,
-                                               sorted_msa_tib,
-                                               ref_y = 0
-                                               
-                                               , shape_type="."
-                                               , alpha_level=1
-                                               )
-    {
-ggplot (data = sorted_msa_tib) +
-        aes(x = rsp_num_spp,
-                                    y = rsp_num_PUs,
-        #                            color = rsp_combined_err_label)) +
-#####                                    color = rsp_base_wrap_str) +
-                                     color = id) +
-# ##        geom_point() +
-# #        geom_point(shape=".", alpha=1/10) +
-         geom_point(shape=shape_type, alpha=alpha_level) +
-# #        geom_point(shape=".") +
-# #        geom_point(alpha=1/25) +
-
-
-#             #                            color = rsp_combined_err_label)) +
-# #                                         color = id
-# #         ,
-# #         shape="."
-# #         ) +
-# # ##            geom_point() +
-# # #        geom_point(shape=".") +
-# 
-#                                     color = id) +
-#         geom_point(shape=".", alpha=1) +
-
+            #  Input descriptors
+                    rsp_num_PUs, 
+                    rsp_num_spp, 
+                    rsp_num_spp_per_PU, 
+                    rsp_correct_solution_cost, 
+            
+                    sppPUsum,
+                    sppPUprod, 
+            
+            #  Post-gen knowable problem descriptors
+            
+                #  igraph package metrics
+                    ig_top, 
+                    ig_bottom, 
+                    ig_num_edges_m, 
+                    ig_ktop, 
+                    ig_kbottom, 
+                    ig_bidens, 
+                    ig_lcctop, 
+                    ig_lccbottom, 
+                    ig_distop, 
+                    ig_disbottom, 
+                    ig_cctop, 
+                    ig_ccbottom, 
+                    ig_cclowdottop, 
+                    ig_cclowdotbottom, 
+                    ig_cctopdottop, 
+                    ig_cctopdotbottom, 
+                    
+                    ig_mean_bottom_bg_redundancy, 
+                    ig_median_bottom_bg_redundancy, 
+                    ig_mean_top_bg_redundancy, 
+                    ig_median_top_bg_redundancy, 
+                    
+                    ig_user_time, 
+                    ig_system_time, 
+                    ig_elapsed_time, 
+                    ig_user_child_time, 
+                    ig_sys_child_time, 
+                                    
+                #  bipartite package metrics
+                    connectance, 
+        
+                    web_asymmetry,
+                    links_per_PUsAndSpp,
+                    cluster_coefficient,
+                    weighted_NODF,
+                    interaction_strength_asymmetry,
+                    specialisation_asymmetry,
+                    linkage_density,
+                    weighted_connectance,
+                    Shannon_diversity,
+                    interaction_evenness,
+                    Alatalo_interaction_evenness,
     
+                    mean.number.of.shared.partners.PUs,
+                    mean.number.of.shared.partners.Spp,
+                    cluster.coefficient.PUs,
+                    cluster.coefficient.Spp,
+                    niche.overlap.PUs,
+                    niche.overlap.Spp,
+                    togetherness.PUs,
+                    togetherness.Spp,
+                    C.score.PUs,
+                    C.score.Spp,
+                    V.ratio.PUs,
+                    V.ratio.Spp,
+                    functional.complementarity.PUs,
+                    functional.complementarity.Spp,
+                    partner.diversity.PUs,
+                    partner.diversity.Spp,
+                    generality.PUs,
+                    vulnerability.Spp,
+                    
+                    bip_user_time, 
+                    bip_system_time, 
+                    bip_elapsed_time, 
+                    bip_user_child_time, 
+                    bip_sys_child_time, 
+    
+    
+                #  Possibly knowable realized input error values
+                    rsp_realized_FP_rate, 
+                    rsp_realized_FN_rate, 
+                    rsp_realized_Ftot_rate, 
+                    rsp_euc_realized_FP_and_cost_in_err_frac, 
+                    rsp_euc_realized_FN_and_cost_in_err_frac, 
+                    rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+                    
+                #  Results and their errors
+                    rs_solution_cost, 
+                    rs_solution_cost_err_frac, 
+                    abs_rs_solution_cost_err_frac, 
+                    
+                    rs_over_opt_cost_err_frac_of_possible_overcost, 
+                    rs_under_opt_cost_err_frac_of_possible_undercost, 
+                    
+                    rsr_COR_euc_out_err_frac, 
+                    
+                    rsr_COR_spp_rep_shortfall, 
+                    rsr_COR_solution_NUM_spp_covered, 
+                    rsr_COR_solution_FRAC_spp_covered, 
+        
+                    err_mag, 
+                    
+                #  Reserve selector run times
+                    RS_user_time, 
+                    RS_system_time, 
+                    RS_elapsed_time, 
+                    RS_user_child_time, 
+                    RS_sys_child_time
+                      )
+#    )
+```
 
+###  Compute correlations of size vars with output error and magnification
 
+```{r}
+size_vars_working_df = 
+    select (working_df, #c (
 
-#####        scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
-        scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
-#        stat_smooth(method = "lm", col = "green") +
+            #  Input descriptors
+                    rsp_num_PUs, 
+                    rsp_num_spp, 
+                    rsp_num_spp_per_PU, 
+                    rsp_correct_solution_cost, 
+            
+                    sppPUsum,
+                    sppPUprod, 
+            
+                #  Results and their errors
+                    err_mag, 
+                    rsr_COR_euc_out_err_frac
+                      )
 
-    # ggplot (data = sorted_msa_tib) +
-    #       geom_point (mapping = ) +
-    #     #scale_color_viridis(discrete=TRUE) +
-    #     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
-    #
-        ggtitle (paste0 (rs_name, " - Num Spp vs. Num PUs")) +
-        theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
-
-          geom_hline (yintercept = ref_y, linetype="dashed",
-                        color = "black", size=0.5) +
-          geom_abline (intercept=0, slope=1  #, linetype, color, size
-                       ) +
-          geom_abline (intercept=0, slope=5  #, linetype, color, size
-                       ) +
-          geom_abline (intercept=0, slope=10  #, linetype, color, size
-                       )
-    }
-
-#===============================================================================
-
+correlations = cor (size_vars_working_df)
 ```
 
 ```{r}
-gg_numSpp_vs_numPUs_all_on_1 (rs_name,
-                              
-                                               #####easyHard_df,
-                              working_df,
-                              
-                                               ref_y = 0
-                                               
-                                               # , shape_type="."
-                                               # , alpha_level=1
-                                               )
-
+num_corr_cols = ncol (correlations)
+print (correlations [, (num_corr_cols-1) : num_corr_cols])
 ```
+
+```{r}
+    #  Plot the correlation matrix.
+
+corrplot (correlations, tl.cex=0.5
+#          , order = "hclust"    #  This fails because of NAs or NaNs in the data...
+          )
+```
+
+
+###  Compute correlations of igraph metrics with output error and magnification
+
+```{r}
+igraph_vars_working_df = 
+    select (working_df, #c (
+
+                #  igraph package metrics
+                    ig_top, 
+                    ig_bottom, 
+                    ig_num_edges_m, 
+                    ig_ktop, 
+                    ig_kbottom, 
+                    ig_bidens, 
+                    ig_lcctop, 
+                    ig_lccbottom, 
+                    ig_distop, 
+                    ig_disbottom, 
+                    ig_cctop, 
+                    ig_ccbottom, 
+                    ig_cclowdottop, 
+                    ig_cclowdotbottom, 
+                    ig_cctopdottop, 
+                    ig_cctopdotbottom, 
+                    
+                    ig_mean_bottom_bg_redundancy, 
+                    ig_median_bottom_bg_redundancy, 
+                    ig_mean_top_bg_redundancy, 
+                    ig_median_top_bg_redundancy, 
+                    
+                    err_mag, 
+                    rsr_COR_euc_out_err_frac, 
+                      )
+
+correlations = cor (igraph_vars_working_df)
+```
+
+```{r}
+num_corr_cols = ncol (correlations)
+print (correlations [, (num_corr_cols-1) : num_corr_cols])
+```
+
+```{r}
+    #  Plot the correlation matrix.
+
+corrplot (correlations, tl.cex=0.5
+#          , order = "hclust"    #  This fails because of NAs or NaNs in the data...
+          )
+```
+
+
+###  Compute correlations of igraph metrics with output error and magnification
+
+```{r}
+bipartite_vars_working_df = 
+    select (working_df, #c (
+
+                #  bipartite package metrics
+                    connectance, 
+        
+                    web_asymmetry,
+                    links_per_PUsAndSpp,
+                    cluster_coefficient,
+                    weighted_NODF,
+                    interaction_strength_asymmetry,
+                    specialisation_asymmetry,
+                    linkage_density,
+                    weighted_connectance,
+                    Shannon_diversity,
+                    interaction_evenness,
+                    Alatalo_interaction_evenness,
+    
+                    mean.number.of.shared.partners.PUs,
+                    mean.number.of.shared.partners.Spp,
+                    cluster.coefficient.PUs,
+                    cluster.coefficient.Spp,
+                    niche.overlap.PUs,
+                    niche.overlap.Spp,
+                    togetherness.PUs,
+                    togetherness.Spp,
+                    C.score.PUs,
+                    C.score.Spp,
+                    V.ratio.PUs,
+                    V.ratio.Spp,
+                    functional.complementarity.PUs,
+                    functional.complementarity.Spp,
+                    partner.diversity.PUs,
+                    partner.diversity.Spp,
+                    generality.PUs,
+                    vulnerability.Spp,
+                    
+                #  Results and their errors
+                    err_mag, 
+                    rsr_COR_euc_out_err_frac
+                      )
+
+correlations = cor (bipartite_vars_working_df)
+```
+
+```{r}
+num_corr_cols = ncol (correlations)
+print (correlations [, (num_corr_cols-1) : num_corr_cols])
+```
+
+```{r}
+    #  Plot the correlation matrix.
+
+corrplot (correlations, tl.cex=0.5
+#          , order = "hclust"    #  This fails because of NAs or NaNs in the data...
+          )
+```
+
+```{r}
+possibly_knowable_vars_working_df = 
+    select (working_df, #c (
+
+                #  Possibly knowable realized input error values
+                    rsp_realized_FP_rate, 
+                    rsp_realized_FN_rate, 
+                    rsp_realized_Ftot_rate, 
+                    rsp_euc_realized_FP_and_cost_in_err_frac, 
+                    rsp_euc_realized_FN_and_cost_in_err_frac, 
+                    rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+                    
+                #  Results and their errors
+                    err_mag, 
+                    rsr_COR_euc_out_err_frac 
+                      )
+
+correlations = cor (possibly_knowable_vars_working_df)
+```
+
+```{r}
+num_corr_cols = ncol (correlations)
+print (correlations [, (num_corr_cols-1) : num_corr_cols])
+```
+
+```{r}
+    #  Plot the correlation matrix.
+
+corrplot (correlations, tl.cex=0.5
+#          , order = "hclust"    #  This fails because of NAs or NaNs in the data...
+          )
+```
+
+
+```{r}
+timing_vars_working_df = 
+    select (working_df, #c (
+
+                #  igraph package metrics
+                    ig_user_time, 
+                    ig_system_time, 
+                    ig_elapsed_time, 
+                    ig_user_child_time, 
+                    ig_sys_child_time, 
+                                    
+                #  bipartite package metrics
+                    bip_user_time, 
+                    bip_system_time, 
+                    bip_elapsed_time, 
+                    bip_user_child_time, 
+                    bip_sys_child_time, 
+
+                #  Reserve selector run times
+                    RS_user_time, 
+                    RS_system_time, 
+                    RS_elapsed_time, 
+                    RS_user_child_time, 
+                    RS_sys_child_time,
+            
+                #  Results and their errors
+                    err_mag, 
+                    rsr_COR_euc_out_err_frac 
+                      )
+
+correlations = cor (timing_vars_working_df)
+```
+
+```{r}
+num_corr_cols = ncol (correlations)
+print (correlations [, (num_corr_cols-1) : num_corr_cols])
+```
+
+```{r}
+    #  Plot the correlation matrix.
+
+corrplot (correlations, tl.cex=0.5
+#          , order = "hclust"    #  This fails because of NAs or NaNs in the data...
+          )
+```
+
+
+
+
+
+
+
+
+## NOT cheating:  Fit prediction using problem size 
 
 ###  Compute the fit of prediction to problem size
 
@@ -2420,6 +2779,8 @@ plot (easyHard_not_huge_out_err_lm_fit)
 
 ```
 
+
+
 ```{r}
 working_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
                           rsp_num_PUs + rsp_num_spp + 
@@ -2430,7 +2791,7 @@ summary (working_lm_fit)
 plot (working_lm_fit)
 ```
 
-```{r}
+```
 # working_df %>% 
 #     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 
@@ -2529,7 +2890,9 @@ working_lm_fit = lm (rsr_COR_euc_out_err_frac ~
 
 summary (working_lm_fit)
 plot (working_lm_fit)
+```
 
+```{r}
 pred_working_lm_fit = 
     predict (working_lm_fit, 
              working_df)
@@ -2542,7 +2905,7 @@ plot (working_df$rsr_COR_euc_out_err_frac,
 
 ####  Again, without cheating, graph measures + problem size data
 
-```{r}
+```
 easyHard_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
                           ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
                           connectance + 
@@ -2567,6 +2930,16 @@ summary (working_lm_fit)
 plot (working_lm_fit)
 ```
 
+```{r}
+pred_working_lm_fit = 
+    predict (working_lm_fit, 
+             working_df)
+
+plot (working_df$rsr_COR_euc_out_err_frac, 
+      pred_working_lm_fit, 
+      xlab="rsr_COR_euc_out_err_frac", ylab="Predictions", main="Working COR OutErr vs. Fit Values from Graph Measures")
+
+```
 
 ###  With cheating
 
@@ -2591,6 +2964,7 @@ working_lm_fit = lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot_and_cost_i
 summary (working_lm_fit)
 plot (working_lm_fit)
 ```
+
 
 ### Plot Working COR OutErr vs. Fit Values from Cheating
 
@@ -2798,7 +3172,9 @@ leveragePlots (fit) # leverage plots
     # added variable plots
 #av.Plots (fit)
 avPlots (fit)
+```
 
+```{r}
 #    THIS SECTION IS RELATED TO THE mtcars DATASET, NOT MY DATA.
 #    NEED TO FIGURE OUT IF/HOW IT TRANSLATES TO MY DATA.
 #
@@ -2806,14 +3182,15 @@ avPlots (fit)
 #     # identify D values > 4/(n-k-1)
 
 # cutoff <- 4 / ((nrow (mtcars)                                - length (fit$coefficients) - 2))
-  cutoff <- 4 / ((nrow (working_not_huge_out_err_df) - length (fit$coefficients) - 2))
+#####  cutoff <- 4 / ((nrow (working_not_huge_out_err_df) - length (fit$coefficients) - 2))
+  cutoff <- 4 / ((nrow (working_df) - length (fit$coefficients) - 2))
   
 plot(fit, which=4, cook.levels=cutoff)
 ```
 
 That plot marks rows 2094, 3032, and 3033.  Other plots also mention 2092.
 
-```{r}
+```
 #glimpse (working_not_huge_out_err_df [c(2092, 2094, 3032, 3033), ])
 
 #####print (working_not_huge_out_err_df [c(2092, 2094, 3032, 3033), ])
@@ -2884,7 +3261,11 @@ spreadLevelPlot (fit)
 
 ###  Multi-collinearity
 
-```{r}
+Not running this because it currently gives the following error message:
+```
+Error in vif.default(fit) : there are aliased coefficients in the model
+```
+```
     # Evaluate Collinearity
 vif (fit)               # variance inflation factors
 sqrt (vif (fit)) > 2    # problem?
@@ -2892,11 +3273,24 @@ sqrt (vif (fit)) > 2    # problem?
 
 ###  Nonlinearity
 
-```{r}
+Not running this because it currently gives the following error message:
+```
+Error in df.terms.default(model, var) : 
+  Model has aliased term(s); df ambiguous.
+```
+```
     # Evaluate Nonlinearity
     # component + residual plot
 crPlots (fit)
+```
 
+Not running this because it currently gives the following error message:
+```
+no non-missing arguments to min; returning Infno non-missing arguments to max; returning -Inf
+Hit <Return> to see next plot: 
+Error in plot.window(...) : need finite 'ylim' values
+```
+```
     # Ceres plots
 ceresPlots (fit)
 ```
@@ -2914,7 +3308,12 @@ durbinWatsonTest(fit)
 
 The gvlma( ) function in the gvlma package, performs a global validation of linear model assumptions as well separate evaluations of skewness, kurtosis, and heteroscedasticity.
 
-```{r}
+Not running this because it currently gives the following error message:
+```
+Error in solve.default(sigwhat) : 
+  Lapack routine dgesv: system is exactly singular: U[12,12] = 0
+```
+```
     # Global test of model assumptions
 library (gvlma)
 
