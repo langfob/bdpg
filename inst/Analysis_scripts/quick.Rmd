@@ -1,0 +1,402 @@
+---
+title: "Error magnification and variation in problem difficulty in reserve selection"
+author: "Bill Langford"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    fig_caption: yes
+    number_sections: yes
+    toc: no
+    toc_depth: 4
+  html_notebook:
+    toc: no
+    toc_depth: 4
+  html_document:
+    df_print: paged
+    toc: no
+    toc_depth: '4'
+---
+
+
+```{r setRSname, include=FALSE}
+#rs_name = "Gurobi"
+rs_name = "Marxan_SA"
+#rs_name = "Marxan_SA_SS"
+#rs_name = "ZL_Backward"
+#rs_name = "ZL_Forward"
+#rs_name = "SR_Backward"
+#rs_name = "SR_Forward"
+#rs_name = "UR_Backward"
+#rs_name = "UR_Forward"
+```
+
+
+```{r message=FALSE, include=FALSE}
+    #  Note that "message=FALSE" is necessary for this chunk if you want to 
+    #  generate pdfs.  When the tidyverse package is loaded, it writes puts 
+    #  out a message that includes some unicode that the normal latex engine 
+    #  (used to produce the pdf) can't handle and it crashes with the following 
+    #  message:
+    #       ! Package inputenc Error: Unicode character [sqrt symbol goes here] (U+221A)
+    #       (inputenc)                not set up for use with LaTeX.
+    #  Note that I've also had to remove the sqrt symbol from the error message 
+    #  when embedding it in the comment here, because even inside the comment, 
+    #  latex tried to render that and crashed.
+    #  More information about this can be found at:
+    #   - https://community.rstudio.com/t/tidyverse-1-2-1-knitting-to-pdf-issue/2880/4
+    #   - https://community.rstudio.com/t/cant-render-tidyverse-1-2-startup-message-in-latex/2811/5
+    #   - https://chrisbeeley.net/?p=1037
+
+library (tidyverse)
+```
+
+
+```{r setFilePaths, include=FALSE}
+#===============================================================================
+
+# # # base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/"
+# 
+#     #  Easy
+# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base_2nd_attempt/bdpg_20_variants_all_rs_easy_base_2nd_try_Combined_err_amts/"
+# 
+#     #  Hard
+# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_1st_try_Combined_err_amts/"
+
+#     #  Hard - 2, 5, 7.5, 10 % error
+# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_02_05_075_10_Combined_err_amts/"
+
+
+#suffix = ".combined_results.csv"
+suffix = ".csv"
+```
+
+```{r loadInputData, include=FALSE}
+#===============================================================================
+
+load_input_data <- function (rs_name, base_path, suffix)
+    {
+    infile = paste0 (base_path, rs_name, suffix)
+
+        #  I can't remember why I called these "msa".  It might stand for 
+        #  multi-set analysis...
+    
+    df = read.csv (infile, header=TRUE, stringsAsFactors = FALSE)
+    
+    return (df)
+    }
+
+#===============================================================================
+
+write_output_data <- function (df, rs_name, base_path, suffix)
+    {
+    outfile = paste0 (base_path, rs_name, suffix)
+    cat ("\n\nIn write_output_data(), outfile = '", outfile, 
+         "'\n", sep='')
+    write.csv (df, outfile, row.names=FALSE)
+    }
+
+#===============================================================================
+
+reduce_full_data_to_working_set <- function (full_df)
+    {
+    working_df = select (full_df, #c(
+                      
+            #  Problem and reserve selector labels                     
+                    id,     #  Easy or Hard
+            
+                    rs_method_name, 
+                    rsp_combined_err_label, 
+                    rsp_cor_or_app_str, 
+                    rsp_base_wrap_str, 
+                    
+                    # rsr_tzar_run_ID, 
+                    # rsr_UUID, 
+                    # 
+                    # rsp_file_name_prefix, 
+                    # 
+                    # rsp_UUID, 
+                    # rsp_UUID_of_base_problem_that_has_err_added, 
+                    # rsp_UUID_of_base_problem_that_is_wrapped, 
+    
+    
+            #  Input descriptors
+                    rsp_num_PUs, 
+                    rsp_num_spp, 
+                    rsp_num_spp_per_PU, 
+                    rsp_correct_solution_cost, 
+            
+                    sppPUsum,
+                    sppPUprod, 
+            
+            #  Post-gen knowable problem descriptors
+            
+                #  Species and PU counts
+                    rsp_app_num_spp, 
+                    rsp_app_num_PUs, 
+                    
+                #  igraph package metrics
+    #                ig_rsp_UUID, 
+            
+                    ig_top, 
+                    ig_bottom, 
+                    ig_num_edges_m, 
+                    ig_ktop, 
+                    ig_kbottom, 
+                    ig_bidens, 
+                    ig_lcctop, 
+                    ig_lccbottom, 
+                    ig_distop, 
+                    ig_disbottom, 
+                    ig_cctop, 
+                    ig_ccbottom, 
+                    ig_cclowdottop, 
+                    ig_cclowdotbottom, 
+                    ig_cctopdottop, 
+                    ig_cctopdotbottom, 
+                    ig_mean_bottom_bg_redundancy, 
+                    ig_median_bottom_bg_redundancy, 
+                    ig_mean_top_bg_redundancy, 
+                    ig_median_top_bg_redundancy, 
+                    
+                    # ig_user_time, 
+                    # ig_system_time, 
+                    # ig_elapsed_time, 
+                    # ig_user_child_time, 
+                    # ig_sys_child_time, 
+                                    
+                #  bipartite package metrics
+    #                bip_rsp_UUID, 
+            
+                    connectance, 
+                    number.of.PUs, 
+                    number.of.Spp, 
+                    
+                    # bip_user_time, 
+                    # bip_system_time, 
+                    # bip_elapsed_time, 
+                    # bip_user_child_time, 
+                    # bip_sys_child_time, 
+    
+    
+                #  Possibly knowable realized input error values
+                    rsp_realized_median_abs_cost_err_frac, 
+                    rsp_realized_mean_abs_cost_err_frac, 
+                    rsp_realized_sd_abs_cost_err_frac, 
+                    rsp_FP_const_rate, 
+                    rsp_FN_const_rate, 
+                    
+                    rsp_realized_FP_rate, 
+                    rsp_realized_FN_rate, 
+                    rsp_realized_Ftot_rate, 
+                    rsp_euc_realized_FP_and_cost_in_err_frac, 
+                    rsp_euc_realized_FN_and_cost_in_err_frac, 
+                    rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+                    
+                    rsp_wrap_is_imperfect,
+                            
+    
+                #  Results and their errors
+                    rs_solution_cost, 
+                    rs_solution_cost_err_frac, 
+                    abs_rs_solution_cost_err_frac, 
+                    
+                    rs_over_opt_cost_err_frac_of_possible_overcost, 
+                    rs_under_opt_cost_err_frac_of_possible_undercost, 
+                    
+                    rsr_COR_euc_out_err_frac, 
+                    
+                            # rsr_APP_spp_rep_shortfall, 
+                            # rsr_APP_solution_NUM_spp_covered, 
+                            # rsr_APP_solution_FRAC_spp_covered, 
+
+                    rsr_COR_spp_rep_shortfall, 
+                    rsr_COR_solution_NUM_spp_covered, 
+                    rsr_COR_solution_FRAC_spp_covered, 
+
+    
+    
+    
+        
+                    err_mag
+                    #, 
+                    
+                #  Reserve selector run times
+                    # RS_user_time, 
+                    # RS_system_time, 
+                    # RS_elapsed_time, 
+                    # RS_user_child_time, 
+                    # RS_sys_child_time
+                      )
+#    )
+    
+    #--------------------
+    
+        #  Now, remove all COR and BASE problems to leave just he APP WRAPs.
+    
+    working_df %>%
+        filter (rsp_cor_or_app_str == "APP" & 
+                rsp_base_wrap_str == "Wrap" & 
+                (rsp_combined_err_label == "02-FP_only_NO_cost_err" | 
+                 rsp_combined_err_label == "03-FN_only_NO_cost_err" | 
+                 rsp_combined_err_label == "04-FP_and_FN_matched_NO_cost_err" | 
+                 rsp_combined_err_label == "05-FP_and_FN_not_matched_NO_cost_err")) -> working_df 
+    
+    return (working_df)
+    }
+
+```
+
+```{r loadCombinedEasyAndHardInputData, include=FALSE}
+
+    #  Combined Easy and Hard (all Easy error levels, all Hard except 15%)
+#base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/cln_easyHard."
+base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Combined_batches_1_2/Clean/cln_exp."
+
+#----------
+
+easyHard_df    = load_input_data (rs_name, base_path, suffix)
+```
+
+```{r reduceFullDataToWorkingSet, include=FALSE}
+working_df    = reduce_full_data_to_working_set (easyHard_df)
+```
+
+```{r include=FALSE}
+#===============================================================================
+
+gg_eucInTot_vs_eucOutTot_all_on_1 <- function (rs_name,
+                                               sorted_msa_tib,
+                                               ref_y = 0
+                                               
+                                               , shape_type="."
+                                               , alpha_level=1
+                                               )
+    {
+ggplot (data = sorted_msa_tib) +
+        aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
+                                    y = rsr_COR_euc_out_err_frac,
+        #                            color = rsp_combined_err_label)) +
+#####                                    color = rsp_base_wrap_str) +
+                                     color = id) +
+# ##        geom_point() +
+# #        geom_point(shape=".", alpha=1/10) +
+         geom_point(shape=shape_type, alpha=alpha_level) +
+# #        geom_point(shape=".") +
+# #        geom_point(alpha=1/25) +
+
+
+#             #                            color = rsp_combined_err_label)) +
+# #                                         color = id
+# #         ,
+# #         shape="."
+# #         ) +
+# # ##            geom_point() +
+# # #        geom_point(shape=".") +
+# 
+#                                     color = id) +
+#         geom_point(shape=".", alpha=1) +
+
+    
+
+
+
+#####        scale_color_manual(breaks = c("Base", "Wrap"), values=c("red", "blue")) +
+        scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
+        stat_smooth(method = "lm", col = "green") +
+
+    # ggplot (data = sorted_msa_tib) +
+    #       geom_point (mapping = ) +
+    #     #scale_color_viridis(discrete=TRUE) +
+    #     scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
+    #
+        ggtitle (paste0 (rs_name, " - Total input error vs. Total output error")) +
+        theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
+
+          geom_hline (yintercept = ref_y, linetype="dashed",
+                        color = "black", size=0.5) +
+          geom_abline (intercept=0, slope=1  #, linetype, color, size
+                       ) +
+          geom_abline (intercept=0, slope=5  #, linetype, color, size
+                       ) +
+          geom_abline (intercept=0, slope=10  #, linetype, color, size
+                       )
+    }
+
+#===============================================================================
+
+gg_eucInTot_vs_eucOutTot_facetted_by_err_label <- function (rs_name,
+                                                            sorted_msa_tib,
+                                                            ref_y = 0
+                                                            , shape_type = "."
+                                                            , alpha_level = 1
+                                                            )
+    {
+    ggplot (data = sorted_msa_tib) +
+      geom_point (mapping = aes(x = rsp_euc_realized_Ftot_and_cost_in_err_frac,
+                                y = rsr_COR_euc_out_err_frac,
+    #                            color = rsp_combined_err_label)) +
+    #                             color = id
+    # ), 
+    # shape="."
+    # ) +
+ # color = id
+ #    ), 
+ #    shape="."
+ #    ) +
+ color = id
+    ), 
+    shape="."
+    ) +
+        
+
+    #scale_color_viridis(discrete=TRUE) +
+    #scale_color_brewer(palette="Set1") +
+    scale_color_manual(breaks = c("B1", "B2"), values=c("blue", "red")) +
+
+    ggtitle (paste0 (rs_name, " - Total input error vs. Total output error by Error Class")) +
+    theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
+
+      facet_wrap (~ rsp_combined_err_label, nrow = 5) +
+      geom_hline (yintercept = ref_y, linetype="dashed",
+                    color = "black", size=0.5) +
+      geom_abline (intercept=0, slope=1  #, linetype, color, size
+                   ) +
+      geom_abline (intercept=0, slope=5  #, linetype, color, size
+                   ) +
+      geom_abline (intercept=0, slope=10  #, linetype, color, size
+                   )
+    }
+```
+
+I've been looking at whether there is much variation in the difficulty of different reserve selection problems and if so, can you predict which ones are going to be easy or hard for a particular reserve selector.  
+
+To do this, I've gone into the theory of computation literature and found a method for generating certain NP-complete problems whose optimal solution is generated as a part of building the problem and whose difficulty can be predetermined.  I've then mapped these into reserve selection problems with species distributions that can be specified ahead of time.  I've then added input errors to the problems and fed the uncertain data to various reserve selectors such as Marxan, linear programming, and Zonation's objective function.  The result is that I've generated thousands of problems (with between about 20 and 1200 species), known optimal solutions, and varying degrees of difficulty that allow me to measure the correctness of the reserve selection.
+
+I'm interested in two main things:   
+
+- comparing error in reserve selection solutions to errors in the inputs to see when does optimization magnify input error or correct input error
+- seeing if there are any structural characteristics of reserve selection problems that predict the amount of output error an algorithm is likely to generate.
+
+As an example, the plot below shows both how much magnification of input error there is and how unrelated the amount of that output error is to the amount of input error.  
+
+In the plot, the fraction of input error is on the x-axis and the fraction of output error is on the y-axis.  Note that the x-axis maximum is only 10 % error in the input while the y-axis maximum is at or near 100 % error in the output.  The ratio of output error / input error would give the amount of magnification or correction.  
+
+On the plot below, there are 3 black rays, each showing 1 level of magnification.  The lowest line is 1:1, i.e., input error equals output error.  The middle line is 5:1 and the highest is 10:1, i.e., output error is 10 times input error.  Any correction of input error is shown by points below the 1:1 ray.  The green band is just a quick and dirty linear fit of input error vs output error that doesn't really mean much.  
+
+Each of the 1000 points on the plot represents 1 random experiment with anywhere between about 20 species and about 1200 species.  Each experiment is chosen through random choices of 4 variables borrowed from theory of computation that control the relative difficulty of the optimization problem generated.  
+
+What's clear from the thousands of experiments I've been doing is that there is huge variation in the difficulty of different reserve selection problems and the number of species and/or planning units is almost completely uncorrelated with that difficulty.  Similarly, the amount of input error is not very correlated with the amount of output error either.  
+
+Over the course of thousands of experiments with all the major reserve selectors, I've seen that the *median* amount of error magnification has been in the neighborhood of **5 times** the input error for the best reserve selectors.
+
+One encouraging thing is that I've been able to use some measures from graph theory that do seem to correlate with at least a lower bound on the amount of output error.  It looks like they may be usable as input features for learning to improve prediction of output error based solely on structural characteristics of the optimization problem.
+
+
+```{r}
+gg_eucInTot_vs_eucOutTot_all_on_1 (rs_name, working_df, ref_y = 0
+#, shape_type = 1, alpha_level = 1/20
+                                   )
+```
+
+
+
