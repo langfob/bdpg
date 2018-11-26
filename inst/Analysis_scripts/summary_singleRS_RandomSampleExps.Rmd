@@ -2581,7 +2581,6 @@ corrplot (correlations, tl.cex=0.5
           )
 ```
 
-
 ###  Compute correlations of igraph metrics with output error and magnification
 
 ```{r}
@@ -2792,8 +2791,8 @@ Want a small sample while I get this working, so just grabbing 100 each for test
 Since the samples are all randomly generated in the first place, I don't need to choose them at random using sample() for the indices.  The first 100 are just as random as anything chosen by sample() would be.
 
 ```{r}
-working_train_df = working_df [1:100, ]
-working_test_df = working_df [101:200, ]
+working_train_df = working_df [1:500, ]
+working_test_df = working_df [501:1000, ]
 ```
 
 ```{r}
@@ -2856,13 +2855,28 @@ plot_pred_eval <- function (fitted_model,
                        preds, 
                        #stats = c ("mae", "mse"),    #, "rmse", "mape"))
                        train.y = true_values))
+predOnX = FALSE
+if (predOnX)
+{
     plot (
           preds, 
           true_values, 
+          
           main = paste0 (model_name_str, " on ", test_or_train_label_str), 
           xlab = paste0 ("Predicted ", pred_value_name_display_str), 
           ylab = paste0 ("True ", pred_value_name_display_str))
+} else
+{
+    plot (
+          true_values, 
+          preds, 
+          
+          main = paste0 (model_name_str, " on ", test_or_train_label_str), 
+          ylab = paste0 ("Predicted ", pred_value_name_display_str), 
+          xlab = paste0 ("True ", pred_value_name_display_str))
+}
     abline (0, 1, lty=2)
+
     }
 
 #===============================================================================
@@ -2926,7 +2940,7 @@ TESTING FUNCTION CALL USING ALGAE DATA SET FROM TORGO'S BOOK - 2018 11 26 18 12
 
 This worked fine.
 
-```{r}
+```
 #library (ranger)
 
 library (DMwR)
@@ -3004,14 +3018,6 @@ plot_pred_eval_for_train_and_test (rf,
 
 
 
-
-
-
-
-
-
-
-
 ```
 # working_df %>% 
 #     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
@@ -3035,40 +3041,62 @@ plot_pred_eval_for_train_and_test (rf,
 ```{r}
 cat ("\n...  NOT cheating:  Fit prediction using graph measures, problem size  ...\n")
 
-                #  igraph package metrics
-            #                ig_rsp_UUID, 
-            
-                    # ig_top, 
-                    # ig_bottom, 
-                    # ig_num_edges_m, 
-                    # ig_ktop, 
-                    # ig_kbottom, 
-                    # ig_bidens, 
-                    # ig_lcctop, 
-                    # ig_lccbottom, 
-                    # ig_distop, 
-                    # ig_disbottom, 
-                    # ig_cctop, 
-                    # ig_ccbottom, 
-                    # ig_cclowdottop, 
-                    # ig_cclowdotbottom, 
-                    # ig_cctopdottop, 
-                    # ig_cctopdotbottom, 
-                    # ig_mean_bottom_bg_redundancy, 
-                    # ig_median_bottom_bg_redundancy, 
-                    # ig_mean_top_bg_redundancy, 
-                    # ig_median_top_bg_redundancy, 
-                    
-                            # ig_user_time, 
-                            # ig_system_time, 
-                            # ig_elapsed_time, 
-                            # ig_user_child_time, 
-                            # ig_sys_child_time, 
-                                    
-                #  bipartite package metrics
-            #                bip_rsp_UUID, 
-            
-                    # connectance, 
+                # #  igraph package metrics
+                #     ig_top, 
+                #     ig_bottom, 
+                #     ig_num_edges_m, 
+                #     ig_ktop, 
+                #     ig_kbottom, 
+                #     ig_bidens, 
+                #     ig_lcctop, 
+                #     ig_lccbottom, 
+                #     ig_distop, 
+                #     ig_disbottom, 
+                #     ig_cctop, 
+                #     ig_ccbottom, 
+                #     ig_cclowdottop, 
+                #     ig_cclowdotbottom, 
+                #     ig_cctopdottop, 
+                #     ig_cctopdotbottom, 
+                #     
+                #     ig_mean_bottom_bg_redundancy, 
+                #     ig_median_bottom_bg_redundancy, 
+                #     ig_mean_top_bg_redundancy, 
+                #     ig_median_top_bg_redundancy, 
+                # 
+                # #  bipartite package metrics
+                #     connectance, 
+                # 
+                #     web_asymmetry,
+                #     links_per_PUsAndSpp,
+                #     cluster_coefficient,
+                #     weighted_NODF,
+                #     interaction_strength_asymmetry,
+                #     specialisation_asymmetry,
+                #     linkage_density,
+                #     weighted_connectance,
+                #     Shannon_diversity,
+                #     interaction_evenness,
+                #     Alatalo_interaction_evenness,
+                # 
+                #     mean.number.of.shared.partners.PUs,
+                #     mean.number.of.shared.partners.Spp,
+                #     cluster.coefficient.PUs,
+                #     cluster.coefficient.Spp,
+                #     niche.overlap.PUs,
+                #     niche.overlap.Spp,
+                #     togetherness.PUs,
+                #     togetherness.Spp,
+                #     C.score.PUs,
+                #     C.score.Spp,
+                #     V.ratio.PUs,
+                #     V.ratio.Spp,
+                #     functional.complementarity.PUs,
+                #     functional.complementarity.Spp,
+                #     partner.diversity.PUs,
+                #     partner.diversity.Spp,
+                #     generality.PUs,
+                #     vulnerability.Spp,
 ```
 
 ###  Quick and dirty plot of redundancy vs. output error fraction
@@ -3103,7 +3131,7 @@ plot (working_df$ig_median_top_bg_redundancy, working_df$rsr_COR_euc_out_err_fra
 
 ### Plot Working COR OutErr vs. Fit Values from Graph Measures
 
-```{r}
+```
 working_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
                           ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
                           connectance, 
@@ -3113,7 +3141,7 @@ summary (working_lm_fit)
 plot (working_lm_fit)
 ```
 
-```{r}
+```
 pred_working_lm_fit = 
     predict (working_lm_fit, 
              working_df)
@@ -3124,7 +3152,337 @@ plot (working_df$rsr_COR_euc_out_err_frac,
 
 ```
 
-####  Again, without cheating, graph measures + problem size data
+## Fit models of **out error using GRAPH vars**
+
+#### Fit SIMPLE LINEAR MODEL of out error using GRAPH vars
+
+```{r}
+lm_Y_out_err_X_graph_measures = lm (rsr_COR_euc_out_err_frac ~ 
+                                    #  igraph package metrics
+                                        ig_top +  
+                                        ig_bottom +  
+                                        ig_num_edges_m +  
+                                        ig_ktop +  
+                                        ig_kbottom +  
+                                        ig_bidens +  
+                                        ig_lcctop +  
+                                        ig_lccbottom +  
+                                        ig_distop +  
+                                        ig_disbottom +  
+                                        ig_cctop +  
+                                        ig_ccbottom +  
+                                        ig_cclowdottop +  
+                                        ig_cclowdotbottom +  
+                                        ig_cctopdottop +  
+                                        ig_cctopdotbottom +  
+                                        
+                                        ig_mean_bottom_bg_redundancy +  
+                                        ig_median_bottom_bg_redundancy +  
+                                        ig_mean_top_bg_redundancy +  
+                                        ig_median_top_bg_redundancy +  
+                    
+                                    #  bipartite package metrics
+                                        connectance +  
+                            
+                                        web_asymmetry + 
+                                        links_per_PUsAndSpp + 
+                                        cluster_coefficient + 
+                                        weighted_NODF + 
+                                        interaction_strength_asymmetry + 
+                                        specialisation_asymmetry + 
+                                        linkage_density + 
+                                        weighted_connectance + 
+                                        Shannon_diversity + 
+                                        interaction_evenness + 
+                                        Alatalo_interaction_evenness + 
+                        
+                                        mean.number.of.shared.partners.PUs + 
+                                        mean.number.of.shared.partners.Spp + 
+                                        cluster.coefficient.PUs + 
+                                        cluster.coefficient.Spp + 
+                                        niche.overlap.PUs + 
+                                        niche.overlap.Spp + 
+                                        togetherness.PUs + 
+                                        togetherness.Spp + 
+                                        C.score.PUs + 
+                                        C.score.Spp + 
+                                        V.ratio.PUs + 
+                                        V.ratio.Spp + 
+                                        functional.complementarity.PUs + 
+                                        functional.complementarity.Spp + 
+                                        partner.diversity.PUs + 
+                                        partner.diversity.Spp + 
+                                        generality.PUs + 
+                                        vulnerability.Spp,
+                
+                              working_train_df)
+
+summary (lm_Y_out_err_X_graph_measures)
+#plot (lm_Y_out_err_X_graph_measures)
+
+plot_pred_eval_for_train_and_test (lm_Y_out_err_X_graph_measures, 
+                                    model_name_str = "LM", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = FALSE)
+```
+
+#### Fit RANDOM FOREST model of out error using GRAPH vars
+
+```{r}
+library (ranger)
+
+rf_Y_out_err_X_graph_measures = ranger (rsr_COR_euc_out_err_frac ~ 
+                                    #  igraph package metrics
+                                        ig_top +  
+                                        ig_bottom +  
+                                        ig_num_edges_m +  
+                                        ig_ktop +  
+                                        ig_kbottom +  
+                                        ig_bidens +  
+                                        ig_lcctop +  
+                                        ig_lccbottom +  
+                                        ig_distop +  
+                                        ig_disbottom +  
+                                        ig_cctop +  
+                                        ig_ccbottom +  
+                                        ig_cclowdottop +  
+                                        ig_cclowdotbottom +  
+                                        ig_cctopdottop +  
+                                        ig_cctopdotbottom +  
+                                        
+                                        ig_mean_bottom_bg_redundancy +  
+                                        ig_median_bottom_bg_redundancy +  
+                                        ig_mean_top_bg_redundancy +  
+                                        ig_median_top_bg_redundancy +  
+                    
+                                    #  bipartite package metrics
+                                        connectance +  
+                            
+                                        web_asymmetry + 
+                                        links_per_PUsAndSpp + 
+                                        cluster_coefficient + 
+                                        weighted_NODF + 
+                                        interaction_strength_asymmetry + 
+                                        specialisation_asymmetry + 
+                                        linkage_density + 
+                                        weighted_connectance + 
+                                        Shannon_diversity + 
+                                        interaction_evenness + 
+                                        Alatalo_interaction_evenness + 
+                        
+                                        mean.number.of.shared.partners.PUs + 
+                                        mean.number.of.shared.partners.Spp + 
+                                        cluster.coefficient.PUs + 
+                                        cluster.coefficient.Spp + 
+                                        niche.overlap.PUs + 
+                                        niche.overlap.Spp + 
+                                        togetherness.PUs + 
+                                        togetherness.Spp + 
+                                        C.score.PUs + 
+                                        C.score.Spp + 
+                                        V.ratio.PUs + 
+                                        V.ratio.Spp + 
+                                        functional.complementarity.PUs + 
+                                        functional.complementarity.Spp + 
+                                        partner.diversity.PUs + 
+                                        partner.diversity.Spp + 
+                                        generality.PUs + 
+                                        vulnerability.Spp,
+                
+                              data = working_train_df, 
+                              write.forest = TRUE)
+
+summary (rf_Y_out_err_X_graph_measures)
+#plot (rf_Y_out_err_X_graph_measures)
+
+plot_pred_eval_for_train_and_test (rf_Y_out_err_X_graph_measures, 
+                                    model_name_str = "RF", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = TRUE)
+```
+
+
+
+
+
+
+
+
+#  Again, without cheating, graph measures + problem size data
+
+## Fit models of **out error using PROB SIZE & GRAPH vars**
+
+#### Fit SIMPLE LINEAR MODEL of out error using PROB SIZE & GRAPH vars
+
+```{r}
+lm_Y_out_err_X_probSize_graphMeasures = lm (rsr_COR_euc_out_err_frac ~ 
+                                    rsp_num_PUs + 
+                                    rsp_num_spp + 
+                                    rsp_num_spp_per_PU + 
+#                                    sppPUsum + 
+                                    sppPUprod + 
+                                        
+                                    #  igraph package metrics
+                                        ig_top +  
+                                        ig_bottom +  
+                                        ig_num_edges_m +  
+                                        ig_ktop +  
+                                        ig_kbottom +  
+                                        ig_bidens +  
+                                        ig_lcctop +  
+                                        ig_lccbottom +  
+                                        ig_distop +  
+                                        ig_disbottom +  
+                                        ig_cctop +  
+                                        ig_ccbottom +  
+                                        ig_cclowdottop +  
+                                        ig_cclowdotbottom +  
+                                        ig_cctopdottop +  
+                                        ig_cctopdotbottom +  
+                                        
+                                        ig_mean_bottom_bg_redundancy +  
+                                        ig_median_bottom_bg_redundancy +  
+                                        ig_mean_top_bg_redundancy +  
+                                        ig_median_top_bg_redundancy +  
+                    
+                                    #  bipartite package metrics
+                                        connectance +  
+                            
+                                        web_asymmetry + 
+                                        links_per_PUsAndSpp + 
+                                        cluster_coefficient + 
+                                        weighted_NODF + 
+                                        interaction_strength_asymmetry + 
+                                        specialisation_asymmetry + 
+                                        linkage_density + 
+                                        weighted_connectance + 
+                                        Shannon_diversity + 
+                                        interaction_evenness + 
+                                        Alatalo_interaction_evenness + 
+                        
+                                        mean.number.of.shared.partners.PUs + 
+                                        mean.number.of.shared.partners.Spp + 
+                                        cluster.coefficient.PUs + 
+                                        cluster.coefficient.Spp + 
+                                        niche.overlap.PUs + 
+                                        niche.overlap.Spp + 
+                                        togetherness.PUs + 
+                                        togetherness.Spp + 
+                                        C.score.PUs + 
+                                        C.score.Spp + 
+                                        V.ratio.PUs + 
+                                        V.ratio.Spp + 
+                                        functional.complementarity.PUs + 
+                                        functional.complementarity.Spp + 
+                                        partner.diversity.PUs + 
+                                        partner.diversity.Spp + 
+                                        generality.PUs + 
+                                        vulnerability.Spp,
+                
+                              working_train_df)
+
+summary (lm_Y_out_err_X_probSize_graphMeasures)
+#plot (lm_Y_out_err_X_probSize_graphMeasures)
+
+plot_pred_eval_for_train_and_test (lm_Y_out_err_X_probSize_graphMeasures, 
+                                    model_name_str = "LM", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = FALSE)
+```
+
+#### Fit RANDOM FOREST model of out error using PROB SIZE & GRAPH vars
+
+```{r}
+library (ranger)
+
+rf_Y_out_err_X_probSize_graphMeasures = ranger (rsr_COR_euc_out_err_frac ~ 
+                                    rsp_num_PUs + 
+                                    rsp_num_spp + 
+                                    rsp_num_spp_per_PU + 
+                                    sppPUsum + 
+                                    sppPUprod + 
+                                        
+                                    #  igraph package metrics
+                                        ig_top +  
+                                        ig_bottom +  
+                                        ig_num_edges_m +  
+                                        ig_ktop +  
+                                        ig_kbottom +  
+                                        ig_bidens +  
+                                        ig_lcctop +  
+                                        ig_lccbottom +  
+                                        ig_distop +  
+                                        ig_disbottom +  
+                                        ig_cctop +  
+                                        ig_ccbottom +  
+                                        ig_cclowdottop +  
+                                        ig_cclowdotbottom +  
+                                        ig_cctopdottop +  
+                                        ig_cctopdotbottom +  
+                                        
+                                        ig_mean_bottom_bg_redundancy +  
+                                        ig_median_bottom_bg_redundancy +  
+                                        ig_mean_top_bg_redundancy +  
+                                        ig_median_top_bg_redundancy +  
+                    
+                                    #  bipartite package metrics
+                                        connectance +  
+                            
+                                        web_asymmetry + 
+                                        links_per_PUsAndSpp + 
+                                        cluster_coefficient + 
+                                        weighted_NODF + 
+                                        interaction_strength_asymmetry + 
+                                        specialisation_asymmetry + 
+                                        linkage_density + 
+                                        weighted_connectance + 
+                                        Shannon_diversity + 
+                                        interaction_evenness + 
+                                        Alatalo_interaction_evenness + 
+                        
+                                        mean.number.of.shared.partners.PUs + 
+                                        mean.number.of.shared.partners.Spp + 
+                                        cluster.coefficient.PUs + 
+                                        cluster.coefficient.Spp + 
+                                        niche.overlap.PUs + 
+                                        niche.overlap.Spp + 
+                                        togetherness.PUs + 
+                                        togetherness.Spp + 
+                                        C.score.PUs + 
+                                        C.score.Spp + 
+                                        V.ratio.PUs + 
+                                        V.ratio.Spp + 
+                                        functional.complementarity.PUs + 
+                                        functional.complementarity.Spp + 
+                                        partner.diversity.PUs + 
+                                        partner.diversity.Spp + 
+                                        generality.PUs + 
+                                        vulnerability.Spp,
+                
+                              data = working_train_df, 
+                              write.forest = TRUE)
+
+summary (rf_Y_out_err_X_probSize_graphMeasures)
+#plot (rf_Y_out_err_X_probSize_graphMeasures)
+
+plot_pred_eval_for_train_and_test (rf_Y_out_err_X_probSize_graphMeasures, 
+                                    model_name_str = "RF", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = TRUE)
+```
+
 
 ```
 easyHard_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
@@ -3139,7 +3497,7 @@ plot (easyHard_lm_fit)
 ```
 
 
-```{r}
+```
 working_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
                           ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
                           connectance + 
@@ -3151,7 +3509,7 @@ summary (working_lm_fit)
 plot (working_lm_fit)
 ```
 
-```{r}
+```
 pred_working_lm_fit = 
     predict (working_lm_fit, 
              working_df)
@@ -3161,6 +3519,21 @@ plot (working_df$rsr_COR_euc_out_err_frac,
       xlab="rsr_COR_euc_out_err_frac", ylab="Predictions", main="Working COR OutErr vs. Fit Values from Graph Measures")
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ###  With cheating
 
