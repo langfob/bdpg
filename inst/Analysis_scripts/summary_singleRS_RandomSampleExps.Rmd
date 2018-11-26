@@ -68,6 +68,10 @@ rs_name = "Marxan_SA"
     #   - https://chrisbeeley.net/?p=1037
 
 library (tidyverse)
+
+library (corrplot)
+library (DMwR)
+library (ranger)
 ```
 
 -----   
@@ -2255,7 +2259,7 @@ Given all this variability, can you predict how a particular reserve selector wi
 ##  Compute correlations among primary working data variables
 
 ```{r computeAllCorrs}
-library (corrplot)
+#library (corrplot)
 ```
 
 ###  Old version before timings and bipartite measures
@@ -2675,7 +2679,6 @@ corrplot (correlations, tl.cex=0.5
           )
 ```
 
-
 ```{r}
 timing_vars_working_df = 
     select (working_df, #c (
@@ -2726,9 +2729,59 @@ corrplot (correlations, tl.cex=0.5
 
 
 
+-----------------------------
+
+-----------------------------
+
+-----------------------------
+
+#  ALSO NEED TO ADD OTHER PREDICTIONS
+
+##  Predict using the Xu variables as inputs
+
+##  Predict different outputs
+
+###  Predict error magnification
+
+###  Predict rep shortfall
+
+###  Predict cost error
+
+##  Predict categorical outputs (w/ probabilities) instead of continuous ones
+
+###  Predict the most heinous errors or magnifications
+
+Seems like more than anything else, you'd like to know the order of magnitude of output errors so that you know if you've really blown it.
+
+-----------------------------
+
+#  USE OTHER PREDICTION METHODS
+
+##  Caruana multi-ouput training, e.g., out err, mag, heinous
+
+##  Use noisy categorical labels of input quality as inputs
+
+For example, you could say something about likely FN and FP rate, e.g., on a 3 or 5 point scale.  However, I'm not sure how useful that is, given that the actual values for FN and FP were not much predictive use in the Cheating section below.  Still, if you knew that most errors were likely to be FN or FP, then would you know whether you were more likely to get rep shortfalls or cost overruns?
+
+-----------------------------
+
+#  PROBABLY WANT TO CHANGE INPUT SAMPLE TO BE MORE REPRESENTATIVE
+
+There are many more samples from easier problems with smaller output errors in the training and testing data.  I think that's one reason for doing so poorly at predicting the cases with large output error.  May want to subsample more evenly in training and testing or add some kind of cost/weighting to better identify these since they're more important to get right.  Or are they?  
+
+-----------------------------
+
+-----------------------------
+
+
+
+
+
+
+#  PREDICTIONS WITHOUT CHEATING
 
 ```{r}
-library (DMwR)
+#library (DMwR)
 #library (DMwR2)  #  DON'T LOAD THIS - SOME EXAMPLES FROM BOOK FAIL SINCE THEIR 
                   #  TYPES HAVE CHANGED.  FOR EXAMPLE, algae IS A TIBBLE IN THE 
                   #  REVISED LIBRARY AND A DATA FRAME IN THE ORIGINAL.
@@ -2882,9 +2935,9 @@ if (predOnX)
 #===============================================================================
 ```
 
-## Fit models of **out error using problem size vars**
+## Fit models of **out error using PROBLEM SIZE vars**
 
-#### Fit SIMPLE LINEAR MODEL of out error using problem size vars
+#### Fit SIMPLE LINEAR MODEL of out error using PROBLEM SIZE vars
 
 ```{r}
 lm_Y_out_err_X_prob_size = lm (rsr_COR_euc_out_err_frac ~ 
@@ -2907,10 +2960,10 @@ plot_pred_eval_for_train_and_test (lm_Y_out_err_X_prob_size,
                                     must_specify_predictions_vector = FALSE)
 ```
 
-#### Fit RANDOM FOREST model of out error using problem size vars
+#### Fit RANDOM FOREST model of out error using PROBLEM SIZE vars
 
 ```{r}
-library (ranger)
+#library (ranger)
 
 rf_Y_out_err_X_prob_size = ranger (rsr_COR_euc_out_err_frac ~ 
                                     rsp_num_PUs + 
@@ -3030,6 +3083,103 @@ plot_pred_eval_for_train_and_test (rf,
 #####summary (working_not_huge_out_err_lm_fit)
 #####plot (working_not_huge_out_err_lm_fit)
 ```
+
+
+## Fit models of **out error using TIMING vars**
+
+NOTE:  Need to reduce these timing variables down since they're definitely collinear.  Just getting them all listed for now.
+
+
+#### Fit SIMPLE LINEAR MODEL of out error using TIMING vars
+
+```{r}
+lm_Y_out_err_X_timings = lm (rsr_COR_euc_out_err_frac ~ 
+                            #  igraph package metrics
+                                ig_user_time +  
+                                ig_system_time +  
+                                ig_elapsed_time +  
+                                ig_user_child_time +  
+                                ig_sys_child_time +  
+                                                
+                            #  bipartite package metrics
+                                bip_user_time +  
+                                bip_system_time +  
+                                bip_elapsed_time +  
+                                bip_user_child_time +  
+                                bip_sys_child_time +  
+            
+                            #  Reserve selector run times
+                                RS_user_time +  
+                                RS_system_time +  
+                                RS_elapsed_time +  
+                                RS_user_child_time +  
+                                RS_sys_child_time, 
+                              working_train_df)
+
+summary (lm_Y_out_err_X_timings)
+#plot (lm_Y_out_err_X_timings)
+
+plot_pred_eval_for_train_and_test (lm_Y_out_err_X_timings, 
+                                    model_name_str = "LM", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = FALSE)
+```
+
+#### Fit RANDOM FOREST model of out error using TIMING vars
+
+```{r}
+#library (ranger)
+
+rf_Y_out_err_X_timings = ranger (rsr_COR_euc_out_err_frac ~ 
+                            #  igraph package metrics
+                                ig_user_time +  
+                                ig_system_time +  
+                                ig_elapsed_time +  
+                                ig_user_child_time +  
+                                ig_sys_child_time +  
+                                                
+                            #  bipartite package metrics
+                                bip_user_time +  
+                                bip_system_time +  
+                                bip_elapsed_time +  
+                                bip_user_child_time +  
+                                bip_sys_child_time +  
+            
+                            #  Reserve selector run times
+                                RS_user_time +  
+                                RS_system_time +  
+                                RS_elapsed_time +  
+                                RS_user_child_time +  
+                                RS_sys_child_time, 
+                              data = working_train_df, 
+                              write.forest = TRUE)
+
+summary (rf_Y_out_err_X_timings)
+#plot (rf_Y_out_err_X_timings)
+
+plot_pred_eval_for_train_and_test (rf_Y_out_err_X_timings, 
+                                    model_name_str = "RF", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = TRUE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 ##  Graph measures help
 
@@ -3232,7 +3382,7 @@ plot_pred_eval_for_train_and_test (lm_Y_out_err_X_graph_measures,
 #### Fit RANDOM FOREST model of out error using GRAPH vars
 
 ```{r}
-library (ranger)
+#library (ranger)
 
 rf_Y_out_err_X_graph_measures = ranger (rsr_COR_euc_out_err_frac ~ 
                                     #  igraph package metrics
@@ -3310,11 +3460,6 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_graph_measures,
 
 
 
-
-
-
-
-#  Again, without cheating, graph measures + problem size data
 
 ## Fit models of **out error using PROB SIZE & GRAPH vars**
 
@@ -3402,7 +3547,7 @@ plot_pred_eval_for_train_and_test (lm_Y_out_err_X_probSize_graphMeasures,
 #### Fit RANDOM FOREST model of out error using PROB SIZE & GRAPH vars
 
 ```{r}
-library (ranger)
+#library (ranger)
 
 rf_Y_out_err_X_probSize_graphMeasures = ranger (rsr_COR_euc_out_err_frac ~ 
                                     rsp_num_PUs + 
@@ -3524,6 +3669,203 @@ plot (working_df$rsr_COR_euc_out_err_frac,
 
 
 
+## Fit models of **out error using TIMINGS & GRAPH vars**
+
+#### Fit SIMPLE LINEAR MODEL of out error using TIMINGS & GRAPH vars
+
+```{r}
+lm_Y_out_err_X_timings_graphMeasures = lm (rsr_COR_euc_out_err_frac ~ 
+
+                                #  igraph package metrics
+                                ig_user_time +  
+                                ig_system_time +  
+                                ig_elapsed_time +  
+                                ig_user_child_time +  
+                                ig_sys_child_time +  
+                                                
+                            #  bipartite package metrics
+                                bip_user_time +  
+                                bip_system_time +  
+                                bip_elapsed_time +  
+                                bip_user_child_time +  
+                                bip_sys_child_time +  
+            
+                            #  Reserve selector run times
+                                RS_user_time +  
+                                RS_system_time +  
+                                RS_elapsed_time +  
+                                RS_user_child_time +  
+                                RS_sys_child_time +  
+
+                                        
+                                    #  igraph package metrics
+                                        ig_top +  
+                                        ig_bottom +  
+                                        ig_num_edges_m +  
+                                        ig_ktop +  
+                                        ig_kbottom +  
+                                        ig_bidens +  
+                                        ig_lcctop +  
+                                        ig_lccbottom +  
+                                        ig_distop +  
+                                        ig_disbottom +  
+                                        ig_cctop +  
+                                        ig_ccbottom +  
+                                        ig_cclowdottop +  
+                                        ig_cclowdotbottom +  
+                                        ig_cctopdottop +  
+                                        ig_cctopdotbottom +  
+                                        
+                                        ig_mean_bottom_bg_redundancy +  
+                                        ig_median_bottom_bg_redundancy +  
+                                        ig_mean_top_bg_redundancy +  
+                                        ig_median_top_bg_redundancy +  
+                    
+                                    #  bipartite package metrics
+                                        connectance +  
+                            
+                                        web_asymmetry + 
+                                        links_per_PUsAndSpp + 
+                                        cluster_coefficient + 
+                                        weighted_NODF + 
+                                        interaction_strength_asymmetry + 
+                                        specialisation_asymmetry + 
+                                        linkage_density + 
+                                        weighted_connectance + 
+                                        Shannon_diversity + 
+                                        interaction_evenness + 
+                                        Alatalo_interaction_evenness + 
+                        
+                                        mean.number.of.shared.partners.PUs + 
+                                        mean.number.of.shared.partners.Spp + 
+                                        cluster.coefficient.PUs + 
+                                        cluster.coefficient.Spp + 
+                                        niche.overlap.PUs + 
+                                        niche.overlap.Spp + 
+                                        togetherness.PUs + 
+                                        togetherness.Spp + 
+                                        C.score.PUs + 
+                                        C.score.Spp + 
+                                        V.ratio.PUs + 
+                                        V.ratio.Spp + 
+                                        functional.complementarity.PUs + 
+                                        functional.complementarity.Spp + 
+                                        partner.diversity.PUs + 
+                                        partner.diversity.Spp + 
+                                        generality.PUs + 
+                                        vulnerability.Spp,
+                
+                              working_train_df)
+
+summary (lm_Y_out_err_X_timings_graphMeasures)
+#plot (lm_Y_out_err_X_timings_graphMeasures)
+
+plot_pred_eval_for_train_and_test (lm_Y_out_err_X_timings_graphMeasures, 
+                                    model_name_str = "LM", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = FALSE)
+```
+
+#### Fit RANDOM FOREST model of out error using TIMINGS & GRAPH vars
+
+```{r}
+rf_Y_out_err_X_timings_graphMeasures = ranger (rsr_COR_euc_out_err_frac ~ 
+
+                                #  igraph package metrics
+                                ig_user_time +  
+                                ig_system_time +  
+                                ig_elapsed_time +  
+                                ig_user_child_time +  
+                                ig_sys_child_time +  
+                                                
+                            #  bipartite package metrics
+                                bip_user_time +  
+                                bip_system_time +  
+                                bip_elapsed_time +  
+                                bip_user_child_time +  
+                                bip_sys_child_time +  
+            
+                            #  Reserve selector run times
+                                RS_user_time +  
+                                RS_system_time +  
+                                RS_elapsed_time +  
+                                RS_user_child_time +  
+                                RS_sys_child_time +  
+
+                                    #  igraph package metrics
+                                        ig_top +  
+                                        ig_bottom +  
+                                        ig_num_edges_m +  
+                                        ig_ktop +  
+                                        ig_kbottom +  
+                                        ig_bidens +  
+                                        ig_lcctop +  
+                                        ig_lccbottom +  
+                                        ig_distop +  
+                                        ig_disbottom +  
+                                        ig_cctop +  
+                                        ig_ccbottom +  
+                                        ig_cclowdottop +  
+                                        ig_cclowdotbottom +  
+                                        ig_cctopdottop +  
+                                        ig_cctopdotbottom +  
+                                        
+                                        ig_mean_bottom_bg_redundancy +  
+                                        ig_median_bottom_bg_redundancy +  
+                                        ig_mean_top_bg_redundancy +  
+                                        ig_median_top_bg_redundancy +  
+                    
+                                    #  bipartite package metrics
+                                        connectance +  
+                            
+                                        web_asymmetry + 
+                                        links_per_PUsAndSpp + 
+                                        cluster_coefficient + 
+                                        weighted_NODF + 
+                                        interaction_strength_asymmetry + 
+                                        specialisation_asymmetry + 
+                                        linkage_density + 
+                                        weighted_connectance + 
+                                        Shannon_diversity + 
+                                        interaction_evenness + 
+                                        Alatalo_interaction_evenness + 
+                        
+                                        mean.number.of.shared.partners.PUs + 
+                                        mean.number.of.shared.partners.Spp + 
+                                        cluster.coefficient.PUs + 
+                                        cluster.coefficient.Spp + 
+                                        niche.overlap.PUs + 
+                                        niche.overlap.Spp + 
+                                        togetherness.PUs + 
+                                        togetherness.Spp + 
+                                        C.score.PUs + 
+                                        C.score.Spp + 
+                                        V.ratio.PUs + 
+                                        V.ratio.Spp + 
+                                        functional.complementarity.PUs + 
+                                        functional.complementarity.Spp + 
+                                        partner.diversity.PUs + 
+                                        partner.diversity.Spp + 
+                                        generality.PUs + 
+                                        vulnerability.Spp,
+                
+                              data = working_train_df, 
+                              write.forest = TRUE)
+
+summary (rf_Y_out_err_X_timings_graphMeasures)
+#plot (rf_Y_out_err_X_timings_graphMeasures)
+
+plot_pred_eval_for_train_and_test (rf_Y_out_err_X_timings_graphMeasures, 
+                                    model_name_str = "RF", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = TRUE)
+```
 
 
 
@@ -3535,7 +3877,232 @@ plot (working_df$rsr_COR_euc_out_err_frac,
 
 
 
-###  With cheating
+
+## Fit models of **out error using PROB SIZE & TIMINGS & GRAPH vars**
+
+#### Fit SIMPLE LINEAR MODEL of out error using PROB SIZE & TIMINGS & GRAPH vars
+
+```{r}
+lm_Y_out_err_X_probSize_timings_graphMeasures = lm (rsr_COR_euc_out_err_frac ~ 
+                                    rsp_num_PUs + 
+                                    rsp_num_spp + 
+                                    rsp_num_spp_per_PU + 
+#                                    sppPUsum + 
+                                    sppPUprod + 
+    
+    
+                                #  igraph package metrics
+                                ig_user_time +  
+                                ig_system_time +  
+                                ig_elapsed_time +  
+                                ig_user_child_time +  
+                                ig_sys_child_time +  
+                                                
+                            #  bipartite package metrics
+                                bip_user_time +  
+                                bip_system_time +  
+                                bip_elapsed_time +  
+                                bip_user_child_time +  
+                                bip_sys_child_time +  
+            
+                            #  Reserve selector run times
+                                RS_user_time +  
+                                RS_system_time +  
+                                RS_elapsed_time +  
+                                RS_user_child_time +  
+                                RS_sys_child_time +  
+
+                                        
+                                    #  igraph package metrics
+                                        ig_top +  
+                                        ig_bottom +  
+                                        ig_num_edges_m +  
+                                        ig_ktop +  
+                                        ig_kbottom +  
+                                        ig_bidens +  
+                                        ig_lcctop +  
+                                        ig_lccbottom +  
+                                        ig_distop +  
+                                        ig_disbottom +  
+                                        ig_cctop +  
+                                        ig_ccbottom +  
+                                        ig_cclowdottop +  
+                                        ig_cclowdotbottom +  
+                                        ig_cctopdottop +  
+                                        ig_cctopdotbottom +  
+                                        
+                                        ig_mean_bottom_bg_redundancy +  
+                                        ig_median_bottom_bg_redundancy +  
+                                        ig_mean_top_bg_redundancy +  
+                                        ig_median_top_bg_redundancy +  
+                    
+                                    #  bipartite package metrics
+                                        connectance +  
+                            
+                                        web_asymmetry + 
+                                        links_per_PUsAndSpp + 
+                                        cluster_coefficient + 
+                                        weighted_NODF + 
+                                        interaction_strength_asymmetry + 
+                                        specialisation_asymmetry + 
+                                        linkage_density + 
+                                        weighted_connectance + 
+                                        Shannon_diversity + 
+                                        interaction_evenness + 
+                                        Alatalo_interaction_evenness + 
+                        
+                                        mean.number.of.shared.partners.PUs + 
+                                        mean.number.of.shared.partners.Spp + 
+                                        cluster.coefficient.PUs + 
+                                        cluster.coefficient.Spp + 
+                                        niche.overlap.PUs + 
+                                        niche.overlap.Spp + 
+                                        togetherness.PUs + 
+                                        togetherness.Spp + 
+                                        C.score.PUs + 
+                                        C.score.Spp + 
+                                        V.ratio.PUs + 
+                                        V.ratio.Spp + 
+                                        functional.complementarity.PUs + 
+                                        functional.complementarity.Spp + 
+                                        partner.diversity.PUs + 
+                                        partner.diversity.Spp + 
+                                        generality.PUs + 
+                                        vulnerability.Spp,
+                
+                              working_train_df)
+
+summary (lm_Y_out_err_X_probSize_timings_graphMeasures)
+#plot (lm_Y_out_err_X_probSize_timings_graphMeasures)
+
+plot_pred_eval_for_train_and_test (lm_Y_out_err_X_probSize_timings_graphMeasures, 
+                                    model_name_str = "LM", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = FALSE)
+```
+
+#### Fit RANDOM FOREST model of out error using PROB SIZE & TIMINGS & GRAPH vars
+
+```{r}
+#library (ranger)
+
+rf_Y_out_err_X_probSize_timings_graphMeasures = ranger (rsr_COR_euc_out_err_frac ~ 
+                                    rsp_num_PUs + 
+                                    rsp_num_spp + 
+                                    rsp_num_spp_per_PU + 
+                                    sppPUsum + 
+                                    sppPUprod + 
+    
+                                #  igraph package metrics
+                                ig_user_time +  
+                                ig_system_time +  
+                                ig_elapsed_time +  
+                                ig_user_child_time +  
+                                ig_sys_child_time +  
+                                                
+                            #  bipartite package metrics
+                                bip_user_time +  
+                                bip_system_time +  
+                                bip_elapsed_time +  
+                                bip_user_child_time +  
+                                bip_sys_child_time +  
+            
+                            #  Reserve selector run times
+                                RS_user_time +  
+                                RS_system_time +  
+                                RS_elapsed_time +  
+                                RS_user_child_time +  
+                                RS_sys_child_time +  
+
+                                    #  igraph package metrics
+                                        ig_top +  
+                                        ig_bottom +  
+                                        ig_num_edges_m +  
+                                        ig_ktop +  
+                                        ig_kbottom +  
+                                        ig_bidens +  
+                                        ig_lcctop +  
+                                        ig_lccbottom +  
+                                        ig_distop +  
+                                        ig_disbottom +  
+                                        ig_cctop +  
+                                        ig_ccbottom +  
+                                        ig_cclowdottop +  
+                                        ig_cclowdotbottom +  
+                                        ig_cctopdottop +  
+                                        ig_cctopdotbottom +  
+                                        
+                                        ig_mean_bottom_bg_redundancy +  
+                                        ig_median_bottom_bg_redundancy +  
+                                        ig_mean_top_bg_redundancy +  
+                                        ig_median_top_bg_redundancy +  
+                    
+                                    #  bipartite package metrics
+                                        connectance +  
+                            
+                                        web_asymmetry + 
+                                        links_per_PUsAndSpp + 
+                                        cluster_coefficient + 
+                                        weighted_NODF + 
+                                        interaction_strength_asymmetry + 
+                                        specialisation_asymmetry + 
+                                        linkage_density + 
+                                        weighted_connectance + 
+                                        Shannon_diversity + 
+                                        interaction_evenness + 
+                                        Alatalo_interaction_evenness + 
+                        
+                                        mean.number.of.shared.partners.PUs + 
+                                        mean.number.of.shared.partners.Spp + 
+                                        cluster.coefficient.PUs + 
+                                        cluster.coefficient.Spp + 
+                                        niche.overlap.PUs + 
+                                        niche.overlap.Spp + 
+                                        togetherness.PUs + 
+                                        togetherness.Spp + 
+                                        C.score.PUs + 
+                                        C.score.Spp + 
+                                        V.ratio.PUs + 
+                                        V.ratio.Spp + 
+                                        functional.complementarity.PUs + 
+                                        functional.complementarity.Spp + 
+                                        partner.diversity.PUs + 
+                                        partner.diversity.Spp + 
+                                        generality.PUs + 
+                                        vulnerability.Spp,
+                
+                              data = working_train_df, 
+                              write.forest = TRUE)
+
+summary (rf_Y_out_err_X_probSize_timings_graphMeasures)
+#plot (rf_Y_out_err_X_probSize_timings_graphMeasures)
+
+plot_pred_eval_for_train_and_test (rf_Y_out_err_X_probSize_timings_graphMeasures, 
+                                    model_name_str = "RF", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = TRUE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#  Predictions WITH cheating
 
 - Generally, output error does increase with input error, but still has large variability.
 - Did combination of the two predict better? 
@@ -3546,7 +4113,7 @@ plot (working_df$rsr_COR_euc_out_err_frac,
 cat ("\n...  CHEATING:  Fit prediction using input error  ...\n")
 ```
 
-```{r}
+```
 working_lm_fit = lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot_and_cost_in_err_frac + 
                                    rsp_realized_FP_rate + 
                                    rsp_realized_FN_rate + 
@@ -3562,7 +4129,7 @@ plot (working_lm_fit)
 
 ### Plot Working COR OutErr vs. Fit Values from Cheating
 
-```{r}
+```
 pred_working_lm_fit = 
     predict (working_lm_fit, 
              working_df)
@@ -3594,8 +4161,306 @@ plot (working_not_huge_out_err_lm_fit)
 ```
 
 
+## Fit models of **out error using INPUT ERROR vars**
 
-####  Cheating, using input errors and non-cheating problem characteristics
+#### Fit SIMPLE LINEAR MODEL of out error using INPUT ERROR vars
+
+```{r}
+lm_Y_out_err_X_in_err = lm (rsr_COR_euc_out_err_frac ~ 
+                                   rsp_realized_FP_rate + 
+                                   rsp_realized_FN_rate + 
+                                   rsp_realized_Ftot_rate + 
+                                   rsp_euc_realized_FP_and_cost_in_err_frac + 
+                                   rsp_euc_realized_FN_and_cost_in_err_frac + 
+                                   rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+                              working_train_df)
+
+summary (lm_Y_out_err_X_in_err)
+#plot (lm_Y_out_err_X_in_err)
+
+plot_pred_eval_for_train_and_test (lm_Y_out_err_X_in_err, 
+                                    model_name_str = "LM", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = FALSE)
+```
+
+#### Fit RANDOM FOREST model of out error using INPUT ERROR vars
+
+```{r}
+#library (ranger)
+
+rf_Y_out_err_X_in_err = ranger (rsr_COR_euc_out_err_frac ~ 
+                                   rsp_realized_FP_rate + 
+                                   rsp_realized_FN_rate + 
+                                   rsp_realized_Ftot_rate + 
+                                   rsp_euc_realized_FP_and_cost_in_err_frac + 
+                                   rsp_euc_realized_FN_and_cost_in_err_frac + 
+                                   rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+                              data = working_train_df, 
+                              write.forest = TRUE)
+
+summary (rf_Y_out_err_X_in_err)
+#plot (rf_Y_out_err_X_in_err)
+
+plot_pred_eval_for_train_and_test (rf_Y_out_err_X_in_err, 
+                                    model_name_str = "RF", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = TRUE)
+```
+
+
+
+
+
+
+
+
+
+
+##  Cheating, using input errors and non-cheating problem characteristics
+
+
+## Fit models of **out error using INPUT ERR & PROB SIZE & TIMINGS & GRAPH vars**
+
+#### Fit SIMPLE LINEAR MODEL of out error using INPUT ERR & PROB SIZE & TIMINGS & GRAPH vars
+
+```{r}
+lm_Y_out_err_X_inErr_probSize_timings_graphMeasures = lm (rsr_COR_euc_out_err_frac ~ 
+                                   rsp_realized_FP_rate + 
+                                   rsp_realized_FN_rate + 
+                                   rsp_realized_Ftot_rate + 
+                                   rsp_euc_realized_FP_and_cost_in_err_frac + 
+                                   rsp_euc_realized_FN_and_cost_in_err_frac + 
+                                   rsp_euc_realized_Ftot_and_cost_in_err_frac + 
+                                   
+                                    rsp_num_PUs + 
+                                    rsp_num_spp + 
+                                    rsp_num_spp_per_PU + 
+#                                    sppPUsum + 
+                                    sppPUprod + 
+    
+    
+                                #  igraph package metrics
+                                ig_user_time +  
+                                ig_system_time +  
+                                ig_elapsed_time +  
+                                ig_user_child_time +  
+                                ig_sys_child_time +  
+                                                
+                            #  bipartite package metrics
+                                bip_user_time +  
+                                bip_system_time +  
+                                bip_elapsed_time +  
+                                bip_user_child_time +  
+                                bip_sys_child_time +  
+            
+                            #  Reserve selector run times
+                                RS_user_time +  
+                                RS_system_time +  
+                                RS_elapsed_time +  
+                                RS_user_child_time +  
+                                RS_sys_child_time +  
+
+                                        
+                                    #  igraph package metrics
+                                        ig_top +  
+                                        ig_bottom +  
+                                        ig_num_edges_m +  
+                                        ig_ktop +  
+                                        ig_kbottom +  
+                                        ig_bidens +  
+                                        ig_lcctop +  
+                                        ig_lccbottom +  
+                                        ig_distop +  
+                                        ig_disbottom +  
+                                        ig_cctop +  
+                                        ig_ccbottom +  
+                                        ig_cclowdottop +  
+                                        ig_cclowdotbottom +  
+                                        ig_cctopdottop +  
+                                        ig_cctopdotbottom +  
+                                        
+                                        ig_mean_bottom_bg_redundancy +  
+                                        ig_median_bottom_bg_redundancy +  
+                                        ig_mean_top_bg_redundancy +  
+                                        ig_median_top_bg_redundancy +  
+                    
+                                    #  bipartite package metrics
+                                        connectance +  
+                            
+                                        web_asymmetry + 
+                                        links_per_PUsAndSpp + 
+                                        cluster_coefficient + 
+                                        weighted_NODF + 
+                                        interaction_strength_asymmetry + 
+                                        specialisation_asymmetry + 
+                                        linkage_density + 
+                                        weighted_connectance + 
+                                        Shannon_diversity + 
+                                        interaction_evenness + 
+                                        Alatalo_interaction_evenness + 
+                        
+                                        mean.number.of.shared.partners.PUs + 
+                                        mean.number.of.shared.partners.Spp + 
+                                        cluster.coefficient.PUs + 
+                                        cluster.coefficient.Spp + 
+                                        niche.overlap.PUs + 
+                                        niche.overlap.Spp + 
+                                        togetherness.PUs + 
+                                        togetherness.Spp + 
+                                        C.score.PUs + 
+                                        C.score.Spp + 
+                                        V.ratio.PUs + 
+                                        V.ratio.Spp + 
+                                        functional.complementarity.PUs + 
+                                        functional.complementarity.Spp + 
+                                        partner.diversity.PUs + 
+                                        partner.diversity.Spp + 
+                                        generality.PUs + 
+                                        vulnerability.Spp,
+                
+                              working_train_df)
+
+summary (lm_Y_out_err_X_inErr_probSize_timings_graphMeasures)
+#plot (lm_Y_out_err_X_inErr_probSize_timings_graphMeasures)
+
+plot_pred_eval_for_train_and_test (lm_Y_out_err_X_inErr_probSize_timings_graphMeasures, 
+                                    model_name_str = "LM", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = FALSE)
+```
+
+#### Fit RANDOM FOREST model of out error using INPUT ERR & PROB SIZE & TIMINGS & GRAPH vars
+
+```{r}
+#library (ranger)
+
+rf_Y_out_err_X_inErr_probSize_timings_graphMeasures = ranger (rsr_COR_euc_out_err_frac ~ 
+                                    rsp_num_PUs + 
+                                    rsp_num_spp + 
+                                    rsp_num_spp_per_PU + 
+                                    sppPUsum + 
+                                    sppPUprod + 
+    
+                                #  igraph package metrics
+                                ig_user_time +  
+                                ig_system_time +  
+                                ig_elapsed_time +  
+                                ig_user_child_time +  
+                                ig_sys_child_time +  
+                                                
+                            #  bipartite package metrics
+                                bip_user_time +  
+                                bip_system_time +  
+                                bip_elapsed_time +  
+                                bip_user_child_time +  
+                                bip_sys_child_time +  
+            
+                            #  Reserve selector run times
+                                RS_user_time +  
+                                RS_system_time +  
+                                RS_elapsed_time +  
+                                RS_user_child_time +  
+                                RS_sys_child_time +  
+
+                                    #  igraph package metrics
+                                        ig_top +  
+                                        ig_bottom +  
+                                        ig_num_edges_m +  
+                                        ig_ktop +  
+                                        ig_kbottom +  
+                                        ig_bidens +  
+                                        ig_lcctop +  
+                                        ig_lccbottom +  
+                                        ig_distop +  
+                                        ig_disbottom +  
+                                        ig_cctop +  
+                                        ig_ccbottom +  
+                                        ig_cclowdottop +  
+                                        ig_cclowdotbottom +  
+                                        ig_cctopdottop +  
+                                        ig_cctopdotbottom +  
+                                        
+                                        ig_mean_bottom_bg_redundancy +  
+                                        ig_median_bottom_bg_redundancy +  
+                                        ig_mean_top_bg_redundancy +  
+                                        ig_median_top_bg_redundancy +  
+                    
+                                    #  bipartite package metrics
+                                        connectance +  
+                            
+                                        web_asymmetry + 
+                                        links_per_PUsAndSpp + 
+                                        cluster_coefficient + 
+                                        weighted_NODF + 
+                                        interaction_strength_asymmetry + 
+                                        specialisation_asymmetry + 
+                                        linkage_density + 
+                                        weighted_connectance + 
+                                        Shannon_diversity + 
+                                        interaction_evenness + 
+                                        Alatalo_interaction_evenness + 
+                        
+                                        mean.number.of.shared.partners.PUs + 
+                                        mean.number.of.shared.partners.Spp + 
+                                        cluster.coefficient.PUs + 
+                                        cluster.coefficient.Spp + 
+                                        niche.overlap.PUs + 
+                                        niche.overlap.Spp + 
+                                        togetherness.PUs + 
+                                        togetherness.Spp + 
+                                        C.score.PUs + 
+                                        C.score.Spp + 
+                                        V.ratio.PUs + 
+                                        V.ratio.Spp + 
+                                        functional.complementarity.PUs + 
+                                        functional.complementarity.Spp + 
+                                        partner.diversity.PUs + 
+                                        partner.diversity.Spp + 
+                                        generality.PUs + 
+                                        vulnerability.Spp,
+                
+                              data = working_train_df, 
+                              write.forest = TRUE)
+
+summary (rf_Y_out_err_X_inErr_probSize_timings_graphMeasures)
+#plot (rf_Y_out_err_X_inErr_probSize_timings_graphMeasures)
+
+plot_pred_eval_for_train_and_test (rf_Y_out_err_X_inErr_probSize_timings_graphMeasures, 
+                                    model_name_str = "RF", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = TRUE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```{r}
 cat ("\n...  CHEATING:  Fit prediction using input error, graph measures, problem size  ...\n")
