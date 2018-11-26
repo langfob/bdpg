@@ -2728,7 +2728,13 @@ corrplot (correlations, tl.cex=0.5
 
 
 
-
+```{r}
+library (DMwR)
+#library (DMwR2)  #  DON'T LOAD THIS - SOME EXAMPLES FROM BOOK FAIL SINCE THEIR 
+                  #  TYPES HAVE CHANGED.  FOR EXAMPLE, algae IS A TIBBLE IN THE 
+                  #  REVISED LIBRARY AND A DATA FRAME IN THE ORIGINAL.
+                  #  THIS CAUSED SOME OF MY CODE TO CHOKE.
+```
 
 ## NOT cheating:  Fit prediction using problem size 
 
@@ -2779,17 +2785,232 @@ plot (easyHard_not_huge_out_err_lm_fit)
 
 ```
 
+#### Divide into test and training sets.
 
+Want a small sample while I get this working, so just grabbing 100 each for test and train.  
+
+Since the samples are all randomly generated in the first place, I don't need to choose them at random using sample() for the indices.  The first 100 are just as random as anything chosen by sample() would be.
 
 ```{r}
-working_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
-                          rsp_num_PUs + rsp_num_spp + 
-                          rsp_num_spp_per_PU + sppPUprod, 
-                      working_df)
-
-summary (working_lm_fit)
-plot (working_lm_fit)
+working_train_df = working_df [1:100, ]
+working_test_df = working_df [101:200, ]
 ```
+
+```{r}
+#===============================================================================
+
+plot_pred_eval_for_train_and_test <- 
+    function (fitted_model, 
+                model_name_str,                 #  e.g., "LM" 
+                pred_col_name_str,              #  e.g., "rsr_COR_euc_out_err_frac" 
+                pred_value_name_display_str,    #  e.g., "RS out err"
+                train_df, 
+                test_df, 
+                must_specify_predictions_vector=FALSE)
+    {           
+    old_par = par ("mfrow")
+    par (mfrow=c(1,2))
+    
+    plot_pred_eval (fitted_model, train_df, 
+         model_name_str, pred_col_name_str, "TRAIN", 
+         pred_value_name_display_str = "RS out err",
+         must_specify_predictions_vector)
+    
+    plot_pred_eval (fitted_model, test_df, 
+         model_name_str, pred_col_name_str, "TEST", 
+         pred_value_name_display_str = "RS out err",
+         must_specify_predictions_vector)
+    
+    par (old_par)
+    }
+ 
+#===============================================================================
+
+plot_pred_eval <- function (fitted_model, 
+                             df_to_predict_on, 
+                             model_name_str, 
+                             pred_col_name_str, 
+                             test_or_train_label_str, 
+                             pred_value_name_display_str = "RS out err", 
+                            must_specify_predictions_vector=FALSE)
+    {
+    predicted = predict (fitted_model, df_to_predict_on)
+    
+        #  IMPORTANT:
+        #  Some fitting methods like lm() will properly handle the output 
+        #  from predict when feeding it to routines like plot(), so you 
+        #  don't have to do anything to the predicted output to use it.
+        #  Others, like ranger() build an object that doesn't seem to be 
+        #  properly interpreted by things like plot() and regr.eval(), so 
+        #  you have to find the predictions vector inside the structure and 
+        #  use that where you would have used lm()'s output directly.
+    
+    if (must_specify_predictions_vector) 
+        preds = predicted$predictions else 
+        preds = predicted
+    
+    true_values = df_to_predict_on [, pred_col_name_str]
+    
+    cat ("\nEvaluate results of testing on ", test_or_train_label_str, " data:\n")
+    print (regr.eval (true_values, 
+                       preds, 
+                       #stats = c ("mae", "mse"),    #, "rmse", "mape"))
+                       train.y = true_values))
+    plot (
+          preds, 
+          true_values, 
+          main = paste0 (model_name_str, " on ", test_or_train_label_str), 
+          xlab = paste0 ("Predicted ", pred_value_name_display_str), 
+          ylab = paste0 ("True ", pred_value_name_display_str))
+    abline (0, 1, lty=2)
+    }
+
+#===============================================================================
+```
+
+## Fit models of **out error using problem size vars**
+
+#### Fit SIMPLE LINEAR MODEL of out error using problem size vars
+
+```{r}
+lm_Y_out_err_X_prob_size = lm (rsr_COR_euc_out_err_frac ~ 
+                                 rsp_num_PUs + 
+                                 rsp_num_spp + 
+                                 rsp_num_spp_per_PU + 
+#           sppPUsum +    #  already covered by sum of 2 other vars above
+                                 sppPUprod, 
+                              working_train_df)
+
+summary (lm_Y_out_err_X_prob_size)
+#plot (lm_Y_out_err_X_prob_size)
+
+plot_pred_eval_for_train_and_test (lm_Y_out_err_X_prob_size, 
+                                    model_name_str = "LM", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = FALSE)
+```
+
+#### Fit RANDOM FOREST model of out error using problem size vars
+
+```{r}
+library (ranger)
+
+rf_Y_out_err_X_prob_size = ranger (rsr_COR_euc_out_err_frac ~ 
+                                    rsp_num_PUs + 
+                                    rsp_num_spp + 
+                                    rsp_num_spp_per_PU + 
+                                    sppPUsum + 
+                                    sppPUprod, 
+                              data = working_train_df, 
+                              write.forest = TRUE)
+
+summary (rf_Y_out_err_X_prob_size)
+#plot (rf_Y_out_err_X_prob_size)
+
+plot_pred_eval_for_train_and_test (rf_Y_out_err_X_prob_size, 
+                                    model_name_str = "RF", 
+                                    pred_col_name_str = "rsr_COR_euc_out_err_frac", 
+                                    pred_value_name_display_str = "RS out err",
+                                    working_train_df, 
+                                    working_test_df, 
+                                    must_specify_predictions_vector = TRUE)
+```
+
+
+
+
+TESTING FUNCTION CALL USING ALGAE DATA SET FROM TORGO'S BOOK - 2018 11 26 18 12
+
+This worked fine.
+
+```{r}
+#library (ranger)
+
+library (DMwR)
+#library (DMwR2) 
+
+library (rpart)
+data (algae)
+#algae <- as.data.frame (algae)
+algae <- algae [-manyNAs (algae), ]
+
+algae_train = algae [, 1:12]
+algae_test = algae [, 1:12]
+
+#rt.a1 <- rpart (a1 ~ ., data = algae [, 1:12])
+rt.a1 <- rpart (a1 ~ ., data = algae_train)
+
+if (FALSE)
+{
+summary (rt.a1)
+
+
+    preds = predict (rt.a1, data=algae_train)
+
+    true_values = algae_train [, "a1"]
+    
+    regr.eval (true_values, 
+                       preds, 
+                       #stats = c ("mae", "mse"),    #, "rmse", "mape"))
+                       train.y = true_values)
+    
+    model_name_str = "RF"
+    test_or_train_label_str = "TRAIN"
+    pred_value_name_display_str = "RS out err"
+    plot (preds, 
+          true_values, 
+          main = paste0 (model_name_str, " on ", test_or_train_label_str), 
+          xlab = paste0 ("Predicted ", pred_value_name_display_str), 
+          ylab = paste0 ("True ", pred_value_name_display_str))
+    abline (0, 1, lty=2)
+}
+
+plot_pred_eval_for_train_and_test (rt.a1, 
+                                    model_name_str = "RT", 
+                                    pred_col_name_str = "a1", 
+                                    algae_train, 
+                                    algae_test)
+
+
+
+
+
+if (FALSE)
+{
+train.idx <- sample (x = 1:150, size = 100)
+iris.train <- iris [train.idx, ]
+iris.test <- iris [-train.idx, ]
+
+rf <- ranger (Species ~ ., 
+              data = iris.train, 
+              write.forest = TRUE)
+
+summary (rf)
+
+plot_pred_eval_for_train_and_test (rf, 
+                                    model_name_str = "RF", 
+                                    pred_col_name_str = "Species", 
+                                    iris.train, 
+                                    iris.test)
+
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```
 # working_df %>% 
