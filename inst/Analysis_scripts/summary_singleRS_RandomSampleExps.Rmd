@@ -29,6 +29,8 @@ This file is meant to reduce all of the previous Rmd files that have tons of dif
 
 ## TO DO
 
+- Need to try filtering out any examples where the APP problem had any species from teh COR problem that had no occurrences in the APP problem
+    - Those might be the source of the problems that had the huge error blowouts since they would have to reserve every PU in their search for the missing species
 - Need to add other predictions
     - Predict using the Xu variables as inputs
     - Predict different outputs
