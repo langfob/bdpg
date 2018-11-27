@@ -53,8 +53,11 @@ This file is meant to reduce all of the previous Rmd files that have tons of dif
     - Definitely need to set up better handling of cv, etc
 - Need to replace current plot() code for models with ggplot() code
 - Feature preprocessing
-    - Haven't done any standardization or anything yet.
-
+    - Haven't done any standardization or logs or anything.  Not sure what's needed yet.
+- Variable selection
+    - Haven't done any removal of any variables yet.
+- Bayes for things like beliefs about amount and type of input error?
+    
 -----------------------------
 
 ##  knitr setup
