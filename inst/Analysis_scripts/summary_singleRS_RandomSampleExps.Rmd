@@ -2695,6 +2695,82 @@ plot_pred_eval_for_train_and_test <-
                 pred_value_name_display_str,    #  e.g., "RS out err"
                 train_df, 
                 test_df, 
+                vars_used_str, 
+              must_specify_predictions_vector=FALSE)
+    {
+    train_true_values = train_df [, pred_col_name_str]
+    predicted = predict (fitted_model, train_df)
+    if (must_specify_predictions_vector) 
+        train_preds = predicted$predictions else 
+        train_preds = predicted
+    train_pred_true_df = 
+        data.frame (ds_label = rep ("train", length (train_true_values)), 
+                    true_values = train_true_values, 
+                    pred_values = train_preds)
+
+    cat ("\nEvaluate results of testing on ", "TRAIN", " data:\n")
+    print (regr.eval (train_true_values, 
+                       train_preds, 
+                       #stats = c ("mae", "mse"),    #, "rmse", "mape"))
+                       train.y = train_true_values))
+
+    test_true_values = test_df [, pred_col_name_str]
+    predicted = predict (fitted_model, test_df)
+    if (must_specify_predictions_vector) 
+        test_preds = predicted$predictions else 
+        test_preds = predicted
+    test_pred_true_df = 
+        data.frame (ds_label = rep ("test", length (test_true_values)), 
+                    true_values = test_true_values, 
+                    pred_values = test_preds)
+    
+    cat ("\nEvaluate results of testing on ", "TEST", " data:\n")
+    print (regr.eval (test_true_values, 
+                       test_preds, 
+                       #stats = c ("mae", "mse"),    #, "rmse", "mape"))
+                       train.y = test_true_values))
+
+    combined_pred_true_df = rbind (train_pred_true_df, test_pred_true_df)
+    
+    if (FALSE)
+    {
+    qplot (true_values, pred_values, 
+           data=combined_pred_true_df, 
+           facets = . ~ ds_label) +
+#    + geom_smooth()
+        geom_abline (intercept=0, slope=1  #, linetype, color, size
+                       ) 
+    } else
+    {
+    ggplot (data = combined_pred_true_df) + 
+#    geom_point (mapping = aes (x = true_values, 
+    geom_point (aes (x = true_values, 
+                     y = pred_values, 
+                     color = ds_label), 
+        # , 
+        #              color = id)
+        #         ) + 
+                shape=".") + 
+    scale_color_manual (breaks = c ("Train", "Test"), values=c("blue", "red")) + 
+    ggtitle (paste0 (rs_name, " - True vs. Pred for ", model_name_str, 
+                              " using ", vars_used_str)) + 
+    theme (plot.title = element_text (hjust = 0.5)) +    #  To center the title
+    facet_wrap (~ ds_label, nrow = 1) +
+    geom_abline (intercept=0, slope=1)   #, linetype, color, size
+    }
+          
+    }
+ 
+#===============================================================================
+
+old_plot_pred_eval_for_train_and_test <- 
+    function (fitted_model, 
+                model_name_str,                 #  e.g., "LM" 
+                pred_col_name_str,              #  e.g., "rsr_COR_euc_out_err_frac" 
+                pred_value_name_display_str,    #  e.g., "RS out err"
+                train_df, 
+                test_df, 
+                vars_used_str, # NOT CURRENTLY USED
                 must_specify_predictions_vector=FALSE)
     {           
     old_par = par ("mfrow")
@@ -2796,6 +2872,7 @@ plot_pred_eval_for_train_and_test (lm_Y_out_err_X_prob_size,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "probSize",
                                     must_specify_predictions_vector = FALSE)
 ```
 
@@ -2822,6 +2899,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_prob_size,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "probSize",
                                     must_specify_predictions_vector = TRUE)
 ```
 
@@ -2864,6 +2942,7 @@ plot_pred_eval_for_train_and_test (lm_Y_out_err_X_timings,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "timings", 
                                     must_specify_predictions_vector = FALSE)
 ```
 
@@ -2905,6 +2984,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_timings,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "timings", 
                                     must_specify_predictions_vector = TRUE)
 ```
 
@@ -2982,6 +3062,7 @@ plot_pred_eval_for_train_and_test (lm_Y_out_err_X_graph_measures,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "graphMeasures", 
                                     must_specify_predictions_vector = FALSE)
 ```
 
@@ -3060,6 +3141,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_graph_measures,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "graphMeasures", 
                                     must_specify_predictions_vector = TRUE)
 ```
 
@@ -3143,6 +3225,7 @@ plot_pred_eval_for_train_and_test (lm_Y_out_err_X_probSize_graphMeasures,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "probSize & graphMeasures", 
                                     must_specify_predictions_vector = FALSE)
 ```
 
@@ -3227,6 +3310,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_probSize_graphMeasures,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "probSize & graphMeasures", 
                                     must_specify_predictions_vector = TRUE)
 ```
 
@@ -3327,6 +3411,7 @@ plot_pred_eval_for_train_and_test (lm_Y_out_err_X_timings_graphMeasures,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "timings & graphMeasures", 
                                     must_specify_predictions_vector = FALSE)
 ```
 
@@ -3425,6 +3510,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_timings_graphMeasures,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "timings & graphMeasures", 
                                     must_specify_predictions_vector = TRUE)
 ```
 
@@ -3531,6 +3617,7 @@ plot_pred_eval_for_train_and_test (lm_Y_out_err_X_probSize_timings_graphMeasures
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "probSize & timings & graph", 
                                     must_specify_predictions_vector = FALSE)
 ```
 
@@ -3636,6 +3723,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_probSize_timings_graphMeasures
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "probSize & timings & graph", 
                                     must_specify_predictions_vector = TRUE)
 ```
 
@@ -3666,6 +3754,7 @@ plot_pred_eval_for_train_and_test (lm_Y_out_err_X_in_err,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "inErr", 
                                     must_specify_predictions_vector = FALSE)
 ```
 
@@ -3693,6 +3782,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_in_err,
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "inErr", 
                                     must_specify_predictions_vector = TRUE)
 ```
 
@@ -3808,6 +3898,7 @@ plot_pred_eval_for_train_and_test (lm_Y_out_err_X_inErr_probSize_timings_graphMe
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "inErr & probSize & timings & graph", 
                                     must_specify_predictions_vector = FALSE)
 ```
 
@@ -3913,6 +4004,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_inErr_probSize_timings_graphMe
                                     pred_value_name_display_str = "RS out err",
                                     working_train_df, 
                                     working_test_df, 
+                                    "inErr & probSize & timings & graph", 
                                     must_specify_predictions_vector = TRUE)
 ```
 
