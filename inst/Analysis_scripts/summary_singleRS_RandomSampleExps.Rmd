@@ -3,19 +3,21 @@ title: "Summary of BDPG results for single Reserve Selector"
 author: "Bill Langford"
 date: "`r Sys.Date()`"
 output:
-  html_document:
-    df_print: paged
-    toc: yes
-    toc_depth: '4'
-  html_notebook:
-    toc: yes
-    toc_depth: 4
   pdf_document:
     fig_caption: yes
     number_sections: yes
     toc: yes
     toc_depth: 4
+  html_notebook:
+    toc: yes
+    toc_depth: 4
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: '4'
 ---
+
+#  General
 
 This is just a quick and dirty summary of what I think are the main results that I want to put in the first paper.  I need this to pare down what I'm doing in the other documents.
 
@@ -23,11 +25,35 @@ This file is cloned from mainResults.Rmd and mainResults_singleRS_RandomSampleEx
 
 This file is meant to reduce all of the previous Rmd files that have tons of different forms of results in them down to just the results that are candidates for the paper.  Those previous Rmd files include mainResults.Rmd, mainResults_singleRS.Rmd, mainResults_singleRS_RandomSampleExps.Rmd, preliminaryAnalysis.Rmd, and secondCutNotebook.Rmd (and fourthCutNotebook.Rmd?).
 
-##  Need to fix:
+-----------------------------
 
-- Missing plots of rep shortfall vs FRAC_spp_covered
+## TO DO
 
-##  General knitr setup
+- Need to add other predictions
+    - Predict using the Xu variables as inputs
+    - Predict different outputs
+    - Predict error magnification
+    - Predict rep shortfall
+    - Predict cost error
+- Predict categorical outputs (w/ probabilities) instead of continuous ones
+    - Predict the most heinous errors or magnifications
+        - Seems like more than anything else, you'd like to know the order of magnitude of output errors so that you know if you've really blown it.
+- Use other prediction methods
+    - Caruana multi-ouput training, e.g., out err, mag, heinous
+    - Use noisy categorical labels of input quality as inputs
+        - For example, you could say something about likely FN and FP rate, e.g., on a 3 or 5 point scale.  However, I'm not sure how useful that is, given that the actual values for FN and FP were not much predictive use in the Cheating section below.  Still, if you knew that most errors were likely to be FN or FP, then would you know whether you were more likely to get rep shortfalls or cost overruns?
+- May need to change inputs
+    - Should add COR WRAP examples to the data as well
+        - There's something a little strange about all this since it seems like the models would predict the same amount of error for a correct problem as for its related erroneous problem, wouldn't it?
+        - Seems like this might be true for FN input error because the FN graphs have far fewer changes to them than FP graphs and so the graphs would seem like they'd be similar to the COR graph.
+    - Probably want to change input sample to be more representative
+        - There are many more samples from easier problems with smaller output errors in the training and testing data.  I think that's one reason for doing so poorly at predicting the cases with large output error.  May want to subsample more evenly in training and testing or add some kind of cost/weighting to better identify these since they're more important to get right.  Or are they?
+    - Definitely need to set up better handling of cv, etc
+- Need to replace current plot() code for models with ggplot() code
+
+-----------------------------
+
+##  knitr setup
 
 Can't remember why this is here, but I'll leave it alone for now in case it was important.  Might just have been the default knitr file, however, the commenting out of "message=FALSE" suggests there was a reason for that, which might be related to what's happening in the comments in the "Load necessary files" section below.
 
@@ -35,7 +61,11 @@ Can't remember why this is here, but I'll leave it alone for now in case it was 
 knitr::opts_chunk$set(echo = TRUE)    #, message=FALSE)
 ```
 
-#  Choose which reserve selector to analyze
+-----------------------------
+
+#  Set options
+
+## Choose which reserve selector to analyze
 
 ```{r setRSname}
 #rs_name = "Gurobi"
@@ -48,6 +78,17 @@ rs_name = "Marxan_SA"
 #rs_name = "UR_Backward"
 #rs_name = "UR_Forward"
 ```
+
+##  Choose test and train set controls.
+
+```{r}
+seed = set.seed (12345)
+
+training_split_denom = 2    #  equal size test and train datasets
+sample_training_data_with_replacement = FALSE    #  TRUE if bootstrapping
+```
+
+-----------------------------
 
 #  Load necessary libraries
 
@@ -69,20 +110,23 @@ rs_name = "Marxan_SA"
 
 library (tidyverse)
 
-library (corrplot)
-library (DMwR)
-library (ranger)
+library (corrplot)  #  For correlation plots
+library (ranger)  #  For random forests
+
+library (DMwR)    #  For regr.eval()
+#library (DMwR2)  #  DON'T LOAD THIS - SOME EXAMPLES FROM BOOK FAIL SINCE THEIR 
+                  #  TYPES HAVE CHANGED.  FOR EXAMPLE, algae IS A TIBBLE IN THE 
+                  #  REVISED LIBRARY AND A DATA FRAME IN THE ORIGINAL.
+                  #  THIS CAUSED SOME OF MY CODE TO CHOKE.
 ```
 
 -----   
 
 #  Load data
 
------   
-
 ##  Define functions to read and write input and output data
 
-```{r loadInputData, include=FALSE}
+```{r loadInputData}
 #===============================================================================
 
 load_input_data <- function (rs_name, base_path, suffix)
@@ -109,7 +153,7 @@ write_output_data <- function (df, rs_name, base_path, suffix)
 
 ```
 
-#  Set file paths
+##  Set file paths
 
 NOTE:  Leaving some of the old file paths in here for the moment, in case I need to go back to those results and want to know where they're stored.
 
@@ -139,9 +183,9 @@ base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVarian
 suffix = ".csv"
 ```
 
-##  Load combined Easy/Hard input data
+##  Load combined input data from multiple batches
 
-```{r loadCombinedEasyAndHardInputData}
+```{r loadCombinedInputData}
 
 easyHard_df    = load_input_data (rs_name, base_path, suffix)
 ```
@@ -151,6 +195,8 @@ easyHard_df    = load_input_data (rs_name, base_path, suffix)
 Reduce the data set to just APP WRAP problems and examples with no input cost error.
 
 2018 11 25 - NOTE that previous versions of this section didn't include many of the metrics from the bipartite library (since I had forgotten to include their calculation when doing the easy/hard experiments).  They also didn't include the various timing results, which I think may not be useful in looking for predicting problem difficulty and output error.
+
+...  Code hidden for now  ...
 
 ```{r reduceFullDataToWorkingSet, include=FALSE}
 #===============================================================================
@@ -317,7 +363,7 @@ reduce_full_data_to_working_set <- function (full_df)
     
     #--------------------
     
-        #  Now, remove all COR and BASE problems to leave just he APP WRAPs.
+        #  Now, remove all COR and BASE problems to leave just the APP WRAPs.
     
     working_df %>%
         filter (rsp_cor_or_app_str == "APP" & 
@@ -342,12 +388,14 @@ unequals = which (working_df$rsp_num_spp != working_df$rsp_app_num_spp)
 cat ("\nNumber of correct and apparent spp pairs that are not the same = ", 
      length(unequals), "\n")
 
-plot (working_df$rsp_num_spp, working_df$rsp_app_num_spp)
+#plot (working_df$rsp_num_spp, working_df$rsp_app_num_spp)
 ```
 
 ### Plot num PUs vs. num spp to show range of problem sizes
 
-```{r include=FALSE}
+...  Code hidden for now  ...
+
+```{r, include=FALSE}
 #===============================================================================
 
 gg_numSpp_vs_numPUs_all_on_1 <- function (rs_name,
@@ -412,7 +460,7 @@ ggplot (data = sorted_msa_tib) +
 
 ```
 
-```{r}
+```{r plotNumSppVsNumPUs}
 gg_numSpp_vs_numPUs_all_on_1 (rs_name,
                               
                                                #####easyHard_df,
@@ -430,8 +478,6 @@ gg_numSpp_vs_numPUs_all_on_1 (rs_name,
 
 #  Plot results
 
------   
-
 ## Input error vs. output error
 
 - Generated hard problems were much harder than generated easy problems, as predicted
@@ -445,7 +491,9 @@ gg_numSpp_vs_numPUs_all_on_1 (rs_name,
 
 ### Define plotting functions for input error vs. output error 
 
-```{r include=FALSE}
+...  Code hidden for now  ...
+
+```{r, include=FALSE}
 #===============================================================================
 
 gg_eucInTot_vs_eucOutTot_all_on_1 <- function (rs_name,
@@ -612,7 +660,6 @@ gg_eucInTot_vs_eucOutTot_all_on_1 (rs_name, easyHard_df, ref_y = 0
 
 Will comment this out for the moment, since I'm not sure I want to plot these anymore.  They seem to not apply for gurobi and Marxan_SA, since they don't have such huge errors as some of the other reserve selectors.  May just need to have some of these outputs be dependent on which reserve selector you're looking at.
 
-#```{r}
 ```
 easyHard_df %>% 
     filter (rsr_COR_euc_out_err_frac <= 1) -> easyHard_not_huge_out_err_df
@@ -926,7 +973,9 @@ gg_rsp_num_spp_vs_eucOutTot_facetted_by_FN_dominance (rs_name,
                                                    ref_y = 0)
 ```
 
-```{r}
+...  Code hidden for now  ...
+
+```{r, include=FALSE}
 #===============================================================================
 
 gg_rsp_num_spp_per_PU_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name,
@@ -980,8 +1029,9 @@ gg_rsp_num_spp_per_PU_vs_eucOutTot_facetted_by_FN_dominance (rs_name,
                                                    ref_y = 0)
 ```
 
+...  Code hidden for now  ...
 
-```{r}
+```{r, include=FALSE}
 #===============================================================================
 
 gg_rsp_correct_solution_cost_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name,
@@ -2252,17 +2302,13 @@ gg_eucInTot_vs_fracPossibleUnder_facetted_by_err_label (rs_name, working_df, ref
 
 ----------------------------
 
-#  Predicting performance of specific RS on specific problems
-
-Given all this variability, can you predict how a particular reserve selector will perform on a specific problem?
-
-##  Compute correlations among primary working data variables
+#  Compute correlations among primary working data variables
 
 ```{r computeAllCorrs}
 #library (corrplot)
 ```
 
-###  Old version before timings and bipartite measures
+##  Old version before timings and bipartite measures
 
 ```{r selectOldCorrs}
     #  Compute correlation matrix after stripping out non-continuous 
@@ -2377,127 +2423,7 @@ corrplot (correlations, tl.cex=0.5
           )
 ```
 
-
-###  Revised set of variables to examine for correlations
-
-```
-new_continuous_vars_working_df = 
-    select (working_df, #c (
-
-            #  Input descriptors
-                    rsp_num_PUs, 
-                    rsp_num_spp, 
-                    rsp_num_spp_per_PU, 
-                    rsp_correct_solution_cost, 
-            
-                    sppPUsum,
-                    sppPUprod, 
-            
-            #  Post-gen knowable problem descriptors
-            
-                #  igraph package metrics
-                    ig_top, 
-                    ig_bottom, 
-                    ig_num_edges_m, 
-                    ig_ktop, 
-                    ig_kbottom, 
-                    ig_bidens, 
-                    ig_lcctop, 
-                    ig_lccbottom, 
-                    ig_distop, 
-                    ig_disbottom, 
-                    ig_cctop, 
-                    ig_ccbottom, 
-                    ig_cclowdottop, 
-                    ig_cclowdotbottom, 
-                    ig_cctopdottop, 
-                    ig_cctopdotbottom, 
-                    
-                    ig_mean_bottom_bg_redundancy, 
-                    ig_median_bottom_bg_redundancy, 
-                    ig_mean_top_bg_redundancy, 
-                    ig_median_top_bg_redundancy, 
-                    
-                    ig_user_time, 
-                    ig_system_time, 
-                    ig_elapsed_time, 
-                    ig_user_child_time, 
-                    ig_sys_child_time, 
-                                    
-                #  bipartite package metrics
-                    connectance, 
-        
-                    web_asymmetry,
-                    links_per_PUsAndSpp,
-                    cluster_coefficient,
-                    weighted_NODF,
-                    interaction_strength_asymmetry,
-                    specialisation_asymmetry,
-                    linkage_density,
-                    weighted_connectance,
-                    Shannon_diversity,
-                    interaction_evenness,
-                    Alatalo_interaction_evenness,
-    
-                    mean.number.of.shared.partners.PUs,
-                    mean.number.of.shared.partners.Spp,
-                    cluster.coefficient.PUs,
-                    cluster.coefficient.Spp,
-                    niche.overlap.PUs,
-                    niche.overlap.Spp,
-                    togetherness.PUs,
-                    togetherness.Spp,
-                    C.score.PUs,
-                    C.score.Spp,
-                    V.ratio.PUs,
-                    V.ratio.Spp,
-                    functional.complementarity.PUs,
-                    functional.complementarity.Spp,
-                    partner.diversity.PUs,
-                    partner.diversity.Spp,
-                    generality.PUs,
-                    vulnerability.Spp,
-                    
-                    bip_user_time, 
-                    bip_system_time, 
-                    bip_elapsed_time, 
-                    bip_user_child_time, 
-                    bip_sys_child_time, 
-    
-    
-                #  Possibly knowable realized input error values
-                    rsp_realized_FP_rate, 
-                    rsp_realized_FN_rate, 
-                    rsp_realized_Ftot_rate, 
-                    rsp_euc_realized_FP_and_cost_in_err_frac, 
-                    rsp_euc_realized_FN_and_cost_in_err_frac, 
-                    rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-                    
-                #  Results and their errors
-                    rs_solution_cost, 
-                    rs_solution_cost_err_frac, 
-                    abs_rs_solution_cost_err_frac, 
-                    
-                    rs_over_opt_cost_err_frac_of_possible_overcost, 
-                    rs_under_opt_cost_err_frac_of_possible_undercost, 
-                    
-                    rsr_COR_euc_out_err_frac, 
-                    
-                    rsr_COR_spp_rep_shortfall, 
-                    rsr_COR_solution_NUM_spp_covered, 
-                    rsr_COR_solution_FRAC_spp_covered, 
-        
-                    err_mag, 
-                    
-                #  Reserve selector run times
-                    RS_user_time, 
-                    RS_system_time, 
-                    RS_elapsed_time, 
-                    RS_user_child_time, 
-                    RS_sys_child_time
-                      )
-#    )
-```
+##  Revised set of variables to examine for correlations
 
 ###  Compute correlations of size vars with output error and magnification
 
@@ -2725,128 +2651,32 @@ corrplot (correlations, tl.cex=0.5
           )
 ```
 
-
-
-
-
 -----------------------------
 
------------------------------
+#  Predict performance of specific RS on specific problems
 
------------------------------
+Given all this variability, can you predict how a particular reserve selector will perform on a specific problem?
 
-#  ALSO NEED TO ADD OTHER PREDICTIONS
-
-##  Predict using the Xu variables as inputs
-
-##  Predict different outputs
-
-###  Predict error magnification
-
-###  Predict rep shortfall
-
-###  Predict cost error
-
-##  Predict categorical outputs (w/ probabilities) instead of continuous ones
-
-###  Predict the most heinous errors or magnifications
-
-Seems like more than anything else, you'd like to know the order of magnitude of output errors so that you know if you've really blown it.
-
------------------------------
-
-#  USE OTHER PREDICTION METHODS
-
-##  Caruana multi-ouput training, e.g., out err, mag, heinous
-
-##  Use noisy categorical labels of input quality as inputs
-
-For example, you could say something about likely FN and FP rate, e.g., on a 3 or 5 point scale.  However, I'm not sure how useful that is, given that the actual values for FN and FP were not much predictive use in the Cheating section below.  Still, if you knew that most errors were likely to be FN or FP, then would you know whether you were more likely to get rep shortfalls or cost overruns?
-
------------------------------
-
-#  PROBABLY WANT TO CHANGE INPUT SAMPLE TO BE MORE REPRESENTATIVE
-
-There are many more samples from easier problems with smaller output errors in the training and testing data.  I think that's one reason for doing so poorly at predicting the cases with large output error.  May want to subsample more evenly in training and testing or add some kind of cost/weighting to better identify these since they're more important to get right.  Or are they?  
-
------------------------------
-
------------------------------
-
-
-
-
-
-
-#  PREDICTIONS WITHOUT CHEATING
-
-```{r}
-#library (DMwR)
-#library (DMwR2)  #  DON'T LOAD THIS - SOME EXAMPLES FROM BOOK FAIL SINCE THEIR 
-                  #  TYPES HAVE CHANGED.  FOR EXAMPLE, algae IS A TIBBLE IN THE 
-                  #  REVISED LIBRARY AND A DATA FRAME IN THE ORIGINAL.
-                  #  THIS CAUSED SOME OF MY CODE TO CHOKE.
-```
-
-## NOT cheating:  Fit prediction using problem size 
-
-###  Compute the fit of prediction to problem size
-
-```
-cat ("\n...  NOT cheating:  Fit prediction using problem size  ...\n")
-
-            # #  Input descriptors
-            #         rsp_num_PUs, 
-            #         rsp_num_spp, 
-            #         rsp_num_spp_per_PU, 
-            #         rsp_correct_solution_cost, 
-            # 
-            #         sppPUsum,
-            #         sppPUprod, 
-
-easyHard_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
-                          rsp_num_PUs + rsp_num_spp + 
-                          rsp_num_spp_per_PU + sppPUprod, 
-                      easyHard_df)
-
-summary (easyHard_lm_fit)
-plot (easyHard_lm_fit)
-```
-
-```
-# easyHard_df %>% 
-#     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-
-easyHard_not_huge_out_err_lm_fit = 
-    lm (rsr_COR_euc_out_err_frac ~ rsp_num_PUs + rsp_num_spp + 
-                                   rsp_num_spp_per_PU + sppPUprod, 
-#####        easyHard_not_huge_out_err_df)
-        working_df)
-
-summary (easyHard_not_huge_out_err_lm_fit)
-plot (easyHard_not_huge_out_err_lm_fit)
-
-
-#####pred_easyHard_not_huge_out_err_lm_fit = 
-#####    predict (easyHard_not_huge_out_err_lm_fit, 
-#####             easyHard_not_huge_out_err_df)
-
-#####plot (easyHard_not_huge_out_err_df$rsr_COR_euc_out_err_frac, 
-#####      pred_easyHard_not_huge_out_err_lm_fit, 
-#####      xlab="rsr_COR_euc_out_err_frac", ylab="Predictions", main="COR OutErr vs. Fit Values from Problem Size")
-
-```
-
-#### Divide into test and training sets.
+## Divide into test and training sets.
 
 Want a small sample while I get this working, so just grabbing 100 each for test and train.  
 
 Since the samples are all randomly generated in the first place, I don't need to choose them at random using sample() for the indices.  The first 100 are just as random as anything chosen by sample() would be.
 
 ```{r}
-working_train_df = working_df [1:500, ]
-working_test_df = working_df [501:1000, ]
+num_rows_working_df = nrow (working_df)
+num_rows_training_set = round (num_rows_working_df / training_split_denom)
+num_rows_test_set = num_rows_working_df - num_rows_training_set
+
+training_rows = 
+    sample (1:num_rows_working_df, num_rows_training_set, 
+            replace = sample_training_data_with_replacement)
+
+working_train_df = working_df [training_rows, ]
+working_test_df = working_df [-training_rows, ]
 ```
+
+##  Define functions to plot model fit results against test and train data
 
 ```{r}
 #===============================================================================
@@ -2935,7 +2765,9 @@ if (predOnX)
 #===============================================================================
 ```
 
-## Fit models of **out error using PROBLEM SIZE vars**
+##  Predict **WITHOUT** cheating
+
+### Fit models of **out error using PROBLEM SIZE vars**
 
 #### Fit SIMPLE LINEAR MODEL of out error using PROBLEM SIZE vars
 
@@ -2986,109 +2818,9 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_prob_size,
                                     must_specify_predictions_vector = TRUE)
 ```
 
-
-
-
-TESTING FUNCTION CALL USING ALGAE DATA SET FROM TORGO'S BOOK - 2018 11 26 18 12
-
-This worked fine.
-
-```
-#library (ranger)
-
-library (DMwR)
-#library (DMwR2) 
-
-library (rpart)
-data (algae)
-#algae <- as.data.frame (algae)
-algae <- algae [-manyNAs (algae), ]
-
-algae_train = algae [, 1:12]
-algae_test = algae [, 1:12]
-
-#rt.a1 <- rpart (a1 ~ ., data = algae [, 1:12])
-rt.a1 <- rpart (a1 ~ ., data = algae_train)
-
-if (FALSE)
-{
-summary (rt.a1)
-
-
-    preds = predict (rt.a1, data=algae_train)
-
-    true_values = algae_train [, "a1"]
-    
-    regr.eval (true_values, 
-                       preds, 
-                       #stats = c ("mae", "mse"),    #, "rmse", "mape"))
-                       train.y = true_values)
-    
-    model_name_str = "RF"
-    test_or_train_label_str = "TRAIN"
-    pred_value_name_display_str = "RS out err"
-    plot (preds, 
-          true_values, 
-          main = paste0 (model_name_str, " on ", test_or_train_label_str), 
-          xlab = paste0 ("Predicted ", pred_value_name_display_str), 
-          ylab = paste0 ("True ", pred_value_name_display_str))
-    abline (0, 1, lty=2)
-}
-
-plot_pred_eval_for_train_and_test (rt.a1, 
-                                    model_name_str = "RT", 
-                                    pred_col_name_str = "a1", 
-                                    algae_train, 
-                                    algae_test)
-
-
-
-
-
-if (FALSE)
-{
-train.idx <- sample (x = 1:150, size = 100)
-iris.train <- iris [train.idx, ]
-iris.test <- iris [-train.idx, ]
-
-rf <- ranger (Species ~ ., 
-              data = iris.train, 
-              write.forest = TRUE)
-
-summary (rf)
-
-plot_pred_eval_for_train_and_test (rf, 
-                                    model_name_str = "RF", 
-                                    pred_col_name_str = "Species", 
-                                    iris.train, 
-                                    iris.test)
-
-}
-```
-
-
-
-
-
-
-```
-# working_df %>% 
-#     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-
-#####working_not_huge_out_err_lm_fit = 
-#####    lm (rsr_COR_euc_out_err_frac ~ rsp_num_PUs + rsp_num_spp + 
-#####                                   rsp_num_spp_per_PU + sppPUprod, 
-#####        working_not_huge_out_err_df)
-
-#####summary (working_not_huge_out_err_lm_fit)
-#####plot (working_not_huge_out_err_lm_fit)
-```
-
-
-## Fit models of **out error using TIMING vars**
+### Fit models of **out error using TIMING vars**
 
 NOTE:  Need to reduce these timing variables down since they're definitely collinear.  Just getting them all listed for now.
-
 
 #### Fit SIMPLE LINEAR MODEL of out error using TIMING vars
 
@@ -3169,140 +2901,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_timings,
                                     must_specify_predictions_vector = TRUE)
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-##  Graph measures help
-
-###  Without cheating
-
-- Graph measures do broadly predict trend in output error, but still lots of variability. 
-- What about with problem size information too?
-
-```{r}
-cat ("\n...  NOT cheating:  Fit prediction using graph measures, problem size  ...\n")
-
-                # #  igraph package metrics
-                #     ig_top, 
-                #     ig_bottom, 
-                #     ig_num_edges_m, 
-                #     ig_ktop, 
-                #     ig_kbottom, 
-                #     ig_bidens, 
-                #     ig_lcctop, 
-                #     ig_lccbottom, 
-                #     ig_distop, 
-                #     ig_disbottom, 
-                #     ig_cctop, 
-                #     ig_ccbottom, 
-                #     ig_cclowdottop, 
-                #     ig_cclowdotbottom, 
-                #     ig_cctopdottop, 
-                #     ig_cctopdotbottom, 
-                #     
-                #     ig_mean_bottom_bg_redundancy, 
-                #     ig_median_bottom_bg_redundancy, 
-                #     ig_mean_top_bg_redundancy, 
-                #     ig_median_top_bg_redundancy, 
-                # 
-                # #  bipartite package metrics
-                #     connectance, 
-                # 
-                #     web_asymmetry,
-                #     links_per_PUsAndSpp,
-                #     cluster_coefficient,
-                #     weighted_NODF,
-                #     interaction_strength_asymmetry,
-                #     specialisation_asymmetry,
-                #     linkage_density,
-                #     weighted_connectance,
-                #     Shannon_diversity,
-                #     interaction_evenness,
-                #     Alatalo_interaction_evenness,
-                # 
-                #     mean.number.of.shared.partners.PUs,
-                #     mean.number.of.shared.partners.Spp,
-                #     cluster.coefficient.PUs,
-                #     cluster.coefficient.Spp,
-                #     niche.overlap.PUs,
-                #     niche.overlap.Spp,
-                #     togetherness.PUs,
-                #     togetherness.Spp,
-                #     C.score.PUs,
-                #     C.score.Spp,
-                #     V.ratio.PUs,
-                #     V.ratio.Spp,
-                #     functional.complementarity.PUs,
-                #     functional.complementarity.Spp,
-                #     partner.diversity.PUs,
-                #     partner.diversity.Spp,
-                #     generality.PUs,
-                #     vulnerability.Spp,
-```
-
-###  Quick and dirty plot of redundancy vs. output error fraction
-
-Still lots of variance at every level, however, redundancy does seem to put a lower bound on the amount of input error in this data, i.e., you can bet that your output error will be **at least** this much.  That seems pretty useful even if you can't predict the exact error amount.  
-
-```{r}
-plot (working_df$ig_median_bottom_bg_redundancy, working_df$rsr_COR_euc_out_err_frac)
-plot (working_df$ig_median_top_bg_redundancy, working_df$rsr_COR_euc_out_err_frac)
-```
-
-```
-                    # ig_mean_bottom_bg_redundancy, 
-                    # ig_median_bottom_bg_redundancy, 
-                    # ig_mean_top_bg_redundancy, 
-                    # ig_median_top_bg_redundancy, 
-                    
-                            # ig_user_time, 
-                            # ig_system_time, 
-                            # ig_elapsed_time, 
-                            # ig_user_child_time, 
-                            # ig_sys_child_time, 
-                                    
-                #  bipartite package metrics
-            #                bip_rsp_UUID, 
-            
-                    # connectance, 
-```
-
-###  Compute the fit of prediction to graph measures (redundancy, connectance)
-
-
-### Plot Working COR OutErr vs. Fit Values from Graph Measures
-
-```
-working_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
-                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
-                          connectance, 
-                      working_df)
-
-summary (working_lm_fit)
-plot (working_lm_fit)
-```
-
-```
-pred_working_lm_fit = 
-    predict (working_lm_fit, 
-             working_df)
-
-plot (working_df$rsr_COR_euc_out_err_frac, 
-      pred_working_lm_fit, 
-      xlab="rsr_COR_euc_out_err_frac", ylab="Predictions", main="Working COR OutErr vs. Fit Values from Graph Measures")
-
-```
-
-## Fit models of **out error using GRAPH vars**
+### Fit models of **out error using GRAPH vars**
 
 #### Fit SIMPLE LINEAR MODEL of out error using GRAPH vars
 
@@ -3457,11 +3056,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_graph_measures,
                                     must_specify_predictions_vector = TRUE)
 ```
 
-
-
-
-
-## Fit models of **out error using PROB SIZE & GRAPH vars**
+### Fit models of **out error using PROB SIZE & GRAPH vars**
 
 #### Fit SIMPLE LINEAR MODEL of out error using PROB SIZE & GRAPH vars
 
@@ -3628,48 +3223,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_probSize_graphMeasures,
                                     must_specify_predictions_vector = TRUE)
 ```
 
-
-```
-easyHard_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
-                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
-                          connectance + 
-                              rsp_num_PUs + rsp_num_spp + 
-                                   rsp_num_spp_per_PU + sppPUprod, 
-                      easyHard_df)
-
-summary (easyHard_lm_fit)
-plot (easyHard_lm_fit)
-```
-
-
-```
-working_lm_fit = lm (rsr_COR_euc_out_err_frac ~ 
-                          ig_median_bottom_bg_redundancy + ig_median_top_bg_redundancy + 
-                          connectance + 
-                              rsp_num_PUs + rsp_num_spp + 
-                                   rsp_num_spp_per_PU + sppPUprod, 
-                      working_df)
-
-summary (working_lm_fit)
-plot (working_lm_fit)
-```
-
-```
-pred_working_lm_fit = 
-    predict (working_lm_fit, 
-             working_df)
-
-plot (working_df$rsr_COR_euc_out_err_frac, 
-      pred_working_lm_fit, 
-      xlab="rsr_COR_euc_out_err_frac", ylab="Predictions", main="Working COR OutErr vs. Fit Values from Graph Measures")
-
-```
-
-
-
-
-
-## Fit models of **out error using TIMINGS & GRAPH vars**
+### Fit models of **out error using TIMINGS & GRAPH vars**
 
 #### Fit SIMPLE LINEAR MODEL of out error using TIMINGS & GRAPH vars
 
@@ -3867,18 +3421,7 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_timings_graphMeasures,
                                     must_specify_predictions_vector = TRUE)
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-## Fit models of **out error using PROB SIZE & TIMINGS & GRAPH vars**
+### Fit models of **out error using PROB SIZE & TIMINGS & GRAPH vars**
 
 #### Fit SIMPLE LINEAR MODEL of out error using PROB SIZE & TIMINGS & GRAPH vars
 
@@ -4089,79 +3632,11 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_probSize_timings_graphMeasures
                                     must_specify_predictions_vector = TRUE)
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-#  Predictions WITH cheating
+##  Predict **WITH** cheating
 
 - Generally, output error does increase with input error, but still has large variability.
-- Did combination of the two predict better? 
 
-####  Cheating, using input errors only
-
-```{r}
-cat ("\n...  CHEATING:  Fit prediction using input error  ...\n")
-```
-
-```
-working_lm_fit = lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot_and_cost_in_err_frac + 
-                                   rsp_realized_FP_rate + 
-                                   rsp_realized_FN_rate + 
-                                   rsp_realized_Ftot_rate + 
-                                   rsp_euc_realized_FP_and_cost_in_err_frac + 
-                                   rsp_euc_realized_FN_and_cost_in_err_frac, 
-                      working_df)
-
-summary (working_lm_fit)
-plot (working_lm_fit)
-```
-
-
-### Plot Working COR OutErr vs. Fit Values from Cheating
-
-```
-pred_working_lm_fit = 
-    predict (working_lm_fit, 
-             working_df)
-
-plot (working_df$rsr_COR_euc_out_err_frac, 
-      pred_working_lm_fit, 
-      xlab="rsr_COR_euc_out_err_frac", ylab="Predictions", main="Working COR OutErr vs. Fit Values from Cheating")
-
-```
-
-
-
-
-```
-# working_df %>% 
-#     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
-
-working_not_huge_out_err_lm_fit = 
-    lm (rsr_COR_euc_out_err_frac ~ rsp_euc_realized_Ftot_and_cost_in_err_frac + 
-                                   rsp_realized_FP_rate + 
-                                   rsp_realized_FN_rate + 
-                                   rsp_realized_Ftot_rate + 
-                                   rsp_euc_realized_FP_and_cost_in_err_frac + 
-                                   rsp_euc_realized_FN_and_cost_in_err_frac, 
-        working_not_huge_out_err_df)
-
-summary (working_not_huge_out_err_lm_fit)
-plot (working_not_huge_out_err_lm_fit)
-```
-
-
-## Fit models of **out error using INPUT ERROR vars**
+### Fit models of **out error using INPUT ERROR vars**
 
 #### Fit SIMPLE LINEAR MODEL of out error using INPUT ERROR vars
 
@@ -4214,19 +3689,9 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_in_err,
                                     must_specify_predictions_vector = TRUE)
 ```
 
+### Fit models of **out error using INPUT ERR & PROB SIZE & TIMINGS & GRAPH vars**
 
-
-
-
-
-
-
-
-
-##  Cheating, using input errors and non-cheating problem characteristics
-
-
-## Fit models of **out error using INPUT ERR & PROB SIZE & TIMINGS & GRAPH vars**
+Cheating, using input errors and non-cheating problem characteristics, i.e., pretty much every piece of information we have other than the Xu parameters.
 
 #### Fit SIMPLE LINEAR MODEL of out error using INPUT ERR & PROB SIZE & TIMINGS & GRAPH vars
 
@@ -4444,17 +3909,21 @@ plot_pred_eval_for_train_and_test (rf_Y_out_err_X_inErr_probSize_timings_graphMe
                                     must_specify_predictions_vector = TRUE)
 ```
 
-#  Does Easy vs. Hard matter?
+-----------------------------
 
-Since all existing papers use easy problems (small toy problems or random problems), does that matter?
+#  More questions
 
-####  Are descriptive results different?
+##  Does Easy vs. Hard matter?
+
+Since most existing papers use easy problems (small toy problems or random problems), does that matter?
+
+###  Are descriptive results different?
 
 ```{r}
 cat ("\n...  Break down by Easy vs. Hard  ...\n")
 ```
 
-####  Are predictive results different?
+###  Are predictive results different?
 
 Can use the Easy/Hard labels with the same facetting code I had earlier for Base vs Wrap plots.  
 
@@ -4466,4 +3935,86 @@ Can use the Easy/Hard labels with the same facetting code I had earlier for Base
 cat ("\n...  Predict using different train/test sources  ...\n")
 ```
 
+-----------------------------
+
+#  Test code to be saved for now
+
+##  Testing predictive plot function call 
+- Using algae data set from Torgo's book
+- Done on 2018 11 26 18 12
+
+This worked fine.
+
+```
+#library (ranger)
+
+library (DMwR)
+#library (DMwR2) 
+
+library (rpart)
+data (algae)
+#algae <- as.data.frame (algae)
+algae <- algae [-manyNAs (algae), ]
+
+algae_train = algae [, 1:12]
+algae_test = algae [, 1:12]
+
+#rt.a1 <- rpart (a1 ~ ., data = algae [, 1:12])
+rt.a1 <- rpart (a1 ~ ., data = algae_train)
+
+if (FALSE)
+{
+summary (rt.a1)
+
+
+    preds = predict (rt.a1, data=algae_train)
+
+    true_values = algae_train [, "a1"]
+    
+    regr.eval (true_values, 
+                       preds, 
+                       #stats = c ("mae", "mse"),    #, "rmse", "mape"))
+                       train.y = true_values)
+    
+    model_name_str = "RF"
+    test_or_train_label_str = "TRAIN"
+    pred_value_name_display_str = "RS out err"
+    plot (preds, 
+          true_values, 
+          main = paste0 (model_name_str, " on ", test_or_train_label_str), 
+          xlab = paste0 ("Predicted ", pred_value_name_display_str), 
+          ylab = paste0 ("True ", pred_value_name_display_str))
+    abline (0, 1, lty=2)
+}
+
+plot_pred_eval_for_train_and_test (rt.a1, 
+                                    model_name_str = "RT", 
+                                    pred_col_name_str = "a1", 
+                                    algae_train, 
+                                    algae_test)
+
+
+
+
+
+if (FALSE)
+{
+train.idx <- sample (x = 1:150, size = 100)
+iris.train <- iris [train.idx, ]
+iris.test <- iris [-train.idx, ]
+
+rf <- ranger (Species ~ ., 
+              data = iris.train, 
+              write.forest = TRUE)
+
+summary (rf)
+
+plot_pred_eval_for_train_and_test (rf, 
+                                    model_name_str = "RF", 
+                                    pred_col_name_str = "Species", 
+                                    iris.train, 
+                                    iris.test)
+
+}
+```
 
