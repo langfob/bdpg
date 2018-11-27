@@ -52,7 +52,9 @@ This file is meant to reduce all of the previous Rmd files that have tons of dif
         - There are many more samples from easier problems with smaller output errors in the training and testing data.  I think that's one reason for doing so poorly at predicting the cases with large output error.  May want to subsample more evenly in training and testing or add some kind of cost/weighting to better identify these since they're more important to get right.  Or are they?
     - Definitely need to set up better handling of cv, etc
 - Need to replace current plot() code for models with ggplot() code
-
+- Feature preprocessing
+    - Haven't done any standardization or anything yet.
+    
 -----------------------------
 
 ##  knitr setup
