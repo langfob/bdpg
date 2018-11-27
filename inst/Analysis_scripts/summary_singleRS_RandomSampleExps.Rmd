@@ -54,7 +54,7 @@ This file is meant to reduce all of the previous Rmd files that have tons of dif
 - Need to replace current plot() code for models with ggplot() code
 - Feature preprocessing
     - Haven't done any standardization or anything yet.
-    
+
 -----------------------------
 
 ##  knitr setup
