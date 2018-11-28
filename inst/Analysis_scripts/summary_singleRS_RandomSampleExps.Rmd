@@ -67,7 +67,7 @@ This file is meant to reduce all of the previous Rmd files that have tons of dif
 Can't remember why this is here, but I'll leave it alone for now in case it was important.  Might just have been the default knitr file, however, the commenting out of "message=FALSE" suggests there was a reason for that, which might be related to what's happening in the comments in the "Load necessary files" section below.
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)    #, message=FALSE)
+knitr::opts_chunk$set(echo = FALSE)    #TRUE)    #, message=FALSE)
 ```
 
 -----------------------------
@@ -86,6 +86,8 @@ rs_name = "Marxan_SA"
 #rs_name = "SR_Forward"
 #rs_name = "UR_Backward"
 #rs_name = "UR_Forward"
+
+cat ("\nrs_name = ", rs_name, "\n", sep='')
 ```
 
 ##  Choose test and train set controls.
