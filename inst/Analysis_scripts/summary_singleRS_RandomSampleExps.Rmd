@@ -705,16 +705,33 @@ Not sure this needs a separate plot, since the 10:1, 5:1, and 1:1 lines show it 
 ####  Show all magnification values first (to show full range)
 
 ```{r}
-plot (working_df$rsp_euc_realized_Ftot_and_cost_in_err_frac, 
-      working_df$err_mag, 
-      main=paste0 ("Input error vs. Error Magnification\n", rs_name), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Err magnification")
+ggplot (data = working_df) + 
+    geom_point (aes (x = rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+                     y = err_mag, 
+#                     color = "red"
+                    ), #id), 
+                shape=".") + 
+    ggtitle (paste0 ("Input error vs. Error Magnification\n", rs_name)) + 
+
+    # xlab("Total Euc Input Error Frac") +
+    # ylab("Err magnification") + 
+    labs (x = "Total Euc Input Error Frac", y = "Err magnification") +
+    
+    theme_bw () +     #  To center the title
+#    theme_minimal () +     #  To center the title
+    theme (plot.title = element_text (hjust = 0.5))    #  To center the title
+
 ```
 
 ####  Show all magnification values below 10
 
 This gets rid of all the extreme values that result at tiny, tiny input errors.
+
+Note:  there seem to be lots of 0 magnifications.  Are these really 0 or are they replacements for something that were generated in the data cleaning?  
+
+Or, since the current number of 0's is exactly 400 (exactly 10% of the current number of Wrap experiments), is it due to some particular input setting?
+
+Need to go back and check this out.
 
 ```{r}
 idxs_of_not_huge_err_mags = which (working_df$err_mag <= 10)
@@ -723,6 +740,8 @@ plot (working_df$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_er
       main=paste0 ("Input error vs. Error Magnification (<= 10)\n", rs_name), 
       xlab="Total Euc Input Error Frac",
       ylab="Err magnification")
+cat ("\nNumber of points with 0 error magnification = ", 
+     length (which (working_df$err_mag == 0)), "\n")
 ```
 
 ##  Different types of input error produced different amounts of output error
