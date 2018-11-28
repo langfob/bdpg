@@ -57,6 +57,8 @@ This file is meant to reduce all of the previous Rmd files that have tons of dif
 - Variable selection
     - Haven't done any removal of any variables yet.
 - Bayes for things like beliefs about amount and type of input error?
+- Why is regr.eval() mape always Inf in these experiments?  
+    - Is it a bug or are there just some divide by 0 cases or something?
     
 -----------------------------
 
