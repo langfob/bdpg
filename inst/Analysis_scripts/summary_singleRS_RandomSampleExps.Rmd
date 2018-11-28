@@ -738,6 +738,46 @@ cat ("\nNumber of points with 0 error magnification = ",
      length (which (working_df$err_mag == 0)), "\n")
 ```
 
+Playing with 2 ways for how ggplot() can limit what values appear in the plot.
+- Tried using ylim() to limit the axes, but it gave me a warning message like this:
+    - Removed 3532 rows containing missing values (geom_point).
+- Ended up ignoring the ylim and instead, selecting the points to use in the data argument.
+    - Note that you can't do the subsetting of the data points in the aes(x=...) statement.  You have to do it in the data argument.
+
+
+```{r}
+if (FALSE)
+{
+ggplot (data = working_df) + 
+    geom_point (aes (x = rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+                     y = err_mag, 
+                     color = "red"), #id), 
+                shape=".") + 
+    ggtitle (paste0 ("Input error vs. Error Magnification\n", rs_name)) + 
+    theme (plot.title = element_text (hjust = 0.5)) +    #  To center the title
+    xlab ("Total Euc Input Error Frac") +
+    ylab ("Err magnification") + 
+    ylim (c (0,10))
+}
+
+if (TRUE)
+    {
+    idxs_of_not_huge_err_mags = which (working_df$err_mag <= 10)
+
+    ggplot (data = working_df [idxs_of_not_huge_err_mags, ]) + 
+        geom_point (aes (x = rsp_euc_realized_Ftot_and_cost_in_err_frac, 
+                         y = err_mag, 
+#                         color = "red"
+                         ), #id), 
+                    shape=".") + 
+        ggtitle (paste0 ("Input error vs. Error Mag < 10\n", rs_name)) + 
+        xlab("Total Euc Input Error Frac") +
+        ylab("Err magnification") + 
+        theme_bw () +     #  To center the title
+        theme (plot.title = element_text (hjust = 0.5))    #  To center the title
+    }
+```
+
 ##  Different types of input error produced different amounts of output error
 
 - Uniform random cost error had almost no impact anywhere  
