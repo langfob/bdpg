@@ -734,12 +734,6 @@ Or, since the current number of 0's is exactly 400 (exactly 10% of the current n
 Need to go back and check this out.
 
 ```{r}
-idxs_of_not_huge_err_mags = which (working_df$err_mag <= 10)
-plot (working_df$rsp_euc_realized_Ftot_and_cost_in_err_frac [idxs_of_not_huge_err_mags], 
-      working_df$err_mag [idxs_of_not_huge_err_mags], 
-      main=paste0 ("Input error vs. Error Magnification (<= 10)\n", rs_name), 
-      xlab="Total Euc Input Error Frac",
-      ylab="Err magnification")
 cat ("\nNumber of points with 0 error magnification = ", 
      length (which (working_df$err_mag == 0)), "\n")
 ```
@@ -2707,10 +2701,14 @@ plot_pred_eval_for_train_and_test <-
                     pred_values = train_preds)
 
     cat ("\nEvaluate results of testing on ", "TRAIN", " data:\n")
-    print (regr.eval (train_true_values, 
+    regrEvalResults = regr.eval (train_true_values, 
                        train_preds, 
                        #stats = c ("mae", "mse"),    #, "rmse", "mape"))
-                       train.y = train_true_values))
+                       train.y = train_true_values)
+    train_rmse = round (regrEvalResults ["rmse"], digits = 3)
+    print (regrEvalResults)
+    
+    #----------
 
     test_true_values = test_df [, pred_col_name_str]
     predicted = predict (fitted_model, test_df)
@@ -2723,25 +2721,20 @@ plot_pred_eval_for_train_and_test <-
                     pred_values = test_preds)
     
     cat ("\nEvaluate results of testing on ", "TEST", " data:\n")
-    print (regr.eval (test_true_values, 
+    regrEvalResults = regr.eval (test_true_values, 
                        test_preds, 
                        #stats = c ("mae", "mse"),    #, "rmse", "mape"))
-                       train.y = test_true_values))
+                       train.y = test_true_values)
+    test_rmse = round (regrEvalResults ["rmse"], digits = 3)
+    print (regrEvalResults)
+
+    #----------
+    
+    cat ("\n>\n>\n>\n>")    #  Need some white space between regrEvalResults and plots
 
     combined_pred_true_df = rbind (train_pred_true_df, test_pred_true_df)
     
-    if (FALSE)
-    {
-    qplot (true_values, pred_values, 
-           data=combined_pred_true_df, 
-           facets = . ~ ds_label) +
-#    + geom_smooth()
-        geom_abline (intercept=0, slope=1  #, linetype, color, size
-                       ) 
-    } else
-    {
     ggplot (data = combined_pred_true_df) + 
-#    geom_point (mapping = aes (x = true_values, 
     geom_point (aes (x = true_values, 
                      y = pred_values, 
                      color = ds_label), 
@@ -2751,12 +2744,12 @@ plot_pred_eval_for_train_and_test <-
                 shape=".") + 
     scale_color_manual (breaks = c ("Train", "Test"), values=c("blue", "red")) + 
     ggtitle (paste0 (rs_name, " - True vs. Pred for ", model_name_str, 
-                              " using ", vars_used_str)) + 
+                              " using ", vars_used_str, 
+                     "\ntrain_rmse = ", train_rmse, 
+                     ",                   test_rmse = ", test_rmse)) + 
     theme (plot.title = element_text (hjust = 0.5)) +    #  To center the title
     facet_wrap (~ ds_label, nrow = 1) +
     geom_abline (intercept=0, slope=1)   #, linetype, color, size
-    }
-          
     }
  
 #===============================================================================
