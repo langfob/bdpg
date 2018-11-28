@@ -2284,11 +2284,7 @@ gg_eucInTot_vs_fracPossibleUnder_facetted_by_err_label (rs_name, working_df, ref
 #     filter (rsr_COR_euc_out_err_frac <= 1) -> not_huge_out_err_df
 #####gg_eucInTot_vs_fracPossibleUnder_all_on_1 (rs_name, working_not_huge_out_err_df, ref_y = 0)
 #####gg_eucInTot_vs_fracPossibleUnder_facetted_by_err_label (rs_name, working_not_huge_out_err_df, ref_y = 0)
-
-
 ```
-
-----------------------------
 
 ----------------------------
 
