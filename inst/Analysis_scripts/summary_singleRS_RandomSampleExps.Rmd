@@ -103,7 +103,7 @@ sample_training_data_with_replacement = FALSE    #  TRUE if bootstrapping
 
 #  Load necessary libraries
 
-```{r message=FALSE}
+```{r, message=FALSE}
     #  Note that "message=FALSE" is necessary for this chunk if you want to 
     #  generate pdfs.  When the tidyverse package is loaded, it writes puts 
     #  out a message that includes some unicode that the normal latex engine 
@@ -207,9 +207,7 @@ Reduce the data set to just APP WRAP problems and examples with no input cost er
 
 2018 11 25 - NOTE that previous versions of this section didn't include many of the metrics from the bipartite library (since I had forgotten to include their calculation when doing the easy/hard experiments).  They also didn't include the various timing results, which I think may not be useful in looking for predicting problem difficulty and output error.
 
-...  Code hidden for now  ...
-
-```{r reduceFullDataToWorkingSet, include=FALSE}
+```{r reduceFullDataToWorkingSet}
 #===============================================================================
 
 reduce_full_data_to_working_set <- function (full_df)
@@ -404,9 +402,7 @@ cat ("\nNumber of correct and apparent spp pairs that are not the same = ",
 
 ### Plot num PUs vs. num spp to show range of problem sizes
 
-...  Code hidden for now  ...
-
-```{r, include=FALSE}
+```{r}
 #===============================================================================
 
 gg_numSpp_vs_numPUs_all_on_1 <- function (rs_name,
@@ -502,9 +498,7 @@ gg_numSpp_vs_numPUs_all_on_1 (rs_name,
 
 ### Define plotting functions for input error vs. output error 
 
-...  Code hidden for now  ...
-
-```{r, include=FALSE}
+```{r}
 #===============================================================================
 
 gg_eucInTot_vs_eucOutTot_all_on_1 <- function (rs_name,
@@ -984,9 +978,7 @@ gg_rsp_num_spp_vs_eucOutTot_facetted_by_FN_dominance (rs_name,
                                                    ref_y = 0)
 ```
 
-...  Code hidden for now  ...
-
-```{r, include=FALSE}
+```{r}
 #===============================================================================
 
 gg_rsp_num_spp_per_PU_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name,
@@ -1040,9 +1032,7 @@ gg_rsp_num_spp_per_PU_vs_eucOutTot_facetted_by_FN_dominance (rs_name,
                                                    ref_y = 0)
 ```
 
-...  Code hidden for now  ...
-
-```{r, include=FALSE}
+```{r}
 #===============================================================================
 
 gg_rsp_correct_solution_cost_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name,
@@ -1695,7 +1685,7 @@ I've tracked the overcost and undercost and the underrepresentation (shortfall).
 - rsr_COR_spp_rep_shortfall 
 - rsr_COR_solution_FRAC_spp_covered 
 
-```{r funcsGgplotSignedErrFracsAndRepShortfalls, include=FALSE}
+```{r funcsGgplotSignedErrFracsAndRepShortfalls}
 #===============================================================================
 
 gg_eucInTot_vs_signedCostErrFrac_all_on_1 <- function (rs_name,
@@ -1896,7 +1886,7 @@ gg_eucInTot_vs_sppRepShortfall_facetted_by_err_label (rs_name, working_df, ref_y
 
 ####  Spp rep shortfall vs. Signed cost error
 
-```{r funcsGgplotRepShortfallVsSignedErrFracs, include=FALSE}
+```{r funcsGgplotRepShortfallVsSignedErrFracs}
 #===============================================================================
 
 gg_sppRepShortfall_vs_signedCostErrFrac_all_on_1 <- function (rs_name,
@@ -2051,7 +2041,7 @@ I've also tracked the _fraction of possible_ overcost and undercost as a way of 
 - rs_over_opt_cost_err_frac_of_possible_overcost 
 - rs_under_opt_cost_err_frac_of_possible_undercost 
 
-```{r funcsForGgplotPossibleErrorFracs, include=FALSE}
+```{r funcsForGgplotPossibleErrorFracs}
 #===============================================================================
 
 gg_eucInTot_vs_fracPossibleOver_all_on_1 <- function (rs_name,
@@ -2321,7 +2311,7 @@ gg_eucInTot_vs_fracPossibleUnder_facetted_by_err_label (rs_name, working_df, ref
 
 ##  Old version before timings and bipartite measures
 
-```{r selectOldCorrs}
+```{r selectOldCorrs, include=FALSE}
     #  Compute correlation matrix after stripping out non-continuous 
     #  variables.
 continuous_vars_working_df = 
