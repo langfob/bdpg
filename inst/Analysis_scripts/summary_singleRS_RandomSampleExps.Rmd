@@ -1013,15 +1013,15 @@ gg_rsp_num_spp_per_PU_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name
     ggtitle (paste0 (rs_name, " - COR num_spp_per_PU vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
-      facet_wrap (~ rsp_combined_err_label, nrow = 2) +
-      geom_hline (yintercept = ref_y, linetype="dashed",
-                    color = "black", size=0.5) +
-      geom_abline (intercept=0, slope=1  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=5  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=10  #, linetype, color, size
-                   )
+      facet_wrap (~ rsp_combined_err_label, nrow = 2) 
+      # geom_hline (yintercept = ref_y, linetype="dashed",
+      #               color = "black", size=0.5) +
+      # geom_abline (intercept=0, slope=1  #, linetype, color, size
+      #              ) +
+      # geom_abline (intercept=0, slope=5  #, linetype, color, size
+      #              ) +
+      # geom_abline (intercept=0, slope=10  #, linetype, color, size
+      #              )
     }
 
 ```
@@ -1067,15 +1067,15 @@ gg_rsp_correct_solution_cost_vs_eucOutTot_facetted_by_FN_dominance <- function (
     ggtitle (paste0 (rs_name, " - COR solution_cost vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
-      facet_wrap (~ rsp_combined_err_label, nrow = 2) +
-      geom_hline (yintercept = ref_y, linetype="dashed",
-                    color = "black", size=0.5) +
-      geom_abline (intercept=0, slope=1  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=5  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=10  #, linetype, color, size
-                   )
+      facet_wrap (~ rsp_combined_err_label, nrow = 2) 
+      # geom_hline (yintercept = ref_y, linetype="dashed",
+      #               color = "black", size=0.5) +
+      # geom_abline (intercept=0, slope=1  #, linetype, color, size
+      #              ) +
+      # geom_abline (intercept=0, slope=5  #, linetype, color, size
+      #              ) +
+      # geom_abline (intercept=0, slope=10  #, linetype, color, size
+      #              )
     }
 
 ```
@@ -1121,15 +1121,15 @@ gg_sppPUsum_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name,
     ggtitle (paste0 (rs_name, " - COR sppPUsum vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
-      facet_wrap (~ rsp_combined_err_label, nrow = 2) +
-      geom_hline (yintercept = ref_y, linetype="dashed",
-                    color = "black", size=0.5) +
-      geom_abline (intercept=0, slope=1  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=5  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=10  #, linetype, color, size
-                   )
+      facet_wrap (~ rsp_combined_err_label, nrow = 2) 
+      # geom_hline (yintercept = ref_y, linetype="dashed",
+      #               color = "black", size=0.5) +
+      # geom_abline (intercept=0, slope=1  #, linetype, color, size
+      #              ) +
+      # geom_abline (intercept=0, slope=5  #, linetype, color, size
+      #              ) +
+      # geom_abline (intercept=0, slope=10  #, linetype, color, size
+      #              )
     }
 
 ```
@@ -1176,15 +1176,15 @@ gg_sppPUprod_vs_eucOutTot_facetted_by_FN_dominance <- function (rs_name,
     ggtitle (paste0 (rs_name, " - COR sppPUprod vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
-      facet_wrap (~ rsp_combined_err_label, nrow = 2) +
-      geom_hline (yintercept = ref_y, linetype="dashed",
-                    color = "black", size=0.5) +
-      geom_abline (intercept=0, slope=1  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=5  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=10  #, linetype, color, size
-                   )
+      facet_wrap (~ rsp_combined_err_label, nrow = 2) 
+      # geom_hline (yintercept = ref_y, linetype="dashed",
+      #               color = "black", size=0.5) +
+      # geom_abline (intercept=0, slope=1  #, linetype, color, size
+      #              ) +
+      # geom_abline (intercept=0, slope=5  #, linetype, color, size
+      #              ) +
+      # geom_abline (intercept=0, slope=10  #, linetype, color, size
+      #              )
     }
 
 ```
@@ -1195,14 +1195,7 @@ gg_sppPUprod_vs_eucOutTot_facetted_by_FN_dominance (rs_name,
                                                    ref_y = 0)
 ```
 
-
-
-
-
 ##  FP-dominated input errors
-
-
-
 
 ```{r}
 working_df %>% 
@@ -1210,10 +1203,6 @@ working_df %>%
             rsp_combined_err_label == "05-FP_and_FN_not_matched_NO_cost_err"
 ) -> FP_dominant_working_df
 ```
-
-
-
-
 
 ```{r}
 #===============================================================================
@@ -1465,15 +1454,15 @@ gg_rsp_num_spp_per_PU_vs_eucOutTot_facetted_by_FP_dominance <- function (rs_name
     ggtitle (paste0 (rs_name, " - COR num_spp_per_PU vs. Tot out err by Err Class")) +
     theme(plot.title = element_text(hjust = 0.5)) +    #  To center the title
 
-      facet_wrap (~ rsp_combined_err_label, nrow = 2) +
-      geom_hline (yintercept = ref_y, linetype="dashed",
-                    color = "black", size=0.5) +
-      geom_abline (intercept=0, slope=1  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=5  #, linetype, color, size
-                   ) +
-      geom_abline (intercept=0, slope=10  #, linetype, color, size
-                   )
+      facet_wrap (~ rsp_combined_err_label, nrow = 2) 
+      # geom_hline (yintercept = ref_y, linetype="dashed",
+      #               color = "black", size=0.5) +
+      # geom_abline (intercept=0, slope=1  #, linetype, color, size
+      #              ) +
+      # geom_abline (intercept=0, slope=5  #, linetype, color, size
+      #              ) +
+      # geom_abline (intercept=0, slope=10  #, linetype, color, size
+      #              )
     }
 ```
 
