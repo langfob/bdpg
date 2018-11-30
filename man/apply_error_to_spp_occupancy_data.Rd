@@ -5,7 +5,8 @@
 \title{Apply error to species occupancy data.}
 \usage{
 apply_error_to_spp_occupancy_data(bpm, FP_rates, FN_rates, num_PUs,
-  num_spp, random_values)
+  num_spp, random_values, no_empty_spp_allowed = TRUE,
+  min_allowed_num_occ_per_spp = 1)
 }
 \arguments{
 \item{bpm}{bipartite matrix; integer matrix with one row for each species
@@ -23,6 +24,10 @@ Same as occ_matrix.}
 \item{num_spp}{integer number of species in the problem}
 
 \item{random_values}{numeric vector}
+
+\item{no_empty_spp_allowed}{boolean}
+
+\item{min_allowed_num_occ_per_spp}{integer}
 }
 \value{
 Returns bpm matrix

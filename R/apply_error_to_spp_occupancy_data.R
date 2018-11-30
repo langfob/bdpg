@@ -108,6 +108,63 @@ set_const_FP_and_FN_rates = function (parameters)
 
 #===============================================================================
 
+make_sure_no_spp_eradicated_by_setting_FNs <-
+            function (bpm, old_occ_cts_for_spp, min_allowed_num_occ_per_spp = 1)
+    {
+    new_occ_cts_for_spp = rowSums (bpm)
+    flag_removed_spp = old_occ_cts_for_spp + new_occ_cts_for_spp
+    indices_of_spp_wholly_removed = which (flag_removed_spp <= 0)
+
+    for (cur_spp in indices_of_spp_wholly_removed)
+        {
+        cur_flipped_locs = which (bpm [cur_spp, ] == -1)
+        # cat ("\nFor cur_spp = ", cur_spp, ", cur_flipped_locs = ")
+        # print (cur_flipped_locs)
+
+        if (length (cur_flipped_locs) >= min_allowed_num_occ_per_spp)
+            {
+            indices_to_flip_back =
+                safe_sample (cur_flipped_locs, min_allowed_num_occ_per_spp, replace = FALSE)
+            bpm [cur_spp, indices_to_flip_back] = 1
+
+            } else
+            {
+            stop_bdpg (
+                paste0 ("\nFor cur_spp = '", cur_spp,
+                        ", length (cur_flipped_locs) = '",
+                        length (cur_flipped_locs),
+                        "' must be >= min_allowed_num_occ_per_spp = '",
+                        min_allowed_num_occ_per_spp, "'\n"))
+            }
+        }  #  end for - all wholly removed spp
+
+    # print (bpm)
+
+        #  Recheck all row sums now to be sure that there are no spp removed.
+
+    new_occ_cts_for_spp = rowSums (bpm)
+    flag_removed_spp = old_occ_cts_for_spp + new_occ_cts_for_spp
+    indices_of_spp_wholly_removed = which (flag_removed_spp <= 0)
+    num_spp_not_reintroduced = length (indices_of_spp_wholly_removed)
+
+    if (num_spp_not_reintroduced > 0)
+        {
+        stop_bdpg (paste0 ("\nFailed to reintroduce the following spp that ",
+                           "had been wholly removed: '",
+                           indices_of_spp_wholly_removed, "'\n"))
+        }
+
+        #  Now all spp should have at least 1 occurrence and you can switch
+        #  all remaining -1 values to be 0 so that those occurrences are removed.
+
+    bpm [bpm == -1] = 0
+    # print (bpm)
+
+    return (bpm)
+    }
+
+#-------------------------------------------------------------------------------
+
 #' Apply error to species occupancy data.
 #'
 #'  Walk through the occupancy matrix (PU vs spp) and randomly
@@ -123,6 +180,8 @@ set_const_FP_and_FN_rates = function (parameters)
 #' @param FP_rates numeric vector
 #' @param FN_rates numeric vector
 #' @param random_values numeric vector
+#' @param no_empty_spp_allowed boolean
+#' @param min_allowed_num_occ_per_spp integer
 #' @inheritParams std_param_defns
 #'
 #' @return Returns bpm matrix
@@ -131,11 +190,19 @@ set_const_FP_and_FN_rates = function (parameters)
 
 apply_error_to_spp_occupancy_data =
         function (bpm, FP_rates, FN_rates, num_PUs, num_spp,
-                  random_values   #  passing these in to make it easier to test
+                  random_values,   #  passing these in to make it easier to test
                                   #  in a reproducible way
+
+                      ##### ADDED 2018 11 29 - BTL
+                  no_empty_spp_allowed = TRUE,
+                  min_allowed_num_occ_per_spp = 1
                   )
     {
     cat ("\nStarting apply_error_to_spp_occupancy_data loop.\n\n")
+
+##### ADDED 2018 11 29 - BTL
+old_occ_cts_for_spp = rowSums (bpm)
+FN_occ_replacement_value = if (no_empty_spp_allowed) -1 else 0
 
         #  NOTE: I also tried recoding this routine usin mapply() instead of a
         #        for loop and for some reason, mapply() was 10 times slower.
@@ -155,7 +222,9 @@ apply_error_to_spp_occupancy_data =
                     #       with a false negative (FN)
                     #       i.e., simulate not detecting that spp on that PU.
                 if (random_values [cur_spp_row, cur_PU_col] < FN_rates [cur_spp_row, cur_PU_col])
-                    bpm [cur_spp_row, cur_PU_col] = 0
+##### CHANGED 2018 11 29 - BTL
+#####                    bpm [cur_spp_row, cur_PU_col] = 0
+                    bpm [cur_spp_row, cur_PU_col] = FN_occ_replacement_value
 
                 }  else
                 {
@@ -168,6 +237,31 @@ apply_error_to_spp_occupancy_data =
                }  #  end else - TN so set FP
             }  #  end for - all PU cols
         }  #  end for - all spp rows
+
+##### ADDED 2018 11 29 - BTL
+if (no_empty_spp_allowed)
+    {
+    bpm = make_sure_no_spp_eradicated_by_setting_FNs (bpm,
+                                                            old_occ_cts_for_spp,
+                                                            min_allowed_num_occ_per_spp)
+
+        #  Verify that no species has been completely wiped out by injection
+        #  of FNs.
+    new_occ_cts_for_spp = rowSums (bpm)
+    empty_spp = which (new_occ_cts_for_spp <= 0)
+    num_empty_spp = length (empty_spp)
+
+    if (num_empty_spp > 0)
+        {
+        cat ("\n\nempty_spp indices = ")
+        print (empty_spp)
+
+        stop_bdpg (
+            paste0 ("\n\nAt least one species has been completely wiped out ",
+                    "in applying error (probably by addition of FNs).\n",
+                    "num_empty_spp = '", num_empty_spp, "'\n"))
+        }
+    }
 
     return (bpm)
     }
