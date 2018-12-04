@@ -251,7 +251,7 @@ getColsWithNonZeroNAct (exp_df)
 
 -----  
 
-While cleaning the data, some rows may be removed or modified.  To document what's been and where to find where it was done, do two things.  First, add a column called "cln_mod" to the original data set.  Second, create a new, empty data set that will all lines removed from the data set during cleaning.  
+While cleaning the data, some rows may be removed or modified.  To document what's been done and where to find where it was done, do two things.  First, add a column called "cln_mod" to the original data set.  Second, create a new, empty data set that will contain all lines removed from the data set during cleaning.  
 
 Initialize all "cln_mod" values in the original data set to "keep".  
 
