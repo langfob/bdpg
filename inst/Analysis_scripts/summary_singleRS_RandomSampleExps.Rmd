@@ -2350,6 +2350,10 @@ gg_eucInTot_vs_fracPossibleUnder_facetted_by_err_label (rs_name, working_df, ref
 
 #  Compute correlations among primary working data variables
 
+**MAY WANT TO REDO THIS SECTION USING THE corrr LIBRARY.  SEE:**
+
+https://drsimonj.svbtle.com/exploring-correlations-in-r-with-corrr
+
 ```{r computeAllCorrs}
 #library (corrplot)
 ```
