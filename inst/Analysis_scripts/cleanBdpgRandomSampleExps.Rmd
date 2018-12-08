@@ -23,12 +23,12 @@ Note that each reserve selector needs to be treated separately because each one 
 #rs_name = "Gurobi"
 #rs_name = "Marxan_SA"
 #rs_name = "Marxan_SA_SS"
-#rs_name = "ZL_Backward"
+rs_name = "ZL_Backward"
 #rs_name = "ZL_Forward"
 #rs_name = "SR_Backward"
 #rs_name = "SR_Forward"
 #rs_name = "UR_Backward"
-rs_name = "UR_Forward"
+#rs_name = "UR_Forward"
 ```
 
 ###  Using this as a notebook instead of a knitr file for now
@@ -58,70 +58,15 @@ library (dplyr)
 ```{r setFilePaths}
 #===============================================================================
 
-results_dir = "/Users/bill/D/Projects/ProblemDifficulty/Results/"
-#exp_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Combined_batches_1_2/"
-exp_results_dir = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Combined_batches_1_2/Clean/"
+    #  Input paths
+batch_A_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Batch_3_500_FN_2rs/"
+batch_B_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Batch_4_500_Xu_frac/"
 
-    #  Output file path for combined data after cleaning here.
-#cln_exp_path = paste0 (exp_results_dir, "cln_exp.")
-cln_exp_path = paste0 (exp_results_dir, "cln_exp.")
+    #  Output file path for data after cleaning here.
+exp_cln_dir = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Combined_batches_3_4/Clean/"
+cln_exp_path = paste0 (exp_cln_dir, "cln_exp.")
+
 suffix = ".csv"
-
-#--------------------
-#  Combined batches
-#--------------------
-
-#  For the moment, let easy = batch 1 and hard = batch 2
-
-
-#eh#  easyHard_results_dir = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/"
-easyHard_results_dir = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Combined_batches_1_2/Clean/"
-
-# # # base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/"
-base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Combined_batches_1_2/"
-
-# 
-#     #  Easy
-#eh#  easy_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base_2nd_attempt/bdpg_20_variants_all_rs_easy_base_2nd_try_Combined_err_amts/"
-easy_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Batch_1_500/"
-# 
-#     #  Hard
-# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_1st_try_Combined_err_amts/"
-
-    #  Hard - 2, 5, 7.5, 10 % error
-#eh#  hard_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_02_05_075_10_Combined_err_amts/"
-hard_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Batch_2_500/"
-
-    #  Output file path for combined Easy and Hard data after cleaning here.
-cln_combinedEasyHard_path = paste0 (easyHard_results_dir, "cln_easyHard.")
-#suffix = ".combined_results.csv"
-
-
-
-
-
-
-#----------------
-#  OLD easyHard
-#----------------
-
-#eh#  easyHard_results_dir = "/Users/bill/D/Projects/ProblemDifficulty/Results/FullEasyHardV1/"
-
-# # # base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/"
-# 
-#     #  Easy
-#eh#  easy_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base_2nd_attempt/bdpg_20_variants_all_rs_easy_base_2nd_try_Combined_err_amts/"
-# 
-#     #  Hard
-# base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_1st_try_Combined_err_amts/"
-
-    #  Hard - 2, 5, 7.5, 10 % error
-#eh#  hard_base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_HARD_base_first_attempt/bdpg_20_variants_all_rs_HARD_base_02_05_075_10_Combined_err_amts/"
-
-    #  Output file path for combined Easy and Hard data after cleaning here.
-#eh#  cln_combinedEasyHard_path = paste0 (easyHard_results_dir, "cln_easyHard.")
-
-#eh#  suffix = ".combined_results.csv"
 ```
 
 -----   
@@ -198,14 +143,8 @@ getColsWithNonZeroNAct <- function (aDataframe)
 
 ```{r loadAndSummarizeInputData}
 
-#eh#  easy_df = load_input_data (rs_name, easy_base_path, suffix)
-#glimpse (easy_df)
-easy_df = load_input_data (rs_name, easy_base_path, suffix)
-
-
-#eh#  hard_df = load_input_data (rs_name, hard_base_path, suffix)
-#glimpse (hard_df)
-hard_df = load_input_data (rs_name, hard_base_path, suffix)
+batch_A_df = load_input_data (rs_name, batch_A_base_path, suffix)
+batch_B_df = load_input_data (rs_name, batch_B_base_path, suffix)
 
 #exp_df = load_input_data (rs_name, exp_base_path, suffix)
 #glimpse (exp_df)
@@ -215,14 +154,12 @@ hard_df = load_input_data (rs_name, hard_base_path, suffix)
 
 # Combine the easy and hard data into one data frame
 
-```{r combineEasyHard}
-#eh#  easyHard_df = bind_rows (easy_df, hard_df,  .id = "id")
-#glimpse (easyHard_df)
-exp_df = bind_rows (easy_df, hard_df,  .id = "id")
+```{r combineBatches}
+exp_df = bind_rows (batch_A_df, batch_B_df,  .id = "id")
 
     #  Convert dplyr's automatically generated dataset ids of "1" and "2" to 
     #  "Easy" and "Hard".
-#eh#  exp_df$id = sapply (easyHard_df$id, function (x) if (x == "1") "B1" else "B2")
+
 exp_df$id = sapply (exp_df$id, function (x) if (x == "1") "B1" else "B2")
 ```
 
@@ -236,10 +173,6 @@ There are lots of columns with NAs, but most of them look innocuous.  The ones t
 One thing to note is that there are a lot more columns with NAs in the combined easy/hard data set than in either individually.  This is primarily because when I ran the easy problems, the bdpg code wasn't writing the bipartite metrics to the output file, while it _was_ writing them for the hard problems (even though they were empty because I forgot to turn on more than connectance in this first pass).  When the two data frames are merged, it adds those bipartite metric columns to the full set and fills the easy problem values with NAs.
 
 ```{r findColsWithNAsUsingdplyr}
-#eh#  getColsWithNonZeroNAct (easy_df)
-#eh#  getColsWithNonZeroNAct (hard_df)
-#eh#  getColsWithNonZeroNAct (easyHard_df)
-
 getColsWithNonZeroNAct (exp_df)
 ```
 
@@ -592,39 +525,39 @@ For the moment, I'm going to just remove those Easy App problems with NaNs.
 
 #  Not doing easy/hard now, so comment this out until it's apparent whether it applies in some other way.
 
-if (FALSE)
-{
-    
-    
-    
-    #  Copy and save the lines to be deleted.
-exp_df %>%
-#    filter (id == "B1" & rsp_cor_or_app_str == "APP" & is.nan (emag)) -> easy_app_nan_mag_lines
-    filter (id == "B1" & rsp_cor_or_app_str == "APP" & is.nan (emag)) -> easy_app_nan_mag_lines
-cat ("\n\n\n\neasy_app_nan_mag_lines\n\n")
-glimpse (easy_app_nan_mag_lines)
-
-    #  If any lines are removed, save them.
-if (dim (easy_app_nan_mag_lines) [1] != 0)
-    {
-    removed_exp_df_lines = NULL
-    removed_exp_df_lines = save_removed_lines (removed_exp_df_lines, 
-                                               easy_app_nan_mag_lines, 
-                                               "removeAppMagNaNs")
-    cat ("\n\n\n\nremoved_exp_df_lines\n\n")
-    glimpse (removed_exp_df_lines)
-    }
-
-    #  Now, remove those lines from the original data set.
-exp_df %>%
-#    filter (! (id == "Easy" & rsp_cor_or_app_str == "APP" & is.nan (emag))) -> exp_df
-    filter (! (id == "B1" & rsp_cor_or_app_str == "APP" & is.nan (emag))) -> exp_df
-cat ("\n\n\n\nexp_df after easy_app_nan_mag_lines removed\n\n")
-glimpse (exp_df)
-
-
-
-}
+                                        if (FALSE)
+                                        {
+                                            
+                                            
+                                            
+                                            #  Copy and save the lines to be deleted.
+                                        exp_df %>%
+                                        #    filter (id == "B1" & rsp_cor_or_app_str == "APP" & is.nan (emag)) -> easy_app_nan_mag_lines
+                                            filter (id == "B1" & rsp_cor_or_app_str == "APP" & is.nan (emag)) -> easy_app_nan_mag_lines
+                                        cat ("\n\n\n\neasy_app_nan_mag_lines\n\n")
+                                        glimpse (easy_app_nan_mag_lines)
+                                        
+                                            #  If any lines are removed, save them.
+                                        if (dim (easy_app_nan_mag_lines) [1] != 0)
+                                            {
+                                            removed_exp_df_lines = NULL
+                                            removed_exp_df_lines = save_removed_lines (removed_exp_df_lines, 
+                                                                                       easy_app_nan_mag_lines, 
+                                                                                       "removeAppMagNaNs")
+                                            cat ("\n\n\n\nremoved_exp_df_lines\n\n")
+                                            glimpse (removed_exp_df_lines)
+                                            }
+                                        
+                                            #  Now, remove those lines from the original data set.
+                                        exp_df %>%
+                                        #    filter (! (id == "Easy" & rsp_cor_or_app_str == "APP" & is.nan (emag))) -> exp_df
+                                            filter (! (id == "B1" & rsp_cor_or_app_str == "APP" & is.nan (emag))) -> exp_df
+                                        cat ("\n\n\n\nexp_df after easy_app_nan_mag_lines removed\n\n")
+                                        glimpse (exp_df)
+                                        
+                                        
+                                        
+                                        }
 ```
 
 #  Compute magnifications
@@ -662,19 +595,16 @@ cat (length (exp_df$sppPUprod))
 #  Write the full clean data set to a csv file
 
 ```{r saveFullClnData}
-#eh#  print (cln_combinedEasyHard_path)    cln_exp_path
 print (cln_exp_path)
 
 print (rs_name)
 print (suffix)
 
-#eh#  base_path = cln_combinedEasyHard_path
 base_path = cln_exp_path
 
 outfile = paste0 (base_path, rs_name, suffix)
 print (outfile)
 
-#eh#  write_output_data (exp_df, rs_name, cln_combinedEasyHard_path, suffix)
 write_output_data (exp_df, rs_name, cln_exp_path, suffix)
 ```
 
@@ -690,20 +620,20 @@ write_output_data (exp_df, rs_name, cln_exp_path, suffix)
                 # rsp_cor_or_app_str, 
                 # rsp_base_wrap_str, 
 
-# COR_easy_df = filter (easy_df, rsp_cor_or_app_str == "COR")
-# #glimpse (COR_easy_df)
-# APP_easy_df = filter (easy_df, rsp_cor_or_app_str == "APP")
-# #glimpse (APP_easy_df)
+# COR_batch_A_df = filter (batch_A_df, rsp_cor_or_app_str == "COR")
+# #glimpse (COR_batch_A_df)
+# APP_batch_A_df = filter (batch_A_df, rsp_cor_or_app_str == "APP")
+# #glimpse (APP_batch_A_df)
 
-# COR_hard_df = filter (hard_df, rsp_cor_or_app_str == "COR")
-# #glimpse (COR_hard_df)
-# APP_hard_df = filter (hard_df, rsp_cor_or_app_str == "APP")
-# #glimpse (APP_hard_df)
+# COR_batch_B_df = filter (batch_B_df, rsp_cor_or_app_str == "COR")
+# #glimpse (COR_batch_B_df)
+# APP_batch_B_df = filter (batch_B_df, rsp_cor_or_app_str == "APP")
+# #glimpse (APP_batch_B_df)
 
-# getColsWithNonZeroNAct (COR_easy_df)
-# getColsWithNonZeroNAct (APP_easy_df)
-# getColsWithNonZeroNAct (COR_hard_df)
-# getColsWithNonZeroNAct (APP_hard_df)
+# getColsWithNonZeroNAct (COR_batch_A_df)
+# getColsWithNonZeroNAct (APP_batch_A_df)
+# getColsWithNonZeroNAct (COR_batch_B_df)
+# getColsWithNonZeroNAct (APP_batch_B_df)
 ```
 
 
