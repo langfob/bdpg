@@ -3,18 +3,18 @@ title: "Summary of BDPG results for single Reserve Selector"
 author: "Bill Langford"
 date: "`r Sys.Date()`"
 output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: '4'
+  html_notebook:
+    toc: yes
+    toc_depth: 4
   pdf_document:
     fig_caption: yes
     number_sections: yes
     toc: yes
     toc_depth: 4
-  html_notebook:
-    toc: yes
-    toc_depth: 4
-  html_document:
-    df_print: paged
-    toc: yes
-    toc_depth: '4'
 ---
 
 #  General
@@ -190,7 +190,9 @@ NOTE:  Leaving some of the old file paths in here for the moment, in case I need
 
 #----------
 
-base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Combined_batches_1_2/Clean/cln_exp."
+##base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Combined_batches_1_2/Clean/cln_exp."
+##base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Combined_batches_3_2/Clean/cln_exp."
+base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/ExpGen6basicVariants/Combined_batches_3_4/Clean/cln_exp."
 
 suffix = ".csv"
 ```
