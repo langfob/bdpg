@@ -391,6 +391,12 @@ reduce_full_data_to_working_set <- function (full_df)
 working_df    = reduce_full_data_to_working_set (easyHard_df)
 ```
 
+```{r}
+#library (DataExplorer)
+
+#DataExplorer::create_report (working_df)
+```
+
 ####  Check whether there are problems where COR and APP spp cts are not identical
 
 ```{r}
