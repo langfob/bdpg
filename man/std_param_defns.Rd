@@ -19,7 +19,8 @@ std_param_defns(all_correct_node_IDs, allow_imperfect_wrap, APP_bd_prob,
   PU_set_to_test, PU_spp_pair_indices, read_Xu_problem_from_Xu_file,
   rsprob, rsrun, rs_method_name, spp_col_name, spp_rep_fracs,
   spp_rep_targets, spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
-  src_rds_file_dir, target_num_links_between_2_groups_per_round, top_dir,
+  src_rds_file_dir, starting_dir,
+  target_num_links_between_2_groups_per_round, top_dir,
   use_marxan_time_as_limit, wrap_lognormal_dist_around_Xu,
   Xu_bench_infile_name)
 }
@@ -190,6 +191,9 @@ species ID and a column for each planning unit ID}
 
 \item{src_rds_file_dir}{string containing full path of directory where
 source rds file is or was found}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 
 \item{target_num_links_between_2_groups_per_round}{integer target number of
 links between any two groups per round of linking in constructing the

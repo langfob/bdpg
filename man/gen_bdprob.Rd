@@ -4,12 +4,15 @@
 \alias{gen_bdprob}
 \title{Generate a base or wrapped biodiversity problem}
 \usage{
-gen_bdprob(parameters, integerize, gen_multi_bdproblem = NULL,
-  base_bdprob = NULL)
+gen_bdprob(parameters, starting_dir, integerize,
+  gen_multi_bdproblem = NULL, base_bdprob = NULL)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 
 \item{integerize}{function to use in converting floats to ints}
 

@@ -16,12 +16,15 @@
 #-------------------------------------------------------------------------------
 
 gen_single_bdprob_COR <- function (parameters,
+                                   starting_dir,
                                    integerize,
                                    base_prob_name_stem = "base_prob",
                                    cor_dir_name_stem = "cor"
                                    )
     {
-    exp_root_dir = file.path (normalizePath (parameters$full_output_dir_with_slash))
+#    exp_root_dir = file.path (normalizePath (parameters$full_output_dir_with_slash))
+    exp_root_dir = starting_dir
+
     Xu_bench_infile_name = parameters$Xu_bench_infile_name
     if (is.null (Xu_bench_infile_name)) Xu_bench_infile_name = ""
 

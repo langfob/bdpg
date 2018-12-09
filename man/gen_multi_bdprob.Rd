@@ -4,11 +4,14 @@
 \alias{gen_multi_bdprob}
 \title{Generate a new bd problem by modifying or combining existing problem(s)}
 \usage{
-gen_multi_bdprob(parameters, integerize, bdprob_1 = NULL)
+gen_multi_bdprob(parameters, starting_dir, integerize, bdprob_1 = NULL)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 
 \item{integerize}{function to use in converting floats to ints}
 

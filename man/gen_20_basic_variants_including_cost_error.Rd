@@ -4,12 +4,15 @@
 \alias{gen_20_basic_variants_including_cost_error}
 \title{Generate 20 basic variants of a problem}
 \usage{
-gen_20_basic_variants_including_cost_error(parameters, integerize,
-  err_amt = NA)
+gen_20_basic_variants_including_cost_error(parameters, starting_dir,
+  integerize, err_amt = NA)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 
 \item{integerize}{function to use in converting floats to ints}
 

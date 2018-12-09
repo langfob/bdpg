@@ -542,6 +542,7 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
 gen_single_bdprob_APP <- function (Xu_bdprob_COR,
                                    parameters,
+                starting_dir,
                            gen_cost_errors,
                            gen_FP_FN_errors,
                                    compound_err_name = NULL,
@@ -562,7 +563,7 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR,
                                                               ret_vals_from_build_const_err,
                                                               ret_vals_from_apply_cost_errors)
 
-    starting_dir = parameters$fullOutputDir_NO_slash
+    # starting_dir = parameters$fullOutputDir_NO_slash
 
     Xu_bdprob_APP =
         create_dirs_for_APP_prob (Xu_bdprob_APP,

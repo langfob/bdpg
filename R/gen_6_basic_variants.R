@@ -23,7 +23,9 @@
 
 #-------------------------------------------------------------------------------
 
-gen_6_basic_variants <- function (parameters, integerize, err_amt = NA)
+gen_6_basic_variants <- function (parameters,
+                                  starting_dir,
+                                  integerize, err_amt = NA)
     {
                     cat ("\n\nAT START OF gen_6_basic_variants().\n\n")
 
@@ -75,6 +77,7 @@ gen_6_basic_variants <- function (parameters, integerize, err_amt = NA)
     #===========================================================================
 
     base_COR_bd_prob = gen_single_bdprob_COR (parameters,
+                                              starting_dir,
                                               integerize,
                                               base_prob_name_stem = "base_prob",
                                               cor_dir_name_stem = "cor"
@@ -101,6 +104,7 @@ gen_6_basic_variants <- function (parameters, integerize, err_amt = NA)
         wrapped_COR_bd_prob =
 #            gen_bdprob (parameters,
             gen_multi_bdprob (parameters,
+                              starting_dir,
                               integerize,
                               base_COR_bd_prob)
 
@@ -118,6 +122,7 @@ gen_6_basic_variants <- function (parameters, integerize, err_amt = NA)
 
         gen_4_or_5_app_variants (wrapped_COR_bd_prob,
                                  parameters,
+                                 starting_dir,
                                  gen_combined_cost_and_FP_FN_errors = FALSE,
                                  err_amt)
 

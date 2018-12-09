@@ -28,6 +28,7 @@
 #-------------------------------------------------------------------------------
 
 gen_bdprob  = function (parameters,
+                        starting_dir,
                         integerize,
                         gen_multi_bdproblem = NULL,
                         base_bdprob = NULL)
@@ -52,16 +53,17 @@ gen_bdprob  = function (parameters,
     if (gen_multi_bdproblem)
         {
         bdprob = gen_multi_bdprob (parameters,
+                                   starting_dir,
                                    integerize,
                                    base_bdprob)
         } else
         {
         bdprob = gen_single_bdprob_COR (parameters,
+                                        starting_dir,
                                         integerize,
                                         base_prob_name_stem = "base_prob",
                                         cor_dir_name_stem = "cor"
                                         )
-
         }
 
     return (bdprob)
@@ -100,6 +102,7 @@ gen_bdprob  = function (parameters,
 #-------------------------------------------------------------------------------
 
 gen_multi_bdprob <- function (parameters,
+                              starting_dir,
                               integerize,
                               bdprob_1 = NULL)
     {
@@ -139,6 +142,7 @@ gen_multi_bdprob <- function (parameters,
     if (is.null (bdprob_1))
         {
         bdprob_1 = gen_single_bdprob_COR (parameters,
+                                          starting_dir,
                                           integerize,
                                           base_prob_name_stem = "base_prob",
                                           cor_dir_name_stem = "cor")
@@ -157,8 +161,8 @@ gen_multi_bdprob <- function (parameters,
 
     if (wrap_lognormal_dist_around_Xu)
         {
-        starting_dir =
-            file.path (normalizePath (parameters$full_output_dir_with_slash))
+        # starting_dir =
+        #     file.path (normalizePath (parameters$full_output_dir_with_slash))
 
         combined_bdprob = gen_wrapped_bdprob_COR (starting_dir,
                                                   parameters,

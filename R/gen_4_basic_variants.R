@@ -21,7 +21,7 @@
 
 #-------------------------------------------------------------------------------
 
-gen_4_basic_variants <- function (parameters, integerize)
+gen_4_basic_variants <- function (parameters, starting_dir, integerize)
     {
                     cat ("\n\nAT START OF gen_4_basic_variants().\n\n")
 
@@ -30,6 +30,7 @@ gen_4_basic_variants <- function (parameters, integerize)
     #===============================================================================
 
     base_COR_bd_prob = gen_single_bdprob_COR (parameters,
+                                              starting_dir,
                                               integerize,
                                               base_prob_name_stem = "base_prob",
                                               cor_dir_name_stem = "cor"
@@ -55,6 +56,7 @@ gen_4_basic_variants <- function (parameters, integerize)
 #    base_APP_bd_prob =
                        gen_1_app_variant (base_COR_bd_prob,
                                           parameters,
+                                          starting_dir,
                                           gen_cost_errors        = FALSE,
                                           cost_error_frac_bound  = 0,
                                           gen_FP_FN_errors       = TRUE,
@@ -81,6 +83,7 @@ gen_4_basic_variants <- function (parameters, integerize)
         wrapped_COR_bd_prob =
 #            gen_bdprob (parameters,
             gen_multi_bdprob (parameters,
+                              starting_dir,
                               integerize,
                               base_COR_bd_prob)
 
@@ -101,6 +104,7 @@ gen_4_basic_variants <- function (parameters, integerize)
 #        wrapped_APP_bd_prob =
                               gen_1_app_variant (wrapped_COR_bd_prob,
                                                  parameters,
+                                                 starting_dir,
                                                  gen_cost_errors        = FALSE,
                                                  cost_error_frac_bound  = 0,
                                                  gen_FP_FN_errors       = TRUE,

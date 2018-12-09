@@ -4,12 +4,15 @@
 \alias{gen_single_bdprob_COR}
 \title{Generate a single correct biodiversity problem from scratch or from a file}
 \usage{
-gen_single_bdprob_COR(parameters, integerize,
+gen_single_bdprob_COR(parameters, starting_dir, integerize,
   base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 
 \item{integerize}{function to use in converting floats to ints}
 
