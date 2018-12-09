@@ -164,6 +164,14 @@ repro_RSrun <- function (repro_RDS_file_loc,
     if (! is.null (fullOutputDir_NO_slash) & ! is.na (fullOutputDir_NO_slash))
         parameters$fullOutputDir_NO_slash = fullOutputDir_NO_slash
 
+#--------------------
+#  2018 12 09 - BTL
+#  Not sure if this is the right thing to do here since most other things
+#  pass the starting_dir in as an argument now.
+#  At the moment, this function is not called anywhere.
+starting_dir = parameters$fullOutputDir_NO_slash
+#--------------------
+
     rsrun = repro$rsrun
     prob_UUID                    = rsrun@run_on_prob_UUID
     spp_rep_targets              = rsrun@targets
