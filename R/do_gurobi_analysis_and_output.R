@@ -426,6 +426,7 @@ if(FALSE)
 do_gurobi_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
+                                           starting_dir,
                                                rs_method_name,
                                                marxan_elapsed_time,
                                                src_rds_file_dir = NULL,
@@ -456,7 +457,10 @@ do_gurobi_analysis_and_output <- function (APP_bd_prob,
 
     save_rsrun_results_data_for_one_rsrun (
                             tzar_run_ID  = parameters$run_id,
-                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+
+#                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+                            exp_root_dir = starting_dir,
+
                             APP_rs_run,
                             COR_bd_prob,
                             APP_bd_prob,

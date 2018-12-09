@@ -41,7 +41,8 @@ gen_4_basic_variants <- function (parameters, starting_dir, integerize)
 
     do_rs_analysis_and_output (base_COR_bd_prob,
                                    base_COR_bd_prob,
-                                   parameters)
+                                   parameters,
+                               starting_dir)
 
                     cat("\n\njust after do_rs_analysis_and_output() for Base COR problem")
                     cat ("\n\n================================================================================")
@@ -67,7 +68,8 @@ gen_4_basic_variants <- function (parameters, starting_dir, integerize)
 
     # do_rs_analysis_and_output (base_APP_bd_prob,
     #                                base_COR_bd_prob,
-    #                                parameters)
+    #                                parameters,
+    #                            starting_dir)
 
                     cat("\n\njust after gen_1_app_variant() for Base APP problem")
                     cat ("\n\n================================================================================")
@@ -89,7 +91,8 @@ gen_4_basic_variants <- function (parameters, starting_dir, integerize)
 
         do_rs_analysis_and_output (wrapped_COR_bd_prob,
                                        wrapped_COR_bd_prob,
-                                       parameters)
+                                       parameters,
+                                   starting_dir)
 
                         cat("\n\njust after do_rs_analysis_and_output() for Wrapped COR problem")
                         cat ("\n\n================================================================================")
@@ -115,7 +118,8 @@ gen_4_basic_variants <- function (parameters, starting_dir, integerize)
 
         # do_rs_analysis_and_output (wrapped_APP_bd_prob,
         #                                wrapped_COR_bd_prob,
-        #                                parameters)
+        #                                parameters,
+        #                            starting_dir)
 
                         cat("\n\njust after gen_1_app_variant() for Wrapped APP problem")
                         cat ("\n\n================================================================================")

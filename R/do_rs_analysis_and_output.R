@@ -25,6 +25,7 @@
 do_rs_analysis_and_output <- function (APP_bd_prob,
                                            COR_bd_prob,
                                            parameters,
+                                       starting_dir,
                                            src_rds_file_dir = NULL,
                                            spp_rep_targets =
                                                rep(1,COR_bd_prob@num_spp))
@@ -41,6 +42,7 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
+                                       starting_dir,
 
                                        rs_method_name,
                                        resSel_func     = simple_richness,
@@ -63,6 +65,7 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
+                                       starting_dir,
 
                                        rs_method_name,
                                        resSel_func     = simple_richness,
@@ -87,6 +90,7 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
+                                       starting_dir,
 
                                        rs_method_name,
                                        resSel_func     = unprotected_richness,
@@ -109,6 +113,7 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
+                                       starting_dir,
 
                                        rs_method_name,
                                        resSel_func     = unprotected_richness,
@@ -133,6 +138,7 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
+                                       starting_dir,
 
                                        rs_method_name,
                                        resSel_func     = zonation_like,
@@ -155,6 +161,7 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
                                        COR_bd_prob,    #  <<<<<-----------------
                                        parameters,
+                                       starting_dir,
 
                                        rs_method_name,
                                        resSel_func     = zonation_like,
@@ -176,6 +183,7 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
             do_marxan_analysis_and_output (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
+                                           starting_dir,
                                                rs_method_name,
                                                src_rds_file_dir,
                                                spp_rep_targets)
@@ -190,6 +198,7 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         do_gurobi_analysis_and_output (APP_bd_prob,
                                            COR_bd_prob,
                                            parameters,
+                                       starting_dir,
                                            rs_method_name,
                                            marxan_elapsed_time,
                                            src_rds_file_dir,

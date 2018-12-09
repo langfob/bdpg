@@ -457,6 +457,7 @@ cat ("\n\nMarxan SA elapsed time = '", marxan_elapsed_time, "'")
 #' @param COR_bd_prob a correct Xu_bd_problem (or subclass)
 #' @param marxan_run an RSrun object (or subclass)
 #' @param parameters parameters list for the run, usually derived from project.yaml
+#' @inheritParams std_param_defns
 #'
 #' @return list containing marxan_control_values and updated COR_bd_prob
 #' @export
@@ -465,7 +466,8 @@ cat ("\n\nMarxan SA elapsed time = '", marxan_elapsed_time, "'")
 
 set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                            marxan_run,
-                                           parameters)
+                                           parameters,
+                                           starting_dir)
     {
     marxan_control_values =
 ##FixPUsppPairIndices-2018-02-17##       set_up_for_and_run_marxan (COR_bd_prob@cor_PU_spp_pair_indices,
@@ -478,7 +480,8 @@ set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
                                     marxan_run,
 
                                     COR_bd_prob@num_spp,
-                                    parameters
+                                    parameters,
+                           starting_dir
                                     )
 
     return (marxan_control_values)
@@ -497,6 +500,7 @@ set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
 #' @param COR_bd_prob the correct Xu_bd_problem (or subclass) that the apparent problem is derived from
 #' @param marxan_run an RSrun object (or subclass)
 #' @param parameters parameters list for the run, usually derived from project.yaml
+#' @inheritParams std_param_defns
 #'
 #' @return list containing marxan_control_values and updated APP_bd_prob
 #' @export
@@ -506,7 +510,8 @@ set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
 set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                            COR_bd_prob,
                                            marxan_run,
-                                           parameters)
+                                           parameters,
+                                           starting_dir)
     {
     marxan_control_values =
 ##FixPUsppPairIndices-2018-02-17##        set_up_for_and_run_marxan (APP_bd_prob@APP_prob_info@app_PU_spp_pair_indices,
@@ -519,7 +524,8 @@ set_up_for_and_run_marxan (APP_bd_prob@PU_spp_pair_indices,
                                     marxan_run,
 
                                     APP_bd_prob@num_spp,
-                                    parameters
+                                    parameters,
+                           starting_dir
                                     )
 
     return (marxan_control_values)
@@ -541,6 +547,7 @@ set_up_for_and_run_marxan (APP_bd_prob@PU_spp_pair_indices,
 #' @param rsrun RSrun object
 #' @param num_spp integer
 #' @param parameters list
+#' @inheritParams std_param_defns
 #'
 #' @return Returns marxan control values list
 #' @export
@@ -556,12 +563,15 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
                                       rsrun,
 
                                       num_spp,
-                                      parameters
+                                      parameters,
+                                      starting_dir
                                       )
     {
         #  Get paths to the marxan IO subdirectories.
 
-    topdir            = parameters$fullOutputDir_NO_slash
+#    topdir            = parameters$fullOutputDir_NO_slash
+    topdir            = starting_dir
+
     marxan_IO_dir     = get_RSrun_path_IO (rsrun, topdir)
     marxan_input_dir  = get_RSrun_path_input (rsrun, topdir)
     marxan_output_dir = get_RSrun_path_output (rsrun, topdir)

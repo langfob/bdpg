@@ -22,6 +22,7 @@
 set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
                                            rsrun,
                                            parameters,
+                                           starting_dir,
                                            marxan_elapsed_time=NA)
     {
     gurobi_control_values =
@@ -42,7 +43,11 @@ set_up_for_and_run_gurobi_COR <- function (COR_bd_prob,
                                    marxan_elapsed_time,
 
                                    rsrun,
-                                   top_dir = parameters$fullOutputDir_NO_slash,
+
+#                                   top_dir = parameters$fullOutputDir_NO_slash,
+                                   top_dir = starting_dir,
+
+
                                    save_inputs = TRUE,
                                    save_outputs = TRUE
                                    )
@@ -71,6 +76,7 @@ set_up_for_and_run_gurobi_APP <- function (APP_bd_prob,
                                            COR_bd_prob,
                                            rsrun,
                                            parameters,
+                                           starting_dir,
                                            marxan_elapsed_time=NA)
     {
     gurobi_control_values =
@@ -91,7 +97,10 @@ set_up_for_and_run_gurobi_APP <- function (APP_bd_prob,
                                    marxan_elapsed_time,
 
                                    rsrun,
-                                   top_dir = parameters$fullOutputDir_NO_slash,
+
+#                                   top_dir = parameters$fullOutputDir_NO_slash,
+                                   top_dir = starting_dir,
+
                                    save_inputs = TRUE,
                                    save_outputs = TRUE
                                    )

@@ -27,6 +27,7 @@
 do_marxan_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
+                                           starting_dir,
                                                rs_method_name,
                                                src_rds_file_dir=NULL,
                                                spp_rep_targets=rep(1,COR_bd_prob@num_spp)
@@ -39,6 +40,7 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
     APP_marxan_run <- create_RSrun (APP_bd_prob@UUID,
                                     spp_rep_targets,
                                     parameters,
+                                    starting_dir,
                                     APP_bd_prob@cor_or_app_str,
                                     APP_bd_prob@basic_or_wrapped_or_comb_str,
                                     rs_method_name)
@@ -46,7 +48,8 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
     marxan_control_values = set_up_for_and_run_marxan_APP (APP_bd_prob,
                                                            COR_bd_prob,
                                                            APP_marxan_run,
-                                                           parameters)
+                                                           parameters,
+                                                           starting_dir)
 
         #---------------------------
         #  Collect marxan results.
@@ -60,7 +63,10 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
     #                                                        rs_control_values)
     rs_best_and_summed_solution_PU_IDs =
             get_marxan_best_and_summed_solution_PU_IDs (APP_marxan_run,
-                   exp_root_dir = parameters$fullOutputDir_NO_slash,
+
+#                   exp_root_dir = parameters$fullOutputDir_NO_slash,
+                   exp_root_dir = starting_dir,
+
                                                         COR_bd_prob,
                                                         APP_bd_prob)
 
@@ -75,7 +81,10 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
     save_rsrun_results_data_for_one_rsrun_given_solution_PU_IDs (
                                                 rs_best_solution_PU_IDs,
                         tzar_run_ID = parameters$run_id,
-                                           exp_root_dir = parameters$fullOutputDir_NO_slash,
+
+                   # exp_root_dir = parameters$fullOutputDir_NO_slash,
+                   exp_root_dir = starting_dir,
+
                                               APP_marxan_run,
                                             COR_bd_prob,
                                             APP_bd_prob,
@@ -98,7 +107,10 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
                                                 rs_best_summed_solution_PU_IDs,
 
                         tzar_run_ID = parameters$run_id,
-                        exp_root_dir = parameters$fullOutputDir_NO_slash,
+
+                   # exp_root_dir = parameters$fullOutputDir_NO_slash,
+                   exp_root_dir = starting_dir,
+
                                                 APP_marxan_run,
                                                 COR_bd_prob,
                                                 APP_bd_prob,
@@ -108,7 +120,10 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
                                                 src_rds_file_dir)
 
     # save_rsrun_results_data_for_one_rsrun (tzar_run_ID = parameters$run_id,
-    #                                        exp_root_dir = parameters$fullOutputDir_NO_slash,
+
+    #                                        #exp_root_dir = parameters$fullOutputDir_NO_slash,
+    #                                        exp_root_dir = starting_dir,
+
     #                                           APP_marxan_run,
     #                                         COR_bd_prob,
     #                                         APP_bd_prob,

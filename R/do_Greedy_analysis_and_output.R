@@ -164,6 +164,7 @@ cat ("\n@@@TRACKING rand_seed in repro_do_Greedy_analysis_and_output:: new_seed_
 ResSel_run = create_RSrun_core (prob_UUID,
                                  spp_rep_targets,
                                  parameters,
+                                starting_dir,
                                  cor_or_app_str,
                                  basic_or_wrapped_or_comb_str,
                                  rs_method_name,
@@ -202,6 +203,7 @@ do_Greedy_analysis_and_output_core <-
                                   COR_bd_prob,
                 ResSel_run,
                                   parameters,
+                starting_dir,
 
                                   rs_method_name,
                                   resSel_func,                    #  function for reserve selector, e.g., simple_richness
@@ -233,7 +235,7 @@ do_Greedy_analysis_and_output_core <-
                   src_rds_file_dir   = src_rds_file_dir,
                   spp_rep_targets    = spp_rep_targets)
 
-    starting_dir = parameters$fullOutputDir_NO_slash
+#    starting_dir = parameters$fullOutputDir_NO_slash
     base_outdir = get_RSrun_path_topdir (ResSel_run, starting_dir)
 #    saveRDS (repro, parameters$fullOutputDir_NO_slash)
     saveRDS (repro, file.path (base_outdir, "repro.rds"))
@@ -252,7 +254,10 @@ do_Greedy_analysis_and_output_core <-
                             RS_specific_params,    #forward = TRUE,
 
                             rsrun = ResSel_run,
-                            top_dir = parameters$fullOutputDir_NO_slash,
+
+#                            top_dir = parameters$fullOutputDir_NO_slash,
+                            top_dir = starting_dir,
+
                             save_inputs = TRUE,
                             save_outputs = TRUE)
 
@@ -281,7 +286,10 @@ do_Greedy_analysis_and_output_core <-
 
     save_rsrun_results_data_for_one_rsrun (
                             tzar_run_ID  = parameters$run_id,
-                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+
+#                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+                            exp_root_dir = starting_dir,
+
                             ResSel_run,
                             COR_bd_prob,
                             APP_bd_prob,
