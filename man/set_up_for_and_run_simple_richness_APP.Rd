@@ -6,7 +6,7 @@
 \title{Set up for and run simple_richness for APP problem}
 \usage{
 set_up_for_and_run_simple_richness_APP(APP_bd_prob, COR_bd_prob, rsrun,
-  parameters, forward = TRUE)
+  parameters, starting_dir, forward = TRUE)
 }
 \arguments{
 \item{APP_bd_prob}{an apparent Xu_bd_problem}
@@ -17,6 +17,9 @@ set_up_for_and_run_simple_richness_APP(APP_bd_prob, COR_bd_prob, rsrun,
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 
 \item{forward}{boolean indicating whether to do the greedy search in the
 forward direction (adding PUs to the solution set) or the backward

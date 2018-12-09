@@ -24,6 +24,9 @@ set_up_for_and_run_marxan(PU_spp_pair_indices, PU_IDs, spp_IDs,
 \item{num_spp}{integer}
 
 \item{parameters}{list}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 }
 \value{
 Returns marxan control values list

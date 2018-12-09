@@ -6,14 +6,18 @@
 \title{Run simple_richness on COR problem and write output from all analysis}
 \usage{
 do_COR_simple_richness_analysis_and_output(COR_bd_prob, parameters,
-  rs_method_name, forward = TRUE, src_rds_file_dir = NULL,
-  spp_rep_targets = rep(1, COR_bd_prob@num_spp))
+  starting_dir, rs_method_name, forward = TRUE,
+  src_rds_file_dir = NULL, spp_rep_targets = rep(1,
+  COR_bd_prob@num_spp))
 }
 \arguments{
 \item{COR_bd_prob}{a correct Xu_bd_problem}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 
 \item{rs_method_name}{character string for reserve selection method, e.g.,
 "marxan_sa"}

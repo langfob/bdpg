@@ -14,6 +14,9 @@ set_up_for_and_run_marxan_COR(COR_bd_prob, marxan_run, parameters,
 \item{marxan_run}{an RSrun object (or subclass)}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 }
 \value{
 list containing marxan_control_values and updated COR_bd_prob

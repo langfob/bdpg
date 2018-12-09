@@ -4,7 +4,7 @@
 \alias{gen_single_bdprob_WRAP}
 \title{Generate a single wrapped biodiversity problem from a given base problem}
 \usage{
-gen_single_bdprob_WRAP(bdprob_to_wrap, parameters)
+gen_single_bdprob_WRAP(bdprob_to_wrap, parameters, starting_dir)
 }
 \arguments{
 \item{bdprob_to_wrap}{a correct Xu_bd_problem whose correct solution vector is
@@ -12,6 +12,9 @@ known}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 }
 \value{
 Returns a correct wrapped biodiversity problem

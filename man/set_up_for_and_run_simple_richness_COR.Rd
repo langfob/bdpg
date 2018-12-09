@@ -6,7 +6,7 @@
 \title{Set up for and run simple_richness for COR problem}
 \usage{
 set_up_for_and_run_simple_richness_COR(COR_bd_prob, rsrun, parameters,
-  forward = TRUE)
+  starting_dir, forward = TRUE)
 }
 \arguments{
 \item{COR_bd_prob}{a correct Xu_bd_problem}
@@ -15,6 +15,9 @@ set_up_for_and_run_simple_richness_COR(COR_bd_prob, rsrun, parameters,
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 
 \item{forward}{boolean indicating whether to do the greedy search in the
 forward direction (adding PUs to the solution set) or the backward
