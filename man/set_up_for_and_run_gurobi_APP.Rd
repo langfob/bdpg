@@ -6,7 +6,7 @@
 \title{Set up for and run gurobi for APP problem}
 \usage{
 set_up_for_and_run_gurobi_APP(APP_bd_prob, COR_bd_prob, rsrun, parameters,
-  marxan_elapsed_time = NA)
+  starting_dir, marxan_elapsed_time = NA)
 }
 \arguments{
 \item{APP_bd_prob}{an apparent Xu_bd_problem}
@@ -17,6 +17,9 @@ set_up_for_and_run_gurobi_APP(APP_bd_prob, COR_bd_prob, rsrun, parameters,
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 
 \item{marxan_elapsed_time}{numeric value containing elapsed time for running
 marxan (in seconds)}

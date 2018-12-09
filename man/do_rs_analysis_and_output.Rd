@@ -5,7 +5,7 @@
 \title{Run reserve selector(s) on bdproblem and write output from all analyses}
 \usage{
 do_rs_analysis_and_output(APP_bd_prob, COR_bd_prob, parameters,
-  src_rds_file_dir = NULL, spp_rep_targets = rep(1,
+  starting_dir, src_rds_file_dir = NULL, spp_rep_targets = rep(1,
   COR_bd_prob@num_spp))
 }
 \arguments{
@@ -15,6 +15,9 @@ do_rs_analysis_and_output(APP_bd_prob, COR_bd_prob, parameters,
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 
 \item{src_rds_file_dir}{string containing full path of directory where
 source rds file is or was found}

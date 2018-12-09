@@ -5,7 +5,8 @@
 \alias{set_up_for_and_run_marxan_COR}
 \title{Set up for and run marxan for COR problem}
 \usage{
-set_up_for_and_run_marxan_COR(COR_bd_prob, marxan_run, parameters)
+set_up_for_and_run_marxan_COR(COR_bd_prob, marxan_run, parameters,
+  starting_dir)
 }
 \arguments{
 \item{COR_bd_prob}{a correct Xu_bd_problem (or subclass)}

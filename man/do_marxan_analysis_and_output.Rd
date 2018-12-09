@@ -5,8 +5,8 @@
 \title{Run marxan on bd problem and write output from all analysis}
 \usage{
 do_marxan_analysis_and_output(APP_bd_prob, COR_bd_prob, parameters,
-  rs_method_name, src_rds_file_dir = NULL, spp_rep_targets = rep(1,
-  COR_bd_prob@num_spp))
+  starting_dir, rs_method_name, src_rds_file_dir = NULL,
+  spp_rep_targets = rep(1, COR_bd_prob@num_spp))
 }
 \arguments{
 \item{APP_bd_prob}{an apparent Xu_bd_problem}
@@ -15,6 +15,9 @@ do_marxan_analysis_and_output(APP_bd_prob, COR_bd_prob, parameters,
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
+
+\item{starting_dir}{string containing full path of top directory where
+problems and/or runs are to be created}
 
 \item{rs_method_name}{character string for reserve selection method, e.g.,
 "marxan_sa"}

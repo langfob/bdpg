@@ -6,7 +6,7 @@
 \title{Set up for and run marxan}
 \usage{
 set_up_for_and_run_marxan(PU_spp_pair_indices, PU_IDs, spp_IDs,
-  PU_col_name, spp_col_name, rsrun, num_spp, parameters)
+  PU_col_name, spp_col_name, rsrun, num_spp, parameters, starting_dir)
 }
 \arguments{
 \item{PU_spp_pair_indices}{data frame}

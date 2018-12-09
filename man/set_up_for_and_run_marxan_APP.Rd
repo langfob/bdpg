@@ -6,7 +6,7 @@
 \title{Set up for and run marxan for APP problem}
 \usage{
 set_up_for_and_run_marxan_APP(APP_bd_prob, COR_bd_prob, marxan_run,
-  parameters)
+  parameters, starting_dir)
 }
 \arguments{
 \item{APP_bd_prob}{an apparent Xu_bd_problem (or subclass)}
