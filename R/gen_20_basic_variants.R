@@ -165,7 +165,8 @@ gen_1_app_variant <- function (base_bd_prob,
 
     do_rs_analysis_and_output (APP_bd_prob,
                                    base_bd_prob,
-                                   parameters)
+                                   parameters,
+                               starting_dir)
 
                     cat("\n\njust after do_APP_rs_analysis_and_output() APP problem")
                     cat ("\n\n================================================================================")
@@ -331,7 +332,8 @@ gen_20_basic_variants_including_cost_error <- function (parameters,
 
     do_rs_analysis_and_output (base_COR_bd_prob,
                                base_COR_bd_prob,
-                               parameters)
+                               parameters,
+                               starting_dir)
 
                     cat("\n\njust after do_rs_analysis_and_output() for Base COR problem")
                     cat ("\n\n================================================================================")
@@ -387,7 +389,8 @@ cat (  "\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
         do_rs_analysis_and_output (wrapped_COR_bd_prob,
                                    wrapped_COR_bd_prob,
-                                   parameters)
+                                   parameters,
+                                   starting_dir)
 
                         cat("\n\njust after do_COR_rs_analysis_and_output() for Wrapped COR problem")
                         cat ("\n\n================================================================================")

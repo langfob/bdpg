@@ -88,7 +88,8 @@ gen_6_basic_variants <- function (parameters,
 
     do_rs_analysis_and_output (base_COR_bd_prob,
                                base_COR_bd_prob,
-                               parameters)
+                               parameters,
+                               starting_dir)
 
                     cat("\n\njust after do_rs_analysis_and_output() for Base COR problem")
                     cat ("\n\n================================================================================")
@@ -110,7 +111,8 @@ gen_6_basic_variants <- function (parameters,
 
         do_rs_analysis_and_output (wrapped_COR_bd_prob,
                                    wrapped_COR_bd_prob,
-                                   parameters)
+                                   parameters,
+                                   starting_dir)
 
                         cat("\n\njust after do_COR_rs_analysis_and_output() for Wrapped COR problem")
                         cat ("\n\n================================================================================")

@@ -441,6 +441,7 @@ do_gurobi_analysis_and_output <- function (APP_bd_prob,
     APP_rs_run <- create_RSrun (APP_bd_prob@UUID,
                                 spp_rep_targets,
                                 parameters,
+                                starting_dir,
                                 APP_bd_prob@cor_or_app_str,
                                 APP_bd_prob@basic_or_wrapped_or_comb_str,
                                 rs_method_name)

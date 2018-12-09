@@ -48,6 +48,7 @@ do_Greedy_analysis_and_output <-
                         function (APP_bd_prob,
                                   COR_bd_prob,
                                   parameters,
+                                  starting_dir,
 
                                   rs_method_name,
                                   resSel_func,                    #  function for reserve selector, e.g., simple_richness
@@ -64,6 +65,7 @@ do_Greedy_analysis_and_output <-
     ResSel_run <- create_RSrun (APP_bd_prob@UUID,
                                 spp_rep_targets,
                                 parameters,
+                                starting_dir,
                                 APP_bd_prob@cor_or_app_str,
                                 APP_bd_prob@basic_or_wrapped_or_comb_str,
                                 rs_method_name)
@@ -72,6 +74,7 @@ do_Greedy_analysis_and_output <-
                                                   COR_bd_prob,
                                 ResSel_run,
                                                   parameters,
+                                starting_dir,
 
                                                   rs_method_name,
                                     resSel_func,        #  function for reserve selector, e.g., simple_richness
@@ -194,6 +197,7 @@ resSel_func = get_Greedy_resSel_func (rs_method_name)
                                                   COR_bd_prob,
                                 ResSel_run,
                                                   parameters,
+                                starting_dir,
 
                                                   rs_method_name,
                                 resSel_func,        #  function for reserve selector, e.g., simple_richness
