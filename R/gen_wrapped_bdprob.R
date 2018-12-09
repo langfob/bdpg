@@ -1670,10 +1670,10 @@ options_are_legal_for_single_bdprob_WRAP <- function (parameters)
 
 #-------------------------------------------------------------------------------
 
-gen_single_bdprob_WRAP <- function (bdprob_to_wrap, parameters)
+gen_single_bdprob_WRAP <- function (bdprob_to_wrap, parameters, starting_dir)
     {
-    starting_dir =
-        file.path (normalizePath (parameters$full_output_dir_with_slash))
+    # starting_dir =
+    #     file.path (normalizePath (parameters$full_output_dir_with_slash))
 
     # compute_network_metrics_for_this_prob =
     #     value_or_FALSE_if_null (parameters$compute_network_metrics_wrapped_COR)

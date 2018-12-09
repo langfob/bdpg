@@ -450,6 +450,7 @@ do_gurobi_analysis_and_output <- function (APP_bd_prob,
                                                        COR_bd_prob,
                                                        APP_rs_run,
                                                        parameters,
+                                                       starting_dir,
                                                        marxan_elapsed_time)
 
         #-------------------------------------
