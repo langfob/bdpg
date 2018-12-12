@@ -2,7 +2,7 @@
 % Please edit documentation in R/gscp_14b_compute_solution_scores.R
 \name{compute_confusion_matrix_based_scores}
 \alias{compute_confusion_matrix_based_scores}
-\title{Compute confustion matrix-based scores for candidate solution}
+\title{Compute confusion matrix-based scores for candidate solution}
 \usage{
 compute_confusion_matrix_based_scores(cor_or_app_str,
   num_PUs_in_cand_solution, num_PUs, num_PUs_in_optimal_solution,
