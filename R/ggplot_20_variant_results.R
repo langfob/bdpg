@@ -307,7 +307,7 @@ gg_eucInTot_vs_eucOutTot_facetted_by_err_label <- function (rs_name,
 
 dummy <- function()
 {
-library (tidyverse)
+#library (tidyverse)
 
 base_path = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/"
 suffix = ".combined_results.csv"
@@ -382,7 +382,7 @@ gg_20 <- function ()
 
 ### Load necessary libraries.
 
-library (tidyverse)
+#library (tidyverse)
 
 # rs_name = "Gurobi"
 # infile = "/Users/bill/D/Projects/ProblemDifficulty/Results/bdpg_20_variants_all_rs_easy_base/bdpg_20_variants_all_rs_easy_base_Combined_err_amts/Gurobi.combined_results.csv"
@@ -448,7 +448,7 @@ cat ("\n\n", rs_name, " - err_mag_euc_Ftot_in_vs_euc_Ftot_out statistics:",
 #===============================================================================
 #===============================================================================
 
-library (tidyverse)
+#library (tidyverse)
 
 rs_name = "Gurobi"
 ref_y = 0
@@ -493,7 +493,7 @@ msa_tib$rsp_combined_err_label [msa_tib$rsp_original_FP_const_rate == 0.05]
 #  on nectar and copied to glass.
 #===============================================================================
 
-library (tidyverse)
+#library (tidyverse)
 #library (viridis)
 
 rs_name = "Gurobi"
@@ -823,7 +823,7 @@ ggplot (data = sorted_msa_tib) +
 # rsp_realized_sd_abs_cost_err_frac
 
 
-library (tidyverse)
+#library (tidyverse)
 
 #infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_but_gurobi_1_easy_base/default_runset/18_easy.completedTzarEmulation/SR_Forward.csv"
 #infile = "/Users/bill/tzar/outputdata/bdpg_20_variants_all_rs_but_gurobi_1_easy_base/default_runset/19_easy.completedTzarEmulation/Marxan_SA.csv"

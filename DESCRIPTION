@@ -21,7 +21,8 @@ Imports:
     grDevices, 
     tools,
     dplyr, 
-    stats
+    stats, 
+    tidyverse
 Suggests:
     knitr,
     rmarkdown,
