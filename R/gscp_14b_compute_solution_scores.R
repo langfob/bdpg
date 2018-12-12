@@ -12,15 +12,12 @@
 
 #===============================================================================
 #===============================================================================
-#  2018 12 12 - BTL -
-#  This section moved here from gscp_15b_compute_and_verify_scores.R.
-#-------------------------------------------------------------------------------
 
 # compute_and_verify_APP_rep_scores_according_to_RS <-
-#     function (rs_solution, num_spp, bpm, spp_rep_targets)
+#     function (cand_sol_PU_IDs, num_spp, bpm, spp_rep_targets)
 #     {
 #     app_solution_NUM_spp_covered__fromRS =
-#         compute_num_spp_covered_by_solution (rs_solution,
+#         compute_num_spp_covered_by_solution (cand_sol_PU_IDs,
 #                                              bpm,
 #                                              spp_rep_targets)
 #
@@ -33,8 +30,22 @@
 #     }
 
 #-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
-compute_num_spp_covered_by_solution <- function (rs_solution,
+#' Compute number of species whose targets are met by a candidate solution
+#'
+#-------------------------------------------------------------------------------
+
+#' @param cand_sol_PU_IDs vector of only the planning unit IDs that are
+#'     included in the candidate solution
+#' @inheritParams std_param_defns
+#'
+#' @return number of species whose targets are met by the candidate solution
+#' @export
+#'
+#-------------------------------------------------------------------------------
+
+compute_num_spp_covered_by_solution <- function (cand_sol_PU_IDs,
                                                  bpm,
                                                  spp_rep_targets)
     {
@@ -43,15 +54,13 @@ compute_num_spp_covered_by_solution <- function (rs_solution,
         #  Once that's done, summing each spp row will tell you how much
         #  representation each spp achieves in the proposed solution.
 
-    spp_reps_in_sol = rowSums (bpm [, rs_solution, drop=FALSE])
+    spp_reps_in_sol = rowSums (bpm [, cand_sol_PU_IDs, drop=FALSE])
     num_spp_covered = length (which (spp_reps_in_sol >= spp_rep_targets))
 
     return (num_spp_covered)
     }
 
 #===============================================================================
-
-#-------------------------------------------------------------------------------
 
 #' Compute representation scores for candidate solution
 #'
@@ -112,9 +121,6 @@ compute_and_verify_rep_scores_wrt <- function (ref_spp_occ_matrix,
     }
 
 #===============================================================================
-#  2018 12 12 - BTL -
-#  This section moved here from gscp_15_create_master_output_structure.R.
-#-------------------------------------------------------------------------------
 
 compute_euc_out_err_frac <- function (cor_or_app_str,
                                         solution_cost_err_frac,
@@ -139,7 +145,7 @@ compute_euc_out_err_frac <- function (cor_or_app_str,
     return (results_list)
     }
 
-#-------------------------------------------------------------------------------
+#===============================================================================
 
 compute_RS_solution_cost_scores_wrt_COR_costs_vec <-
                                             function (rs_solution_PU_IDs_vec,
