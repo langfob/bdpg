@@ -122,6 +122,8 @@ compute_and_verify_rep_scores_wrt <- function (ref_spp_occ_matrix,
 
 #===============================================================================
 
+#' @export
+
 compute_euc_out_err_frac <- function (cor_or_app_str,
                                         solution_cost_err_frac,
                                         frac_spp_covered)
@@ -146,6 +148,8 @@ compute_euc_out_err_frac <- function (cor_or_app_str,
     }
 
 #===============================================================================
+
+#' @export
 
 compute_RS_solution_cost_scores_wrt_COR_costs_vec <-
                                             function (rs_solution_PU_IDs_vec,
