@@ -73,8 +73,87 @@ compute_and_verify_rep_scores_wrt <- function (ref_spp_occ_matrix,
     }
 
 #===============================================================================
+#  2018 12 12 - BTL -
+#  This section moved here from gscp_15_create_master_output_structure.R.
+#-------------------------------------------------------------------------------
 
-#' Compute confustion matrix-based scores for candidate solution
+compute_euc_out_err_frac <- function (cor_or_app_str,
+                                        solution_cost_err_frac,
+                                        frac_spp_covered)
+    {
+    euc_out_err_frac = sqrt ((solution_cost_err_frac ^ 2) + ((1 - frac_spp_covered) ^2))
+
+    if (cor_or_app_str == "COR")
+        {
+        results_list = list (rsr_COR_euc_out_err_frac = euc_out_err_frac)
+
+        } else if (cor_or_app_str == "APP")
+        {
+        results_list = list (rsr_APP_euc_out_err_frac = euc_out_err_frac)
+
+        } else
+        {
+        stop_bdpg (paste0 ("cor_or_app_str = '", cor_or_app_str,
+                           "'.  Must be 'COR' or 'APP'"))
+        }
+
+    return (results_list)
+    }
+
+#===============================================================================
+
+compute_RS_solution_cost_scores_wrt_COR_costs_vec <-
+                                            function (rs_solution_PU_IDs_vec,
+                                                      cor_optimum_cost,
+                                                      PU_costs_vec)
+    {
+    #---------------------------------------------------------------------------
+    #         Compute error in cost of reserve selector's solution.
+    #---------------------------------------------------------------------------
+
+    rs_solution_cost = compute_solution_cost (rs_solution_PU_IDs_vec,
+                                              PU_costs_vec)
+    rs_solution_cost_err_frac = (rs_solution_cost - cor_optimum_cost) /
+                                cor_optimum_cost
+    abs_rs_solution_cost_err_frac = abs (rs_solution_cost_err_frac)
+
+    #---------------------------------------------------------------------
+    #  Giving errors as a fraction of the correct optimum cost
+    #  may be misleading sometimes, e.g., when the correct optimum cost
+    #  is nearly the cost of the full landscape.
+    #  Even just guessing the cost of the whole landscape would not give
+    #  much percentage error in that case.
+    #  So, we'll also compute the error as a fraction of the maximum
+    #  possible over-optimum or under-optimum error to see if that is
+    #  more informative/predictable than guessing the usual percentage
+    #  error.
+    #---------------------------------------------------------------------
+
+    rs_over_opt_cost_err_frac_of_possible_overcost = NA
+    total_landscape_cost = sum (PU_costs_vec)
+    rs_max_overcost = total_landscape_cost - cor_optimum_cost
+    if (rs_solution_cost_err_frac > 0)
+        rs_over_opt_cost_err_frac_of_possible_overcost =
+            (rs_solution_cost - cor_optimum_cost) / rs_max_overcost
+
+    rs_under_opt_cost_err_frac_of_possible_undercost = NA
+    if (rs_solution_cost_err_frac < 0)
+        rs_under_opt_cost_err_frac_of_possible_undercost = abs_rs_solution_cost_err_frac
+
+    #---------------------------------------------------------------------
+
+    return (list (cor_optimum_cost = cor_optimum_cost,
+                  rs_solution_cost = rs_solution_cost,
+                  rs_solution_cost_err_frac = rs_solution_cost_err_frac,
+                  abs_rs_solution_cost_err_frac = abs_rs_solution_cost_err_frac,
+                  rs_over_opt_cost_err_frac_of_possible_overcost = rs_over_opt_cost_err_frac_of_possible_overcost,
+                  rs_under_opt_cost_err_frac_of_possible_undercost = rs_under_opt_cost_err_frac_of_possible_undercost
+                 ))
+    }
+
+#===============================================================================
+
+#' Compute confusion matrix-based scores for candidate solution
 #'
 #' Computes error measures related to confusion matrix, etc. For the purpose of
 #' computing a performance score, start by treating the problem as if it's a
