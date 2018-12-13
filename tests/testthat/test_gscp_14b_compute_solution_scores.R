@@ -167,6 +167,9 @@ results_list =
 expect_equal (cor_optimum_cost, results_list$cor_optimum_cost)
 expect_equal (3, results_list$rs_solution_cost)
 
+    #  NOTE that I had to use the original fractions rather than the
+    #  decimal value that results from them to get the expect_equal()
+    #  calls to think these things are equal.
 #  (3-7)/7 = -4/7
 expect_equal (-4/7, results_list$rs_solution_cost_err_frac)
 expect_equal (4/7, results_list$abs_rs_solution_cost_err_frac)
