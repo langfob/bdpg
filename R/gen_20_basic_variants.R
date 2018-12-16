@@ -163,14 +163,20 @@ gen_1_app_variant <- function (base_bd_prob,
                                          ret_vals_from_build_const_err,
                                          ret_vals_from_apply_cost_errors)
 
-    do_rs_analysis_and_output (APP_bd_prob,
-                                   base_bd_prob,
-                                   parameters,
-                               starting_dir)
+    RS_topDirs_list = do_rs_analysis_and_output (APP_bd_prob,
+                                                 base_bd_prob,
+                                                 parameters,
+                                             starting_dir)
 
                     cat("\n\njust after do_APP_rs_analysis_and_output() APP problem")
                     cat ("\n\n================================================================================")
                     cat ("\n================================================================================\n\n")
+
+
+    APP_bd_prob_topdir = get_RSprob_path_topdir (APP_bd_prob, starting_dir)
+
+    return (list (bd_prob_topdir = APP_bd_prob_topdir,
+                  RS_topDirs_list = RS_topDirs_list))
     }
 
 #===============================================================================

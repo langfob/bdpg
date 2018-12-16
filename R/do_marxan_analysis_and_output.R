@@ -131,8 +131,13 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
     #                                         marxan_control_values,
     #                                         src_rds_file_dir)
 
+
+    RSrun_topdir = get_RSrun_path_topdir (APP_marxan_run, starting_dir)
 #    return (marxan_control_values$marxan_elapsed_time)
-    return (marxan_control_values$RS_elapsed_time)
+
+    return (list (marxan_topdir = RSrun_topdir,
+                  marxan_elapsed_time = marxan_control_values$RS_elapsed_time))
+
     }  #  end function - do_APP_marxan_analysis_and_output
 
 #===============================================================================

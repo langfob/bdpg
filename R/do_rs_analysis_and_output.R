@@ -107,6 +107,10 @@ do_ensemble <- function (APP_bd_prob,    #  <<<<<-----------------
               parameters,
               ens_probs_starting_dir,
               RS_specific_params)
+
+    RSrun_topdir = get_RSrun_path_topdir (ResSel_run, starting_dir)
+
+    return (RSrun_topdir)
     }
 
 #===============================================================================
@@ -120,7 +124,8 @@ do_ensemble <- function (APP_bd_prob,    #  <<<<<-----------------
 
 #' @inheritParams std_param_defns
 #'
-#' @return Returns nothing
+#' @return Returns named list containing top directory for each reserve
+#' selector that was run
 #' @export
 
 #-------------------------------------------------------------------------------
@@ -133,6 +138,10 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
                                            spp_rep_targets =
                                                rep(1,COR_bd_prob@num_spp))
     {
+    RS_topDirs_list = list ()
+
+    #---------------------------------------------------------------------------
+
     do_ensemble = vb (parameters$do_ensemble,
                       def_on_empty = TRUE, def = FALSE)
 
@@ -145,19 +154,24 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
                                    num_probs_in_ensemble = num_probs_in_ensemble)
         rs_method_name = "Ensemble"
 
-        do_ensemble (APP_bd_prob,    #  <<<<<-----------------
-                     COR_bd_prob,    #  <<<<<-----------------
-                     parameters,
-                     starting_dir,
+        ensemble_topDir =
+            do_ensemble (APP_bd_prob,    #  <<<<<-----------------
+                         COR_bd_prob,    #  <<<<<-----------------
+                         parameters,
+                         starting_dir,
 
-                     rs_method_name,
-                     resSel_func     = ensemble,
+                         rs_method_name,
+                         resSel_func     = ensemble,
 
-                     RS_specific_params,
+                         RS_specific_params,
 
-                     src_rds_file_dir,
-                     spp_rep_targets)
+                         src_rds_file_dir,
+                         spp_rep_targets)
+
+        RS_topDirs_list$ensemble = ensemble_topDir
         }
+
+    #-----------------------------------
 
     do_simple_richness_forward = vb (parameters$do_simple_richness_forward,
                                      def_on_empty = TRUE, def = FALSE)
@@ -168,19 +182,24 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "SR_Forward"
 
-        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
-                                       COR_bd_prob,    #  <<<<<-----------------
-                                       parameters,
-                                       starting_dir,
+        srforward_topDir =
+            do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                           COR_bd_prob,    #  <<<<<-----------------
+                                           parameters,
+                                           starting_dir,
 
-                                       rs_method_name,
-                                       resSel_func     = simple_richness,
-                                       # run_ResSel_func = run_greedy_ResSel,
-                                       RS_specific_params,
+                                           rs_method_name,
+                                           resSel_func     = simple_richness,
+                                           # run_ResSel_func = run_greedy_ResSel,
+                                           RS_specific_params,
 
-                                       src_rds_file_dir,
-                                       spp_rep_targets)
+                                           src_rds_file_dir,
+                                           spp_rep_targets)
+
+        RS_topDirs_list$srforward = srforward_topDir
         }
+
+    #-----------------------------------
 
     do_simple_richness_backward = vb (parameters$do_simple_richness_backward,
                                      def_on_empty = TRUE, def = FALSE)
@@ -191,18 +210,21 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "SR_Backward"
 
-        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
-                                       COR_bd_prob,    #  <<<<<-----------------
-                                       parameters,
-                                       starting_dir,
+        srbackward_topDir =
+            do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                           COR_bd_prob,    #  <<<<<-----------------
+                                           parameters,
+                                           starting_dir,
 
-                                       rs_method_name,
-                                       resSel_func     = simple_richness,
-                                       # run_ResSel_func = run_greedy_ResSel,
-                                       RS_specific_params,
+                                           rs_method_name,
+                                           resSel_func     = simple_richness,
+                                           # run_ResSel_func = run_greedy_ResSel,
+                                           RS_specific_params,
 
-                                       src_rds_file_dir,
-                                       spp_rep_targets)
+                                           src_rds_file_dir,
+                                           spp_rep_targets)
+
+        RS_topDirs_list$srbackward = srbackward_topDir
         }
 
     #---------------------------------------------------------------------------
@@ -216,19 +238,24 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "UR_Forward"
 
-        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
-                                       COR_bd_prob,    #  <<<<<-----------------
-                                       parameters,
-                                       starting_dir,
+        urforward_topDir =
+            do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                           COR_bd_prob,    #  <<<<<-----------------
+                                           parameters,
+                                           starting_dir,
 
-                                       rs_method_name,
-                                       resSel_func     = unprotected_richness,
-                                       # run_ResSel_func = run_greedy_ResSel,
-                                       RS_specific_params,
+                                           rs_method_name,
+                                           resSel_func     = unprotected_richness,
+                                           # run_ResSel_func = run_greedy_ResSel,
+                                           RS_specific_params,
 
-                                       src_rds_file_dir,
-                                       spp_rep_targets)
+                                           src_rds_file_dir,
+                                           spp_rep_targets)
+
+        RS_topDirs_list$urforward = urforward_topDir
         }
+
+    #-----------------------------------
 
     do_unprotected_richness_backward = vb (parameters$do_unprotected_richness_backward,
                                      def_on_empty = TRUE, def = FALSE)
@@ -239,18 +266,21 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "UR_Backward"
 
-        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
-                                       COR_bd_prob,    #  <<<<<-----------------
-                                       parameters,
-                                       starting_dir,
+        urbackward_topDir =
+            do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                           COR_bd_prob,    #  <<<<<-----------------
+                                           parameters,
+                                           starting_dir,
 
-                                       rs_method_name,
-                                       resSel_func     = unprotected_richness,
-                                       # run_ResSel_func = run_greedy_ResSel,
-                                       RS_specific_params,
+                                           rs_method_name,
+                                           resSel_func     = unprotected_richness,
+                                           # run_ResSel_func = run_greedy_ResSel,
+                                           RS_specific_params,
 
-                                       src_rds_file_dir,
-                                       spp_rep_targets)
+                                           src_rds_file_dir,
+                                           spp_rep_targets)
+
+        RS_topDirs_list$urbackward = urbackward_topDir
         }
 
     #---------------------------------------------------------------------------
@@ -264,19 +294,24 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "ZL_Forward"
 
-        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
-                                       COR_bd_prob,    #  <<<<<-----------------
-                                       parameters,
-                                       starting_dir,
+        zlforward_topDir =
+            do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                           COR_bd_prob,    #  <<<<<-----------------
+                                           parameters,
+                                           starting_dir,
 
-                                       rs_method_name,
-                                       resSel_func     = zonation_like,
-                                       # run_ResSel_func = run_greedy_ResSel,
-                                       RS_specific_params,
+                                           rs_method_name,
+                                           resSel_func     = zonation_like,
+                                           # run_ResSel_func = run_greedy_ResSel,
+                                           RS_specific_params,
 
-                                       src_rds_file_dir,
-                                       spp_rep_targets)
+                                           src_rds_file_dir,
+                                           spp_rep_targets)
+
+        RS_topDirs_list$zlforward = zlforward_topDir
         }
+
+    #-----------------------------------
 
     do_zonation_like_backward = vb (parameters$do_zonation_like_backward,
                                      def_on_empty = TRUE, def = FALSE)
@@ -287,18 +322,21 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
         RS_specific_params = list (forward = forward)
         rs_method_name = "ZL_Backward"
 
-        do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
-                                       COR_bd_prob,    #  <<<<<-----------------
-                                       parameters,
-                                       starting_dir,
+        zlbackward_topDir =
+            do_Greedy_analysis_and_output (APP_bd_prob,    #  <<<<<-----------------
+                                           COR_bd_prob,    #  <<<<<-----------------
+                                           parameters,
+                                           starting_dir,
 
-                                       rs_method_name,
-                                       resSel_func     = zonation_like,
-                                       # run_ResSel_func = run_greedy_ResSel,
-                                       RS_specific_params,
+                                           rs_method_name,
+                                           resSel_func     = zonation_like,
+                                           # run_ResSel_func = run_greedy_ResSel,
+                                           RS_specific_params,
 
-                                       src_rds_file_dir,
-                                       spp_rep_targets)
+                                           src_rds_file_dir,
+                                           spp_rep_targets)
+
+        RS_topDirs_list$zlbackward = zlbackward_topDir
         }
 
     #---------------------------------------------------------------------------
@@ -308,7 +346,8 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
     if (run_marxan)
         {
         rs_method_name = "Marxan_SA"
-        marxan_elapsed_time =
+        # marxan_elapsed_time =
+        marxan_ret_vals =
             do_marxan_analysis_and_output (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
@@ -316,6 +355,9 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
                                                rs_method_name,
                                                src_rds_file_dir,
                                                spp_rep_targets)
+
+        marxan_elapsed_time = marxan_ret_vals$marxan_elapsed_time
+        RS_topDirs_list$marxan = marxan_ret_vals$marxan_topdir
         }
 
     #---------------------------------------------------------------------------
@@ -324,15 +366,20 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
     if (do_gurobi)
         {
         rs_method_name = "Gurobi"
-        do_gurobi_analysis_and_output (APP_bd_prob,
-                                           COR_bd_prob,
-                                           parameters,
-                                       starting_dir,
-                                           rs_method_name,
-                                           marxan_elapsed_time,
-                                           src_rds_file_dir,
-                                           spp_rep_targets)
+        gurobi_topDir =
+            do_gurobi_analysis_and_output (APP_bd_prob,
+                                               COR_bd_prob,
+                                               parameters,
+                                           starting_dir,
+                                               rs_method_name,
+                                               marxan_elapsed_time,
+                                               src_rds_file_dir,
+                                               spp_rep_targets)
+
+        RS_topDirs_list$gurobi = gurobi_topDir
         }
+
+    return (RS_topDirs_list)
     }
 
 #===============================================================================

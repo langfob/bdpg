@@ -470,6 +470,10 @@ do_gurobi_analysis_and_output <- function (APP_bd_prob,
                             rs_control_values,
                             src_rds_file_dir)
 
+    RSrun_topdir = get_RSrun_path_topdir (APP_rs_run, starting_dir)
+
+    return (RSrun_topdir)
+
     }  #  end function - do_APP_rs_analysis_and_output
 
 #===============================================================================

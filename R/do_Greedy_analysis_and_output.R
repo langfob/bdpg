@@ -70,7 +70,8 @@ do_Greedy_analysis_and_output <-
                                 APP_bd_prob@basic_or_wrapped_or_comb_str,
                                 rs_method_name)
 
-    return (do_Greedy_analysis_and_output_core (APP_bd_prob,
+    # return (do_Greedy_analysis_and_output_core (APP_bd_prob,
+    do_Greedy_analysis_and_output_core (APP_bd_prob,
                                                   COR_bd_prob,
                                 ResSel_run,
                                                   parameters,
@@ -84,7 +85,11 @@ do_Greedy_analysis_and_output <-
                                                   src_rds_file_dir = NULL,
                                                   spp_rep_targets = rep (1,COR_bd_prob@num_spp))
 
-                        )
+    # )
+
+    RSrun_topdir = get_RSrun_path_topdir (ResSel_run, starting_dir)
+
+    return (RSrun_topdir)
     }
 
 #===============================================================================
