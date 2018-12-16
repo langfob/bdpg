@@ -60,19 +60,28 @@ cost_err_amt = 0
                 #  Variant 3:  FP & FN, counts NOT matched
                 #-------------------------------------------
 
-        gen_1_app_variant (APP_bd_prob,    #base_bd_prob,
-                           parameters,
-                           ens_probs_starting_dir,    #starting_dir,
+                        # (list (bd_prob_topdir = APP_bd_prob_topdir,
+                        #       RS_topDirs_list = RS_topDirs_list))
+        prob_and_rsruns_topdirs_list =
+            gen_1_app_variant (APP_bd_prob,    #base_bd_prob,
+                               parameters,
+                               ens_probs_starting_dir,    #starting_dir,
 
-                           gen_cost_errors = gen_combined_cost_and_FP_FN_errors,
-                           cost_error_frac_bound = cost_err_amt,    #err_amt,
+                               gen_cost_errors = gen_combined_cost_and_FP_FN_errors,
+                               cost_error_frac_bound = cost_err_amt,    #err_amt,
 
-                           gen_FP_FN_errors = TRUE,
+                               gen_FP_FN_errors = TRUE,
 
-                           spp_occ_FP_const_rate = FP_err_amt,    #err_amt,
-                           spp_occ_FN_const_rate = FN_err_amt,    #err_amt,
+                               spp_occ_FP_const_rate = FP_err_amt,    #err_amt,
+                               spp_occ_FN_const_rate = FN_err_amt,    #err_amt,
 
-                           match_error_counts = FALSE)
+                               match_error_counts = FALSE)
+
+        cat ("\n\n=============================================\n\n")
+        cat ("After gen_1_app_variant() for cur_prob_idx = ",
+             cur_prob_idx, ", prob_and_rsruns_topdirs_list = \n")
+        print (prob_and_rsruns_topdirs_list)
+        cat ("\n\n=============================================\n\n")
         }
     }
 
