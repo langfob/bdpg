@@ -54,7 +54,12 @@ FN_err_amt = 0.01
 gen_combined_cost_and_FP_FN_errors = FALSE
 cost_err_amt = 0
 
-    for (cur_prob_idx in 1:RS_specific_params$num_probs_in_ensemble)
+    num_probs_in_ensemble = RS_specific_params$num_probs_in_ensemble
+
+    prob_dirs = vector (mode="character", length=num_probs_in_ensemble)
+    marxan_rsrun_dirs = vector (mode="character", length=num_probs_in_ensemble)
+
+    for (cur_prob_idx in 1:num_probs_in_ensemble)
         {
                 #-------------------------------------------
                 #  Variant 3:  FP & FN, counts NOT matched
@@ -77,12 +82,23 @@ cost_err_amt = 0
 
                                match_error_counts = FALSE)
 
-        cat ("\n\n=============================================\n\n")
+        prob_dirs [cur_prob_idx] = prob_and_rsruns_topdirs_list$bd_prob_topdir
+        marxan_rsrun_dirs [cur_prob_idx] = prob_and_rsruns_topdirs_list$RS_topDirs_list$marxan
+
+        cat ("\n=============================================\n")
         cat ("After gen_1_app_variant() for cur_prob_idx = ",
              cur_prob_idx, ", prob_and_rsruns_topdirs_list = \n")
         print (prob_and_rsruns_topdirs_list)
-        cat ("\n\n=============================================\n\n")
+        cat ("=============================================\n")
         }
+
+    cat ("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n")
+    cat ("Finished generating ensemble.")
+    cat ("prob_dirs = \n")
+    print (prob_dirs)
+    cat ("\n\nmarxan_rsrun_dirs = \n")
+    print (marxan_rsrun_dirs)
+    cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
     }
 
 #-------------------------------------------------------------------------------
