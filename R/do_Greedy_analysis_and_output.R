@@ -117,8 +117,6 @@ do_Greedy_analysis_and_output <-
 
 #-------------------------------------------------------------------------------
 
-
-
 repro_do_Greedy_analysis_and_output <- function (repro_RDS_file_loc,
                                                  fullOutputDir_NO_slash = NULL)    #"~/Downloads")
     {
@@ -269,6 +267,7 @@ do_Greedy_analysis_and_output_core <-
                             spp_rep_targets,
                             resSel_func,                    #  function for reserve selector, e.g., simple_richness
                             RS_specific_params,    #forward = TRUE,
+                rs_method_name,
 
                             rsrun = ResSel_run,
 
@@ -326,6 +325,7 @@ run_greedy_ResSel <- function (bpm,
 
                                resSel_func,           #  function for reserve selector, e.g., simple_richness
                                RS_specific_params,    #forward = TRUE,
+                    rs_method_name,
 
                                rsrun,
                                top_dir = NULL,
@@ -367,15 +367,47 @@ run_greedy_ResSel <- function (bpm,
                  file.path (ResSel_input_dir, "input_params.rds"))
         }
 
+        #---------------------------------------------------------------------
+        #  2018 12 17 - BTL
+        #  Adding the writing of full and short ranked result vectors to
+        #  csv files so that they can be read consistently and directly
+        #  from other parts of the code.
+        #  This probably makes the "if (save_outputs)" bit below unnecessary
+        #  now, but I'm not sure whether anything relies on it so I'll leave
+        #  it in for now.
+        #---------------------------------------------------------------------
+
+    ResSel_output_dir = get_RSrun_path_topdir (rsrun, top_dir)
+
+            #  Save the short ranked vector of PU IDs, i.e., the best guess
+            #  at a solution that covers all species' targets.
+    ResSel_best_solution_file_name =
+        paste0 (rs_method_name, "_best_solution_PU_IDs.csv")
+    ResSel_best_solution_file_path =
+        file.path (ResSel_output_dir, ResSel_best_solution_file_name)
+    write (ResSel_results$short_ranked_solution_PU_IDs_vec,
+           ResSel_best_solution_file_path, sep=",")
+
+            #  Save the full ranked vector of all PU IDs.
+    ResSel_full_ranked_solution_file_name =
+        paste0 (rs_method_name, "_full_ranked_solution_PU_IDs.csv")
+    ResSel_full_ranked_solution_file_path =
+        file.path (ResSel_output_dir, ResSel_full_ranked_solution_file_name)
+    write (ResSel_results$short_ranked_solution_PU_IDs_vec,
+           ResSel_full_ranked_solution_file_path, sep=",")
+
+            #  Old, possibly vestigial saving of the same things as an R object.
     if (save_outputs)
         {
         ResSel_output_dir = get_RSrun_path_output (rsrun, top_dir)
-
         saveRDS (ResSel_results,
                  file.path (ResSel_output_dir, "results.rds"))
         }
 
+        #---------------------------------------------------------------------
+
     ResSel_control_values_and_results = ResSel_control_values
+
     ResSel_control_values_and_results$ResSel_solution_vector =
         ResSel_results$short_ranked_solution_PU_IDs_vec
 
