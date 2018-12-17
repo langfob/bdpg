@@ -26,7 +26,8 @@ source rds file is or was found}
 species in the problem}
 }
 \value{
-Returns nothing
+Returns named list containing top directory for each reserve
+selector that was run
 }
 \description{
 Note that the COR and APP arguments are the same if running on a correct
