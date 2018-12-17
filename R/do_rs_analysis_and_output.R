@@ -33,37 +33,6 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
     {
     RS_topDirs_list = list ()
 
-    #---------------------------------------------------------------------------
-
-    do_ensemble = vb (parameters$do_ensemble,
-                      def_on_empty = TRUE, def = FALSE)
-
-    if (do_ensemble)
-        {
-        num_probs_in_ensemble = vn (parameters$num_probs_in_ensemble,
-                                    range_lo=2)
-
-        RS_specific_params = list (ensemble_sub_rs_list = c ("marxan"),
-                                   num_probs_in_ensemble = num_probs_in_ensemble)
-        rs_method_name = "Ensemble"
-
-        ensemble_topDir =
-            do_ensemble (APP_bd_prob,    #  <<<<<-----------------
-                         COR_bd_prob,    #  <<<<<-----------------
-                         parameters,
-                         starting_dir,
-
-                         rs_method_name,
-                         resSel_func     = ensemble,
-
-                         RS_specific_params,
-
-                         src_rds_file_dir,
-                         spp_rep_targets)
-
-        RS_topDirs_list$ensemble = ensemble_topDir
-        }
-
     #-----------------------------------
 
     do_simple_richness_forward = vb (parameters$do_simple_richness_forward,
@@ -271,6 +240,44 @@ do_rs_analysis_and_output <- function (APP_bd_prob,
 
         RS_topDirs_list$gurobi = gurobi_topDir
         }
+
+    #---------------------------------------------------------------------------
+
+        #  NOTE:  Ensemble must come last in this list of reserve selectors
+        #         so that it can be passed the marxan_run_dir (or the run_dir
+        #         of whatever selector is being used in the ensemble).
+
+    do_ensemble = vb (parameters$do_ensemble,
+                      def_on_empty = TRUE, def = FALSE)
+
+    if (do_ensemble)
+        {
+        num_probs_in_ensemble = vn (parameters$num_probs_in_ensemble,
+                                    range_lo=2)
+
+        RS_specific_params = list (ensemble_sub_rs_list = c ("marxan"),
+                                   num_probs_in_ensemble = num_probs_in_ensemble,
+                                   marxan_run_dir = RS_topDirs_list$marxan)
+        rs_method_name = "Ensemble"
+
+        ensemble_topDir =
+            do_ensemble (APP_bd_prob,    #  <<<<<-----------------
+                         COR_bd_prob,    #  <<<<<-----------------
+                         parameters,
+                         starting_dir,
+
+                         rs_method_name,
+                         resSel_func     = ensemble,
+
+                         RS_specific_params,
+
+                         src_rds_file_dir,
+                         spp_rep_targets)
+
+        RS_topDirs_list$ensemble = ensemble_topDir
+        }
+
+    #---------------------------------------------------------------------------
 
     return (RS_topDirs_list)
     }
