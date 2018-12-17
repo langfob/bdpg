@@ -105,23 +105,34 @@ ensemble <- function (APP_bd_prob,
         #  set reserve selectors to block infinite recursion (i.e, don't
         #  call ensemble again) and to only call reserve selectors that
         #  are meant to be used to build the ensemble.
-
-#  NOTE:  2018 12 16 - BTL
-#         THERE'S A LIKELY FUTURE PROBLEM HERE BECAUSE THIS LIST
-#         OF RESERVE SELECTORS TO BE TURNED OFF REQUIRES YOU TO KNOW
-#         AND KEEP CURRENT, ALL POSSIBLE RESERVE SELECTORS, WHICH
-#         MEANS THAT ADDING A NEW ONE ELSEWHERE WOULD MEAN YOU'D HAVE
-#         TO BE SURE TO UPDATE THIS LIST.  NOT A GOOD IDEA.
-#         WILL LEAVE IT FOR THE MOMENT WHILE I GET THIS WORKING, BUT
-#         DEFINITELY NEED TO FIGURE OUT A MORE ROBUST STRATEGY, EVEN
-#         IF IT'S JUST TO PASS THE LIST OF RESERVE SELECTORS TO TURN
-#         OFF IN TO THIS ROUTINE.
+        #
+        #  NOTE:  2018 12 16 - BTL
+        #         THERE'S A LIKELY FUTURE PROBLEM HERE BECAUSE THIS LIST
+        #         OF RESERVE SELECTORS TO BE TURNED OFF REQUIRES YOU TO KNOW
+        #         AND KEEP CURRENT, ALL POSSIBLE RESERVE SELECTORS, WHICH
+        #         MEANS THAT ADDING A NEW ONE ELSEWHERE WOULD MEAN YOU'D HAVE
+        #         TO BE SURE TO UPDATE THIS LIST.  NOT A GOOD IDEA.
+        #         WILL LEAVE IT FOR THE MOMENT WHILE I GET THIS WORKING, BUT
+        #         DEFINITELY NEED TO FIGURE OUT A MORE ROBUST STRATEGY, EVEN
+        #         IF IT'S JUST TO PASS THE LIST OF RESERVE SELECTORS TO TURN
+        #         OFF IN TO THIS ROUTINE.
 
     parameters$compute_network_metrics          = FALSE
 
-    parameters$run_marxan                       = TRUE
+            #  Need to make sure that marxan (or in the future, whatever RS is
+            #  used by the ensemble) is turned on.
+            #  If it's not turned on, then even though it will be run on all
+            #  the ensemble subproblems, it won't be run on the APP problem
+            #  they'are all derived from.  That would be an issue because
+            #  that problem is also included in the ensemble and therefore,
+            #  needs to have the same reserve selector run on it that is run
+            #  on all the other ensemble subproblems.
 
-    parameters$do_ensemble                      = FALSE
+    run_marxan = vb (parameters$run_marxan, def_on_empty=TRUE)
+    if (! run_marxan)
+        stop_bdpg ("run_marxan must be TRUE when running ensemble.")
+
+    parameters$do_ensemble                      = FALSE  #  To avoid infinite recursion
 
     parameters$do_gurobi                        = FALSE
     parameters$do_simple_richness_forward       = FALSE
@@ -130,7 +141,6 @@ ensemble <- function (APP_bd_prob,
     parameters$do_unprotected_richness_backward = FALSE
     parameters$do_zonation_like_forward         = FALSE
     parameters$do_zonation_like_backward        = FALSE
-
 
 #  2018 12 16 - BTL - For quick testing at the moment...
 FP_err_amt = 0.001
