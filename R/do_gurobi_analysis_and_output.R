@@ -383,6 +383,24 @@ if(FALSE)
         #  they don't have to be separated from each other in downstream uses.
         #----------------------------------------------------------------------
 
+        #---------------------------------------------------------------------
+        #  2018 12 17 - BTL
+        #  Adding the writing of solution vector to csv files so that they
+        #  can be read consistently and directly from other parts of the code.
+        #  This probably makes at least part of the "if (save_outputs)" bit
+        #  below unnecessary now, but I'm not sure whether anything relies on
+        #  it so I'll leave it in for now.
+        #---------------------------------------------------------------------
+
+    ResSel_output_dir = get_RSrun_path_topdir (rsrun, top_dir)
+
+            #  Save the short ranked vector of PU IDs, i.e., the best guess
+            #  at a solution that covers all species' targets.
+    ResSel_best_solution_file_name = "Gurobi_best_solution_PU_IDs.csv"
+    ResSel_best_solution_file_path =
+        file.path (ResSel_output_dir, ResSel_best_solution_file_name)
+    write (solution_PU_IDs, ResSel_best_solution_file_path, sep=",")
+
     if (save_outputs)
         {
         gurobi_output_dir = get_RSrun_path_output (rsrun, top_dir)
