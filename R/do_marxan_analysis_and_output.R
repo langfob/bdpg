@@ -45,6 +45,8 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
                                     APP_bd_prob@basic_or_wrapped_or_comb_str,
                                     rs_method_name)
 
+    marxan_run_dir = get_RSrun_path_topdir (APP_marxan_run, starting_dir)
+
     marxan_control_values = set_up_for_and_run_marxan_APP (APP_bd_prob,
                                                            COR_bd_prob,
                                                            APP_marxan_run,
@@ -78,6 +80,22 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
 #        rs_best_and_summed_solution_PU_IDs$marxan_best_solution_PU_IDs
         rs_best_and_summed_solution_PU_IDs$rs_best_solution_PU_IDs
 
+            #---------------------------------------------------------
+            #  Save the best solution vector to disk in its own file
+            #  to make it easier to find and retrieve.
+            #---------------------------------------------------------
+
+    Marxan_SA_best_solution_file_name = "Marxan_SA_best_solution_PU_IDs.csv"
+    Marxan_SA_best_solution_file_path =
+        file.path (marxan_run_dir, Marxan_SA_best_solution_file_name)
+    write (rs_best_solution_PU_IDs,
+           Marxan_SA_best_solution_file_path, sep=",")
+
+            #---------------------------------------------------------
+            #  Save all of the input variables and output scores etc
+            #  to disk as one big one line table with headers.
+            #---------------------------------------------------------
+
     save_rsrun_results_data_for_one_rsrun_given_solution_PU_IDs (
                                                 rs_best_solution_PU_IDs,
                         tzar_run_ID = parameters$run_id,
@@ -99,6 +117,22 @@ do_marxan_analysis_and_output <- function (APP_bd_prob,
 
     rs_best_summed_solution_PU_IDs =
         rs_best_and_summed_solution_PU_IDs$marxan_best_summed_solution_PU_IDs
+
+            #-----------------------------------------------------------
+            #  Save the summed solution vector to disk in its own file
+            #  to make it easier to find and retrieve.
+            #-----------------------------------------------------------
+
+    Marxan_SA_SS_summed_solution_file_name = "Marxan_SA_SS_summed_solution_PU_IDs.csv"
+    Marxan_SA_SS_summed_solution_file_path =
+        file.path (marxan_run_dir, Marxan_SA_SS_summed_solution_file_name)
+    write (rs_best_summed_solution_PU_IDs,
+           Marxan_SA_SS_summed_solution_file_path, sep=",")
+
+            #---------------------------------------------------------
+            #  Save all of the input variables and output scores etc
+            #  to disk as one big one line table with headers.
+            #---------------------------------------------------------
 
     rs_method_name = "Marxan_SA_SS"
     save_rsrun_results_data_for_one_rsrun_given_solution_PU_IDs (
