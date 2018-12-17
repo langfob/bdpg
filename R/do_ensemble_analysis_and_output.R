@@ -151,6 +151,9 @@ gen_combined_cost_and_FP_FN_errors = FALSE
 cost_err_amt = 0
 
     num_probs_in_ensemble = RS_specific_params$num_probs_in_ensemble
+    if (num_probs_in_ensemble < 2)
+        stop_bdpg (paste0 ("num_probs_in_ensemble = '", num_probs_in_ensemble,
+                           "' must be >= 2."))
 
 # SHOULD I ALSO ADD (or subtract) AN ELEMENT IN THESE ARRAYS SO THAT THE ORIGINAL
 # APP PROBLEM CAN BE PART OF THE ENSEMBLE?
