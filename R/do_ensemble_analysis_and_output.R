@@ -96,7 +96,8 @@ cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
 
 ensemble <- function (APP_bd_prob,
                       parameters,
-                      ens_probs_starting_dir,
+                      starting_dir,
+                      ens_elems_starting_dir,
                       RS_specific_params)
     {
     cat ("\nInside ensemble function.\n")
@@ -155,21 +156,18 @@ cost_err_amt = 0
         stop_bdpg (paste0 ("num_probs_in_ensemble = '", num_probs_in_ensemble,
                            "' must be >= 2."))
 
-# SHOULD I ALSO ADD (or subtract) AN ELEMENT IN THESE ARRAYS SO THAT THE ORIGINAL
-# APP PROBLEM CAN BE PART OF THE ENSEMBLE?
-# OR AT LEAST MAKE THAT AN OPTION?
-# SEEMS LIKE IT SHOULD DEFINITELY BE PART OF THE ENSEMBLE.
-# COULD SUBTRACT ONE FROM THE ENSEMBLE SIZE IN THE LOOPING AND JUST
-# LOAD THE ORIGINAL APP PROBLEM INTO THE FIRST ELEMENT OF THE ARRAYS.
-# NOTE THAT IF YOU DO THIS, THEN YOU HAVE TO BE SURE THAT MARXAN OR WHATEVER
-# THE ENSEMBLE RS IS GETS RUN ON THE ORIGINAL APP PROBLEM, SINCE YOU COULD
-# SET THE YAML FILE RS SELECTIONS TO NOT INCLUDE MARXAN EVEN THOUGH IT IS USED
-# IN THE ENSEMBLE.
+        #----------------------------------------------------------------------
+        #  Make the original APP problem that the ensemble is trying to solve
+        #  be the first element of the ensemble.
+        #----------------------------------------------------------------------
 
     prob_dirs = vector (mode="character", length=num_probs_in_ensemble)
-    marxan_rsrun_dirs = vector (mode="character", length=num_probs_in_ensemble)
+    prob_dirs [1] = get_RSprob_path_topdir (APP_bd_prob, starting_dir)
 
-    for (cur_prob_idx in 1:num_probs_in_ensemble)
+    marxan_rsrun_dirs = vector (mode="character", length=num_probs_in_ensemble)
+    marxan_rsrun_dirs [1] = RS_specific_params$marxan_run_dir
+
+    for (cur_prob_idx in 2:num_probs_in_ensemble)
         {
                 #-------------------------------------------
                 #  Variant 3:  FP & FN, counts NOT matched
@@ -180,7 +178,7 @@ cost_err_amt = 0
         prob_and_rsruns_topdirs_list =
             gen_1_app_variant (APP_bd_prob,    #base_bd_prob,
                                parameters,
-                               ens_probs_starting_dir,    #starting_dir,
+                               ens_elems_starting_dir,    #starting_dir,
 
                                gen_cost_errors = gen_combined_cost_and_FP_FN_errors,
                                cost_error_frac_bound = cost_err_amt,    #err_amt,
@@ -263,13 +261,14 @@ do_ensemble <- function (APP_bd_prob,    #  <<<<<-----------------
 
     base_outdir = get_RSrun_path_topdir (ResSel_run, starting_dir)
 
-    ens_probs_starting_dir = file.path (base_outdir, "Ens_probs")
-    dir.create (ens_probs_starting_dir)
-    cat ("\n\nens_probs_starting_dir = '", ens_probs_starting_dir, "'\n")
+    ens_elems_starting_dir = file.path (base_outdir, "Ens_elems")
+    dir.create (ens_elems_starting_dir)
+    cat ("\n\nens_elems_starting_dir = '", ens_elems_starting_dir, "'\n")
 
     ensemble (APP_bd_prob,
               parameters,
-              ens_probs_starting_dir,
+              starting_dir,
+              ens_elems_starting_dir,
               RS_specific_params)
 
     RSrun_topdir = get_RSrun_path_topdir (ResSel_run, starting_dir)
