@@ -29,7 +29,8 @@ Same as occ_matrix.}
 \item{plot_output_dir}{character string}
 }
 \value{
-Returns nothing
+Returns vector subset of ranked marxan summed solution PU IDs that
+first covers all species' targets
 }
 \description{
 For each step in order by Marxan summed solution PU ID:
