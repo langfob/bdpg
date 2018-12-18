@@ -88,9 +88,11 @@ cat ("\n\nall_ens_marxan_summed_sols = \n")
 print (all_ens_marxan_summed_sols)
 cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
 #browser()
+
     return (list (best_sols   = all_ens_marxan_best_sols,
                   summed_sols = all_ens_marxan_summed_sols))
-    }
+
+    }  #  end function - collect_all_ens_cand_sols()
 
 #===============================================================================
 
@@ -198,7 +200,12 @@ cost_err_amt = 0
              cur_prob_idx, ", prob_and_rsruns_topdirs_list = \n")
         print (prob_and_rsruns_topdirs_list)
         cat ("=============================================\n")
-        }
+
+        }  #  end for - all problems in ensemble
+
+        #--------------------------------------------
+        #  Echo ensemble problem dirs and run dirs.
+        #--------------------------------------------
 
     cat ("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n")
     cat ("Finished generating ensemble.")
@@ -208,14 +215,21 @@ cost_err_amt = 0
     print (marxan_rsrun_dirs)
     cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
 
+        #---------------------------------------------
+        #  Collect all ensemble candidate solutions.
+        #---------------------------------------------
+
     num_PUs = APP_bd_prob@num_PUs
 
-    all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
-                                                   prob_dirs,
-                                                   num_PUs)
-
+all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
+                                               prob_dirs,
+                                               num_PUs)
     all_ens_marxan_best_sols   = all_ens_cand_sols$best_sols
     all_ens_marxan_summed_sols = all_ens_cand_sols$summed_sols
+
+        #-----------------------------------------------------------------
+        #  Echo ensemble candidate solutions for marxan best and summed.
+        #-----------------------------------------------------------------
 
     cat ("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n")
     cat ("FINISHED COLLECTING CANDIDATE SOLUTIONS.")
@@ -224,7 +238,8 @@ cost_err_amt = 0
     cat ("\n\nall_ens_marxan_summed_sols = \n")
     print (all_ens_marxan_summed_sols)
     cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-    }
+
+    }  #  end function - ensemble()
 
 #===============================================================================
 
@@ -274,7 +289,8 @@ do_ensemble <- function (APP_bd_prob,    #  <<<<<-----------------
     RSrun_topdir = get_RSrun_path_topdir (ResSel_run, starting_dir)
 
     return (RSrun_topdir)
-    }
+
+    }  #  end function - do_ensemble()
 
 #===============================================================================
 
