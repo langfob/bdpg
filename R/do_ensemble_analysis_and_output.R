@@ -114,6 +114,46 @@ get_pseudo_opt_costs_for_all_ens_probs <- function (all_ens_best_cand_sols, #PSE
 
 #===============================================================================
 
+score_ONE_cand_sol_against_ONE_prob <- function (cur_bpm,
+                                                 cur_cand_sol,
+                                                 spp_rep_targets,
+                                                 num_spp,
+                                                 pseudo_opt_cost,
+                                                 PU_costs_vec)
+    {
+        #-------------------------
+        #  Compute spp rep error
+        #-------------------------
+
+    spp_rep_results_list = compute_and_verify_rep_scores_wrt (cur_bpm,
+                                                              cur_cand_sol,
+                                                              spp_rep_targets,
+                                                              num_spp)
+        #----------------------
+        #  Compute cost error
+        #----------------------
+
+    cost_results_list =
+        compute_RS_solution_cost_scores_wrt_COR_costs_vec (cur_cand_sol,
+                                                           pseudo_opt_cost,
+                                                           PU_costs_vec)
+
+        #--------------------------------------------------------
+        #  Compute euclidean combination of rep and cost errors
+        #--------------------------------------------------------
+
+    euc_out_err_frac =
+        compute_euc_out_err_frac ("COR",  #  Doesn't matter COR or APP here (or anywhere, really) ???
+                                  cost_results_list$rs_solution_cost_err_frac,
+                                  spp_rep_results_list$frac_spp_covered)
+
+        #---------------------
+
+    return (list (spp_rep_shortfall      = spp_rep_results_list$spp_rep_shortfall,
+                  solution_cost_err_frac = cost_results_list$rs_solution_cost_err_frac,
+                  euc_out_err_frac       = euc_out_err_frac$rsr_COR_euc_out_err_frac))
+    }
+
 ensemble <- function (APP_bd_prob,
                       parameters,
                       starting_dir,
