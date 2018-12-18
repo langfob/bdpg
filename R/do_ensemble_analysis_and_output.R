@@ -193,6 +193,54 @@ score_ALL_cand_sols_against_ONE_prob <- function (all_cand_sols,         #  list
                     all_cand_euc_err_scores     = all_cand_euc_err_scores))
     }
 
+#===============================================================================
+
+score_ALL_cand_sols_against_ALL_probs <- function (ens_prob_dirs,
+                                                   all_ens_cand_sols,
+                                                   pseudo_opt_costs,
+                                                   num_probs_in_ensemble,
+                                                   num_spp,
+                                                   PU_costs_vec,
+                                                   spp_rep_targets
+                                                   )
+    {
+all_cand_spp_rep_err_scores =
+    matrix (-999, nrow=num_probs_in_ensemble, ncol=num_probs_in_ensemble)
+all_cand_cost_err_scores =
+    matrix (-999, nrow=num_probs_in_ensemble, ncol=num_probs_in_ensemble)
+all_cand_euc_err_scores =
+    matrix (-999, nrow=num_probs_in_ensemble, ncol=num_probs_in_ensemble)
+
+    for (cur_prob_idx in 1:length (ens_probs))
+        {
+        cur_prob_dir = ens_prob_dirs [cur_prob_idx]
+        filename = paste0 ("saved.",
+                           basename (cur_prob_dir),
+                           ".rds")
+        cur_prob = readRDS (file.path (cur_prob_dir, filename))
+        cur_bpm = cur_prob@bpm
+
+        results_list = score_ALL_cand_sols_against_ONE_prob (
+                                                        all_ens_cand_sols,
+                                                        pseudo_opt_costs [cur_prob_idx],       #  marxan/gurobi computed cost on apparent problem
+                                                        num_spp,
+                                                        cur_bpm,
+                                                        PU_costs_vec,
+                                                        spp_rep_targets)
+# THIS IS NOT RIGHT.
+# NEED TO HAVE N OF THESE CANDIDATE SCORES FOR EACH OF THE N PROBLEMS,
+# I.E., IT'S AN NxNx3 dimensional matrix or more likely, 3 different NxN matrices
+# Something like this?:
+all_cand_spp_rep_err_scores [, cur_prob_idx] = results_list$all_cand_spp_rep_err_scores    #  where this is a vector of length N
+all_cand_cost_err_scores [, cur_prob_idx]    = results_list$all_cand_cost_err_scores       #  where this is a vector of length N
+all_cand_euc_err_scores [, cur_prob_idx]     = results_list$all_cand_euc_err_scores        #  where this is a vector of length N
+        }
+
+    return (list (all_cand_spp_rep_err_scores = all_cand_spp_rep_err_scores,
+                  all_cand_cost_err_scores    = all_cand_spp_rep_err_scores,
+                  all_cand_euc_err_scores     = all_cand_euc_err_scores))
+    }
+
 ensemble <- function (APP_bd_prob,
                       parameters,
                       starting_dir,
