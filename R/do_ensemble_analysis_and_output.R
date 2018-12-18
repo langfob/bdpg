@@ -154,6 +154,45 @@ score_ONE_cand_sol_against_ONE_prob <- function (cur_bpm,
                   euc_out_err_frac       = euc_out_err_frac$rsr_COR_euc_out_err_frac))
     }
 
+#===============================================================================
+
+score_ALL_cand_sols_against_ONE_prob <- function (all_cand_sols,         #  list of vecs of PU IDs
+                                                  pseudo_opt_cost,       #  marxan/gurobi computed cost on apparent problem
+                                                  num_probs_in_ensemble,
+                                                  num_spp,
+                                                  cur_bpm,
+                                                  PU_costs_vec,
+                                                  spp_rep_targets)
+    {
+    # all_cand_spp_rep_err_scores = all_cand_scores_list$all_cand_spp_rep_err_scores
+    # all_cand_cost_err_scores    = all_cand_scores_list$all_cand_cost_err_scores
+    # all_cand_euc_err_scores     = all_cand_scores_list$all_cand_euc_err_scores
+
+    all_cand_spp_rep_err_scores = vector (mode="numeric", length=num_probs_in_ensemble)
+    all_cand_cost_err_scores    = vector (mode="numeric", length=num_probs_in_ensemble)
+    all_cand_euc_err_scores     = vector (mode="numeric", length=num_probs_in_ensemble)
+
+    for (cur_idx in 1:length(all_cand_sols))
+        {
+        cur_cand_sol = all_cand_sols [[cur_idx]]
+
+        scores_list = score_ONE_cand_sol_against_ONE_prob (cur_bpm,
+                                                           cur_cand_sol,
+                                                           spp_rep_targets,
+                                                           num_spp,
+                                                           pseudo_opt_cost,
+                                                           PU_costs_vec)
+
+        all_cand_spp_rep_err_scores [cur_idx] = scores_list$spp_rep_shortfall
+        all_cand_cost_err_scores [cur_idx]    = scores_list$solution_cost_err_frac
+        all_cand_euc_err_scores [cur_idx]     = scores_list$euc_out_err_frac
+        }
+
+      return (list (all_cand_spp_rep_err_scores = all_cand_spp_rep_err_scores,
+                    all_cand_cost_err_scores    = all_cand_spp_rep_err_scores,
+                    all_cand_euc_err_scores     = all_cand_euc_err_scores))
+    }
+
 ensemble <- function (APP_bd_prob,
                       parameters,
                       starting_dir,
