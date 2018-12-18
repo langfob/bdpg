@@ -241,6 +241,8 @@ all_cand_euc_err_scores [, cur_prob_idx]     = results_list$all_cand_euc_err_sco
                   all_cand_euc_err_scores     = all_cand_euc_err_scores))
     }
 
+#===============================================================================
+
 ensemble <- function (APP_bd_prob,
                       parameters,
                       starting_dir,
@@ -297,6 +299,16 @@ FN_err_amt = 0.01
 #  2018 12 16 - BTL - No cost errors for the moment...
 gen_combined_cost_and_FP_FN_errors = FALSE
 cost_err_amt = 0
+
+
+
+    num_PUs = APP_bd_prob@num_PUs
+    PU_costs_vec = APP_bd_prob@PU_costs_vec
+    num_spp = APP_bd_prob@num_spp
+    spp_rep_targets = APP_bd_prob@spp_rep_targets
+
+
+
 
     num_probs_in_ensemble = RS_specific_params$num_probs_in_ensemble
     if (num_probs_in_ensemble < 2)
@@ -364,8 +376,6 @@ cost_err_amt = 0
         #  Collect all ensemble candidate solutions.
         #---------------------------------------------
 
-    num_PUs = APP_bd_prob@num_PUs
-
 all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
                                                prob_dirs,
                                                num_PUs)
@@ -383,6 +393,75 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
     cat ("\n\nall_ens_marxan_summed_sols = \n")
     print (all_ens_marxan_summed_sols)
     cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+
+        #--------------------------------------------------------------
+        #  Compute the pseudo-optimum cost for each ensemble problem.
+        #  This is the cost of the optimal solution for each apparent
+        #  problem in the ensemble as if it was the correct problem.
+        #  Since we don't know that optimal value, we'll use our best
+        #  available guess at the optimum solution, which is either
+        #  marxan's best solution or gurobi's.  Gurobi's is correct
+        #  but may not be available due to run-time constraints or
+        #  if it's just not being run, as is the case right now where
+        #  we're just running marxan.
+        #--------------------------------------------------------------
+
+    pseudo_opt_costs =
+        get_pseudo_opt_costs_for_all_ens_probs (all_ens_marxan_best_sols, #PSEUDO-OPT SOLUTION
+                                                PU_costs_vec)
+
+        #-----------------------------------------------------------------
+        #  Compute the 3 main scores for each candidate solution applied
+        #  to each ensemble problem and compared to the pseudo-optimum
+        #  solution cost.
+        #  Do this separately for the marxan best solutions and for the
+        #  marxan summed solutions.
+        #-----------------------------------------------------------------
+
+    all_ens_MARXAN_BEST_sol_scores =
+        score_ALL_cand_sols_against_ALL_probs (ens_prob_dirs,
+
+                                    all_ens_marxan_best_sols,
+                                               pseudo_opt_costs,
+                                               num_probs_in_ensemble,
+                                               num_spp,
+                                               PU_costs_vec,
+                                               spp_rep_targets
+                                               )
+
+    all_ens_MARXAN_SUMMED_sol_scores =
+        score_ALL_cand_sols_against_ALL_probs (ens_prob_dirs,
+
+                                    all_ens_marxan_summed_sols,
+                                               pseudo_opt_costs,
+                                               num_probs_in_ensemble,
+                                               num_spp,
+                                               PU_costs_vec,
+                                               spp_rep_targets
+                                               )
+
+        #-----------------------------------------------------------------
+        #  Now that you have the scores for each candidate solution on
+        #  each ensemble subproblem, you can apply each of the different
+        #  types of aggregation to choose an overall winning solution,
+        #  e.g.,
+        #      - best median score across all problems
+        #      - best worst score across all problems
+        #      - best quantile score across all problems, e.g., the
+        #        25% point might be a good compromise between best median
+        #        and best worst so that it's like a maximin but not quite
+        #        so influenced by the most extreme values.
+        #        (Can use fivenum() to get values like these easily.)
+        #      - best mean score across all problems
+        #      - sum votes for all PUs across all problems and choose
+        #        cutoff like in the greedy reserve selectors
+        #
+        #  (Remember the fivenum() function since it may be usefull here.)
+        #-----------------------------------------------------------------
+
+choose_ensemble_winning_solution (method="median")
+#  ...
+choose_ensemble_winning_solution (method="summed_votes")
 
     }  #  end function - ensemble()
 
