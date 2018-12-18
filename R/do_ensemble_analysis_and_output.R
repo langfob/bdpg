@@ -96,6 +96,24 @@ cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
 
 #===============================================================================
 
+get_pseudo_opt_costs_for_all_ens_probs <- function (all_ens_best_cand_sols, #PSEUDO-OPT
+                                                    PU_costs_vec)
+    {
+    num_ensemble_elements = length (all_ens_best_cand_sols)
+    pseudo_opt_costs = vector (mode="numeric", length=num_ensemble_elements)
+
+    for (cur_idx in 1:num_ensemble_elements)
+        {
+        pseudo_opt_costs [cur_idx] =
+            compute_solution_cost (all_ens_best_cand_sols [cur_idx],
+                                   PU_costs_vec)
+        }
+
+    return (pseudo_opt_costs)
+    }
+
+#===============================================================================
+
 ensemble <- function (APP_bd_prob,
                       parameters,
                       starting_dir,
