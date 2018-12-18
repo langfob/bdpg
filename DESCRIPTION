@@ -1,6 +1,6 @@
 Package: bdpg
 Title: Package For Building and Testing Biodiversity Problem Generators 
-Version: 3.0.0.9003
+Version: 3.0.0.9004
 Authors@R: 'Bill Langford <bill.langford@rmit.edu.au> [aut, cre]'
 Description: This package provides functions for generating biodiversity 
     problems (particularly reserve selection) with known solutions and 
