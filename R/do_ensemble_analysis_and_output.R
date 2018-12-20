@@ -16,8 +16,8 @@ collect_all_ens_cand_sols <- function (ens_RSrun_dirs,
                                        )
     {
     num_ensemble_elements      = length (ens_prob_dirs)
-    all_ens_marxan_best_sols   = vector (mode = "list", length = num_ensemble_elements)
-    all_ens_marxan_summed_sols = vector (mode = "list", length = num_ensemble_elements)
+    all_ens_marxan_BEST_sols   = vector (mode = "list", length = num_ensemble_elements)
+    all_ens_marxan_SUMMED_sols = vector (mode = "list", length = num_ensemble_elements)
 
     for (cur_idx in 1:num_ensemble_elements)
         {
@@ -49,7 +49,7 @@ collect_all_ens_cand_sols <- function (ens_RSrun_dirs,
         rs_best_solution_PU_IDs =
                 scan (Marxan_SA_best_solution_file_path, sep=",")
 
-        all_ens_marxan_best_sols [[cur_idx]] = rs_best_solution_PU_IDs
+        all_ens_marxan_BEST_sols [[cur_idx]] = rs_best_solution_PU_IDs
             # rs_best_and_summed_solution_PU_IDs$rs_best_solution_PU_IDs
             #        rs_best_and_summed_solution_PU_IDs$marxan_best_solution_PU_IDs
 
@@ -64,17 +64,17 @@ collect_all_ens_cand_sols <- function (ens_RSrun_dirs,
         marxan_summed_solution_PU_IDs =
                 scan (Marxan_SA_SS_summed_solution_file_path, sep=",")
 
-        all_ens_marxan_summed_sols [[cur_idx]] = marxan_summed_solution_PU_IDs
+        all_ens_marxan_SUMMED_sols [[cur_idx]] = marxan_summed_solution_PU_IDs
             # rs_best_and_summed_solution_PU_IDs$marxan_best_summed_solution_PU_IDs
 
 
 cat ("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n")
 cat ("At bottom of loop COLLECTING CANDIDATE SOLUTIONS.")
 cat ("cur_idx = ", cur_idx, "\n")
-cat ("\n\nall_ens_marxan_best_sols = \n")
-print (all_ens_marxan_best_sols)
-cat ("\n\nall_ens_marxan_summed_sols = \n")
-print (all_ens_marxan_summed_sols)
+cat ("\n\nall_ens_marxan_BEST_sols = \n")
+print (all_ens_marxan_BEST_sols)
+cat ("\n\nall_ens_marxan_SUMMED_sols = \n")
+print (all_ens_marxan_SUMMED_sols)
 cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
 #browser()
         }
@@ -82,15 +82,15 @@ cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
 cat ("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n")
 cat ("About to return from COLLECTING CANDIDATE SOLUTIONS.")
 cat ("cur_idx = ", cur_idx, "\n")
-cat ("\n\nall_ens_marxan_best_sols = \n")
-print (all_ens_marxan_best_sols)
-cat ("\n\nall_ens_marxan_summed_sols = \n")
-print (all_ens_marxan_summed_sols)
+cat ("\n\nall_ens_marxan_BEST_sols = \n")
+print (all_ens_marxan_BEST_sols)
+cat ("\n\nall_ens_marxan_SUMMED_sols = \n")
+print (all_ens_marxan_SUMMED_sols)
 cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
 #browser()
 
-    return (list (best_sols   = all_ens_marxan_best_sols,
-                  summed_sols = all_ens_marxan_summed_sols))
+    return (list (best_sols   = all_ens_marxan_BEST_sols,
+                  summed_sols = all_ens_marxan_SUMMED_sols))
 
     }  #  end function - collect_all_ens_cand_sols()
 
@@ -379,8 +379,8 @@ cost_err_amt = 0
 all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
                                                prob_dirs,
                                                num_PUs)
-    all_ens_marxan_best_sols   = all_ens_cand_sols$best_sols
-    all_ens_marxan_summed_sols = all_ens_cand_sols$summed_sols
+    all_ens_marxan_BEST_sols   = all_ens_cand_sols$best_sols
+    all_ens_marxan_SUMMED_sols = all_ens_cand_sols$summed_sols
 
         #-----------------------------------------------------------------
         #  Echo ensemble candidate solutions for marxan best and summed.
@@ -388,10 +388,10 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
 
     cat ("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n")
     cat ("FINISHED COLLECTING CANDIDATE SOLUTIONS.")
-    cat ("all_ens_marxan_best_sols = \n")
-    print (all_ens_marxan_best_sols)
-    cat ("\n\nall_ens_marxan_summed_sols = \n")
-    print (all_ens_marxan_summed_sols)
+    cat ("all_ens_marxan_BEST_sols = \n")
+    print (all_ens_marxan_BEST_sols)
+    cat ("\n\nall_ens_marxan_SUMMED_sols = \n")
+    print (all_ens_marxan_SUMMED_sols)
     cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
 
         #--------------------------------------------------------------
@@ -407,7 +407,7 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
         #--------------------------------------------------------------
 
     pseudo_opt_costs =
-        get_pseudo_opt_costs_for_all_ens_probs (all_ens_marxan_best_sols, #PSEUDO-OPT SOLUTION
+        get_pseudo_opt_costs_for_all_ens_probs (all_ens_marxan_BEST_sols, #PSEUDO-OPT SOLUTION
                                                 PU_costs_vec)
 
         #-----------------------------------------------------------------
@@ -421,7 +421,7 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
     all_ens_MARXAN_BEST_sol_scores =
         score_ALL_cand_sols_against_ALL_probs (ens_prob_dirs,
 
-                                    all_ens_marxan_best_sols,
+                                    all_ens_marxan_BEST_sols,
                                                pseudo_opt_costs,
                                                num_probs_in_ensemble,
                                                num_spp,
@@ -432,7 +432,7 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
     all_ens_MARXAN_SUMMED_sol_scores =
         score_ALL_cand_sols_against_ALL_probs (ens_prob_dirs,
 
-                                    all_ens_marxan_summed_sols,
+                                    all_ens_marxan_SUMMED_sols,
                                                pseudo_opt_costs,
                                                num_probs_in_ensemble,
                                                num_spp,
