@@ -204,12 +204,12 @@ score_ALL_cand_sols_against_ALL_probs <- function (ens_prob_dirs,
                                                    spp_rep_targets
                                                    )
     {
-all_cand_spp_rep_err_scores =
-    matrix (-999, nrow=num_probs_in_ensemble, ncol=num_probs_in_ensemble)
-all_cand_cost_err_scores =
-    matrix (-999, nrow=num_probs_in_ensemble, ncol=num_probs_in_ensemble)
-all_cand_euc_err_scores =
-    matrix (-999, nrow=num_probs_in_ensemble, ncol=num_probs_in_ensemble)
+    all_cand_spp_rep_err_scores =
+        matrix (NA, nrow=num_probs_in_ensemble, ncol=num_probs_in_ensemble)
+    all_cand_cost_err_scores =
+        matrix (NA, nrow=num_probs_in_ensemble, ncol=num_probs_in_ensemble)
+    all_cand_euc_err_scores =
+        matrix (NA, nrow=num_probs_in_ensemble, ncol=num_probs_in_ensemble)
 
     for (cur_prob_idx in 1:length (ens_probs))
         {
@@ -227,13 +227,13 @@ all_cand_euc_err_scores =
                                                         cur_bpm,
                                                         PU_costs_vec,
                                                         spp_rep_targets)
-# THIS IS NOT RIGHT.
-# NEED TO HAVE N OF THESE CANDIDATE SCORES FOR EACH OF THE N PROBLEMS,
-# I.E., IT'S AN NxNx3 dimensional matrix or more likely, 3 different NxN matrices
-# Something like this?:
-all_cand_spp_rep_err_scores [, cur_prob_idx] = results_list$all_cand_spp_rep_err_scores    #  where this is a vector of length N
-all_cand_cost_err_scores [, cur_prob_idx]    = results_list$all_cand_cost_err_scores       #  where this is a vector of length N
-all_cand_euc_err_scores [, cur_prob_idx]     = results_list$all_cand_euc_err_scores        #  where this is a vector of length N
+
+        all_cand_spp_rep_err_scores [, cur_prob_idx] =
+                results_list$all_cand_spp_rep_err_scores    #  where this is a vector of length N
+        all_cand_cost_err_scores [, cur_prob_idx]    =
+                results_list$all_cand_cost_err_scores       #  where this is a vector of length N
+        all_cand_euc_err_scores [, cur_prob_idx]     =
+                results_list$all_cand_euc_err_scores        #  where this is a vector of length N
         }
 
     return (list (all_cand_spp_rep_err_scores = all_cand_spp_rep_err_scores,
