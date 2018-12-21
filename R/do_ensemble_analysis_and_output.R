@@ -243,6 +243,33 @@ score_ALL_cand_sols_against_ALL_probs <- function (ens_prob_dirs,
 
 #===============================================================================
 
+compute_stats_for_all_sols_across_all_ens_probs <-
+                                         function (all_ens_cand_sol_scores,
+                                                   num_probs_in_ensemble)
+    {
+    all_cand_score_stats =
+        matrix (NA, nrow=num_probs_in_ensemble, ncol=6)
+
+    for (cur_cand_idx in 1:length (num_probs_in_ensemble))
+        {
+            #  Get vector of 1 candidate solution's scores on all ens probs.
+        cur_cand_scores = all_ens_cand_sol_scores [cur_cand_idx]
+
+        cur_cand_fivenum_stats = fivenum (cur_cand_scores)
+        cur_cand_mean          = mean (cur_cand_scores)
+
+        all_cand_score_stats [cur_cand_idx, 1:5] = cur_cand_fivenum_stats
+        all_cand_score_stats [cur_cand_idx, 6]   = cur_cand_mean
+        }
+
+    all_cand_score_stats = as_tibble (all_cand_score_stats)
+    names (all_cand_score_stats) = c ("min", "Q1", "median", "Q3", "max", "mean")
+
+    return (all_cand_score_stats)
+    }
+
+#===============================================================================
+
 ensemble <- function (APP_bd_prob,
                       parameters,
                       starting_dir,
@@ -419,7 +446,7 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
         #  marxan summed solutions.
         #-----------------------------------------------------------------
 
-    all_ens_MARXAN_BEST_sol_scores =
+    all_ens_marxan_BEST_sol_scores =
         score_ALL_cand_sols_against_ALL_probs (ens_prob_dirs,
 
                                     all_ens_marxan_BEST_sols,
@@ -430,16 +457,51 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
                                                spp_rep_targets
                                                )
 
-    all_ens_MARXAN_SUMMED_sol_scores =
-        score_ALL_cand_sols_against_ALL_probs (ens_prob_dirs,
+    #----------
 
-                                    all_ens_marxan_SUMMED_sols,
-                                               pseudo_opt_costs,
-                                               num_probs_in_ensemble,
-                                               num_spp,
-                                               PU_costs_vec,
-                                               spp_rep_targets
-                                               )
+    all_ens_marxan_BEST_spp_rep_err_scores =
+            all_ens_marxan_BEST_sol_scores$all_cand_spp_rep_err_scores
+    all_ens_marxan_BEST_spp_rep_err_score_stats =
+            compute_stats_for_all_sols_across_all_ens_probs (
+                    all_ens_marxan_BEST_spp_rep_err_scores,
+                    num_probs_in_ensemble)
+
+    all_ens_marxan_BEST_cost_err_scores =
+            all_ens_marxan_BEST_sol_scores$all_cand_cost_err_scores
+    all_ens_marxan_BEST_cost_err_score_stats =
+            compute_stats_for_all_sols_across_all_ens_probs (
+                    all_ens_marxan_BEST_cost_err_scores,
+                    num_probs_in_ensemble)
+
+    all_ens_marxan_BEST_euc_err_scores =
+            all_ens_marxan_BEST_sol_scores$all_cand_euc_err_scores
+    all_ens_marxan_BEST_euc_err_score_stats =
+            compute_stats_for_all_sols_across_all_ens_probs (
+                    all_ens_marxan_BEST_euc_err_scores,
+                    num_probs_in_ensemble)
+
+    #----------
+
+    all_ens_marxan_SUMMED_spp_rep_err_scores =
+            all_ens_marxan_SUMMED_sol_scores$all_cand_spp_rep_err_scores
+    all_ens_marxan_SUMMED_spp_rep_err_score_stats =
+            compute_stats_for_all_sols_across_all_ens_probs (
+                    all_ens_marxan_SUMMED_spp_rep_err_scores,
+                    num_probs_in_ensemble)
+
+    all_ens_marxan_SUMMED_cost_err_scores =
+            all_ens_marxan_SUMMED_sol_scores$all_cand_cost_err_scores
+    all_ens_marxan_SUMMED_cost_err_score_stats =
+            compute_stats_for_all_sols_across_all_ens_probs (
+                    all_ens_marxan_SUMMED_cost_err_scores,
+                    num_probs_in_ensemble)
+
+    all_ens_marxan_SUMMED_euc_err_scores =
+            all_ens_marxan_SUMMED_sol_scores$all_cand_euc_err_scores
+    all_ens_marxan_SUMMED_euc_err_score_stats =
+            compute_stats_for_all_sols_across_all_ens_probs (
+                    all_ens_marxan_SUMMED_euc_err_scores,
+                    num_probs_in_ensemble)
 
         #-----------------------------------------------------------------
         #  Now that you have the scores for each candidate solution on
@@ -459,6 +521,7 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
         #
         #  (Remember the fivenum() function since it may be usefull here.)
         #-----------------------------------------------------------------
+
 
 choose_ensemble_winning_solution (method="median")
 #  ...
