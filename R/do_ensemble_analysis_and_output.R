@@ -97,12 +97,12 @@ cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
 #===============================================================================
 
 get_pseudo_opt_costs_for_all_ens_probs <- function (all_ens_best_cand_sols, #PSEUDO-OPT
+                                                    num_probs_in_ensemble,
                                                     PU_costs_vec)
     {
-    num_ensemble_elements = length (all_ens_best_cand_sols)
-    pseudo_opt_costs = vector (mode="numeric", length=num_ensemble_elements)
+    pseudo_opt_costs = vector (mode="numeric", length=num_probs_in_ensemble)
 
-    for (cur_idx in 1:num_ensemble_elements)
+    for (cur_idx in 1:num_probs_in_ensemble)
         {
         pseudo_opt_costs [cur_idx] =
             compute_solution_cost (all_ens_best_cand_sols [cur_idx],
@@ -172,7 +172,7 @@ score_ALL_cand_sols_against_ONE_prob <- function (all_cand_sols,         #  list
     all_cand_cost_err_scores    = vector (mode="numeric", length=num_probs_in_ensemble)
     all_cand_euc_err_scores     = vector (mode="numeric", length=num_probs_in_ensemble)
 
-    for (cur_idx in 1:length(all_cand_sols))
+    for (cur_idx in 1:num_probs_in_ensemble)
         {
         cur_cand_sol = all_cand_sols [[cur_idx]]
 
@@ -211,7 +211,7 @@ score_ALL_cand_sols_against_ALL_probs <- function (ens_prob_dirs,
     all_cand_euc_err_scores =
         matrix (NA, nrow=num_probs_in_ensemble, ncol=num_probs_in_ensemble)
 
-    for (cur_prob_idx in 1:length (ens_probs))
+    for (cur_prob_idx in 1:num_probs_in_ensemble)
         {
         cur_prob_dir = ens_prob_dirs [cur_prob_idx]
         filename = paste0 ("saved.",
@@ -408,6 +408,7 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
 
     pseudo_opt_costs =
         get_pseudo_opt_costs_for_all_ens_probs (all_ens_marxan_BEST_sols, #PSEUDO-OPT SOLUTION
+                                                num_probs_in_ensemble,
                                                 PU_costs_vec)
 
         #-----------------------------------------------------------------
