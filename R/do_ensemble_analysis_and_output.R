@@ -8,6 +8,47 @@
 #===============================================================================
 #===============================================================================
 
+save_rs_sol_vec_and_results <- function (solution_file_name,
+                                         rsrun_dir,
+                                         solution_PU_IDs,
+                                         run_id,
+                                         starting_dir,
+                                         APP_run,
+                                         COR_bd_prob,
+                                         APP_bd_prob,
+                                         rs_method_name,
+                                         csv_outfile_name,
+                                         marxan_control_values,
+                                         src_rds_file_dir)
+    {
+              #---------------------------------------------------------
+              #  Save the solution vector to disk in its own file
+              #  to make it easier to find and retrieve.
+              #---------------------------------------------------------
+
+    solution_file_path = file.path (rsrun_dir, solution_file_name)
+    write (solution_PU_IDs, solution_file_path, sep=",")
+
+              #---------------------------------------------------------
+              #  Save all of the input variables and output scores etc
+              #  to disk as one big one line table with headers.
+              #---------------------------------------------------------
+
+    save_rsrun_results_data_for_one_rsrun_given_solution_PU_IDs (
+                                            solution_PU_IDs,
+                                            tzar_run_ID = run_id,
+                                            exp_root_dir = starting_dir,
+                                            APP_run,
+                                            COR_bd_prob,
+                                            APP_bd_prob,
+                                            rs_method_name,
+                                            csv_outfile_name,
+                                            marxan_control_values,
+                                            src_rds_file_dir)
+    }
+
+#===============================================================================
+
 collect_all_ens_cand_sols <- function (ens_RSrun_dirs,
                                        ens_prob_dirs,
                                        num_PUs
@@ -270,6 +311,172 @@ compute_stats_for_all_sols_across_all_ens_probs <-
 
 #===============================================================================
 
+convert_lists_of_PU_IDs_to_matrix_of_0_1 <- function (all_cand_sols,
+                                                      num_PUs,
+                                                      num_probs_in_ensemble)
+    {
+    all_cand_matrix_of_pres_abs = matrix (0, nrow=num_probs_in_ensemble,
+                                             ncol=num_PUs)
+
+    for (cur_cand_sol_idx in 1:num_probs_in_ensemble)
+        {
+        cur_cand_sol = all_cand_sols [[cur_cand_sol_idx]]
+        all_cand_matrix_of_pres_abs [cur_cand_sol_idx, cur_cand_sol] = 1
+        }
+
+    return (all_cand_matrix_of_pres_abs)
+    }
+
+#===============================================================================
+
+compute_stats_and_winners_for_given_score_type <-
+                            function (all_cand_scores_across_all_ens_probs,
+                                      all_cand_sols,
+                                      bpm,
+                                      num_probs_in_ensemble,
+                                      rs_name_str,
+                                      score_name_str)
+    {
+
+# plot each candidate's scores on all probs
+# or all candidate scores for each problem
+
+    all_cand_score_stats =
+        compute_stats_for_all_sols_across_all_ens_probs (all_cand_scores_across_all_ens_probs,
+                                                         num_probs_in_ensemble)
+
+                    # If this extremum is unique (or empty), the results are the same as
+                    # (but more efficient than) which(x == min(x, na.rm = TRUE)) or
+                    # which(x == max(x, na.rm = TRUE)) respectively.
+
+    winning_sol_vector_by_min    = which.max (all_cand_score_stats$min)
+    winning_sol_vector_by_Q1     = which.max (all_cand_score_stats$Q1)
+    winning_sol_vector_by_median = which.max (all_cand_score_stats$median)
+    winning_sol_vector_by_mean   = which.max (all_cand_score_stats$mean)
+
+        #----------
+
+    all_cand_matrix_of_pres_abs =
+        convert_lists_of_PU_IDs_to_matrix_of_0_1 (all_cand_sols, num_PUs,
+                                                  num_probs_in_ensemble)
+
+    votes_for_each_PU_ID = as_tibble (PU_ID=1:num_PUs,
+                                      votes=colSums (all_cand_matrix_of_pres_abs))
+
+    PUs_sorted_by_votes = arrange (votes_for_each_PU_ID, desc (votes))
+
+    winning_sol_vector_by_summed_votes =
+        find_first_solution_with_all_rep_tgts_met (bpm,
+                                                   PUs_sorted_by_votes,
+                                                   spp_rep_targets)
+
+        #----------
+
+    return (list (sol_vec_by_min          = winning_sol_vector_by_min,
+                  sol_vec_by_Q1           = winning_sol_vector_by_Q1,
+                  sol_vec_by_median       = winning_sol_vector_by_median,
+                  sol_vec_by_mean         = winning_sol_vector_by_mean,
+                  sol_vec_by_summed_votes = winning_sol_vector_by_summed_votes))
+    }
+
+#===============================================================================
+
+    #  Save 1 ensemble solution vector  for a given error measure
+    #  and its results to disk.
+
+save_ens_sol_vec_and_results <- function (sol_vec,
+                                          ens_type_name,
+                                          score_name_str,
+                                          rs_name_str,
+                                          ens_run_dir,
+                                          run_id,
+                                          starting_dir,
+                                          APP_ens_run,
+                                          COR_bd_prob,
+                                          APP_bd_prob,
+                                          marxan_control_values,
+                                          src_rds_file_dir)
+    {
+    rs_method_name     = paste0 (ens_type_name, "_", rs_name_str, "_", score_name_str)
+    csv_outfile_name   = paste0 ("rsrun_results_", rs_method_name, "_", "_solution.csv")
+    solution_file_name = paste0 ("ENS_", rs_method_name, "_solution_PU_IDs.csv")
+
+    save_rs_sol_vec_and_results (solution_file_name,
+                                 rsrun_dir          = ens_run_dir,
+                                 solution_PU_IDs    = sol_vec,
+                                 run_id,
+                                 starting_dir,
+                                 APP_run            = APP_ens_run,
+                                 COR_bd_prob,
+                                 APP_bd_prob,
+                                 rs_method_name,
+                                 csv_outfile_name,
+                                 marxan_control_values,
+                                 src_rds_file_dir)
+    }
+
+#===============================================================================
+
+    #  Save all 5 ensemble solution vectors for a given error measure
+    #  and their results to disk.
+
+save_ens_sol_vectors_and_results <-
+                function (solution_vectors,
+                          score_name_str, rs_name_str,
+                          ens_run_dir, run_id,
+                          starting_dir, APP_ens_run,
+                          COR_bd_prob, APP_bd_prob,
+                          marxan_control_values, src_rds_file_dir)
+    {
+
+    save_ens_sol_vec_and_results (
+        sol_vec = solution_vectors$sol_vec_by_min,
+        ens_type_name = "min", score_name_str,
+        rs_name_str = "marxan_BEST",
+        ens_run_dir, run_id,
+        starting_dir, APP_ens_run,
+        COR_bd_prob, APP_bd_prob,
+        marxan_control_values, src_rds_file_dir)
+
+    save_ens_sol_vec_and_results (
+        sol_vec = solution_vectors$sol_vec_by_Q1,
+        ens_type_name = "Q1", score_name_str,
+        rs_name_str = "marxan_BEST",
+            ens_run_dir, run_id,
+            starting_dir, APP_ens_run,
+            COR_bd_prob, APP_bd_prob,
+            marxan_control_values, src_rds_file_dir)
+
+    save_ens_sol_vec_and_results (
+        sol_vec = solution_vectors$sol_vec_by_median,
+        ens_type_name = "median", score_name_str,
+        rs_name_str = "marxan_BEST",
+            ens_run_dir, run_id,
+            starting_dir, APP_ens_run,
+            COR_bd_prob, APP_bd_prob,
+            marxan_control_values, src_rds_file_dir)
+
+    save_ens_sol_vec_and_results (
+        sol_vec = solution_vectors$sol_vec_by_mean,
+        ens_type_name = "mean", score_name_str,
+        rs_name_str = "marxan_BEST",
+            ens_run_dir, run_id,
+            starting_dir, APP_ens_run,
+            COR_bd_prob, APP_bd_prob,
+            marxan_control_values, src_rds_file_dir)
+
+    save_ens_sol_vec_and_results (
+        sol_vec = solution_vectors$sol_vec_by_summed_votes,
+        ens_type_name = "summed_votes", score_name_str,
+        rs_name_str = "marxan_BEST",
+            ens_run_dir, run_id,
+            starting_dir, APP_ens_run,
+            COR_bd_prob, APP_bd_prob,
+            marxan_control_values, src_rds_file_dir)
+    }
+
+#===============================================================================
+
 ensemble <- function (APP_bd_prob,
                       parameters,
                       starting_dir,
@@ -278,6 +485,7 @@ ensemble <- function (APP_bd_prob,
     {
     cat ("\nInside ensemble function.\n")
 
+        #---------------------------------------------------------------------
         #  Modify parameters to block graph calculations and to set
         #  set reserve selectors to block infinite recursion (i.e, don't
         #  call ensemble again) and to only call reserve selectors that
@@ -293,9 +501,11 @@ ensemble <- function (APP_bd_prob,
         #         DEFINITELY NEED TO FIGURE OUT A MORE ROBUST STRATEGY, EVEN
         #         IF IT'S JUST TO PASS THE LIST OF RESERVE SELECTORS TO TURN
         #         OFF IN TO THIS ROUTINE.
+        #---------------------------------------------------------------------
 
     parameters$compute_network_metrics          = FALSE
 
+            #-------------------------------------------------------------------
             #  Need to make sure that marxan (or in the future, whatever RS is
             #  used by the ensemble) is turned on.
             #  If it's not turned on, then even though it will be run on all
@@ -304,6 +514,7 @@ ensemble <- function (APP_bd_prob,
             #  that problem is also included in the ensemble and therefore,
             #  needs to have the same reserve selector run on it that is run
             #  on all the other ensemble subproblems.
+            #-------------------------------------------------------------------
 
     run_marxan = vb (parameters$run_marxan, def_on_empty=TRUE)
     if (! run_marxan)
@@ -319,6 +530,27 @@ ensemble <- function (APP_bd_prob,
     parameters$do_zonation_like_forward         = FALSE
     parameters$do_zonation_like_backward        = FALSE
 
+        #--------------------------------------------------------------
+        #  Make local copies of structures used from the APP_bd_prob.
+        #--------------------------------------------------------------
+
+    num_PUs         = APP_bd_prob@num_PUs
+    num_spp         = APP_bd_prob@num_spp
+    bpm             = APP_bd_prob@bpm
+    PU_costs_vec    = APP_bd_prob@PU_costs_vec
+    spp_rep_targets = APP_bd_prob@spp_rep_targets
+
+        #-----------------------------------------------------------------------
+        #  Get and validate input parameters specific to this reserve selector.
+        #-----------------------------------------------------------------------
+
+    run_id = parameters$run_id
+
+    num_probs_in_ensemble = RS_specific_params$num_probs_in_ensemble
+    if (num_probs_in_ensemble < 2)
+        stop_bdpg (paste0 ("num_probs_in_ensemble = '", num_probs_in_ensemble,
+                           "' must be >= 2."))
+
 #  2018 12 16 - BTL - For quick testing at the moment...
 FP_err_amt = 0.001
 FN_err_amt = 0.01
@@ -327,22 +559,9 @@ FN_err_amt = 0.01
 gen_combined_cost_and_FP_FN_errors = FALSE
 cost_err_amt = 0
 
-
-
-    num_PUs = APP_bd_prob@num_PUs
-    PU_costs_vec = APP_bd_prob@PU_costs_vec
-    num_spp = APP_bd_prob@num_spp
-    spp_rep_targets = APP_bd_prob@spp_rep_targets
-
-
-
-
-    num_probs_in_ensemble = RS_specific_params$num_probs_in_ensemble
-    if (num_probs_in_ensemble < 2)
-        stop_bdpg (paste0 ("num_probs_in_ensemble = '", num_probs_in_ensemble,
-                           "' must be >= 2."))
-
         #----------------------------------------------------------------------
+        #  Generate the set of apparent problems that make up the ensemble.
+        #
         #  Make the original APP problem that the ensemble is trying to solve
         #  be the first element of the ensemble.
         #----------------------------------------------------------------------
@@ -387,6 +606,8 @@ cost_err_amt = 0
 
         }  #  end for - all problems in ensemble
 
+    #---------------------------------------------------------------------------
+
         #--------------------------------------------
         #  Echo ensemble problem dirs and run dirs.
         #--------------------------------------------
@@ -403,9 +624,9 @@ cost_err_amt = 0
         #  Collect all ensemble candidate solutions.
         #---------------------------------------------
 
-all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
-                                               prob_dirs,
-                                               num_PUs)
+    all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
+                                                   prob_dirs,
+                                                   num_PUs)
     all_ens_marxan_BEST_sols   = all_ens_cand_sols$best_sols
     all_ens_marxan_SUMMED_sols = all_ens_cand_sols$summed_sols
 
@@ -423,6 +644,7 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
 
         #--------------------------------------------------------------
         #  Compute the pseudo-optimum cost for each ensemble problem.
+        #
         #  This is the cost of the optimal solution for each apparent
         #  problem in the ensemble as if it was the correct problem.
         #  Since we don't know that optimal value, we'll use our best
@@ -457,52 +679,6 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
                                                spp_rep_targets
                                                )
 
-    #----------
-
-    all_ens_marxan_BEST_spp_rep_err_scores =
-            all_ens_marxan_BEST_sol_scores$all_cand_spp_rep_err_scores
-    all_ens_marxan_BEST_spp_rep_err_score_stats =
-            compute_stats_for_all_sols_across_all_ens_probs (
-                    all_ens_marxan_BEST_spp_rep_err_scores,
-                    num_probs_in_ensemble)
-
-    all_ens_marxan_BEST_cost_err_scores =
-            all_ens_marxan_BEST_sol_scores$all_cand_cost_err_scores
-    all_ens_marxan_BEST_cost_err_score_stats =
-            compute_stats_for_all_sols_across_all_ens_probs (
-                    all_ens_marxan_BEST_cost_err_scores,
-                    num_probs_in_ensemble)
-
-    all_ens_marxan_BEST_euc_err_scores =
-            all_ens_marxan_BEST_sol_scores$all_cand_euc_err_scores
-    all_ens_marxan_BEST_euc_err_score_stats =
-            compute_stats_for_all_sols_across_all_ens_probs (
-                    all_ens_marxan_BEST_euc_err_scores,
-                    num_probs_in_ensemble)
-
-    #----------
-
-    all_ens_marxan_SUMMED_spp_rep_err_scores =
-            all_ens_marxan_SUMMED_sol_scores$all_cand_spp_rep_err_scores
-    all_ens_marxan_SUMMED_spp_rep_err_score_stats =
-            compute_stats_for_all_sols_across_all_ens_probs (
-                    all_ens_marxan_SUMMED_spp_rep_err_scores,
-                    num_probs_in_ensemble)
-
-    all_ens_marxan_SUMMED_cost_err_scores =
-            all_ens_marxan_SUMMED_sol_scores$all_cand_cost_err_scores
-    all_ens_marxan_SUMMED_cost_err_score_stats =
-            compute_stats_for_all_sols_across_all_ens_probs (
-                    all_ens_marxan_SUMMED_cost_err_scores,
-                    num_probs_in_ensemble)
-
-    all_ens_marxan_SUMMED_euc_err_scores =
-            all_ens_marxan_SUMMED_sol_scores$all_cand_euc_err_scores
-    all_ens_marxan_SUMMED_euc_err_score_stats =
-            compute_stats_for_all_sols_across_all_ens_probs (
-                    all_ens_marxan_SUMMED_euc_err_scores,
-                    num_probs_in_ensemble)
-
         #-----------------------------------------------------------------
         #  Now that you have the scores for each candidate solution on
         #  each ensemble subproblem, you can apply each of the different
@@ -518,14 +694,137 @@ all_ens_cand_sols = collect_all_ens_cand_sols (marxan_rsrun_dirs,
         #      - best mean score across all problems
         #      - sum votes for all PUs across all problems and choose
         #        cutoff like in the greedy reserve selectors
-        #
-        #  (Remember the fivenum() function since it may be usefull here.)
         #-----------------------------------------------------------------
 
+    winning_marxan_BEST_sols_by_spp_rep_err_score =
+        compute_stats_and_winners_for_given_score_type (all_ens_marxan_BEST_sol_scores$all_cand_spp_rep_err_scores,
 
-choose_ensemble_winning_solution (method="median")
-#  ...
-choose_ensemble_winning_solution (method="summed_votes")
+                                                        all_cand_sols = all_ens_marxan_BEST_sols,
+                                                        bpm,
+                                                        num_probs_in_ensemble,
+                                                        rs_name_str = "marxan_BEST",
+                                                        score_name_str = "spp_rep")
+
+    save_ens_sol_vectors_and_results (winning_marxan_BEST_sols_by_spp_rep_err_score,
+                                      score_name_str = "spp_rep",
+                                      rs_name_str = "marxan_BEST",
+                                      ens_run_dir, run_id,
+                                      starting_dir, APP_ens_run,
+                                      COR_bd_prob, APP_bd_prob,
+                                      marxan_control_values, src_rds_file_dir)
+
+    #----------
+
+    winning_marxan_BEST_sols_by_cost_err_score =
+        compute_stats_and_winners_for_given_score_type (all_ens_marxan_BEST_sol_scores$all_cand_cost_err_scores,
+
+                                                        all_cand_sols = all_ens_marxan_BEST_sols,
+                                                        bpm,
+                                                        num_probs_in_ensemble,
+                                                        rs_name_str = "marxan_BEST",
+                                                        score_name_str = "cost")
+
+    save_ens_sol_vectors_and_results (winning_marxan_BEST_sols_by_cost_err_score,
+                                      score_name_str = "cost",
+                                      rs_name_str = "marxan_BEST",
+                                      ens_run_dir, run_id,
+                                      starting_dir, APP_ens_run,
+                                      COR_bd_prob, APP_bd_prob,
+                                      marxan_control_values, src_rds_file_dir)
+
+    #----------
+
+    winning_marxan_BEST_sols_by_euc_err_score =
+        compute_stats_and_winners_for_given_score_type (all_ens_marxan_BEST_sol_scores$all_ens_marxan_BEST_euc_err_scores,
+
+                                                        all_cand_sols = all_ens_marxan_BEST_sols,
+                                                        bpm,
+                                                        num_probs_in_ensemble,
+                                                        rs_name_str = "marxan_BEST",
+                                                        score_name_str = "euc")
+
+    save_ens_sol_vectors_and_results (winning_marxan_BEST_sols_by_euc_err_score,
+                                      score_name_str = "euc",
+                                      rs_name_str = "marxan_BEST",
+                                      ens_run_dir, run_id,
+                                      starting_dir, APP_ens_run,
+                                      COR_bd_prob, APP_bd_prob,
+                                      marxan_control_values, src_rds_file_dir)
+
+    #---------------------------------
+    #  Now, marxan_SUMMED_sol_scores
+    #---------------------------------
+
+    all_ens_marxan_SUMMED_sol_scores =
+        score_ALL_cand_sols_against_ALL_probs (ens_prob_dirs,
+
+                                    all_ens_marxan_SUMMED_sols,
+                                               pseudo_opt_costs,
+                                               num_probs_in_ensemble,
+                                               num_spp,
+                                               PU_costs_vec,
+                                               spp_rep_targets
+                                               )
+
+    #----------
+    #----------
+
+    winning_marxan_SUMMED_sols_by_spp_rep_err_score =
+        compute_stats_and_winners_for_given_score_type (all_ens_marxan_SUMMED_sol_scores$all_cand_spp_rep_err_scores,
+
+                                                        all_cand_sols = all_ens_marxan_SUMMED_sols,
+                                                        bpm,
+                                                        num_probs_in_ensemble,
+                                                        rs_name_str = "marxan_SUMMED",
+                                                        score_name_str = "spp_rep")
+
+    save_ens_sol_vectors_and_results (winning_marxan_SUMMED_sols_by_spp_rep_err_score,
+                                      score_name_str = "spp_rep",
+                                      rs_name_str = "marxan_SUMMED",
+                                      ens_run_dir, run_id,
+                                      starting_dir, APP_ens_run,
+                                      COR_bd_prob, APP_bd_prob,
+                                      marxan_control_values, src_rds_file_dir)
+
+    #----------
+
+    winning_marxan_SUMMED_sols_by_cost_err_score =
+        compute_stats_and_winners_for_given_score_type (all_ens_marxan_SUMMED_sol_scores$all_cand_cost_err_scores,
+
+                                                        all_cand_sols = all_ens_marxan_SUMMED_sols,
+                                                        bpm,
+                                                        num_probs_in_ensemble,
+                                                        rs_name_str = "marxan_SUMMED",
+                                                        score_name_str = "cost")
+
+    save_ens_sol_vectors_and_results (winning_marxan_SUMMED_sols_by_cost_err_score,
+                                      score_name_str = "cost",
+                                      rs_name_str = "marxan_SUMMED",
+                                      ens_run_dir, run_id,
+                                      starting_dir, APP_ens_run,
+                                      COR_bd_prob, APP_bd_prob,
+                                      marxan_control_values, src_rds_file_dir)
+
+    #----------
+
+    winning_marxan_SUMMED_sols_by_euc_err_score =
+        compute_stats_and_winners_for_given_score_type (all_ens_marxan_SUMMED_sol_scores$all_ens_marxan_SUMMED_euc_err_scores,
+
+                                                        all_cand_sols = all_ens_marxan_SUMMED_sols,
+                                                        bpm,
+                                                        num_probs_in_ensemble,
+                                                        rs_name_str = "marxan_SUMMED",
+                                                        score_name_str = "euc")
+
+    save_ens_sol_vectors_and_results (winning_marxan_SUMMED_sols_by_euc_err_score,
+                                      score_name_str = "euc",
+                                      rs_name_str = "marxan_SUMMED",
+                                      ens_run_dir, run_id,
+                                      starting_dir, APP_ens_run,
+                                      COR_bd_prob, APP_bd_prob,
+                                      marxan_control_values, src_rds_file_dir)
+
+    #----------------------------------------------------------------------
 
     }  #  end function - ensemble()
 
