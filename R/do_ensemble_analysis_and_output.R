@@ -26,7 +26,7 @@ save_rs_sol_vec_and_results <- function (solution_file_name,
                                          APP_bd_prob,
                                          rs_method_name,
                                          csv_outfile_name,
-                                         marxan_control_values,
+                                         rs_control_values,
                                          src_rds_file_dir)
     {
               #---------------------------------------------------------
@@ -51,7 +51,7 @@ save_rs_sol_vec_and_results <- function (solution_file_name,
                                             APP_bd_prob,
                                             rs_method_name,
                                             csv_outfile_name,
-                                            marxan_control_values,
+                                            rs_control_values,
                                             src_rds_file_dir)
     }
 
@@ -72,7 +72,7 @@ save_ens_sol_vec_and_results <- function (sol_vec,
                                           APP_ens_run,
                                           COR_bd_prob,
                                           APP_bd_prob,
-                                          marxan_control_values,
+                                          rs_control_values,
                                           src_rds_file_dir)
     {
     rs_method_name     = paste0 (ens_type_name, "_", rs_name_str, "_", score_name_str)
@@ -89,7 +89,7 @@ save_ens_sol_vec_and_results <- function (sol_vec,
                                  APP_bd_prob,
                                  rs_method_name,
                                  csv_outfile_name,
-                                 marxan_control_values,
+                                 rs_control_values,
                                  src_rds_file_dir)
     }
 
@@ -109,7 +109,7 @@ save_ens_sol_vectors_and_results <-
                           ens_run_dir, run_id,
                           starting_dir, APP_ens_run,
                           COR_bd_prob, APP_bd_prob,
-                          marxan_control_values, src_rds_file_dir)
+                          rs_control_values, src_rds_file_dir)
     {
 
     save_ens_sol_vec_and_results (
@@ -119,7 +119,7 @@ save_ens_sol_vectors_and_results <-
         ens_run_dir, run_id,
         starting_dir, APP_ens_run,
         COR_bd_prob, APP_bd_prob,
-        marxan_control_values, src_rds_file_dir)
+        rs_control_values, src_rds_file_dir)
 
     save_ens_sol_vec_and_results (
         sol_vec = solution_vectors$sol_vec_by_Q1,
@@ -128,7 +128,7 @@ save_ens_sol_vectors_and_results <-
             ens_run_dir, run_id,
             starting_dir, APP_ens_run,
             COR_bd_prob, APP_bd_prob,
-            marxan_control_values, src_rds_file_dir)
+            rs_control_values, src_rds_file_dir)
 
     save_ens_sol_vec_and_results (
         sol_vec = solution_vectors$sol_vec_by_median,
@@ -137,7 +137,7 @@ save_ens_sol_vectors_and_results <-
             ens_run_dir, run_id,
             starting_dir, APP_ens_run,
             COR_bd_prob, APP_bd_prob,
-            marxan_control_values, src_rds_file_dir)
+            rs_control_values, src_rds_file_dir)
 
     save_ens_sol_vec_and_results (
         sol_vec = solution_vectors$sol_vec_by_mean,
@@ -146,7 +146,7 @@ save_ens_sol_vectors_and_results <-
             ens_run_dir, run_id,
             starting_dir, APP_ens_run,
             COR_bd_prob, APP_bd_prob,
-            marxan_control_values, src_rds_file_dir)
+            rs_control_values, src_rds_file_dir)
 
     save_ens_sol_vec_and_results (
         sol_vec = solution_vectors$sol_vec_by_summed_votes,
@@ -155,7 +155,7 @@ save_ens_sol_vectors_and_results <-
             ens_run_dir, run_id,
             starting_dir, APP_ens_run,
             COR_bd_prob, APP_bd_prob,
-            marxan_control_values, src_rds_file_dir)
+            rs_control_values, src_rds_file_dir)
     }
 
 #===============================================================================
@@ -741,7 +741,7 @@ cost_err_amt = 0
                                       ens_run_dir, run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      marxan_control_values, src_rds_file_dir)
+                                      rs_control_values, src_rds_file_dir)
 
     #----------
 
@@ -760,7 +760,7 @@ cost_err_amt = 0
                                       ens_run_dir, run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      marxan_control_values, src_rds_file_dir)
+                                      rs_control_values, src_rds_file_dir)
 
     #----------
 
@@ -779,7 +779,7 @@ cost_err_amt = 0
                                       ens_run_dir, run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      marxan_control_values, src_rds_file_dir)
+                                      rs_control_values, src_rds_file_dir)
 
     #---------------------------------------------------------------------------
     #---------------------------------------------------------------------------
@@ -817,7 +817,7 @@ cost_err_amt = 0
                                       ens_run_dir, run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      marxan_control_values, src_rds_file_dir)
+                                      rs_control_values, src_rds_file_dir)
 
     #----------
 
@@ -836,7 +836,7 @@ cost_err_amt = 0
                                       ens_run_dir, run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      marxan_control_values, src_rds_file_dir)
+                                      rs_control_values, src_rds_file_dir)
 
     #----------
 
@@ -855,7 +855,7 @@ cost_err_amt = 0
                                       ens_run_dir, run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      marxan_control_values, src_rds_file_dir)
+                                      rs_control_values, src_rds_file_dir)
 
     #----------------------------------------------------------------------
 
