@@ -494,7 +494,8 @@ ensemble <- function (APP_bd_prob,
                       ens_elems_starting_dir,
                       RS_specific_params,
                       COR_bd_prob,
-                      APP_ens_run)
+                      APP_ens_run,
+                      src_rds_file_dir=NULL)
     {
     cat ("\nInside ensemble function.\n")
 
@@ -907,7 +908,8 @@ do_ensemble <- function (APP_bd_prob,    #  <<<<<-----------------
               ens_elems_starting_dir,
               RS_specific_params,
               COR_bd_prob,
-              ResSel_run)
+              ResSel_run,
+              src_rds_file_dir)
 
     RSrun_topdir = get_RSrun_path_topdir (ResSel_run, starting_dir)  #  isn't this the same base_outdir above?
 
