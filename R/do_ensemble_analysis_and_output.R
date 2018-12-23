@@ -573,6 +573,41 @@ FN_err_amt = 0.01
 gen_combined_cost_and_FP_FN_errors = FALSE
 cost_err_amt = 0
 
+
+
+    #  Create ensemble control values list:
+ens_control_values = list()
+#  This is what marxan_control_values looks like when it's created in
+#  gscp_13_write_marxan_control_file_and_run_marxan.R::set_marxan_controls_and_run_marxan():
+    # retVal = list ()
+    # retVal$marxan_PROP           = marxan_PROP
+    # retVal$marxan_RANDSEED       = marxan_RANDSEED
+    # retVal$marxan_NUMREPS        = marxan_NUMREPS
+    # retVal$marxan_NUMITNS        = marxan_NUMITNS
+    # retVal$marxan_STARTTEMP      = marxan_STARTTEMP
+    # retVal$marxan_NUMTEMP        = marxan_NUMTEMP
+    # retVal$marxan_COSTTHRESH     = marxan_COSTTHRESH
+    # retVal$marxan_THRESHPEN1     = marxan_THRESHPEN1
+    # retVal$marxan_THRESHPEN2     = marxan_THRESHPEN2
+    # retVal$marxan_RUNMODE        = marxan_RUNMODE
+    # retVal$marxan_MISSLEVEL      = marxan_MISSLEVEL
+    # retVal$marxan_ITIMPTYPE      = marxan_ITIMPTYPE
+    # retVal$marxan_HEURTYPE       = marxan_HEURTYPE
+    # retVal$marxan_CLUMPTYPE      = marxan_CLUMPTYPE
+    #
+    # retVal$RS_user_time          = marxan_timings["user.self"]
+    # retVal$RS_system_time        = marxan_timings["sys.self"]
+    # retVal$RS_elapsed_time       = marxan_elapsed_time
+    # retVal$RS_user_child_time    = marxan_timings["user.child"]
+    # retVal$RS_sys_child_time     = marxan_timings["sys.child"]
+
+
+
+
+
+
+
+
     #---------------------------------------------------------------------------
     #---------------------------------------------------------------------------
 
@@ -738,7 +773,7 @@ cost_err_amt = 0
                                       run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      rs_control_values, src_rds_file_dir)
+                                      ens_control_values, src_rds_file_dir)
 
     #----------
 
@@ -758,7 +793,7 @@ cost_err_amt = 0
                                       run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      rs_control_values, src_rds_file_dir)
+                                      ens_control_values, src_rds_file_dir)
 
     #----------
 
@@ -778,7 +813,7 @@ cost_err_amt = 0
                                       run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      rs_control_values, src_rds_file_dir)
+                                      ens_control_values, src_rds_file_dir)
 
     #---------------------------------------------------------------------------
     #---------------------------------------------------------------------------
@@ -817,7 +852,7 @@ cost_err_amt = 0
                                       run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      rs_control_values, src_rds_file_dir)
+                                      ens_control_values, src_rds_file_dir)
 
     #----------
 
@@ -837,7 +872,7 @@ cost_err_amt = 0
                                       run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      rs_control_values, src_rds_file_dir)
+                                      ens_control_values, src_rds_file_dir)
 
     #----------
 
@@ -857,7 +892,7 @@ cost_err_amt = 0
                                       run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
-                                      rs_control_values, src_rds_file_dir)
+                                      ens_control_values, src_rds_file_dir)
 
     #----------------------------------------------------------------------
 
