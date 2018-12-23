@@ -203,29 +203,25 @@ collect_all_ens_cand_sols <- function (ens_RSrun_dirs,
                 scan (Marxan_SA_SS_summed_solution_file_path, sep=",")
 
         all_ens_marxan_SUMMED_sols [[cur_idx]] = marxan_summed_solution_PU_IDs
-            # rs_best_and_summed_solution_PU_IDs$marxan_best_summed_solution_PU_IDs
 
-
-cat ("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n")
-cat ("At bottom of loop COLLECTING CANDIDATE SOLUTIONS.")
-cat ("cur_idx = ", cur_idx, "\n")
-cat ("\n\nall_ens_marxan_BEST_sols = \n")
-print (all_ens_marxan_BEST_sols)
-cat ("\n\nall_ens_marxan_SUMMED_sols = \n")
-print (all_ens_marxan_SUMMED_sols)
-cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-#browser()
+        cat ("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n")
+        cat ("At bottom of loop COLLECTING CANDIDATE SOLUTIONS.")
+        cat ("cur_idx = ", cur_idx, "\n")
+        cat ("\n\nall_ens_marxan_BEST_sols = \n")
+        print (all_ens_marxan_BEST_sols)
+        cat ("\n\nall_ens_marxan_SUMMED_sols = \n")
+        print (all_ens_marxan_SUMMED_sols)
+        cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
         }
 
-cat ("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n")
-cat ("About to return from COLLECTING CANDIDATE SOLUTIONS.")
-cat ("cur_idx = ", cur_idx, "\n")
-cat ("\n\nall_ens_marxan_BEST_sols = \n")
-print (all_ens_marxan_BEST_sols)
-cat ("\n\nall_ens_marxan_SUMMED_sols = \n")
-print (all_ens_marxan_SUMMED_sols)
-cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-#browser()
+    cat ("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n")
+    cat ("About to return from COLLECTING CANDIDATE SOLUTIONS.")
+    cat ("cur_idx = ", cur_idx, "\n")
+    cat ("\n\nall_ens_marxan_BEST_sols = \n")
+    print (all_ens_marxan_BEST_sols)
+    cat ("\n\nall_ens_marxan_SUMMED_sols = \n")
+    print (all_ens_marxan_SUMMED_sols)
+    cat ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
 
     return (list (best_sols   = all_ens_marxan_BEST_sols,
                   summed_sols = all_ens_marxan_SUMMED_sols))
@@ -358,13 +354,14 @@ score_ALL_cand_sols_against_ALL_probs <- function (ens_prob_dirs,
         cur_prob = readRDS (file.path (cur_prob_dir, filename))
         cur_bpm = cur_prob@bpm
 
-        results_list = score_ALL_cand_sols_against_ONE_prob (
-                                                        all_ens_cand_sols,
-                                                        pseudo_opt_costs [cur_prob_idx],       #  marxan/gurobi computed cost on apparent problem
-                                                        num_spp,
-                                                        cur_bpm,
-                                                        PU_costs_vec,
-                                                        spp_rep_targets)
+        results_list =
+            score_ALL_cand_sols_against_ONE_prob (all_ens_cand_sols,
+                                                  pseudo_opt_costs [cur_prob_idx],       #  marxan/gurobi computed cost on apparent problem
+                                                  num_probs_in_ensemble,
+                                                  num_spp,
+                                                  cur_bpm,
+                                                  PU_costs_vec,
+                                                  spp_rep_targets)
 
         all_cand_spp_rep_err_scores [, cur_prob_idx] =
                 results_list$all_cand_spp_rep_err_scores    #  where this is a vector of length N
@@ -400,7 +397,7 @@ compute_stats_for_all_sols_across_all_ens_probs <-
         all_cand_score_stats [cur_cand_idx, 6]   = cur_cand_mean
         }
 
-    all_cand_score_stats = as_tibble (all_cand_score_stats)
+    all_cand_score_stats = tibble::as_tibble (all_cand_score_stats)
     names (all_cand_score_stats) = c ("min", "Q1", "median", "Q3", "max", "mean")
 
     return (all_cand_score_stats)
