@@ -474,10 +474,10 @@ compute_stats_and_winners_for_given_score_type <-
         convert_lists_of_PU_IDs_to_matrix_of_0_1 (all_cand_sols, num_PUs,
                                                   num_probs_in_ensemble)
 
-    votes_for_each_PU_ID = as_tibble (PU_ID=1:num_PUs,
+    votes_for_each_PU_ID = tibble::as_tibble (PU_ID=1:num_PUs,
                                       votes=colSums (all_cand_matrix_of_pres_abs))
 
-    PUs_sorted_by_votes = arrange (votes_for_each_PU_ID, desc (votes))
+    PUs_sorted_by_votes = dplyr::arrange (votes_for_each_PU_ID, desc (votes))
 
     winning_sol_vector_by_summed_votes =
         find_first_solution_with_all_rep_tgts_met (bpm,
