@@ -909,7 +909,7 @@ do_ensemble <- function (APP_bd_prob,    #  <<<<<-----------------
               COR_bd_prob,
               ResSel_run)
 
-    RSrun_topdir = get_RSrun_path_topdir (ResSel_run, starting_dir)
+    RSrun_topdir = get_RSrun_path_topdir (ResSel_run, starting_dir)  #  isn't this the same base_outdir above?
 
     return (RSrun_topdir)
 
