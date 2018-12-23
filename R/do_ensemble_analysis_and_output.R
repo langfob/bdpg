@@ -177,21 +177,6 @@ collect_all_ens_cand_sols <- function (ens_RSrun_dirs,
     for (cur_idx in 1:num_ensemble_elements)
         {
         cur_RSrun_dir = ens_RSrun_dirs [cur_idx]
-#         fileName = paste0 ("saved.", basename (cur_RSrun_dir), ".rds")
-#         APP_marxan_run = readRDS (file.path (cur_RSrun_dir, fileName))
-
-#         cur_prob_dir = ens_prob_dirs [cur_idx]
-#         fileName = paste0 ("saved.", basename (cur_prob_dir), ".rds")
-#         APP_bd_prob = readRDS (file.path (cur_prob_dir, fileName))
-# browser()
-#         rs_best_and_summed_solution_PU_IDs =
-#                 get_marxan_best_and_summed_solution_PU_IDs (APP_marxan_run,
-#                                                             ens_starting_dir,
-#
-#                                                             #COR_bd_prob,    #  unnecessary?  just reuse APP_bd_prob?
-#                                                             APP_bd_prob,
-#                                                             APP_bd_prob)
-# browser()
 
                 #-------------------------
                 #  Best OVERALL solution
@@ -205,8 +190,6 @@ collect_all_ens_cand_sols <- function (ens_RSrun_dirs,
                 scan (Marxan_SA_best_solution_file_path, sep=",")
 
         all_ens_marxan_BEST_sols [[cur_idx]] = rs_best_solution_PU_IDs
-            # rs_best_and_summed_solution_PU_IDs$rs_best_solution_PU_IDs
-            #        rs_best_and_summed_solution_PU_IDs$marxan_best_solution_PU_IDs
 
                 #-------------------
                 #  SUMMED solution
