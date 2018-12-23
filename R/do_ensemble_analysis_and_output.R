@@ -17,10 +17,12 @@
 #-------------------------------------------------------------------------------
 
 save_rs_sol_vec_and_results <- function (solution_file_name,
-                                         rsrun_dir,
+
+#2018 12 23#                                    rsrun_dir,
+
                                          solution_PU_IDs,
                                          run_id,
-                                         starting_dir,
+                                    starting_dir,
                                          APP_run,
                                          COR_bd_prob,
                                          APP_bd_prob,
@@ -34,6 +36,11 @@ save_rs_sol_vec_and_results <- function (solution_file_name,
               #  to make it easier to find and retrieve.
               #---------------------------------------------------------
 
+rsrun_dir = starting_dir    #  rsrun_dir was an arg, but I think it was the same as starting_dir
+                            #  Adding this for now to preserve what it was used for until I know
+                            #  whether it can be replaced by starting_dir
+                            #  2018 12 23 - BTL
+                            #  Will flag all related references for this with: #2018 12 23#
     solution_file_path = file.path (rsrun_dir, solution_file_name)
     write (solution_PU_IDs, solution_file_path, sep=",")
 
@@ -66,7 +73,7 @@ save_ens_sol_vec_and_results <- function (sol_vec,
                                           ens_type_name,
                                           score_name_str,
                                           rs_name_str,
-                                          ens_run_dir,
+#2018 12 23#                                          ens_run_dir,
                                           run_id,
                                           starting_dir,
                                           APP_ens_run,
@@ -80,7 +87,7 @@ save_ens_sol_vec_and_results <- function (sol_vec,
     solution_file_name = paste0 ("ENS_", rs_method_name, "_solution_PU_IDs.csv")
 
     save_rs_sol_vec_and_results (solution_file_name,
-                                 rsrun_dir          = ens_run_dir,
+#2018 12 23#                                 rsrun_dir          = ens_run_dir,
                                  solution_PU_IDs    = sol_vec,
                                  run_id,
                                  starting_dir,
@@ -106,7 +113,8 @@ save_ens_sol_vec_and_results <- function (sol_vec,
 save_ens_sol_vectors_and_results <-
                 function (solution_vectors,
                           score_name_str, rs_name_str,
-                          ens_run_dir, run_id,
+#2018 12 23#                          ens_run_dir,
+                          run_id,
                           starting_dir, APP_ens_run,
                           COR_bd_prob, APP_bd_prob,
                           rs_control_values, src_rds_file_dir)
@@ -116,16 +124,18 @@ save_ens_sol_vectors_and_results <-
         sol_vec = solution_vectors$sol_vec_by_min,
         ens_type_name = "min",
         score_name_str, rs_name_str,
-        ens_run_dir, run_id,
-        starting_dir, APP_ens_run,
-        COR_bd_prob, APP_bd_prob,
-        rs_control_values, src_rds_file_dir)
+#2018 12 23#        ens_run_dir,
+            run_id,
+            starting_dir, APP_ens_run,
+            COR_bd_prob, APP_bd_prob,
+            rs_control_values, src_rds_file_dir)
 
     save_ens_sol_vec_and_results (
         sol_vec = solution_vectors$sol_vec_by_Q1,
         ens_type_name = "Q1",
         score_name_str, rs_name_str,
-            ens_run_dir, run_id,
+#2018 12 23#            ens_run_dir,
+            run_id,
             starting_dir, APP_ens_run,
             COR_bd_prob, APP_bd_prob,
             rs_control_values, src_rds_file_dir)
@@ -134,7 +144,8 @@ save_ens_sol_vectors_and_results <-
         sol_vec = solution_vectors$sol_vec_by_median,
         ens_type_name = "median",
         score_name_str, rs_name_str,
-            ens_run_dir, run_id,
+#2018 12 23#            ens_run_dir,
+            run_id,
             starting_dir, APP_ens_run,
             COR_bd_prob, APP_bd_prob,
             rs_control_values, src_rds_file_dir)
@@ -143,7 +154,8 @@ save_ens_sol_vectors_and_results <-
         sol_vec = solution_vectors$sol_vec_by_mean,
         ens_type_name = "mean",
         score_name_str, rs_name_str,
-            ens_run_dir, run_id,
+#2018 12 23#            ens_run_dir,
+            run_id,
             starting_dir, APP_ens_run,
             COR_bd_prob, APP_bd_prob,
             rs_control_values, src_rds_file_dir)
@@ -152,7 +164,8 @@ save_ens_sol_vectors_and_results <-
         sol_vec = solution_vectors$sol_vec_by_summed_votes,
         ens_type_name = "summed_votes",
         score_name_str, rs_name_str,
-            ens_run_dir, run_id,
+#2018 12 23#            ens_run_dir,
+            run_id,
             starting_dir, APP_ens_run,
             COR_bd_prob, APP_bd_prob,
             rs_control_values, src_rds_file_dir)
@@ -479,7 +492,9 @@ ensemble <- function (APP_bd_prob,
                       parameters,
                       starting_dir,
                       ens_elems_starting_dir,
-                      RS_specific_params)
+                      RS_specific_params,
+                      COR_bd_prob,
+                      APP_ens_run)
     {
     cat ("\nInside ensemble function.\n")
 
@@ -679,7 +694,7 @@ cost_err_amt = 0
         #-----------------------------------------------------------------
 
     all_ens_marxan_BEST_sol_scores =
-        score_ALL_cand_sols_against_ALL_probs (ens_prob_dirs,
+        score_ALL_cand_sols_against_ALL_probs (prob_dirs,
 
                                     all_ens_marxan_BEST_sols,
                                                pseudo_opt_costs,
@@ -718,7 +733,8 @@ cost_err_amt = 0
     save_ens_sol_vectors_and_results (winning_marxan_BEST_sols_by_spp_rep_err_score,
                                       score_name_str = "spp_rep",
                                       rs_name_str = "marxan_BEST",
-                                      ens_run_dir, run_id,
+#2018 12 23#                                      ens_run_dir,
+                                      run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
                                       rs_control_values, src_rds_file_dir)
@@ -737,7 +753,8 @@ cost_err_amt = 0
     save_ens_sol_vectors_and_results (winning_marxan_BEST_sols_by_cost_err_score,
                                       score_name_str = "cost",
                                       rs_name_str = "marxan_BEST",
-                                      ens_run_dir, run_id,
+#2018 12 23#                                      ens_run_dir,
+                                      run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
                                       rs_control_values, src_rds_file_dir)
@@ -756,7 +773,8 @@ cost_err_amt = 0
     save_ens_sol_vectors_and_results (winning_marxan_BEST_sols_by_euc_err_score,
                                       score_name_str = "euc",
                                       rs_name_str = "marxan_BEST",
-                                      ens_run_dir, run_id,
+#2018 12 23#                                      ens_run_dir,
+                                      run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
                                       rs_control_values, src_rds_file_dir)
@@ -769,7 +787,7 @@ cost_err_amt = 0
     #---------------------------------
 
     all_ens_marxan_SUMMED_sol_scores =
-        score_ALL_cand_sols_against_ALL_probs (ens_prob_dirs,
+        score_ALL_cand_sols_against_ALL_probs (prob_dirs,
 
                                     all_ens_marxan_SUMMED_sols,
                                                pseudo_opt_costs,
@@ -794,7 +812,8 @@ cost_err_amt = 0
     save_ens_sol_vectors_and_results (winning_marxan_SUMMED_sols_by_spp_rep_err_score,
                                       score_name_str = "spp_rep",
                                       rs_name_str = "marxan_SUMMED",
-                                      ens_run_dir, run_id,
+#2018 12 23#                                      ens_run_dir,
+                                      run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
                                       rs_control_values, src_rds_file_dir)
@@ -813,7 +832,8 @@ cost_err_amt = 0
     save_ens_sol_vectors_and_results (winning_marxan_SUMMED_sols_by_cost_err_score,
                                       score_name_str = "cost",
                                       rs_name_str = "marxan_SUMMED",
-                                      ens_run_dir, run_id,
+#2018 12 23#                                      ens_run_dir,
+                                      run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
                                       rs_control_values, src_rds_file_dir)
@@ -832,7 +852,8 @@ cost_err_amt = 0
     save_ens_sol_vectors_and_results (winning_marxan_SUMMED_sols_by_euc_err_score,
                                       score_name_str = "euc",
                                       rs_name_str = "marxan_SUMMED",
-                                      ens_run_dir, run_id,
+#2018 12 23#                                      ens_run_dir,
+                                      run_id,
                                       starting_dir, APP_ens_run,
                                       COR_bd_prob, APP_bd_prob,
                                       rs_control_values, src_rds_file_dir)
@@ -884,7 +905,9 @@ do_ensemble <- function (APP_bd_prob,    #  <<<<<-----------------
               parameters,
               starting_dir,
               ens_elems_starting_dir,
-              RS_specific_params)
+              RS_specific_params,
+              COR_bd_prob,
+              ResSel_run)
 
     RSrun_topdir = get_RSrun_path_topdir (ResSel_run, starting_dir)
 
