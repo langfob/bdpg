@@ -245,15 +245,15 @@ collect_all_ens_cand_sols <- function (ens_RSrun_dirs,
 
 get_pseudo_opt_costs_for_all_ens_probs <- function (all_ens_best_cand_sols, #PSEUDO-OPT
                                                     num_probs_in_ensemble,
-                                                    PU_costs_vec)
+                                                    PU_costs)
     {
     pseudo_opt_costs = vector (mode="numeric", length=num_probs_in_ensemble)
 
     for (cur_idx in 1:num_probs_in_ensemble)
         {
         pseudo_opt_costs [cur_idx] =
-            compute_solution_cost (all_ens_best_cand_sols [cur_idx],
-                                   PU_costs_vec)
+            compute_solution_cost (all_ens_best_cand_sols [[cur_idx]],
+                                   PU_costs)
         }
 
     return (pseudo_opt_costs)
@@ -266,7 +266,7 @@ score_ONE_cand_sol_against_ONE_prob <- function (cur_bpm,
                                                  spp_rep_targets,
                                                  num_spp,
                                                  pseudo_opt_cost,
-                                                 PU_costs_vec)
+                                                 PU_costs)
     {
         #-------------------------
         #  Compute spp rep error
@@ -283,7 +283,7 @@ score_ONE_cand_sol_against_ONE_prob <- function (cur_bpm,
     cost_results_list =
         compute_RS_solution_cost_scores_wrt_COR_costs_vec (cur_cand_sol,
                                                            pseudo_opt_cost,
-                                                           PU_costs_vec)
+                                                           PU_costs)
 
         #--------------------------------------------------------
         #  Compute euclidean combination of rep and cost errors
@@ -308,7 +308,7 @@ score_ALL_cand_sols_against_ONE_prob <- function (all_cand_sols,         #  list
                                                   num_probs_in_ensemble,
                                                   num_spp,
                                                   cur_bpm,
-                                                  PU_costs_vec,
+                                                  PU_costs,
                                                   spp_rep_targets)
     {
     # all_cand_spp_rep_err_scores = all_cand_scores_list$all_cand_spp_rep_err_scores
@@ -328,7 +328,7 @@ score_ALL_cand_sols_against_ONE_prob <- function (all_cand_sols,         #  list
                                                            spp_rep_targets,
                                                            num_spp,
                                                            pseudo_opt_cost,
-                                                           PU_costs_vec)
+                                                           PU_costs)
 
         all_cand_spp_rep_err_scores [cur_idx] = scores_list$spp_rep_shortfall
         all_cand_cost_err_scores [cur_idx]    = scores_list$solution_cost_err_frac
@@ -347,7 +347,7 @@ score_ALL_cand_sols_against_ALL_probs <- function (ens_prob_dirs,
                                                    pseudo_opt_costs,
                                                    num_probs_in_ensemble,
                                                    num_spp,
-                                                   PU_costs_vec,
+                                                   PU_costs,
                                                    spp_rep_targets
                                                    )
     {
@@ -373,7 +373,7 @@ score_ALL_cand_sols_against_ALL_probs <- function (ens_prob_dirs,
                                                   num_probs_in_ensemble,
                                                   num_spp,
                                                   cur_bpm,
-                                                  PU_costs_vec,
+                                                  PU_costs,
                                                   spp_rep_targets)
 
         all_cand_spp_rep_err_scores [, cur_prob_idx] =
@@ -551,8 +551,8 @@ ensemble <- function (APP_bd_prob,
     num_PUs         = APP_bd_prob@num_PUs
     num_spp         = APP_bd_prob@num_spp
     bpm             = APP_bd_prob@bpm
-    PU_costs_vec    = APP_bd_prob@PU_costs_vec
     spp_rep_targets = APP_bd_prob@spp_rep_targets
+    PU_costs        = APP_bd_prob@PU_costs
 
         #-----------------------------------------------------------------------
         #  Get and validate input parameters specific to this reserve selector.
@@ -716,7 +716,7 @@ ens_control_values = list()
     pseudo_opt_costs =
         get_pseudo_opt_costs_for_all_ens_probs (all_ens_marxan_BEST_sols, #PSEUDO-OPT SOLUTION
                                                 num_probs_in_ensemble,
-                                                PU_costs_vec)
+                                                PU_costs)
 
     #---------------------------------------------------------------------------
     #---------------------------------------------------------------------------
@@ -736,7 +736,7 @@ ens_control_values = list()
                                                pseudo_opt_costs,
                                                num_probs_in_ensemble,
                                                num_spp,
-                                               PU_costs_vec,
+                                               PU_costs,
                                                spp_rep_targets
                                                )
 
@@ -829,7 +829,7 @@ ens_control_values = list()
                                                pseudo_opt_costs,
                                                num_probs_in_ensemble,
                                                num_spp,
-                                               PU_costs_vec,
+                                               PU_costs,
                                                spp_rep_targets
                                                )
 
