@@ -381,7 +381,7 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
 
 #-------------------------------------------------------------------------------
 
-EF = function (
+EF <- function (
 
 seed_value,
                num_spp_to_generate,
