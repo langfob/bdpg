@@ -442,7 +442,8 @@ compute_stats_and_winners_for_given_score_type <-
                                       bpm,
                                       num_probs_in_ensemble,
                                       rs_name_str,
-                                      score_name_str)
+                                      score_name_str,
+                                      spp_rep_targets)
     {
 
 # plot each candidate's scores on all probs
@@ -552,8 +553,8 @@ ensemble <- function (APP_bd_prob,
     num_PUs         = APP_bd_prob@num_PUs
     num_spp         = APP_bd_prob@num_spp
     bpm             = APP_bd_prob@bpm
-    spp_rep_targets = APP_bd_prob@spp_rep_targets
     PU_costs        = APP_bd_prob@PU_costs
+    spp_rep_targets = APP_ens_run@targets    #APP_bd_prob@spp_rep_targets
 
         #-----------------------------------------------------------------------
         #  Get and validate input parameters specific to this reserve selector.
@@ -762,7 +763,8 @@ ens_control_values = list()
                                                         bpm,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_BEST",
-                                                        score_name_str = "spp_rep")
+                                                        score_name_str = "spp_rep",
+                                      spp_rep_targets)
 
     save_ens_sol_vectors_and_results (winning_marxan_BEST_sols_by_spp_rep_err_score,
                                       score_name_str = "spp_rep",
@@ -782,7 +784,8 @@ ens_control_values = list()
                                                         bpm,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_BEST",
-                                                        score_name_str = "cost")
+                                                        score_name_str = "cost",
+                                      spp_rep_targets)
 
     save_ens_sol_vectors_and_results (winning_marxan_BEST_sols_by_cost_err_score,
                                       score_name_str = "cost",
@@ -802,7 +805,8 @@ ens_control_values = list()
                                                         bpm,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_BEST",
-                                                        score_name_str = "euc")
+                                                        score_name_str = "euc",
+                                      spp_rep_targets)
 
     save_ens_sol_vectors_and_results (winning_marxan_BEST_sols_by_euc_err_score,
                                       score_name_str = "euc",
@@ -841,7 +845,8 @@ ens_control_values = list()
                                                         bpm,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_SUMMED",
-                                                        score_name_str = "spp_rep")
+                                                        score_name_str = "spp_rep",
+                                      spp_rep_targets)
 
     save_ens_sol_vectors_and_results (winning_marxan_SUMMED_sols_by_spp_rep_err_score,
                                       score_name_str = "spp_rep",
@@ -861,7 +866,8 @@ ens_control_values = list()
                                                         bpm,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_SUMMED",
-                                                        score_name_str = "cost")
+                                                        score_name_str = "cost",
+                                      spp_rep_targets)
 
     save_ens_sol_vectors_and_results (winning_marxan_SUMMED_sols_by_cost_err_score,
                                       score_name_str = "cost",
@@ -881,7 +887,8 @@ ens_control_values = list()
                                                         bpm,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_SUMMED",
-                                                        score_name_str = "euc")
+                                                        score_name_str = "euc",
+                                      spp_rep_targets)
 
     save_ens_sol_vectors_and_results (winning_marxan_SUMMED_sols_by_euc_err_score,
                                       score_name_str = "euc",
