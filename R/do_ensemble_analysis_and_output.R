@@ -440,6 +440,7 @@ compute_stats_and_winners_for_given_score_type <-
                             function (all_cand_scores_across_all_ens_probs,
                                       all_cand_sols,
                                       bpm,
+                                      num_PUs,
                                       num_probs_in_ensemble,
                                       rs_name_str,
                                       score_name_str,
@@ -761,6 +762,7 @@ ens_control_values = list()
 
                                                         all_cand_sols = all_ens_marxan_BEST_sols,
                                                         bpm,
+                                      num_PUs,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_BEST",
                                                         score_name_str = "spp_rep",
@@ -782,6 +784,7 @@ ens_control_values = list()
 
                                                         all_cand_sols = all_ens_marxan_BEST_sols,
                                                         bpm,
+                                      num_PUs,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_BEST",
                                                         score_name_str = "cost",
@@ -803,6 +806,7 @@ ens_control_values = list()
 
                                                         all_cand_sols = all_ens_marxan_BEST_sols,
                                                         bpm,
+                                      num_PUs,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_BEST",
                                                         score_name_str = "euc",
@@ -843,6 +847,7 @@ ens_control_values = list()
 
                                                         all_cand_sols = all_ens_marxan_SUMMED_sols,
                                                         bpm,
+                                      num_PUs,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_SUMMED",
                                                         score_name_str = "spp_rep",
@@ -864,6 +869,7 @@ ens_control_values = list()
 
                                                         all_cand_sols = all_ens_marxan_SUMMED_sols,
                                                         bpm,
+                                      num_PUs,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_SUMMED",
                                                         score_name_str = "cost",
@@ -885,6 +891,7 @@ ens_control_values = list()
 
                                                         all_cand_sols = all_ens_marxan_SUMMED_sols,
                                                         bpm,
+                                      num_PUs,
                                                         num_probs_in_ensemble,
                                                         rs_name_str = "marxan_SUMMED",
                                                         score_name_str = "euc",
