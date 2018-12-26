@@ -802,7 +802,8 @@ ens_control_values = list()
     #----------
 
     winning_marxan_BEST_sols_by_euc_err_score =
-        compute_stats_and_winners_for_given_score_type (all_ens_marxan_BEST_sol_scores$all_ens_marxan_BEST_euc_err_scores,
+#        compute_stats_and_winners_for_given_score_type (all_ens_marxan_BEST_sol_scores$all_ens_marxan_BEST_euc_err_scores,
+        compute_stats_and_winners_for_given_score_type (all_ens_marxan_BEST_sol_scores$all_cand_euc_err_scores,
 
                                                         all_cand_sols = all_ens_marxan_BEST_sols,
                                                         bpm,
@@ -887,7 +888,8 @@ ens_control_values = list()
     #----------
 
     winning_marxan_SUMMED_sols_by_euc_err_score =
-        compute_stats_and_winners_for_given_score_type (all_ens_marxan_SUMMED_sol_scores$all_ens_marxan_SUMMED_euc_err_scores,
+#        compute_stats_and_winners_for_given_score_type (all_ens_marxan_SUMMED_sol_scores$all_ens_marxan_SUMMED_euc_err_scores,
+        compute_stats_and_winners_for_given_score_type (all_ens_marxan_SUMMED_sol_scores$all_cand_euc_err_scores,
 
                                                         all_cand_sols = all_ens_marxan_SUMMED_sols,
                                                         bpm,
