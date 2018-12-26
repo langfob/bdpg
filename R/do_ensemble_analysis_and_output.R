@@ -691,7 +691,7 @@ ens_control_values = list()
 
     cat ("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n")
     cat ("FINISHED COLLECTING CANDIDATE SOLUTIONS.")
-    cat ("all_ens_marxan_BEST_sols = \n")
+    cat ("\n\nall_ens_marxan_BEST_sols = \n")
     print (all_ens_marxan_BEST_sols)
     cat ("\n\nall_ens_marxan_SUMMED_sols = \n")
     print (all_ens_marxan_SUMMED_sols)
