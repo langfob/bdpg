@@ -477,7 +477,7 @@ compute_stats_and_winners_for_given_score_type <-
 
     winning_sol_vector_by_summed_votes =
         find_first_solution_with_all_rep_tgts_met (bpm,
-                                                   PUs_sorted_by_votes,
+                                                   PUs_sorted_by_votes$PU_ID,
                                                    spp_rep_targets)
 
         #----------
