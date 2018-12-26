@@ -83,11 +83,11 @@ plot_hist_and_normal_curve_for_sampled_lognormal_data =
 #'  No zero counts are allowed, so any species that was assigned a 0 count in
 #'  the lognormal generation is removed from the returned vector.
 #'  This means that the number of species returned may be less than the value
-#'  of num_spp_to_generate specified in the inputs.
+#'  of tot_num_spp_after_wrapping specified in the inputs.
 #'
 #-------------------------------------------------------------------------------
 
-#' @param num_spp_to_generate integer
+#' @param tot_num_spp_after_wrapping integer
 #' @param meanlog numeric
 #' @param sdlog numeric
 #' @param add_one_to_abundances boolean
@@ -97,13 +97,13 @@ plot_hist_and_normal_curve_for_sampled_lognormal_data =
 
 #-------------------------------------------------------------------------------
 
-gen_rounded_abundances = function (num_spp_to_generate, meanlog, sdlog,
+gen_rounded_abundances = function (tot_num_spp_after_wrapping, meanlog, sdlog,
                                    add_one_to_abundances,
                                    plot_rounded_abundances=FALSE)
     {
         #  Note that "abundance" is used here to mean the number of PUs
         #  that a species occurs on.
-    abundances                   = rlnorm (num_spp_to_generate, meanlog = meanlog, sdlog = sdlog)
+    abundances                   = rlnorm (tot_num_spp_after_wrapping, meanlog = meanlog, sdlog = sdlog)
     rounded_abundances           = round (abundances)    #  Returns a vector.
 #browser()
         #---------------------------------------------------------------------
@@ -151,7 +151,7 @@ gen_rounded_abundances = function (num_spp_to_generate, meanlog, sdlog,
 
 #-------------------------------------------------------------------------------
 
-gen_lognormal = function (num_spp_to_generate,
+gen_lognormal = function (tot_num_spp_after_wrapping,
                           max_frac_spp_on_2_PUs, max_max_abundance,
                           min_meanlog = 0.5, max_meanlog = 1.5,
                           min_sdlog = 0.5, max_sdlog = 1.0,
@@ -200,7 +200,7 @@ gen_lognormal = function (num_spp_to_generate,
 
         meanlog = runif (1, min=min_meanlog, max=max_meanlog)
         sdlog   = runif (1, min=min_sdlog,   max=max_sdlog)
-        abundance_data = gen_rounded_abundances (num_spp_to_generate,
+        abundance_data = gen_rounded_abundances (tot_num_spp_after_wrapping,
                                                  meanlog, sdlog,
                                                  add_one_to_abundances,
                                                  plot_rounded_abundances=FALSE)
@@ -223,7 +223,7 @@ gen_lognormal = function (num_spp_to_generate,
         # num_spp_on_0_patches = length (nonexistant_spp)
         #
         # frac_of_spp_that_are_on_2_PUs =
-        #     num_spp_on_exactly_2_patches / (num_spp_to_generate - num_spp_on_0_patches)
+        #     num_spp_on_exactly_2_patches / (tot_num_spp_after_wrapping - num_spp_on_0_patches)
         #
         # cat ("\n\nnum_spp_on_exactly_2_patches = ", num_spp_on_exactly_2_patches,
         #      "\nnum_spp_on_0_patches = ", num_spp_on_0_patches,
@@ -366,7 +366,7 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
 #-------------------------------------------------------------------------------
 
 #' @param seed_value integer
-#' @param num_spp_to_generate integer
+#' @param tot_num_spp_after_wrapping integer
 #' @param min_num_spp_on_2_PUs integer
 #' @param max_max_abundance integer
 #' @param target_max_abundance_ct integer
@@ -384,7 +384,7 @@ calculate_mu <- function (num_PUs_per_spp_ie_rarity, num_spp_with_given_num_PUs,
 EF <- function (
 
 seed_value,
-               num_spp_to_generate,
+               tot_num_spp_after_wrapping,
                min_num_spp_on_2_PUs,
                max_max_abundance,
                target_max_abundance_ct,
@@ -394,7 +394,7 @@ seed_value,
     {
     cat ("\n\nStarting EF:",
 "\n    seed_value              = ", seed_value,
-         "\n    num_spp_to_generate     = ", num_spp_to_generate,
+         "\n    tot_num_spp_after_wrapping     = ", tot_num_spp_after_wrapping,
          "\n    min_num_spp_on_2_PUs    = ", min_num_spp_on_2_PUs,
          "\n    max_max_abundance       = ", max_max_abundance,
          "\n    target_max_abundance_ct = ", target_max_abundance_ct,
@@ -404,7 +404,7 @@ seed_value,
          "\n", sep='')
 
 #set.seed (seed_value)
-    abundance_data = gen_rounded_abundances (num_spp_to_generate,
+    abundance_data = gen_rounded_abundances (tot_num_spp_after_wrapping,
                                              mean_sd_pair [1],
                                              mean_sd_pair [2],
                                              add_one_to_abundances,
@@ -521,7 +521,7 @@ seed_value,
                             target_max_abundance_ct,
                             max_max_abundance,
                     seed_value,
-                            num_spp_to_generate,
+                            tot_num_spp_after_wrapping,
                             add_one_to_abundances,
                             sep=',')
 
@@ -544,7 +544,7 @@ seed_value,
 #'  constraints specified in the argument list, i.e.,
 #'  \enumerate{
 #'      \item{to generate roughly the given number of species but never more
-#'          than the given number (num_spp_to_generate)}
+#'          than the given number (tot_num_spp_after_wrapping)}
 #'      \item{to come close to the given number of species that occur on
 #'          exactly 2 PUs without ever falling below that minimum value
 #'          (min_num_spp_on_2_PUs)}
@@ -556,7 +556,7 @@ seed_value,
 #-------------------------------------------------------------------------------
 
 #' @param seed_value random seed to pass to optim function
-#' @param num_spp_to_generate number of species to generate in distribution
+#' @param tot_num_spp_after_wrapping number of species to generate in distribution
 #' @param min_num_spp_on_2_PUs minimum number of species that occur on exactly 2 patches in distribution
 #' @param max_max_abundance largest maximum abundance allowed in distribution
 #' @param target_max_abundance_ct desired maximum abundance in distribution
@@ -615,7 +615,7 @@ seed_value,
 
 search_for_approximating_lognormal <- function (
                                         seed_value,
-                                                num_spp_to_generate,
+                                                tot_num_spp_after_wrapping,
                                                 min_num_spp_on_2_PUs,
                                                 max_max_abundance,
                                                 target_max_abundance_ct,
@@ -629,7 +629,7 @@ search_for_approximating_lognormal <- function (
 
     cat ("\n\nStart of search_for_approximating_lognormal:",
 "\n    seed_value = ", seed_value,
-         "\n    num_spp_to_generate = ", num_spp_to_generate,
+         "\n    tot_num_spp_after_wrapping = ", tot_num_spp_after_wrapping,
          "\n    min_num_spp_on_2_PUs = ", min_num_spp_on_2_PUs,
          "\n    max_max_abundance = ", max_max_abundance,
          "\n    target_max_abundance_ct = ", target_max_abundance_ct,
@@ -649,7 +649,7 @@ search_for_approximating_lognormal <- function (
         cat (paste0 ("\nEF_num,score,meanlog,sdlog,double_frac,",
                      "max_abundance_frac,min_num_spp_on_2_PUs,",
                      "target_max_abundance_ct,max_max_abundance,",
-                     "seed_value,num_spp_to_generate,add_one_to_abundance",
+                     "seed_value,tot_num_spp_after_wrapping,add_one_to_abundance",
                      sep=''),
              file=outfile, sep="\n")
         }
@@ -664,7 +664,7 @@ search_for_approximating_lognormal <- function (
                      EF,
                      control=c(maxit=max_iterations),
                 seed_value = seed_value,
-                     num_spp_to_generate = num_spp_to_generate,
+                     tot_num_spp_after_wrapping = tot_num_spp_after_wrapping,
                      min_num_spp_on_2_PUs = min_num_spp_on_2_PUs,
                      max_max_abundance = max_max_abundance,
                      target_max_abundance_ct = target_max_abundance_ct,
@@ -673,7 +673,7 @@ search_for_approximating_lognormal <- function (
                      )
 
 #set.seed (seed_value)
-    abundance_data = gen_rounded_abundances (num_spp_to_generate,
+    abundance_data = gen_rounded_abundances (tot_num_spp_after_wrapping,
                                              result$par [1],
                                              result$par [2],
                                              add_one_to_abundances)
@@ -779,9 +779,45 @@ find_lognormal_to_wrap_around_Xu = function (Xu_bdprob, parameters,
 #        solution_frac_of_landscape = num_Xu_dep_set_nodes / Xu_tot_num_PUs
         }
 
-    num_spp_to_generate =
-        round (Xu_tot_num_spp * (1 - desired_Xu_spp_frac_of_all_spp) /
-                                desired_Xu_spp_frac_of_all_spp)
+        #-----------------------------------------------------------------------
+        #  2018 12 26 - BTL
+        #  Replacing num_spp_to_generate with tot_num_spp_after_wrapping
+        #  because num_spp_to_generate is ambiguous, i.e., is it the number
+        #  of new species to add in the wrap or is it the total number of
+        #  species in the final wrapped distribution including the original
+        #  Xu species?  The correct answer is the total number of species
+        #  in the final wrap, but the code that was here doesn't do that.
+        #
+        #  I supposedly fixed a bug in this back on 2018 11 08 in commit
+        #  de06807e "Fix bug in computing num_spp_to_generate for wrap".
+        #  Instead of fixing it, I made it calculate the number of new species
+        #  to add in the wrap (i.e., excluding the original Xu species),
+        #  however, it needs to be the total number of species in the final
+        #  wrapped distribution.  This led to fewer species in the wrapped
+        #  distribution, which still worked in the sense that it didn't
+        #  usuall crash the wrapping code, but it made the fraction of Xu
+        #  species in the final distribution slightly off.
+        #  However, when the desired_Xu_spp_frac_of_all_spp was 50%, it did
+        #  crash the wrapping code because it meant that the lognormal search
+        #  was trying to fit a lognormal that had exactly the same number of
+        #  total points as points on exactly 2 PUs.
+        #
+        #  So, I'm changing the name to make it clearer exactly what the
+        #  aim of this computation is and changing the computation itself so
+        #  that it gets to that aim instead of the incorrect aim that was
+        #  introduced in the November "bug fix".  Hopefully, this time it
+        #  really IS a fix.  To that end, I'll also add a validation test
+        #  after the wrap is built and in that test, make sure that the
+        #  desired fraction is met.
+        #-----------------------------------------------------------------------
+        #    OLD (INCORRECT) CODE that calculated num new spp to add:
+        #        num_spp_to_generate =
+        #            round (Xu_tot_num_spp * (1 - desired_Xu_spp_frac_of_all_spp) /
+        #                                    desired_Xu_spp_frac_of_all_spp)
+        #-----------------------------------------------------------------------
+        #    CORRECT CODE:
+    tot_num_spp_after_wrapping = round (Xu_tot_num_spp / desired_Xu_spp_frac_of_all_spp)
+        #-----------------------------------------------------------------------
 
     max_abundance_frac         = min (1.0,
                                       max (0,
@@ -840,7 +876,7 @@ find_lognormal_to_wrap_around_Xu = function (Xu_bdprob, parameters,
         search_for_approximating_lognormal (
 
 seed_value_for_search,
-                                            num_spp_to_generate,
+                                            tot_num_spp_after_wrapping,
                                             min_num_spp_on_2_PUs,
                                             max_max_abundance_ct,
                                             target_max_abundance_ct,
@@ -857,6 +893,27 @@ seed_value_for_search,
 #max_abund = max (rounded_abundances)
 #normalized_abundances_xxx = rounded_abundances / max_abund
 #plot (normalized_abundances_xxx)
+
+        #-------------------------------------------------------------------
+        #  Make sure that the in the final wrapped distribution,
+        #  the original Xu species make up the desired fraction of all
+        #  the species together (since there was a bug in that before).
+        #  Creating some intermediate variables here that arent' strictly
+        #  necessary but make it easier to test and to generate error msg.
+        #-------------------------------------------------------------------
+
+    tot_num_spp_in_wrapped_spp_set = length (rounded_abundances)
+    Xu_spp_frac_of_full_wrapped_spp_set =
+        Xu_tot_num_spp / tot_num_spp_in_wrapped_spp_set
+
+    if (abs (Xu_spp_frac_of_full_wrapped_spp_set -
+             desired_Xu_spp_frac_of_all_spp) > 0.000001)
+        {
+        bdpg_stop (paste0 ("\nXu_spp_frac_of_full_wrapped_spp_set (",
+                           Xu_spp_frac_of_full_wrapped_spp_set,
+                           ") must equal desired_Xu_spp_frac_of_all_spp (",
+                           desired_Xu_spp_frac_of_all_spp, ").\n"))
+        }
 
     return (rounded_abundances)
 
