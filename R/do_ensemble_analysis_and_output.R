@@ -467,8 +467,9 @@ compute_stats_and_winners_for_given_score_type <-
         convert_lists_of_PU_IDs_to_matrix_of_0_1 (all_cand_sols, num_PUs,
                                                   num_probs_in_ensemble)
 
-    votes_for_each_PU_ID = tibble::as_tibble (PU_ID=1:num_PUs,
-                                      votes=colSums (all_cand_matrix_of_pres_abs))
+    votes_for_each_PU_ID =
+        tibble::tibble (PU_ID=1:num_PUs,
+                           votes=colSums (all_cand_matrix_of_pres_abs))
 
     PUs_sorted_by_votes = dplyr::arrange (votes_for_each_PU_ID, desc (votes))
 
@@ -600,9 +601,6 @@ ens_control_values = list()
     # retVal$RS_elapsed_time       = marxan_elapsed_time
     # retVal$RS_user_child_time    = marxan_timings["user.child"]
     # retVal$RS_sys_child_time     = marxan_timings["sys.child"]
-
-
-
 
 
 
