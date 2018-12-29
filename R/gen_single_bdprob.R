@@ -159,10 +159,13 @@ create_Xu_problem_from_scratch_given_4_Xu_metaparams <-
                      derived_Xu_params@max_possible_tot_num_links,
                      derived_Xu_params@target_num_links_between_2_groups_per_round,
                      derived_Xu_params@num_rounds_of_linking_between_groups,
-                                       duplicate_links_allowed,
-                                                        max_allowed_num_spp,
-                                                        parameters,
-                                                        integerize)
+                                       duplicate_links_allowed
+#  BTL - 2018 12 29 - Appear to not be used
+# ,
+# max_allowed_num_spp,
+# parameters,
+# integerize
+                )
 
         PU_spp_pair_info@Xu_parameters = Xu_parameters
         }
@@ -227,10 +230,13 @@ create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowe
                 target_num_links_between_2_groups_per_round,
                 num_rounds_of_linking_between_groups,
 
-                duplicate_links_allowed,
-                max_allowed_num_spp,
-                parameters,
-                integerize)
+                duplicate_links_allowed
+#  BTL - 2018 12 29 - Appear to not be used
+# ,
+# max_allowed_num_spp,
+# parameters,
+# integerize
+                )
         }
 
     return (PU_spp_pair_info)
@@ -289,10 +295,15 @@ create_Xu_problem_from_scratch_given_params <-
               max_possible_tot_num_links,
               target_num_links_between_2_groups_per_round,
               num_rounds_of_linking_between_groups,
-              duplicate_links_allowed,
-                                            max_allowed_num_spp,
-                                            parameters,
-                                            integerize)
+              duplicate_links_allowed
+
+#  BTL - 2018 12 29 - Appear to not be used
+# ,
+# max_allowed_num_spp,
+# parameters,
+# integerize
+
+            )
     {
       #-----------------------------------------------------------
       #  Now that specific problem attributes have been derived,
