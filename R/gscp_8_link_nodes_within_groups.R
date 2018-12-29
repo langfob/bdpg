@@ -6,8 +6,8 @@
 
 #' Link nodes within groups
 #'
-#' Create species in a Xu problem by creating links between nodes in different
-#' groups.  Each link will represent a species that appears on the planning
+#' Create species in a Xu problem by creating links between nodes within SAME
+#' group.  Each link will represent a species that appears on the planning
 #' units at each end of the link and those planning units are in separate
 #' groups.
 #'
