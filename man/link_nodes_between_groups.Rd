@@ -27,6 +27,9 @@ Returns edge_list as two column integer matrix of node IDs with
     one row for each edge and columns for the 2 ends of the edge
 }
 \description{
-After all groups and their within group links have been built,
- ready to start doing rounds of intergroup linking.
+Create species in a Xu problem by creating links between nodes in different
+groups.  Each link will represent a species that appears on the planning
+units at each end of the link and those planning units are in separate
+groups.
+Assumes that all groups and their within group links have already been built.
 }

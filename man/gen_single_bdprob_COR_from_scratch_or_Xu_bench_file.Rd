@@ -5,8 +5,7 @@
 \title{Generate a single biodiversity problem}
 \usage{
 gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(exp_root_dir,
-  parameters, read_Xu_problem_from_Xu_file, Xu_bench_infile_name,
-  given_correct_solution_cost, max_allowed_num_spp, integerize,
+  parameters, given_correct_solution_cost, max_allowed_num_spp, integerize,
   base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
 }
 \arguments{
@@ -15,13 +14,6 @@ experiment, usually parameters$fullOutputDir_NO_slash}
 
 \item{parameters}{parameters list for the run, usually derived from project.yaml
 and can have a varying number and set of elements depending on the run}
-
-\item{read_Xu_problem_from_Xu_file}{boolean TRUE if problem is to be
-read from a benchmark problem description file created by Xu;
-FALSE if problem is to be created from scratch.}
-
-\item{Xu_bench_infile_name}{string containing the name of the Xu benchmark file to
-read a problem from if reading from a Xu benchmark file}
 
 \item{given_correct_solution_cost}{boolean indicating whether the correct
 optimal solution cost is given for a reserve selection problem}
