@@ -4,14 +4,14 @@
 \alias{EF}
 \title{Evaluation Function to be passed to optim()}
 \usage{
-EF(seed_value, num_spp_to_generate, min_num_spp_on_2_PUs,
+EF(seed_value, tot_num_spp_after_wrapping, min_num_spp_on_2_PUs,
   max_max_abundance, target_max_abundance_ct, add_one_to_abundances,
   outfile, mean_sd_pair)
 }
 \arguments{
 \item{seed_value}{integer}
 
-\item{num_spp_to_generate}{integer}
+\item{tot_num_spp_after_wrapping}{integer}
 
 \item{min_num_spp_on_2_PUs}{integer}
 

@@ -4,7 +4,7 @@
 \alias{search_for_approximating_lognormal}
 \title{Search for approximating lognormal}
 \usage{
-search_for_approximating_lognormal(seed_value, num_spp_to_generate,
+search_for_approximating_lognormal(seed_value, tot_num_spp_after_wrapping,
   min_num_spp_on_2_PUs, max_max_abundance, target_max_abundance_ct,
   initial_meanlog, initial_sdlog, max_iterations, add_one_to_abundances,
   outfile)
@@ -12,7 +12,7 @@ search_for_approximating_lognormal(seed_value, num_spp_to_generate,
 \arguments{
 \item{seed_value}{random seed to pass to optim function}
 
-\item{num_spp_to_generate}{number of species to generate in distribution}
+\item{tot_num_spp_after_wrapping}{number of species to generate in distribution}
 
 \item{min_num_spp_on_2_PUs}{minimum number of species that occur on exactly 2 patches in distribution}
 
@@ -57,7 +57,7 @@ Function to search for a lognormal that comes close to meeting the
  constraints specified in the argument list, i.e.,
  \enumerate{
      \item{to generate roughly the given number of species but never more
-         than the given number (num_spp_to_generate)}
+         than the given number (tot_num_spp_after_wrapping)}
      \item{to come close to the given number of species that occur on
          exactly 2 PUs without ever falling below that minimum value
          (min_num_spp_on_2_PUs)}

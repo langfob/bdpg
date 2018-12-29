@@ -4,11 +4,11 @@
 \alias{gen_rounded_abundances}
 \title{Generate rounded abundances}
 \usage{
-gen_rounded_abundances(num_spp_to_generate, meanlog, sdlog,
+gen_rounded_abundances(tot_num_spp_after_wrapping, meanlog, sdlog,
   add_one_to_abundances, plot_rounded_abundances = FALSE)
 }
 \arguments{
-\item{num_spp_to_generate}{integer}
+\item{tot_num_spp_after_wrapping}{integer}
 
 \item{meanlog}{numeric}
 
@@ -30,5 +30,5 @@ Function to generate a sampled lognormal distribution whose values are
 No zero counts are allowed, so any species that was assigned a 0 count in
  the lognormal generation is removed from the returned vector.
  This means that the number of species returned may be less than the value
- of num_spp_to_generate specified in the inputs.
+ of tot_num_spp_after_wrapping specified in the inputs.
 }
