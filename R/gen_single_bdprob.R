@@ -25,15 +25,15 @@ gen_single_bdprob_COR <- function (parameters,
 #    exp_root_dir = file.path (normalizePath (parameters$full_output_dir_with_slash))
     exp_root_dir = starting_dir
 
-    Xu_bench_infile_name = parameters$Xu_bench_infile_name
-    if (is.null (Xu_bench_infile_name)) Xu_bench_infile_name = ""
+    # Xu_bench_infile_name = parameters$Xu_bench_infile_name
+    # if (is.null (Xu_bench_infile_name)) Xu_bench_infile_name = ""
 
     COR_Xu_bdprob =
         gen_single_bdprob_COR_from_scratch_or_Xu_bench_file (
             exp_root_dir,
             parameters,
-            value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file),
-            Xu_bench_infile_name,
+            # value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file),
+            # Xu_bench_infile_name,
             value_or_FALSE_if_null (parameters$given_correct_solution_cost),
             parameters$max_allowed_num_spp,
             integerize,
@@ -481,8 +481,8 @@ create_allowable_size_Xu_problem_from_scratch <- function (
 gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
     function (exp_root_dir,
                 parameters,
-            read_Xu_problem_from_Xu_file,
-            Xu_bench_infile_name,
+            # read_Xu_problem_from_Xu_file,
+            # Xu_bench_infile_name,
                 given_correct_solution_cost,
                 max_allowed_num_spp,
                 integerize,
@@ -505,6 +505,11 @@ cat ("\n@@@TRACKING rand_seed in gen_single_bdprob_COR_from_scratch_or_Xu_bench_
         #  Load the information about the generation of the problem into
         #  an object to store with the full problem object.
         #-------------------------------------------------------------------
+
+    read_Xu_problem_from_Xu_file =
+        value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file)
+    Xu_bench_infile_name = parameters$Xu_bench_infile_name
+    if (is.null (Xu_bench_infile_name)) Xu_bench_infile_name = ""
 
     if (read_Xu_problem_from_Xu_file)
         {
