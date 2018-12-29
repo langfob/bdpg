@@ -232,10 +232,6 @@ create_Xu_graph = function (num_nodes_per_group,
 
     #---------------------------------------------------------------------------
 
-        #---------------------------------------------
-        #  Remove duplicate links, if there are any.
-        #---------------------------------------------
-
         #  All node pairs should be loaded into the edge_list table now
         #  and there should be no NA lines left in the table.
 
@@ -248,6 +244,12 @@ create_Xu_graph = function (num_nodes_per_group,
                                cur_test_row_idx, "'\n"))
             }
         }
+
+    #---------------------------------------------------------------------------
+
+        #---------------------------------------------
+        #  Remove duplicate links, if there are any.
+        #---------------------------------------------
 
         #  However no duplicate links are allowed, so need to go through all
         #  node pairs and remove non-unique ones.

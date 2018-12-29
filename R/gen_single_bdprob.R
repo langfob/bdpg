@@ -615,13 +615,17 @@ cat ("\n@@@TRACKING rand_seed in gen_single_bdprob_COR_from_scratch_or_Xu_bench_
     Xu_bdprob_cor@bpm = bpm
 
         #-------------------------------------------------------------
-        #  Quit if there are any duplicate edges/spp in the problem.
+        #  Quit if there are any duplicate edges/spp in the problem
+        #  and they're not allowed.
         #-------------------------------------------------------------
 
-    see_if_there_are_any_duplicate_links (bpm, Xu_bdprob_cor@num_spp)
+    duplicate_links_allowed =
+        value_or_FALSE_if_null (parameters$duplicate_links_allowed)
+
+    if (! duplicate_links_allowed)
+        see_if_there_are_any_duplicate_links (bpm, Xu_bdprob_cor@num_spp)
 
         #-----------------------------------------------------------
-        #  No duplicates found.
         #  Create the basic set of directories for problem output.
         #-----------------------------------------------------------
 
