@@ -40,7 +40,9 @@ test_compute_various_link_cts <- function ()
 #'
 init_test_parameters <- function ()
     {
-    parameters  = list (tot_num_nodes                                = 6,
+    parameters  = list (bdpg_run_init_rand_seed                      = 123,
+
+                        tot_num_nodes                                = 6,
 
                         num_nodes_per_group                          = 3,
                         n__num_groups                                = 2,
@@ -79,6 +81,10 @@ init_test_parameters <- function ()
 
     #----------
 
+    set.seed (parameters$bdpg_run_init_rand_seed)
+
+    #----------
+
     return (parameters)
     }
 
@@ -88,8 +94,6 @@ init_test_parameters <- function ()
 #'
 test_create_Xu_problem_from_scratch_given_params <- function ()
     {
-    set.seed (123)
-
     parameters = init_test_parameters ()
 
     PU_spp_pair_info =
@@ -112,8 +116,6 @@ test_create_Xu_problem_from_scratch_given_params <- function ()
 #'
 test_create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function ()
     {
-    set.seed (123)
-
     parameters = init_test_parameters ()
 
     PU_spp_pair_info =
@@ -131,11 +133,7 @@ test_create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function ()
 #'
 test_create_allowable_size_Xu_problem_from_scratch <- function ()
     {
-    set.seed (123)
-
     parameters = init_test_parameters ()
-    parameters$dont_derive_prob_params_from_4_Xu_metaparams = TRUE
-
 
     PU_spp_pair_info =
         create_allowable_size_Xu_problem_from_scratch (
@@ -155,21 +153,9 @@ test_gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <- function ()
     {
     parameters = init_test_parameters ()
 
-    set.seed (123)
-    # parameters$bdpg_run_init_rand_seed = 123
-
-    parameters$duplicate_links_allowed = TRUE    #  Should fail if you set this to FALSE
-
-    parameters$dont_derive_prob_params_from_4_Xu_metaparams = TRUE
-    parameters$read_Xu_problem_from_Xu_file                 = FALSE
-    parameters$Xu_bench_infile_name                         = NULL
-    parameters$given_correct_solution_cost                  = TRUE
-
-    exp_root_dir = "~/Downloads"
-
     Xu_bdprob_cor =
         gen_single_bdprob_COR_from_scratch_or_Xu_bench_file (
-                                        exp_root_dir,
+                                        exp_root_dir = "~/Downloads",
                                         parameters,
                                         parameters$given_correct_solution_cost,
                                         parameters$max_allowed_num_spp,
@@ -187,9 +173,6 @@ test_gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <- function ()
 test_gen_single_bdprob_COR <- function ()
     {
     parameters = init_test_parameters ()
-
-    set.seed (123)
-    # parameters$bdpg_run_init_rand_seed = 123
 
     Xu_bdprob_cor =
         gen_single_bdprob_COR (parameters,
