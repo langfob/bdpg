@@ -183,6 +183,36 @@ test_gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <- function ()
     return (Xu_bdprob_cor)
     }
 
+#===============================================================================
+
+#' @export
+#'
+test_gen_single_bdprob_COR <- function ()
+    {
+    parameters = init_test_parameters ()
+
+    set.seed (123)
+    # parameters$bdpg_run_init_rand_seed = 123
+
+    parameters$duplicate_links_allowed = TRUE    #  Should fail if you set this to FALSE
+
+    parameters$dont_derive_prob_params_from_4_Xu_metaparams = TRUE
+    parameters$read_Xu_problem_from_Xu_file                 = FALSE
+    parameters$Xu_bench_infile_name                         = NULL
+    parameters$given_correct_solution_cost                  = TRUE
+
+    starting_dir = "~/Downloads"
+
+    Xu_bdprob_cor =
+        gen_single_bdprob_COR (parameters,
+                               starting_dir,
+                               parameters$integerize,
+                               base_prob_name_stem = "base_prob",
+                               cor_dir_name_stem = "cor"
+                               )
+
+    return (Xu_bdprob_cor)
+    }
 
 #===============================================================================
 
@@ -194,7 +224,8 @@ test_gen_single_bdprob <- function ()
     test_create_Xu_problem_from_scratch_given_params ()
     test_create_Xu_problem_from_scratch_not_using_4_Xu_metaparams ()
     test_create_allowable_size_Xu_problem_from_scratch ()
-    test_gen_single_bdprob_COR_from_scratch_or_Xu_bench_file()
+    test_gen_single_bdprob_COR_from_scratch_or_Xu_bench_file ()
+    test_gen_single_bdprob_COR ()
     }
 
 #===============================================================================
