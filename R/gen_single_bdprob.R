@@ -287,23 +287,14 @@ create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowe
 #-------------------------------------------------------------------------------
 
 create_Xu_problem_from_scratch_given_params <-
-    function (
-              tot_num_nodes,
+    function (tot_num_nodes,
               num_nodes_per_group,
               n__num_groups,
               num_independent_nodes_per_group,
               max_possible_tot_num_links,
               target_num_links_between_2_groups_per_round,
               num_rounds_of_linking_between_groups,
-              duplicate_links_allowed
-
-#  BTL - 2018 12 29 - Appear to not be used
-# ,
-# max_allowed_num_spp,
-# parameters,
-# integerize
-
-            )
+              duplicate_links_allowed)
     {
       #-----------------------------------------------------------
       #  Now that specific problem attributes have been derived,
