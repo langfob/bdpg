@@ -40,25 +40,34 @@ test_compute_various_link_cts <- function ()
 #'
 init_test_parameters <- function ()
     {
-    tot_num_nodes = 6
-    num_nodes_per_group = 3
-    n__num_groups = 2
-    num_independent_nodes_per_group = 1
-    target_num_links_between_2_groups_per_round = 2
-    num_rounds_of_linking_between_groups = 2
+    parameters  = list (tot_num_nodes                                = 6,
 
-    duplicate_links_allowed = TRUE
-    max_allowed_num_spp = 20
-    integerize = round
+                        num_nodes_per_group                          = 3,
+                        n__num_groups                                = 2,
+                        num_independent_nodes_per_group              = 1,
+                        target_num_links_between_2_groups_per_round  = 2,
+                        num_rounds_of_linking_between_groups         = 2,
 
+                        max_allowed_num_spp                          = 20,
+                        integerize                                   = round,
+
+                        duplicate_links_allowed                      = TRUE,  #  Should fail if you set this to FALSE
+
+                        dont_derive_prob_params_from_4_Xu_metaparams = TRUE,
+                        read_Xu_problem_from_Xu_file                 = FALSE,
+                        Xu_bench_infile_name                         = NULL,
+                        given_correct_solution_cost                  = TRUE
+                        )
+
+    #----------
 
     link_cts_list =
-        compute_various_link_cts (num_nodes_per_group,
-                                  num_independent_nodes_per_group,
-                                  n__num_groups,
-                                  target_num_links_between_2_groups_per_round,
-                                  num_rounds_of_linking_between_groups,
-                                  integerize)
+        compute_various_link_cts (parameters$num_nodes_per_group,
+                                  parameters$num_independent_nodes_per_group,
+                                  parameters$n__num_groups,
+                                  parameters$target_num_links_between_2_groups_per_round,
+                                  parameters$num_rounds_of_linking_between_groups,
+                                  parameters$integerize)
 
     # num_links_within_one_group            = link_cts_list$num_links_within_one_group
     # tot_num_links_inside_groups           = link_cts_list$tot_num_links_inside_groups
@@ -66,21 +75,9 @@ init_test_parameters <- function ()
     max_possible_tot_num_links            = link_cts_list$max_possible_tot_num_links
     # max_possible_tot_num_node_link_pairs  = link_cts_list$max_possible_tot_num_node_link_pairs
 
-    parameters = list (
+    parameters$max_possible_tot_num_links = max_possible_tot_num_links
 
-        tot_num_nodes                               = tot_num_nodes,
-        num_nodes_per_group                         = num_nodes_per_group,
-        n__num_groups                               = n__num_groups,
-        num_independent_nodes_per_group             = num_independent_nodes_per_group,
-        target_num_links_between_2_groups_per_round = target_num_links_between_2_groups_per_round,
-        num_rounds_of_linking_between_groups        = num_rounds_of_linking_between_groups,
-
-        duplicate_links_allowed                     = duplicate_links_allowed,
-        max_allowed_num_spp                         = max_allowed_num_spp,
-        integerize                                  = integerize,
-
-        max_possible_tot_num_links                  = max_possible_tot_num_links
-        )
+    #----------
 
     return (parameters)
     }
@@ -194,21 +191,12 @@ test_gen_single_bdprob_COR <- function ()
     set.seed (123)
     # parameters$bdpg_run_init_rand_seed = 123
 
-    parameters$duplicate_links_allowed = TRUE    #  Should fail if you set this to FALSE
-
-    parameters$dont_derive_prob_params_from_4_Xu_metaparams = TRUE
-    parameters$read_Xu_problem_from_Xu_file                 = FALSE
-    parameters$Xu_bench_infile_name                         = NULL
-    parameters$given_correct_solution_cost                  = TRUE
-
-    starting_dir = "~/Downloads"
-
     Xu_bdprob_cor =
         gen_single_bdprob_COR (parameters,
-                               starting_dir,
+                               starting_dir          = "~/Downloads",
                                parameters$integerize,
-                               base_prob_name_stem = "base_prob",
-                               cor_dir_name_stem = "cor"
+                               base_prob_name_stem   = "base_prob",
+                               cor_dir_name_stem     = "cor"
                                )
 
     return (Xu_bdprob_cor)
