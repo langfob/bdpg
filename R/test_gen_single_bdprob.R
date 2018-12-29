@@ -161,7 +161,7 @@ test_gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <- function ()
     set.seed (123)
     # parameters$bdpg_run_init_rand_seed = 123
 
-    parameters$duplicate_links_allowed = TRUE    #  Should fail if you set this to TRUE
+    parameters$duplicate_links_allowed = TRUE    #  Should fail if you set this to FALSE
 
     parameters$dont_derive_prob_params_from_4_Xu_metaparams = TRUE
     parameters$read_Xu_problem_from_Xu_file                 = FALSE
