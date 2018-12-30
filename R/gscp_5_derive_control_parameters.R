@@ -303,6 +303,8 @@ get_r__density <- function (r__density,
 #  Extracted this code from derive_Xu_control_parameters() into a function
 #  so that I can reuse it in some testing code.
 
+#' @export
+#'
 compute_various_link_cts <- function (num_nodes_per_group,
                                       num_independent_nodes_per_group,
                                       n__num_groups,
