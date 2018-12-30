@@ -616,7 +616,9 @@ cat ("\n@@@TRACKING rand_seed in gen_single_bdprob_COR_from_scratch_or_Xu_bench_
 
         #-------------------------------------------------------------
         #  Quit if there are any duplicate edges/spp in the problem
-        #  and they're not allowed.
+        #  and they're not allowed.  They should have already
+        #  been removed in create_Xu_graph() if they were generated
+        #  and not allowed.
         #-------------------------------------------------------------
 
     duplicate_links_allowed =
