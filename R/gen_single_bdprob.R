@@ -580,6 +580,7 @@ cat ("\n@@@TRACKING rand_seed in gen_single_bdprob_COR_from_scratch_or_Xu_bench_
 
     Xu_bdprob_cor@prob_generator_params_known      = PU_spp_pair_info@prob_generator_params_known
     Xu_bdprob_cor@correct_solution_vector_is_known = PU_spp_pair_info@correct_solution_vector_is_known
+    Xu_bdprob_cor@dependent_node_IDs               = PU_spp_pair_info@dependent_node_IDs    #  Added 2018 12 31 - BTL
 
 ##FixPUsppPairIndices-2018-02-17##    Xu_bdprob_cor@cor_PU_spp_pair_indices       = PU_spp_pair_info@PU_spp_pair_indices
     Xu_bdprob_cor@PU_spp_pair_indices       = PU_spp_pair_info@PU_spp_pair_indices
