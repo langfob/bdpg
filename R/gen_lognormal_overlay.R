@@ -909,7 +909,7 @@ seed_value_for_search,
     if (abs (Xu_spp_frac_of_full_wrapped_spp_set -
              desired_Xu_spp_frac_of_all_spp) > 0.000001)
         {
-        bdpg_stop (paste0 ("\nXu_spp_frac_of_full_wrapped_spp_set (",
+        stop_bdpg (paste0 ("\nXu_spp_frac_of_full_wrapped_spp_set (",
                            Xu_spp_frac_of_full_wrapped_spp_set,
                            ") must equal desired_Xu_spp_frac_of_all_spp (",
                            desired_Xu_spp_frac_of_all_spp, ").\n"))

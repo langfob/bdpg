@@ -240,7 +240,7 @@ create_Xu_graph = function (num_nodes_per_group,
         if (is.na (edge_list [cur_test_row_idx, 1]) |
             is.na (edge_list [cur_test_row_idx, 2]))
             {
-            bdpg_stop (paste0 ("\nFound NA in edge_list row '",
+            stop_bdpg (paste0 ("\nFound NA in edge_list row '",
                                cur_test_row_idx, "'\n"))
             }
         }
