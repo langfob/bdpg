@@ -1310,6 +1310,7 @@ cat ("\n@@@TRACKING rand_seed in wrap_abundance_dist_around_Xu_problem:: wrapped
 
     wrapped_bdprob@prob_generator_params_known          = Xu_bdprob@prob_generator_params_known
     wrapped_bdprob@correct_solution_vector_is_known     = Xu_bdprob@correct_solution_vector_is_known
+    wrapped_bdprob@dependent_node_IDs                   = Xu_bdprob@dependent_node_IDs    #  Added 2019 01 01 - BTL
 
 ##FixPUsppPairIndices-2018-02-17##    wrapped_bdprob@cor_PU_spp_pair_indices          = wrapped_PU_spp_indices
     wrapped_bdprob@PU_spp_pair_indices          = wrapped_PU_spp_indices
