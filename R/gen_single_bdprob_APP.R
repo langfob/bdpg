@@ -87,6 +87,7 @@ cat ("\n@@@TRACKING rand_seed in create_and_init_APP_bdprob:: Xu_bdprob_APP@rand
 
     Xu_bdprob_APP@prob_generator_params_known      = Xu_bdprob_COR@prob_generator_params_known
     Xu_bdprob_APP@correct_solution_vector_is_known = Xu_bdprob_COR@correct_solution_vector_is_known
+    Xu_bdprob_APP@dependent_node_IDs               = Xu_bdprob_COR@dependent_node_IDs    #  Added 2019 01 04 - BTL
 
 ##FixPUsppPairIndices-2018-02-17##    Xu_bdprob_APP@cor_PU_spp_pair_indices       = Xu_bdprob_COR@cor_PU_spp_pair_indices
 
