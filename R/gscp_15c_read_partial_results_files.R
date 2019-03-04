@@ -161,13 +161,14 @@ read_igraph_measures_list <- function (rsprob,
 #===============================================================================
 
 build_and_write_rep_and_cm_scores_list <-
-    function (cor_or_app_str,    #rsrun,
-        app_bpm,    #bpm,
+    function (ref_score_type_str,                      #  used to say: cor_or_app_str,    #rsrun,
+              ref_spp_occ_matrix,                      #  used to say: app_bpm,    #bpm,
+
               rs_best_solution_PU_IDs,
               spp_rep_targets,
               num_spp,
 
-              # marxan_best_num_patches_in_solution,     #num_PUs_in_cand_solution,
+              # marxan_best_num_patches_in_solution,   #num_PUs_in_cand_solution,
               num_PUs_in_cand_solution,
 
               num_PUs,
@@ -177,7 +178,7 @@ build_and_write_rep_and_cm_scores_list <-
               )
     {
     rep_scores_list =
-        compute_and_verify_rep_scores_wrt (app_bpm,
+        compute_and_verify_rep_scores_wrt (ref_spp_occ_matrix,                      #  used to say: app_bpm,
                                            rs_best_solution_PU_IDs,
                                            spp_rep_targets,
                                            num_spp)
@@ -187,7 +188,7 @@ build_and_write_rep_and_cm_scores_list <-
     # app_confusion_matrix_based_error_measures_list =
 
     confusion_matrix_based_error_measures_list =
-        compute_confusion_matrix_based_scores (cor_or_app_str,
+        compute_confusion_matrix_based_scores (ref_score_type_str,                      #  used to say: cor_or_app_str,
 
                                                num_PUs_in_cand_solution,
                                                # marxan_best_num_patches_in_solution,                      #num_PUs_in_cand_solution,

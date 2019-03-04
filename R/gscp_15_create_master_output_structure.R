@@ -39,9 +39,11 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
         #  with respect to the CORRECT problem.
         #-------------------------------------------------------------
 
+    ref_score_type_str = "COR"
     cor_scores_list =
-        build_and_write_rep_and_cm_scores_list (APP_bd_prob@cor_or_app_str,    #rsrun,
-                                                 COR_bd_prob@bpm,
+        build_and_write_rep_and_cm_scores_list (ref_score_type_str,  # used to say: APP_bd_prob@cor_or_app_str,
+                                                 COR_bd_prob@bpm,    # reference spp occ matrix to compute scores against
+
                                                  rs_best_solution_PU_IDs,
                                                  rsrun@targets,
                                                  COR_bd_prob@num_spp,
@@ -72,9 +74,11 @@ build_and_write_COR_and_APP_scores_lists <- function (rs_best_solution_PU_IDs,
         #  with respect to the APPARENT problem.
         #-------------------------------------------------------------
 
+    ref_score_type_str = "APP"
     app_scores_list =
-        build_and_write_rep_and_cm_scores_list (APP_bd_prob@cor_or_app_str,    #rsrun,
-                                                 APP_bd_prob@bpm,
+        build_and_write_rep_and_cm_scores_list (ref_score_type_str,  # used to say: APP_bd_prob@cor_or_app_str,    #rsrun,
+                                                 APP_bd_prob@bpm,    # reference spp occ matrix to compute scores against
+
                                                  rs_best_solution_PU_IDs,
                                                  rsrun@targets,
                                                  COR_bd_prob@num_spp,
