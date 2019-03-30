@@ -401,6 +401,28 @@ compute_stats_for_all_sols_across_all_ens_probs <-
 
         all_cand_score_stats [cur_cand_idx, 1:5] = cur_cand_fivenum_stats
         all_cand_score_stats [cur_cand_idx, 6]   = cur_cand_mean
+
+NEED TO ADD A COUPLE OF SCORES HERE THAT IMITATE THE KIND OF FITTING THAT
+IS DONE FOR THINGS LIKE LINEAR MODELS SINCE HERE, I'M JUST GENERATING THE
+CANDIDATE MODELS IN A DIFFERENT WAY BUT COULD STILL EVALUATE THEM IN MORE
+NORMAL WAYS, E.G., SUM SQUARED ERROR.
+CAN YOU (OR WOULD YOU EVEN WANT TO) ALSO IMITATE THINGS LIKE REGULARIZERS
+WITH SOME KIND OF PENALTY TERM?  PENALTIES GENERALLY HAVE TO DO WITH NUMBER
+OF VARIABLES USED, BUT HERE, ALL VARIABLES ARE USED, SO I'M NOT SURE WHAT
+THE PENALTY WOULD LOOK LIKE.
+
+sum_square_err = sum (cur_cand_scores * cur_cand_scores)
+sum_abs_err = sum (abs (cur_cand_scores))
+???
+
+NOTE THAT IF YOU ADD THESE, YOU HAVE TO MAKE SURE THE EXTRA DIMENSIONS
+ARE ALSO ADDED TO THE CREATION OF all_cand_score_stats.
+
+all_cand_score_stats [cur_cand_idx, 7]   = sum_square_err
+all_cand_score_stats [cur_cand_idx, 8]   = sum_abs_err
+all_cand_score_stats [cur_cand_idx, 9]   = ???
+
+
         }
 
     all_cand_score_stats = tibble::as_tibble (all_cand_score_stats)
