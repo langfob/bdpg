@@ -28,6 +28,6 @@ Suggests:
     testthat, 
     gurobi
 VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 URL: https://github.com/langfob/bdpg
 BugReports: https://github.com/langfob/bdpg/issues
