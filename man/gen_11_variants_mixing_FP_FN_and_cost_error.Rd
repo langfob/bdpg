@@ -21,7 +21,7 @@ Returns nothing.
 Create 1 correct problem and 1 wrap of that correct problem, then from the
 Wrap problem, create 4 apparent variants using the following errors: FP only,
 FN only, FP and FN, and finally, FP and FN with matching counts.  Based on
-each of these 6 variants (2 correct and 4 apparent), then
+each of the 5 app variants (1 correct and 4 apparent), then
 create another apparent version of each problem that includes cost error too.
 This gives a total of 11 problems.
 }
