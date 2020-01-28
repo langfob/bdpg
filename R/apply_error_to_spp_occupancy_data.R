@@ -108,6 +108,38 @@ set_const_FP_and_FN_rates = function (parameters)
 
 #===============================================================================
 
+#' Make sure no species is eradicated by setting false negative errors.
+#'
+#'  Randomly setting false negatives can end up wiping out all occurrences
+#'  of a species.  While this doesn't break anything and does actually
+#'  happen in the real world (i.e., a species is undetected), it can distort
+#'  tests of greedy reserve selectors because of the way that the bdpg
+#'  code currently designates the solution of a greedy selector.
+#'  That is, it keeps adding patches in descending order of patch rank until
+#'  it has reached the target for every species.  If a species has been
+#'  accidentally eradicated by the addition of FNs, then the algorithm will
+#'  end up adding every single patch to the solution because it never hits
+#'  its stopping criteria.  Meanwhile, non-greedy algorithms like marxan
+#'  don't have to meet every target when they choose a solution.  They try
+#'  to meet it but don't necessarily succeed.  This means that they generally
+#'  don't return the entire landscape as a solution.
+#'
+#'  The function make_sure_no_spp_eradicated_by_setting_FNs() looks at each
+#'  species in the occurrence matrix and if any species has no occurrences due
+#'  to the addition of FNs, then one of its FNs is randomly chosen and undone,
+#'  i.e., reverted back to being a TP.
+#'
+#'
+#-------------------------------------------------------------------------------
+
+#' @param old_occ_cts_for_spp numeric vector
+#' @param min_allowed_num_occ_per_spp integer
+#' @inheritParams std_param_defns
+#'
+#' @return Returns bpm matrix where every species has at least one occurrence
+
+#-------------------------------------------------------------------------------
+
 make_sure_no_spp_eradicated_by_setting_FNs <-
             function (bpm, old_occ_cts_for_spp, min_allowed_num_occ_per_spp = 1)
     {
@@ -247,6 +279,11 @@ if (no_empty_spp_allowed)
 
         #  Verify that no species has been completely wiped out by injection
         #  of FNs.
+        #  The previous function call should have fixed any problem with
+        #  accidentally generating empty species, but verify that here and
+        #  fail if an empty species somehow got through.  This should never
+        #  happen.
+
     new_occ_cts_for_spp = rowSums (bpm)
     empty_spp = which (new_occ_cts_for_spp <= 0)
     num_empty_spp = length (empty_spp)
