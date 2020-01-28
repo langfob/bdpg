@@ -5,8 +5,12 @@
 \alias{plot_final_degree_dist_for_node_graph}
 \title{Plot final degree distribution for node graph}
 \usage{
-plot_final_degree_dist_for_node_graph(final_link_counts_for_each_node,
-  PU_col_name, plot_output_dir, cor_or_app_label)
+plot_final_degree_dist_for_node_graph(
+  final_link_counts_for_each_node,
+  PU_col_name,
+  plot_output_dir,
+  cor_or_app_label
+)
 }
 \arguments{
 \item{final_link_counts_for_each_node}{integer vector of counts of number

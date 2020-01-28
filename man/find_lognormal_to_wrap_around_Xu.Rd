@@ -4,10 +4,17 @@
 \alias{find_lognormal_to_wrap_around_Xu}
 \title{Find lognormal to wrap around Xu problem}
 \usage{
-find_lognormal_to_wrap_around_Xu(Xu_bdprob, parameters,
-  desired_Xu_spp_frac_of_all_spp, solution_frac_of_landscape,
-  desired_max_abundance_frac, seed_value_for_search, max_search_iterations,
-  add_one_to_lognormal_abundances, search_outfile_name)
+find_lognormal_to_wrap_around_Xu(
+  Xu_bdprob,
+  parameters,
+  desired_Xu_spp_frac_of_all_spp,
+  solution_frac_of_landscape,
+  desired_max_abundance_frac,
+  seed_value_for_search,
+  max_search_iterations,
+  add_one_to_lognormal_abundances,
+  search_outfile_name
+)
 }
 \arguments{
 \item{Xu_bdprob}{a Xu_bd_problem object}

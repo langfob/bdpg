@@ -4,8 +4,11 @@
 \alias{see_if_marxan_best_was_actually_best}
 \title{Verify whether the solution marxan chose as best was actually its best}
 \usage{
-see_if_marxan_best_was_actually_best(best_solution_ID_according_to_marxan,
-  marxan_solution_scores_wrt_APP_reps_and_costs, marxan_output_dir)
+see_if_marxan_best_was_actually_best(
+  best_solution_ID_according_to_marxan,
+  marxan_solution_scores_wrt_APP_reps_and_costs,
+  marxan_output_dir
+)
 }
 \arguments{
 \item{best_solution_ID_according_to_marxan}{integer}

@@ -4,10 +4,18 @@
 \alias{search_for_approximating_lognormal}
 \title{Search for approximating lognormal}
 \usage{
-search_for_approximating_lognormal(seed_value, num_spp_to_generate,
-  min_num_spp_on_2_PUs, max_max_abundance, target_max_abundance_ct,
-  initial_meanlog, initial_sdlog, max_iterations, add_one_to_abundances,
-  outfile)
+search_for_approximating_lognormal(
+  seed_value,
+  num_spp_to_generate,
+  min_num_spp_on_2_PUs,
+  max_max_abundance,
+  target_max_abundance_ct,
+  initial_meanlog,
+  initial_sdlog,
+  max_iterations,
+  add_one_to_abundances,
+  outfile
+)
 }
 \arguments{
 \item{seed_value}{random seed to pass to optim function}

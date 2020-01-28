@@ -4,8 +4,11 @@
 \alias{make_sure_that_cor_bdprob_is_base_of_app_bdprob}
 \title{Make sure that the correct bdprob is the base for the given apparent bdprob}
 \usage{
-make_sure_that_cor_bdprob_is_base_of_app_bdprob(app_bdprob, cor_bdprob,
-  parameters)
+make_sure_that_cor_bdprob_is_base_of_app_bdprob(
+  app_bdprob,
+  cor_bdprob,
+  parameters
+)
 }
 \arguments{
 \item{app_bdprob}{an apparent bdprob}

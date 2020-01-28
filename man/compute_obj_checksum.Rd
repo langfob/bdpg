@@ -4,8 +4,10 @@
 \alias{compute_obj_checksum}
 \title{Compute a checksum for the object}
 \usage{
-compute_obj_checksum(obj_with_UUID_and_checksum,
-  base_outdir_for_checksum = ".")
+compute_obj_checksum(
+  obj_with_UUID_and_checksum,
+  base_outdir_for_checksum = "."
+)
 }
 \arguments{
 \item{obj_with_UUID_and_checksum}{object whose checksum is to be computed}

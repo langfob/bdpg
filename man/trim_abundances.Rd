@@ -4,8 +4,11 @@
 \alias{trim_abundances}
 \title{Drop spp from abund dist if on too many or too few patches}
 \usage{
-trim_abundances(rounded_abundances, min_abund = 2,
-  max_abund = .Machine$double.xmax)
+trim_abundances(
+  rounded_abundances,
+  min_abund = 2,
+  max_abund = .Machine$double.xmax
+)
 }
 \arguments{
 \item{rounded_abundances}{vector of abundances to be trimmed}
@@ -31,7 +34,7 @@ Abundances are expressed here as a vector of count values where each value
  that occur on 6 patches each.  Calling this routine with a min_abund of 2
  and a max_abund of 5 would return a 1 element vector, i.e., the vector [2].
 
-This doesn't really need to be a function since it's only one line
+ This doesn't really need to be a function since it's only one line
  long, but I built an earlier version that was more verbose so that
  I could monitor how many things were being cut out.
  That version is in the git repository in case it needs to be

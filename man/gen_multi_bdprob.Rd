@@ -31,7 +31,7 @@ This function is intended to allow either wrapping a distribution around
  but has not been implemented yet and probably won't be implemented unless
  there is a demand for it.
 
-Dummy code that was in here to demonstrate high-level parts of that
+ Dummy code that was in here to demonstrate high-level parts of that
  combination (i.e., combine_2_bdprobs()) have been removed but can be
  found in github versions of the code up until around commit 1c0fbba6
  on Feb 4, 2017.

@@ -4,9 +4,16 @@
 \alias{create_adj_matrix_with_spp_rows_vs_PU_cols}
 \title{Create adjacency matrix with species rows vs planning unit columns}
 \usage{
-create_adj_matrix_with_spp_rows_vs_PU_cols(num_spp, num_PUs,
-  PU_spp_pair_indices, PU_costs, spp_col_name, PU_col_name,
-  dependent_node_IDs, correct_solution_vector_is_known)
+create_adj_matrix_with_spp_rows_vs_PU_cols(
+  num_spp,
+  num_PUs,
+  PU_spp_pair_indices,
+  PU_costs,
+  spp_col_name,
+  PU_col_name,
+  dependent_node_IDs,
+  correct_solution_vector_is_known
+)
 }
 \arguments{
 \item{num_spp}{integer number of species in the problem}

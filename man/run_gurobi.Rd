@@ -4,12 +4,23 @@
 \alias{run_gurobi}
 \title{Run gurobi linear programming optimizer}
 \usage{
-run_gurobi(num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
-  use_gap_limit = FALSE, gap_limit = 0.005,
-  use_given_time_as_limit = TRUE, time_limit = 60,
-  use_marxan_time_as_limit = FALSE, marxan_elapsed_time = NA,
-  rsrun = NULL, top_dir = NULL, save_inputs = FALSE,
-  save_outputs = FALSE)
+run_gurobi(
+  num_spp,
+  num_PUs,
+  bpm,
+  PU_costs,
+  spp_rep_targets,
+  use_gap_limit = FALSE,
+  gap_limit = 0.005,
+  use_given_time_as_limit = TRUE,
+  time_limit = 60,
+  use_marxan_time_as_limit = FALSE,
+  marxan_elapsed_time = NA,
+  rsrun = NULL,
+  top_dir = NULL,
+  save_inputs = FALSE,
+  save_outputs = FALSE
+)
 }
 \arguments{
 \item{num_spp}{integer number of species in the problem}

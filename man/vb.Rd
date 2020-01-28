@@ -4,9 +4,14 @@
 \alias{vb}
 \title{Validate input as boolean and replace with default on empty input if desired}
 \usage{
-vb(var_value, def_on_empty = FALSE, def = FALSE,
-  treat_NULL_as_empty = TRUE, treat_NA_as_empty = FALSE,
-  allow_num = FALSE)
+vb(
+  var_value,
+  def_on_empty = FALSE,
+  def = FALSE,
+  treat_NULL_as_empty = TRUE,
+  treat_NA_as_empty = FALSE,
+  allow_num = FALSE
+)
 }
 \arguments{
 \item{var_value}{the value to be checked to see if it's a boolean}

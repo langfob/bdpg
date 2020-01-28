@@ -5,8 +5,12 @@
 \alias{set_up_for_and_run_simple_richness_COR}
 \title{Set up for and run simple_richness for COR problem}
 \usage{
-set_up_for_and_run_simple_richness_COR(COR_bd_prob, rsrun, parameters,
-  forward = TRUE)
+set_up_for_and_run_simple_richness_COR(
+  COR_bd_prob,
+  rsrun,
+  parameters,
+  forward = TRUE
+)
 }
 \arguments{
 \item{COR_bd_prob}{a correct Xu_bd_problem}

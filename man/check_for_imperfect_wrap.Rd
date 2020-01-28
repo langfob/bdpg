@@ -4,8 +4,10 @@
 \alias{check_for_imperfect_wrap}
 \title{See whether wrapping species fully contain base species}
 \usage{
-check_for_imperfect_wrap(final_wrapped_extra_spp_abund_hist,
-  allow_imperfect_wrap)
+check_for_imperfect_wrap(
+  final_wrapped_extra_spp_abund_hist,
+  allow_imperfect_wrap
+)
 }
 \arguments{
 \item{final_wrapped_extra_spp_abund_hist}{data frame showing the number of

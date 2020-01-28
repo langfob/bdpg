@@ -4,8 +4,7 @@
 \alias{write_marxan_pu.dat_input_file_from_vectors}
 \title{Write marxan pu.dat from vectors}
 \usage{
-write_marxan_pu.dat_input_file_from_vectors(PU_IDs, cost_values,
-  status_values)
+write_marxan_pu.dat_input_file_from_vectors(PU_IDs, cost_values, status_values)
 }
 \arguments{
 \item{PU_IDs}{A vector of planning unit IDs}

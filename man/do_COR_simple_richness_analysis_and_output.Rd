@@ -5,9 +5,14 @@
 \alias{do_COR_simple_richness_analysis_and_output}
 \title{Run simple_richness on COR problem and write output from all analysis}
 \usage{
-do_COR_simple_richness_analysis_and_output(COR_bd_prob, parameters,
-  rs_method_name, forward = TRUE, src_rds_file_dir = NULL,
-  spp_rep_targets = rep(1, COR_bd_prob@num_spp))
+do_COR_simple_richness_analysis_and_output(
+  COR_bd_prob,
+  parameters,
+  rs_method_name,
+  forward = TRUE,
+  src_rds_file_dir = NULL,
+  spp_rep_targets = rep(1, COR_bd_prob@num_spp)
+)
 }
 \arguments{
 \item{COR_bd_prob}{a correct Xu_bd_problem}

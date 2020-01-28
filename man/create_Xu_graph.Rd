@@ -4,9 +4,15 @@
 \alias{create_Xu_graph}
 \title{Create Xu graph}
 \usage{
-create_Xu_graph(num_nodes_per_group, n__num_groups, nodes,
-  max_possible_tot_num_links, target_num_links_between_2_groups_per_round,
-  num_rounds_of_linking_between_groups, duplicate_links_allowed = FALSE)
+create_Xu_graph(
+  num_nodes_per_group,
+  n__num_groups,
+  nodes,
+  max_possible_tot_num_links,
+  target_num_links_between_2_groups_per_round,
+  num_rounds_of_linking_between_groups,
+  duplicate_links_allowed = FALSE
+)
 }
 \arguments{
 \item{num_nodes_per_group}{integer number of planning units per group in the

@@ -5,8 +5,13 @@
 \alias{set_up_for_and_run_simple_richness_APP}
 \title{Set up for and run simple_richness for APP problem}
 \usage{
-set_up_for_and_run_simple_richness_APP(APP_bd_prob, COR_bd_prob, rsrun,
-  parameters, forward = TRUE)
+set_up_for_and_run_simple_richness_APP(
+  APP_bd_prob,
+  COR_bd_prob,
+  rsrun,
+  parameters,
+  forward = TRUE
+)
 }
 \arguments{
 \item{APP_bd_prob}{an apparent Xu_bd_problem}

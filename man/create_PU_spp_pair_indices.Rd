@@ -4,8 +4,13 @@
 \alias{create_PU_spp_pair_indices}
 \title{Convert edge list to PU/spp table}
 \usage{
-create_PU_spp_pair_indices(edge_list, nodes, dependent_node_IDs, PU_costs,
-  num_PUs)
+create_PU_spp_pair_indices(
+  edge_list,
+  nodes,
+  dependent_node_IDs,
+  PU_costs,
+  num_PUs
+)
 }
 \arguments{
 \item{edge_list}{two column integer matrix of node IDs with one row for
@@ -36,17 +41,17 @@ Now that we have the edge list, we need to go through and
  Each of those entries gives the ID of one of the end nodes of the
  link plus the link's ID.
 
-This table needs to be built because it's the form that Marxan expects
+ This table needs to be built because it's the form that Marxan expects
  the spp and PU data to be in, i.e., node=PU and link=spp and every
  line in the table is specifying a PU and one of the species in it.
  If we weren't feeding Marxan, there would be no need for this kind
  of a table since we already have an edge list.
 
-However, there is one other useful byproduct of building this table.
+ However, there is one other useful byproduct of building this table.
  It makes it easy to compute rank-abundance information and information
  about the distribution of species across patches.
 
-I just realized that this structure is also something like the
+ I just realized that this structure is also something like the
  description of a bipartite network, so I may need to modify or use
  it in doing the bipartite network analyses too.
 }

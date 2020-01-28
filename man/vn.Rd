@@ -4,9 +4,16 @@
 \alias{vn}
 \title{Validate input as numeric and replace with default on empty input if desired}
 \usage{
-vn(var_value, range_lo = -Inf, range_hi = Inf, bounds_types = "ii",
-  def_on_empty = FALSE, def = 0, treat_NULL_as_empty = TRUE,
-  treat_NA_as_empty = TRUE)
+vn(
+  var_value,
+  range_lo = -Inf,
+  range_hi = Inf,
+  bounds_types = "ii",
+  def_on_empty = FALSE,
+  def = 0,
+  treat_NULL_as_empty = TRUE,
+  treat_NA_as_empty = TRUE
+)
 }
 \arguments{
 \item{var_value}{the value to be checked to see if it's a numeric in range}

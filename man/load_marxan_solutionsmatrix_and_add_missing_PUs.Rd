@@ -4,8 +4,10 @@
 \alias{load_marxan_solutionsmatrix_and_add_missing_PUs}
 \title{Load marxan solutions matrix from file, sort, add missing PUs}
 \usage{
-load_marxan_solutionsmatrix_and_add_missing_PUs(marxan_output_dir_path,
-  largest_PU_ID)
+load_marxan_solutionsmatrix_and_add_missing_PUs(
+  marxan_output_dir_path,
+  largest_PU_ID
+)
 }
 \arguments{
 \item{marxan_output_dir_path}{character string}

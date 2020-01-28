@@ -4,8 +4,13 @@
 \alias{get_bdprob_from_rds_file}
 \title{Load a bdprob from an R rds output file, possibly specified in an array}
 \usage{
-get_bdprob_from_rds_file(prob_src, cur_input_prob_idx, rds_file_set_path,
-  rds_file_set_yaml_array, rds_file_path)
+get_bdprob_from_rds_file(
+  prob_src,
+  cur_input_prob_idx,
+  rds_file_set_path,
+  rds_file_set_yaml_array,
+  rds_file_path
+)
 }
 \arguments{
 \item{prob_src}{character string}

@@ -4,8 +4,10 @@
 \alias{load_marxan_ssoln_df_from_file_and_sort_by_PU}
 \title{Load marxan's summed solutions vector from its marxan output file.}
 \usage{
-load_marxan_ssoln_df_from_file_and_sort_by_PU(marxan_output_dir_path,
-  all_correct_node_IDs)
+load_marxan_ssoln_df_from_file_and_sort_by_PU(
+  marxan_output_dir_path,
+  all_correct_node_IDs
+)
 }
 \arguments{
 \item{marxan_output_dir_path}{character string}

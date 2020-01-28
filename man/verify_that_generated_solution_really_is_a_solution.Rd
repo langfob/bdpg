@@ -4,8 +4,13 @@
 \alias{verify_that_generated_solution_really_is_a_solution}
 \title{Verify that solution does cover all species}
 \usage{
-verify_that_generated_solution_really_is_a_solution(bpm,
-  dependent_node_IDs, num_spp, num_PUs, PU_costs)
+verify_that_generated_solution_really_is_a_solution(
+  bpm,
+  dependent_node_IDs,
+  num_spp,
+  num_PUs,
+  PU_costs
+)
 }
 \arguments{
 \item{bpm}{bipartite matrix; integer matrix with one row for each species

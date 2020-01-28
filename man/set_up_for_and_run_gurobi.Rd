@@ -5,10 +5,23 @@
 \alias{set_up_for_and_run_gurobi}
 \title{Set up for and run gurobi}
 \usage{
-set_up_for_and_run_gurobi(num_spp, num_PUs, bpm, PU_costs, spp_rep_targets,
-  use_gap_limit, gap_limit, use_given_time_as_limit, time_limit,
-  use_marxan_time_as_limit, marxan_elapsed_time = NA, rsrun, top_dir,
-  save_inputs, save_outputs)
+set_up_for_and_run_gurobi(
+  num_spp,
+  num_PUs,
+  bpm,
+  PU_costs,
+  spp_rep_targets,
+  use_gap_limit,
+  gap_limit,
+  use_given_time_as_limit,
+  time_limit,
+  use_marxan_time_as_limit,
+  marxan_elapsed_time = NA,
+  rsrun,
+  top_dir,
+  save_inputs,
+  save_outputs
+)
 }
 \arguments{
 \item{num_spp}{integer number of species in the problem}

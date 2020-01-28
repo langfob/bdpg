@@ -4,8 +4,13 @@
 \alias{gen_rounded_abundances}
 \title{Generate rounded abundances}
 \usage{
-gen_rounded_abundances(num_spp_to_generate, meanlog, sdlog,
-  add_one_to_abundances, plot_rounded_abundances = FALSE)
+gen_rounded_abundances(
+  num_spp_to_generate,
+  meanlog,
+  sdlog,
+  add_one_to_abundances,
+  plot_rounded_abundances = FALSE
+)
 }
 \arguments{
 \item{num_spp_to_generate}{integer}

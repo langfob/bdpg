@@ -4,8 +4,12 @@
 \alias{get_marxan_solution_choice_string}
 \title{Get marxan solution choice string}
 \usage{
-get_marxan_solution_choice_string(marxan_best_cost, marxan_best_rep,
-  sorted_best_cost, sorted_best_rep)
+get_marxan_solution_choice_string(
+  marxan_best_cost,
+  marxan_best_rep,
+  sorted_best_cost,
+  sorted_best_rep
+)
 }
 \arguments{
 \item{marxan_best_cost}{numeric}

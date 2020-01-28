@@ -4,8 +4,11 @@
 \alias{create_dirs_for_APP_prob}
 \title{Create directories for this apparent problem.}
 \usage{
-create_dirs_for_APP_prob(Xu_bdprob_APP, basic_or_wrapped_or_comb_str,
-  starting_dir)
+create_dirs_for_APP_prob(
+  Xu_bdprob_APP,
+  basic_or_wrapped_or_comb_str,
+  starting_dir
+)
 }
 \arguments{
 \item{Xu_bdprob_APP}{an apparent Xu_bd_problem}

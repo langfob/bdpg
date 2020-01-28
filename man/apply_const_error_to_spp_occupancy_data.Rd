@@ -4,8 +4,13 @@
 \alias{apply_const_error_to_spp_occupancy_data}
 \title{Apply constant error to spp occ data}
 \usage{
-apply_const_error_to_spp_occupancy_data(cor_num_PUs, cor_num_spp, cor_bpm,
-  FP_rates_matrix, FN_rates_matrix)
+apply_const_error_to_spp_occupancy_data(
+  cor_num_PUs,
+  cor_num_spp,
+  cor_bpm,
+  FP_rates_matrix,
+  FN_rates_matrix
+)
 }
 \arguments{
 \item{cor_num_PUs}{integer}

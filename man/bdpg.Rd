@@ -3,7 +3,6 @@
 \docType{package}
 \name{bdpg}
 \alias{bdpg}
-\alias{bdpg-package}
 \title{bdpg.}
 \description{
 bdpg.

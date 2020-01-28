@@ -5,8 +5,11 @@
 \alias{compute_rep_fraction}
 \title{Compute species representation fractions achieved}
 \usage{
-compute_rep_fraction(spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
-  PU_set_to_test, spp_rep_targets = 1)
+compute_rep_fraction(
+  spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
+  PU_set_to_test,
+  spp_rep_targets = 1
+)
 }
 \arguments{
 \item{spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU}{integer matrix of

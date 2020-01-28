@@ -4,11 +4,19 @@
 \alias{create_Xu_problem_from_scratch_given_params}
 \title{Generate a Xu problem from scratch given parameters}
 \usage{
-create_Xu_problem_from_scratch_given_params(tot_num_nodes,
-  num_nodes_per_group, n__num_groups, num_independent_nodes_per_group,
-  max_possible_tot_num_links, target_num_links_between_2_groups_per_round,
-  num_rounds_of_linking_between_groups, duplicate_links_allowed,
-  max_allowed_num_spp, parameters, integerize)
+create_Xu_problem_from_scratch_given_params(
+  tot_num_nodes,
+  num_nodes_per_group,
+  n__num_groups,
+  num_independent_nodes_per_group,
+  max_possible_tot_num_links,
+  target_num_links_between_2_groups_per_round,
+  num_rounds_of_linking_between_groups,
+  duplicate_links_allowed,
+  max_allowed_num_spp,
+  parameters,
+  integerize
+)
 }
 \arguments{
 \item{tot_num_nodes}{integer}
@@ -64,8 +72,9 @@ combinations of those parameters, then the values derived from them may be
 easier to manipulate in search  algorithms and explanations, etc.
 }
 \seealso{
-Other interfaces to creation of Xu problems: \code{\link{create_Xu_problem_from_scratch_given_4_Xu_metaparams}},
-  \code{\link{create_Xu_problem_from_scratch_not_using_4_Xu_metaparams}},
-  \code{\link{create_Xu_problem_from_scratch}}
+Other interfaces to creation of Xu problems: 
+\code{\link{create_Xu_problem_from_scratch_given_4_Xu_metaparams}()},
+\code{\link{create_Xu_problem_from_scratch_not_using_4_Xu_metaparams}()},
+\code{\link{create_Xu_problem_from_scratch}()}
 }
 \concept{interfaces to creation of Xu problems}

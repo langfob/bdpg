@@ -5,8 +5,12 @@
 \alias{compute_network_measures_using_bipartite_package}
 \title{Compute bipartite network measures using bipartite package}
 \usage{
-compute_network_measures_using_bipartite_package(rsprob, exp_root_dir,
-  bipartite_metrics_to_use, write_to_disk = TRUE)
+compute_network_measures_using_bipartite_package(
+  rsprob,
+  exp_root_dir,
+  bipartite_metrics_to_use,
+  write_to_disk = TRUE
+)
 }
 \arguments{
 \item{rsprob}{a reserve selection problem object, e.g., a Xu_bd_problem}

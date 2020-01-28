@@ -4,8 +4,11 @@
 \alias{write_marxan_spec.dat_input_file_from_vectors}
 \title{Write marxan spec.dat from vectors}
 \usage{
-write_marxan_spec.dat_input_file_from_vectors(spp_IDs, spf_values,
-  target_values)
+write_marxan_spec.dat_input_file_from_vectors(
+  spp_IDs,
+  spf_values,
+  target_values
+)
 }
 \arguments{
 \item{spp_IDs}{A vector of species IDs}

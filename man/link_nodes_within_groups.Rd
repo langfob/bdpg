@@ -4,8 +4,7 @@
 \alias{link_nodes_within_groups}
 \title{Link nodes within groups}
 \usage{
-link_nodes_within_groups(num_nodes_per_group, n__num_groups, nodes,
-  edge_list)
+link_nodes_within_groups(num_nodes_per_group, n__num_groups, nodes, edge_list)
 }
 \arguments{
 \item{num_nodes_per_group}{integer number of planning units per group in the

@@ -4,8 +4,12 @@
 \alias{add_missing_PU_rows_to_PU_Count_dataframe}
 \title{Add missing PUs to PU_Count data frame}
 \usage{
-add_missing_PU_rows_to_PU_Count_dataframe(marxan_solution,
-  all_correct_node_IDs, PU_col_name, presences_col_name)
+add_missing_PU_rows_to_PU_Count_dataframe(
+  marxan_solution,
+  all_correct_node_IDs,
+  PU_col_name,
+  presences_col_name
+)
 }
 \arguments{
 \item{marxan_solution}{data frame with one row for each planning unit.
@@ -45,16 +49,16 @@ When the pu_spp_pair_indices are written out in marxan's input
  pairs since each pair is a planning unit ID followed by the ID
  of a species on that planning unit.
 
-Consequently, marxan's output solutions will have fewer planning
+ Consequently, marxan's output solutions will have fewer planning
  units than the problem generator generated and you will get size
  warnings (that should be errors) when comparing them to things
  like nodes$dependent_set_member.
  For example, here is the error that showed this was happening:
 
-Error in marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member :
+      Error in marxan_best_df_sorted$SOLUTION - nodes$dependent_set_member :
       (converted from warning) longer object length is not a multiple of shorter object length
 
-To fix this, you need to add entries for each of the missing PUs.
+ To fix this, you need to add entries for each of the missing PUs.
 
 NOTE:  There could also be correct problems that have some patches with no
 species on them.

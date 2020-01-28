@@ -5,8 +5,13 @@
 \alias{set_up_for_and_run_gurobi_APP}
 \title{Set up for and run gurobi for APP problem}
 \usage{
-set_up_for_and_run_gurobi_APP(APP_bd_prob, COR_bd_prob, rsrun, parameters,
-  marxan_elapsed_time = NA)
+set_up_for_and_run_gurobi_APP(
+  APP_bd_prob,
+  COR_bd_prob,
+  rsrun,
+  parameters,
+  marxan_elapsed_time = NA
+)
 }
 \arguments{
 \item{APP_bd_prob}{an apparent Xu_bd_problem}

@@ -5,9 +5,15 @@
 \alias{plot_incremental_marxan_summed_solution_representations}
 \title{Plot incremental marxan summed solution representations}
 \usage{
-plot_incremental_marxan_summed_solution_representations(marxan_ssoln_df,
-  cor_PU_costs, optimum_cost, bpm, cor_app_prefix_string, num_spp,
-  plot_output_dir)
+plot_incremental_marxan_summed_solution_representations(
+  marxan_ssoln_df,
+  cor_PU_costs,
+  optimum_cost,
+  bpm,
+  cor_app_prefix_string,
+  num_spp,
+  plot_output_dir
+)
 }
 \arguments{
 \item{marxan_ssoln_df}{data frame}

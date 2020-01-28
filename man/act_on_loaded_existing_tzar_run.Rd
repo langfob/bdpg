@@ -4,8 +4,7 @@
 \alias{act_on_loaded_existing_tzar_run}
 \title{Execute a single action based on tzar repetition values in project.yaml}
 \usage{
-act_on_loaded_existing_tzar_run(tgt_filename_or_dirname_for_scp,
-  parameters)
+act_on_loaded_existing_tzar_run(tgt_filename_or_dirname_for_scp, parameters)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml

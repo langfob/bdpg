@@ -26,16 +26,16 @@ Though the two data frames carry identical information, it looks
  adjacency matrix based on the indices, but the igraph package
  creates a bipartite graph using either the indices or the vertex names.
 
-However, if I later decide to use the vertex indices, I need to go
+ However, if I later decide to use the vertex indices, I need to go
  back and renumber either the spp vertices or the PU vertices so
  that they don't overlap the other set.  That may end up being the
  better strategy when graphs get big, but at the moment, giving them
  names seems less likely to introduce some kind of indexing bug.
 
-Will create names for PU vertices by prepending the vertex ID with a "p".
+ Will create names for PU vertices by prepending the vertex ID with a "p".
  Similarly, spp vertices will be named by prepending with an "s".
 
-NOTE: We have to either uniquely name the vertices or we have to
+ NOTE: We have to either uniquely name the vertices or we have to
  renumber either the spp or the PUs.  This is because the numbering of
  both sets of vertices starts at 1 and that means the vertex IDs are
  not unique when the two sets are combined.

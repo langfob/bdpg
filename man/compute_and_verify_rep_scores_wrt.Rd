@@ -4,8 +4,12 @@
 \alias{compute_and_verify_rep_scores_wrt}
 \title{Compute representation scores for candidate solution}
 \usage{
-compute_and_verify_rep_scores_wrt(ref_spp_occ_matrix, cand_sol_PU_IDs,
-  spp_rep_targets, num_spp)
+compute_and_verify_rep_scores_wrt(
+  ref_spp_occ_matrix,
+  cand_sol_PU_IDs,
+  spp_rep_targets,
+  num_spp
+)
 }
 \arguments{
 \item{ref_spp_occ_matrix}{reference species occupancy matrix, e.g.,

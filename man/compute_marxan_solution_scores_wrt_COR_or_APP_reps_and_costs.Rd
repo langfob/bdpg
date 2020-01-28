@@ -4,9 +4,14 @@
 \alias{compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs}
 \title{Compute rep and cost values of marxan solutions with respect to COR or APP}
 \usage{
-compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs(given_bpm,
-  given_PU_costs, num_marxan_solutions, marxan_solutions_matrix, targets,
-  num_spp)
+compute_marxan_solution_scores_wrt_COR_or_APP_reps_and_costs(
+  given_bpm,
+  given_PU_costs,
+  num_marxan_solutions,
+  marxan_solutions_matrix,
+  targets,
+  num_spp
+)
 }
 \arguments{
 \item{given_bpm}{blah}

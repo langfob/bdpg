@@ -5,10 +5,12 @@
 \alias{plot_marxan_best_solution_scores_COR_and_APP}
 \title{Plot marxan best solution scores COR and APP}
 \usage{
-plot_marxan_best_solution_scores_COR_and_APP(plot_output_dir,
+plot_marxan_best_solution_scores_COR_and_APP(
+  plot_output_dir,
   marxan_solution_scores_wrt_COR_reps_and_costs,
   best_solution_ID_according_to_marxan,
-  marxan_solution_scores_wrt_APP_reps_and_costs)
+  marxan_solution_scores_wrt_APP_reps_and_costs
+)
 }
 \arguments{
 \item{plot_output_dir}{character string}

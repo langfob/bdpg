@@ -4,9 +4,14 @@
 \alias{link_nodes_between_groups}
 \title{Link nodes between groups}
 \usage{
-link_nodes_between_groups(target_num_links_between_2_groups_per_round,
-  num_rounds_of_linking_between_groups, n__num_groups, nodes, edge_list,
-  cur_row)
+link_nodes_between_groups(
+  target_num_links_between_2_groups_per_round,
+  num_rounds_of_linking_between_groups,
+  n__num_groups,
+  nodes,
+  edge_list,
+  cur_row
+)
 }
 \arguments{
 \item{target_num_links_between_2_groups_per_round}{integer}

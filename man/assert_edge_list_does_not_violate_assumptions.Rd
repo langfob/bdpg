@@ -4,8 +4,11 @@
 \alias{assert_edge_list_does_not_violate_assumptions}
 \title{Assert edge list does not violate assumptions}
 \usage{
-assert_edge_list_does_not_violate_assumptions(edge_list,
-  first_row_of_intergroup_links, nodes)
+assert_edge_list_does_not_violate_assumptions(
+  edge_list,
+  first_row_of_intergroup_links,
+  nodes
+)
 }
 \arguments{
 \item{edge_list}{two column integer matrix of node IDs with one row for

@@ -4,8 +4,7 @@
 \alias{write_marxan_pu.dat_input_file}
 \title{Write marxan planning units input file (pu.dat) using constant values for cost and status.}
 \usage{
-write_marxan_pu.dat_input_file(PU_IDs, cost_const = 1,
-  status_const = 0)
+write_marxan_pu.dat_input_file(PU_IDs, cost_const = 1, status_const = 0)
 }
 \arguments{
 \item{PU_IDs}{A vector of planning unit IDs}

@@ -4,9 +4,11 @@
 \alias{set_seed_if_necessary_helper}
 \title{Helper function for setting a seed when necessary}
 \usage{
-
-  set_seed_if_necessary_helper(set_rand_seed_at_creation_of_all_new_major_objects,
-  location_string, forced_seed = NULL)
+set_seed_if_necessary_helper(
+  set_rand_seed_at_creation_of_all_new_major_objects,
+  location_string,
+  forced_seed = NULL
+)
 }
 \arguments{
 \item{set_rand_seed_at_creation_of_all_new_major_objects}{boolean indicating

@@ -4,10 +4,15 @@
 \alias{create_APP_prob_info_by_adding_error_to_spp_occ_data}
 \title{Add error to the species occupancy data and save to APP_prob_info structure.}
 \usage{
-create_APP_prob_info_by_adding_error_to_spp_occ_data(Xu_bdprob_COR,
-  Xu_bdprob_APP, parameters, gen_cost_errors, gen_FP_FN_errors,
+create_APP_prob_info_by_adding_error_to_spp_occ_data(
+  Xu_bdprob_COR,
+  Xu_bdprob_APP,
+  parameters,
+  gen_cost_errors,
+  gen_FP_FN_errors,
   ret_vals_from_build_const_err = NULL,
-  ret_vals_from_apply_cost_errors = NULL)
+  ret_vals_from_apply_cost_errors = NULL
+)
 }
 \arguments{
 \item{Xu_bdprob_COR}{a Xu_bd_problem}

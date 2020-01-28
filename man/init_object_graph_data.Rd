@@ -5,10 +5,16 @@
 \title{Compute graph metrics for an RSprob if requested and set the corresponding
 flags in the RSprob.}
 \usage{
-init_object_graph_data(rsprob, top_dir, compute_network_metrics,
-  compute_network_metrics_COR_APP_WRAP, use_igraph_metrics,
-  use_bipartite_metrics, bipartite_metrics_to_use = "ALLBUTDD",
-  write_to_disk = TRUE)
+init_object_graph_data(
+  rsprob,
+  top_dir,
+  compute_network_metrics,
+  compute_network_metrics_COR_APP_WRAP,
+  use_igraph_metrics,
+  use_bipartite_metrics,
+  bipartite_metrics_to_use = "ALLBUTDD",
+  write_to_disk = TRUE
+)
 }
 \arguments{
 \item{rsprob}{An RSprob reserve selection problem object to run graph metrics

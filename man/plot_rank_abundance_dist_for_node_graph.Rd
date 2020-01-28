@@ -5,8 +5,12 @@
 \alias{plot_rank_abundance_dist_for_node_graph}
 \title{Plot rank abundance distribution for node graph}
 \usage{
-plot_rank_abundance_dist_for_node_graph(final_node_counts_for_each_link,
-  spp_col_name, plot_output_dir, cor_or_app_label)
+plot_rank_abundance_dist_for_node_graph(
+  final_node_counts_for_each_link,
+  spp_col_name,
+  plot_output_dir,
+  cor_or_app_label
+)
 }
 \arguments{
 \item{final_node_counts_for_each_link}{integer vector of counts of number

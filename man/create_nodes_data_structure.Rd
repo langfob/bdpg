@@ -4,8 +4,12 @@
 \alias{create_nodes_data_structure}
 \title{Create nodes data structure}
 \usage{
-create_nodes_data_structure(tot_num_nodes, num_nodes_per_group,
-  n__num_groups, num_independent_nodes_per_group)
+create_nodes_data_structure(
+  tot_num_nodes,
+  num_nodes_per_group,
+  n__num_groups,
+  num_independent_nodes_per_group
+)
 }
 \arguments{
 \item{tot_num_nodes}{integer}

@@ -4,9 +4,15 @@
 \alias{compute_confusion_matrix_based_scores}
 \title{Compute confustion matrix-based scores for candidate solution}
 \usage{
-compute_confusion_matrix_based_scores(cor_or_app_str,
-  num_PUs_in_cand_solution, num_PUs, num_PUs_in_optimal_solution,
-  frac_spp_covered, input_err_FP = 0, input_err_FN = 0)
+compute_confusion_matrix_based_scores(
+  cor_or_app_str,
+  num_PUs_in_cand_solution,
+  num_PUs,
+  num_PUs_in_optimal_solution,
+  frac_spp_covered,
+  input_err_FP = 0,
+  input_err_FN = 0
+)
 }
 \arguments{
 \item{cor_or_app_str}{string}

@@ -4,9 +4,15 @@
 \alias{write_all_marxan_input_files}
 \title{Write all marxan input files}
 \usage{
-write_all_marxan_input_files(PU_IDs, spp_IDs, spp_PU_amount_table,
-  targets = rep(1, length(spp_IDs)), costs = rep(1, length(PU_IDs)),
-  spf_const = 1, status_const = 0)
+write_all_marxan_input_files(
+  PU_IDs,
+  spp_IDs,
+  spp_PU_amount_table,
+  targets = rep(1, length(spp_IDs)),
+  costs = rep(1, length(PU_IDs)),
+  spf_const = 1,
+  status_const = 0
+)
 }
 \arguments{
 \item{PU_IDs}{A vector of planning unit IDs}

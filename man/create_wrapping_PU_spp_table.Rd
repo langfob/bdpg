@@ -4,8 +4,13 @@
 \alias{create_wrapping_PU_spp_table}
 \title{Create wrapping PU/species table}
 \usage{
-create_wrapping_PU_spp_table(extra_abund, dep_set, eligible_set,
-  use_testing_only_rand_seed = FALSE, testing_only_rand_seed = 17)
+create_wrapping_PU_spp_table(
+  extra_abund,
+  dep_set,
+  eligible_set,
+  use_testing_only_rand_seed = FALSE,
+  testing_only_rand_seed = 17
+)
 }
 \arguments{
 \item{extra_abund}{vector}

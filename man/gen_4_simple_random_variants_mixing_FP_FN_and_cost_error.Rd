@@ -4,8 +4,10 @@
 \alias{gen_4_simple_random_variants_mixing_FP_FN_and_cost_error}
 \title{Generate 4 simple random variants of a problem}
 \usage{
-gen_4_simple_random_variants_mixing_FP_FN_and_cost_error(parameters,
-  integerize)
+gen_4_simple_random_variants_mixing_FP_FN_and_cost_error(
+  parameters,
+  integerize
+)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml

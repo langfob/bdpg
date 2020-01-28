@@ -5,8 +5,18 @@
 \alias{set_up_for_and_run_simple_richness}
 \title{Set up for and run simple_richness}
 \usage{
-set_up_for_and_run_simple_richness(num_spp, num_PUs, bpm, PU_costs,
-  spp_rep_targets, forward, rsrun, top_dir, save_inputs, save_outputs)
+set_up_for_and_run_simple_richness(
+  num_spp,
+  num_PUs,
+  bpm,
+  PU_costs,
+  spp_rep_targets,
+  forward,
+  rsrun,
+  top_dir,
+  save_inputs,
+  save_outputs
+)
 }
 \arguments{
 \item{num_spp}{integer number of species in the problem}

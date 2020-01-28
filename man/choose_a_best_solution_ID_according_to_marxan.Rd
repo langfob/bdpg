@@ -4,8 +4,11 @@
 \alias{choose_a_best_solution_ID_according_to_marxan}
 \title{Choose a best solution ID according to marxan}
 \usage{
-choose_a_best_solution_ID_according_to_marxan(num_marxan_solutions,
-  marxan_solutions_matrix, marxan_best_df_sorted_as_vector)
+choose_a_best_solution_ID_according_to_marxan(
+  num_marxan_solutions,
+  marxan_solutions_matrix,
+  marxan_best_df_sorted_as_vector
+)
 }
 \arguments{
 \item{num_marxan_solutions}{integer}

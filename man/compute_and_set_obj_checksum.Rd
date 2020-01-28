@@ -4,8 +4,10 @@
 \alias{compute_and_set_obj_checksum}
 \title{Convenience function for computing the object's checksum and setting that slot}
 \usage{
-compute_and_set_obj_checksum(obj_with_UUID_and_checksum,
-  base_outdir_for_checksum = ".")
+compute_and_set_obj_checksum(
+  obj_with_UUID_and_checksum,
+  base_outdir_for_checksum = "."
+)
 }
 \arguments{
 \item{obj_with_UUID_and_checksum}{object whose checksum is to be computed}

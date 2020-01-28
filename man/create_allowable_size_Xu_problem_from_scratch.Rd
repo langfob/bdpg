@@ -4,8 +4,12 @@
 \alias{create_allowable_size_Xu_problem_from_scratch}
 \title{Generate a Xu problem from scratch but insure it's less than a given size}
 \usage{
-create_allowable_size_Xu_problem_from_scratch(max_allowed_num_spp,
-  parameters, integerize, default_num_prob_size_tries_allowed = 20)
+create_allowable_size_Xu_problem_from_scratch(
+  max_allowed_num_spp,
+  parameters,
+  integerize,
+  default_num_prob_size_tries_allowed = 20
+)
 }
 \arguments{
 \item{max_allowed_num_spp}{integer maximum number of species allowed in the

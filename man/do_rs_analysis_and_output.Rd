@@ -4,9 +4,13 @@
 \alias{do_rs_analysis_and_output}
 \title{Run reserve selector(s) on bdproblem and write output from all analyses}
 \usage{
-do_rs_analysis_and_output(APP_bd_prob, COR_bd_prob, parameters,
-  src_rds_file_dir = NULL, spp_rep_targets = rep(1,
-  COR_bd_prob@num_spp))
+do_rs_analysis_and_output(
+  APP_bd_prob,
+  COR_bd_prob,
+  parameters,
+  src_rds_file_dir = NULL,
+  spp_rep_targets = rep(1, COR_bd_prob@num_spp)
+)
 }
 \arguments{
 \item{APP_bd_prob}{an apparent Xu_bd_problem}

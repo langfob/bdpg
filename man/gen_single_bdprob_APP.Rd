@@ -4,10 +4,15 @@
 \alias{gen_single_bdprob_APP}
 \title{Generate a single biodiversity problem with error added to it}
 \usage{
-gen_single_bdprob_APP(Xu_bdprob_COR, parameters, gen_cost_errors,
-  gen_FP_FN_errors, compound_err_name = NULL,
+gen_single_bdprob_APP(
+  Xu_bdprob_COR,
+  parameters,
+  gen_cost_errors,
+  gen_FP_FN_errors,
+  compound_err_name = NULL,
   ret_vals_from_build_const_err = NULL,
-  ret_vals_from_apply_cost_errors = NULL)
+  ret_vals_from_apply_cost_errors = NULL
+)
 }
 \arguments{
 \item{Xu_bdprob_COR}{correct Xu problem that is to have error added to it}

@@ -4,10 +4,17 @@
 \alias{gen_single_bdprob_COR_from_scratch_or_Xu_bench_file}
 \title{Generate a single biodiversity problem}
 \usage{
-gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(exp_root_dir,
-  parameters, read_Xu_problem_from_Xu_file, Xu_bench_infile_name,
-  given_correct_solution_cost, max_allowed_num_spp, integerize,
-  base_prob_name_stem = "base_prob", cor_dir_name_stem = "cor")
+gen_single_bdprob_COR_from_scratch_or_Xu_bench_file(
+  exp_root_dir,
+  parameters,
+  read_Xu_problem_from_Xu_file,
+  Xu_bench_infile_name,
+  given_correct_solution_cost,
+  max_allowed_num_spp,
+  integerize,
+  base_prob_name_stem = "base_prob",
+  cor_dir_name_stem = "cor"
+)
 }
 \arguments{
 \item{exp_root_dir}{character string path to root directory of an

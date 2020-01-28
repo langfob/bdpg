@@ -4,8 +4,12 @@
 \alias{create_Xu_problem_from_scratch}
 \title{Generate a Xu problem from scratch}
 \usage{
-create_Xu_problem_from_scratch(max_allowed_num_spp,
-  dont_derive_prob_params_from_4_Xu_metaparams, parameters, integerize)
+create_Xu_problem_from_scratch(
+  max_allowed_num_spp,
+  dont_derive_prob_params_from_4_Xu_metaparams,
+  parameters,
+  integerize
+)
 }
 \arguments{
 \item{max_allowed_num_spp}{integer}
@@ -25,8 +29,9 @@ Generate a Xu biodiversity problem based on 4 input control parameters
 rather than reading it from a file.
 }
 \seealso{
-Other interfaces to creation of Xu problems: \code{\link{create_Xu_problem_from_scratch_given_4_Xu_metaparams}},
-  \code{\link{create_Xu_problem_from_scratch_given_params}},
-  \code{\link{create_Xu_problem_from_scratch_not_using_4_Xu_metaparams}}
+Other interfaces to creation of Xu problems: 
+\code{\link{create_Xu_problem_from_scratch_given_4_Xu_metaparams}()},
+\code{\link{create_Xu_problem_from_scratch_given_params}()},
+\code{\link{create_Xu_problem_from_scratch_not_using_4_Xu_metaparams}()}
 }
 \concept{interfaces to creation of Xu problems}

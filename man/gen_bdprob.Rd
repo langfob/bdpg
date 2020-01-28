@@ -4,8 +4,12 @@
 \alias{gen_bdprob}
 \title{Generate a base or wrapped biodiversity problem}
 \usage{
-gen_bdprob(parameters, integerize, gen_multi_bdproblem = NULL,
-  base_bdprob = NULL)
+gen_bdprob(
+  parameters,
+  integerize,
+  gen_multi_bdproblem = NULL,
+  base_bdprob = NULL
+)
 }
 \arguments{
 \item{parameters}{parameters list for the run, usually derived from project.yaml

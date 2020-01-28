@@ -4,10 +4,15 @@
 \alias{summarize_and_plot_graph_and_distribution_structure_information}
 \title{Compute final PU and species counts and plot degree and abundance distributions.}
 \usage{
-
-  summarize_and_plot_graph_and_distribution_structure_information(PU_spp_pair_indices,
-  cor_or_app_label, all_correct_node_IDs, plot_output_dir, spp_col_name,
-  PU_col_name, presences_col_name)
+summarize_and_plot_graph_and_distribution_structure_information(
+  PU_spp_pair_indices,
+  cor_or_app_label,
+  all_correct_node_IDs,
+  plot_output_dir,
+  spp_col_name,
+  PU_col_name,
+  presences_col_name
+)
 }
 \arguments{
 \item{PU_spp_pair_indices}{2 column data frame of PU IDs vs species IDs,

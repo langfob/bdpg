@@ -4,8 +4,13 @@
 \alias{get_forced_seed_value_if_necessary}
 \title{Get forced seed value if necessary}
 \usage{
-get_forced_seed_value_if_necessary(is_rsrun, is_rsprob, parameters,
-  cor_or_app_str, basic_or_wrapped_or_comb_str)
+get_forced_seed_value_if_necessary(
+  is_rsrun,
+  is_rsprob,
+  parameters,
+  cor_or_app_str,
+  basic_or_wrapped_or_comb_str
+)
 }
 \arguments{
 \item{is_rsrun}{boolean indicating that the seed creation test is being

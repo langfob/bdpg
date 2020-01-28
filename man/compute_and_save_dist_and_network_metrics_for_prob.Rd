@@ -4,8 +4,12 @@
 \alias{compute_and_save_dist_and_network_metrics_for_prob}
 \title{Compute and save the distribution and network metrics for the problem.}
 \usage{
-compute_and_save_dist_and_network_metrics_for_prob(Xu_bdprob_APP,
-  Xu_bdprob_COR, starting_dir, parameters)
+compute_and_save_dist_and_network_metrics_for_prob(
+  Xu_bdprob_APP,
+  Xu_bdprob_COR,
+  starting_dir,
+  parameters
+)
 }
 \arguments{
 \item{Xu_bdprob_APP}{an apparent Xu_bd_problem}
