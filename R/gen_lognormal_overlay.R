@@ -26,6 +26,12 @@
 #
 #-------------------------------------------------------------------------------
 #
+#  Various Rmd files of notes generated for exploring lognormal to build the
+#  functions in this file are in:
+#      .../ProblemDifficulty/ProbDiff_Notes/LognormalAbundanceDistributionBuilding
+#
+#-------------------------------------------------------------------------------
+#
 #  History
 #   - 2016 04 05 - Created - BTL.
 #
