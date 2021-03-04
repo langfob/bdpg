@@ -103,6 +103,7 @@ create_RSrun_dir_and_subdirs <- function (rsrun,
 create_RSrun <- function (prob_UUID,
                           spp_rep_targets,
                           parameters,
+                          starting_dir,
                           cor_or_app_str,
                           basic_or_wrapped_or_comb_str,
                           rs_method_name
@@ -123,6 +124,7 @@ cat ("\n@@@TRACKING rand_seed in createRSrun:: new_seed_list$seed_value = ", new
     return (create_RSrun_core (prob_UUID,
                                  spp_rep_targets,
                                  parameters,
+                               starting_dir,
                                  cor_or_app_str,
                                  basic_or_wrapped_or_comb_str,
                                  rs_method_name,
@@ -162,6 +164,14 @@ repro_RSrun <- function (repro_RDS_file_loc,
     if (! is.null (fullOutputDir_NO_slash) & ! is.na (fullOutputDir_NO_slash))
         parameters$fullOutputDir_NO_slash = fullOutputDir_NO_slash
 
+#--------------------
+#  2018 12 09 - BTL
+#  Not sure if this is the right thing to do here since most other things
+#  pass the starting_dir in as an argument now.
+#  At the moment, this function is not called anywhere.
+starting_dir = parameters$fullOutputDir_NO_slash
+#--------------------
+
     rsrun = repro$rsrun
     prob_UUID                    = rsrun@run_on_prob_UUID
     spp_rep_targets              = rsrun@targets
@@ -181,6 +191,7 @@ cat ("\n@@@TRACKING rand_seed in repro_RSrun:: new_seed_list$seed_value = ", new
     return (create_RSrun_core (prob_UUID,
                                  spp_rep_targets,
                                  parameters,
+                               starting_dir,
                                  cor_or_app_str,
                                  basic_or_wrapped_or_comb_str,
                                  rs_method_name,
@@ -193,6 +204,7 @@ cat ("\n@@@TRACKING rand_seed in repro_RSrun:: new_seed_list$seed_value = ", new
 create_RSrun_core <- function (prob_UUID,
                                  spp_rep_targets,
                                  parameters,
+                               starting_dir,
                                  cor_or_app_str,
                                  basic_or_wrapped_or_comb_str,
                                  rs_method_name,
@@ -231,7 +243,7 @@ cat ("\n@@@TRACKING rand_seed in create_RSrun_core:: rsrun@rand_seed = ", rsrun@
                                    rsrun@rs_method_name,
                                    sep='-')
 
-    starting_dir = parameters$fullOutputDir_NO_slash
+    # starting_dir = parameters$fullOutputDir_NO_slash
 
     create_RSrun_dir_and_subdirs (rsrun, starting_dir)
 

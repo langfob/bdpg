@@ -18,6 +18,7 @@
 do_COR_simple_richness_analysis_and_output <-
                         function (COR_bd_prob,
                                   parameters,
+                                  starting_dir,
                                   rs_method_name,
                                   forward = TRUE,
                                   src_rds_file_dir = NULL,
@@ -30,6 +31,7 @@ do_COR_simple_richness_analysis_and_output <-
     COR_rs_run <- create_RSrun (COR_bd_prob@UUID,
                                 spp_rep_targets,
                                 parameters,
+                                starting_dir,
                                 COR_bd_prob@cor_or_app_str,
                                 COR_bd_prob@basic_or_wrapped_or_comb_str,
                                 rs_method_name)
@@ -37,6 +39,7 @@ do_COR_simple_richness_analysis_and_output <-
     rs_control_values = set_up_for_and_run_simple_richness_COR (COR_bd_prob,
                                                                 COR_rs_run,
                                                                 parameters,
+                                                                starting_dir,
                                                                 forward)
 
         #-------------------------------------
@@ -45,7 +48,10 @@ do_COR_simple_richness_analysis_and_output <-
 
     save_rsrun_results_data_for_one_rsrun (
                             tzar_run_ID  = parameters$run_id,
-                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+
+#                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+                            exp_root_dir = starting_dir,
+
                             COR_rs_run,
                             COR_bd_prob,
                             COR_bd_prob,
@@ -72,6 +78,7 @@ do_APP_simple_richness_analysis_and_output <-
                         function (APP_bd_prob,
                                   COR_bd_prob,
                                   parameters,
+                                  starting_dir,
                                   rs_method_name,
                                   forward = TRUE,
                                   src_rds_file_dir = NULL,
@@ -84,6 +91,7 @@ do_APP_simple_richness_analysis_and_output <-
     APP_rs_run <- create_RSrun (APP_bd_prob@UUID,
                                 spp_rep_targets,
                                 parameters,
+                                starting_dir,
                                 APP_bd_prob@cor_or_app_str,
                                 APP_bd_prob@basic_or_wrapped_or_comb_str,
                                 rs_method_name)
@@ -92,6 +100,7 @@ do_APP_simple_richness_analysis_and_output <-
                                                                 COR_bd_prob,
                                                                 APP_rs_run,
                                                                 parameters,
+                                                                starting_dir,
                                                                 forward)
 
         #-------------------------------------
@@ -100,7 +109,10 @@ do_APP_simple_richness_analysis_and_output <-
 
     save_rsrun_results_data_for_one_rsrun (
                             tzar_run_ID  = parameters$run_id,
-                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+
+#                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+                            exp_root_dir = starting_dir,
+
                             APP_rs_run,
                             COR_bd_prob,
                             APP_bd_prob,
@@ -129,6 +141,7 @@ do_APP_simple_richness_analysis_and_output <-
 set_up_for_and_run_simple_richness_COR <- function (COR_bd_prob,
                                                     rsrun,
                                                     parameters,
+                                                    starting_dir,
                                                     forward = TRUE)
     {
     simple_richness_control_values =
@@ -142,7 +155,10 @@ set_up_for_and_run_simple_richness_COR <- function (COR_bd_prob,
                                             forward,
 
                                             rsrun,
-                                            top_dir = parameters$fullOutputDir_NO_slash,
+
+#                                            top_dir = parameters$fullOutputDir_NO_slash,
+                                            top_dir = starting_dir,
+
                                             save_inputs = TRUE,
                                             save_outputs = TRUE)
 
@@ -169,6 +185,7 @@ set_up_for_and_run_simple_richness_APP <- function (APP_bd_prob,
                                                     COR_bd_prob,
                                                     rsrun,
                                                     parameters,
+                                                    starting_dir,
                                                     forward = TRUE)
     {
     simple_richness_control_values =
@@ -182,7 +199,10 @@ set_up_for_and_run_simple_richness_APP <- function (APP_bd_prob,
                                             forward,
 
                                             rsrun,
-                                            top_dir = parameters$fullOutputDir_NO_slash,
+
+#                                            top_dir = parameters$fullOutputDir_NO_slash,
+                                            top_dir = starting_dir,
+
                                             save_inputs = TRUE,
                                             save_outputs = TRUE)
 

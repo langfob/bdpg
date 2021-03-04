@@ -16,21 +16,19 @@
 #-------------------------------------------------------------------------------
 
 gen_single_bdprob_COR <- function (parameters,
+                                   starting_dir,
                                    integerize,
                                    base_prob_name_stem = "base_prob",
                                    cor_dir_name_stem = "cor"
                                    )
     {
-    exp_root_dir = file.path (normalizePath (parameters$full_output_dir_with_slash))
-    Xu_bench_infile_name = parameters$Xu_bench_infile_name
-    if (is.null (Xu_bench_infile_name)) Xu_bench_infile_name = ""
+#    exp_root_dir = file.path (normalizePath (parameters$full_output_dir_with_slash))
+    exp_root_dir = starting_dir
 
     COR_Xu_bdprob =
         gen_single_bdprob_COR_from_scratch_or_Xu_bench_file (
             exp_root_dir,
             parameters,
-            value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file),
-            Xu_bench_infile_name,
             value_or_FALSE_if_null (parameters$given_correct_solution_cost),
             parameters$max_allowed_num_spp,
             integerize,
@@ -156,10 +154,13 @@ create_Xu_problem_from_scratch_given_4_Xu_metaparams <-
                      derived_Xu_params@max_possible_tot_num_links,
                      derived_Xu_params@target_num_links_between_2_groups_per_round,
                      derived_Xu_params@num_rounds_of_linking_between_groups,
-                                       duplicate_links_allowed,
-                                                        max_allowed_num_spp,
-                                                        parameters,
-                                                        integerize)
+                                       duplicate_links_allowed
+#  BTL - 2018 12 29 - Appear to not be used
+# ,
+# max_allowed_num_spp,
+# parameters,
+# integerize
+                )
 
         PU_spp_pair_info@Xu_parameters = Xu_parameters
         }
@@ -224,10 +225,13 @@ create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowe
                 target_num_links_between_2_groups_per_round,
                 num_rounds_of_linking_between_groups,
 
-                duplicate_links_allowed,
-                max_allowed_num_spp,
-                parameters,
-                integerize)
+                duplicate_links_allowed
+#  BTL - 2018 12 29 - Appear to not be used
+# ,
+# max_allowed_num_spp,
+# parameters,
+# integerize
+                )
         }
 
     return (PU_spp_pair_info)
@@ -278,18 +282,14 @@ create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowe
 #-------------------------------------------------------------------------------
 
 create_Xu_problem_from_scratch_given_params <-
-    function (
-              tot_num_nodes,
+    function (tot_num_nodes,
               num_nodes_per_group,
               n__num_groups,
               num_independent_nodes_per_group,
               max_possible_tot_num_links,
               target_num_links_between_2_groups_per_round,
               num_rounds_of_linking_between_groups,
-              duplicate_links_allowed,
-                                            max_allowed_num_spp,
-                                            parameters,
-                                            integerize)
+              duplicate_links_allowed)
     {
       #-----------------------------------------------------------
       #  Now that specific problem attributes have been derived,
@@ -476,8 +476,8 @@ create_allowable_size_Xu_problem_from_scratch <- function (
 gen_single_bdprob_COR_from_scratch_or_Xu_bench_file <-
     function (exp_root_dir,
                 parameters,
-            read_Xu_problem_from_Xu_file,
-            Xu_bench_infile_name,
+            # read_Xu_problem_from_Xu_file,
+            # Xu_bench_infile_name,
                 given_correct_solution_cost,
                 max_allowed_num_spp,
                 integerize,
@@ -500,6 +500,11 @@ cat ("\n@@@TRACKING rand_seed in gen_single_bdprob_COR_from_scratch_or_Xu_bench_
         #  Load the information about the generation of the problem into
         #  an object to store with the full problem object.
         #-------------------------------------------------------------------
+
+    read_Xu_problem_from_Xu_file =
+        value_or_FALSE_if_null (parameters$read_Xu_problem_from_Xu_bench_file)
+    Xu_bench_infile_name = parameters$Xu_bench_infile_name
+    if (is.null (Xu_bench_infile_name)) Xu_bench_infile_name = ""
 
     if (read_Xu_problem_from_Xu_file)
         {
@@ -575,6 +580,7 @@ cat ("\n@@@TRACKING rand_seed in gen_single_bdprob_COR_from_scratch_or_Xu_bench_
 
     Xu_bdprob_cor@prob_generator_params_known      = PU_spp_pair_info@prob_generator_params_known
     Xu_bdprob_cor@correct_solution_vector_is_known = PU_spp_pair_info@correct_solution_vector_is_known
+    Xu_bdprob_cor@dependent_node_IDs               = PU_spp_pair_info@dependent_node_IDs    #  Added 2018 12 31 - BTL
 
 ##FixPUsppPairIndices-2018-02-17##    Xu_bdprob_cor@cor_PU_spp_pair_indices       = PU_spp_pair_info@PU_spp_pair_indices
     Xu_bdprob_cor@PU_spp_pair_indices       = PU_spp_pair_info@PU_spp_pair_indices
@@ -610,13 +616,19 @@ cat ("\n@@@TRACKING rand_seed in gen_single_bdprob_COR_from_scratch_or_Xu_bench_
     Xu_bdprob_cor@bpm = bpm
 
         #-------------------------------------------------------------
-        #  Quit if there are any duplicate edges/spp in the problem.
+        #  Quit if there are any duplicate edges/spp in the problem
+        #  and they're not allowed.  They should have already
+        #  been removed in create_Xu_graph() if they were generated
+        #  and not allowed.
         #-------------------------------------------------------------
 
-    see_if_there_are_any_duplicate_links (bpm, Xu_bdprob_cor@num_spp)
+    duplicate_links_allowed =
+        value_or_FALSE_if_null (parameters$duplicate_links_allowed)
+
+    if (! duplicate_links_allowed)
+        see_if_there_are_any_duplicate_links (bpm, Xu_bdprob_cor@num_spp)
 
         #-----------------------------------------------------------
-        #  No duplicates found.
         #  Create the basic set of directories for problem output.
         #-----------------------------------------------------------
 

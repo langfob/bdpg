@@ -383,6 +383,24 @@ if(FALSE)
         #  they don't have to be separated from each other in downstream uses.
         #----------------------------------------------------------------------
 
+        #---------------------------------------------------------------------
+        #  2018 12 17 - BTL
+        #  Adding the writing of solution vector to csv files so that they
+        #  can be read consistently and directly from other parts of the code.
+        #  This probably makes at least part of the "if (save_outputs)" bit
+        #  below unnecessary now, but I'm not sure whether anything relies on
+        #  it so I'll leave it in for now.
+        #---------------------------------------------------------------------
+
+    ResSel_output_dir = get_RSrun_path_topdir (rsrun, top_dir)
+
+            #  Save the short ranked vector of PU IDs, i.e., the best guess
+            #  at a solution that covers all species' targets.
+    ResSel_best_solution_file_name = "Gurobi_best_solution_PU_IDs.csv"
+    ResSel_best_solution_file_path =
+        file.path (ResSel_output_dir, ResSel_best_solution_file_name)
+    write (solution_PU_IDs, ResSel_best_solution_file_path, sep=",")
+
     if (save_outputs)
         {
         gurobi_output_dir = get_RSrun_path_output (rsrun, top_dir)
@@ -426,6 +444,7 @@ if(FALSE)
 do_gurobi_analysis_and_output <- function (APP_bd_prob,
                                                COR_bd_prob,
                                                parameters,
+                                           starting_dir,
                                                rs_method_name,
                                                marxan_elapsed_time,
                                                src_rds_file_dir = NULL,
@@ -440,6 +459,7 @@ do_gurobi_analysis_and_output <- function (APP_bd_prob,
     APP_rs_run <- create_RSrun (APP_bd_prob@UUID,
                                 spp_rep_targets,
                                 parameters,
+                                starting_dir,
                                 APP_bd_prob@cor_or_app_str,
                                 APP_bd_prob@basic_or_wrapped_or_comb_str,
                                 rs_method_name)
@@ -448,6 +468,7 @@ do_gurobi_analysis_and_output <- function (APP_bd_prob,
                                                        COR_bd_prob,
                                                        APP_rs_run,
                                                        parameters,
+                                                       starting_dir,
                                                        marxan_elapsed_time)
 
         #-------------------------------------
@@ -456,13 +477,20 @@ do_gurobi_analysis_and_output <- function (APP_bd_prob,
 
     save_rsrun_results_data_for_one_rsrun (
                             tzar_run_ID  = parameters$run_id,
-                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+
+#                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+                            exp_root_dir = starting_dir,
+
                             APP_rs_run,
                             COR_bd_prob,
                             APP_bd_prob,
                             rs_method_name,
                             rs_control_values,
                             src_rds_file_dir)
+
+    RSrun_topdir = get_RSrun_path_topdir (APP_rs_run, starting_dir)
+
+    return (RSrun_topdir)
 
     }  #  end function - do_APP_rs_analysis_and_output
 

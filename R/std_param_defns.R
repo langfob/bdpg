@@ -211,6 +211,8 @@
 #'     species ID and a column for each planning unit ID
 #' @param src_rds_file_dir string containing full path of directory where
 #'     source rds file is or was found
+#' @param starting_dir string containing full path of top directory where
+#'     problems and/or runs are to be created
 #' @param target_num_links_between_2_groups_per_round integer target number of
 #'     links between any two groups per round of linking in constructing the
 #'     Xu problem
@@ -283,6 +285,7 @@ std_param_defns <-
             spp_rep_targets,
             spp_rows_by_PU_cols_matrix_of_spp_cts_per_PU,
             src_rds_file_dir,
+            starting_dir,
             target_num_links_between_2_groups_per_round,
             top_dir,
             use_marxan_time_as_limit,

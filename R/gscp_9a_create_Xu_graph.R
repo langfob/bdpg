@@ -232,12 +232,24 @@ create_Xu_graph = function (num_nodes_per_group,
 
     #---------------------------------------------------------------------------
 
+        #  All node pairs should be loaded into the edge_list table now
+        #  and there should be no NA lines left in the table.
+
+    for (cur_test_row_idx in 1:get_num_edge_list(edge_list))
+        {
+        if (is.na (edge_list [cur_test_row_idx, 1]) |
+            is.na (edge_list [cur_test_row_idx, 2]))
+            {
+            stop_bdpg (paste0 ("\nFound NA in edge_list row '",
+                               cur_test_row_idx, "'\n"))
+            }
+        }
+
+    #---------------------------------------------------------------------------
+
         #---------------------------------------------
         #  Remove duplicate links, if there are any.
         #---------------------------------------------
-
-        #  All node pairs should be loaded into the edge_list table now
-        #  and there should be no NA lines left in the table.
 
         #  However no duplicate links are allowed, so need to go through all
         #  node pairs and remove non-unique ones.
@@ -245,6 +257,11 @@ create_Xu_graph = function (num_nodes_per_group,
                     #                       from the original algorithm?
                     #                       Need to be sure about that since
                     #                       it affects things downstream.
+                    #  BTL - 2018 12 29 - No duplicates allowed is no longer
+                    #                       a rule since I emailed with Xu
+                    #                       earlier this year and he said that
+                    #                       duplicates ARE allowed.  Since then,
+                    #                       I made it an option flag.
 
             #  NOTE:  I think that this unique() call only works if the
             #           pairs are ordered within pair, i.e., if all from

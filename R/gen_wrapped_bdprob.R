@@ -1310,6 +1310,7 @@ cat ("\n@@@TRACKING rand_seed in wrap_abundance_dist_around_Xu_problem:: wrapped
 
     wrapped_bdprob@prob_generator_params_known          = Xu_bdprob@prob_generator_params_known
     wrapped_bdprob@correct_solution_vector_is_known     = Xu_bdprob@correct_solution_vector_is_known
+    wrapped_bdprob@dependent_node_IDs                   = Xu_bdprob@dependent_node_IDs    #  Added 2019 01 01 - BTL
 
 ##FixPUsppPairIndices-2018-02-17##    wrapped_bdprob@cor_PU_spp_pair_indices          = wrapped_PU_spp_indices
     wrapped_bdprob@PU_spp_pair_indices          = wrapped_PU_spp_indices
@@ -1670,10 +1671,10 @@ options_are_legal_for_single_bdprob_WRAP <- function (parameters)
 
 #-------------------------------------------------------------------------------
 
-gen_single_bdprob_WRAP <- function (bdprob_to_wrap, parameters)
+gen_single_bdprob_WRAP <- function (bdprob_to_wrap, parameters, starting_dir)
     {
-    starting_dir =
-        file.path (normalizePath (parameters$full_output_dir_with_slash))
+    # starting_dir =
+    #     file.path (normalizePath (parameters$full_output_dir_with_slash))
 
     # compute_network_metrics_for_this_prob =
     #     value_or_FALSE_if_null (parameters$compute_network_metrics_wrapped_COR)

@@ -11,8 +11,56 @@
 #  2017 02 18 - BTL - Renamed to gscp_14b_compute_solution_scores.R.
 
 #===============================================================================
+#===============================================================================
+
+# compute_and_verify_APP_rep_scores_according_to_RS <-
+#     function (cand_sol_PU_IDs, num_spp, bpm, spp_rep_targets)
+#     {
+#     app_solution_NUM_spp_covered__fromRS =
+#         compute_num_spp_covered_by_solution (cand_sol_PU_IDs,
+#                                              bpm,
+#                                              spp_rep_targets)
+#
+#     app_solution_FRAC_spp_covered__fromRS = app_solution_NUM_spp_covered__fromRS / num_spp
+#     app_spp_rep_shortfall__fromRS = 1 - app_solution_FRAC_spp_covered__fromRS
+#
+#     return (list (rsr_app_spp_rep_shortfall__fromRS         = app_spp_rep_shortfall__fromRS,
+#                   rsr_app_solution_NUM_spp_covered__fromRS  = app_solution_NUM_spp_covered__fromRS,
+#                   rsr_app_solution_FRAC_spp_covered__fromRS = app_solution_FRAC_spp_covered__fromRS))
+#     }
 
 #-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#' Compute number of species whose targets are met by a candidate solution
+#'
+#-------------------------------------------------------------------------------
+
+#' @param cand_sol_PU_IDs vector of only the planning unit IDs that are
+#'     included in the candidate solution
+#' @inheritParams std_param_defns
+#'
+#' @return number of species whose targets are met by the candidate solution
+#' @export
+#'
+#-------------------------------------------------------------------------------
+
+compute_num_spp_covered_by_solution <- function (cand_sol_PU_IDs,
+                                                 bpm,
+                                                 spp_rep_targets)
+    {
+        #  Reduce the spp/PU adjacency matrix to only include PUs that
+        #  are in the set to test (e.g., in the proposed reserve set).
+        #  Once that's done, summing each spp row will tell you how much
+        #  representation each spp achieves in the proposed solution.
+
+    spp_reps_in_sol = rowSums (bpm [, cand_sol_PU_IDs, drop=FALSE])
+    num_spp_covered = length (which (spp_reps_in_sol >= spp_rep_targets))
+
+    return (num_spp_covered)
+    }
+
+#===============================================================================
 
 #' Compute representation scores for candidate solution
 #'
@@ -74,7 +122,87 @@ compute_and_verify_rep_scores_wrt <- function (ref_spp_occ_matrix,
 
 #===============================================================================
 
-#' Compute confustion matrix-based scores for candidate solution
+#' @export
+
+compute_euc_out_err_frac <- function (cor_or_app_str,
+                                        solution_cost_err_frac,
+                                        frac_spp_covered)
+    {
+    euc_out_err_frac = sqrt ((solution_cost_err_frac ^ 2) + ((1 - frac_spp_covered) ^2))
+
+    if (cor_or_app_str == "COR")
+        {
+        results_list = list (rsr_COR_euc_out_err_frac = euc_out_err_frac)
+
+        } else if (cor_or_app_str == "APP")
+        {
+        results_list = list (rsr_APP_euc_out_err_frac = euc_out_err_frac)
+
+        } else
+        {
+        stop_bdpg (paste0 ("cor_or_app_str = '", cor_or_app_str,
+                           "'.  Must be 'COR' or 'APP'"))
+        }
+
+    return (results_list)
+    }
+
+#===============================================================================
+
+#' @export
+
+compute_RS_solution_cost_scores_wrt_COR_costs_vec <-
+                                            function (rs_solution_PU_IDs_vec,
+                                                      cor_optimum_cost,
+                                                      PU_costs_vec)
+    {
+    #---------------------------------------------------------------------------
+    #         Compute error in cost of reserve selector's solution.
+    #---------------------------------------------------------------------------
+
+    rs_solution_cost = compute_solution_cost (rs_solution_PU_IDs_vec,
+                                              PU_costs_vec)
+    rs_solution_cost_err_frac = (rs_solution_cost - cor_optimum_cost) /
+                                cor_optimum_cost
+    abs_rs_solution_cost_err_frac = abs (rs_solution_cost_err_frac)
+
+    #---------------------------------------------------------------------
+    #  Giving errors as a fraction of the correct optimum cost
+    #  may be misleading sometimes, e.g., when the correct optimum cost
+    #  is nearly the cost of the full landscape.
+    #  Even just guessing the cost of the whole landscape would not give
+    #  much percentage error in that case.
+    #  So, we'll also compute the error as a fraction of the maximum
+    #  possible over-optimum or under-optimum error to see if that is
+    #  more informative/predictable than guessing the usual percentage
+    #  error.
+    #---------------------------------------------------------------------
+
+    rs_over_opt_cost_err_frac_of_possible_overcost = NA
+    total_landscape_cost = sum (PU_costs_vec)
+    rs_max_overcost = total_landscape_cost - cor_optimum_cost
+    if (rs_solution_cost_err_frac > 0)
+        rs_over_opt_cost_err_frac_of_possible_overcost =
+            (rs_solution_cost - cor_optimum_cost) / rs_max_overcost
+
+    rs_under_opt_cost_err_frac_of_possible_undercost = NA
+    if (rs_solution_cost_err_frac < 0)
+        rs_under_opt_cost_err_frac_of_possible_undercost = abs_rs_solution_cost_err_frac
+
+    #---------------------------------------------------------------------
+
+    return (list (cor_optimum_cost = cor_optimum_cost,
+                  rs_solution_cost = rs_solution_cost,
+                  rs_solution_cost_err_frac = rs_solution_cost_err_frac,
+                  abs_rs_solution_cost_err_frac = abs_rs_solution_cost_err_frac,
+                  rs_over_opt_cost_err_frac_of_possible_overcost = rs_over_opt_cost_err_frac_of_possible_overcost,
+                  rs_under_opt_cost_err_frac_of_possible_undercost = rs_under_opt_cost_err_frac_of_possible_undercost
+                 ))
+    }
+
+#===============================================================================
+
+#' Compute confusion matrix-based scores for candidate solution
 #'
 #' Computes error measures related to confusion matrix, etc. For the purpose of
 #' computing a performance score, start by treating the problem as if it's a

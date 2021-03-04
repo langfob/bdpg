@@ -288,7 +288,7 @@ cat ("\n\n---------- END get_base_cor_bdprob_for_given_app_bdprob() ----------")
 
 #-------------------------------------------------------------------------------
 
-single_action_using_tzar_reps <- function (parameters, integerize)
+single_action_using_tzar_reps <- function (parameters, starting_dir, integerize)
     {
         #------------------------------------------------------
         #  Make sure that exactly one action has been chosen.
@@ -325,6 +325,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
     if (gen_COR_prob)
         {
         gen_single_bdprob_COR (parameters,
+                               starting_dir,
                                      integerize,
                                      base_prob_name_stem = "base_prob",
                                      cor_dir_name_stem = "cor")
@@ -348,7 +349,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
         src_bdprob_to_wrap = src_prob_and_path_list$src_Xu_bd_problem
         src_rds_file_dir   = src_prob_and_path_list$src_rds_file_dir
 
-        gen_single_bdprob_WRAP (src_bdprob_to_wrap, parameters)
+        gen_single_bdprob_WRAP (src_bdprob_to_wrap, parameters, starting_dir)
         }
 
     #---------------------------------------------------------------------------
@@ -377,7 +378,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
 #  FP/FN ERRORS SINCE THAT HAS BEEN ADDED TO THE CALL FOR gen_single_bdprob_APP()
 #  ON 2018 03 07.
 
-        gen_single_bdprob_APP (bdprob_to_add_error_to, parameters)
+        gen_single_bdprob_APP (bdprob_to_add_error_to, parameters, starting_dir)
         }
 
     #---------------------------------------------------------------------------
@@ -402,6 +403,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
         do_rs_analysis_and_output (cor_bdprob,
                                        cor_bdprob,
                                        parameters,
+                                   starting_dir,
                                        src_rds_file_dir)
         }
 
@@ -429,6 +431,7 @@ single_action_using_tzar_reps <- function (parameters, integerize)
         do_rs_analysis_and_output (app_bdprob,
                                        cor_bdprob,
                                        parameters,
+                                   starting_dir,
                                        src_rds_file_dir)
         }
 
@@ -495,7 +498,9 @@ single_action_using_tzar_reps <- function (parameters, integerize)
             #  the input problem.
             #------------------------------------------------------------
 
-        exp_root_dir = file.path (normalizePath (parameters$full_output_dir_with_slash))
+#        exp_root_dir = file.path (normalizePath (parameters$full_output_dir_with_slash))
+        exp_root_dir = file.path (normalizePath (starting_dir))
+
         create_RSprob_dir_and_subdirs (exp_root_dir, net_bdprob)
 
         net_bdprob = init_object_graph_data (net_bdprob,

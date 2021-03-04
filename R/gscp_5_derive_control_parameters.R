@@ -299,6 +299,57 @@ get_r__density <- function (r__density,
 
 #===============================================================================
 
+#  2018 12 29 - BTL
+#  Extracted this code from derive_Xu_control_parameters() into a function
+#  so that I can reuse it in some testing code.
+
+#' @export
+#'
+compute_various_link_cts <- function (num_nodes_per_group,
+                                      num_independent_nodes_per_group,
+                                      n__num_groups,
+                                      target_num_links_between_2_groups_per_round,
+                                      num_rounds_of_linking_between_groups,
+                                      integerize)
+    {
+        #  Compute how many links there will be within each group.
+        #  If there is more than one independent node, then not all possible
+        #  combinations of links will be made, i.e., no links are allowed to
+        #  be made between the independent nodes themselves, otherwise,
+        #  they would no longer be independent.  So, have to subtract off
+        #  the number of possible links between independent nodes in
+        #  the group.
+        #    num_links_within_one_group = choose (num_nodes_per_group, 2)
+
+    num_links_within_one_group = vn (choose (num_nodes_per_group, 2) -
+                                     choose (num_independent_nodes_per_group, 2),
+                                     range_lo=1)
+
+    tot_num_links_inside_groups = vn (n__num_groups * num_links_within_one_group,
+                                      range_lo=1)
+
+    max_possible_num_links_between_groups =
+          integerize (target_num_links_between_2_groups_per_round *
+                      num_rounds_of_linking_between_groups)
+
+    max_possible_tot_num_links =
+          integerize (tot_num_links_inside_groups +
+                      max_possible_num_links_between_groups)
+    max_possible_tot_num_node_link_pairs = 2 * max_possible_tot_num_links
+
+    link_cts_list = list (
+        num_links_within_one_group            = num_links_within_one_group,
+        tot_num_links_inside_groups           = tot_num_links_inside_groups,
+        max_possible_num_links_between_groups = max_possible_num_links_between_groups,
+        max_possible_tot_num_links            = max_possible_tot_num_links,
+        max_possible_tot_num_node_link_pairs  = max_possible_tot_num_node_link_pairs
+        )
+
+    return (link_cts_list)
+    }
+
+#===============================================================================
+
 #' Derive full Xu control params from 4 base params
 #'
 #-------------------------------------------------------------------------------
@@ -444,30 +495,23 @@ cat ("\n\n\t\t integerize (n__num_groups ^ alpha__)  - (num_independent_nodes_pe
 
     #----------
 
-        #  Compute how many links there will be within each group.
-        #  If there is more than one independent node, then not all possible
-        #  combinations of links will be made, i.e., no links are allowed to
-        #  be made between the independent nodes themselves, otherwise,
-        #  they would no longer be independent.  So, have to subtract off
-        #  the number of possible links between independent nodes in
-        #  the group.
-        #    num_links_within_one_group = choose (num_nodes_per_group, 2)
+        #  2018 12 29 - BTL
+        #  This call used to be inline code but I pulled it out into a function
+        #  of its own so that I can reuse it in some testing code.
 
-    num_links_within_one_group = vn (choose (num_nodes_per_group, 2) -
-                                     choose (num_independent_nodes_per_group, 2),
-                                     range_lo=1)
+    link_cts_list =
+        compute_various_link_cts (num_nodes_per_group,
+                                  num_independent_nodes_per_group,
+                                  n__num_groups,
+                                  target_num_links_between_2_groups_per_round,
+                                  num_rounds_of_linking_between_groups,
+                                  integerize)
 
-    tot_num_links_inside_groups = vn (n__num_groups * num_links_within_one_group,
-                                      range_lo=1)
-
-    max_possible_num_links_between_groups =
-                integerize (target_num_links_between_2_groups_per_round *
-                            num_rounds_of_linking_between_groups)
-
-    max_possible_tot_num_links =
-                integerize (tot_num_links_inside_groups +
-                            max_possible_num_links_between_groups)
-    max_possible_tot_num_node_link_pairs = 2 * max_possible_tot_num_links
+    num_links_within_one_group            = link_cts_list$num_links_within_one_group
+    tot_num_links_inside_groups           = link_cts_list$tot_num_links_inside_groups
+    max_possible_num_links_between_groups = link_cts_list$max_possible_num_links_between_groups
+    max_possible_tot_num_links            = link_cts_list$max_possible_tot_num_links
+    max_possible_tot_num_node_link_pairs  = link_cts_list$max_possible_tot_num_node_link_pairs
 
     cat ("\n\n--------------------  After building derived control parameters.\n")
 

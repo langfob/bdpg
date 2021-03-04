@@ -30,7 +30,8 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c("number"))
 #' @param plot_output_dir character string
 #' @inheritParams std_param_defns
 #'
-#' @return Returns nothing
+#' @return Returns vector subset of ranked marxan summed solution PU IDs that
+#' first covers all species' targets
 
 #-------------------------------------------------------------------------------
 

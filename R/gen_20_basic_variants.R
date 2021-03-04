@@ -83,6 +83,7 @@ get_compound_err_name <- function (gen_cost_errors,
 
 gen_1_app_variant <- function (base_bd_prob,
                                parameters,
+                               starting_dir,
 
                                gen_cost_errors,
                                cost_error_frac_bound,
@@ -155,19 +156,27 @@ gen_1_app_variant <- function (base_bd_prob,
 
     APP_bd_prob = gen_single_bdprob_APP (base_bd_prob,
                                          parameters,
+                                         starting_dir,
                            gen_cost_errors,
                            gen_FP_FN_errors,
                                          compound_err_name,
                                          ret_vals_from_build_const_err,
                                          ret_vals_from_apply_cost_errors)
 
-    do_rs_analysis_and_output (APP_bd_prob,
-                                   base_bd_prob,
-                                   parameters)
+    RS_topDirs_list = do_rs_analysis_and_output (APP_bd_prob,
+                                                 base_bd_prob,
+                                                 parameters,
+                                             starting_dir)
 
                     cat("\n\njust after do_APP_rs_analysis_and_output() APP problem")
                     cat ("\n\n================================================================================")
                     cat ("\n================================================================================\n\n")
+
+
+    APP_bd_prob_topdir = get_RSprob_path_topdir (APP_bd_prob, starting_dir)
+
+    return (list (bd_prob_topdir = APP_bd_prob_topdir,
+                  RS_topDirs_list = RS_topDirs_list))
     }
 
 #===============================================================================
@@ -305,6 +314,7 @@ gen_4_or_5_app_variants_with_mixed_err_amts <-
 
 gen_4_or_5_app_variants <- function (base_bd_prob,
                                      parameters,
+                                     starting_dir,
                                      gen_combined_cost_and_FP_FN_errors,
                                      err_amt)
     {
@@ -318,6 +328,7 @@ gen_4_or_5_app_variants <- function (base_bd_prob,
         {
         gen_1_app_variant (base_bd_prob,
                            parameters,
+                           starting_dir,
                            gen_cost_errors = TRUE,
                            cost_error_frac_bound = err_amt,
                            gen_FP_FN_errors = FALSE)
@@ -334,6 +345,7 @@ gen_4_or_5_app_variants <- function (base_bd_prob,
 
     gen_1_app_variant (base_bd_prob,
                        parameters,
+                       starting_dir,
 
                        gen_cost_errors = gen_combined_cost_and_FP_FN_errors,
                        cost_error_frac_bound = err_amt,
@@ -351,6 +363,7 @@ gen_4_or_5_app_variants <- function (base_bd_prob,
 
     gen_1_app_variant (base_bd_prob,
                        parameters,
+                       starting_dir,
 
                        gen_cost_errors = gen_combined_cost_and_FP_FN_errors,
                        cost_error_frac_bound = err_amt,
@@ -368,6 +381,7 @@ gen_4_or_5_app_variants <- function (base_bd_prob,
 
     gen_1_app_variant (base_bd_prob,
                        parameters,
+                       starting_dir,
 
                        gen_cost_errors = gen_combined_cost_and_FP_FN_errors,
                        cost_error_frac_bound = err_amt,
@@ -385,6 +399,7 @@ gen_4_or_5_app_variants <- function (base_bd_prob,
 
     gen_1_app_variant (base_bd_prob,
                        parameters,
+                       starting_dir,
 
                        gen_cost_errors = gen_combined_cost_and_FP_FN_errors,
                        cost_error_frac_bound = err_amt,
@@ -419,6 +434,7 @@ gen_4_or_5_app_variants <- function (base_bd_prob,
 #-------------------------------------------------------------------------------
 
 gen_20_basic_variants_including_cost_error <- function (parameters,
+                                                        starting_dir,
                                                         integerize,
                                                         err_amt = NA)
     {
@@ -442,6 +458,7 @@ gen_20_basic_variants_including_cost_error <- function (parameters,
     #===============================================================================
 
     base_COR_bd_prob = gen_single_bdprob_COR (parameters,
+                                              starting_dir,
                                               integerize,
                                               base_prob_name_stem = "base_prob",
                                               cor_dir_name_stem = "cor"
@@ -452,7 +469,8 @@ gen_20_basic_variants_including_cost_error <- function (parameters,
 
     do_rs_analysis_and_output (base_COR_bd_prob,
                                base_COR_bd_prob,
-                               parameters)
+                               parameters,
+                               starting_dir)
 
                     cat("\n\njust after do_rs_analysis_and_output() for Base COR problem")
                     cat ("\n\n================================================================================")
@@ -464,6 +482,7 @@ gen_20_basic_variants_including_cost_error <- function (parameters,
 
     gen_4_or_5_app_variants (base_COR_bd_prob,
                              parameters,
+                             starting_dir,
                              gen_combined_cost_and_FP_FN_errors = FALSE,
                              err_amt)
 
@@ -478,6 +497,7 @@ gen_20_basic_variants_including_cost_error <- function (parameters,
 
     gen_4_or_5_app_variants (base_COR_bd_prob,
                              parameters,
+                             starting_dir,
                              gen_combined_cost_and_FP_FN_errors = TRUE,
                              err_amt)
 
@@ -500,12 +520,14 @@ cat (  "\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         wrapped_COR_bd_prob =
 #            gen_bdprob (parameters,
             gen_multi_bdprob (parameters,
+                              starting_dir,
                               integerize,
                               base_COR_bd_prob)
 
         do_rs_analysis_and_output (wrapped_COR_bd_prob,
                                    wrapped_COR_bd_prob,
-                                   parameters)
+                                   parameters,
+                                   starting_dir)
 
                         cat("\n\njust after do_COR_rs_analysis_and_output() for Wrapped COR problem")
                         cat ("\n\n================================================================================")
@@ -517,6 +539,7 @@ cat (  "\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
         gen_4_or_5_app_variants (wrapped_COR_bd_prob,
                                  parameters,
+                                 starting_dir,
                                  gen_combined_cost_and_FP_FN_errors = FALSE,
                                  err_amt)
 
@@ -531,6 +554,7 @@ cat (  "\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
         gen_4_or_5_app_variants (wrapped_COR_bd_prob,
                                  parameters,
+                                 starting_dir,
                                  gen_combined_cost_and_FP_FN_errors = TRUE,
                                  err_amt)
 

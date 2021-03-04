@@ -48,6 +48,7 @@ do_Greedy_analysis_and_output <-
                         function (APP_bd_prob,
                                   COR_bd_prob,
                                   parameters,
+                                  starting_dir,
 
                                   rs_method_name,
                                   resSel_func,                    #  function for reserve selector, e.g., simple_richness
@@ -64,14 +65,17 @@ do_Greedy_analysis_and_output <-
     ResSel_run <- create_RSrun (APP_bd_prob@UUID,
                                 spp_rep_targets,
                                 parameters,
+                                starting_dir,
                                 APP_bd_prob@cor_or_app_str,
                                 APP_bd_prob@basic_or_wrapped_or_comb_str,
                                 rs_method_name)
 
-    return (do_Greedy_analysis_and_output_core (APP_bd_prob,
+    # return (do_Greedy_analysis_and_output_core (APP_bd_prob,
+    do_Greedy_analysis_and_output_core (APP_bd_prob,
                                                   COR_bd_prob,
                                 ResSel_run,
                                                   parameters,
+                                starting_dir,
 
                                                   rs_method_name,
                                     resSel_func,        #  function for reserve selector, e.g., simple_richness
@@ -81,7 +85,11 @@ do_Greedy_analysis_and_output <-
                                                   src_rds_file_dir = NULL,
                                                   spp_rep_targets = rep (1,COR_bd_prob@num_spp))
 
-                        )
+    # )
+
+    RSrun_topdir = get_RSrun_path_topdir (ResSel_run, starting_dir)
+
+    return (RSrun_topdir)
     }
 
 #===============================================================================
@@ -108,8 +116,6 @@ do_Greedy_analysis_and_output <-
 #' @export
 
 #-------------------------------------------------------------------------------
-
-
 
 repro_do_Greedy_analysis_and_output <- function (repro_RDS_file_loc,
                                                  fullOutputDir_NO_slash = NULL)    #"~/Downloads")
@@ -145,6 +151,14 @@ repro_do_Greedy_analysis_and_output <- function (repro_RDS_file_loc,
     if (! is.null (fullOutputDir_NO_slash) & ! anyNA (fullOutputDir_NO_slash))    #is.na (fullOutputDir_NO_slash))
         parameters$fullOutputDir_NO_slash = fullOutputDir_NO_slash
 
+#--------------------
+#  2018 12 09 - BTL
+#  Not sure if this is the right thing to do here since most other things
+#  pass the starting_dir in as an argument now.
+#  At the moment, this function is not called anywhere.
+starting_dir = parameters$fullOutputDir_NO_slash
+#--------------------
+
 #    rsrun = repro$rsrun
     prob_UUID                    = ResSel_run@run_on_prob_UUID
     spp_rep_targets              = ResSel_run@targets
@@ -164,6 +178,7 @@ cat ("\n@@@TRACKING rand_seed in repro_do_Greedy_analysis_and_output:: new_seed_
 ResSel_run = create_RSrun_core (prob_UUID,
                                  spp_rep_targets,
                                  parameters,
+                                starting_dir,
                                  cor_or_app_str,
                                  basic_or_wrapped_or_comb_str,
                                  rs_method_name,
@@ -185,6 +200,7 @@ resSel_func = get_Greedy_resSel_func (rs_method_name)
                                                   COR_bd_prob,
                                 ResSel_run,
                                                   parameters,
+                                starting_dir,
 
                                                   rs_method_name,
                                 resSel_func,        #  function for reserve selector, e.g., simple_richness
@@ -202,6 +218,7 @@ do_Greedy_analysis_and_output_core <-
                                   COR_bd_prob,
                 ResSel_run,
                                   parameters,
+                starting_dir,
 
                                   rs_method_name,
                                   resSel_func,                    #  function for reserve selector, e.g., simple_richness
@@ -233,7 +250,7 @@ do_Greedy_analysis_and_output_core <-
                   src_rds_file_dir   = src_rds_file_dir,
                   spp_rep_targets    = spp_rep_targets)
 
-    starting_dir = parameters$fullOutputDir_NO_slash
+#    starting_dir = parameters$fullOutputDir_NO_slash
     base_outdir = get_RSrun_path_topdir (ResSel_run, starting_dir)
 #    saveRDS (repro, parameters$fullOutputDir_NO_slash)
     saveRDS (repro, file.path (base_outdir, "repro.rds"))
@@ -250,9 +267,13 @@ do_Greedy_analysis_and_output_core <-
                             spp_rep_targets,
                             resSel_func,                    #  function for reserve selector, e.g., simple_richness
                             RS_specific_params,    #forward = TRUE,
+                rs_method_name,
 
                             rsrun = ResSel_run,
-                            top_dir = parameters$fullOutputDir_NO_slash,
+
+#                            top_dir = parameters$fullOutputDir_NO_slash,
+                            top_dir = starting_dir,
+
                             save_inputs = TRUE,
                             save_outputs = TRUE)
 
@@ -281,7 +302,10 @@ do_Greedy_analysis_and_output_core <-
 
     save_rsrun_results_data_for_one_rsrun (
                             tzar_run_ID  = parameters$run_id,
-                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+
+#                            exp_root_dir = parameters$fullOutputDir_NO_slash,
+                            exp_root_dir = starting_dir,
+
                             ResSel_run,
                             COR_bd_prob,
                             APP_bd_prob,
@@ -301,6 +325,7 @@ run_greedy_ResSel <- function (bpm,
 
                                resSel_func,           #  function for reserve selector, e.g., simple_richness
                                RS_specific_params,    #forward = TRUE,
+                    rs_method_name,
 
                                rsrun,
                                top_dir = NULL,
@@ -342,15 +367,47 @@ run_greedy_ResSel <- function (bpm,
                  file.path (ResSel_input_dir, "input_params.rds"))
         }
 
+        #---------------------------------------------------------------------
+        #  2018 12 17 - BTL
+        #  Adding the writing of full and short ranked result vectors to
+        #  csv files so that they can be read consistently and directly
+        #  from other parts of the code.
+        #  This probably makes the "if (save_outputs)" bit below unnecessary
+        #  now, but I'm not sure whether anything relies on it so I'll leave
+        #  it in for now.
+        #---------------------------------------------------------------------
+
+    ResSel_output_dir = get_RSrun_path_topdir (rsrun, top_dir)
+
+            #  Save the short ranked vector of PU IDs, i.e., the best guess
+            #  at a solution that covers all species' targets.
+    ResSel_best_solution_file_name =
+        paste0 (rs_method_name, "_best_solution_PU_IDs.csv")
+    ResSel_best_solution_file_path =
+        file.path (ResSel_output_dir, ResSel_best_solution_file_name)
+    write (ResSel_results$short_ranked_solution_PU_IDs_vec,
+           ResSel_best_solution_file_path, sep=",")
+
+            #  Save the full ranked vector of all PU IDs.
+    ResSel_full_ranked_solution_file_name =
+        paste0 (rs_method_name, "_full_ranked_solution_PU_IDs.csv")
+    ResSel_full_ranked_solution_file_path =
+        file.path (ResSel_output_dir, ResSel_full_ranked_solution_file_name)
+    write (ResSel_results$short_ranked_solution_PU_IDs_vec,
+           ResSel_full_ranked_solution_file_path, sep=",")
+
+            #  Old, possibly vestigial saving of the same things as an R object.
     if (save_outputs)
         {
         ResSel_output_dir = get_RSrun_path_output (rsrun, top_dir)
-
         saveRDS (ResSel_results,
                  file.path (ResSel_output_dir, "results.rds"))
         }
 
+        #---------------------------------------------------------------------
+
     ResSel_control_values_and_results = ResSel_control_values
+
     ResSel_control_values_and_results$ResSel_solution_vector =
         ResSel_results$short_ranked_solution_PU_IDs_vec
 

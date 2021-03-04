@@ -87,6 +87,7 @@ cat ("\n@@@TRACKING rand_seed in create_and_init_APP_bdprob:: Xu_bdprob_APP@rand
 
     Xu_bdprob_APP@prob_generator_params_known      = Xu_bdprob_COR@prob_generator_params_known
     Xu_bdprob_APP@correct_solution_vector_is_known = Xu_bdprob_COR@correct_solution_vector_is_known
+    Xu_bdprob_APP@dependent_node_IDs               = Xu_bdprob_COR@dependent_node_IDs    #  Added 2019 01 04 - BTL
 
 ##FixPUsppPairIndices-2018-02-17##    Xu_bdprob_APP@cor_PU_spp_pair_indices       = Xu_bdprob_COR@cor_PU_spp_pair_indices
 
@@ -542,6 +543,7 @@ create_APP_prob_info_by_adding_error_to_spp_occ_data <- function (Xu_bdprob_COR,
 
 gen_single_bdprob_APP <- function (Xu_bdprob_COR,
                                    parameters,
+                starting_dir,
                            gen_cost_errors,
                            gen_FP_FN_errors,
                                    compound_err_name = NULL,
@@ -562,7 +564,7 @@ gen_single_bdprob_APP <- function (Xu_bdprob_COR,
                                                               ret_vals_from_build_const_err,
                                                               ret_vals_from_apply_cost_errors)
 
-    starting_dir = parameters$fullOutputDir_NO_slash
+    # starting_dir = parameters$fullOutputDir_NO_slash
 
     Xu_bdprob_APP =
         create_dirs_for_APP_prob (Xu_bdprob_APP,

@@ -166,6 +166,7 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
         #           so that I get reproducible results.
         #*******
 
+if (is.na (rand_seed)) stop_bdpg ("\nValue for marxan random seed is NA.\n")
 cat ("\n@@@TRACKING rand_seed in set_marxan_controls_and_run_marxan:: rand_seed = ", rand_seed, "\n")
     marxan_RANDSEED  = rand_seed    #parameters$seed    #  Default to same seed as the R code.
 cat ("\n@@@TRACKING marxan_RANDSEED in set_marxan_controls_and_run_marxan:: marxan_RANDSEED = ", marxan_RANDSEED, "\n")
@@ -457,6 +458,7 @@ cat ("\n\nMarxan SA elapsed time = '", marxan_elapsed_time, "'")
 #' @param COR_bd_prob a correct Xu_bd_problem (or subclass)
 #' @param marxan_run an RSrun object (or subclass)
 #' @param parameters parameters list for the run, usually derived from project.yaml
+#' @inheritParams std_param_defns
 #'
 #' @return list containing marxan_control_values and updated COR_bd_prob
 #' @export
@@ -465,7 +467,8 @@ cat ("\n\nMarxan SA elapsed time = '", marxan_elapsed_time, "'")
 
 set_up_for_and_run_marxan_COR <- function (COR_bd_prob,
                                            marxan_run,
-                                           parameters)
+                                           parameters,
+                                           starting_dir)
     {
     marxan_control_values =
 ##FixPUsppPairIndices-2018-02-17##       set_up_for_and_run_marxan (COR_bd_prob@cor_PU_spp_pair_indices,
@@ -478,7 +481,8 @@ set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
                                     marxan_run,
 
                                     COR_bd_prob@num_spp,
-                                    parameters
+                                    parameters,
+                           starting_dir
                                     )
 
     return (marxan_control_values)
@@ -497,6 +501,7 @@ set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
 #' @param COR_bd_prob the correct Xu_bd_problem (or subclass) that the apparent problem is derived from
 #' @param marxan_run an RSrun object (or subclass)
 #' @param parameters parameters list for the run, usually derived from project.yaml
+#' @inheritParams std_param_defns
 #'
 #' @return list containing marxan_control_values and updated APP_bd_prob
 #' @export
@@ -506,7 +511,8 @@ set_up_for_and_run_marxan (COR_bd_prob@PU_spp_pair_indices,
 set_up_for_and_run_marxan_APP <- function (APP_bd_prob,
                                            COR_bd_prob,
                                            marxan_run,
-                                           parameters)
+                                           parameters,
+                                           starting_dir)
     {
     marxan_control_values =
 ##FixPUsppPairIndices-2018-02-17##        set_up_for_and_run_marxan (APP_bd_prob@APP_prob_info@app_PU_spp_pair_indices,
@@ -519,7 +525,8 @@ set_up_for_and_run_marxan (APP_bd_prob@PU_spp_pair_indices,
                                     marxan_run,
 
                                     APP_bd_prob@num_spp,
-                                    parameters
+                                    parameters,
+                           starting_dir
                                     )
 
     return (marxan_control_values)
@@ -541,6 +548,7 @@ set_up_for_and_run_marxan (APP_bd_prob@PU_spp_pair_indices,
 #' @param rsrun RSrun object
 #' @param num_spp integer
 #' @param parameters list
+#' @inheritParams std_param_defns
 #'
 #' @return Returns marxan control values list
 #' @export
@@ -556,12 +564,15 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
                                       rsrun,
 
                                       num_spp,
-                                      parameters
+                                      parameters,
+                                      starting_dir
                                       )
     {
         #  Get paths to the marxan IO subdirectories.
 
-    topdir            = parameters$fullOutputDir_NO_slash
+#    topdir            = parameters$fullOutputDir_NO_slash
+    topdir            = starting_dir
+
     marxan_IO_dir     = get_RSrun_path_IO (rsrun, topdir)
     marxan_input_dir  = get_RSrun_path_input (rsrun, topdir)
     marxan_output_dir = get_RSrun_path_output (rsrun, topdir)
@@ -592,15 +603,29 @@ set_up_for_and_run_marxan = function (PU_spp_pair_indices,       #  app values i
                                    rsrun@targets
                                   )
 
-    #--------------------
+        #-----------------------------------------------------------------------
+        #  Set marxan random seed and then buid marxan controls and run marxan.
+        #-----------------------------------------------------------------------
+        #  2018 12 28 - BTL
+        #  Used to set marxan's random seed using the same value as the RSrun,
+        #  that doesn't always have an integer value that was set, so that
+        #  often left marxan with NA for the random seed.
+        #  So, will now just explicitly draw a random number to use as the
+        #  marxan seed.  This will also make that seed repeatable if the run
+        #  is rerun using a specified seed since (e.g., set at the start of
+        #  the entire bdpg mainline).
+        #-----------------------------------------------------------------------
 
-cat ("\n@@@TRACKING rand_seed in set_up_for_and_run_marxan:: rsrun@rand_seed = ", rsrun@rand_seed, "\n")
+    cat ("\n@@@TRACKING rand_seed in set_up_for_and_run_marxan:: rsrun@rand_seed = ", rsrun@rand_seed, "\n")
+    #rand_seed = rsrun@rand_seed
+    rand_seed = floor (runif(1, min=1, max=10^6))
+
     marxan_control_values =
         set_marxan_controls_and_run_marxan (marxan_input_dir,
                                             marxan_output_dir,
                                             marxan_IO_dir,
                                             parameters,
-                                            rsrun@rand_seed
+                                            rand_seed
                                            )
 
         #  Document what spf_const value was computed before the run of marxan
