@@ -558,7 +558,6 @@ compute_realized_error_rates <- function (cor_bpm, app_bpm,
 #' species/planning unit combination
 #' @param FN_rates_matrix float matrix of False Negative error rates for each
 #' species/planning unit combination
-#' @inheritParams std_param_defns
 #'
 #' @return Returns ret_vals_from_apply_errors list
 

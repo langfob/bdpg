@@ -272,8 +272,6 @@ create_Xu_problem_from_scratch_not_using_4_Xu_metaparams <- function (max_allowe
 #' @param num_rounds_of_linking_between_groups integer
 #' @param duplicate_links_allowed boolean (defaults to FALSE)
 #'
-#' @inheritParams std_param_defns
-#'
 #' @return Returns a PU_spp_pair_info_class object
 #' @family interfaces to creation of Xu problems
 

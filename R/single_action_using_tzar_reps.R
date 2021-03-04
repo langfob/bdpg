@@ -24,7 +24,6 @@
 #' @param rds_file_set_path character string
 #' @param rds_file_set_yaml_array vector of character strings
 #' @param rds_file_path character string
-#' @inheritParams std_param_defns
 #'
 #' @return Returns a list containing named elements related to the source
 #'         problem, i.e. src_Xu_bd_problem and src_rds_file_dir

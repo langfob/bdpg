@@ -208,8 +208,6 @@ gen_new_seed_from_cur_time <- function ()
 #' @param forced_seed integer to use as seed in set.seed() call or
 #' NULL to indicate that no seed has been provided
 #'
-#' @inheritParams std_param_defns
-#'
 #' @return Returns a 2 element named list with element new_seed containing
 #' the new integer seed value or NA and the element R_internal_seed_array
 #' containing the array value .Random.seed at the end of this function (i.e.,
