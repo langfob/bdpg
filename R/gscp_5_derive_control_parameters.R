@@ -8,7 +8,8 @@ compute_target_num_links_between_2_groups_per_round <-
     function (at_least_1_for_target_num_links_between_2_groups_per_round,
               p__prop_of_links_between_groups,
               num_nodes_per_group,
-              integerize)
+              integerize,
+              k__arity)
     {
         #-----------------------------------------------------------------------
         #  There are lots of questions in this comment but the whole issue is
@@ -72,7 +73,7 @@ compute_target_num_links_between_2_groups_per_round <-
         #     0 or 1, with a default of 1
         #  b) using the number of nodes per group as the base for the
         #     target calculation because it's the most flexible and its only
-        #     downsize is that it might overallocate space for a table.
+        #     downside is that it might overallocate space for a table.
         #-----------------------------------------------------------------------
         #  2018 01 13 - BTL
         #  Looking through some old versions of the yaml files, I find that
@@ -113,9 +114,63 @@ compute_target_num_links_between_2_groups_per_round <-
     num_nodes_per_group =
         vn (num_nodes_per_group, range_lo = 1)
 
+                #---------------------------------------------------------------
+                #  NOTE:  I just flagged this in github bdpg repo as issue #61.
+                #---------------------------------------------------------------
+                #  2021 01 24 - BTL - Adding k__arity exponent to this equation.
+                #  This is a parameter that is fixed for a given type of problem.
+                #  For the minimum vertex cover with links that connect exactly
+                #  two nodes, this value should always be 2.
+                #  However, somehow I missed k in the original building of this
+                #  code and that's a bug.
+                #
+                #  The net effect of leaving out k was equivalent to having
+                #  set it to 1, so, I'm going to default it to 1 here for the
+                #  moment so that all behavior used in the bdpg papers stays
+                #  the same as it was when I did the massive run sets for the
+                #  papers and they are more reproducible.  However, the default
+                #  should be changed to 2 once we're past all that.
+                #  (I'm now setting the default value in the function that
+                #   calls this one.)
+                #
+                #  The bug doesn't make any of the results incorrect.
+                #  It just means that the model used doesn't exactly match
+                #  model RB as described in the Xu et al. papers or on the
+                #  web site that describes the mapping to ind set & vertex cover:
+                #      http://sites.nlsde.buaa.edu.cn/~kexu/benchmarks/graph-benchmarks.htm
+                #  In spite of the error, the model we did use with k=1 still
+                #  produced a large range of problem difficulty as desired.
+                #
+                #  In the future, even without changing the default value set
+                #  in the routine that calls this one, users can still get the
+                #  correct behavior out of this routine by setting
+                #  parameters$k__arity to 2 in the yaml file or in their
+                #  building of their own parameters list.  The default value I'm
+                #  setting here now will only be invoked when k__arity is not
+                #  found in the parameters list.
+                #
+                #  The specific bug is that in setting the value of
+                #  target_num_links_between_2_groups_per_round, I had set it to
+                #      "p*d" rather than "p*(d^k)"
+                #  where
+                #      k = 2 and
+                #      d = n^alpha = number_nodes_per_group.
+                #
+                #  The correct equation can be seen in step 2 on the web page
+                #  referenced above, where it says:
+                #
+                #  "2. Randomly select two different cliques and then generate
+                #      without repetitions p*(n^(2*alpha)) random edges between
+                #      these two cliques (where 0<p<1 is a constant);"
+                #
+                #  Since p*(n^(2*alpha)) = p*((n^alpha)^2) = p*(d^2) = p*(d^k),
+                #  that's what I have now put into the defining equation below.
+                #---------------------------------------------------------------
+
     target_num_links_between_2_groups_per_round =
         max (min_target_num_links,
-             integerize (p__prop_of_links_between_groups * num_nodes_per_group))
+#             integerize (p__prop_of_links_between_groups * num_nodes_per_group))
+             integerize (p__prop_of_links_between_groups * (num_nodes_per_group ^ k__arity)))
 
 
     return (list (at_least_1_for_target_num_links_between_2_groups_per_round =
@@ -299,57 +354,6 @@ get_r__density <- function (r__density,
 
 #===============================================================================
 
-#  2018 12 29 - BTL
-#  Extracted this code from derive_Xu_control_parameters() into a function
-#  so that I can reuse it in some testing code.
-
-#' @export
-#'
-compute_various_link_cts <- function (num_nodes_per_group,
-                                      num_independent_nodes_per_group,
-                                      n__num_groups,
-                                      target_num_links_between_2_groups_per_round,
-                                      num_rounds_of_linking_between_groups,
-                                      integerize)
-    {
-        #  Compute how many links there will be within each group.
-        #  If there is more than one independent node, then not all possible
-        #  combinations of links will be made, i.e., no links are allowed to
-        #  be made between the independent nodes themselves, otherwise,
-        #  they would no longer be independent.  So, have to subtract off
-        #  the number of possible links between independent nodes in
-        #  the group.
-        #    num_links_within_one_group = choose (num_nodes_per_group, 2)
-
-    num_links_within_one_group = vn (choose (num_nodes_per_group, 2) -
-                                     choose (num_independent_nodes_per_group, 2),
-                                     range_lo=1)
-
-    tot_num_links_inside_groups = vn (n__num_groups * num_links_within_one_group,
-                                      range_lo=1)
-
-    max_possible_num_links_between_groups =
-          integerize (target_num_links_between_2_groups_per_round *
-                      num_rounds_of_linking_between_groups)
-
-    max_possible_tot_num_links =
-          integerize (tot_num_links_inside_groups +
-                      max_possible_num_links_between_groups)
-    max_possible_tot_num_node_link_pairs = 2 * max_possible_tot_num_links
-
-    link_cts_list = list (
-        num_links_within_one_group            = num_links_within_one_group,
-        tot_num_links_inside_groups           = tot_num_links_inside_groups,
-        max_possible_num_links_between_groups = max_possible_num_links_between_groups,
-        max_possible_tot_num_links            = max_possible_tot_num_links,
-        max_possible_tot_num_node_link_pairs  = max_possible_tot_num_node_link_pairs
-        )
-
-    return (link_cts_list)
-    }
-
-#===============================================================================
-
 #' Derive full Xu control params from 4 base params
 #'
 #-------------------------------------------------------------------------------
@@ -389,6 +393,45 @@ derive_Xu_control_parameters = function (parameters, integerize)
                         parameters$use_unif_rand_r__density,
                         parameters$r__density_lower_bound,
                         parameters$r__density_upper_bound)
+
+        #-----------------------------------------------------------------------
+        #  NOTE:  I just flagged this in github bdpg repo as issue #61.
+        #-----------------------------------------------------------------------
+        #  2021 01 24 - BTL - Adding to the original set of parameters
+        #  This is a parameter that is fixed for a given type of problem.
+        #  For the minimum vertex cover with links that connect exactly
+        #  two nodes, this value should always be 2.
+        #  However, somehow I missed k in the original building of this
+        #  code and that's a bug.
+        #
+        #  k is used in compute_target_num_links_between_2_groups_per_round().
+        #  See related comments there where I've put k__arity back into an
+        #  equation where it was missing.
+        #
+        #  The net effect of leaving out k was equivalent to having set it to 1,
+        #  so, I'm going to default it to 1 here for the moment so that all
+        #  behavior used in the bdpg papers stays the same as it was when I did
+        #  the massive run sets for the papers and they are more reproducible.
+        #  However, the default should be changed to 2 once we're past all that.
+        #
+        #  The bug doesn't make any of the results incorrect.  It just means
+        #  that the model used doesn't exactly match model RB as described in
+        #  in the Xu et al. papers or on the web site showing how to map
+        #  model RB onto max vertex cover:
+        #      http://sites.nlsde.buaa.edu.cn/~kexu/benchmarks/graph-benchmarks.htm
+        #  In spite of the error, the model we did use with k=1 still produced
+        #  a large range of problem difficulty as desired.
+        #
+        #  In the future, even without changing the default value here,
+        #  users can still get the correct behavior out of this routine by
+        #  setting parameters$k__arity to 2 in the yaml file or in their
+        #  building of their own parameters list.  The default value I'm
+        #  setting here now will only be invoked when k__arity is not found
+        #  in the parameters list, which describes how things would have been
+        #  in all of the bdpg papers' experiments.
+        #----------------------------------------------------------------------
+
+    k__arity = vn (parameters$k__arity, def_on_empty = TRUE, def = 1)
 
         #----------------------------------------------------------------------
         #  2014 12 11 - BTL - Adding to the original set of parameters
@@ -485,7 +528,8 @@ cat ("\n\n\t\t integerize (n__num_groups ^ alpha__)  - (num_independent_nodes_pe
             parameters$at_least_1_for_target_num_links_between_2_groups_per_round,
             p__prop_of_links_between_groups,
             num_nodes_per_group,
-            integerize)
+            integerize,
+            k__arity)
 
     target_num_links_between_2_groups_per_round =
         ret_val$target_num_links_between_2_groups_per_round
@@ -495,23 +539,30 @@ cat ("\n\n\t\t integerize (n__num_groups ^ alpha__)  - (num_independent_nodes_pe
 
     #----------
 
-        #  2018 12 29 - BTL
-        #  This call used to be inline code but I pulled it out into a function
-        #  of its own so that I can reuse it in some testing code.
+        #  Compute how many links there will be within each group.
+        #  If there is more than one independent node, then not all possible
+        #  combinations of links will be made, i.e., no links are allowed to
+        #  be made between the independent nodes themselves, otherwise,
+        #  they would no longer be independent.  So, have to subtract off
+        #  the number of possible links between independent nodes in
+        #  the group.
+        #    num_links_within_one_group = choose (num_nodes_per_group, 2)
 
-    link_cts_list =
-        compute_various_link_cts (num_nodes_per_group,
-                                  num_independent_nodes_per_group,
-                                  n__num_groups,
-                                  target_num_links_between_2_groups_per_round,
-                                  num_rounds_of_linking_between_groups,
-                                  integerize)
+    num_links_within_one_group = vn (choose (num_nodes_per_group, 2) -
+                                     choose (num_independent_nodes_per_group, 2),
+                                     range_lo=1)
 
-    num_links_within_one_group            = link_cts_list$num_links_within_one_group
-    tot_num_links_inside_groups           = link_cts_list$tot_num_links_inside_groups
-    max_possible_num_links_between_groups = link_cts_list$max_possible_num_links_between_groups
-    max_possible_tot_num_links            = link_cts_list$max_possible_tot_num_links
-    max_possible_tot_num_node_link_pairs  = link_cts_list$max_possible_tot_num_node_link_pairs
+    tot_num_links_inside_groups = vn (n__num_groups * num_links_within_one_group,
+                                      range_lo=1)
+
+    max_possible_num_links_between_groups =
+                integerize (target_num_links_between_2_groups_per_round *
+                            num_rounds_of_linking_between_groups)
+
+    max_possible_tot_num_links =
+                integerize (tot_num_links_inside_groups +
+                            max_possible_num_links_between_groups)
+    max_possible_tot_num_node_link_pairs = 2 * max_possible_tot_num_links
 
     cat ("\n\n--------------------  After building derived control parameters.\n")
 
