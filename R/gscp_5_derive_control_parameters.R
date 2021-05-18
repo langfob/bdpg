@@ -117,6 +117,14 @@ compute_target_num_links_between_2_groups_per_round <-
                 #---------------------------------------------------------------
                 #  NOTE:  I just flagged this in github bdpg repo as issue #61.
                 #---------------------------------------------------------------
+                #  2021 05 18 - BTL
+                #  The changes added below were rescinded a few months ago to
+                #  allow generating a new release of the bdpg code to more
+                #  closely match what was used in the experiments for the
+                #  bdpg papers.  I've re-added this changes back in today
+                #  since that release was made a couple of months ago and now
+                #  I'm ready to fix the code.
+                #---------------------------------------------------------------
                 #  2021 01 24 - BTL - Adding k__arity exponent to this equation.
                 #  This is a parameter that is fixed for a given type of problem.
                 #  For the minimum vertex cover with links that connect exactly
@@ -397,6 +405,14 @@ derive_Xu_control_parameters = function (parameters, integerize)
         #-----------------------------------------------------------------------
         #  NOTE:  I just flagged this in github bdpg repo as issue #61.
         #-----------------------------------------------------------------------
+        #  2021 05 18 - BTL
+        #  The changes added below were rescinded a few months ago to
+        #  allow generating a new release of the bdpg code to more
+        #  closely match what was used in the experiments for the
+        #  bdpg papers.  I've re-added this changes back in today
+        #  since that release was made a couple of months ago and now
+        #  I'm ready to fix the code.
+        #---------------------------------------------------------------
         #  2021 01 24 - BTL - Adding to the original set of parameters
         #  This is a parameter that is fixed for a given type of problem.
         #  For the minimum vertex cover with links that connect exactly
