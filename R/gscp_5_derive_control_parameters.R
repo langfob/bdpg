@@ -625,11 +625,6 @@ cat ("\n\n\t\t integerize (n__num_groups ^ alpha__)  - (num_independent_nodes_pe
     max_possible_tot_num_links            = link_cts_list$max_possible_tot_num_links
     max_possible_tot_num_node_link_pairs  = link_cts_list$max_possible_tot_num_node_link_pairs
 
-# max_possible_tot_num_links =
-#             integerize (tot_num_links_inside_groups +
-#                         max_possible_num_links_between_groups)
-# max_possible_tot_num_node_link_pairs = 2 * max_possible_tot_num_links
-
     cat ("\n\n--------------------  After building derived control parameters.\n")
 
     # cat ("\n\nInput variable settings")
