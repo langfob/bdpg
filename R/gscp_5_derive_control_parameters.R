@@ -447,7 +447,8 @@ derive_Xu_control_parameters = function (parameters, integerize)
         #  in all of the bdpg papers' experiments.
         #----------------------------------------------------------------------
 
-    k__arity = vn (parameters$k__arity, def_on_empty = TRUE, def = 1)
+    # k__arity = vn (parameters$k__arity, def_on_empty = TRUE, def = 1)
+    k__arity = vn (parameters$k__arity, def_on_empty = TRUE, def = 2)
 
         #----------------------------------------------------------------------
         #  2014 12 11 - BTL - Adding to the original set of parameters
