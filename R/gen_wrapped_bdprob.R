@@ -1496,6 +1496,7 @@ cat ("\n@@@TRACKING rand_seed in wrap_abundance_dist_around_Xu_problem:: wrapped
 #'
 #' @return Returns a correct wrapped biodiversity problem
 #' @export
+#' @import assertthat
 
 #-------------------------------------------------------------------------------
 
