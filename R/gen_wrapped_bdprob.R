@@ -1525,17 +1525,12 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
             #  Choose total landscape size so that correct solution size takes
             #  up the fraction of the landscape specified in the related input
             #  parameter.
-#  2021 05 21 - BTL - This was a bug.  I used the size of the full Base node
-#                     set instead of just the solution node set.
-#                     This made the solution take up a slightly smaller than
-#                     desired fraction of the landscape.
-# tot_num_PUs_in_landscape = round (get_num_nodes (base_bdprob@nodes) /
-#                                   solution_frac_of_landscape)
         num_nodes_in_base_solution = base_bdprob@prob_gen_info@Xu_parameters@derived_params@num_dependent_set_nodes
         tot_num_PUs_in_landscape = round (num_nodes_in_base_solution /
                                           solution_frac_of_landscape)
-                #  Verify that the fraction is correct rather than making an
-                #  external test in testthat.
+                #  For now, verify that the fraction is correct rather than
+                #  making an external test in testthat since the calculation
+                #  was changed to fix a bug (commit 58418956 - 2021 05 23).
             actual_solution_frac_of_landscape =
                 round (num_nodes_in_base_solution / tot_num_PUs_in_landscape, 2)
             cat  ("\nactual_solution_frac_of_landscape = ", actual_solution_frac_of_landscape,
