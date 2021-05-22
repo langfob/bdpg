@@ -1522,7 +1522,17 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
             #  Derived parameters.
             #-----------------------
 
-        tot_num_PUs_in_landscape = round (get_num_nodes (base_bdprob@nodes) /
+            #  Choose total landscape size so that correct solution size takes
+            #  up the fraction of the landscape specified in the related input
+            #  parameter.
+#  2021 05 21 - BTL - This was a bug.  I used the size of the full Base node
+#                     set instead of just the solution node set.
+#                     This made the solution take up a slightly smaller than
+#                     desired fraction of the landscape.
+# tot_num_PUs_in_landscape = round (get_num_nodes (base_bdprob@nodes) /
+#                                   solution_frac_of_landscape)
+        num_nodes_in_base_solution = base_bdprob@prob_gen_info@Xu_parameters@derived_params@num_dependent_set_nodes
+        tot_num_PUs_in_landscape = round (num_nodes_in_base_solution /
                                           solution_frac_of_landscape)
 
         search_outfile_name_base = "wrap_search_outfile.csv"
