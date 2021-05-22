@@ -141,11 +141,19 @@ set_marxan_controls_and_run_marxan <- function (marxan_input_dir,
         #  not doing anything at all with Windows right now and
         #  can look that up later if necessary.
         #-----------------------------------------------------------------------
-    marxan_executable_name = "MarOpt_v243_Mac64"
-    current_os = get_current_os ()
 
-    if (current_os == "linux-gnu")
-        marxan_executable_name = "MarOpt_v243_Linux64"
+    if (is.null (parameters$marxan_executable_name))
+        {
+        marxan_executable_name = "MarOpt_v243_Mac64"
+        current_os = get_current_os ()
+
+        if (current_os == "linux-gnu")
+            marxan_executable_name = "MarOpt_v243_Linux64"
+
+        } else
+        {
+        marxan_executable_name = parameters$marxan_executable_name
+        }
 
         #-----------------------------------------------------------------------
         #  General Marxan Parameters
