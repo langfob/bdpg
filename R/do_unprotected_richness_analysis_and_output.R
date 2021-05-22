@@ -134,6 +134,8 @@ unprotected_richness_using_funcs <- function (num_spp, num_PUs, bpm,
 
 #===============================================================================
 
+#' @export
+
 unprotected_richness <- function (num_spp, num_PUs, bpm,
                                   forward = TRUE,
                                   spp_rep_targets = rep (1, num_spp))
