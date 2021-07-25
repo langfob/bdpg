@@ -1496,7 +1496,7 @@ cat ("\n@@@TRACKING rand_seed in wrap_abundance_dist_around_Xu_problem:: wrapped
 #'
 #' @return Returns a correct wrapped biodiversity problem
 #' @export
-#' @import assertthat
+#' @importFrom assertthat assert_that
 
 #-------------------------------------------------------------------------------
 
@@ -1535,7 +1535,31 @@ gen_wrapped_bdprob_COR <- function (starting_dir,
                 round (num_nodes_in_base_solution / tot_num_PUs_in_landscape, 2)
             cat  ("\nactual_solution_frac_of_landscape = ", actual_solution_frac_of_landscape,
                   ", desired solution_frac_of_landscape = ", solution_frac_of_landscape, sep='')
-            assert_that (actual_solution_frac_of_landscape == solution_frac_of_landscape)
+#            assert_that (actual_solution_frac_of_landscape == solution_frac_of_landscape)
+cat ("\n\n================================================================================\n\n")
+cat ("\n=====>  In gen_wrapped_bdprob_COR")
+cat ("\n\n----------------------------------------------------------------------\n\n")
+cat ("\n\n=====>  base_bdprob = \n")
+print (base_bdprob)
+cat ("\n\n----------------------------------------------------------------------\n\n")
+cat ("\n\n=====>  base_bdprob@prob_gen_info = \n")
+print (base_bdprob@prob_gen_info)
+cat ("\n\n----------------------------------------------------------------------\n\n")
+cat ("\n\n=====>  base_bdprob@prob_gen_info@Xu_parameters = \n")
+print (base_bdprob@prob_gen_info@Xu_parameters)
+cat ("\n\n----------------------------------------------------------------------\n\n")
+cat ("\n\n=====>  base_bdprob@prob_gen_info@Xu_parameters@derived_params = \n")
+print (base_bdprob@prob_gen_info@Xu_parameters@derived_params)
+cat ("\n\n----------------------------------------------------------------------\n\n")
+cat ("\n\n=====>  base_bdprob@prob_gen_info@Xu_parameters@derived_params@num_dependent_set_nodes = \n")
+print (base_bdprob@prob_gen_info@Xu_parameters@derived_params@num_dependent_set_nodes)
+cat ("\n\n----------------------------------------------------------------------\n\n")
+cat ("\n=====>  num_nodes_in_base_solution = ", num_nodes_in_base_solution)
+cat ("\n=====>  tot_num_PUs_in_landscape = ", tot_num_PUs_in_landscape)
+cat ("\n=====>  actual_solution_frac_of_landscape = ", actual_solution_frac_of_landscape)
+cat ("\n=====>  solution_frac_of_landscape = ", solution_frac_of_landscape)
+            stopifnot (actual_solution_frac_of_landscape == solution_frac_of_landscape)
+cat ("\n\n================================================================================\n\n")
 
         search_outfile_name_base = "wrap_search_outfile.csv"
         search_outfile_name      = file.path (starting_dir,
