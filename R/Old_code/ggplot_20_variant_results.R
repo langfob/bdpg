@@ -64,6 +64,8 @@ load_input_data <- function (rs_name, base_path, suffix,
 
 #===============================================================================
 
+#' @importFrom stats mad quantile sd
+
 compute_and_print_na_inf_stats <- function (rs_name,
                                             out_err,
                                             inp_err,
