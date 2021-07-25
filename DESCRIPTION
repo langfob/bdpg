@@ -22,7 +22,8 @@ Imports:
     tools,
     dplyr, 
     stats, 
-    tidyverse
+    tidyverse, 
+    assertthat
 Suggests:
     knitr,
     rmarkdown,
