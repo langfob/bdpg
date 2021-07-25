@@ -444,16 +444,15 @@ seed_value,
         }
 
     double_diff_penalty_exponent = 5    #  Should be an input option.
-    double_diff        = num_spp_on_exactly_2_patches - min_num_spp_on_2_PUs
+    double_diff = abs (num_spp_on_exactly_2_patches - min_num_spp_on_2_PUs)
 
-    if (double_diff < 0)  #  More heavily penalize undershooting num on 2 patches
+    if (num_spp_on_exactly_2_patches < min_num_spp_on_2_PUs)  #  More heavily penalize undershooting num on 2 patches
           {
                 #  Adding 1 to the double_diff because if double_diff has
                 #  an absolute value of 1, raising it to a power will not
                 #  change its value.
 
-          double_diff_penalty = abs ((double_diff + 1) ^
-                                     double_diff_penalty_exponent)
+          double_diff_penalty = (double_diff + 1) ^ double_diff_penalty_exponent
           double_diff = double_diff + double_diff_penalty
           }
 
