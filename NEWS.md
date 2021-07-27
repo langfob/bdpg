@@ -1,6 +1,6 @@
 # bdpg (development version)
 
-## Breaking changes and deprecated functions
+## Bug fixes
 
 Fixed three small bugs that had no effect on correctness of results but fixing them means previous experimental results will no longer be exactly reproduced by the changed code.  
 
