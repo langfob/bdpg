@@ -20,57 +20,10 @@ problems (particularly reserve selection) with known solutions and
 testing algorithms for attempting to generate optimal solutions.
 
 ## Installation  
+
 You can install bdpg from github using devtools::install_github().  
 
-However, 
-the repo is currently private, which means that you have to be listed on github 
-as a collaborator and pass a github personal access token to see it. 
-If you don't have a token yet, you can get one by following the instructions at:  
-
-[Personal access tokens](https://github.com/settings/tokens)  
-
-or  
-
-[Creating a personal access token for the command line](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)  
-
-You can store this token in an environment variable called GITHUB_PAT on your 
-machine.  This allows future use of the personal access token without having 
-to hard-code it into functions calls. 
-You can then retrieve it in a devtools::install_github() call's "auth" argument 
-by using devtools::github_pat() as shown below.  
-
-While the repo is still private, the devtools call looks like:  
-```R
-devtools::install_github ("langfob/bdpg", auth_token = "INSERT YOUR TOKEN STRING HERE")
-```
-or
-```R
-devtools::install_github ("langfob/bdpg", auth_token = devtools::github_pat())
-```
-If and when the repo becomes public, the call is simply:
 ```R
 devtools::install_github ("langfob/bdpg")
 ```
-
-So, assuming that the repo is still private and you've stored a token in the 
-GITHUB_PAT environment variable, you can download the package as follows:  
-```R
-install.packages ("devtools")    #  if devtools not installed already
-devtools::install_github ("langfob/bdpg", auth_token = devtools::github_pat())
-```
-
-Note that install_github() also has an optional "ref" argument that allows 
-you to specify a particular 'commit, tag, or branch name, or a call to github_pull. Defaults to "master"'.  
-
-## Example
-This is a basic example which shows you how to solve a common problem:  
-- The mainline code in the bdpgxupaper makes use of the bdpg library.  To call 
-that code using tzar emulation:
-```R
-library(bdpgxupaper)
-runtip()
-```
-
-## Overview  (still boilerplate)
-- (An overview that describes the main components of the package. For more complex packages, this will point to vignettes for more details.)   
 
