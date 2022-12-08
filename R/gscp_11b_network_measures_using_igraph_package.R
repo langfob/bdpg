@@ -2,6 +2,33 @@
 
             #  gscp_11b_network_measures_using_igraph_package.R
 
+
+    ###  Compute the bipartite measures from the Latapy et al 2008 paper.
+    #  **Reference: Matthieu Latapy, Clemence Magnien, Nathalie Del Vecchio,
+    #    Basic notions for the analysis of large two-mode networks,
+    #    Social Networks 30 (2008) 31–48**
+
+    #  (and some function definitions that I have put at the start of this file)
+    #  are copied directly (other than reformatting andsome minor corrections)
+    #  from point 6 of the R Recipes page of the igraph wiki, except for the
+    #  redundancy code.  The sources for that are listed where the redundancy()
+    #  function is defined.  Here is the url for the igraph wiki page for
+    #  everything but the redundancy() code:
+    #
+    #  http://igraph.wikidot.com/r-recipes
+    #
+    #  NOTE:  The code doesn't work as it is given on the web page.
+    #  For example, it starts off by referencing a graph g that has not been
+    #  defined.  Later, it starts in on network transitivity and references
+    #  "target", which has not been defined either.
+    #  Finally, it references several functions before they're defined,
+    #  e.g., ccBip().  In each case, I've done a little hack to get it to
+    #  work here.
+    #
+    #  Some quotes from the urls used to create the functions are given at the
+    #  bottom of this file for more detail.
+    #
+
 #===============================================================================
 
                     #  Code for using igraph package.
@@ -171,7 +198,7 @@ ccTopDot <- function (bg)
 #-------------------------------------------------------------------------------
 
 #' @param g graph
-#' @param top_bottom_vertex_type not sure...
+#' @param top_bottom_vertex_type boolean (FALSE => top => spp, TRUE => bottom => PUs)
 #'
 #' @import igraph
 
@@ -504,8 +531,9 @@ cat ("\n>>>>>Done with bipartite.projection(bg)\n")
       # Density for bipartite network
     bidens <- m/(top*bottom)
 
-cat ("\n>>>>>About to clusters (bg, mode='weak')\n")
       # Largest connected component for top and bottom nodes:
+
+cat ("\n>>>>>About to clusters (bg, mode='weak')\n")
     gclust <- clusters (bg, mode='weak')
 cat ("\n>>>>>Done with clusters (bg, mode='weak')\n")
 cat ("\n>>>>>About to induced.subgraph (bg, V(bg)[gclust$membership==1])\n")
